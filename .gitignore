@@ -27,3 +27,9 @@
 *.out
 *.app
 
+#debug files
+*.pdb
+*.ilk
+
+.\Spelprojekt\Spelprojekt\Debug
+.\Spelprojekt\Spelprojekt\Releaes
