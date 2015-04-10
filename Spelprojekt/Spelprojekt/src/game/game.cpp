@@ -26,7 +26,9 @@ void Game::update(float deltatime)
 	//Game code
 	//..
 	//..
-
+	player->rotate(0, deltatime, 0);
+	test += deltatime;
+	player->translate(sin(test)/5, 0, 0);
 
 	//Render const
 	engine->render(player, enemyman, map, content);

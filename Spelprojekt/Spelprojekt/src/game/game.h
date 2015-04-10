@@ -19,6 +19,7 @@ private:
 	EnemyManager* enemyman = 0;
 	Map* map = 0;
 
+	float test = 0.0f;
 public:
 
 	

@@ -3,17 +3,18 @@
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
-
 #include <..\glm\glm.hpp>
+#include <..\glm\gtc\matrix_transform.hpp>
 
-class Player
+#include "gameObject.h"
+
+class Player : public GameObject
 {
 private:
-	glm::mat4 worldMat;
+	
 public:
 	Player(){};
 	void init();
-	void bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 };
 
 #endif
