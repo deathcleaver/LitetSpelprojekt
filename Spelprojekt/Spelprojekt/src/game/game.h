@@ -10,6 +10,8 @@
 #include "enemyManager.h"
 #include "map.h"
 
+#include <GLFW/glfw3.h>
+
 class Game
 {
 private:
@@ -20,13 +22,16 @@ private:
 	Map* map = 0;
 
 	float test = 0.0f;
+
+	GLFWwindow* windowRef;
 public:
 
 	
 
 	Game() {};
 	~Game();
-	void init();
+	void init(GLFWwindow* windowRef);
+	void mainLoop();
 	void update(float deltatime);
 };
 

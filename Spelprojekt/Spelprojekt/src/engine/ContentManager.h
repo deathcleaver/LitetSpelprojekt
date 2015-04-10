@@ -11,6 +11,7 @@ private:
 	Object* player;
 public:
 	ContentManager() {};
+	~ContentManager();
 	void init();
 	void loadPlayer();
 	int bindPlayer() const;

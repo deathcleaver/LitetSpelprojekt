@@ -12,6 +12,12 @@ void ContentManager::init()
 
 }
 
+ContentManager::~ContentManager()
+{
+	if (player)
+		delete player;
+}
+
 void ContentManager::loadPlayer()
 {
 	if (!player)
