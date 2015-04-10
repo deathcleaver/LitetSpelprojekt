@@ -6,7 +6,9 @@
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
 
-class GameObject
+#include "../Align16.h"
+
+class GameObject : public Align_16
 {
 private:
 	float scale = 1.0f;

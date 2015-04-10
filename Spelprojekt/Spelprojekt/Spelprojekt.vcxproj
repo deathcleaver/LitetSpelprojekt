@@ -97,6 +97,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Align16.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\object.h" />

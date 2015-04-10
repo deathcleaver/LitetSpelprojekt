@@ -13,7 +13,9 @@
 #include "../game/enemyManager.h"
 #include "../game/map.h"
 
-class Engine
+#include "../Align16.h"
+
+class Engine : public Align_16
 {
 private:
 	// <temp>
