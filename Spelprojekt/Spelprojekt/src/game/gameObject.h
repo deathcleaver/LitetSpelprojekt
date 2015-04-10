@@ -20,11 +20,19 @@ private:
 						   0, 0, 0, 1 };
 public:
 	GameObject(){};
-
+	
 	void bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
+	
 	void rotate(float x, float y, float z);
 	void translate(float x, float y, float z);
+	void translate(float x, float y);
+	void moveTo(float x, float y);
+	void moveTo(float x, float y, float z);
+	void moveTo(glm::vec3 target);
+
 	void scaleUniform(float val);
+	
+	glm::vec3 readPos();
 
 };
 

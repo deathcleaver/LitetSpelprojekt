@@ -2,18 +2,41 @@
 
 Object::~Object()
 {
-	glDeleteBuffers(1, &vertexData);
-	glDeleteBuffers(1, &indexBuffer);
-	glDeleteVertexArrays(1, &vertexAttribute);
-	glDeleteTextures(1, &textureId);
+	if (vertexHost)
+	{
+		glDeleteBuffers(1, &vertexData);
+		glDeleteBuffers(1, &indexBuffer);
+		glDeleteVertexArrays(1, &vertexAttribute);
+	}
+	if (textureHost)
+		glDeleteTextures(1, &textureId);
 }
 
-Object::Object(std::string pathVert, std::string pathTex)
+Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copyVert, bool copyTex)
 {
-	if(!loadVert(pathVert))
-		throw;
-	if(!loadBMP(pathTex))
-		throw;
+	if (copyVert)
+	{
+		vertexData = obj->vertexData;
+		indexBuffer = obj->indexBuffer;
+		vertexAttribute = obj->vertexAttribute;
+		faceCount = obj->faceCount;
+	}
+	else
+		if (!loadVert(pathVert))
+			throw;
+		else
+			vertexHost = true;
+	
+	if (copyTex)
+	{
+		textureId = obj->textureId;
+		TEXTUREINDEXOFFSET = obj->TEXTUREINDEXOFFSET;
+	}
+	else
+		if(!loadBMP(pathTex))
+			throw;
+		else
+			textureHost = true;
 }
 
 void Object::bind()
@@ -133,7 +156,7 @@ bool Object::loadVert(std::string path)
 		//define vertex data layout
 		glGenVertexArrays(1, &vertexAttribute);
 		glBindVertexArray(vertexAttribute);
-		glEnableVertexAttribArray(0); //the vertex attribute object will remember its enabled attributes
+		glEnableVertexAttribArray(0); 
 		glEnableVertexAttribArray(1);
 		//pos
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Object::TriangleVertex), BUFFER_OFFSET(0));

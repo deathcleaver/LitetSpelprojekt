@@ -7,8 +7,16 @@ Engine::~Engine()
 
 void Engine::init()
 {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glDepthMask(GL_TRUE);
+	glClearColor(0, 0, 0, 1);
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
+
+
 	//temp camera
-	viewMatrix = glm::lookAt(glm::vec3(0, 0, -25), glm::vec3(0, 0, -24), glm::vec3(0, 1, 0));
+	viewMatrix = glm::lookAt(glm::vec3(0, 0, 25), glm::vec3(0, 0, 24), glm::vec3(0, 1, 0));
 	projMatrix = glm::perspective(3.14f*0.45f, 640.f / 480.0f, 0.1f, 1000.0f);
 
 	//Temp shader

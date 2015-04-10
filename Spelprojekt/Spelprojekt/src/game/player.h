@@ -11,10 +11,11 @@
 class Player : public GameObject
 {
 private:
-	
+	float timepass = 0.0f;
 public:
 	Player(){};
 	void init();
+	void update(float deltaTime);
 };
 
 #endif

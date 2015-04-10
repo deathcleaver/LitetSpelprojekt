@@ -34,6 +34,14 @@ void GameObject::rotate(float x, float y, float z)
 	worldMat[2].w += pos.z;
 }
 
+void GameObject::translate(float x, float y)
+{
+	worldMat[0].w += x;
+	worldMat[1].w += y;
+	pos.x += x;
+	pos.y += y;
+}
+
 void GameObject::translate(float x, float y, float z)
 {
 	worldMat[0].w += x;
@@ -43,6 +51,37 @@ void GameObject::translate(float x, float y, float z)
 	pos.y += y;
 	pos.z += z;
 
+}
+
+void GameObject::moveTo(glm::vec3 target)
+{
+	pos = target;
+	worldMat[0].w = pos.x;
+	worldMat[1].w = pos.y;
+	worldMat[2].w = pos.z;
+}
+
+void GameObject::moveTo(float x, float y)
+{
+	pos.x = x;
+	pos.y = y;
+	worldMat[0].w = pos.x;
+	worldMat[1].w = pos.y;
+}
+
+void GameObject::moveTo(float x, float y, float z)
+{
+	pos.x = x;
+	pos.y = y;
+	pos.z = z;
+	worldMat[0].w = pos.x;
+	worldMat[1].w = pos.y;
+	worldMat[2].w = pos.z;
+}
+
+glm::vec3 GameObject::readPos()
+{
+	return pos;
 }
 
 void GameObject::scaleUniform(float val)

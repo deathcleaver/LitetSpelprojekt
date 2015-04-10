@@ -21,7 +21,7 @@ ContentManager::~ContentManager()
 void ContentManager::loadPlayer()
 {
 	if (!player)
-		player = new Object("testBoat.v", "white.bmp");
+		player = new Object("src/meshes/testBoat.v", "src/textures/white.bmp");
 }
 
 int ContentManager::bindPlayer() const
