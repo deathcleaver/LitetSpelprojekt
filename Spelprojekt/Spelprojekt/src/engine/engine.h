@@ -22,7 +22,7 @@ private:
 	GLuint tempshader;
 	GLuint uniformModel;
 	GLuint uniformVP;
-	glm::mat4 viewMatrix;
+	glm::mat4* viewMatrix;
 	glm::mat4 projMatrix;
 	void Engine::CompileErrorPrint(GLuint* shader);
 	void Engine::LinkErrorPrint(GLuint* shaderProgram);
@@ -33,7 +33,7 @@ private:
 public:
 	Engine(){};
 	~Engine();
-	void init();
+	void init(glm::mat4* viewMatrix);
 
 	void render(const Player* player, const EnemyManager* enemyManager,
 				const Map* map, const ContentManager* content);

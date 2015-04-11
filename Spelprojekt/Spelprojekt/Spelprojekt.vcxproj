@@ -97,6 +97,7 @@
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="src\game\map.h" />
     <ClInclude Include="src\game\mapChunk.h" />
     <ClInclude Include="src\game\player.h" />
+    <ClInclude Include="src\UserInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

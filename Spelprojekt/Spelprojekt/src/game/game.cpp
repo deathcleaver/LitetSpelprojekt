@@ -75,6 +75,8 @@ Game::~Game()
 		delete enemyManager;
 	if (map)
 		delete map;
+	if (in)
+		delete in;
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -99,17 +101,20 @@ void Game::init(GLFWwindow* windowRef)
 	}
 #endif
 
-
-
-
+	glm::mat4* viewMat = new glm::mat4(); //removed in UserInput
 	engine = new Engine();
-	engine->init();
+	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
 	player = new Player();
 	player->init();
 	map = new Map();
 	map->init();
+
+	in = new UserInput();
+	glfwGetCursorPos(windowRef, &lastX, &lastY);
+	in->Init(viewMat, glm::vec3(0, 0, 25), glm::vec3(0, 0, 24), glm::vec3(0, 1, 0));
+	
 
 	//temp
 	enemyManager = new EnemyManager();
@@ -120,7 +125,6 @@ void Game::init(GLFWwindow* windowRef)
 
 void Game::mainLoop()
 {
-
 	clock_t start = clock();
 	//how much of a second have passed since last frame
 	float deltaTime = 0.0f;
@@ -132,9 +136,9 @@ void Game::mainLoop()
 	{
 		glfwPollEvents();
 
-		//std::cout << deltaTime << std::endl;
-		//Sleep(250); deltatime test
+		readInput(deltaTime);
 		update(deltaTime);
+
 		glfwSwapBuffers(windowRef);
 
 		fpsCount++;
@@ -162,4 +166,37 @@ void Game::update(float deltaTime)
 
 	//Render const
 	engine->render(player, enemyManager, map, content);
+}
+
+void Game::readInput(float deltaTime)
+{
+	int state;
+	//Mouse Buttons
+	state = glfwGetMouseButton(windowRef, GLFW_MOUSE_BUTTON_RIGHT);
+	state == GLFW_PRESS ? in->RMB(true) : in->RMB(false);
+	//Character Keys
+	state = glfwGetKey(windowRef, GLFW_KEY_W);
+	state == GLFW_PRESS ? in->KeyDown('W') : in->KeyUp('W');
+	state = glfwGetKey(windowRef, GLFW_KEY_A);
+	state == GLFW_PRESS ? in->KeyDown('A') : in->KeyUp('A');
+	state = glfwGetKey(windowRef, GLFW_KEY_S);
+	state == GLFW_PRESS ? in->KeyDown('S') : in->KeyUp('S');
+	state = glfwGetKey(windowRef, GLFW_KEY_D);
+	state == GLFW_PRESS ? in->KeyDown('D') : in->KeyUp('D');
+	//Special Keys
+	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_SHIFT);
+	state == GLFW_PRESS ? in->Shift(true) : in->Shift(false);
+	state = glfwGetKey(windowRef, GLFW_KEY_SPACE);
+	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
+	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
+	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
+	
+	double x, y;
+	glfwGetCursorPos(windowRef, &x, &y);
+	if(in->updateMouse())
+		in->Mouse(x - lastX, y - lastY);
+	lastX = x;
+	lastY = y;
+	
+	in->Act(deltaTime);
 }

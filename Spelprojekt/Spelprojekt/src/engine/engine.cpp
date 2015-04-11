@@ -5,7 +5,7 @@ Engine::~Engine()
 
 }
 
-void Engine::init()
+void Engine::init(glm::mat4* viewMat)
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -16,7 +16,7 @@ void Engine::init()
 
 
 	//temp camera
-	viewMatrix = glm::lookAt(glm::vec3(0, 0, 25), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	viewMatrix = viewMat;
 	projMatrix = glm::perspective(3.14f*0.45f, 800.f / 800.0f, 0.1f, 1000.0f);
 
 	//Temp shader
@@ -83,22 +83,7 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	int facecount = 0;
 	glUseProgram(tempshader);
 	
-	//temp camera test, super ugly i know
-	cameraSwapCounter++;
-	if (cameraSwapCounter > 120)
-	{
-		cameraSwapCounter = 0;
-		cameraSwap < 3 ? cameraSwap++ : cameraSwap = 0;
-		if(cameraSwap == 0)
-			viewMatrix = glm::lookAt(glm::vec3(0, 0, 25), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-		else if (cameraSwap == 1)
-			viewMatrix = glm::lookAt(glm::vec3(12, 12, 12), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-		else if (cameraSwap == 2)
-			viewMatrix = glm::lookAt(glm::vec3(-6, -6, 6), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	}		
-	//--- end camera test
-
-	glm::mat4 VP = projMatrix * viewMatrix;
+	glm::mat4 VP = projMatrix * *viewMatrix;
 	glProgramUniformMatrix4fv(tempshader, uniformVP, 1, false, &VP[0][0]);
 
 	// -- PlayerDraw --
@@ -111,14 +96,18 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	int lastid = -1;
 	int chunkcount = map->readSquareSize();
 	const MapChunk* chunks = map->getChunks();
+	
 	//backgrounds
 	for (int n = 0; n < chunkcount; n++)
 	{
-		id = chunks[n].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
-		if(id != lastid)
-			facecount = content->bindMapObj(id);
-		glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-		lastid = id;
+		if(chunks[n].chunkBackground)
+		{
+			id = chunks[n].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
+			if(id != lastid)
+				facecount = content->bindMapObj(id);
+			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+			lastid = id;
+		}
 	}
 	lastid = -1;
 	//world objects
