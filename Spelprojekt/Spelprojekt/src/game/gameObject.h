@@ -11,17 +11,15 @@
 class GameObject : public Align_16
 {
 private:
-	float scale = 1.0f;
-	glm::vec3 pos = { 0, 0, 0 };
-	//rot
 	glm::mat4 worldMat = { 1, 0, 0, 0,
 						   0, 1, 0, 0,
 						   0, 0, 1, 0,
 						   0, 0, 0, 1 };
 public:
 	GameObject(){};
-	
-	void bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
+	int id = -1;
+	GameObject(int idi){ id = idi; };
+	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 	
 	void rotate(float x, float y, float z);
 	void translate(float x, float y, float z);
@@ -29,8 +27,9 @@ public:
 	void moveTo(float x, float y);
 	void moveTo(float x, float y, float z);
 	void moveTo(glm::vec3 target);
-
-	void scaleUniform(float val);
+	void scaleUniformAD(float val);
+	void scaleUniformFactor(float val);
+	void scaleFactor(float x, float y, float z);
 	
 	glm::vec3 readPos();
 

@@ -108,10 +108,11 @@ void Game::init(GLFWwindow* windowRef)
 	content->init();
 	player = new Player();
 	player->init();
+	map = new Map();
+	map->init();
 
 	//temp
 	enemyManager = new EnemyManager();
-	map = new Map();
 
 	// do not delete in this class
 	this->windowRef = windowRef;

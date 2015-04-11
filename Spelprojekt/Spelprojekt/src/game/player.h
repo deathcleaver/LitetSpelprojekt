@@ -14,6 +14,7 @@ private:
 	float timepass = 0.0f;
 public:
 	Player(){};
+	~Player(){};
 	void init();
 	void update(float deltaTime);
 };

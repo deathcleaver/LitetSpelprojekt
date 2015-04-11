@@ -22,7 +22,7 @@ private:
 	bool vertexHost = false;
 	GLuint textureId = 0;
 	bool textureHost = false;
-	int TEXTUREINDEXOFFSET = 6;
+	int TEXTUREINDEXOFFSET = 0;
 	int faceCount = -1;
 
 	struct TriangleVertex

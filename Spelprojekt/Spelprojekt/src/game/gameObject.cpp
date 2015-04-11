@@ -1,8 +1,9 @@
 #include "gameObject.h"
 
-void GameObject::bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const
+int GameObject::bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const
 {
 	glProgramUniformMatrix4fv(*shaderProgram, *shaderuniform, 1, false, &worldMat[0][0]);
+	return id;
 }
 
 void GameObject::rotate(float x, float y, float z)
@@ -14,6 +15,7 @@ void GameObject::rotate(float x, float y, float z)
 	float roty =  y;
 	float rotz =  z;
 
+	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
 
 	worldMat[0].w -= pos.x;
 	worldMat[1].w -= pos.y;
@@ -38,8 +40,6 @@ void GameObject::translate(float x, float y)
 {
 	worldMat[0].w += x;
 	worldMat[1].w += y;
-	pos.x += x;
-	pos.y += y;
 }
 
 void GameObject::translate(float x, float y, float z)
@@ -47,47 +47,50 @@ void GameObject::translate(float x, float y, float z)
 	worldMat[0].w += x;
 	worldMat[1].w += y;
 	worldMat[2].w += z;
-	pos.x += x;
-	pos.y += y;
-	pos.z += z;
-
 }
 
 void GameObject::moveTo(glm::vec3 target)
 {
-	pos = target;
-	worldMat[0].w = pos.x;
-	worldMat[1].w = pos.y;
-	worldMat[2].w = pos.z;
+	worldMat[0].w = target.x;
+	worldMat[1].w = target.y;
+	worldMat[2].w = target.z;
 }
 
 void GameObject::moveTo(float x, float y)
 {
-	pos.x = x;
-	pos.y = y;
-	worldMat[0].w = pos.x;
-	worldMat[1].w = pos.y;
+	worldMat[0].w = x;
+	worldMat[1].w = y;
 }
 
 void GameObject::moveTo(float x, float y, float z)
 {
-	pos.x = x;
-	pos.y = y;
-	pos.z = z;
-	worldMat[0].w = pos.x;
-	worldMat[1].w = pos.y;
-	worldMat[2].w = pos.z;
+	worldMat[0].w = x;
+	worldMat[1].w = y;
+	worldMat[2].w = z;
 }
 
 glm::vec3 GameObject::readPos()
 {
-	return pos;
+	return glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
 }
 
-void GameObject::scaleUniform(float val)
+void GameObject::scaleUniformAD(float val)
 {
 	worldMat[0].x += val;
 	worldMat[1].y += val;
 	worldMat[2].z += val;
-	scale += val;
+}
+
+void GameObject::scaleUniformFactor(float val)
+{
+	worldMat[0].x *= val;
+	worldMat[1].y *= val;
+	worldMat[2].z *= val;
+}
+
+void GameObject::scaleFactor(float x, float y, float z)
+{
+	worldMat[0].x *= x;
+	worldMat[1].y *= y;
+	worldMat[2].z *= z;
 }

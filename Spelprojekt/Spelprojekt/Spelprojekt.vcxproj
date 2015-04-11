@@ -93,6 +93,8 @@
     <ClCompile Include="src\engine\object.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameObject.cpp" />
+    <ClCompile Include="src\game\map.cpp" />
+    <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
@@ -105,6 +107,7 @@
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />
     <ClInclude Include="src\game\map.h" />
+    <ClInclude Include="src\game\mapChunk.h" />
     <ClInclude Include="src\game\player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

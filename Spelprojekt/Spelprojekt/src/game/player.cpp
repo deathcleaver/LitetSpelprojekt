@@ -1,8 +1,10 @@
 #include "player.h"
 
+
+
 void Player::init()
 {
-	scaleUniform(-0.98f);
+	scaleUniformAD(-0.98f);
 }
 
 void Player::update(float deltaTime)

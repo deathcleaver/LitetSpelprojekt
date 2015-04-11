@@ -11,13 +11,13 @@ void Engine::init()
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(GL_TRUE);
 	glClearColor(0, 0, 0, 1);
-	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);
+	//glEnable(GL_CULL_FACE);
+	//glFrontFace(GL_CCW);
 
 
 	//temp camera
-	viewMatrix = glm::lookAt(glm::vec3(0, 0, 25), glm::vec3(0, 0, 24), glm::vec3(0, 1, 0));
-	projMatrix = glm::perspective(3.14f*0.45f, 640.f / 480.0f, 0.1f, 1000.0f);
+	viewMatrix = glm::lookAt(glm::vec3(0, 0, 25), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	projMatrix = glm::perspective(3.14f*0.45f, 800.f / 800.0f, 0.1f, 1000.0f);
 
 	//Temp shader
 	const char* vertex_shader = R"(
@@ -41,12 +41,12 @@ void Engine::init()
 	#version 410
 	layout(location = 0) in vec2 UV;
 
-	//uniform sampler2D texture;
+	uniform sampler2D textureSample;
 	out vec4 fragment_color;
 
 	void main () 
 	{
-		fragment_color = vec4( UV.x, UV.y, 1, 1);//texture(texture, vec2(UVs.s, 1-UVs.t)).xyz;
+		fragment_color = texture(textureSample,vec2(UV.s, UV.t));
 	}
 )";
 
@@ -82,18 +82,57 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int facecount = 0;
 	glUseProgram(tempshader);
+	
+	//temp camera test, super ugly i know
+	cameraSwapCounter++;
+	if (cameraSwapCounter > 120)
+	{
+		cameraSwapCounter = 0;
+		cameraSwap < 3 ? cameraSwap++ : cameraSwap = 0;
+		if(cameraSwap == 0)
+			viewMatrix = glm::lookAt(glm::vec3(0, 0, 25), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+		else if (cameraSwap == 1)
+			viewMatrix = glm::lookAt(glm::vec3(12, 12, 12), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+		else if (cameraSwap == 2)
+			viewMatrix = glm::lookAt(glm::vec3(-6, -6, 6), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	}		
+	//--- end camera test
+
 	glm::mat4 VP = projMatrix * viewMatrix;
 	glProgramUniformMatrix4fv(tempshader, uniformVP, 1, false, &VP[0][0]);
 
-
-	//bind Vertex data
-	facecount = content->bindPlayer();
-	//bind World matrix
+	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
-	//draw
+	facecount = content->bindPlayer();
 	glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 
-	//render transparent effects
+	// - -Map Draw --
+	int id = 0;
+	int lastid = -1;
+	int chunkcount = map->readSquareSize();
+	const MapChunk* chunks = map->getChunks();
+	//backgrounds
+	for (int n = 0; n < chunkcount; n++)
+	{
+		id = chunks[n].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
+		if(id != lastid)
+			facecount = content->bindMapObj(id);
+		glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+		lastid = id;
+	}
+	lastid = -1;
+	//world objects
+	for (int n = 0; n < chunkcount; n++)
+	{
+		for (int k = 0; k < chunks[n].size; k++)
+		{
+			id = chunks[n].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
+			if (id != lastid)
+				facecount = content->bindMapObj(id);
+			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+			lastid = id;
+		}
+	}
 }
 
 void Engine::CompileErrorPrint(GLuint* shader)

@@ -26,7 +26,8 @@ private:
 	glm::mat4 projMatrix;
 	void Engine::CompileErrorPrint(GLuint* shader);
 	void Engine::LinkErrorPrint(GLuint* shaderProgram);
-
+	int cameraSwap = 0;
+	int cameraSwapCounter = 0;
 	// </temp>
 
 public:

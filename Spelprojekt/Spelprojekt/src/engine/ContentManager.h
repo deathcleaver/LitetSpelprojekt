@@ -2,22 +2,23 @@
 #define CONTENT_MANAGER_H
 
 #include <string>
-
 #include "object.h"
 
 class ContentManager
 {
 private:
 	Object* player;
+	void loadPlayer();
+
+	Object** mapObjs;
+	int mapObjCount = 0;
+	void loadMapObjs();
 public:
 	ContentManager() {};
 	~ContentManager();
 	void init();
-	void loadPlayer();
 	int bindPlayer() const;
-
-	//void loadMapObj(int id)
-	//void bindMapObj(int id)
+	int bindMapObj(int id) const;
 
 };
 
