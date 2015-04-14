@@ -10,6 +10,7 @@ public:
 	Spikes(glm::vec2 firstPos);
 	void init();
 	int update(float deltaTime);
+	void hit(int damage);
 };
 
 #endif

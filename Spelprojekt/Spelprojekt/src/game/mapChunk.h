@@ -1,11 +1,15 @@
 #ifndef MAP_CHUNK_H
 #define MAP_CHUNK_H
 
-#include "gameObject.h"
+#include <string>
+#include "enemyManager.h"
+
+using namespace std;
 
 class MapChunk
 {
 private:
+	EnemyManager* enemyMan;
 public:
 	MapChunk(){};
 	~MapChunk();

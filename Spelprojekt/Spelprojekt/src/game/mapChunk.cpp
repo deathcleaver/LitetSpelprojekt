@@ -3,6 +3,7 @@
 MapChunk::~MapChunk()
 {
 	delete chunkBackground;
+	delete enemyMan;
 	delete[] worldObjs;
 }
 
@@ -19,4 +20,9 @@ void MapChunk::init()
 	worldObjs[0].init(1);
 	worldObjs[0].scaleFactor(5, 1, 2); // 5x1x2 size
 	worldObjs[0].translate(0, 0, 0.5);
+
+	int nrOfEnemies = 0;
+	string fileName = "";
+	enemyMan = new EnemyManager();
+	enemyMan->init(nrOfEnemies, fileName);
 }

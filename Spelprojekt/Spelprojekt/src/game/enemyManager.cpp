@@ -1,14 +1,8 @@
 #include "enemyManager.h"
+#include <fstream>
 
 EnemyManager::EnemyManager()
 {
-	nrOfEnemies = 0;
-}
-
-EnemyManager::EnemyManager(int enemyCount)
-{
-	nrOfEnemies = enemyCount;
-	enemies = new Enemy*[nrOfEnemies];
 }
 
 EnemyManager::~EnemyManager()
@@ -20,6 +14,13 @@ EnemyManager::~EnemyManager()
 	delete[]enemies;
 }
 
+void EnemyManager::init(int enemyCount, string fileName)
+{
+	nrOfEnemies = enemyCount;
+	enemies = new Enemy*[nrOfEnemies];
+	
+}
+
 int EnemyManager::update(float deltaTime)
 {
 	return 0;
@@ -28,4 +29,19 @@ int EnemyManager::update(float deltaTime)
 int EnemyManager::size()
 {
 	return nrOfEnemies;
+}
+
+void EnemyManager::readEnemies(string fileName)
+{
+	ifstream in;
+	in.open(fileName);
+	if (in)
+	{
+		//Find all enemies, create them, and load them
+		in.close();
+	}
+	else
+	{
+
+	}
 }

@@ -6,6 +6,7 @@ Spikes::Spikes(glm::vec2 firstPos)
 	alive = true;
 	facingRight = true;
 	contentIndex = 10;
+	health = 0;
 }
 
 void Spikes::init()
@@ -16,4 +17,8 @@ void Spikes::init()
 int Spikes::update(float deltaTime)
 {
 	return 0;
+}
+
+void Spikes::hit(int damage)
+{
 }

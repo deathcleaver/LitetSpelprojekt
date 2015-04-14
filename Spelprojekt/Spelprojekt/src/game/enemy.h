@@ -14,9 +14,11 @@ protected:
 	bool alive;
 	glm::vec2 initPos;
 	int contentIndex;
+	int health;
 public:
 	virtual void init() = 0;
 	virtual int update(float deltaTime) = 0;
+	virtual void hit(int damage);
 };
 
 #endif
