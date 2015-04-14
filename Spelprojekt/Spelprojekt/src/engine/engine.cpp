@@ -24,16 +24,29 @@ void Engine::init(glm::mat4* viewMat)
 	#version 410
 	layout(location = 0) in vec3 vertex_position;
 	layout(location = 1) in vec2 UV;
+	//layout(location = 2) in vec3 target_vertex_position;
 
 	layout(location = 0) out vec2 UVCord;
 
 	uniform mat4 modelMatrix;
 	uniform mat4 VP;
 
+	//uniform float anim_weight;
+
 	void main () 
 	{
+		//Animationer
+		//float weightDif = 1 - anim_weight;
+		//clamp(weightDif, 0.0, 1.0);
+
+		//float sum_weight = anim_weight + weightDif;
+
+		//float anim_factor = anim_weight / sum_weight;
+		//float normal_factor = weightDif / sum_weight;
+		vec3 position = vertex_position;// * normal_factor + target_vertex_position * anim_factor;
+
 		UVCord = UV;
-		gl_Position =  VP * (vec4(vertex_position, 1.0f) * modelMatrix);
+		gl_Position =  VP * (vec4(position, 1.0f) * modelMatrix);
 	}
 )";
 

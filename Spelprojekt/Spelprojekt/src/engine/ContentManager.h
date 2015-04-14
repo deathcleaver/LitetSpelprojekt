@@ -7,7 +7,7 @@
 class ContentManager
 {
 private:
-	Object* player;
+	Object* player[2];
 	void loadPlayer();
 
 	Object** mapObjs;

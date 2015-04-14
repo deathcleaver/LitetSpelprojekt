@@ -4,7 +4,7 @@
 
 void Player::init()
 {
-	scaleUniformAD(-0.98f);
+	
 }
 
 int Player::update(float deltaTime)

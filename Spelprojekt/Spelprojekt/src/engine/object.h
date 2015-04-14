@@ -36,6 +36,7 @@ private:
 	bool loadBMP(std::string path); 
 
 public:
+	Object() {}
 	Object(std::string pathVert, std::string pathTex, Object* obj = 0, bool copyVert = false, bool copyTex = false);
 	~Object();
 	void bind();

@@ -2,8 +2,8 @@
 
 ContentManager::~ContentManager()
 {
-	if (player)
-		delete player;
+	if (player[0])
+		delete player[0];
 	if (mapObjs)
 	{
 		for (int n = 0; n < mapObjCount; n++)
@@ -28,10 +28,10 @@ void ContentManager::init()
 
 void ContentManager::loadPlayer()
 {
-	if (player) //only call once
+	if (player[0]) //only call once
 		throw;
 
-	player = new Object("src/meshes/testBoat.v", "src/textures/boat.bmp");
+	player[0] = new Object("src/meshes/PlayerBase.v", "src/textures/HEIL.bmp");
 }
 
 void ContentManager::loadMapObjs()
@@ -49,8 +49,8 @@ void ContentManager::loadMapObjs()
 
 int ContentManager::bindPlayer() const
 {
-	player->bind();
-	return player->getFaces();
+	player[0]->bind();
+	return player[0]->getFaces();
 }
 
 int ContentManager::bindMapObj(int id) const
