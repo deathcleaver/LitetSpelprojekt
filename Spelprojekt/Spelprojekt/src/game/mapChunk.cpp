@@ -7,8 +7,13 @@ MapChunk::~MapChunk()
 	delete[] worldObjs;
 }
 
-void MapChunk::init()
+void MapChunk::init(int xIndex, int yIndex)
 {
+	ifstream in;
+	//in.open("xIndex_yIndex");
+	enemyMan = new EnemyManager();
+	enemyMan->init(in);
+
 	//TODO:: load objects from file
 
 	chunkBackground = new GameObject();
@@ -20,9 +25,5 @@ void MapChunk::init()
 	worldObjs[0].init(1);
 	worldObjs[0].scaleFactor(5, 1, 2); // 5x1x2 size
 	worldObjs[0].translate(0, 0, 0.5);
-
-	int nrOfEnemies = 0;
-	string fileName = "";
-	enemyMan = new EnemyManager();
-	enemyMan->init(nrOfEnemies, fileName);
+	//in.close();
 }

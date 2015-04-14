@@ -12,7 +12,7 @@ void Map::init()
 	chunks = new MapChunk[readSquareSize()];
 	for (int n = 0; n < readSquareSize(); n++)
 	{
-		chunks[n].init();
+		chunks[n].init(0,0);
 	}
 }
 

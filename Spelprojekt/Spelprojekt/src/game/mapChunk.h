@@ -16,7 +16,7 @@ public:
 	GameObject* chunkBackground;
 	GameObject* worldObjs;
 	int size = 0;
-	void init();
+	void init(int xIndex, int yIndex);
 	void translateChunk(float x, float y, float z);
 };
 

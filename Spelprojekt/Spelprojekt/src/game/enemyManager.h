@@ -2,6 +2,8 @@
 #define ENEMYMANAGER_H
 
 #include <string>
+#include <fstream>
+
 #include "enemy.h"
 
 using namespace std;
@@ -12,14 +14,14 @@ private:
 	int nrOfEnemies;
 	Enemy** enemies;
 
-	void readEnemies(string fileName);
+	void addEnemy(string type, glm::vec2 pos, int c);
 public:
 	EnemyManager();
 	EnemyManager(int enemies);
 	~EnemyManager();
 	int update(float deltaTime);
 	int size();
-	void init(int enemyCount, string fileName);
+	void init(ifstream &file);
 };
 
 #endif

@@ -1,5 +1,7 @@
 #include "enemyManager.h"
-#include <fstream>
+#include "Enemies/Spikes.h"
+#include "Enemies/Bat.h"
+#include <sstream>
 
 EnemyManager::EnemyManager()
 {
@@ -14,10 +16,34 @@ EnemyManager::~EnemyManager()
 	delete[]enemies;
 }
 
-void EnemyManager::init(int enemyCount, string fileName)
+void EnemyManager::init(ifstream &file)
 {
-	nrOfEnemies = enemyCount;
+	string line;
+	string type;
+	glm::vec2 pos;
+	stringstream ss;
+
+	//Find all enemies, create them, and load them
+	getline(file, line);
+	ss << line;
+	nrOfEnemies = atoi(ss.str().c_str());
+	ss.flush();
 	enemies = new Enemy*[nrOfEnemies];
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		getline(file, line);
+		ss << line;
+		type = ss.str();
+		ss.flush();
+		ss << line;
+		pos.x = float(atoi(ss.str().c_str()));
+		ss.flush();
+		ss << line;
+		pos.y = float(atoi(ss.str().c_str()));
+		addEnemy(type, pos, c);
+
+		ss.flush();
+	}
 	
 }
 
@@ -31,17 +57,18 @@ int EnemyManager::size()
 	return nrOfEnemies;
 }
 
-void EnemyManager::readEnemies(string fileName)
+void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
 {
-	ifstream in;
-	in.open(fileName);
-	if (in)
+	if (type == "Spikes")
 	{
-		//Find all enemies, create them, and load them
-		in.close();
+		enemies[c] = new Spikes(pos);
 	}
-	else
+	if (type == "Bat")
 	{
-
+		enemies[c] = new Bat(pos);
+	}
+	if (type == "Flame")
+	{
+		//enemies[c] = new Flame(pos);
 	}
 }
