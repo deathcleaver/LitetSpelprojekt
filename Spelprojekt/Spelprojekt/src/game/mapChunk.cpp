@@ -4,6 +4,7 @@
 MapChunk::~MapChunk()
 {
 	delete chunkBackground;
+	delete enemyMan;
 	delete[] worldObjs;
 
 	if (worldCollide)
@@ -23,6 +24,11 @@ MapChunk::~MapChunk()
 
 void MapChunk::init(int xIndex, int yIndex)
 {
+	ifstream in;
+	//in.open("xIndex_yIndex");
+	enemyMan = new EnemyManager();
+	enemyMan->init(in);
+
 	//TODO:: load objects from file
 	xOffset = xIndex;
 	yOffset = yIndex;
@@ -32,7 +38,7 @@ void MapChunk::init(int xIndex, int yIndex)
 	countWorldObjs = 1;
 	worldObjs = new GameObject[countWorldObjs];
 
-	worldObjs[0].id = 1;
+	worldObjs[0].init(1);
 	worldObjs[0].scaleFactor(5, 1, 2); // 5x1x2 size
 	worldObjs[0].moveTo(xOffset * 35, yOffset * -35); //align to grid
 	worldObjs[0].translate(0, 0, 0.5);
@@ -52,4 +58,5 @@ void MapChunk::init(int xIndex, int yIndex)
 				worldCollide[x][y] = 0;
 		}
 	}
+	//in.close();
 }

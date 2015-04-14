@@ -91,6 +91,9 @@
     <ClCompile Include="src\engine\ContentManager.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\object.cpp" />
+    <ClCompile Include="src\game\Enemies\Bat.cpp" />
+    <ClCompile Include="src\game\Enemies\Spikes.cpp" />
+    <ClCompile Include="src\game\enemyManager.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameObject.cpp" />
     <ClCompile Include="src\game\map.cpp" />
@@ -100,10 +103,12 @@
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Align16.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\object.h" />
+    <ClInclude Include="src\game\Enemies\Bat.h" />
+    <ClInclude Include="src\game\Enemies\Spikes.h" />
+    <ClInclude Include="src\game\enemy.h" />
     <ClInclude Include="src\game\enemyManager.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />

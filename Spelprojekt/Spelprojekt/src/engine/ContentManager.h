@@ -19,7 +19,6 @@ public:
 	void init();
 	int bindPlayer() const;
 	int bindMapObj(int id) const;
-
 };
 
 #endif

@@ -15,10 +15,12 @@ private:
 						   0, 1, 0, 0,
 						   0, 0, 1, 0,
 						   0, 0, 0, 1 };
+protected:
+	bool facingRight;
+	int contentIndex;
 public:
-	GameObject(){};
-	int id = -1;
-	GameObject(int idi){ id = idi; };
+	GameObject(){ facingRight = true; contentIndex = -1; };
+	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 	
 	void rotate(float x, float y, float z);
@@ -35,6 +37,7 @@ public:
 
 	glm::vec3 readPos();
 
+	int returnID();
 };
 
 #endif
