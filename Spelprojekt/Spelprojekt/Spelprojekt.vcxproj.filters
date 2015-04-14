@@ -81,6 +81,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\rect.h">
+    <ClInclude Include="src\engine\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

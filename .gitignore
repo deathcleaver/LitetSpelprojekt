@@ -39,3 +39,9 @@
 .\Spelprojekt\Spelprojekt\Debug
 .\Spelprojekt\Spelprojekt\Releae
 Spelprojekt/Spelprojekt/Debug/Spelprojekt.log
+*.sdf
+*.v12.suo
+*.tlog
+*.log
+*.lastbuildstate
+*.idb

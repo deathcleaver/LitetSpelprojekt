@@ -7,6 +7,7 @@
 #include "enemyManager.h"
 
 using namespace std;
+#include "gameObject.h"
 
 class MapChunk
 {

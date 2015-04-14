@@ -30,5 +30,6 @@ int Player::update(UserInput* userInput, float deltaTime)
 	{
 		moveTo(pos.x += 0.005, 0, 0);
 	}
+	moveTo(sin(timepass) * 13, sin(timepass*2) * 5, 0);
 	return 0;
 }

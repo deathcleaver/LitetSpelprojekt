@@ -109,6 +109,7 @@
     <ClInclude Include="src\game\Enemies\Bat.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />
     <ClInclude Include="src\game\enemy.h" />
+    <ClInclude Include="src\engine\Shader.h" />
     <ClInclude Include="src\game\enemyManager.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />
