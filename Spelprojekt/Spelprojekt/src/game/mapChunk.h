@@ -2,6 +2,7 @@
 #define MAP_CHUNK_H
 
 #include "gameObject.h";
+#include "rect.h"
 
 class MapChunk
 {
@@ -9,10 +10,13 @@ private:
 public:
 	MapChunk(){};
 	~MapChunk();
-	GameObject* chunkBackground;
-	GameObject* worldObjs;
-	int size = 0;
-	void init();
+
+	GameObject* chunkBackground = 0;
+	GameObject* worldObjs = 0;
+	int countWorldObjs = 0;
+	Rect*** worldCollide = 0;
+	void init(int x, int y);
+	int xOffset, yOffset;
 	void translateChunk(float x, float y, float z);
 };
 

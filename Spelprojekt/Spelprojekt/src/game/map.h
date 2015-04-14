@@ -6,7 +6,7 @@
 class Map
 {
 private:
-	MapChunk* chunks = 0;
+	MapChunk** chunks = 0;
 	int width = 0;
 	int height = 0;
 public:
@@ -14,7 +14,9 @@ public:
 	~Map();
 	void init();
 	int readSquareSize() const;
-	const MapChunk* getChunks() const;
+	int readSizeX() const;
+	int readSizeY() const;
+	MapChunk** getChunks() const;
 };
 
 #endif

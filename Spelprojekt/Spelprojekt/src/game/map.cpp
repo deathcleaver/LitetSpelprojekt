@@ -2,17 +2,28 @@
 
 Map::~Map()
 {
-	delete[] chunks;
+	if (chunks)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			delete[] chunks[x];
+		}
+		delete[] chunks;
+	}
 }
 
 void Map::init()
 {
-	width = 1;
+	width = 3;
 	height = 1;
-	chunks = new MapChunk[readSquareSize()];
-	for (int n = 0; n < readSquareSize(); n++)
+	chunks = new MapChunk*[width];
+	for (int x = 0; x < width; x++)
 	{
-		chunks[n].init();
+		chunks[x] = new MapChunk[height];
+		for (int y = 0; y < height; y++)
+		{
+			chunks[x][y].init(x, y);
+		}
 	}
 }
 
@@ -21,8 +32,17 @@ int Map::readSquareSize() const
 	return (width * height); 
 }
 
-const MapChunk* Map::getChunks() const
+MapChunk** Map::getChunks() const
 {
 	return chunks;
 }
 
+int Map::readSizeX() const
+{
+	return width;
+}
+
+int Map::readSizeY() const
+{
+	return height;
+}

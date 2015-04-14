@@ -97,4 +97,5 @@ void GameObject::scaleFactor(float x, float y, float z)
 
 int GameObject::update(float deltaTime)
 {
+	return 1;
 }

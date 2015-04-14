@@ -1,7 +1,8 @@
 #ifndef RECT_H
-#deinfe RECT_H
+#define RECT_H
 
-#include "..\..\glm.hpp"
+#include <..\glm\gtc\matrix_transform.hpp>
+#include <..\glm\glm.hpp>
 
 class Rect
 {
@@ -9,7 +10,7 @@ private:
 	glm::mat4* worldMat;
 	float xHalfSize, yHalfSize; 
 	float x1, x2, y1, y2;
-	bool mapRect;
+	int type;
 	//float offsetX, offsetY;
 	//float scaleX, scaleY;
 	//bool invertX, invertY;
@@ -18,10 +19,10 @@ public:
 	{
 		if(worldMat)
 		{
-			x1 = *worldMat[0].w - xHalfSize;
-			y1 = *worldMat[1].w + yHalfSize;
-			x2 = *worldMat[0].w + xHalfSize;
-			y2 = *worldMat[1].w - yHalfSize;
+			x1 = (*worldMat)[0].w - xHalfSize;
+			y1 = (*worldMat)[1].w + yHalfSize;
+			x2 = (*worldMat)[0].w + xHalfSize;
+			y2 = (*worldMat)[1].w - yHalfSize;
 		}
 	}
 	Rect()
@@ -29,14 +30,14 @@ public:
 		worldMat = 0;
 	};
 	~Rect(){};
-	void initGameObjectRect(glm::mat4 mat, float sizeX, float sizeY)
+	void initGameObjectRect(glm::mat4* mat, float sizeX, float sizeY)
 	{
 		worldMat = mat;
 		xHalfSize = sizeX * 0.5;
 		yHalfSize = sizeY * 0.5;
 		update();
 	}
-	void initMapRect(float ChunkOffsetX,float ChunkOffsetY, int x, int y)
+	void initMapRect(float ChunkOffsetX,float ChunkOffsetY, int x, int y, int type)
 	{
 		float midX = (ChunkOffsetX * 35) - 17 + x;
 		float midY = (ChunkOffsetY * 35) + 17 - y;
@@ -60,4 +61,4 @@ public:
 	}
 };
 
-#enfid
+#endif

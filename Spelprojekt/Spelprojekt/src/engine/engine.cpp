@@ -94,32 +94,40 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	// - -Map Draw --
 	int id = 0;
 	int lastid = -1;
-	int chunkcount = map->readSquareSize();
-	const MapChunk* chunks = map->getChunks();
+	int mapWidth = map->readSizeX();
+	int mapHeight = map->readSizeY();
+	int chunkCount = map->readSquareSize();
+	MapChunk** chunks = map->getChunks();
 	
 	//backgrounds
-	for (int n = 0; n < chunkcount; n++)
+	for (int x = 0; x < mapWidth; x++)
 	{
-		if(chunks[n].chunkBackground)
+		for (int y = 0; y < mapHeight; y++)
 		{
-			id = chunks[n].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
-			if(id != lastid)
-				facecount = content->bindMapObj(id);
-			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-			lastid = id;
+			if (chunks[x][y].chunkBackground)
+			{
+				id = chunks[x][y].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
+				if (id != lastid)
+					facecount = content->bindMapObj(id);
+				glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+				lastid = id;
+			}
 		}
 	}
 	lastid = -1;
 	//world objects
-	for (int n = 0; n < chunkcount; n++)
+	for (int x = 0; x < mapWidth; x++)
 	{
-		for (int k = 0; k < chunks[n].size; k++)
+		for (int y = 0; y < mapHeight; y++)
 		{
-			id = chunks[n].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
-			if (id != lastid)
-				facecount = content->bindMapObj(id);
-			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-			lastid = id;
+			for (int k = 0; k < chunks[x][y].countWorldObjs; k++)
+			{
+				id = chunks[x][y].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
+				if (id != lastid)
+					facecount = content->bindMapObj(id);
+				glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+				lastid = id;
+			}
 		}
 	}
 }
