@@ -94,3 +94,7 @@ void GameObject::scaleFactor(float x, float y, float z)
 	worldMat[1].y *= y;
 	worldMat[2].z *= z;
 }
+
+int GameObject::update(float deltaTime)
+{
+}

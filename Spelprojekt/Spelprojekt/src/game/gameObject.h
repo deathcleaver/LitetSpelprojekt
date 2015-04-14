@@ -30,6 +30,8 @@ public:
 	void scaleUniformAD(float val);
 	void scaleUniformFactor(float val);
 	void scaleFactor(float x, float y, float z);
+
+	virtual int update(float deltaTime);
 	
 	glm::vec3 readPos();
 

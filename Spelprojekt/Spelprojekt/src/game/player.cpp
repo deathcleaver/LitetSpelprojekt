@@ -7,7 +7,7 @@ void Player::init()
 	scaleUniformAD(-0.98f);
 }
 
-void Player::update(float deltaTime)
+int Player::update(float deltaTime)
 {
 	timepass += deltaTime;
 	rotate(0, deltaTime, 0);

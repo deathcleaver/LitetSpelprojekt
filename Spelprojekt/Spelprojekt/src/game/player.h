@@ -16,7 +16,7 @@ public:
 	Player(){};
 	~Player(){};
 	void init();
-	void update(float deltaTime);
+	int update(float deltaTime);
 };
 
 #endif
