@@ -1,5 +1,7 @@
 #include "engine.h"
 
+#include "Shader.h"
+
 Engine::~Engine()
 {
 
@@ -20,57 +22,12 @@ void Engine::init(glm::mat4* viewMat)
 	projMatrix = glm::perspective(3.14f*0.45f, 800.f / 800.0f, 0.1f, 1000.0f);
 
 	//Temp shader
-	const char* vertex_shader = R"(
-	#version 410
-	layout(location = 0) in vec3 vertex_position;
-	layout(location = 1) in vec2 UV;
 
-	layout(location = 0) out vec2 UVCord;
+	std::string shaders [] = {"src/shaders/default_vs.glsl", "src/shaders/default_fs.glsl" };
+	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER };
 
-	uniform mat4 modelMatrix;
-	uniform mat4 VP;
+	CreateProgram(tempshader, shaders, shaderType, 2);
 
-	void main () 
-	{
-		UVCord = UV;
-		gl_Position =  VP * (vec4(vertex_position, 1.0f) * modelMatrix);
-	}
-)";
-
-	const char* fragment_shader = R"(
-	#version 410
-	layout(location = 0) in vec2 UV;
-
-	uniform sampler2D textureSample;
-	out vec4 fragment_color;
-
-	void main () 
-	{
-		fragment_color = texture(textureSample,vec2(UV.s, UV.t));
-	}
-)";
-
-	GLint success = 0;
-
-	//create vertex shader
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, nullptr);
-	glCompileShader(vs);
-	CompileErrorPrint(&vs);
-
-	//create fragment shader
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, nullptr);
-	glCompileShader(fs);
-	CompileErrorPrint(&fs);
-
-	//link shader program (connect vs and ps)
-	tempshader = glCreateProgram();
-	glAttachShader(tempshader, vs);
-	glAttachShader(tempshader, fs);
-	glLinkProgram(tempshader);
-
-	LinkErrorPrint(&tempshader);
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformVP = glGetUniformLocation(tempshader, "VP");

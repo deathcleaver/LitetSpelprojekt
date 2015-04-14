@@ -13,7 +13,7 @@
 
 #include <GLFW/glfw3.h>
 
-class Game
+class Game : public Align_16
 {
 private:
 	Engine* engine = 0;

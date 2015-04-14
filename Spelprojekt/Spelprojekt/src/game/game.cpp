@@ -94,7 +94,7 @@ void Game::init(GLFWwindow* windowRef)
 		std::cout << "glDebugMessageCallback not available" << std::endl;
 #endif
 
-	glm::mat4* viewMat = new glm::mat4(); //deleted in UserInput
+	viewMat = new glm::mat4(); //deleted in UserInput
 	engine = new Engine();
 	engine->init(viewMat);
 	content = new ContentManager();
