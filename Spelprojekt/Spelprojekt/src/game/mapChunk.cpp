@@ -33,7 +33,7 @@ void MapChunk::init(int xIndex, int yIndex)
 	xOffset = xIndex;
 	yOffset = yIndex;
 	chunkBackground = new GameObject();
-	chunkBackground->id = 0;
+	chunkBackground->init(0);
 	chunkBackground->moveTo(xOffset * 35, yOffset * -35);
 	countWorldObjs = 1;
 	worldObjs = new GameObject[countWorldObjs];
