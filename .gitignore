@@ -4,6 +4,11 @@
 *.o
 *.obj
 
+# Visual Studio files
+*.sdu
+*.sdf
+*.opensdf
+
 # Precompiled Headers
 *.gch
 *.pch

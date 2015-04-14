@@ -216,3 +216,30 @@ bool UserInput::updateMouse()
 {
 	return shift;
 }
+
+bool UserInput::getKeyState(char c)
+{
+	switch (c)
+	{
+	case('W') :
+		return W;
+		break;
+	case('S') :
+		return S;
+		break;
+	case('A') :
+		return A;
+		break;
+	case('D') :
+		return D;
+		break;
+	}
+}
+
+void UserInput::followPlayer(vec3 p)
+{
+	vec3 oldPos = pos;
+	pos.x = p.x; // onlny update x pos since we're viewing the player from the side.
+	target += (pos - oldPos);
+	*viewMatrix = lookAt(pos, target, up);
+}
