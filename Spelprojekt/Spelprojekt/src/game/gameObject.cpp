@@ -3,7 +3,12 @@
 int GameObject::bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const
 {
 	glProgramUniformMatrix4fv(*shaderProgram, *shaderuniform, 1, false, &worldMat[0][0]);
-	return id;
+	return contentIndex;
+}
+
+void GameObject::init(int idi)
+{
+	contentIndex = idi;
 }
 
 void GameObject::rotate(float x, float y, float z)
@@ -97,4 +102,10 @@ void GameObject::scaleFactor(float x, float y, float z)
 
 int GameObject::update(float deltaTime)
 {
+	return 0;
+}
+
+int GameObject::returnID()
+{
+	return contentIndex;
 }
