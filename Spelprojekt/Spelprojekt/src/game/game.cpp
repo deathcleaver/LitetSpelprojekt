@@ -124,6 +124,8 @@ void Game::mainLoop()
 	float lastClock = 0.0f;
 	int fpsCount = 0;
 
+	glfwSwapInterval(0);
+
 	while (!glfwWindowShouldClose(windowRef))
 	{
 		glfwPollEvents();
