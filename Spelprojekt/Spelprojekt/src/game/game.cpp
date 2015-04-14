@@ -88,20 +88,13 @@ void Game::init(GLFWwindow* windowRef)
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback((GLDEBUGPROC)openglCallbackFunction, nullptr);
 		GLuint unusedIds = 0;
-		glDebugMessageControl(GL_DONT_CARE,
-			GL_DONT_CARE,
-			GL_DONT_CARE,
-			0,
-			&unusedIds,
-			true);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, true);
 	}
 	else
-	{
 		std::cout << "glDebugMessageCallback not available" << std::endl;
-	}
 #endif
 
-	glm::mat4* viewMat = new glm::mat4(); //removed in UserInput
+	glm::mat4* viewMat = new glm::mat4(); //deleted in UserInput
 	engine = new Engine();
 	engine->init(viewMat);
 	content = new ContentManager();
@@ -115,7 +108,6 @@ void Game::init(GLFWwindow* windowRef)
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
 	in->Init(viewMat, glm::vec3(0, 0, 25), glm::vec3(0, 0, 24), glm::vec3(0, 1, 0));
 	
-
 	//temp
 	enemyManager = new EnemyManager();
 

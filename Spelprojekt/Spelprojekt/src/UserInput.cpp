@@ -50,7 +50,7 @@ void UserInput::Act(float deltaTime)
 	float speedorig = speed;
 	if (shift)
 		speed *= 3;
-	speed * deltaTime;
+	speed *= deltaTime;
 
 	if (W)
 	{
@@ -171,7 +171,8 @@ void UserInput::Init(mat4* mat, vec3 posIn, vec3 targetIn, vec3 upIn)
 	*viewMatrix = lookAt(pos, target, up);
 
 	//Sets the initial view angels 
-	vec3 hTarget(target.x, 0.0f, target.z);
+	vec3 hTarget = getToTarget();
+	hTarget.y = 0;
 	hTarget = normalize(hTarget);
 	
 	if (hTarget.z >= 0.0f)
@@ -184,7 +185,7 @@ void UserInput::Init(mat4* mat, vec3 posIn, vec3 targetIn, vec3 upIn)
 	else
 	{
 		if (hTarget.x >= 0.0f)
-			angleH = toDegree(asin(-hTarget.z));
+			angleH = - toDegree(asin(-hTarget.z));
 		else
 			angleH = 90.0f + toDegree(asin(-hTarget.z));
 	}

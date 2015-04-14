@@ -20,7 +20,7 @@ private:
 	mat3 rotH;
 	mat3 rotV;
 
-	float speed = 0.5f;
+	float speed = 10.0f;
 	double lastX = 0;
 	double lastY = 0;
 
