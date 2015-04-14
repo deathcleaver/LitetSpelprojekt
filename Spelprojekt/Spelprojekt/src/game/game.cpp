@@ -154,7 +154,10 @@ void Game::update(float deltaTime)
 	//Game code
 	//..
 	//..
-	player->update(deltaTime);
+	player->update(in, deltaTime);
+
+	//update camera pos
+	in->followPlayer(player->readPos());
 
 	//Render const
 	engine->render(player, enemyManager, map, content);
@@ -190,5 +193,5 @@ void Game::readInput(float deltaTime)
 	lastX = x;
 	lastY = y;
 	
-	in->Act(deltaTime);
+	//in->Act(deltaTime);
 }

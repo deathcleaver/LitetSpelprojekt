@@ -52,6 +52,9 @@ public:
 	bool updateMouse();
 	vec3* GetPos();
 	vec3 getToTarget();
+
+	void followPlayer(vec3 pos);
+	bool getKeyState(char c);
 };
 
 #endif

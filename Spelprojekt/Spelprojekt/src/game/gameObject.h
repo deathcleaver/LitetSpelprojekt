@@ -32,7 +32,7 @@ public:
 	void scaleFactor(float x, float y, float z);
 
 	virtual int update(float deltaTime);
-	
+
 	glm::vec3 readPos();
 
 };
