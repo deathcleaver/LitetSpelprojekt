@@ -7,11 +7,6 @@ void Player::init()
 {
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 2);
-	
-	testMat = worldMat;
-	
-	testRect = new Rect();
-	//testRect->initGameObjectRect(&testMat, 100, 100);
 }
 
 int Player::update(float deltaTime)
@@ -31,18 +26,17 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	timepass += deltaTime;
 
 	// update pos & camera using user input
-	vec3 pos = readPos();
-
+	vec3 tempPos = readPos();
 
 	//WASD
 	if (userInput->getKeyState('A'))
 	{
-		moveTo(pos.x -= 0.005, 0, 0);
+		moveTo(tempPos.x -= 0.005, 0, 0);
 		dir = -1;
 	}
 	else if (userInput->getKeyState('D'))
 	{
-		moveTo(pos.x += 0.005, 0, 0);
+		moveTo(tempPos.x += 0.005, 0, 0);
 		dir = 1;
 	}
 	else
@@ -50,15 +44,25 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//update collide rect
 	collideRect->update();
-	testRect->update();
 
-	if (collideRect->intersects(testRect))
+	int idX = 0, idY = 0;
+
+	map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
+
+	if (idX != -1 || idY != -1)
 	{
-		printf("collision\n");
+		if (map->getChunks()[idX][idY].collide(collideRect)) //collideRect->intersects()
+		{
+		//	printf("collision in chunk: %i.%i. Pos %f,%f\n", &idX, &idY, readPos().x, readPos().y);
+		}
+		//else
+			//printf("no collision%f,%f\n", readPos().x, readPos().y);
+
 	}
 	else
-		printf("no collision\n");
-
+	{
+	
+	}
 	return 0;
 }
 

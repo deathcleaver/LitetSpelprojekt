@@ -21,8 +21,6 @@ private:
 
 
 	Rect* collideRect = 0;
-	Rect* testRect = 0;
-	glm::mat4 testMat;
 
 public:
 	Player(){};

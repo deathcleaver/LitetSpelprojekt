@@ -68,4 +68,6 @@ void Map::getChunkIndex(glm::vec2 pos, int* idX, int* idY)
 		*idX = -1;
 	if (*idY < 0 || *idY > (height - 1))
 		*idY = -1;
+	if (*idX != 0 && *idY != 0)
+		int k = 13;
 }
