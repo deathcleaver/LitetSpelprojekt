@@ -40,7 +40,7 @@ public:
 	void initMapRect(float ChunkOffsetX,float ChunkOffsetY, int x, int y, int type)
 	{
 		float midX = (ChunkOffsetX * 35) - 17 + x;
-		float midY = (ChunkOffsetY * 35) + 17 - y;
+		float midY = -(ChunkOffsetY * 35) + 17 - y;
 		x1 = midX - 0.5;
 		y1 = midY + 0.5;
 		x2 = midX + 0.5;
@@ -58,6 +58,14 @@ public:
 			return false; //outside botom
 		
 		return true;
+	}
+	//mapchunk collide usage
+	void readData(int* x1ref, int* y1ref, int* sizeX, int* sizeY)
+	{
+		*x1ref = (int)x1;
+		*y1ref = (int)y1;
+		*sizeX = (int)(xHalfSize * 2);
+		*sizeY = (int)(yHalfSize * 2);
 	}
 };
 

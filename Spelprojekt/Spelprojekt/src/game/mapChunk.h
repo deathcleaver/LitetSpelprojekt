@@ -13,6 +13,8 @@ class MapChunk
 {
 private:
 	EnemyManager* enemyMan;
+	//map collision re-use variables
+	int x1, y1, sizeX, sizeY;
 public:
 	MapChunk(){};
 	~MapChunk();
@@ -24,6 +26,7 @@ public:
 	void init(int x, int y);
 	int xOffset, yOffset;
 
+	bool collide(Rect* test);
 	void translateChunk(float x, float y, float z);
 };
 
