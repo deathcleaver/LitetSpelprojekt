@@ -4,6 +4,8 @@
 #include "gameObject.h";
 #include "rect.h"
 #include <string>
+#include <sstream>
+#include <fstream>
 #include "enemyManager.h"
 
 using namespace std;

@@ -1,5 +1,4 @@
 #include "mapChunk.h"
-#include "rect.h"
 
 MapChunk::~MapChunk()
 {
@@ -24,6 +23,10 @@ MapChunk::~MapChunk()
 
 void MapChunk::init(int xIndex, int yIndex)
 {
+	//Build chunk filename
+	std::stringstream iss;
+	//iss << ""
+
 	ifstream in;
 	//in.open("xIndex_yIndex");
 	enemyMan = new EnemyManager();
