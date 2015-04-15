@@ -9,6 +9,8 @@ Engine::~Engine()
 
 void Engine::init(glm::mat4* viewMat)
 {
+	gBuffer.init(800, 800, 3, true);
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(GL_TRUE);
@@ -23,7 +25,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	//Temp shader
 
-	std::string shaders [] = {"src/shaders/default_vs.glsl", "src/shaders/default_fs.glsl" };
+	std::string shaders [] = {"src/shaders/default_vs.glsl", "src/shaders/gBuffer_fs.glsl" };
 	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER };
 
 	CreateProgram(tempshader, shaders, shaderType, 2);
@@ -35,6 +37,10 @@ void Engine::init(glm::mat4* viewMat)
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content)
 {
+	// bind gbuffer FBO
+	gBuffer.bind(GL_DRAW_FRAMEBUFFER);
+	//
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int facecount = 0;
 	glUseProgram(tempshader);
@@ -103,62 +109,14 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 			}
 		}
 	}
+    
+    
+	// bind default FBO and render gbuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//
+	gBuffer.render();
+    
 }
 
-void Engine::CompileErrorPrint(GLuint* shader)
-{
-	GLint success = 0;
-	glGetShaderiv(*shader, GL_COMPILE_STATUS, &success); //not working????
-	if (success == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &maxLength);
 
-		// The maxLength includes the NULL character
-		std::vector<GLchar> errorLog(maxLength);
-		glGetShaderInfoLog(*shader, maxLength, &maxLength, &errorLog[0]);
-
-		std::fstream myfile;
-		myfile.open("errorCheck.txt", std::fstream::out);
-		for (int i = 0; i < maxLength; i++)
-		{
-			myfile << errorLog[i];
-		}
-		myfile.close();
-
-		// Provide the infolog in whatever manor you deem best.
-		// Exit with failure.
-		glDeleteShader(*shader); // Don't leak the shader.
-		throw;
-	}
-}
-
-void Engine::LinkErrorPrint(GLuint* shaderProgram)
-{
-	GLint success = 10;
-	glGetProgramiv(*shaderProgram, GL_LINK_STATUS, &success);
-	if (success == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetProgramiv(*shaderProgram, GL_INFO_LOG_LENGTH, &maxLength);
-
-		// The maxLength includes the NULL character
-		std::vector<GLchar> errorLog(maxLength);
-		glGetProgramInfoLog(*shaderProgram, maxLength, &maxLength, &errorLog[0]);
-
-		std::fstream myfile;
-		myfile.open("errorCheck.txt", std::fstream::out);
-		for (int i = 0; i < maxLength; i++)
-		{
-			myfile << errorLog[i];
-		}
-		myfile.close();
-
-		// Provide the infolog in whatever manor you deem best.
-		// Exit with failure.
-		glDeleteProgram(*shaderProgram); // Don't leak the shader.
-
-		if (success == GL_FALSE)
-			throw;
-	}
-}
