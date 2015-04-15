@@ -54,13 +54,10 @@ bool Object::loadVert(std::string path)
 	std::ifstream myfile(path);
 	if (myfile.is_open())
 	{
-		std::vector<TriangleVertex> vert;
-		std::vector<TriangleVertex> uv;
-		std::vector<GLushort> Indices;
+		
 
 		std::string sub;
-		int count = 0;
-		int state = 0;
+		
 		while (true) {
 			if (!(getline(myfile, line))) break;
 			if (line.size() < 5)
@@ -80,6 +77,7 @@ bool Object::loadVert(std::string path)
 				vert[count].z = std::stof(sub);
 				vert[count].u = -1.0f;
 				vert[count].v = -1.0f;
+				size++;
 				count++;
 			}
 			else if (line[0] == 'v' && line[1] == 't') //UV cord

@@ -31,11 +31,23 @@ private:
 		float u, v;
 	};
 
+
+
+	
+
 	//temprary implementations
 	bool loadVert(std::string path);
 	bool loadBMP(std::string path); 
 
 public:
+	std::vector<TriangleVertex> vert;
+	std::vector<TriangleVertex> uv;
+	std::vector<GLushort> Indices;
+
+	int count = 0;
+	int size = 0;
+	int state = 0;
+
 	Object() {}
 	Object(std::string pathVert, std::string pathTex, Object* obj = 0, bool copyVert = false, bool copyTex = false);
 	~Object();

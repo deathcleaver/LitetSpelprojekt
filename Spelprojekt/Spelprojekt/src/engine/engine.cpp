@@ -25,6 +25,7 @@ void Engine::init(glm::mat4* viewMat)
 	layout(location = 0) in vec3 vertex_position;
 	layout(location = 1) in vec2 UV;
 	//layout(location = 2) in vec3 target_vertex_position;
+	//layout (location = 3) in vec2 target_UV;
 
 	layout(location = 0) out vec2 UVCord;
 
@@ -44,8 +45,8 @@ void Engine::init(glm::mat4* viewMat)
 		//float anim_factor = anim_weight / sum_weight;
 		//float normal_factor = weightDif / sum_weight;
 		vec3 position = vertex_position;// * normal_factor + target_vertex_position * anim_factor;
-
-		UVCord = UV;
+		
+		UVCord = UV;// * normal_factor + target_UV * anim_factor;
 		gl_Position =  VP * (vec4(position, 1.0f) * modelMatrix);
 	}
 )";
