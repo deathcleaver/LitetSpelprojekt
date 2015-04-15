@@ -16,6 +16,7 @@ private:
 	float angleH = 0;
 	float angleV = 0;
 	vec3 up = { 0, 0, 0 };
+	float cameraSmoothing = 2.5f;
 
 	mat3 rotH;
 	mat3 rotV;
@@ -53,7 +54,7 @@ public:
 	vec3* GetPos();
 	vec3 getToTarget();
 
-	void followPlayer(vec3 pos);
+	void followPlayer(vec3 pos, int dir);
 	bool getKeyState(char c);
 };
 

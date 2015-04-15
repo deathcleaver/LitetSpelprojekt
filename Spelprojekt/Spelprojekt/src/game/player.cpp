@@ -25,10 +25,20 @@ int Player::update(UserInput* userInput, float deltaTime)
 	if (userInput->getKeyState('A'))
 	{
 		moveTo(pos.x -= 0.005, 0, 0);
+		dir = -1;
 	}
 	else if (userInput->getKeyState('D'))
 	{
 		moveTo(pos.x += 0.005, 0, 0);
+		dir = 1;
 	}
+	else
+		dir = 0;
+
 	return 0;
+}
+
+int Player::getDir()
+{
+	return dir;
 }

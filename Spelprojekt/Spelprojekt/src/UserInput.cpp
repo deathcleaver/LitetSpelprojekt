@@ -236,10 +236,39 @@ bool UserInput::getKeyState(char c)
 	}
 }
 
-void UserInput::followPlayer(vec3 p)
+void UserInput::followPlayer(vec3 p, int dir)
 {
 	vec3 oldPos = pos;
-	pos.x = p.x; // onlny update x pos since we're viewing the player from the side.
+
+	if (dir == 1) // moving to the right
+	{
+		if (pos.x < p.x + cameraSmoothing - 0.05)
+			pos.x += 0.0055; // only update x pos since we're viewing the player from the side.
+		else
+			pos.x = p.x + (cameraSmoothing * dir);
+	}
+
+	else if (dir == -1) // moving to the left
+	{
+		if (pos.x > p.x - cameraSmoothing + 0.05)
+			pos.x -= 0.0055; // only update x pos since we're viewing the player from the side.
+		else
+			pos.x = p.x + (cameraSmoothing * dir);
+	}
+
+	else if (dir == 0) // standing still
+	{
+		if (pos.x < p.x - 0.05)
+			pos.x += 0.005;
+
+		else if (pos.x > p.x + 0.05)
+			pos.x -= 0.005;
+
+		else
+			pos.x = p.x;
+	}
+
+	// update target and camera view
 	target += (pos - oldPos);
 	*viewMatrix = lookAt(pos, target, up);
 }
