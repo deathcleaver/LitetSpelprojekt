@@ -3,9 +3,10 @@
 Spikes::Spikes(glm::vec2 firstPos)
 {
 	initPos = firstPos;
+	moveTo(firstPos.x, firstPos.y);
 	alive = true;
 	facingRight = true;
-	contentIndex = 10;
+	contentIndex = 0;
 	health = 0;
 }
 

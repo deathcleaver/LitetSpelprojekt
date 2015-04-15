@@ -7,7 +7,6 @@
 #include "enemyManager.h"
 
 using namespace std;
-#include "gameObject.h"
 
 class MapChunk
 {
@@ -28,6 +27,9 @@ public:
 
 	bool collide(Rect* test);
 	void translateChunk(float x, float y, float z);
+
+	int countEnemies();
+	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 };
 
 #endif

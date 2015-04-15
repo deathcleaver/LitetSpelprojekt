@@ -87,6 +87,23 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 			}
 		}
 	}
+
+	lastid = -1;
+	//Enemies
+	for (int x = 0; x < mapWidth; x++)
+	{
+		for (int y = 0; y < mapHeight; y++)
+		{
+			for (int k = 0; k < chunks[x][y].countEnemies(); k++)
+			{
+				id = chunks[x][y].bindEnemy(k, &tempshader, &uniformModel);
+				if (id != lastid)
+					facecount = content->bindMonsterObj(id);
+				glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+				lastid = id;
+			}
+		}
+	}
 }
 
 void Engine::CompileErrorPrint(GLuint* shader)

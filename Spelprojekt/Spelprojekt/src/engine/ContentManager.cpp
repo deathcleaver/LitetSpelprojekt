@@ -23,6 +23,7 @@ void ContentManager::init()
 	loadMapObjs();
 
 	//load all monster meshes
+	loadMonsterObjs();
 
 }
 
@@ -47,6 +48,17 @@ void ContentManager::loadMapObjs()
 
 }
 
+void ContentManager::loadMonsterObjs()
+{
+	if (monsterObjs)
+		throw;
+
+	monsterObjCount = 1;
+	monsterObjs = new Object*[monsterObjCount]();
+
+	monsterObjs[0] = new Object("src/meshes/m 1x1.v", "src/textures/black.bmp");
+}
+
 int ContentManager::bindPlayer() const
 {
 	player->bind();
@@ -57,4 +69,10 @@ int ContentManager::bindMapObj(int id) const
 {
 	mapObjs[id]->bind();
 	return mapObjs[id]->getFaces();
+}
+
+int ContentManager::bindMonsterObj(int id) const
+{
+	monsterObjs[id]->bind();
+	return monsterObjs[id]->getFaces();
 }

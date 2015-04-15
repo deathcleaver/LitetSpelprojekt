@@ -16,35 +16,39 @@ EnemyManager::~EnemyManager()
 	delete[]enemies;
 }
 
-void EnemyManager::init(ifstream &file)
+void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
 	string line;
-	string type;
-	glm::vec2 pos;
-	stringstream ss;
+	string type = "Spikes";
+	glm::vec2 pos = glm::vec2(-1+xOffset*35,-1+yOffset*35);
+
+	nrOfEnemies = 1;
+	enemies = new Enemy*[nrOfEnemies];
+	addEnemy(type, pos, 0);
+	
 
 	//Find all enemies, create them, and load them
+	/*
 	getline(file, line);
-	ss << line;
-	nrOfEnemies = atoi(ss.str().c_str());
-	ss.flush();
+
+	istringstream iss(line);
+	string sub;
+	iss >> sub;
+	nrOfEnemies = atoi(sub.c_str());
 	enemies = new Enemy*[nrOfEnemies];
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
-		getline(file, line);
-		ss << line;
-		type = ss.str();
-		ss.flush();
-		ss << line;
-		pos.x = float(atoi(ss.str().c_str()));
-		ss.flush();
-		ss << line;
-		pos.y = float(atoi(ss.str().c_str()));
+		if (!(getline(file, line))) break;
+		iss = istringstream(line);
+		iss >> sub;
+		type = sub; //Läs fiendetyp
+		iss >> sub;
+		pos.x = atoi(sub.c_str());
+		iss >> sub;
+		pos.y = atoi(sub.c_str());
 		addEnemy(type, pos, c);
-
-		ss.flush();
 	}
-	
+	*/
 }
 
 int EnemyManager::update(float deltaTime)
@@ -71,4 +75,9 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
 	{
 		//enemies[c] = new Flame(pos);
 	}
+}
+
+int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform)
+{
+	return enemies[index]->bindWorldMat(shader, uniform);
 }

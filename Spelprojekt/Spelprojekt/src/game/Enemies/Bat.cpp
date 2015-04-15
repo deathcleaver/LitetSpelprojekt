@@ -5,8 +5,8 @@ Bat::Bat(glm::vec2 firstPos)
 	initPos = firstPos;
 	alive = true;
 	facingRight = true;
-	contentIndex = 11;
-	wingsUpIndex = 12;
+	contentIndex = 1;
+	wingsUpIndex = 2;
 	health = 1;
 	interpolation = 0.0f;
 }

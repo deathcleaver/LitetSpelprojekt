@@ -21,7 +21,9 @@ public:
 	~EnemyManager();
 	int update(float deltaTime);
 	int size();
-	void init(ifstream &file);
+	void init(ifstream &file, int xOffset, int yOffset);
+
+	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 };
 
 #endif

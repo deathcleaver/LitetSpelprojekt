@@ -27,11 +27,12 @@ void MapChunk::init(int xIndex, int yIndex)
 	ifstream in;
 	//in.open("xIndex_yIndex");
 	enemyMan = new EnemyManager();
-	enemyMan->init(in);
-
-	//TODO:: load objects from file
 	xOffset = xIndex;
 	yOffset = yIndex;
+	enemyMan->init(in, xOffset, yOffset);
+
+	//TODO:: load objects from file
+	
 	chunkBackground = new GameObject();
 	chunkBackground->init(0);
 	chunkBackground->moveTo(xOffset * 35, yOffset * -35);
@@ -84,4 +85,14 @@ bool MapChunk::collide(Rect* test)
 	}
 
 	return false;
+}
+
+int MapChunk::countEnemies()
+{
+	return enemyMan->size();
+}
+
+int MapChunk::bindEnemy(int index, GLuint* shader, GLuint* uniform)
+{
+	return enemyMan->bindEnemy(index, shader, uniform);
 }
