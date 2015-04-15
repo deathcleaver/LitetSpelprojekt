@@ -8,7 +8,7 @@ class Rect
 {
 private:
 	glm::mat4* worldMat;
-	float xHalfSize, yHalfSize; 
+	float xHalfSize, yHalfSize;
 	float x1, x2, y1, y2;
 	int type;
 	//float offsetX, offsetY;
@@ -17,7 +17,7 @@ private:
 public:
 	void update()
 	{
-		if(worldMat)
+		if (worldMat)
 		{
 			x1 = (*worldMat)[0].w - xHalfSize;
 			y1 = (*worldMat)[1].w + yHalfSize;
@@ -37,7 +37,7 @@ public:
 		yHalfSize = sizeY * 0.5;
 		update();
 	}
-	void initMapRect(float ChunkOffsetX,float ChunkOffsetY, int x, int y, int type)
+	void initMapRect(float ChunkOffsetX, float ChunkOffsetY, int x, int y, int type)
 	{
 		this->type = type;
 		float midX = (ChunkOffsetX * 35) - 17 + x;
@@ -49,22 +49,23 @@ public:
 	}
 	bool intersects(Rect* test)
 	{
-		if(y2 > test->y1)
+		if (y2 > test->y1)
 			return false; //ouside top
-		if(x2 < test->x1) 
+		if (x2 < test->x1)
 			return false; //outside left
-		if(x1 > test->x2)
+		if (x1 > test->x2)
 			return false; //outside right
-		if(y1 < test->y2)
+		if (y1 < test->y2)
 			return false; //outside botom
-		
+
 		return true;
 	}
 	//mapchunk collide usage
 	void readData(int* x1ref, int* y1ref, int* sizeX, int* sizeY)
 	{
-		*x1ref = (int)x1;
-		*y1ref = (int)y1;
+		*x1ref = (int)(x1 + 17.5f) % 35;
+		*y1ref = (int)(y1 - 17.5f) % 35;
+		*y1ref *= -1;
 		*sizeX = (int)(xHalfSize * 2);
 		*sizeY = (int)(yHalfSize * 2);
 	}

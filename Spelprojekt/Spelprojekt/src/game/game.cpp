@@ -105,7 +105,8 @@ void Game::init(GLFWwindow* windowRef)
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
 	in->Init(viewMat, glm::vec3(0, 0, 15), glm::vec3(0, 0, 14), glm::vec3(0, 1, 0));
-	
+	cameraFollow = true;
+
 	// do not delete in this class
 	this->windowRef = windowRef;
 }
@@ -153,7 +154,8 @@ void Game::update(float deltaTime)
 	//..
 	map->update(deltaTime);
 
-	player->update(in, map, deltaTime);
+	if(cameraFollow)
+		player->update(in, map, deltaTime);
 
 	//Render const
 	engine->render(player, map, content);
@@ -174,6 +176,13 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->KeyDown('S') : in->KeyUp('S');
 	state = glfwGetKey(windowRef, GLFW_KEY_D);
 	state == GLFW_PRESS ? in->KeyDown('D') : in->KeyUp('D');
+	
+	//camera follow keys
+	state = glfwGetKey(windowRef, GLFW_KEY_C);
+	if (state == GLFW_PRESS) { cameraFollow = true; };
+	state = glfwGetKey(windowRef, GLFW_KEY_V);
+	if (state == GLFW_PRESS) { cameraFollow = false; };
+
 	//Special Keys
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_SHIFT);
 	state == GLFW_PRESS ? in->Shift(true) : in->Shift(false);
@@ -189,8 +198,8 @@ void Game::readInput(float deltaTime)
 	lastX = x;
 	lastY = y;
 	
-	if (cameraFollow == true)
+	if (cameraFollow == false)
 		in->Act(deltaTime);
 	else
-		in->followPlayer(player->readPos(), player->getDir());
+		in->followPlayer(player->readPos(), player->getDir(), deltaTime);
 }

@@ -236,33 +236,35 @@ bool UserInput::getKeyState(char c)
 	}
 }
 
-void UserInput::followPlayer(vec3 p, int dir)
+void UserInput::followPlayer(vec3 p, int dir, float deltaTime)
 {
 	vec3 oldPos = pos;
+	float speed1 = 10 * deltaTime;
+	float speed2 = 5 * deltaTime;
 
 	if (dir == 1) // moving to the right
 	{
-		if (pos.x < p.x + cameraSmoothing - 0.05)
-			pos.x += 0.0055; // only update x pos since we're viewing the player from the side.
+		if (pos.x < p.x + cameraSmoothing - speed1)
+			pos.x += speed2; // only update x pos since we're viewing the player from the side.
 		else
 			pos.x = p.x + (cameraSmoothing * dir);
 	}
 
 	else if (dir == -1) // moving to the left
 	{
-		if (pos.x > p.x - cameraSmoothing + 0.05)
-			pos.x -= 0.0055; // only update x pos since we're viewing the player from the side.
+		if (pos.x > p.x - cameraSmoothing + speed1)
+			pos.x -= speed2; // only update x pos since we're viewing the player from the side.
 		else
 			pos.x = p.x + (cameraSmoothing * dir);
 	}
 
 	else if (dir == 0) // standing still
 	{
-		if (pos.x < p.x - 0.05)
-			pos.x += 0.005;
+		if (pos.x < p.x - speed1)
+			pos.x += speed2;
 
-		else if (pos.x > p.x + 0.05)
-			pos.x -= 0.005;
+		else if (pos.x > p.x + speed1)
+			pos.x -= speed2;
 
 		else
 			pos.x = p.x;

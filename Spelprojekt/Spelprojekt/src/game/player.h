@@ -19,14 +19,12 @@ private:
 	// camera variables
 	int dir;
 
-
 	Rect* collideRect = 0;
 
 public:
 	Player(){};
-	~Player(){};
+	~Player();
 	void init();
-	int update(float deltaTime);
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	int getDir();
 

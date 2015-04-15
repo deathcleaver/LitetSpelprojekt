@@ -96,7 +96,12 @@ void MapChunk::init(int xIndex, int yIndex)
 		worldCollide[x] = new Rect*[35];
 		for (int y = 0; y < 35; y++)
 		{
-			if (y == 17)
+			if (y == 17 && x >= 15 && x <= 19)
+			{
+				worldCollide[x][y] = new Rect();
+				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+			}
+			else if (y == 16 && x >= 22 && x <= 24)
 			{
 				worldCollide[x][y] = new Rect();
 				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
@@ -111,26 +116,23 @@ void MapChunk::init(int xIndex, int yIndex)
 bool MapChunk::collide(Rect* test)
 {
 	test->readData(&x1, &y1, &sizeX, &sizeY);
-	x1 = (x1 + 17) % 35;
-	y1 = (y1 - 17) % 35;
-	y1 *= -1;
-	sizeX = sizeX + 1 + x1;
-	sizeY = sizeY + 1 + y1;
-	for (x1; x1 < sizeX; x1++)
+	sizeX = sizeX + x1 +1;
+	sizeY = sizeY + y1 +1;
+
+	for (int x = x1; x < sizeX; x++)
 	{
-		for (y1; y1 < sizeY; y1++)
+		for (int y = y1; y < sizeY; y++)
 		{
-			if (x1 < 35 && x1 > 0 && y1 > 0 && y1 < 35) //out of bounds check
+			if (x < 35 && x > 0 && y > 0 && y < 35) //out of bounds check
 			{
-				if (worldCollide[x1][y1] != NULL)
+				if (worldCollide[x][y] != NULL)
 				{
-					if (worldCollide[x1][y1]->intersects(test))
+					if (worldCollide[x][y]->intersects(test))
 						return true;
 				}
 			}
 		}
 	}
-
 	return false;
 }
 
