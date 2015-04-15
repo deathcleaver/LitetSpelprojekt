@@ -20,12 +20,12 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
 	string line;
 	string type = "Spikes";
-	glm::vec2 pos = glm::vec2(-1+xOffset*35,-1+yOffset*35);
+	glm::vec2 pos = glm::vec2(-3+xOffset*35, 0 - yOffset*35);
 
 	nrOfEnemies = 2;
 	enemies = new Enemy*[nrOfEnemies];
 	addEnemy(type, pos, 0);
-	pos = glm::vec2(2 + xOffset * 35, 4 + yOffset * 35);
+	pos = glm::vec2(2 + xOffset * 35, 4 - yOffset * 35);
 	type = "Bat";
 	addEnemy(type, pos, 1);
 	
@@ -46,9 +46,11 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 		iss >> sub;
 		type = sub; //Läs fiendetyp
 		iss >> sub;
-		pos.x = atoi(sub.c_str());
+		pos.x = atof(sub.c_str());
+		pos.x = pos.x + xOffset*35;
 		iss >> sub;
-		pos.y = atoi(sub.c_str());
+		pos.y = atof(sub.c_str());
+		pos.y = pos.y - yOffset*35;
 		addEnemy(type, pos, c);
 	}
 	*/
