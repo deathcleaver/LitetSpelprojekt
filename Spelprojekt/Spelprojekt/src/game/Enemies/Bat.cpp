@@ -3,21 +3,48 @@
 Bat::Bat(glm::vec2 firstPos)
 {
 	initPos = firstPos;
+	moveTo(firstPos.x, firstPos.y);
 	alive = true;
 	facingRight = true;
 	contentIndex = 1;
-	wingsUpIndex = 2;
 	health = 1;
-	interpolation = 0.0f;
+
+	movementScale = 0.0f;
 }
 
 void Bat::init()
 {
-	translate(initPos.x, initPos.y);
+	moveTo(initPos.x, initPos.y);
+	facingRight = true;
+	alive = true;
 }
 
 int Bat::update(float deltaTime)
 {
+	if (facingRight)
+	{
+		if (movementScale < 50.0f)
+		{
+			translate(3.0f*deltaTime, 0.0);
+			movementScale += 0.05f;
+		}
+		else
+		{
+			facingRight = false;
+		}
+	}
+	else
+	{
+		if (movementScale > -50.0f)
+		{
+			translate(-3.0f*deltaTime, 0.0);
+			movementScale -= 0.05f;
+		}
+		else
+		{
+			facingRight = true;
+		}
+	}
 	return 0;
 }
 
@@ -28,11 +55,4 @@ void Bat::hit(int damage)
 	{
 		alive = false;
 	}
-}
-
-void Bat::getContentIndices(int &state1, int &state2, float &interpol)
-{
-	state1 = contentIndex;
-	state2 = wingsUpIndex;
-	interpol = interpolation;
 }

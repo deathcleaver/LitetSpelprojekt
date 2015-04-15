@@ -96,3 +96,11 @@ int MapChunk::bindEnemy(int index, GLuint* shader, GLuint* uniform)
 {
 	return enemyMan->bindEnemy(index, shader, uniform);
 }
+
+int MapChunk::update(float deltaTime)
+{
+	int msg = 0;
+	if (enemyMan)
+		msg = enemyMan->update(deltaTime);
+	return 0;
+}

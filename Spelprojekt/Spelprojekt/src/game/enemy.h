@@ -18,7 +18,6 @@ public:
 	virtual void init() = 0;
 	virtual int update(float deltaTime) = 0;
 	virtual void hit(int damage) = 0;
-	virtual void getContentIndices(int &state1, int &state2, float &interpol) = 0;
 };
 
 #endif

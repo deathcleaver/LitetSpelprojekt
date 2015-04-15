@@ -71,8 +71,6 @@ Game::~Game()
 		delete content;
 	if (player)
 		delete player;
-	if (enemyManager)
-		delete enemyManager;
 	if (map)
 		delete map;
 	if (in)
@@ -106,11 +104,8 @@ void Game::init(GLFWwindow* windowRef)
 
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
-	in->Init(viewMat, glm::vec3(0, 0, 25), glm::vec3(0, 0, 24), glm::vec3(0, 1, 0));
+	in->Init(viewMat, glm::vec3(0, 0, 15), glm::vec3(0, 0, 14), glm::vec3(0, 1, 0));
 	
-	//temp
-	enemyManager = new EnemyManager();
-
 	// do not delete in this class
 	this->windowRef = windowRef;
 }
@@ -157,9 +152,9 @@ void Game::update(float deltaTime)
 	//..
 	//..
 	player->update(in, deltaTime);
-
+	map->update(deltaTime);
 	//Render const
-	engine->render(player, enemyManager, map, content);
+	engine->render(player, map, content);
 }
 
 void Game::readInput(float deltaTime)

@@ -19,7 +19,6 @@ private:
 	Engine* engine = 0;
 	ContentManager* content = 0;
 	Player* player = 0;
-	EnemyManager* enemyManager = 0;
 	Map* map = 0;
 	UserInput* in = 0;
 	double lastX = 0.0f;

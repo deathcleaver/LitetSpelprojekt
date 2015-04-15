@@ -30,6 +30,8 @@ public:
 
 	int countEnemies();
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
+
+	int update(float deltaTime);
 };
 
 #endif

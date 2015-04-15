@@ -46,3 +46,16 @@ int Map::readSizeY() const
 {
 	return height;
 }
+
+int Map::update(float deltaTime)
+{
+	int msg = 0;
+	for (int x = 0; x < width; x++)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			msg = chunks[x][y].update(deltaTime);
+		}
+	}
+	return 0;
+}

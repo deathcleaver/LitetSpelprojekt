@@ -17,6 +17,8 @@ public:
 	int readSizeX() const;
 	int readSizeY() const;
 	MapChunk** getChunks() const;
+
+	int update(float deltaTime);
 };
 
 #endif

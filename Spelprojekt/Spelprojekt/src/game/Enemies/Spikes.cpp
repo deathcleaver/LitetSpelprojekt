@@ -23,9 +23,3 @@ int Spikes::update(float deltaTime)
 void Spikes::hit(int damage)
 {
 }
-
-void Spikes::getContentIndices(int &state1, int &state2, float &interpol)
-{
-	state1 = state2 = contentIndex;
-	interpol = 0.0f;
-}

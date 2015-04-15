@@ -33,8 +33,7 @@ void Engine::init(glm::mat4* viewMat)
 	uniformVP = glGetUniformLocation(tempshader, "VP");
 }
 
-void Engine::render(const Player* player, const EnemyManager* enemyManager,
-	const Map* map, const ContentManager* content)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int facecount = 0;

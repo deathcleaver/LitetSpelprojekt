@@ -53,10 +53,11 @@ void ContentManager::loadMonsterObjs()
 	if (monsterObjs)
 		throw;
 
-	monsterObjCount = 1;
+	monsterObjCount = 2;
 	monsterObjs = new Object*[monsterObjCount]();
 
 	monsterObjs[0] = new Object("src/meshes/m 1x1.v", "src/textures/black.bmp");
+	monsterObjs[1] = new Object("src/meshes/m 1x1.v", "src/textures/Red.bmp");
 }
 
 int ContentManager::bindPlayer() const

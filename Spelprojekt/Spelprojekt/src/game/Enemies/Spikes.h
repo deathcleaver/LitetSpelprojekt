@@ -11,7 +11,6 @@ public:
 	void init();
 	int update(float deltaTime);
 	void hit(int damage);
-	void getContentIndices(int &state1, int &state2, float &interpol);
 };
 
 #endif
