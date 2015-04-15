@@ -21,25 +21,26 @@ void Bat::init()
 
 int Bat::update(float deltaTime)
 {
+	float sinMod = sin(movementScale*0.8);
 	if (facingRight)
 	{
-		if (movementScale < -50.0f)
+		if (movementScale < -5.0f)
 		{
-			float yset = sin(movementScale / 5)*deltaTime*1.8;
+			float yset = sin(sinMod)*deltaTime*2.0;
 			translate(1.5f*deltaTime, yset);
-			movementScale += 0.05f;
+			movementScale += 5.0f * deltaTime;
 		}
-		else if (movementScale < 50.0f)
+		else if (movementScale < 5.0f)
 		{
-			float yset = sin(movementScale / 5)*deltaTime*1.8;
+			float yset = sin(sinMod)*deltaTime*2.0;
 			translate(3.0f*deltaTime, yset);
-			movementScale += 0.05f;
+			movementScale += 5.0f * deltaTime;
 		}
-		else if (movementScale < 60.0f)
+		else if (movementScale < 6.0f)
 		{
-			float yset = sin(movementScale / 10)*deltaTime*1.8;
+			float yset = sin(sinMod)*deltaTime*2.0;
 			translate(1.5f*deltaTime, yset);
-			movementScale += 0.05f;
+			movementScale += 5.0f * deltaTime;
 		}
 		else
 		{
@@ -48,23 +49,23 @@ int Bat::update(float deltaTime)
 	}
 	else
 	{
-		if (movementScale > 50.0f)
+		if (movementScale > 5.0f)
 		{
-			float yset = sin(movementScale / 10)*deltaTime*1.8;
+			float yset = sin(sinMod)*deltaTime*2.0;
 			translate(-1.5f*deltaTime, -yset);
-			movementScale -= 0.05f;
+			movementScale -= 5.0f * deltaTime;
 		}
-		else if (movementScale > -50.0f)
+		else if (movementScale > -5.0f)
 		{
-			float yset = sin(movementScale/5)*deltaTime*1.8;
+			float yset = sin(sinMod)*deltaTime*2.0;
 			translate(-3.0f*deltaTime, -yset);
-			movementScale -= 0.05f;
+			movementScale -= 5.0f * deltaTime;
 		}
-		else if (movementScale > -60.0f)
+		else if (movementScale > -6.0f)
 		{
-			float yset = sin(movementScale / 5)*deltaTime*1.8;
+			float yset = sin(sinMod)*deltaTime*2.0;
 			translate(-1.5f*deltaTime, -yset);
-			movementScale -= 0.05f;
+			movementScale -= 5.0f * deltaTime;
 		}
 		else
 		{

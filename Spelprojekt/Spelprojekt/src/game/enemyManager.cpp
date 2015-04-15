@@ -19,17 +19,8 @@ EnemyManager::~EnemyManager()
 void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
 	string line;
-	string type; // = "Spikes";
-	glm::vec2 pos; // = glm::vec2(-3 + xOffset * 35, 0 - yOffset * 35);
-
-	/*
-	nrOfEnemies = 2;
-	enemies = new Enemy*[nrOfEnemies];
-	addEnemy(type, pos, 0);
-	pos = glm::vec2(2 + xOffset * 35, 4 - yOffset * 35);
-	type = "Bat";
-	addEnemy(type, pos, 1);
-	*/
+	string type; //To store type
+	glm::vec2 pos; //To store pos
 
 	//Find all enemies, create them, and load them
 	

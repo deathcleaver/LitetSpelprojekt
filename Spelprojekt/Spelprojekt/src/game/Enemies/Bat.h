@@ -7,6 +7,7 @@ class Bat : public Enemy
 {
 private:
 	float movementScale;
+	float speed;
 public:
 	Bat(glm::vec2 firstPos);
 	void init();
