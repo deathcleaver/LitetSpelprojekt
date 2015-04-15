@@ -23,9 +23,22 @@ int Bat::update(float deltaTime)
 {
 	if (facingRight)
 	{
-		if (movementScale < 50.0f)
+		if (movementScale < -50.0f)
 		{
-			translate(3.0f*deltaTime, 0.0);
+			float yset = sin(movementScale / 5)*deltaTime*1.8;
+			translate(1.5f*deltaTime, yset);
+			movementScale += 0.05f;
+		}
+		else if (movementScale < 50.0f)
+		{
+			float yset = sin(movementScale / 5)*deltaTime*1.8;
+			translate(3.0f*deltaTime, yset);
+			movementScale += 0.05f;
+		}
+		else if (movementScale < 60.0f)
+		{
+			float yset = sin(movementScale / 10)*deltaTime*1.8;
+			translate(1.5f*deltaTime, yset);
 			movementScale += 0.05f;
 		}
 		else
@@ -35,9 +48,22 @@ int Bat::update(float deltaTime)
 	}
 	else
 	{
-		if (movementScale > -50.0f)
+		if (movementScale > 50.0f)
 		{
-			translate(-3.0f*deltaTime, 0.0);
+			float yset = sin(movementScale / 10)*deltaTime*1.8;
+			translate(-1.5f*deltaTime, -yset);
+			movementScale -= 0.05f;
+		}
+		else if (movementScale > -50.0f)
+		{
+			float yset = sin(movementScale/5)*deltaTime*1.8;
+			translate(-3.0f*deltaTime, -yset);
+			movementScale -= 0.05f;
+		}
+		else if (movementScale > -60.0f)
+		{
+			float yset = sin(movementScale / 5)*deltaTime*1.8;
+			translate(-1.5f*deltaTime, -yset);
 			movementScale -= 0.05f;
 		}
 		else
