@@ -12,8 +12,10 @@
 class Player : public GameObject
 {
 private:
-	int dir;
 	float timepass = 0.0f;
+	// camera variables
+	int dir;
+
 public:
 	Player(){};
 	~Player(){};
