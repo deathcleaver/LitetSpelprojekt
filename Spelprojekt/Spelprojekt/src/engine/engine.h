@@ -15,6 +15,8 @@
 
 #include "../Align16.h"
 
+#include "GBuffer.h"
+
 class Engine : public Align_16
 {
 private:
@@ -24,11 +26,11 @@ private:
 	GLuint uniformVP;
 	glm::mat4* viewMatrix;
 	glm::mat4 projMatrix;
-	void Engine::CompileErrorPrint(GLuint* shader);
-	void Engine::LinkErrorPrint(GLuint* shaderProgram);
 	int cameraSwap = 0;
 	int cameraSwapCounter = 0;
 	// </temp>
+
+	Gbuffer gBuffer;
 
 public:
 	Engine(){};
