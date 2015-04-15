@@ -31,12 +31,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//WASD
 	if (userInput->getKeyState('A'))
 	{
-		moveTo(tempPos.x -= 0.110, 0, 0);
+		moveTo(tempPos.x -= 0.010, 0, 0);
 		dir = -1;
 	}
 	else if (userInput->getKeyState('D'))
 	{
-		moveTo(tempPos.x += 0.110, 0, 0);
+		moveTo(tempPos.x += 0.010, 0, 0);
 		dir = 1;
 	}
 	else
