@@ -6,8 +6,11 @@
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
 
-#include "../UserInput.h"
 #include "gameObject.h"
+#include "rect.h"
+#include "map.h"
+#include "mapChunk.h"
+#include "../UserInput.h"
 
 class Player : public GameObject
 {
@@ -16,13 +19,19 @@ private:
 	// camera variables
 	int dir;
 
+
+	Rect* collideRect = 0;
+	Rect* testRect = 0;
+	glm::mat4 testMat;
+
 public:
 	Player(){};
 	~Player(){};
 	void init();
 	int update(float deltaTime);
-	int update(UserInput* userInput, float deltaTime);
+	int update(UserInput* userInput, Map* map, float deltaTime);
 	int getDir();
+
 };
 
 #endif

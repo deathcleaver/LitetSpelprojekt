@@ -10,7 +10,7 @@
 
 class GameObject : public Align_16
 {
-private:
+protected: //private 
 	glm::mat4 worldMat = { 1, 0, 0, 0,
 						   0, 1, 0, 0,
 						   0, 0, 1, 0,

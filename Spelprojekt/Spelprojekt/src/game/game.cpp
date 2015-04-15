@@ -151,8 +151,10 @@ void Game::update(float deltaTime)
 	//Game code
 	//..
 	//..
-	player->update(in, deltaTime);
 	map->update(deltaTime);
+
+	player->update(in, map, deltaTime);
+
 	//Render const
 	engine->render(player, map, content);
 }
