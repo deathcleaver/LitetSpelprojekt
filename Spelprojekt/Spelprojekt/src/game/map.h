@@ -19,6 +19,8 @@ public:
 	MapChunk** getChunks() const;
 
 	int update(float deltaTime);
+	//data ref x = -1, y -1 = outofbounds
+	void getChunkIndex(glm::vec2 pos, int* idX, int* idY);
 };
 
 #endif
