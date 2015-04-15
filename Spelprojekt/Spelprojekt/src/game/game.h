@@ -24,7 +24,7 @@ private:
 	UserInput* in = 0;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
-
+	bool cameraFollow = false;
 	mat4* viewMat = 0;
 
 	GLFWwindow* windowRef;

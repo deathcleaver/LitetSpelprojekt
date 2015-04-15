@@ -12,6 +12,7 @@
 class Player : public GameObject
 {
 private:
+	int dir;
 	float timepass = 0.0f;
 public:
 	Player(){};
@@ -19,6 +20,7 @@ public:
 	void init();
 	int update(float deltaTime);
 	int update(UserInput* userInput, float deltaTime);
+	int getDir();
 };
 
 #endif
