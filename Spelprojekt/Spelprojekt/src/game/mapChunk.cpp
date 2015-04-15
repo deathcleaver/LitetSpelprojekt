@@ -24,11 +24,14 @@ MapChunk::~MapChunk()
 void MapChunk::init(int xIndex, int yIndex)
 {
 	//Build chunk filename
-	std::stringstream iss;
-	//iss << ""
+	std::stringstream ss;
+	ss << "../Spelprojekt/src/map/" <<
+		xIndex << "_" << yIndex << ".chunk";
+	string fileName = ss.str();
 
 	ifstream in;
-	//in.open("xIndex_yIndex");
+	in.open(fileName);
+	
 	enemyMan = new EnemyManager();
 	xOffset = xIndex;
 	yOffset = yIndex;
@@ -36,9 +39,11 @@ void MapChunk::init(int xIndex, int yIndex)
 
 	//TODO:: load objects from file
 	
+	
 	chunkBackground = new GameObject();
 	chunkBackground->init(0);
 	chunkBackground->moveTo(xOffset * 35, yOffset * -35);
+	/*
 	countWorldObjs = 1;
 	worldObjs = new GameObject[countWorldObjs];
 
@@ -46,6 +51,44 @@ void MapChunk::init(int xIndex, int yIndex)
 	worldObjs[0].scaleFactor(5, 1, 2); // 5x1x2 size
 	worldObjs[0].moveTo(xOffset * 35, yOffset * -35); //align to grid
 	worldObjs[0].translate(0, 0, 0.5);
+	*/
+	glm::vec3 pos;
+	glm::vec3 scale;
+	string type;
+
+	string line;
+	getline(in, line);
+	istringstream iss(line);
+	string sub;
+	iss >> sub;
+	countWorldObjs = atoi(sub.c_str());
+	worldObjs = new GameObject[countWorldObjs];
+	for (int c = 0; c < countWorldObjs; c++)
+	{
+		if (!(getline(in, line))) break;
+		iss = istringstream(line);
+		iss >> sub;
+		type = sub; //Läs objekttyp
+		iss >> sub;
+		pos.x = atof(sub.c_str());
+		iss >> sub;
+		pos.y = atof(sub.c_str());
+		iss >> sub;
+		pos.z = atof(sub.c_str());
+		iss >> sub;
+		scale.x = atof(sub.c_str());
+		iss >> sub;
+		scale.y = atof(sub.c_str());
+		iss >> sub;
+		scale.z = atof(sub.c_str());
+		if (type == "Box")
+		{
+			worldObjs[c].init(1); //1 = box
+			worldObjs[c].moveTo(xOffset * 35, yOffset * -35);
+			worldObjs[c].translate(pos.x, pos.y, pos.z);
+			worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
+		}
+	}
 
 	worldCollide = new Rect**[35];
 	for (int x = 0; x < 35; x++)
@@ -62,7 +105,7 @@ void MapChunk::init(int xIndex, int yIndex)
 				worldCollide[x][y] = 0;
 		}
 	}
-	//in.close();
+	in.close();
 }
 
 bool MapChunk::collide(Rect* test)
