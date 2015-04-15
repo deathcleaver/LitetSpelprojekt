@@ -31,12 +31,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//WASD
 	if (userInput->getKeyState('A'))
 	{
-		moveTo(tempPos.x -= 0.005, 0, 0);
+		moveTo(tempPos.x -= 0.110, 0, 0);
 		dir = -1;
 	}
 	else if (userInput->getKeyState('D'))
 	{
-		moveTo(tempPos.x += 0.005, 0, 0);
+		moveTo(tempPos.x += 0.110, 0, 0);
 		dir = 1;
 	}
 	else
@@ -48,20 +48,19 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	int idX = 0, idY = 0;
 
 	map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
-
-	if (idX != -1 || idY != -1)
+	if (idX != -1 && idY != -1)
 	{
+		
 		if (map->getChunks()[idX][idY].collide(collideRect)) //collideRect->intersects()
 		{
-		//	printf("collision in chunk: %i.%i. Pos %f,%f\n", &idX, &idY, readPos().x, readPos().y);
+			printf("collision in chunk: %i.%i. Pos %f,%f\n", idX, idY, readPos().x, readPos().y);
 		}
-		//else
-			//printf("no collision%f,%f\n", readPos().x, readPos().y);
-
+		else
+			printf("no collision%f,%f\n", readPos().x, readPos().y);
 	}
 	else
 	{
-	
+		printf("out of map%f,%f\n", readPos().x, readPos().y);
 	}
 	return 0;
 }

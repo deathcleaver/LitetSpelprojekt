@@ -70,13 +70,14 @@ bool MapChunk::collide(Rect* test)
 	test->readData(&x1, &y1, &sizeX, &sizeY);
 	x1 = (x1 + 17) % 35;
 	y1 = (y1 - 17) % 35;
-	sizeX++;
-	sizeY++;
-	for (; x1 < sizeX; x1++)
+	y1 *= -1;
+	sizeX = sizeX + 1 + x1;
+	sizeY = sizeY + 1 + y1;
+	for (x1; x1 < sizeX; x1++)
 	{
-		for (; y1 < sizeY; y1++)
+		for (y1; y1 < sizeY; y1++)
 		{
-			if (x1 < 35 && y1 < 35) //out of bounds check
+			if (x1 < 35 && x1 > 0 && y1 > 0 && y1 < 35) //out of bounds check
 			{
 				if (worldCollide[x1][y1] != NULL)
 				{

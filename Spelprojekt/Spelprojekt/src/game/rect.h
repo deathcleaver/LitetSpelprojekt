@@ -39,6 +39,7 @@ public:
 	}
 	void initMapRect(float ChunkOffsetX,float ChunkOffsetY, int x, int y, int type)
 	{
+		this->type = type;
 		float midX = (ChunkOffsetX * 35) - 17 + x;
 		float midY = -(ChunkOffsetY * 35) + 17 - y;
 		x1 = midX - 0.5;
@@ -52,7 +53,7 @@ public:
 			return false; //ouside top
 		if(x2 < test->x1) 
 			return false; //outside left
-		if(x1 > test->x2);
+		if(x1 > test->x2)
 			return false; //outside right
 		if(y1 < test->y2)
 			return false; //outside botom
