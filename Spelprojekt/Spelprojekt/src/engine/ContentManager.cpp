@@ -31,7 +31,7 @@ void ContentManager::loadPlayer()
 	if (player) //only call once
 		throw;
 
-	player = new Object("src/meshes/testBoat.v", "src/textures/boat.bmp");
+	player = new Object("src/meshes/PlayerBase.v", "src/textures/red.bmp");
 }
 
 void ContentManager::loadMapObjs()
