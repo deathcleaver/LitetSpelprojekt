@@ -46,3 +46,13 @@ int Map::readSizeY() const
 {
 	return height;
 }
+
+void Map::getChunkIndex(glm::vec2 pos, int* idX, int* idY)
+{
+	*idX = int(pos.x + 17.5f) / 35;
+	*idY = int(pos.y - 17.5f) / -35;
+	if (*idX < 0 || *idY > (width - 1))
+		*idX = -1;
+	if (*idY < 0 || *idY > (height - 1))
+		*idY = -1;
+}
