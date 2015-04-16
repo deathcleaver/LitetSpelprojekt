@@ -288,7 +288,7 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 		}
 	}
 
-	printf("posx: %f: px: %f: coff: %f\n", pos.x, p.x, currOffset);
+	//printf("posx: %f: px: %f: coff: %f\n", pos.x, p.x, currOffset);
 
 	// update camera pos y (no smoothing)
 	pos.y = p.y;
