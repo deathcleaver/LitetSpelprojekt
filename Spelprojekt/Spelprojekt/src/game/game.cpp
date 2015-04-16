@@ -167,13 +167,15 @@ void Game::update(float deltaTime)
 
 			}	
 			//state code
+
 			if (cameraFollow)
 			{
 				player->update(in, map, deltaTime);
 				in->followPlayer(player->readPos(), player->getDir(), deltaTime);
 			}
-			
+			map->setUpDraw(*in->GetPos());
 			map->update(deltaTime);
+
 			//leave State code
 			//if()
 
