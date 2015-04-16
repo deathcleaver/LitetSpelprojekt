@@ -12,7 +12,7 @@ MapChunk::~MapChunk()
 		{
 			for (int y = 0; y < 35; y++)
 			{	
-				if (worldCollide[x][y] != NULL)
+				if (worldCollide[x][y] != 0)
 					delete worldCollide[x][y];
 			}
 			delete[] worldCollide[x];
@@ -91,11 +91,28 @@ void MapChunk::init(int xIndex, int yIndex)
 	}
 
 	worldCollide = new Rect**[35];
-	for (int x = 0; x < 35; x++)
+	for (int c = 0; c < 35; c++)
 	{
-		worldCollide[x] = new Rect*[35];
-		for (int y = 0; y < 35; y++)
+		worldCollide[c] = new Rect*[35];
+	}
+	
+	for (int y = 0; y < 35; y++)
+	{
+		if (!(getline(in, line))) break;
+		
+		for (int x = 0; x < 35; x++)
 		{
+			char lineAt = line.at(x);
+			if (lineAt == 'X')
+			{
+				worldCollide[x][y] = new Rect();
+				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+			}
+			else
+			{
+				worldCollide[x][y] = 0;
+			}
+			/*
 			if (y == 17 && x >= 15 && x <= 19)
 			{
 				worldCollide[x][y] = new Rect();
@@ -108,6 +125,7 @@ void MapChunk::init(int xIndex, int yIndex)
 			}
 			else
 				worldCollide[x][y] = 0;
+			*/
 		}
 	}
 	in.close();
