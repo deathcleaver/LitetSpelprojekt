@@ -265,7 +265,6 @@ void UserInput::followPlayer(vec3 p, int dir, float deltaTime)
 
 		else if (pos.x > p.x + speed1)
 			pos.x -= speed2;
-
 		else
 			pos.x = p.x;
 	}

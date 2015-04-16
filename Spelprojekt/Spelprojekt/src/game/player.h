@@ -15,9 +15,8 @@
 class Player : public GameObject
 {
 private:
-	float timepass = 0.0f;
-	// camera variables
 	int dir;
+	float timepass = 0.0f;
 
 	Rect* collideRect = 0;
 
@@ -25,9 +24,9 @@ public:
 	Player(){};
 	~Player();
 	void init();
+
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	int getDir();
-
 };
 
 #endif
