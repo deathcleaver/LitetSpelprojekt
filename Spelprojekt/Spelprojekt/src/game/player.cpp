@@ -112,7 +112,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		result = false;
 	}
 
-	result = map->collideMap(collideRect, readPos());
+	result = map->collideEnemies(collideRect, readPos());
 	if (result)
 	{
 		

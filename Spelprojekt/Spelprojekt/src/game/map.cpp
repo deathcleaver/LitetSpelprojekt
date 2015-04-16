@@ -216,3 +216,16 @@ bool Map::collideMap(Rect* test, glm::vec3 pos)
 	}
 	return result;
 }
+
+
+bool Map::collideEnemies(Rect* test, glm::vec3 pos)
+{
+	int idX, idY;
+	bool result = false;
+	getChunkIndex(pos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		result = chunks[idX][idY].playerVsEnemies(test);
+	}
+	return result;
+}
