@@ -12,6 +12,14 @@ ContentManager::~ContentManager()
 		}
 		delete[] mapObjs;
 	}
+	if (monsterObjs)
+	{
+		for (int c = 0; c < monsterObjCount; c++)
+		{
+			delete monsterObjs[c];
+		}
+		delete[]monsterObjs;
+	}
 }
 
 void ContentManager::init()
