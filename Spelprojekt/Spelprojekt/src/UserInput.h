@@ -17,6 +17,7 @@ private:
 	float angleV = 0;
 	vec3 up = { 0, 0, 0 };
 	float cameraOffset = 5.f;
+	float currOffset;
 
 	mat3 rotH;
 	mat3 rotV;

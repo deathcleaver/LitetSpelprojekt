@@ -1,7 +1,5 @@
 #include "player.h"
 
-#include <stdio.h>
-
 
 void Player::init()
 {
@@ -122,6 +120,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	map->getChunkIndex(readPos(), &idX, &idY);
 	if (idX != -1 && idY != -1)
 		result = map->getChunks()[idX][idY].playerVsEnemies(collideRect);
@@ -157,6 +156,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 >>>>>>> Camera offset now works
 	printf("Speed: %fx,%fy\n", speed.x, speed.y);
 
+=======
+>>>>>>> Camera almost done
 	return 0;
 }
 
