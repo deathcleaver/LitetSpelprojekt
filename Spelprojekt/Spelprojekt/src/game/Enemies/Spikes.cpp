@@ -9,11 +9,17 @@ Spikes::Spikes(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 0;
 	health = 0;
+	collideRect = new Rect();
+	collideRect->initGameObjectRect(&worldMat, 1, 1);
 }
 
 void Spikes::init()
 {
-	translate(initPos.x, initPos.y);
+	moveTo(initPos.x, initPos.y);
+	facingRight = true;
+	alive = true;
+
+	collideRect->update();
 }
 
 int Spikes::update(float deltaTime, MapChunk* chunk)

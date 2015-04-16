@@ -61,11 +61,12 @@ void ContentManager::loadMonsterObjs()
 	if (monsterObjs)
 		throw;
 
-	monsterObjCount = 2;
+	monsterObjCount = 3;
 	monsterObjs = new Object*[monsterObjCount]();
 
 	monsterObjs[0] = new Object("src/meshes/BaseCube.v", "src/textures/grid.bmp");
 	monsterObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/Red.bmp");
+	monsterObjs[2] = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
 }
 
 int ContentManager::bindPlayer() const

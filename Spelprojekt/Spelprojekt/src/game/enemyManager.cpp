@@ -1,6 +1,7 @@
 #include "enemyManager.h"
 #include "Enemies/Spikes.h"
 #include "Enemies/Bat.h"
+#include "Enemies/Flame.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -76,7 +77,7 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
 	}
 	if (type == "Flame")
 	{
-		//enemies[c] = new Flame(pos);
+		enemies[c] = new Flame(pos);
 	}
 }
 

@@ -1,6 +1,6 @@
 4 Antal fiender #  type posX posY
 Spikes -5.0 -3.0
-Bat 2.0 4.0
+Flame -3.0 1.0
 Bat 4.0 -5.0
 Bat -5.5 0.3
 4 Antal Map Objects # type posX posY posZ sizeX sizeY sizeZ

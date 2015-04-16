@@ -81,6 +81,9 @@
     <ClCompile Include="src\game\enemy.cpp">
       <Filter>Source Files\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Enemies\Flame.cpp">
+      <Filter>Source Files\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\UserInput.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="src\engine\GBuffer.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Flame.h">
+      <Filter>Header Files\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

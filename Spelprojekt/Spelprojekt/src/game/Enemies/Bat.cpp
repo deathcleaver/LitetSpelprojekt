@@ -9,6 +9,7 @@ Bat::Bat(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 1;
 	health = 1;
+	speed = 3.0f;
 
 	movementScale = 0.0f;
 	collideRect = new Rect();
@@ -32,10 +33,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		if (movementScale < -5.0f)
 		{
 			float yset = sinMod*deltaTime*2.0f;
-			translate(1.5f*deltaTime, yset*0.5f);
+			translate(speed*0.5f*deltaTime, yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
-				translate(-1.5f*deltaTime, -yset*0.5f);
+				translate(-speed*0.5f*deltaTime, -yset*0.5f);
 				facingRight = false;
 			}
 			else
@@ -44,10 +45,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		else if (movementScale < 5.0f)
 		{
 			float yset = sinMod*deltaTime*2.0f;
-			translate(3.0f*deltaTime, yset);
+			translate(speed*deltaTime, yset);
 			if (collidesWithWorld(chunk))
 			{
-				translate(-3.0f*deltaTime, -yset);
+				translate(-speed*deltaTime, -yset);
 				facingRight = false;
 			}
 			else
@@ -56,10 +57,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		else if (movementScale < 6.0f)
 		{
 			float yset = sinMod*deltaTime*2.0f;
-			translate(1.5f*deltaTime, yset*0.5f);
+			translate(speed*0.5f*deltaTime, yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
-				translate(-1.5f*deltaTime, -yset*0.5f);
+				translate(-speed*0.5f*deltaTime, -yset*0.5f);
 				facingRight = false;
 			}
 			else
@@ -75,10 +76,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		if (movementScale > 5.0f)
 		{
 			float yset = sinMod*deltaTime*2.0f;
-			translate(-1.5f*deltaTime, -yset*0.5f);
+			translate(-speed*0.5f*deltaTime, -yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
-				translate(1.5f*deltaTime, yset*0.5f);
+				translate(speed*0.5f*deltaTime, yset*0.5f);
 				facingRight = true;
 			}
 			else
@@ -87,10 +88,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		else if (movementScale > -5.0f)
 		{
 			float yset = sinMod*deltaTime*2.0f;
-			translate(-3.0f*deltaTime, -yset);
+			translate(-speed*deltaTime, -yset);
 			if (collidesWithWorld(chunk))
 			{
-				translate(3.0f*deltaTime, yset);
+				translate(speed*0.5f*deltaTime, yset);
 				facingRight = true;
 			}
 			else
@@ -99,10 +100,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		else if (movementScale > -6.0f)
 		{
 			float yset = sinMod*deltaTime*2.0f;
-			translate(-1.5f*deltaTime, -yset*0.5f);
+			translate(-speed*0.5f*deltaTime, -yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
-				translate(1.5f*deltaTime, yset*0.5f);
+				translate(speed*0.5f*deltaTime, yset*0.5f);
 				facingRight = true;
 			}
 			else
