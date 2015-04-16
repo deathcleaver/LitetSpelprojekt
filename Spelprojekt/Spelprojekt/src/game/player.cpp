@@ -6,7 +6,7 @@ void Player::init()
 	HP = 3;
 	moveTo(0, 2);
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1, 2);
+	collideRect->initGameObjectRect(&worldMat, 0.9, 1.9);
 
 	speed = vec2(0);
 	maxSpeed = vec2(15, 30);

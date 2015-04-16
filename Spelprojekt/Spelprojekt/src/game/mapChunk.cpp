@@ -12,7 +12,7 @@ MapChunk::~MapChunk()
 		{
 			for (int y = 0; y < 35; y++)
 			{	
-				if (worldCollide[x][y] != 0)
+				if (worldCollide[x][y] != NULL)
 					delete worldCollide[x][y];
 			}
 			delete[] worldCollide[x];
