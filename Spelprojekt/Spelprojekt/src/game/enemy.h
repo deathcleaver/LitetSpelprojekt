@@ -21,6 +21,7 @@ protected:
 public:
 	Rect* getRekt();
 	virtual void init() = 0;
+	virtual ~Enemy();
 	virtual int update(float deltaTime, MapChunk* chunk) = 0;
 	virtual void hit(int damage) = 0;
 	bool isAlive();

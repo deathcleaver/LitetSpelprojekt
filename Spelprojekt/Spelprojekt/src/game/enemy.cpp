@@ -9,3 +9,8 @@ bool Enemy::isAlive()
 {
 	return alive;
 }
+
+Enemy::~Enemy()
+{
+	delete collideRect;
+}
