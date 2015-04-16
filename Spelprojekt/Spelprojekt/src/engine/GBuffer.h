@@ -24,6 +24,8 @@ private:
 
 	RenderTarget* rTexture;
 
+	GLuint* pos;
+
 };
 
 #endif

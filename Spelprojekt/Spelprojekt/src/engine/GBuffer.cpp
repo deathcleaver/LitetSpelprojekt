@@ -45,6 +45,21 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
+	if (!shaderPtr)
+	{
+		throw;
+	}
+
+	pos = new GLuint[nrTextures];
+
+	if (depth)
+	{
+		pos[0] = 0;
+	}
+	pos[1] = glGetUniformLocation(*shaderPtr, "diffuse");
+	pos[2] = glGetUniformLocation(*shaderPtr, "normal");
+	pos[3] = glGetUniformLocation(*shaderPtr, "world");
+
 }
 
 Gbuffer::~Gbuffer()
@@ -76,14 +91,14 @@ void Gbuffer::render()
 	glBindVertexArray(renderVao);
 
 	// bind textures
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, rTexture[3].getTargetId());
-	GLuint pos = glGetUniformLocation(*shaderPtr, "textureSampler");
-	glProgramUniform1i(*shaderPtr, pos, 0);
-
-
+	for (size_t i = 1; i < nrTextures; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
+		glProgramUniform1i(*shaderPtr, pos[i], i);
+	}
+	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
 
 }
 

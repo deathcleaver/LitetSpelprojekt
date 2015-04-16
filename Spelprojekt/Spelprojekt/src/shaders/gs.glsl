@@ -11,6 +11,7 @@ uniform mat4 P;
 
 layout(location = 0) out vec2 UVCord;
 layout(location = 1) out vec3 normal;
+layout(location = 2) out vec3 worldPos;
 
 void main()
 {
@@ -23,7 +24,7 @@ void main()
     {
         gl_Position =  P * V * (gl_in[i].gl_Position * modelMatrix);
         UVCord = UV[i];
-        
+        worldPos = (gl_in[i].gl_Position * modelMatrix).xyz;
         EmitVertex();
     }
     EndPrimitive();

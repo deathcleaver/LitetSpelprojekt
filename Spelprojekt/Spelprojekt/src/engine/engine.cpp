@@ -10,10 +10,6 @@ Engine::~Engine()
 void Engine::init(glm::mat4* viewMat)
 {
 	// init static variable
-	//RenderTarget::renderQuad = 0;
-	//RenderTarget::renderVao = 0;
-
-	gBuffer.init(1080, 720, 4, true);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -45,6 +41,9 @@ void Engine::init(glm::mat4* viewMat)
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
 	uniformView = glGetUniformLocation(tempshader, "V");
+
+	gBuffer.init(1080, 720, 4, true);
+
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content)
