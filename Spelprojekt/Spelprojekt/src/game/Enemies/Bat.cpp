@@ -28,11 +28,11 @@ void Bat::init()
 int Bat::update(float deltaTime, MapChunk* chunk)
 {
 	float sinMod = 0.0f;// sin(movementScale*0.8);
+	float yset = sinMod*deltaTime*2.0f;
 	if (facingRight)
 	{
 		if (movementScale < -5.0f)
 		{
-			float yset = sinMod*deltaTime*2.0f;
 			translate(speed*0.5f*deltaTime, yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
@@ -44,7 +44,6 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		}
 		else if (movementScale < 5.0f)
 		{
-			float yset = sinMod*deltaTime*2.0f;
 			translate(speed*deltaTime, yset);
 			if (collidesWithWorld(chunk))
 			{
@@ -56,7 +55,6 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		}
 		else if (movementScale < 6.0f)
 		{
-			float yset = sinMod*deltaTime*2.0f;
 			translate(speed*0.5f*deltaTime, yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
@@ -75,7 +73,6 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 	{
 		if (movementScale > 5.0f)
 		{
-			float yset = sinMod*deltaTime*2.0f;
 			translate(-speed*0.5f*deltaTime, -yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{
@@ -87,11 +84,10 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		}
 		else if (movementScale > -5.0f)
 		{
-			float yset = sinMod*deltaTime*2.0f;
 			translate(-speed*deltaTime, -yset);
 			if (collidesWithWorld(chunk))
 			{
-				translate(speed*0.5f*deltaTime, yset);
+				translate(speed*deltaTime, yset);
 				facingRight = true;
 			}
 			else
@@ -99,7 +95,6 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		}
 		else if (movementScale > -6.0f)
 		{
-			float yset = sinMod*deltaTime*2.0f;
 			translate(-speed*0.5f*deltaTime, -yset*0.5f);
 			if (collidesWithWorld(chunk))
 			{

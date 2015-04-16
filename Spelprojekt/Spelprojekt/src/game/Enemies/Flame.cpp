@@ -12,7 +12,7 @@ Flame::Flame(glm::vec2 firstPos)
 	speed = 1.0f;
 
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
+	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
 }
 
 void Flame::init()
@@ -47,15 +47,15 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 	}
 	else
 	{
-		translate(0.0f, -1.0f);
+		translate(-1.0f, -1.0f);
 		if (!collidesWithWorld(chunk))
 		{
 			facingRight = true;
-			translate(0.0f, 1.0f);
+			translate(1.0f, 1.0f);
 		}
 		else
 		{
-			translate(0.0f, 1.0f);
+			translate(1.0f, 1.0f);
 			translate(-speed*deltaTime, 0.0f);
 			if (collidesWithWorld(chunk))
 			{
@@ -69,7 +69,7 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 
 void Flame::hit(int damage)
 {
-	//health -= damage;
+	health -= damage;
 	if (health <= 0)
 	{
 		alive = false;

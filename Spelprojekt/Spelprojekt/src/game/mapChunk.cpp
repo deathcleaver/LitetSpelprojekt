@@ -134,12 +134,12 @@ void MapChunk::init(int xIndex, int yIndex)
 bool MapChunk::collide(Rect* test)
 {
 	test->readData(&x1, &y1, &sizeX, &sizeY);
-	sizeX = sizeX + x1 +1;
-	sizeY = sizeY + y1 +1;
+	sizeX = sizeX + x1 +2;
+	sizeY = sizeY + y1 +2;
 
-	for (int x = x1; x < sizeX; x++)
+	for (int x = x1-1; x < sizeX; x++)
 	{
-		for (int y = y1; y < sizeY; y++)
+		for (int y = y1-1; y < sizeY; y++)
 		{
 			if (x < 35 && x > 0 && y > 0 && y < 35) //out of bounds check
 			{
