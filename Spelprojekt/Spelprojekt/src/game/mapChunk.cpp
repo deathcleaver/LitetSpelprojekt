@@ -119,7 +119,7 @@ bool MapChunk::collide(Rect* test, int overFlowX, int overFlowY)
 	y1 = y1 + overFlowY * 35;
 
 	sizeX = x1 + sizeX + sizeX + 2;
-	sizeY = y1 + sizeY + sizeX + 2;
+	sizeY = y1 + sizeY + sizeY + 2;
 
 	for (int x = x1; x < sizeX; x++)
 	{
