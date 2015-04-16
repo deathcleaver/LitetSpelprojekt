@@ -118,7 +118,7 @@ bool MapChunk::collide(Rect* test)
 	{
 		for (int y = y1-1; y < sizeY; y++)
 		{
-			if (x < 35 && x > 0 && y > 0 && y < 35) //out of bounds check
+			if (x < 35 && x > -1 && y > -1 && y < 35) //out of bounds check
 			{
 				if (worldCollide[x][y] != NULL)
 				{
