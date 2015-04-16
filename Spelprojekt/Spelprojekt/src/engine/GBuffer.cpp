@@ -77,7 +77,7 @@ void Gbuffer::render()
 
 	// bind textures
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+	glBindTexture(GL_TEXTURE_2D, rTexture[3].getTargetId());
 	GLuint pos = glGetUniformLocation(*shaderPtr, "textureSampler");
 	glProgramUniform1i(*shaderPtr, pos, 0);
 

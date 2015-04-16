@@ -24,7 +24,8 @@ private:
 	GLuint tempshader;
 	GLuint tempshaderGBuffer;
 	GLuint uniformModel;
-	GLuint uniformVP;
+	GLuint uniformView;
+	GLuint uniformProj;
 	glm::mat4* viewMatrix;
 	glm::mat4 projMatrix;
 	int cameraSwap = 0;
