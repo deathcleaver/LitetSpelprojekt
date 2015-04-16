@@ -96,7 +96,7 @@ void MapChunk::init(int xIndex, int yIndex)
 		worldCollide[x] = new Rect*[35];
 		for (int y = 0; y < 35; y++)
 		{
-			if (y == 17 && x >= 15 && x <= 19)
+			if (y == 17)
 			{
 				worldCollide[x][y] = new Rect();
 				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);

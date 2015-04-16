@@ -31,21 +31,35 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	bool result = false;
 
 	//MoveX
-	if (userInput->getKeyState('A')) {
+	//right
+	if (userInput->getKeyState('A') && !userInput->getKeyState('D')) {
 		speed.x -= acceleration.x;
 		if (speed.x < -maxSpeed.x)
 			speed.x = -maxSpeed.x;
+
 		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);}
 
-	if (userInput->getKeyState('D')){
+	//left
+	if (userInput->getKeyState('D') && !userInput->getKeyState('A')){
 		speed.x += acceleration.x;
 		if (speed.x > maxSpeed.x)
 			speed.x = maxSpeed.x;
+
 		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);}
 
-	if (!userInput->getKeyState('A') && !userInput->getKeyState('D'))
+	//stop
+	if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
+		userInput->getKeyState('A') && userInput->getKeyState('D'))
 	{
-		speed.x = 0;
+		if (speed.x + 0.5 < 0)
+			speed.x += acceleration.x * 10;
+		
+		else if (speed.x - 0.5 > 0)
+			speed.x -= acceleration.x * 10;
+		else
+			speed.x = 0;
+
+		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 	}
 
 	//update collide rect
@@ -65,9 +79,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//MoveY
 	if (userInput->getKeyState('W'))
 	{
-		if (jumping == false && speed.y <= 0)
+		if (jumping == false && speed.y <= 2)
 		{
-			speed.y = - 75;
+			speed.y = 75;
+			moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 			jumping = true;
 		}
 	}
@@ -76,11 +91,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		moveTo(tempPos.x, tempPos.y -= speed.y * deltaTime, 0);
 
 	//gravity
-	speed.y += acceleration.y;
+	if (speed.y > 0)
+		speed.y -= acceleration.y * 0.2;
+	else
+		speed.y -= acceleration.y * 0.2;
+	
 	if (speed.y > maxSpeed.y)
 		speed.y = maxSpeed.y;
 
-	moveTo(tempPos.x, tempPos.y -= speed.y * deltaTime, 0);
+	moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 
 	//update collide rect
 	collideRect->update();
@@ -91,26 +110,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	if (result) //collide, move back Y
 	{
-		jumping = false;
-		speed.y = 0;
+		if (jumping = true)
+		{
+			jumping = false;
+			speed.y = 0;
+		}
 		tempPos.y = lastPos.y;
 		moveTo(tempPos.x, lastPos.y);
 		result = false;
 	}
-
-	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
-	//if (idX != -1 && idY != -1)
-	//{
-	//	if (map->getChunks()[idX][idY].collide(collideRect)) //collideRect->intersects()
-	//	{
-	//		result = true;
-	//		printf("collision in chunk: %i.%i. Pos %f,%f\n", idX, idY, readPos().x, readPos().y);
-	//	}
-	//	else
-	//		printf("no collision%f,%f\n", readPos().x, readPos().y);
-	//}
-	//else
-	//	printf("out of map%f,%f\n", readPos().x, readPos().y);
 
 	printf("Speed: %fx,%fy\n", speed.x, speed.y);
 
