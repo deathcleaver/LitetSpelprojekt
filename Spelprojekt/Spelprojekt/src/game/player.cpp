@@ -69,6 +69,14 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		result = false;
 	}
 
+	map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
+	if (idX != -1 && idY != -1)
+		result = map->getChunks()[idX][idY].playerVsEnemies(collideRect);
+	if (result)
+	{
+		printf("Ow, I'm hit!");
+	}
+
 	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
 	//if (idX != -1 && idY != -1)
 	//{

@@ -78,6 +78,9 @@
     <ClCompile Include="src\engine\GBuffer.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\enemy.cpp">
+      <Filter>Source Files\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\UserInput.h">

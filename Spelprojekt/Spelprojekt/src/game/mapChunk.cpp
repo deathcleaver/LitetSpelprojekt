@@ -150,6 +150,34 @@ int MapChunk::update(float deltaTime)
 {
 	int msg = 0;
 	if (enemyMan)
-		msg = enemyMan->update(deltaTime);
+		msg = enemyMan->update(deltaTime, this);
 	return 0;
+}
+
+bool MapChunk::playerVsEnemies(Rect* playerRect)
+{
+	Enemy** enemies = enemyMan->getEnemies();
+	int nrOfEnemies = enemyMan->size();
+	bool hit = false;
+	for (int c = 0; c < nrOfEnemies && !hit; c++)
+	{
+		Rect* enemyRect = enemies[c]->getRekt();
+		if (enemyRect && enemies[c]->isAlive())
+		{
+			if (enemyRect->intersects(playerRect))
+			{
+				hit = true;
+				enemies[c]->hit(1);
+			}
+		}
+	}
+	return hit;
+}
+
+bool MapChunk::enemyLives(int index)
+{
+	Enemy** enemies = enemyMan->getEnemies();
+	if (enemies[index]->isAlive())
+		return true;
+	return false;
 }

@@ -95,6 +95,7 @@
     <ClCompile Include="src\engine\RenderTarget.cpp" />
     <ClCompile Include="src\game\Enemies\Bat.cpp" />
     <ClCompile Include="src\game\Enemies\Spikes.cpp" />
+    <ClCompile Include="src\game\enemy.cpp" />
     <ClCompile Include="src\game\enemyManager.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameObject.cpp" />

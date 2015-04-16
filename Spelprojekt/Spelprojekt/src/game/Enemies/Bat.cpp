@@ -1,4 +1,5 @@
 #include "Bat.h"
+#include "../mapChunk.h"
 
 Bat::Bat(glm::vec2 firstPos)
 {
@@ -10,6 +11,8 @@ Bat::Bat(glm::vec2 firstPos)
 	health = 1;
 
 	movementScale = 0.0f;
+	collideRect = new Rect();
+	collideRect->initGameObjectRect(&worldMat, 1, 1);
 }
 
 void Bat::init()
@@ -17,30 +20,50 @@ void Bat::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
+
+	collideRect->update();
 }
 
-int Bat::update(float deltaTime)
+int Bat::update(float deltaTime, MapChunk* chunk)
 {
-	float sinMod = sin(movementScale*0.8);
+	float sinMod = 0.0f;// sin(movementScale*0.8);
 	if (facingRight)
 	{
 		if (movementScale < -5.0f)
 		{
-			float yset = sin(sinMod)*deltaTime*2.0;
-			translate(1.5f*deltaTime, yset);
-			movementScale += 5.0f * deltaTime;
+			float yset = sinMod*deltaTime*2.0f;
+			translate(1.5f*deltaTime, yset*0.5f);
+			if (collidesWithWorld(chunk))
+			{
+				translate(-1.5f*deltaTime, -yset*0.5f);
+				facingRight = false;
+			}
+			else
+				movementScale += 5.0f * deltaTime;
 		}
 		else if (movementScale < 5.0f)
 		{
-			float yset = sin(sinMod)*deltaTime*2.0;
+			float yset = sinMod*deltaTime*2.0f;
 			translate(3.0f*deltaTime, yset);
-			movementScale += 5.0f * deltaTime;
+			if (collidesWithWorld(chunk))
+			{
+				translate(-3.0f*deltaTime, -yset);
+				facingRight = false;
+			}
+			else
+				movementScale += 5.0f * deltaTime;
 		}
 		else if (movementScale < 6.0f)
 		{
-			float yset = sin(sinMod)*deltaTime*2.0;
-			translate(1.5f*deltaTime, yset);
-			movementScale += 5.0f * deltaTime;
+			float yset = sinMod*deltaTime*2.0f;
+			translate(1.5f*deltaTime, yset*0.5f);
+			if (collidesWithWorld(chunk))
+			{
+				translate(-1.5f*deltaTime, -yset*0.5f);
+				facingRight = false;
+			}
+			else
+				movementScale += 5.0f * deltaTime;
 		}
 		else
 		{
@@ -51,21 +74,39 @@ int Bat::update(float deltaTime)
 	{
 		if (movementScale > 5.0f)
 		{
-			float yset = sin(sinMod)*deltaTime*2.0;
-			translate(-1.5f*deltaTime, -yset);
-			movementScale -= 5.0f * deltaTime;
+			float yset = sinMod*deltaTime*2.0f;
+			translate(-1.5f*deltaTime, -yset*0.5f);
+			if (collidesWithWorld(chunk))
+			{
+				translate(1.5f*deltaTime, yset*0.5f);
+				facingRight = true;
+			}
+			else
+				movementScale -= 5.0f * deltaTime;
 		}
 		else if (movementScale > -5.0f)
 		{
-			float yset = sin(sinMod)*deltaTime*2.0;
+			float yset = sinMod*deltaTime*2.0f;
 			translate(-3.0f*deltaTime, -yset);
-			movementScale -= 5.0f * deltaTime;
+			if (collidesWithWorld(chunk))
+			{
+				translate(3.0f*deltaTime, yset);
+				facingRight = true;
+			}
+			else
+				movementScale -= 5.0f * deltaTime;
 		}
 		else if (movementScale > -6.0f)
 		{
-			float yset = sin(sinMod)*deltaTime*2.0;
-			translate(-1.5f*deltaTime, -yset);
-			movementScale -= 5.0f * deltaTime;
+			float yset = sinMod*deltaTime*2.0f;
+			translate(-1.5f*deltaTime, -yset*0.5f);
+			if (collidesWithWorld(chunk))
+			{
+				translate(1.5f*deltaTime, yset*0.5f);
+				facingRight = true;
+			}
+			else
+				movementScale -= 5.0f * deltaTime;
 		}
 		else
 		{
@@ -82,4 +123,10 @@ void Bat::hit(int damage)
 	{
 		alive = false;
 	}
+}
+
+bool Bat::collidesWithWorld(MapChunk* chunk)
+{
+	collideRect->update();
+	return chunk->collide(collideRect);
 }

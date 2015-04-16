@@ -46,12 +46,15 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	}
 }
 
-int EnemyManager::update(float deltaTime)
+int EnemyManager::update(float deltaTime, MapChunk* chunk)
 {
 	int msg = 0;
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
-		msg = enemies[c]->update(deltaTime);
+		if (enemies[c]->isAlive())
+		{
+			msg = enemies[c]->update(deltaTime, chunk);
+		}
 	}
 	return 0;
 }
@@ -80,4 +83,9 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform)
 {
 	return enemies[index]->bindWorldMat(shader, uniform);
+}
+
+Enemy** EnemyManager::getEnemies()
+{
+	return enemies;
 }

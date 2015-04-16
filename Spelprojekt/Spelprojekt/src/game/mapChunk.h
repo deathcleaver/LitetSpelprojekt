@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+
 #include "enemyManager.h"
 
 using namespace std;
@@ -34,6 +35,10 @@ public:
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
 	int update(float deltaTime);
+
+	bool playerVsEnemies(Rect* playerRect);
+
+	bool enemyLives(int index);
 };
 
 #endif

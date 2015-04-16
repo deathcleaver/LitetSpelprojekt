@@ -1,4 +1,5 @@
 #include "Spikes.h"
+#include "../mapChunk.h"
 
 Spikes::Spikes(glm::vec2 firstPos)
 {
@@ -15,7 +16,7 @@ void Spikes::init()
 	translate(initPos.x, initPos.y);
 }
 
-int Spikes::update(float deltaTime)
+int Spikes::update(float deltaTime, MapChunk* chunk)
 {
 	return 0;
 }

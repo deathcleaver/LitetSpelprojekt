@@ -1,7 +1,8 @@
-3 Antal fiender #  type posX posY
+4 Antal fiender #  type posX posY
 Spikes -5.0 -3.0
 Bat 2.0 4.0
-Bat 2.0 -4.0
+Bat 4.0 -5.0
+Bat -5.5 0.3
 4 Antal Map Objects # type posX posY posZ sizeX sizeY sizeZ
 Box 0.0 0.0 0.0 5.0 1.0 2.0 
 Box 6.0 1.0 0.0 3.0 1.0 2.0
@@ -42,4 +43,3 @@ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-
