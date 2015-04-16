@@ -22,6 +22,7 @@ public:
 	int update(float deltaTime);
 	//data ref x = -1, y -1 = outofbounds
 	void getChunkIndex(glm::vec3 pos, int* idX, int* idY);
+	bool collideMap(Rect* test, glm::vec3 pos);
 	void setUpDraw(glm::vec3 pos);
 	int* getUpDraw() const;
 };

@@ -61,13 +61,13 @@ public:
 		return true;
 	}
 	//mapchunk collide usage
-	void readData(int* x1ref, int* y1ref, int* sizeX, int* sizeY)
+	void readData(int* xMidRef, int* yMidRef, int* halfX, int* halfY)
 	{
-		*x1ref = (int)(x1 + 17.5f) % 35;
-		*y1ref = (int)(y1 - 17.5f) % 35;
-		*y1ref *= -1;
-		*sizeX = (int)(xHalfSize * 2);
-		*sizeY = (int)(yHalfSize * 2);
+		*xMidRef = (int)(x1 + xHalfSize + 17.5f) % 35;
+		*yMidRef = (int)(y1 - yHalfSize - 17.5f) % 35;
+		*yMidRef *= -1;
+		*halfX = (int)(xHalfSize + 1);
+		*halfY = (int)(yHalfSize + 1);
 	}
 };
 

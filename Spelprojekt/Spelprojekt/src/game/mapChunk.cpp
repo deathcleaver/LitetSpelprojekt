@@ -108,15 +108,22 @@ void MapChunk::init(int xIndex, int yIndex)
 	in.close();
 }
 
-bool MapChunk::collide(Rect* test)
+bool MapChunk::collide(Rect* test, int overFlowX, int overFlowY)
 {
 	test->readData(&x1, &y1, &sizeX, &sizeY);
-	sizeX = sizeX + x1 +2;
-	sizeY = sizeY + y1 +2;
+	int temp = sizeX;
+	sizeX = x1 + sizeX + 1;
+	x1 -= (temp + 2);
+	temp = sizeY;
+	sizeY = y1 + sizeY + 1;
+	y1 -= (temp + 2);
 
-	for (int x = x1-1; x < sizeX; x++)
+	x1 = x1 + overFlowX * 35;
+	y1 = y1 + overFlowY * 35;
+
+	for (int x = x1; x < sizeX; x++)
 	{
-		for (int y = y1-1; y < sizeY; y++)
+		for (int y = y1; y < sizeY; y++)
 		{
 			if (x < 35 && x > -1 && y > -1 && y < 35) //out of bounds check
 			{

@@ -174,3 +174,33 @@ int* Map::getUpDraw() const
 {
 	return upDraw;
 }
+
+bool Map::collideMap(Rect* test, glm::vec3 pos)
+{
+	int idX, idY;
+	bool result = false;
+	getChunkIndex(pos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		result = chunks[idX][idY].collide(test);
+		if (result)
+			return result;
+
+		//on edge of chunk?
+		int indexX, indexY, sizeX, sizeY;
+		test->readData(&indexX, &indexY, &sizeX, &sizeY);
+
+		if (indexX - sizeX < 1 && idX > 0) //need extra check -X
+			result = chunks[idX-1][idY].collide(test, 1);
+
+		if (indexX + sizeX > 33 && idX < width-1) //need extra check + X
+			result = chunks[idX + 1][idY].collide(test, -1);
+
+		if (indexY - sizeY < 1 && idY > 0) //need extra check - Y
+			result = chunks[idX][idY-1].collide(test, 0, 1);
+
+		if (indexY + sizeY > 33 && idY < height-1) //need extra check + Y
+			result = chunks[idX ][idY+1].collide(test, 0 -1);
+	}
+	return result;
+}

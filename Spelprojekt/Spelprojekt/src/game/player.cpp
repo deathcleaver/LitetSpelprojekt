@@ -26,7 +26,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	// update pos & camera using user input
 	vec3 lastPos = readPos();
 	vec3 tempPos = lastPos;
-	int idX = 0, idY = 0;
 	bool result = false;
 
 	//MoveX
@@ -63,10 +62,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//update collide rect
 	collideRect->update();
-
-	map->getChunkIndex(readPos(), &idX, &idY);
-	if (idX != -1 && idY != -1)
-		result = map->getChunks()[idX][idY].collide(collideRect);
+	result = map->collideMap(collideRect, readPos());
+	
 
 	if (result) //collide, move back X
 	{
@@ -101,10 +98,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//update collide rect
 	collideRect->update();
-
-	map->getChunkIndex(readPos(), &idX, &idY);
-	if (idX != -1 && idY != -1)
-		result = map->getChunks()[idX][idY].collide(collideRect);
+	result = map->collideMap(collideRect, readPos());
 
 	if (result) //collide, move back Y
 	{
@@ -118,9 +112,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		result = false;
 	}
 
-	map->getChunkIndex(readPos(), &idX, &idY);
-	if (idX != -1 && idY != -1)
-		result = map->getChunks()[idX][idY].playerVsEnemies(collideRect);
+	result = map->collideMap(collideRect, readPos());
 	if (result)
 	{
 		

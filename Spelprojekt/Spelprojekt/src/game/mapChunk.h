@@ -28,7 +28,7 @@ public:
 	void init(int x, int y);
 	int xOffset, yOffset;
 
-	bool collide(Rect* test);
+	bool collide(Rect* test, int overFlowX = 0, int overFlowY = 0);
 	void translateChunk(float x, float y, float z);
 
 	int countEnemies();
