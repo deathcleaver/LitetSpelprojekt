@@ -62,21 +62,20 @@ void Animation::bindVertexArrays(int aAnimTargetPos, int aBasePos)
 		};
 
 		std::vector<TriangleVertex> combVert;
-		std::vector<GLushort> indices;
 
-		indices = myObjects[aBasePos]->Indices;
-
+		TriangleVertex temp;
+		TriangleVertex temp2;
 		for (int i = 0; i < myObjects[aBasePos]->count*3; i++)
 		{
 			combVert.push_back(TriangleVertex());
-			TriangleVertex temp;
+			
 			temp.x = myObjects[aBasePos]->vert[i].x *normal_factor;
 			temp.y = myObjects[aBasePos]->vert[i].y *normal_factor;
 			temp.z = myObjects[aBasePos]->vert[i].z *normal_factor;
 			temp.u = myObjects[aBasePos]->vert[i].u *normal_factor;
 			temp.v = myObjects[aBasePos]->vert[i].v *normal_factor;
 
-			TriangleVertex temp2;
+			
 			temp2.x = myObjects[aAnimTargetPos]->vert[i].x * anim_factor;
 			temp2.y = myObjects[aAnimTargetPos]->vert[i].y * anim_factor;
 			temp2.z = myObjects[aAnimTargetPos]->vert[i].z * anim_factor;
@@ -103,11 +102,10 @@ void Animation::bindVertexArrays(int aAnimTargetPos, int aBasePos)
 		glBufferData(GL_ARRAY_BUFFER, sizeof(combVert[0])* combVert.size(), &combVert[0], GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]) * myObjects[aBasePos]->count * 3, &indices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(myObjects[aBasePos]->Indices[0]) * myObjects[aBasePos]->count * 3, &myObjects[aBasePos]->Indices[0], GL_STATIC_DRAW);
 		faceCount = myObjects[aBasePos]->count;
 		glEnableVertexAttribArray(indexBuffer);
 
-		glGenVertexArrays(1, &vertexAttribute);
 		glBindVertexArray(vertexAttribute);
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
