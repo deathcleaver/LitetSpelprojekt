@@ -54,7 +54,7 @@ public:
 	vec3* GetPos();
 	vec3 getToTarget();
 
-	void followPlayer(vec3 pos, int dir, float deltaTime);
+	void followPlayer(vec3 p, vec2 s, float deltaTime);
 	bool getKeyState(char c);
 };
 

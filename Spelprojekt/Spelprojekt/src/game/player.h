@@ -15,9 +15,14 @@
 class Player : public GameObject
 {
 private:
-	int dir;
 	float timepass = 0.0f;
 
+	//movement
+	vec2 speed;
+	vec2 maxSpeed;
+	vec2 acceleration;
+	bool jumping;
+	
 	Rect* collideRect = 0;
 
 public:
@@ -26,7 +31,7 @@ public:
 	void init();
 
 	int update(UserInput* userInput, Map* map, float deltaTime);
-	int getDir();
+	vec2 getSpeed();
 };
 
 #endif

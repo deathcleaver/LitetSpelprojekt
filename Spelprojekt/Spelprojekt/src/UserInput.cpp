@@ -236,38 +236,45 @@ bool UserInput::getKeyState(char c)
 	}
 }
 
-void UserInput::followPlayer(vec3 p, int dir, float deltaTime)
+void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 {
 	vec3 oldPos = pos;
-	float speed1 = 10 * deltaTime;
-	float speed2 = 5 * deltaTime;
+	vec2 speed = s;
 
-	if (dir == 1) // moving to the right
+	cameraSmoothing = 0;
+
+	speed.x *= deltaTime;
+	speed.y += deltaTime;
+
+	if (speed.x < 0) // moving to the right
 	{
-		if (pos.x < p.x + cameraSmoothing - speed1)
-			pos.x += speed2; // only update x pos since we're viewing the player from the side.
+		if (pos.x < p.x + cameraSmoothing + speed.x)
+			pos.x += speed.x; // only update x pos since we're viewing the player from the side.
 		else
-			pos.x = p.x + (cameraSmoothing * dir);
+			pos.x = p.x + (cameraSmoothing * speed.x);
 	}
 
-	else if (dir == -1) // moving to the left
+	else if (speed.x > 0) // moving to the left
 	{
-		if (pos.x > p.x - cameraSmoothing + speed1)
-			pos.x -= speed2; // only update x pos since we're viewing the player from the side.
+		if (pos.x > p.x - cameraSmoothing + speed.x)
+			pos.x -= speed.x; // only update x pos since we're viewing the player from the side.
 		else
-			pos.x = p.x + (cameraSmoothing * dir);
+			pos.x = p.x + (cameraSmoothing * speed.x);
 	}
 
-	else if (dir == 0) // standing still
+	else if (speed.x == 0) // standing still
 	{
-		if (pos.x < p.x - speed1)
-			pos.x += speed2;
+		if (pos.x < p.x + speed.x)
+			pos.x += speed.x;
 
-		else if (pos.x > p.x + speed1)
-			pos.x -= speed2;
+		else if (pos.x > p.x + speed.x)
+			pos.x -= speed.x;
 		else
 			pos.x = p.x;
 	}
+
+	// update camera pos y (no smoothing)
+	pos.y = p.y;
 
 	// update target and camera view
 	target += (pos - oldPos);

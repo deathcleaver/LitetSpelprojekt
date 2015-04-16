@@ -201,5 +201,5 @@ void Game::readInput(float deltaTime)
 	if (cameraFollow == false)
 		in->Act(deltaTime);
 	else
-		in->followPlayer(player->readPos(), player->getDir(), deltaTime);
+		in->followPlayer(player->readPos(), player->getSpeed(), deltaTime);
 }
