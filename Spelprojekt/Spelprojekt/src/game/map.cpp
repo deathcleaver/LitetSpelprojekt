@@ -191,16 +191,28 @@ bool Map::collideMap(Rect* test, glm::vec3 pos)
 		test->readData(&indexX, &indexY, &sizeX, &sizeY);
 
 		if (indexX - sizeX < 1 && idX > 0) //need extra check -X
-			result = chunks[idX-1][idY].collide(test, 1);
+		{
+			result = chunks[idX - 1][idY].collide(test, 1);
+			if result
+				return result;}
 
 		if (indexX + sizeX > 33 && idX < width-1) //need extra check + X
+		{
 			result = chunks[idX + 1][idY].collide(test, -1);
+			if result
+				return result;}
 
 		if (indexY - sizeY < 1 && idY > 0) //need extra check - Y
+		{
 			result = chunks[idX][idY-1].collide(test, 0, 1);
+			if result
+				return result;}
 
 		if (indexY + sizeY > 33 && idY < height-1) //need extra check + Y
+		{
 			result = chunks[idX ][idY+1].collide(test, 0 -1);
+			if result
+				return result;}
 	}
 	return result;
 }
