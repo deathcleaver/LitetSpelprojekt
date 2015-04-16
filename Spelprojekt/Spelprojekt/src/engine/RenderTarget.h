@@ -20,12 +20,17 @@ public:
 
 	GLuint getTargetId() const;
 
+	static GLuint RenderTarget::renderQuad;
+	static GLuint RenderTarget::renderVao;
+
 protected:
 
 	GLuint targetId;
 
 	bool depth;
 	int nrTextures;
+
+	static void genQuad();
 
 };
 
