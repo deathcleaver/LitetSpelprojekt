@@ -212,11 +212,6 @@ vec3 UserInput::getToTarget()
 	return (target - pos);
 }
 
-bool UserInput::updateMouse()
-{
-	return shift;
-}
-
 bool UserInput::getKeyState(char c)
 {
 	switch (c)
@@ -273,4 +268,16 @@ void UserInput::followPlayer(vec3 p, int dir, float deltaTime)
 	// update target and camera view
 	target += (pos - oldPos);
 	*viewMatrix = lookAt(pos, target, up);
+}
+
+bool UserInput::updateMouse()
+{
+	return shift;
+}
+
+void UserInput::resetZoomViewDir()
+{
+	pos.z = 15;
+	target = pos;
+	target.z--;
 }

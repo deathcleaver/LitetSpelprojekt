@@ -107,6 +107,9 @@ void Game::init(GLFWwindow* windowRef)
 	in->Init(viewMat, glm::vec3(0, 0, 15), glm::vec3(0, 0, 14), glm::vec3(0, 1, 0));
 	cameraFollow = true;
 
+	//start state
+	current = MENU;
+
 	// do not delete in this class
 	this->windowRef = windowRef;
 }
@@ -149,13 +152,58 @@ void Game::mainLoop()
 
 void Game::update(float deltaTime)
 {
-	//Game code
-	//..
-	//..
-	map->update(deltaTime);
+	switch(current) 
+	{
+		case(MENU):
+		{
+			current = PLAY;
+			break;
+		}
+		case(PLAY):
+		{
+			//enterState
+			if (last != PLAY && last != PAUSE)
+			{
 
-	if(cameraFollow)
-		player->update(in, map, deltaTime);
+			}	
+			//state code
+			if (cameraFollow)
+			{
+				player->update(in, map, deltaTime);
+				in->followPlayer(player->readPos(), player->getDir(), deltaTime);
+			}
+			
+			map->update(deltaTime);
+			//leave State code
+			//if()
+
+			break;
+		}
+		case(INTRO):
+		{
+			break;
+		}
+		case(EDIT):
+		{
+			break;
+		}
+		case(PAUSE):
+		{
+			break;
+		}
+	}
+	last = current;
+
+	if (!cameraFollow)
+	{
+		in->Act(deltaTime);
+		double x, y;
+		glfwGetCursorPos(windowRef, &x, &y);
+		if (in->updateMouse())
+			in->Mouse(x - lastX, y - lastY);
+		lastX = x;
+		lastY = y;
+	}
 
 	//Render const
 	engine->render(player, map, content);
@@ -179,9 +227,14 @@ void Game::readInput(float deltaTime)
 	
 	//camera follow keys
 	state = glfwGetKey(windowRef, GLFW_KEY_C);
-	if (state == GLFW_PRESS) { cameraFollow = true; };
+	if (state == GLFW_PRESS) 
+	{ 
+		cameraFollow = true;
+		in->resetZoomViewDir();
+	};
 	state = glfwGetKey(windowRef, GLFW_KEY_V);
-	if (state == GLFW_PRESS) { cameraFollow = false; };
+	if (state == GLFW_PRESS) 
+		cameraFollow = false;	
 
 	//Special Keys
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_SHIFT);
@@ -190,16 +243,4 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
-	
-	double x, y;
-	glfwGetCursorPos(windowRef, &x, &y);
-	if(in->updateMouse())
-		in->Mouse(x - lastX, y - lastY);
-	lastX = x;
-	lastY = y;
-	
-	if (cameraFollow == false)
-		in->Act(deltaTime);
-	else
-		in->followPlayer(player->readPos(), player->getDir(), deltaTime);
 }
