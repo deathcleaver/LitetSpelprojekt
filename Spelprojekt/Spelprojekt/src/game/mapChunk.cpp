@@ -102,7 +102,6 @@ void MapChunk::init(int xIndex, int yIndex)
 		
 		for (int x = 0; x < 35; x++)
 		{
-<<<<<<< HEAD
 			char lineAt = line.at(x);
 			if (lineAt == 'X')
 			{
@@ -115,9 +114,8 @@ void MapChunk::init(int xIndex, int yIndex)
 			}
 			/*
 			if (y == 17 && x >= 15 && x <= 19)
-=======
+
 			if (y == 17)
->>>>>>> Camera offset now works
 			{
 				worldCollide[x][y] = new Rect();
 				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);

@@ -78,10 +78,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//MoveY
 	if (userInput->getKeyState('W'))
 	{
-		if (jumping == false && speed.y <= 2)
+		if (jumping == false)
 		{
 			speed.y = 75;
-			moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 			jumping = true;
 		}
 	}
@@ -119,8 +118,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		result = false;
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	map->getChunkIndex(readPos(), &idX, &idY);
 	if (idX != -1 && idY != -1)
 		result = map->getChunks()[idX][idY].playerVsEnemies(collideRect);
@@ -151,13 +148,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//}
 	//else
 	//	printf("out of map%f,%f\n", readPos().x, readPos().y);
-
-=======
->>>>>>> Camera offset now works
-	printf("Speed: %fx,%fy\n", speed.x, speed.y);
-
-=======
->>>>>>> Camera almost done
 	return 0;
 }
 

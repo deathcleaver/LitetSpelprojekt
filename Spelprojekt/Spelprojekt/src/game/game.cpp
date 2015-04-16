@@ -171,7 +171,7 @@ void Game::update(float deltaTime)
 			if (cameraFollow)
 			{
 				player->update(in, map, deltaTime);
-				in->followPlayer(player->readPos(), player->getDir(), deltaTime);
+				in->followPlayer(player->readPos(), player->getSpeed(), deltaTime);
 			}
 			map->setUpDraw(*in->GetPos());
 			map->update(deltaTime);
@@ -245,8 +245,6 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
-<<<<<<< HEAD
-=======
 	
 	double x, y;
 	glfwGetCursorPos(windowRef, &x, &y);
@@ -259,5 +257,4 @@ void Game::readInput(float deltaTime)
 		in->Act(deltaTime);
 	else
 		in->followPlayer(player->readPos(), player->getSpeed(), deltaTime);
->>>>>>> replaced dir with speed and accelerate variables
 }
