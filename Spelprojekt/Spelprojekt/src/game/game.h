@@ -13,9 +13,20 @@
 
 #include <GLFW/glfw3.h>
 
+enum gameState
+{
+	MENU,
+	PLAY,
+	INTRO,
+	EDIT,
+	PAUSE,
+};
+
 class Game : public Align_16
 {
 private:
+	gameState current = MENU;
+	gameState last = MENU;
 	Engine* engine = 0;
 	ContentManager* content = 0;
 	Player* player = 0;

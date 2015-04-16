@@ -50,12 +50,13 @@ public:
 	void Shift(bool);
 	void Space(bool);
 	void Ctrl(bool);
-	bool updateMouse();
 	vec3* GetPos();
 	vec3 getToTarget();
 
 	void followPlayer(vec3 pos, int dir, float deltaTime);
 	bool getKeyState(char c);
+	void resetZoomViewDir();
+	bool updateMouse();
 };
 
 #endif

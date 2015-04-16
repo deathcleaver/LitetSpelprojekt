@@ -12,7 +12,7 @@ MapChunk::~MapChunk()
 		{
 			for (int y = 0; y < 35; y++)
 			{	
-				if (worldCollide[x][y] != NULL)
+				if (worldCollide[x][y] != 0)
 					delete worldCollide[x][y];
 			}
 			delete[] worldCollide[x];
@@ -91,11 +91,28 @@ void MapChunk::init(int xIndex, int yIndex)
 	}
 
 	worldCollide = new Rect**[35];
-	for (int x = 0; x < 35; x++)
+	for (int c = 0; c < 35; c++)
 	{
-		worldCollide[x] = new Rect*[35];
-		for (int y = 0; y < 35; y++)
+		worldCollide[c] = new Rect*[35];
+	}
+	
+	for (int y = 0; y < 35; y++)
+	{
+		if (!(getline(in, line))) break;
+		
+		for (int x = 0; x < 35; x++)
 		{
+			char lineAt = line.at(x);
+			if (lineAt == 'X')
+			{
+				worldCollide[x][y] = new Rect();
+				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+			}
+			else
+			{
+				worldCollide[x][y] = 0;
+			}
+			/*
 			if (y == 17 && x >= 15 && x <= 19)
 			{
 				worldCollide[x][y] = new Rect();
@@ -108,6 +125,7 @@ void MapChunk::init(int xIndex, int yIndex)
 			}
 			else
 				worldCollide[x][y] = 0;
+			*/
 		}
 	}
 	in.close();
@@ -116,12 +134,12 @@ void MapChunk::init(int xIndex, int yIndex)
 bool MapChunk::collide(Rect* test)
 {
 	test->readData(&x1, &y1, &sizeX, &sizeY);
-	sizeX = sizeX + x1 +1;
-	sizeY = sizeY + y1 +1;
+	sizeX = sizeX + x1 +2;
+	sizeY = sizeY + y1 +2;
 
-	for (int x = x1; x < sizeX; x++)
+	for (int x = x1-1; x < sizeX; x++)
 	{
-		for (int y = y1; y < sizeY; y++)
+		for (int y = y1-1; y < sizeY; y++)
 		{
 			if (x < 35 && x > 0 && y > 0 && y < 35) //out of bounds check
 			{
@@ -150,6 +168,34 @@ int MapChunk::update(float deltaTime)
 {
 	int msg = 0;
 	if (enemyMan)
-		msg = enemyMan->update(deltaTime);
+		msg = enemyMan->update(deltaTime, this);
 	return 0;
+}
+
+bool MapChunk::playerVsEnemies(Rect* playerRect)
+{
+	Enemy** enemies = enemyMan->getEnemies();
+	int nrOfEnemies = enemyMan->size();
+	bool hit = false;
+	for (int c = 0; c < nrOfEnemies && !hit; c++)
+	{
+		Rect* enemyRect = enemies[c]->getRekt();
+		if (enemyRect && enemies[c]->isAlive())
+		{
+			if (enemyRect->intersects(playerRect))
+			{
+				hit = true;
+				enemies[c]->hit(1);
+			}
+		}
+	}
+	return hit;
+}
+
+bool MapChunk::enemyLives(int index)
+{
+	Enemy** enemies = enemyMan->getEnemies();
+	if (enemies[index]->isAlive())
+		return true;
+	return false;
 }

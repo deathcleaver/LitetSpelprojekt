@@ -16,8 +16,12 @@ class Player : public GameObject
 {
 private:
 	int dir;
+<<<<<<< HEAD
 	float timepass = 0.0f;
 
+=======
+	int HP;
+>>>>>>> e302f2f23543cf116639b673a04204f7865ee26f
 	Rect* collideRect = 0;
 
 public:

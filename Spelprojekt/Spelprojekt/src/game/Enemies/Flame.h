@@ -1,16 +1,15 @@
-#ifndef BAT_H
-#define BAT_H
+#ifndef FLAME_H
+#define FLAME_H
 
-#include "../Enemy.h";
+#include "../Enemy.h"
 
-class Bat : public Enemy
+class Flame : public Enemy
 {
 private:
-	float movementScale;
 	float speed;
 	bool collidesWithWorld(MapChunk* chunk);
 public:
-	Bat(glm::vec2 firstPos);
+	Flame(glm::vec2 firstPos);
 	void init();
 	int update(float deltaTime, MapChunk* chunk);
 	void hit(int damage);

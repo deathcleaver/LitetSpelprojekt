@@ -19,11 +19,13 @@ public:
 	EnemyManager();
 	EnemyManager(int enemies);
 	~EnemyManager();
-	int update(float deltaTime);
+	int update(float deltaTime, MapChunk* chunk);
 	int size();
 	void init(ifstream &file, int xOffset, int yOffset);
 
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
+
+	Enemy** getEnemies();
 };
 
 #endif

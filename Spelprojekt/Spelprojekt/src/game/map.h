@@ -9,6 +9,7 @@ private:
 	MapChunk** chunks = 0;
 	int width = 0;
 	int height = 0;
+	int* upDraw;
 public:
 	Map(){};
 	~Map();
@@ -20,7 +21,9 @@ public:
 
 	int update(float deltaTime);
 	//data ref x = -1, y -1 = outofbounds
-	void getChunkIndex(glm::vec2 pos, int* idX, int* idY);
+	void getChunkIndex(glm::vec3 pos, int* idX, int* idY);
+	void setUpDraw(glm::vec3 pos);
+	int* getUpDraw() const;
 };
 
 #endif

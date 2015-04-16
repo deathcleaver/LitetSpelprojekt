@@ -3,6 +3,11 @@
 void Gbuffer::init(int x, int y, int nrTex, bool depth)
 {
 
+	if (renderQuad == 0)
+	{
+		genQuad();
+	}
+
 	glGenFramebuffers(1, &targetId);
 	this->depth = depth;
 	nrTextures = nrTex;
@@ -63,11 +68,23 @@ void Gbuffer::bind(GLuint target)
 
 void Gbuffer::render()
 {
-	bind(GL_READ_FRAMEBUFFER);
-	glReadBuffer(GL_COLOR_ATTACHMENT0+1);
-	glBlitFramebuffer(0, 0, 800, 800, 0, 0, 800, 800, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-	glReadBuffer(GL_COLOR_ATTACHMENT0 + 2);
-	glBlitFramebuffer(0, 0, 800, 800, 0, 0, 200, 200, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+	// bind shader
+	glUseProgram(*shaderPtr);
+
+	// bind buffer
+	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
+	glBindVertexArray(renderVao);
+
+	// bind textures
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+	GLuint pos = glGetUniformLocation(*shaderPtr, "textureSampler");
+	glProgramUniform1i(*shaderPtr, pos, 0);
+
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+
 }
 
 void Gbuffer::generate(int x, int y)
