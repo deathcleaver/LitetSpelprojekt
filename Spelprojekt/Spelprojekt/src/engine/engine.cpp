@@ -25,7 +25,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	//temp camera
 	viewMatrix = viewMat;
-	projMatrix = glm::perspective(3.14f*0.45f, 800.f / 800.0f, 0.1f, 1000.0f);
+	projMatrix = glm::perspective(3.14f*0.45f, 1080 / 720.0f, 0.1f, 1000.0f);
 
 	//Temp shader
 
