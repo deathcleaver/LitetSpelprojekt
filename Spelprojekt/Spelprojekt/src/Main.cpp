@@ -14,7 +14,7 @@ int main(int argv, char* argc[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
-	wnd = glfwCreateWindow(800, 800, "ASUM PROJECT", NULL, NULL);
+	wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", NULL, NULL);
 
 	glfwMakeContextCurrent(wnd);
 	glewInit();

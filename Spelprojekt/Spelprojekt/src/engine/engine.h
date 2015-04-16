@@ -22,6 +22,7 @@ class Engine : public Align_16
 private:
 	// <temp>
 	GLuint tempshader;
+	GLuint tempshaderGBuffer;
 	GLuint uniformModel;
 	GLuint uniformVP;
 	glm::mat4* viewMatrix;

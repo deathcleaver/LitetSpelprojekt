@@ -16,6 +16,8 @@ public:
 
 	void render();
 
+	GLuint* shaderPtr;
+
 private:
 
 	void generate(int x, int y);
