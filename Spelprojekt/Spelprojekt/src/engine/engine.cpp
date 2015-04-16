@@ -9,7 +9,11 @@ Engine::~Engine()
 
 void Engine::init(glm::mat4* viewMat)
 {
-	gBuffer.init(800, 800, 3, true);
+	// init static variable
+	//RenderTarget::renderQuad = 0;
+	//RenderTarget::renderVao = 0;
+
+	gBuffer.init(1080, 720, 3, true);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -30,6 +34,12 @@ void Engine::init(glm::mat4* viewMat)
 
 	CreateProgram(tempshader, shaders, shaderType, 2);
 
+	shaders[0] = "src/shaders/gBuffer_vs.glsl";
+	shaders[1] = "src/shaders/default_fs.glsl";
+	
+	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
+
+	gBuffer.shaderPtr = &tempshaderGBuffer;
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformVP = glGetUniformLocation(tempshader, "VP");
@@ -38,8 +48,9 @@ void Engine::init(glm::mat4* viewMat)
 void Engine::render(const Player* player, const Map* map, const ContentManager* content)
 {
 	// bind gbuffer FBO
-	gBuffer.bind(GL_DRAW_FRAMEBUFFER);
+	gBuffer.bind(GL_FRAMEBUFFER);
 	//
+
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int facecount = 0;
@@ -112,11 +123,14 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
     
     
 	// bind default FBO and render gbuffer
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDisable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
 	gBuffer.render();
     
+	glEnable(GL_DEPTH_TEST);
+
 }
 
 
