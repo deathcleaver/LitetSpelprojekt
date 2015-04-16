@@ -11,6 +11,6 @@ int Player::update(float deltaTime)
 {
 	timepass += deltaTime;
 	rotate(0, deltaTime, 0);
-	moveTo(sin(timepass) * 13, sin(timepass*2) * 5, 0);
+	moveTo(1 * 13, 1 * 5, 0);
 	return 0;
 }

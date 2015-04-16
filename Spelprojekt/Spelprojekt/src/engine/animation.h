@@ -15,10 +15,17 @@ private:
 
 	int faceCount;
 	float myAnimWeight;
+	bool weightIncrease = false;
 public:
+	
 	Animation();
 	Animation(Object** someObjects, int aNrOfObjects, float aAnimWeight);
 	~Animation();
+
+	void bind();
+	int getFaces();
+
+	void updateWeight();
 
 	void bindVertexArrays(int aAnimTargetPos = 0, int aBasePos = 0);
 	Object** getObjects(int& aNrOfObjects);

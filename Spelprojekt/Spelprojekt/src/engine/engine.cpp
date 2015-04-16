@@ -103,6 +103,7 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
 	facecount = content->bindPlayer();
+
 	glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 
 	// - -Map Draw --

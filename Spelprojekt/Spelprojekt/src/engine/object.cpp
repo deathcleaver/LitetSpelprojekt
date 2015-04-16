@@ -41,7 +41,7 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 
 void Object::bind()
 {
-	glActiveTexture(GL_TEXTURE0 + TEXTUREINDEXOFFSET);
+	glActiveTexture(GL_TEXTURE0 +TEXTUREINDEXOFFSET);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glBindVertexArray(vertexAttribute);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexData);

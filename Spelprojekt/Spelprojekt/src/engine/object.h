@@ -16,20 +16,14 @@
 class Object
 {
 private:
-	GLuint vertexData = 0;
-	GLuint indexBuffer = 0;
-	GLuint vertexAttribute = 0;
+	
 	bool vertexHost = false;
 	GLuint textureId = 0;
 	bool textureHost = false;
 	int TEXTUREINDEXOFFSET = 0;
 	int faceCount = -1;
 
-	struct TriangleVertex
-	{
-		float x, y, z;
-		float u, v;
-	};
+	
 
 
 
@@ -40,6 +34,16 @@ private:
 	bool loadBMP(std::string path); 
 
 public:
+	GLuint vertexData = 0;
+	GLuint indexBuffer = 0;
+	GLuint vertexAttribute = 0;
+
+	struct TriangleVertex
+	{
+		float x, y, z;
+		float u, v;
+	};
+
 	std::vector<TriangleVertex> vert;
 	std::vector<TriangleVertex> uv;
 	std::vector<GLushort> Indices;
