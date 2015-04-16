@@ -74,8 +74,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	
 	//RenderChunks , X Y CULLED
 	for (int n = 0; n < upDraw[0]; n++)
-		if (upDraw[n * 2 + 1] != -1 && upDraw[n * 2 + 1] < width)
-			if (upDraw[n * 2 + 2] != -1 && upDraw[n * 2 + 2] < height)
+		if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
+			if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
 			{
 				int x = n * 2 + 1;
 				int y = n * 2 + 2;

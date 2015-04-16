@@ -59,8 +59,8 @@ int Map::update(float deltaTime)
 	int msg = 0;
 	for (int n = 0; n < upDraw[0]; n++)
 	{
-		if (upDraw[n * 2 + 1] != -1 && upDraw[n * 2 + 1] < width)
-			if (upDraw[n * 2 + 2] != -1 && upDraw[n * 2 + 2] < height)
+		if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
+			if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
 				msg = chunks[upDraw[n * 2 + 1]][upDraw[n * 2 + 2]].update(deltaTime);
 	}
 	

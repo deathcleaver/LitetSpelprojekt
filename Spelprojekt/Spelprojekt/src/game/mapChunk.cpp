@@ -39,19 +39,10 @@ void MapChunk::init(int xIndex, int yIndex)
 
 	//TODO:: load objects from file
 	
-	
 	chunkBackground = new GameObject();
 	chunkBackground->init(0);
 	chunkBackground->moveTo(xOffset * 35, yOffset * -35);
-	/*
-	countWorldObjs = 1;
-	worldObjs = new GameObject[countWorldObjs];
 
-	worldObjs[0].init(1);
-	worldObjs[0].scaleFactor(5, 1, 2); // 5x1x2 size
-	worldObjs[0].moveTo(xOffset * 35, yOffset * -35); //align to grid
-	worldObjs[0].translate(0, 0, 0.5);
-	*/
 	glm::vec3 pos;
 	glm::vec3 scale;
 	string type;
@@ -112,22 +103,6 @@ void MapChunk::init(int xIndex, int yIndex)
 			{
 				worldCollide[x][y] = 0;
 			}
-			/*
-			if (y == 17 && x >= 15 && x <= 19)
-
-			if (y == 17)
-			{
-				worldCollide[x][y] = new Rect();
-				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
-			}
-			else if (y == 16 && x >= 22 && x <= 24)
-			{
-				worldCollide[x][y] = new Rect();
-				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
-			}
-			else
-				worldCollide[x][y] = 0;
-			*/
 		}
 	}
 	in.close();
