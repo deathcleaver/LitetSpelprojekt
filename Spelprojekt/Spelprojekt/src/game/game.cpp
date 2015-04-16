@@ -245,4 +245,19 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
+<<<<<<< HEAD
+=======
+	
+	double x, y;
+	glfwGetCursorPos(windowRef, &x, &y);
+	if(in->updateMouse())
+		in->Mouse(x - lastX, y - lastY);
+	lastX = x;
+	lastY = y;
+	
+	if (cameraFollow == false)
+		in->Act(deltaTime);
+	else
+		in->followPlayer(player->readPos(), player->getSpeed(), deltaTime);
+>>>>>>> replaced dir with speed and accelerate variables
 }

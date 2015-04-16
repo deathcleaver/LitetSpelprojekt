@@ -9,6 +9,11 @@ void Player::init()
 	moveTo(0, 2);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 2);
+
+	speed = vec2(0);
+	maxSpeed = vec2(15, 30);
+	acceleration = vec2(0.05f,0.5f); // y = gravity
+	jumping = false;
 }
 
 Player::~Player()
@@ -23,17 +28,26 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	// update pos & camera using user input
 	vec3 lastPos = readPos();
 	vec3 tempPos = lastPos;
-	float speed = 10.0f;
 	int idX = 0, idY = 0;
 	bool result = false;
-	
+
 	//MoveX
 	if (userInput->getKeyState('A')) {
-		moveTo(tempPos.x -= speed * deltaTime, tempPos.y, 0);
-		dir = -1; }
+		speed.x -= acceleration.x;
+		if (speed.x < -maxSpeed.x)
+			speed.x = -maxSpeed.x;
+		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);}
+
 	if (userInput->getKeyState('D')){
-		moveTo(tempPos.x += speed * deltaTime, tempPos.y, 0);
-		dir = 1; }
+		speed.x += acceleration.x;
+		if (speed.x > maxSpeed.x)
+			speed.x = maxSpeed.x;
+		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);}
+
+	if (!userInput->getKeyState('A') && !userInput->getKeyState('D'))
+	{
+		speed.x = 0;
+	}
 
 	//update collide rect
 	collideRect->update();
@@ -51,10 +65,23 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//MoveY
 	if (userInput->getKeyState('W'))
-		moveTo(tempPos.x, tempPos.y += speed * deltaTime, 0);
-
+	{
+		if (jumping == false && speed.y <= 0)
+		{
+			speed.y = - 75;
+			jumping = true;
+		}
+	}
+		
 	if (userInput->getKeyState('S'))
-		moveTo(tempPos.x, tempPos.y -= speed * deltaTime, 0);
+		moveTo(tempPos.x, tempPos.y -= speed.y * deltaTime, 0);
+
+	//gravity
+	speed.y += acceleration.y;
+	if (speed.y > maxSpeed.y)
+		speed.y = maxSpeed.y;
+
+	moveTo(tempPos.x, tempPos.y -= speed.y * deltaTime, 0);
 
 	//update collide rect
 	collideRect->update();
@@ -65,6 +92,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	if (result) //collide, move back Y
 	{
+		jumping = false;
+		speed.y = 0;
 		tempPos.y = lastPos.y;
 		moveTo(tempPos.x, lastPos.y);
 		result = false;
@@ -101,10 +130,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//else
 	//	printf("out of map%f,%f\n", readPos().x, readPos().y);
 
+	printf("Speed: %fx,%fy\n", speed.x, speed.y);
+
 	return 0;
 }
 
-int Player::getDir()
+vec2 Player::getSpeed()
 {
-	return dir;
+	return speed;
 }
