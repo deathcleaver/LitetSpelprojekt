@@ -1,7 +1,5 @@
 #include "player.h"
 
-#include <stdio.h>
-
 
 void Player::init()
 {
@@ -119,8 +117,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		moveTo(tempPos.x, lastPos.y);
 		result = false;
 	}
-
-	printf("Speed: %fx,%fy\n", speed.x, speed.y);
 
 	return 0;
 }

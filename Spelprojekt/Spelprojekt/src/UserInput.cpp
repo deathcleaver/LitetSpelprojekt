@@ -1,5 +1,5 @@
 #include "UserInput.h"
-
+#include <stdio.h>
 using namespace glm;
 
 UserInput::~UserInput()
@@ -242,47 +242,58 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 	vec2 speed = s;
 	float dist = 0;
 
-	cameraOffset = 1.5f;
+	cameraOffset = 2.f;
 
 	speed.x *= deltaTime;
 	speed.y *= deltaTime;
 
 	if (speed.x < 0) // moving to the left
 	{
-			pos.x += cameraOffset * (speed.x); // only update x pos since we're viewing the player from the side.
+			currOffset += ((speed.x) * deltaTime) * 50;
+			
+			if (currOffset > cameraOffset)
+				currOffset = cameraOffset;
+			
+			pos.x = p.x + currOffset;
 
 			if (pos.x < p.x - cameraOffset)
-			{
 				pos.x = p.x - cameraOffset;
-			}
 	}
 
 	if (speed.x > 0) // moving to the right
 	{
-			pos.x += cameraOffset * (speed.x); // only update x pos since we're viewing the player from the side.
-		
-			if (pos.x > p.x + cameraOffset)
-			{
-				pos.x = p.x + cameraOffset;
-			}
+		currOffset += ((speed.x) * deltaTime) * 50;
+
+		if (currOffset < -cameraOffset)
+			currOffset = cameraOffset;
+
+		pos.x = p.x + currOffset;
+
+		if (pos.x > p.x + cameraOffset)
+			pos.x = p.x + cameraOffset;
 	}
 
 	if (speed.x == 0) // standing still
-	{
-		if (pos.x < p.x + 0.05)
+	{	
+		if (pos.x + currOffset < p.x)
 		{
-			dist = (pos.x - p.x) * 10;
-			pos.x -= dist * deltaTime;
+			dist = (pos.x - p.x);
+			pos.x -= dist * 20 * deltaTime;
 		}
 			
-		else if (pos.x > p.x + 0.05)
+		else if (pos.x + currOffset > p.x)
 		{
-			dist = (p.x - pos.x) * 10;
-			pos.x += dist * deltaTime;
+			dist = (p.x - pos.x);
+			pos.x += dist * 20 * deltaTime;
 		}
 		else
+		{
 			pos.x = p.x;
+			currOffset = 0;
+		}
 	}
+
+	printf("posx: %f: px: %f: coff: %f\n", pos.x, p.x, currOffset);
 
 	// update camera pos y (no smoothing)
 	pos.y = p.y;
