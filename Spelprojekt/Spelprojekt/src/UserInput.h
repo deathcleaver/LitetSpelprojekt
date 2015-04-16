@@ -16,7 +16,7 @@ private:
 	float angleH = 0;
 	float angleV = 0;
 	vec3 up = { 0, 0, 0 };
-	float cameraSmoothing = 2.5f;
+	float cameraOffset = 5.f;
 
 	mat3 rotH;
 	mat3 rotV;

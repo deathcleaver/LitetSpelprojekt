@@ -235,35 +235,46 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 {
 	vec3 oldPos = pos;
 	vec2 speed = s;
+	float dist = 0;
 
-	cameraSmoothing = 0;
+	cameraOffset = 1.5f;
 
 	speed.x *= deltaTime;
-	speed.y += deltaTime;
+	speed.y *= deltaTime;
 
-	if (speed.x < 0) // moving to the right
+	if (speed.x < 0) // moving to the left
 	{
-		if (pos.x < p.x + cameraSmoothing + speed.x)
-			pos.x += speed.x; // only update x pos since we're viewing the player from the side.
-		else
-			pos.x = p.x + (cameraSmoothing * speed.x);
+			pos.x += cameraOffset * (speed.x); // only update x pos since we're viewing the player from the side.
+
+			if (pos.x < p.x - cameraOffset)
+			{
+				pos.x = p.x - cameraOffset;
+			}
 	}
 
-	else if (speed.x > 0) // moving to the left
+	if (speed.x > 0) // moving to the right
 	{
-		if (pos.x > p.x - cameraSmoothing + speed.x)
-			pos.x -= speed.x; // only update x pos since we're viewing the player from the side.
-		else
-			pos.x = p.x + (cameraSmoothing * speed.x);
+			pos.x += cameraOffset * (speed.x); // only update x pos since we're viewing the player from the side.
+		
+			if (pos.x > p.x + cameraOffset)
+			{
+				pos.x = p.x + cameraOffset;
+			}
 	}
 
-	else if (speed.x == 0) // standing still
+	if (speed.x == 0) // standing still
 	{
-		if (pos.x < p.x + speed.x)
-			pos.x += speed.x;
-
-		else if (pos.x > p.x + speed.x)
-			pos.x -= speed.x;
+		if (pos.x < p.x + 0.05)
+		{
+			dist = (pos.x - p.x) * 10;
+			pos.x -= dist * deltaTime;
+		}
+			
+		else if (pos.x > p.x + 0.05)
+		{
+			dist = (p.x - pos.x) * 10;
+			pos.x += dist * deltaTime;
+		}
 		else
 			pos.x = p.x;
 	}
