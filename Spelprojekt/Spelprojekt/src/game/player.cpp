@@ -5,6 +5,7 @@
 
 void Player::init()
 {
+	HP = 3;
 	moveTo(0, 2);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 2);
@@ -74,7 +75,16 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		result = map->getChunks()[idX][idY].playerVsEnemies(collideRect);
 	if (result)
 	{
-		printf("Ow, I'm hit!");
+		
+		if (HP > 1)
+		{
+			HP -= 1;
+			printf("Ow, I'm hit! HP remaining is %d\n", HP);
+		}
+		else
+		{
+			printf("I'm fucking dead!\n");
+		}
 	}
 
 	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);

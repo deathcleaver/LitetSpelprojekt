@@ -18,7 +18,7 @@ private:
 	float timepass = 0.0f;
 	// camera variables
 	int dir;
-
+	int HP;
 	Rect* collideRect = 0;
 
 public:
@@ -27,7 +27,6 @@ public:
 	void init();
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	int getDir();
-
 };
 
 #endif
