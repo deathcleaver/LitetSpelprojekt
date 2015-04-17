@@ -19,6 +19,7 @@ private:
 	int HP;
 
 	//movement
+	float jumpHeight;
 	vec2 speed;
 	vec2 maxSpeed;
 	vec2 acceleration;
