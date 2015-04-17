@@ -45,20 +45,17 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.init(1080, 720, 4, true);
 
 	GLfloat* something = (GLfloat*)viewMatrix;
-
 	gBuffer.cameraPos = &something[12];
 
 }
 
-void Engine::render(const Player* player, const Map* map, const ContentManager* content)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content, glm::vec3* campos)
 {
 	int facecount = 0;
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
 	// bind gbuffer FBO
 	gBuffer.bind(GL_FRAMEBUFFER);
-	//
-
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -130,7 +127,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glDisable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	gBuffer.render();
+	gBuffer.render(campos);
     
 	glEnable(GL_DEPTH_TEST);
 

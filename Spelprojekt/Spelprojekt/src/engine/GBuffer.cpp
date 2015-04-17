@@ -87,7 +87,7 @@ void Gbuffer::bind(GLuint target)
 	glBindFramebuffer(target, targetId);
 }
 
-void Gbuffer::render()
+void Gbuffer::render(glm::vec3* campos)
 {
 	// bind shader
 	glUseProgram(*shaderPtr);
@@ -104,7 +104,7 @@ void Gbuffer::render()
 		glProgramUniform1i(*shaderPtr, pos[i], i);
 	}
 
-	glProgramUniform3f(*shaderPtr, unifromCamPos, -cameraPos[0], -cameraPos[1], 4);
+	glProgramUniform3f(*shaderPtr, unifromCamPos, campos->x, campos->y, 4);
 	glProgramUniform3f(*shaderPtr, unifromPlayerPos, playerPos[0], playerPos[1], 4);
 	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

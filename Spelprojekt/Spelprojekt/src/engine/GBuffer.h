@@ -1,6 +1,9 @@
 #ifndef GBUFFER_H
 #define GBUFFER_H
 
+#include <..\glm\glm.hpp>
+#include <..\glm\gtc\matrix_transform.hpp>
+
 #include "RenderTarget.h"
 
 class Gbuffer : public RenderTarget
@@ -14,7 +17,7 @@ public:
 
 	void bind(GLuint index);
 
-	void render();
+	void render(glm::vec3* campos);
 
 	GLuint* shaderPtr;
 	GLfloat* playerPos;

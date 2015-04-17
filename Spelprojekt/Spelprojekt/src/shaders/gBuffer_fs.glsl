@@ -7,7 +7,7 @@ uniform sampler2D world;
 
 out vec4 fragment_color;
 
-uniform vec3 lightPos = vec3(0, 0, 4);
+uniform vec3 lightPos;
 uniform vec3 playerPos;
 float lDist = 100;
 
@@ -34,7 +34,7 @@ void main ()
         
         vec3 s = normalize(vec3(lightPos.xyz - worldPos.xyz));
 
-        vec3 r = reflect(-s, n.xyz);
+        vec3 r = reflect(s, n.xyz);
         
         letThereBeLight = vec4(lightColor.xyz * attenuation * max(dot(n.xyz, s), 0), 1.0);
     }

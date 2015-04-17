@@ -211,7 +211,7 @@ void Game::update(float deltaTime)
 	}
 	
 	//Render const
-	engine->render(player, map, content);
+	engine->render(player, map, content, in->GetPos());
 }
 
 void Game::readInput(float deltaTime)

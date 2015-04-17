@@ -41,7 +41,7 @@ public:
 	~Engine();
 	void init(glm::mat4* viewMatrix);
 
-	void render(const Player* player, const Map* map, const ContentManager* content);
+	void render(const Player* player, const Map* map, const ContentManager* content, vec3* campos);
 };
 
 #endif
