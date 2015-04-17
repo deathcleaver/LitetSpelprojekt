@@ -2,7 +2,6 @@
 
 Rect* Enemy::getRekt()
 {
-	collideRect->update();
 	return collideRect;
 }
 

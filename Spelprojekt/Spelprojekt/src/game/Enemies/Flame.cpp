@@ -64,6 +64,7 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 			}
 		}
 	}
+	collideRect->update();
 	return 0;
 }
 
