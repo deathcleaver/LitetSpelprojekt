@@ -98,9 +98,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//MoveY
 	if (userInput->getKeyState('W') && noAutoJump)
 	{
-		noAutoJump = false;
 		if (!jumping && flinchTimer < FLT_EPSILON)
 		{
+			noAutoJump = false;
 			speed.y = jumpHeight * 3;
 			jumping = true;
 		}
