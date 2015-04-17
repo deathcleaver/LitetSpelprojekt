@@ -29,7 +29,7 @@ void main ()
         float d = lDist;
         float attenuation;
         if(dist != 0)
-            attenuation = 1- clamp((pow(dist,2) / d), 0, 1);
+            attenuation = 1- clamp((pow(dist,1.5) / d), 0, 1);
             attenuation = max(attenuation, 0);
         
         vec3 s = normalize(vec3(playerPos.xyz - worldPos.xyz));
