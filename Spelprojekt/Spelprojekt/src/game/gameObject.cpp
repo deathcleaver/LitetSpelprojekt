@@ -11,6 +11,11 @@ void GameObject::init(int idi)
 	contentIndex = idi;
 }
 
+glm::mat4* GameObject::getWorldMat()
+{
+	return &worldMat;
+}
+
 void GameObject::rotate(float x, float y, float z)
 {
 	//float rotx = toRad * x;

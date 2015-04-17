@@ -79,6 +79,14 @@ void MapChunk::init(int xIndex, int yIndex)
 			worldObjs[c].translate(pos.x, pos.y, pos.z);
 			worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
 		}
+		if (type == "Shrine")
+		{	
+			worldObjs[c].init(2); //2 = playerBase svart
+			worldObjs[c].moveTo(xOffset * 35, yOffset * -35);
+			worldObjs[c].translate(pos.x, pos.y, pos.z);
+			worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
+			shrine = new Shrine(&worldObjs[c]);
+		}
 	}
 
 	worldCollide = new Rect**[35];
@@ -174,6 +182,19 @@ bool MapChunk::playerVsEnemies(Rect* playerRect)
 		}
 	}
 	return hit;
+}
+
+void MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
+{
+	if (currentSpawn != shrine && shrine != 0)
+	{
+		Rect* shrineRect = shrine->getRekt();
+		if (playerRect->intersects(shrineRect))
+		{
+			printf("Hejsan svejsan");
+			currentSpawn = shrine;
+		}
+	}
 }
 
 bool MapChunk::enemyLives(int index)

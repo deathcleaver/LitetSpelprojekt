@@ -6,7 +6,7 @@
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
 
-#include "gameObject.h"
+#include "Shrine.h"
 #include "rect.h"
 #include "map.h"
 #include "mapChunk.h"
@@ -26,7 +26,9 @@ private:
 	bool jumping;
 	
 	Rect* collideRect = 0;
+	Shrine* currentSpawn = 0;
 
+	void respawn();
 public:
 	Player(){};
 	~Player();

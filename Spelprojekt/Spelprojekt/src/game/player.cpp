@@ -125,6 +125,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		jumping = true;
 	}
 
+	map->collideShrine(collideRect, readPos(), currentSpawn);
+
 	result = map->collideEnemies(collideRect, readPos());
 	if (result)
 	{
@@ -137,9 +139,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		else
 		{
 			printf("I'm fucking dead!\n");
+			respawn();
 		}
+		result = false;
 	}
-
 	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
 	//if (idX != -1 && idY != -1)
 	//{
@@ -159,4 +162,20 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 vec2 Player::getSpeed()
 {
 	return speed;
+}
+
+void Player::respawn()
+{
+	HP = 3;
+	speed = vec2(0);
+	jumping = false;
+	if (currentSpawn != 0)
+	{
+		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
+		printf("Jag hade en respawnpunkt");
+	}
+	else
+	{
+		moveTo(0, 2);
+	}
 }
