@@ -28,9 +28,10 @@ private:
 	void PAUSE();
 public:
 	GUI();
+	~GUI();
 	void init();
 	void update(int state);
-	~GUI();
+	
 };
 
 #endif

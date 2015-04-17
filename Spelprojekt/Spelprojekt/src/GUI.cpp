@@ -16,13 +16,37 @@ void GUI::update(int state)
 		current = gMENU;
 		MENU();
 		break;
-	case(0) :
+	case(1) :
 		current = gMENU;
 		MENU();
 		break;
-	case(0) :
+	case(2) :
 		current = gMENU;
 		MENU();
 		break;
 	}
+}
+
+void GUI::destroy()
+{
+}
+
+void GUI::MENU()
+{
+}
+
+void GUI::PLAY()
+{
+}
+
+void GUI::INTRO()
+{
+}
+
+void GUI::EDIT()
+{
+}
+
+void GUI::PAUSE()
+{
 }
