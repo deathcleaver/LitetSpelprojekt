@@ -298,11 +298,27 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 	*viewMatrix = lookAt(pos, target, up);
 }
 
-void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime)
+void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, bool playerpeek)
 {
+
 	glm::vec3 oldPos = pos;
 	float keepZ = pos.z;
 	glm::vec3 toTarget = moveTo - pos;
+	if (playerpeek && shift)
+	{
+		if (D)
+			toTarget.x += 7;
+		if (A)
+			toTarget.x -= 7;
+		if (W)
+			toTarget.y += 7;
+		if (S)
+			toTarget.y -= 7;
+		D = false;
+		A = false;
+		W = false;
+		S = false;
+	}
 	pos = pos + (toTarget * deltaTime * factor);
 	pos.z = keepZ;
 	target += (pos - oldPos);
