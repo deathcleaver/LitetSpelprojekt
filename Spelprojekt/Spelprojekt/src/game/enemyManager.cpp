@@ -39,12 +39,18 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 		type = sub; //Läs fiendetyp
 		iss >> sub;
 		pos.x = atof(sub.c_str());
-		pos.x = pos.x + xOffset*35;
+		pos.x = pos.x + xOffset * 35;
 		iss >> sub;
 		pos.y = atof(sub.c_str());
-		pos.y = pos.y - yOffset*35;
+		pos.y = pos.y - yOffset * 35;
 		addEnemy(type, pos, c);
 	}
+}
+
+void EnemyManager::initEmpty()
+{
+	nrOfEnemies = -1;
+	enemies = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk)

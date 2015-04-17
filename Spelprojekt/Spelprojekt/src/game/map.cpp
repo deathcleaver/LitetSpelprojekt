@@ -16,7 +16,7 @@ Map::~Map()
 void Map::init()
 {
 	width = 3;
-	height = 1;
+	height = 3;
 	chunks = new MapChunk*[width];
 	for (int x = 0; x < width; x++)
 	{
@@ -81,6 +81,7 @@ void Map::getChunkIndex(glm::vec3 pos, int* idX, int* idY)
 void Map::setUpDraw(glm::vec3 pos)
 {
 	upDraw[0] = 0;
+	//add middle
 	getChunkIndex(pos, &upDraw[1], &upDraw[2]);
 	if (upDraw[1] == -1 || upDraw[2] == -1)
 		return;
@@ -93,80 +94,63 @@ void Map::setUpDraw(glm::vec3 pos)
 	//numbers bigger than 17 will crash the game
 	int Xbounds = 17;
 	int Ybounds = 10;
-
-	if (pos.x < Xbounds) //DOUBLE -X DRAW
+	
+	int X = 0;
+	if (pos.x < Xbounds) // - X
 	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2];
 		upDraw[0]++;
-		upDraw[3] = upDraw[1] - 1;
-		upDraw[4] = upDraw[2];
-		
-		//if QUAD DRAW -X Y
-		if (pos.y < -35 + Ybounds)
-		{
-			upDraw[0]++;
-			upDraw[5] = upDraw[1] - 1;
-			upDraw[6] = upDraw[2] + 1;
-
-			upDraw[0]++;
-			upDraw[7] = upDraw[1];
-			upDraw[8] = upDraw[2] + 1;
-		}
-		//if QUAD DRAW -X -Y
-		else if (pos.y < -Ybounds)
-		{
-			upDraw[0]++;
-			upDraw[5] = upDraw[1] - 1;
-			upDraw[6] = upDraw[2] - 1;
-
-			upDraw[0]++;
-			upDraw[7] = upDraw[1];
-			upDraw[8] = upDraw[2] - 1;
-		}
+		X = -1;
 	}
-	if (pos.x > 35 - Xbounds) //DOUBLE X DRAW
+	else if (pos.x > 35 - Xbounds) // X
 	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2];
 		upDraw[0]++;
-		upDraw[3] = upDraw[1] + 1;
-		upDraw[4] = upDraw[2];
-
-		//if QUAD DRAW X Y
-		if (pos.y < -35 + Ybounds)
-		{
-			upDraw[0]++;
-			upDraw[5] = upDraw[1] + 1;
-			upDraw[6] = upDraw[2] + 1;
-
-			upDraw[0]++;
-			upDraw[7] = upDraw[1];
-			upDraw[8] = upDraw[2] + 1;
-		}
-		//if QUAD DRAW X -Y
-		else if (pos.y > -Ybounds)
-		{
-			upDraw[0]++;
-			upDraw[5] = upDraw[1] + 1;
-			upDraw[6] = upDraw[2] + 1;
-
-			upDraw[0]++;
-			upDraw[7] = upDraw[1];
-			upDraw[8] = upDraw[2] - 1;
-		}
+		X = 1;
 	}
-	else //DOUBLE Y DRAW
+
+	int Y = 0;
+	if (pos.y > -Ybounds) // - Y
 	{
-		if (pos.y < -35 + Ybounds)
-		{
-			upDraw[0]++;
-			upDraw[3] = upDraw[1];
-			upDraw[4] = upDraw[2] + 1;
-		}
-		//DOUBLE -Y DRAW
-		else if (pos.y > -Ybounds)
-		{
-			upDraw[0]++;
-			upDraw[3] = upDraw[1];
-			upDraw[4] = upDraw[2] - 1;
-		}
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1];
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+		upDraw[0]++;
+		Y = -1;
+	}
+	else if (pos.y < -(35 - Ybounds)) // Y
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1];
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+		upDraw[0]++;
+		Y = 1;
+	}
+	
+	//diagonals
+	if (X == -1 && Y == -1)
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+		upDraw[0]++;
+	}
+	else if (X == 1 && Y == -1)
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+		upDraw[0]++;
+	}
+	else if (X == -1 && Y == 1)
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+		upDraw[0]++;
+	}
+	else if (X == 1 && Y == 1)
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+		upDraw[0]++;
 	}
 }
 
@@ -216,7 +200,6 @@ bool Map::collideMap(Rect* test, glm::vec3 pos)
 	}
 	return result;
 }
-
 
 bool Map::collideEnemies(Rect* test, glm::vec3 pos)
 {

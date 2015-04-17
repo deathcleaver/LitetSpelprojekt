@@ -32,78 +32,111 @@ void MapChunk::init(int xIndex, int yIndex)
 	ifstream in;
 	in.open(fileName);
 	
-	enemyMan = new EnemyManager();
+	
 	xOffset = xIndex;
 	yOffset = yIndex;
-	enemyMan->init(in, xOffset, yOffset);
+	
 
 	//TODO:: load objects from file
-	
-	chunkBackground = new GameObject();
-	chunkBackground->init(0);
-	chunkBackground->moveTo(xOffset * 35, yOffset * -35);
-
-	glm::vec3 pos;
-	glm::vec3 scale;
-	string type;
-
-	string line;
-	getline(in, line);
-	istringstream iss(line);
-	string sub;
-	iss >> sub;
-	countWorldObjs = atoi(sub.c_str());
-	worldObjs = new GameObject[countWorldObjs];
-	for (int c = 0; c < countWorldObjs; c++)
+	if (in.is_open())
 	{
-		if (!(getline(in, line))) break;
-		iss = istringstream(line);
+		enemyMan = new EnemyManager();
+		enemyMan->init(in, xOffset, yOffset);
+
+		chunkBackground = new GameObject();
+		chunkBackground->init(0);
+		chunkBackground->moveTo(xOffset * 35, yOffset * -35);
+
+		glm::vec3 pos;
+		glm::vec3 scale;
+		string type;
+
+		string line;
+		getline(in, line);
+		istringstream iss(line);
+		string sub;
 		iss >> sub;
-		type = sub; //Läs objekttyp
-		iss >> sub;
-		pos.x = atof(sub.c_str());
-		iss >> sub;
-		pos.y = atof(sub.c_str());
-		iss >> sub;
-		pos.z = atof(sub.c_str());
-		iss >> sub;
-		scale.x = atof(sub.c_str());
-		iss >> sub;
-		scale.y = atof(sub.c_str());
-		iss >> sub;
-		scale.z = atof(sub.c_str());
-		if (type == "Box")
+		countWorldObjs = atoi(sub.c_str());
+		worldObjs = new GameObject[countWorldObjs];
+		for (int c = 0; c < countWorldObjs; c++)
 		{
-			worldObjs[c].init(1); //1 = box
-			worldObjs[c].moveTo(xOffset * 35, yOffset * -35);
-			worldObjs[c].translate(pos.x, pos.y, pos.z);
-			worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
-		}
-	}
-
-	worldCollide = new Rect**[35];
-	for (int c = 0; c < 35; c++)
-	{
-		worldCollide[c] = new Rect*[35];
-	}
-	
-	for (int y = 0; y < 35; y++)
-	{
-		if (!(getline(in, line))) break;
-		
-		for (int x = 0; x < 35; x++)
-		{
-			char lineAt = line.at(x);
-			if (lineAt == 'X')
+			if (!(getline(in, line))) break;
+			iss = istringstream(line);
+			iss >> sub;
+			type = sub; //Läs objekttyp
+			iss >> sub;
+			pos.x = atof(sub.c_str());
+			iss >> sub;
+			pos.y = atof(sub.c_str());
+			iss >> sub;
+			pos.z = atof(sub.c_str());
+			iss >> sub;
+			scale.x = atof(sub.c_str());
+			iss >> sub;
+			scale.y = atof(sub.c_str());
+			iss >> sub;
+			scale.z = atof(sub.c_str());
+			if (type == "Box")
 			{
-				worldCollide[x][y] = new Rect();
-				worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
-			}
-			else
-			{
-				worldCollide[x][y] = 0;
+				worldObjs[c].init(1); //1 = box
+				worldObjs[c].moveTo(xOffset * 35, yOffset * -35);
+				worldObjs[c].translate(pos.x, pos.y, pos.z);
+				worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
 			}
 		}
+
+		worldCollide = new Rect**[35];
+		for (int c = 0; c < 35; c++)
+		{
+			worldCollide[c] = new Rect*[35];
+		}
+
+		for (int y = 0; y < 35; y++)
+		{
+			getline(in, line);
+			for (int x = 0; x < 35; x++)
+			{
+				char lineAt = line.at(x);
+				if (lineAt == 'X')
+				{
+					worldCollide[x][y] = new Rect();
+					worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+				}
+				else
+				{
+					worldCollide[x][y] = 0;
+				}
+			}
+		}
+	}
+	else //init 0
+	{	
+		//default background
+		chunkBackground = new GameObject();
+		chunkBackground->init(0);
+		chunkBackground->moveTo(xOffset * 35, yOffset * -35);
+
+		enemyMan = new EnemyManager;
+		enemyMan->initEmpty();
+
+		countWorldObjs = 0;
+		worldObjs = new GameObject[countWorldObjs];
+
+		worldCollide = new Rect**[35];
+		for (int c = 0; c < 35; c++)
+			worldCollide[c] = new Rect*[35];
+
+		for (int y = 0; y < 35; y++)
+			for (int x = 0; x < 35; x++)
+			{
+				if (x > 2 && y == 35)
+				{
+					worldCollide[x][y] = new Rect();
+					worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+				}
+				else
+					worldCollide[x][y] = 0;
+			}
 	}
 	in.close();
 }

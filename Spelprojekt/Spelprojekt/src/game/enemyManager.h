@@ -22,6 +22,7 @@ public:
 	int update(float deltaTime, MapChunk* chunk);
 	int size();
 	void init(ifstream &file, int xOffset, int yOffset);
+	void initEmpty();
 
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
