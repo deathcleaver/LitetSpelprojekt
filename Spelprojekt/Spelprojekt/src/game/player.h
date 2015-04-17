@@ -24,7 +24,7 @@ private:
 	vec2 maxSpeed;
 	vec2 acceleration;
 	bool jumping;
-	
+	bool noAutoJump;
 	Rect* collideRect = 0;
 	Shrine* currentSpawn = 0;
 

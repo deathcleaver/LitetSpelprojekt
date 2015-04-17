@@ -9,9 +9,10 @@ void Player::init()
 	collideRect->initGameObjectRect(&worldMat, 0.9, 1.9);
 	speed = vec2(0);
 	maxSpeed = vec2(15, -30);
-	acceleration = vec2(0.2f,0.5f); // y = gravity
+	acceleration = vec2(0.4f,0.8f); // y = gravity
 	jumping = false;
-	jumpHeight = 30.0f;
+	jumpHeight = 5.2f;
+	noAutoJump = true;
 }
 
 Player::~Player()
@@ -95,17 +96,22 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 
 	//MoveY
-	if (userInput->getKeyState('W'))
+	if (userInput->getKeyState('W') && noAutoJump)
 	{
+		noAutoJump = false;
 		if (!jumping && flinchTimer < FLT_EPSILON)
 		{
-			speed.y = jumpHeight;
+			speed.y = jumpHeight * 3;
 			jumping = true;
 		}
 	}
 
+	
 	//gravity
-	speed.y -= acceleration.y;
+	if (userInput->getKeyState('W') && speed.y > 0)
+		speed.y -= (acceleration.y * 0.5f);
+	else
+		speed.y -= acceleration.y;
 	
 	if (speed.y < maxSpeed.y)
 		speed.y = maxSpeed.y;
@@ -196,6 +202,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//}
 	//else
 	//	printf("out of map%f,%f\n", readPos().x, readPos().y);
+	if (userInput->getKeyState('W') == false)
+		noAutoJump = true;
 	return 0;
 }
 
