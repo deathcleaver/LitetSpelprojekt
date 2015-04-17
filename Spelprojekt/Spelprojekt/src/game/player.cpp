@@ -89,6 +89,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			tempPos.x = lastPos.x;
 			moveTo(lastPos.x, tempPos.y);
+			speed.x = 0;
 			result = false;
 		}
 	}
