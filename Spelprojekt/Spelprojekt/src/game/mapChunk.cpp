@@ -199,19 +199,19 @@ int MapChunk::update(float deltaTime)
 	return 0;
 }
 
-bool MapChunk::playerVsEnemies(Rect* playerRect)
+glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 {
 	Enemy** enemies = enemyMan->getEnemies();
 	int nrOfEnemies = enemyMan->size();
-	bool hit = false;
-	for (int c = 0; c < nrOfEnemies && !hit; c++)
+	glm::vec3 hit = glm::vec3(0,0,-1);
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
 	{
 		Rect* enemyRect = enemies[c]->getRekt();
 		if (enemyRect && enemies[c]->isAlive())
 		{
 			if (enemyRect->intersects(playerRect))
 			{
-				hit = true;
+				hit = enemies[c]->getPos();
 				enemies[c]->hit(1);
 			}
 		}

@@ -130,7 +130,6 @@ void Game::mainLoop()
 		glfwPollEvents();
 
 		readInput(deltaTime);
-		printf("%f\n", deltaTime);
 		if (deltaTime > 0.0166666f)
 			deltaTime = 0.0166666f;
 		update(deltaTime);

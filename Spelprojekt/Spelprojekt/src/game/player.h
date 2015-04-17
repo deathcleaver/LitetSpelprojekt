@@ -28,6 +28,10 @@ private:
 	Rect* collideRect = 0;
 	Shrine* currentSpawn = 0;
 
+	float flinchTimer;
+	float invulnTimer;
+
+	bool god;
 	void respawn();
 public:
 	Player(){};
@@ -36,6 +40,7 @@ public:
 
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	vec2 getSpeed();
+	bool isBlinking() const;
 };
 
 #endif

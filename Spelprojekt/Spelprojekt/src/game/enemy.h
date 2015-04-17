@@ -25,6 +25,7 @@ public:
 	virtual int update(float deltaTime, MapChunk* chunk) = 0;
 	virtual void hit(int damage) = 0;
 	bool isAlive();
+	glm::vec3 getPos();
 };
 
 #endif

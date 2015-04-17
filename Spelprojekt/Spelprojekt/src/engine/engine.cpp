@@ -52,7 +52,7 @@ void Engine::init(glm::mat4* viewMat)
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content)
 {
-
+	int facecount = 0;
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
 	// bind gbuffer FBO
@@ -61,9 +61,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	int facecount = 0;
+		
 	glUseProgram(tempshader);
-	
+
 	glm::mat4 VP = projMatrix * *viewMatrix;
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
@@ -71,8 +71,10 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
 	facecount = content->bindPlayer();
-	glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-
+	if (!player->isBlinking())
+	{
+		glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+	}
 	// - -Map Draw --
 	int id = 0;
 	int lastid = -1;

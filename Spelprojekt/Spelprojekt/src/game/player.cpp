@@ -28,6 +28,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	vec3 tempPos = lastPos;
 	bool result = false;
 
+	//Toggle God
+
 	//MoveX
 	//left
 	if (userInput->getKeyState('A') && !userInput->getKeyState('D')) {
@@ -127,21 +129,40 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	map->collideShrine(collideRect, readPos(), currentSpawn);
 
-	result = map->collideEnemies(collideRect, readPos());
-	if (result)
+	if (invulnTimer < FLT_EPSILON && !god)
 	{
-		
-		if (HP > 1)
+		vec3 playerPos = readPos();
+		glm::vec3 result = map->collideEnemies(collideRect, playerPos);
+		if (result.z > -FLT_EPSILON)
 		{
-			HP -= 1;
-			printf("Ow, I'm hit! HP remaining is %d\n", HP);
+			printf("Enemy x/y/z: %f/%f/%f \n", result.x, result.y, result.z);
+			printf("Player x/y/z: %f/%f/%f \n", playerPos.x, playerPos.y, playerPos.z);
+			invulnTimer = 1.0f;
+			if (HP > 1)
+			{
+				HP -= 1;
+				printf("Ow, I'm hit! HP remaining is %d\n", HP);
+				if (result.x < playerPos.x)
+				{
+					speed.x = 10;
+					speed.y = 10;
+				}
+				else
+				{
+					speed.x = -10;
+					speed.y = 10;
+				}
+			}
+			else
+			{
+				printf("I'm fucking dead!\n");
+				respawn();
+			}
 		}
-		else
-		{
-			printf("I'm fucking dead!\n");
-			respawn();
-		}
-		result = false;
+	}
+	else
+	{
+		invulnTimer -= 1.0f*deltaTime;
 	}
 	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
 	//if (idX != -1 && idY != -1)
@@ -178,4 +199,17 @@ void Player::respawn()
 	{
 		moveTo(0, 2);
 	}
+}
+
+bool Player::isBlinking() const
+{
+	if (invulnTimer > 0.0f && !god)
+	{
+		int check = int(invulnTimer*10);
+		if (check % 3)
+		{
+			return true;
+		}
+	}
+	return false;
 }

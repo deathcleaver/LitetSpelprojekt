@@ -201,10 +201,10 @@ bool Map::collideMap(Rect* test, glm::vec3 pos)
 	return result;
 }
 
-bool Map::collideEnemies(Rect* test, glm::vec3 pos)
+glm::vec3 Map::collideEnemies(Rect* test, glm::vec3 pos)
 {
 	int idX, idY;
-	bool result = false;
+	glm::vec3 result;
 	getChunkIndex(pos, &idX, &idY);
 	if (idX != -1 && idY != -1)
 	{
