@@ -89,6 +89,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\animation.cpp" />
+    <ClCompile Include="src\engine\AnimationManager.cpp" />
+    <ClCompile Include="src\engine\AnimationObject.cpp" />
     <ClCompile Include="src\engine\ContentManager.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\object.cpp" />
@@ -103,6 +105,8 @@
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
     <ClInclude Include="src\engine\animation.h" />
+    <ClInclude Include="src\engine\AnimationManager.h" />
+    <ClInclude Include="src\engine\AnimationObject.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\object.h" />

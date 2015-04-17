@@ -54,9 +54,12 @@ public:
 
 	Object() {}
 	Object(std::string pathVert, std::string pathTex, Object* obj = 0, bool copyVert = false, bool copyTex = false);
+	Object(const Object& obj);
 	~Object();
 	void bind();
 	int getFaces();
+
+	void updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLushort> someIndices);
 };
 
 #endif

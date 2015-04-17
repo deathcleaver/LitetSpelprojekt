@@ -119,7 +119,7 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 		{
 			id = chunks[n].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
 			if(id != lastid)
-				facecount = content->bindMapObj(id);
+				facecount = content->bindMapObj(id); //This will be the same
 			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 			lastid = id;
 		}
@@ -132,7 +132,7 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 		{
 			id = chunks[n].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
 			if (id != lastid)
-				facecount = content->bindMapObj(id);
+				facecount = content->bindMapObj(id); //This will be changed to AnimationManager, to get the animated meshes
 			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 			lastid = id;
 		}

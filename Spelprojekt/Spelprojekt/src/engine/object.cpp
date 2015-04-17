@@ -39,6 +39,27 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 			textureHost = true;
 }
 
+Object::Object(const Object& obj)
+{
+	vertexHost = obj.vertexHost;
+	textureId = obj.textureId;
+	textureHost = obj.textureHost;
+	TEXTUREINDEXOFFSET = obj.TEXTUREINDEXOFFSET;
+	faceCount = obj.faceCount;
+
+	vertexData = obj.vertexData;
+	indexBuffer = obj.indexBuffer;
+	vertexAttribute = obj.vertexAttribute;
+
+	vert = obj.vert;
+	uv = obj.uv;
+	Indices = obj.Indices;
+
+	count = obj.count;
+	size = obj.size;
+	state = obj.state;
+}
+
 void Object::bind()
 {
 	glActiveTexture(GL_TEXTURE0 +TEXTUREINDEXOFFSET);
@@ -131,9 +152,9 @@ bool Object::loadVert(std::string path)
 						indexVERT = vert.size();
 						vert.push_back(TriangleVertex());
 						vert[indexVERT] = vert[temp];
-						vert[indexVERT].u = uv[indexUV].u;
-						vert[indexVERT].v = uv[indexUV].v;
-						Indices[count * 3 + n] = indexVERT;
+vert[indexVERT].u = uv[indexUV].u;
+vert[indexVERT].v = uv[indexUV].v;
+Indices[count * 3 + n] = indexVERT;
 					}
 					iss >> sub; // normal index
 				}
@@ -154,7 +175,7 @@ bool Object::loadVert(std::string path)
 		//define vertex data layout
 		glGenVertexArrays(1, &vertexAttribute);
 		glBindVertexArray(vertexAttribute);
-		glEnableVertexAttribArray(0); 
+		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		//pos
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Object::TriangleVertex), BUFFER_OFFSET(0));
@@ -228,4 +249,23 @@ bool Object::loadBMP(std::string imagepath)
 int Object::getFaces()
 {
 	return faceCount;
+}
+
+void Object::updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLushort> someIndices)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, vertexData);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(someVerts[0])* someVerts.size(), &someVerts[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(someIndices) * count * 3, &someIndices[0], GL_STATIC_DRAW);
+	faceCount = count;
+	glEnableVertexAttribArray(indexBuffer);
+
+	glBindVertexArray(vertexAttribute);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	//pos
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), BUFFER_OFFSET(0));
+	//uv
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), BUFFER_OFFSET(sizeof(float) * 3));
 }
