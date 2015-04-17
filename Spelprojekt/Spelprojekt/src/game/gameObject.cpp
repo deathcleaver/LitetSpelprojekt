@@ -74,7 +74,7 @@ void GameObject::moveTo(float x, float y, float z)
 	worldMat[2].w = z;
 }
 
-glm::vec3 GameObject::readPos()
+glm::vec3 GameObject::readPos() const
 {
 	return glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
 }

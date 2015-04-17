@@ -34,6 +34,8 @@ private:
 
 	Gbuffer gBuffer;
 
+	
+
 public:
 	Engine(){};
 	~Engine();

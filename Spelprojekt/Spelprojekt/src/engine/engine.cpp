@@ -25,7 +25,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	//Temp shader
 
-	std::string shaders [] = {"src/shaders/default_vs.glsl","src/shaders/gs.glsl" , "src/shaders/default_fs.glsl" };
+	std::string shaders[] = { "src/shaders/default_vs.glsl", "src/shaders/gs.glsl", "src/shaders/default_fs.glsl" };
 	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_GEOMETRY_SHADER, GL_FRAGMENT_SHADER };
 
 	CreateProgram(tempshader, shaders, shaderType, 3);
@@ -33,7 +33,7 @@ void Engine::init(glm::mat4* viewMat)
 	shaders[0] = "src/shaders/gBuffer_vs.glsl";
 	shaders[1] = "src/shaders/gBuffer_fs.glsl";
 	shaderType[1] = GL_FRAGMENT_SHADER;
-	
+
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
 
 	gBuffer.shaderPtr = &tempshaderGBuffer;
@@ -44,10 +44,17 @@ void Engine::init(glm::mat4* viewMat)
 
 	gBuffer.init(1080, 720, 4, true);
 
+	GLfloat* something = (GLfloat*)viewMatrix;
+
+	gBuffer.cameraPos = &something[12];
+
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content)
 {
+
+	gBuffer.playerPos = (GLfloat*)&player->readPos();
+
 	// bind gbuffer FBO
 	gBuffer.bind(GL_FRAMEBUFFER);
 	//
