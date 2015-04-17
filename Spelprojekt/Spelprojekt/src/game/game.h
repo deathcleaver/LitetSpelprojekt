@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "../UserInput.h"
+#include "../GUI.h"
 
 #include "../engine/engine.h"
 #include "../engine/ContentManager.h"
