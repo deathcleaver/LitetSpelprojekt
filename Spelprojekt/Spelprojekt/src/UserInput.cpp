@@ -244,16 +244,13 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 
 	cameraOffset = 2.f;
 
-	speed.x *= deltaTime;
-	speed.y *= deltaTime;
-
 	if (speed.x < 0) // moving to the left
 	{
-			currOffset += ((speed.x) * deltaTime) * 50;
-			
-			if (currOffset > cameraOffset)
-				currOffset = cameraOffset;
-			
+			currOffset += speed.x * deltaTime * 25;
+
+			if (currOffset < -cameraOffset)
+				currOffset = -cameraOffset;
+
 			pos.x = p.x + currOffset;
 
 			if (pos.x < p.x - cameraOffset)
@@ -262,29 +259,31 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 
 	if (speed.x > 0) // moving to the right
 	{
-		currOffset += ((speed.x) * deltaTime) * 50;
+			currOffset += speed.x * deltaTime * 25;
 
-		if (currOffset < -cameraOffset)
-			currOffset = cameraOffset;
+			if (currOffset > cameraOffset)
+				currOffset = cameraOffset;
 
-		pos.x = p.x + currOffset;
+			pos.x = p.x + currOffset;
 
-		if (pos.x > p.x + cameraOffset)
-			pos.x = p.x + cameraOffset;
+			if (pos.x > p.x + cameraOffset)
+				pos.x = p.x + cameraOffset;
 	}
 
 	if (speed.x == 0) // standing still
 	{	
-		if (pos.x + currOffset < p.x)
+		if (p.x - (pos.x + currOffset) < 0.02) //left
 		{
 			dist = (pos.x - p.x);
 			pos.x -= dist * 20 * deltaTime;
+			currOffset = dist;
 		}
 			
-		else if (pos.x + currOffset > p.x)
+		else if (p.x - (pos.x + currOffset) > 0.02) //right
 		{
 			dist = (p.x - pos.x);
 			pos.x += dist * 20 * deltaTime;
+			currOffset = dist;
 		}
 		else
 		{
@@ -293,7 +292,7 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 		}
 	}
 
-	printf("posx: %f: px: %f: coff: %f\n", pos.x, p.x, currOffset);
+	printf("posx: %f: px: %f: coff: %f: speed: %f\n", pos.x, p.x, currOffset, speed.x);
 
 	// update camera pos y (no smoothing)
 	pos.y = p.y;
