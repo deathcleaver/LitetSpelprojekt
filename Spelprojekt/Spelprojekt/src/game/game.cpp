@@ -174,8 +174,6 @@ void Game::update(float deltaTime)
 			{
 				in->cameraPan(player->readPos(), 5, deltaTime, true);
 				player->update(in, map, deltaTime);
-				double x, y;
-				glfwGetCursorPos(windowRef, &x, &y);
 			}
 			map->setUpDraw(*in->GetPos());
 			map->update(deltaTime);

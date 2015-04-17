@@ -332,7 +332,7 @@ bool UserInput::updateMouse()
 
 void UserInput::resetZoomViewDir()
 {
-	pos.z = 15;
+	pos.z = 11;
 	target = pos;
 	target.z--;
 }
