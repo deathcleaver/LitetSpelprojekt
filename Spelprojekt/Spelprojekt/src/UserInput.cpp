@@ -298,6 +298,17 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 	*viewMatrix = lookAt(pos, target, up);
 }
 
+void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime)
+{
+	glm::vec3 oldPos = pos;
+	float keepZ = pos.z;
+	glm::vec3 toTarget = moveTo - pos;
+	pos = pos + (toTarget * deltaTime * factor);
+	pos.z = keepZ;
+	target += (pos - oldPos);
+	*viewMatrix = lookAt(pos, target, up);
+}
+
 bool UserInput::updateMouse()
 {
 	return shift;

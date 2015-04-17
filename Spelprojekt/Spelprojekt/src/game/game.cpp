@@ -171,7 +171,7 @@ void Game::update(float deltaTime)
 			if (cameraFollow)
 			{
 				player->update(in, map, deltaTime);
-				in->followPlayer(player->readPos(), player->getSpeed(), deltaTime);
+				in->cameraPan(player->readPos(), 5, deltaTime);
 			}
 			map->setUpDraw(*in->GetPos());
 			map->update(deltaTime);
@@ -196,6 +196,7 @@ void Game::update(float deltaTime)
 	}
 	last = current;
 
+	
 	if (!cameraFollow)
 	{
 		in->Act(deltaTime);
@@ -206,7 +207,7 @@ void Game::update(float deltaTime)
 		lastX = x;
 		lastY = y;
 	}
-
+	
 	//Render const
 	engine->render(player, map, content);
 }
@@ -245,16 +246,4 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
-	
-	double x, y;
-	glfwGetCursorPos(windowRef, &x, &y);
-	if(in->updateMouse())
-		in->Mouse(x - lastX, y - lastY);
-	lastX = x;
-	lastY = y;
-	
-	if (cameraFollow == false)
-		in->Act(deltaTime);
-	else
-		in->followPlayer(player->readPos(), player->getSpeed(), deltaTime);
 }

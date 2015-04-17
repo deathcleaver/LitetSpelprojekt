@@ -58,6 +58,7 @@ public:
 	bool getKeyState(char c);
 	void resetZoomViewDir();
 	bool updateMouse();
+	void cameraPan(vec3 moveTo, float delay, float deltaTime);
 };
 
 #endif
