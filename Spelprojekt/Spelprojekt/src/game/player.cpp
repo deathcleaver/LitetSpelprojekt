@@ -6,7 +6,7 @@ void Player::init()
 	HP = 3;
 	moveTo(0, 2);
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 0.9, 1.9);
+	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
 	speed = vec2(0);
 	maxSpeed = vec2(10, -30);
 	acceleration = vec2(0.4f,1.3f); // y = gravity
@@ -142,7 +142,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			speed.y = 0;
 		}
 		moveTo(tempPos.x, lastPos.y);
-		result = false;
 	}
 	else
 	{
