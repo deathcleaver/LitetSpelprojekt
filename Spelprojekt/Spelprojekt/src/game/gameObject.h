@@ -35,7 +35,7 @@ public:
 
 	virtual int update(float deltaTime);
 
-	glm::vec3 readPos();
+	glm::vec3 readPos() const;
 
 	int returnID();
 };

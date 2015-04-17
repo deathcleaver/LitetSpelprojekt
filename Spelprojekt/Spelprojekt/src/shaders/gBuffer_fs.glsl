@@ -1,13 +1,44 @@
 #version 410
 layout(location = 0) in vec2 UV;
 
-uniform sampler2D textureSample;
+uniform sampler2D diffuse;
+uniform sampler2D normal;
+uniform sampler2D world;
 
-layout(location = 1) out vec4 diffuseOut;
-layout(location = 2) out vec4 textureOut;
+out vec4 fragment_color;
+
+uniform vec3 lightPos = vec3(0, 0, 4);
+uniform vec3 playerPos;
+float lDist = 100;
+
+vec3 lightColor = vec3(1, 1, 1);
 
 void main () 
 {
-    diffuseOut = texture(textureSample,vec2(UV.s, UV.t));
-    textureOut = vec4(UV, 0, 1);
+    
+    vec4 worldPos = texture(world,vec2(UV.s, UV.t));
+    vec4 n = texture(normal,vec2(UV.s, UV.t));
+    vec4 diffuseColor = texture(diffuse,vec2(UV.s, UV.t));
+    
+    float dist = distance(worldPos.xyz, playerPos.xyz);
+    
+    vec4 letThereBeLight;
+    
+    if(dist < lDist)
+    {
+        float d = lDist;
+        float attenuation;
+        if(dist != 0)
+            attenuation = 1- clamp((pow(dist,1.5) / d), 0, 1);
+            attenuation = max(attenuation, 0);
+        
+        vec3 s = normalize(vec3(playerPos.xyz - worldPos.xyz));
+
+        vec3 r = reflect(-s, n.xyz);
+        
+        letThereBeLight = vec4(lightColor.xyz * attenuation * max(dot(n.xyz, s), 0), 1.0);
+    }
+    
+    fragment_color = diffuseColor * letThereBeLight;
+    
 }
