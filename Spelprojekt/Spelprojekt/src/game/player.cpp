@@ -32,12 +32,16 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//MoveX
 	//left
-	if (userInput->getKeyState('A') && !userInput->getKeyState('D')) {
-		if (speed.x > 0 && !jumping)
+	if (userInput->getKeyState('A') && !userInput->getKeyState('D'))
+	{
+		if (flinchTimer < FLT_EPSILON)
 		{
-			speed.x = 0;
+			if (speed.x > 0 && !jumping)
+			{
+				speed.x = 0;
+			}
+			speed.x -= acceleration.x;
 		}
-		speed.x -= acceleration.x;
 		if (speed.x < -maxSpeed.x)
 			speed.x = -maxSpeed.x;
 
@@ -45,12 +49,16 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 
 	//right
-	if (userInput->getKeyState('D') && !userInput->getKeyState('A')){
-		if (speed.x < 0 && !jumping)
+	if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
+	{
+		if (flinchTimer < FLT_EPSILON)
 		{
-			speed.x = 0;
+			if (speed.x < 0 && !jumping)
+			{
+				speed.x = 0;
+			}
+			speed.x += acceleration.x;
 		}
-		speed.x += acceleration.x;
 		if (speed.x > maxSpeed.x)
 			speed.x = maxSpeed.x;
 
@@ -60,9 +68,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
 		userInput->getKeyState('A') && userInput->getKeyState('D'))
 	{
-		if (!jumping)
+		if (flinchTimer < FLT_EPSILON)
 		{
-			speed.x = 0;
+			if (!jumping)
+			{
+				speed.x = 0;
+			}
 		}
 		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 	}
@@ -85,7 +96,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	//MoveY
 	if (userInput->getKeyState('W'))
 	{
-		if (!jumping)
+		if (!jumping && flinchTimer < FLT_EPSILON)
 		{
 			speed.y = jumpHeight;
 			jumping = true;
@@ -142,6 +153,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			{
 				HP -= 1;
 				printf("Ow, I'm hit! HP remaining is %d\n", HP);
+				flinchTimer = 0.3f;
 				if (result.x < playerPos.x)
 				{
 					speed.x = 10;
@@ -163,6 +175,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	else
 	{
 		invulnTimer -= 1.0f*deltaTime;
+		if (flinchTimer > FLT_EPSILON)
+			flinchTimer -= 1.0f*deltaTime;
 	}
 	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
 	//if (idX != -1 && idY != -1)
