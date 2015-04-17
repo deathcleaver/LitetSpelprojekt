@@ -9,6 +9,9 @@ private:
 	AnimationObject* myPlayer;
 	AnimationObject** myAnimatedObjects;
 
+	void loadPlayer();
+	void loadMapObjs();
+
 	int myNrOfObjects;
 	int myToUpdate;
 public:
