@@ -212,3 +212,13 @@ bool Map::collideEnemies(Rect* test, glm::vec3 pos)
 	}
 	return result;
 }
+
+void Map::collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn)
+{
+	int idX, idY;
+	getChunkIndex(pos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		chunks[idX][idY].playerVsShrine(test, currentSpawn);
+	}
+}

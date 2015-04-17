@@ -17,6 +17,8 @@ public:
 	void render();
 
 	GLuint* shaderPtr;
+	GLfloat* playerPos;
+	GLfloat* cameraPos;
 
 private:
 
@@ -24,6 +26,9 @@ private:
 
 	RenderTarget* rTexture;
 
+	GLuint* pos;
+	GLuint unifromCamPos;
+	GLuint unifromPlayerPos;
 };
 
 #endif

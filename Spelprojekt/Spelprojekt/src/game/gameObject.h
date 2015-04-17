@@ -19,6 +19,7 @@ protected:
 	bool facingRight;
 	int contentIndex;
 public:
+	glm::mat4* getWorldMat();
 	GameObject(){ facingRight = true; contentIndex = -1; };
 	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
@@ -35,7 +36,7 @@ public:
 
 	virtual int update(float deltaTime);
 
-	glm::vec3 readPos();
+	glm::vec3 readPos() const;
 
 	int returnID();
 };

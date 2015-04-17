@@ -1,10 +1,16 @@
 #version 410
 layout(location = 0) in vec2 UV;
-
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec3 worldPos;
 uniform sampler2D textureSample;
-out vec4 fragment_color;
+
+layout(location = 1) out vec4 diffuseOut;
+layout(location = 2) out vec4 normalOut;
+layout(location = 3) out vec4 worldOut;
 
 void main () 
 {
-    fragment_color = texture(textureSample,vec2(UV.s, UV.t));
+    diffuseOut = texture(textureSample,vec2(UV.s, UV.t));
+    worldOut = vec4(worldPos, 1);
+    normalOut = vec4(normal, 1);
 }

@@ -11,6 +11,11 @@ void GameObject::init(int idi)
 	contentIndex = idi;
 }
 
+glm::mat4* GameObject::getWorldMat()
+{
+	return &worldMat;
+}
+
 void GameObject::rotate(float x, float y, float z)
 {
 	//float rotx = toRad * x;
@@ -74,7 +79,7 @@ void GameObject::moveTo(float x, float y, float z)
 	worldMat[2].w = z;
 }
 
-glm::vec3 GameObject::readPos()
+glm::vec3 GameObject::readPos() const
 {
 	return glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
 }

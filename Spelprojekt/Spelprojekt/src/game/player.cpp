@@ -7,11 +7,11 @@ void Player::init()
 	moveTo(0, 2);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9, 1.9);
-
 	speed = vec2(0);
-	maxSpeed = vec2(15, 30);
-	acceleration = vec2(0.05f,0.5f); // y = gravity
+	maxSpeed = vec2(15, -30);
+	acceleration = vec2(0.2f,0.4f); // y = gravity
 	jumping = false;
+	jumpHeight = 25.0f;
 }
 
 Player::~Player()
@@ -29,16 +29,25 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	bool result = false;
 
 	//MoveX
-	//right
+	//left
 	if (userInput->getKeyState('A') && !userInput->getKeyState('D')) {
+		if (speed.x > 0 && !jumping)
+		{
+			speed.x = 0;
+		}
 		speed.x -= acceleration.x;
 		if (speed.x < -maxSpeed.x)
 			speed.x = -maxSpeed.x;
 
-		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);}
+		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+	}
 
-	//left
+	//right
 	if (userInput->getKeyState('D') && !userInput->getKeyState('A')){
+		if (speed.x < 0 && !jumping)
+		{
+			speed.x = 0;
+		}
 		speed.x += acceleration.x;
 		if (speed.x > maxSpeed.x)
 			speed.x = maxSpeed.x;
@@ -49,68 +58,74 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
 		userInput->getKeyState('A') && userInput->getKeyState('D'))
 	{
-		if (speed.x + 0.5 < 0)
-			speed.x += acceleration.x * 10;
-		
-		else if (speed.x - 0.5 > 0)
-			speed.x -= acceleration.x * 10;
-		else
+		if (!jumping)
+		{
 			speed.x = 0;
-
+		}
 		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 	}
 
 	//update collide rect
-	collideRect->update();
-	result = map->collideMap(collideRect, readPos());
-	
-
-	if (result) //collide, move back X
+	if (readPos() != lastPos)
 	{
-		tempPos.x = lastPos.x;
-		moveTo(lastPos.x, tempPos.y);
-		result = false;
+		collideRect->update();
+		result = map->collideMap(collideRect, readPos());
+
+
+		if (result) //collide, move back X
+		{
+			tempPos.x = lastPos.x;
+			moveTo(lastPos.x, tempPos.y);
+			result = false;
+		}
 	}
 
 	//MoveY
 	if (userInput->getKeyState('W'))
 	{
-		if (jumping == false)
+		if (!jumping)
 		{
-			speed.y = 75;
+			speed.y = jumpHeight;
 			jumping = true;
 		}
 	}
-		
-	if (userInput->getKeyState('S'))
-		moveTo(tempPos.x, tempPos.y -= speed.y * deltaTime, 0);
 
 	//gravity
-	if (speed.y > 0)
-		speed.y -= acceleration.y * 0.2;
-	else
-		speed.y -= acceleration.y * 0.2;
+	speed.y -= acceleration.y;
 	
-	if (speed.y > maxSpeed.y)
+	if (speed.y < maxSpeed.y)
 		speed.y = maxSpeed.y;
 
 	moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 
 	//update collide rect
 	collideRect->update();
-	result = map->collideMap(collideRect, readPos());
+	vec3 pos = readPos();
+	result = map->collideMap(collideRect, pos);
 
 	if (result) //collide, move back Y
 	{
-		if (jumping = true)
+		if (jumping)
 		{
-			jumping = false;
-			speed.y = 0;
+			if (lastPos.y < pos.y)
+			{
+				speed.y = 0;
+			}
+			else
+			{
+				jumping = false;
+				speed.y = 0;
+			}
 		}
-		tempPos.y = lastPos.y;
 		moveTo(tempPos.x, lastPos.y);
 		result = false;
 	}
+	else
+	{
+		jumping = true;
+	}
+
+	map->collideShrine(collideRect, readPos(), currentSpawn);
 
 	result = map->collideEnemies(collideRect, readPos());
 	if (result)
@@ -124,9 +139,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		else
 		{
 			printf("I'm fucking dead!\n");
+			respawn();
 		}
+		result = false;
 	}
-
 	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
 	//if (idX != -1 && idY != -1)
 	//{
@@ -146,4 +162,20 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 vec2 Player::getSpeed()
 {
 	return speed;
+}
+
+void Player::respawn()
+{
+	HP = 3;
+	speed = vec2(0);
+	jumping = false;
+	if (currentSpawn != 0)
+	{
+		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
+		printf("Jag hade en respawnpunkt");
+	}
+	else
+	{
+		moveTo(0, 2);
+	}
 }

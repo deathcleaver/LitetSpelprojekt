@@ -10,10 +10,6 @@ Engine::~Engine()
 void Engine::init(glm::mat4* viewMat)
 {
 	// init static variable
-	//RenderTarget::renderQuad = 0;
-	//RenderTarget::renderVao = 0;
-
-	gBuffer.init(1080, 720, 3, true);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -29,24 +25,36 @@ void Engine::init(glm::mat4* viewMat)
 
 	//Temp shader
 
-	std::string shaders [] = {"src/shaders/default_vs.glsl", "src/shaders/gBuffer_fs.glsl" };
-	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER };
+	std::string shaders[] = { "src/shaders/default_vs.glsl", "src/shaders/gs.glsl", "src/shaders/default_fs.glsl" };
+	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_GEOMETRY_SHADER, GL_FRAGMENT_SHADER };
 
-	CreateProgram(tempshader, shaders, shaderType, 2);
+	CreateProgram(tempshader, shaders, shaderType, 3);
 
 	shaders[0] = "src/shaders/gBuffer_vs.glsl";
-	shaders[1] = "src/shaders/default_fs.glsl";
-	
+	shaders[1] = "src/shaders/gBuffer_fs.glsl";
+	shaderType[1] = GL_FRAGMENT_SHADER;
+
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
 
 	gBuffer.shaderPtr = &tempshaderGBuffer;
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
-	uniformVP = glGetUniformLocation(tempshader, "VP");
+	uniformProj = glGetUniformLocation(tempshader, "P");
+	uniformView = glGetUniformLocation(tempshader, "V");
+
+	gBuffer.init(1080, 720, 4, true);
+
+	GLfloat* something = (GLfloat*)viewMatrix;
+
+	gBuffer.cameraPos = &something[12];
+
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content)
 {
+
+	gBuffer.playerPos = (GLfloat*)&player->readPos();
+
 	// bind gbuffer FBO
 	gBuffer.bind(GL_FRAMEBUFFER);
 	//
@@ -57,7 +65,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glUseProgram(tempshader);
 	
 	glm::mat4 VP = projMatrix * *viewMatrix;
-	glProgramUniformMatrix4fv(tempshader, uniformVP, 1, false, &VP[0][0]);
+	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
+	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
 
 	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
