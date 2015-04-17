@@ -9,9 +9,9 @@ void Player::init()
 	collideRect->initGameObjectRect(&worldMat, 0.9, 1.9);
 	speed = vec2(0);
 	maxSpeed = vec2(15, -30);
-	acceleration = vec2(0.2f,0.4f); // y = gravity
+	acceleration = vec2(0.2f,0.5f); // y = gravity
 	jumping = false;
-	jumpHeight = 25.0f;
+	jumpHeight = 30.0f;
 }
 
 Player::~Player()
@@ -129,6 +129,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				jumping = false;
 				speed.y = 0;
 			}
+		}
+		else
+		{
+			speed.y = 0;
 		}
 		moveTo(tempPos.x, lastPos.y);
 		result = false;
