@@ -1,5 +1,5 @@
 #include "UserInput.h"
-#include <stdio.h>
+
 using namespace glm;
 
 UserInput::~UserInput()
@@ -291,8 +291,6 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 			currOffset = 0;
 		}
 	}
-
-	printf("posx: %f: px: %f: coff: %f: speed: %f\n", pos.x, p.x, currOffset, speed.x);
 
 	// update camera pos y (no smoothing)
 	pos.y = p.y;

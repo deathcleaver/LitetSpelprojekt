@@ -117,6 +117,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		moveTo(tempPos.x, lastPos.y);
 		result = false;
 	}
+	else
+		jumping = true;
+
+	//remove this later
+	printf("speed.y: %f\n", speed.y);
+
 
 	return 0;
 }
