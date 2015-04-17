@@ -35,25 +35,29 @@ void AnimationManager::loadPlayer()
 	playerAn[0] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp");
 	playerAn[1] = new Object("src/meshes/PlayerWalk.v", "", playerAn[0], false, true);
 
-	myPlayer = new AnimationObject(playerAn, 2, 0.5f, 0.05f);
+	myPlayer = new AnimationObject(playerAn, 2, 0.5f, 0.005f);
 }
 
 void AnimationManager::loadMapObjs()
 {
-
+	//To be added
 }
 
 void AnimationManager::update()
 {
+	myPlayer->update();
 
+	//Add mapObj updates
 }
 
 int AnimationManager::bindPlayer() const
 {
-	return 0;
+	myPlayer->bindAnimObject();
+	return myPlayer->getFaces();
 }
 
 int AnimationManager::bindMapObj(int id) const
 {
+	//to be added
 	return 0;
 }

@@ -152,3 +152,8 @@ void AnimationObject::updateWeight()
 
 	myWeight += mySpeed * myDirection;
 }
+
+int AnimationObject::getFaces()
+{
+	return myAnimObject->getFaces();
+}

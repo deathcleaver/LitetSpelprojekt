@@ -6,6 +6,7 @@
 #include "../engine/engine.h"
 #include "../engine/ContentManager.h"
 #include "../engine/object.h"
+#include "../engine/AnimationManager.h"
 
 #include "player.h"
 #include "enemyManager.h"
@@ -20,6 +21,8 @@ private:
 	ContentManager* content = 0;
 	Player* player = 0;
 	EnemyManager* enemyManager = 0;
+	AnimationManager* animationManager = 0;
+
 	Map* map = 0;
 	UserInput* in = 0;
 	double lastX = 0.0f;

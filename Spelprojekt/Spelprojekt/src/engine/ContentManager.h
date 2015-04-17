@@ -3,12 +3,12 @@
 
 #include <string>
 #include "object.h"
-#include"animation.h"
+
 
 class ContentManager
 {
 private:
-	Animation* player;
+	Object* player;
 	void loadPlayer();
 
 	Object** mapObjs;

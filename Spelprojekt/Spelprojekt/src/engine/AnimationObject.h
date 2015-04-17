@@ -25,6 +25,8 @@ public:
 	float getWeight();
 	float getSpeed();
 
+	int getFaces();
+
 	void setAnimObject(Object* aObject);
 	void setWeight(float aWeight);
 	void setSpeed(float aSpeed);

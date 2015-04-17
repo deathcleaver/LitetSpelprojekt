@@ -73,6 +73,8 @@ Game::~Game()
 		delete player;
 	if (enemyManager)
 		delete enemyManager;
+	if (animationManager)
+		delete animationManager;
 	if (map)
 		delete map;
 	if (in)
@@ -99,6 +101,8 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
+	animationManager = new AnimationManager();
+	animationManager->init();
 	player = new Player();
 	player->init();
 	map = new Map();
@@ -155,9 +159,9 @@ void Game::update(float deltaTime)
 	//..
 	//..
 	player->update(deltaTime);
-
+	animationManager->update();
 	//Render const
-	engine->render(player, enemyManager, map, content);
+	engine->render(player, enemyManager, map, content, animationManager);
 }
 
 void Game::readInput(float deltaTime)

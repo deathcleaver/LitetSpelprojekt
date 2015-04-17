@@ -91,7 +91,7 @@ void Engine::init(glm::mat4* viewMat)
 }
 
 void Engine::render(const Player* player, const EnemyManager* enemyManager,
-	const Map* map, const ContentManager* content)
+	const Map* map, const ContentManager* content, const AnimationManager* anim)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int facecount = 0;
@@ -102,7 +102,7 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 
 	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
-	facecount = content->bindPlayer();
+	facecount = anim->bindPlayer(); //animationManager
 
 	glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 

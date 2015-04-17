@@ -34,7 +34,7 @@ void ContentManager::loadPlayer()
 	Object** playerAn = new Object*[2];
 	playerAn[0] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp");
 	playerAn[1] = new Object("src/meshes/PlayerWalk.v", "", playerAn[0], false, true);
-	player = /*new Object("src/meshes/PlayerWalk.v", "src/textures/black.bmp");*/new Animation(playerAn, 2, .5f);// = new Object("src/meshes/PlayerBase.v", "src/textures/HEIL.bmp");
+	player = new Object("src/meshes/PlayerWalk.v", "src/textures/black.bmp");//new Animation(playerAn, 2, .5f);// = new Object("src/meshes/PlayerBase.v", "src/textures/HEIL.bmp");
 }
 
 void ContentManager::loadMapObjs()
@@ -52,7 +52,7 @@ void ContentManager::loadMapObjs()
 
 int ContentManager::bindPlayer() const
 {
-	player->updateWeight();
+	//player->updateWeight();
 	player->bind();
 	return player->getFaces();
 }
