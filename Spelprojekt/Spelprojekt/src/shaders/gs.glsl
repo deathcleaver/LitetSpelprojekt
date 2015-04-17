@@ -15,20 +15,20 @@ layout(location = 2) out vec3 worldPos;
 
 void main()
 {
-    gl_in[0].gl_Position *= modelMatrix;
-    gl_in[1].gl_Position *= modelMatrix;
-    gl_in[2].gl_Position *= modelMatrix;
+    vec4 pos0 = gl_in[0].gl_Position * modelMatrix;
+    vec4 pos1 = gl_in[1].gl_Position * modelMatrix;
+    vec4 pos2 = gl_in[2].gl_Position * modelMatrix;
     
-    vec3 ab = (gl_in[1].gl_Position - gl_in[0].gl_Position).xyz;
-    vec3 ac = (gl_in[2].gl_Position - gl_in[0].gl_Position).xyz;
+    vec3 ac = (pos2 - pos0).xyz;
+    vec3 ab = (pos1 - pos0).xyz;
     
     normal = normalize(cross( ab, ac));
 
     for( int i = 0; i < 3; i++ )
     {
-        gl_Position =  P * V * (gl_in[i].gl_Position);
+        gl_Position =  P * V * (gl_in[i].gl_Position * modelMatrix);
         UVCord = UV[i];
-        worldPos = (gl_in[i].gl_Position).xyz;
+        worldPos = (gl_in[i].gl_Position * modelMatrix).xyz;
         EmitVertex();
     }
     EndPrimitive();
