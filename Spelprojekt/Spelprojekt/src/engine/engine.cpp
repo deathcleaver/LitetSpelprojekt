@@ -25,13 +25,13 @@ void Engine::init(glm::mat4* viewMat)
 
 	//Temp shader
 
-	std::string shaders [] = {"src/shaders/default_vs.glsl","src/shaders/gs.glsl" , "src/shaders/gBuffer_fs.glsl" };
+	std::string shaders [] = {"src/shaders/default_vs.glsl","src/shaders/gs.glsl" , "src/shaders/default_fs.glsl" };
 	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_GEOMETRY_SHADER, GL_FRAGMENT_SHADER };
 
 	CreateProgram(tempshader, shaders, shaderType, 3);
 
 	shaders[0] = "src/shaders/gBuffer_vs.glsl";
-	shaders[1] = "src/shaders/default_fs.glsl";
+	shaders[1] = "src/shaders/gBuffer_fs.glsl";
 	shaderType[1] = GL_FRAGMENT_SHADER;
 	
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
