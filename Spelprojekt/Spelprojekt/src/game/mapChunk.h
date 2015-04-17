@@ -37,7 +37,7 @@ public:
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
 	int update(float deltaTime);
-
+	void respawnEnemies();
 	glm::vec3 playerVsEnemies(Rect* playerRect);
 	void playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
 

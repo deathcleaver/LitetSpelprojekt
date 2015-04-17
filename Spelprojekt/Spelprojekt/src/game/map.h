@@ -10,6 +10,8 @@ private:
 	int width = 0;
 	int height = 0;
 	int* upDraw;
+	int* lastUpDraw;
+	int counter = 0;
 public:
 	Map(){};
 	~Map();
@@ -27,6 +29,7 @@ public:
 	void collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn);
 	void setUpDraw(glm::vec3 pos);
 	int* getUpDraw() const;
+	void respawnCheck();
 };
 
 #endif

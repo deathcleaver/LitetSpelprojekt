@@ -3,6 +3,7 @@
 Map::~Map()
 {
 	delete[] upDraw;
+	delete[] lastUpDraw;
 	if (chunks)
 	{
 		for (int x = 0; x < width; x++)
@@ -27,10 +28,13 @@ void Map::init()
 		}
 	}
 	upDraw = new int[9];
+	lastUpDraw = new int[9];
 	upDraw[0] = 0;
+	lastUpDraw[0] = 0;
 	for (int n = 1; n < 9; n++)
 	{
 		upDraw[n] = -1;
+		lastUpDraw[n] = -1;
 	}
 }
 
@@ -56,6 +60,15 @@ int Map::readSizeY() const
 
 int Map::update(float deltaTime)
 {
+	//Chunk respawn check every 10th frame
+	if (counter == 0)
+	{
+		counter = 10;
+		respawnCheck();
+	}
+	counter--;
+
+	//Culled uppdates
 	int msg = 0;
 	for (int n = 0; n < upDraw[0]; n++)
 	{
@@ -220,5 +233,33 @@ void Map::collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn)
 	if (idX != -1 && idY != -1)
 	{
 		chunks[idX][idY].playerVsShrine(test, currentSpawn);
+	}
+}
+
+void Map::respawnCheck()
+{
+	for (int n = 0; n < upDraw[0]; n++)
+	{
+		int x = n * 2 + 1;
+		int y = n * 2 + 2;
+
+		//search
+		bool found = false;
+		for (int k = 0; k < lastUpDraw[0]; k++)
+		{
+			if (upDraw[x] == lastUpDraw[k * 2 + 1]
+				&& upDraw[y] == lastUpDraw[k * 2 + 2])
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+			if (upDraw[x] > -1 && upDraw[x] < width && upDraw[y] > -1 && upDraw[y] < height)
+				chunks[upDraw[x]][upDraw[y]].respawnEnemies();
+	}
+	for (int n = 0; n < 9; n++)
+	{
+		lastUpDraw[n] = upDraw[n];
 	}
 }

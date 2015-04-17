@@ -199,6 +199,11 @@ int MapChunk::update(float deltaTime)
 	return 0;
 }
 
+void MapChunk::respawnEnemies()
+{
+	enemyMan->resetEnemies();
+}
+
 glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 {
 	Enemy** enemies = enemyMan->getEnemies();

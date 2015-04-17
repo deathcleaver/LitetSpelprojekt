@@ -6,6 +6,7 @@
 
 EnemyManager::EnemyManager()
 {
+
 }
 
 EnemyManager::~EnemyManager()
@@ -95,4 +96,12 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform)
 Enemy** EnemyManager::getEnemies()
 {
 	return enemies;
+}
+
+void EnemyManager::resetEnemies()
+{
+	for (int n = 0; n < nrOfEnemies; n++)
+	{
+		enemies[n]->reset();
+	}
 }
