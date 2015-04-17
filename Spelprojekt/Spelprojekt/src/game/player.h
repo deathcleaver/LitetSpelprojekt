@@ -25,6 +25,7 @@ private:
 	vec2 acceleration;
 	bool jumping;
 	bool noAutoJump;
+	float landBreak;
 	Rect* collideRect = 0;
 	Shrine* currentSpawn = 0;
 

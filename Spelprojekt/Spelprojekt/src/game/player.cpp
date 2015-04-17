@@ -13,6 +13,7 @@ void Player::init()
 	jumping = false;
 	jumpHeight = 6.5f;
 	noAutoJump = true;
+	landBreak = 0.8f;
 }
 
 Player::~Player()
@@ -133,6 +134,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			}
 			else
 			{
+				speed.x *= landBreak;
 				jumping = false;
 				speed.y = 0;
 			}
