@@ -158,8 +158,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 		if (result.z > -FLT_EPSILON)
 		{
-			printf("Enemy x/y/z: %f/%f/%f \n", result.x, result.y, result.z);
-			printf("Player x/y/z: %f/%f/%f \n", playerPos.x, playerPos.y, playerPos.z);
 			invulnTimer = 1.0f;
 			if (HP > 1)
 			{
@@ -221,7 +219,7 @@ void Player::respawn(Map* map)
 	if (currentSpawn != 0)
 	{
 		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
-		printf("Jag hade en respawnpunkt");
+		printf("Jag hade en respawnpunkt\n");
 	}
 	else
 	{
