@@ -211,13 +211,16 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	glm::vec3 hit = glm::vec3(0,0,-1);
 	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
 	{
-		Rect* enemyRect = enemies[c]->getRekt();
-		if (enemyRect && enemies[c]->isAlive())
+		if (enemies[c]->isAlive())
 		{
-			if (enemyRect->intersects(playerRect))
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
 			{
-				hit = enemies[c]->getPos();
-				enemies[c]->hit(1);
+				if (enemyRect->intersects(playerRect))
+				{
+					hit = enemies[c]->getPos();
+					enemies[c]->hit(1);
+				}
 			}
 		}
 	}

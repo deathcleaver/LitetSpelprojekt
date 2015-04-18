@@ -38,7 +38,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		if (flinchTimer < FLT_EPSILON)
 		{
-			if (speed.x > 0 && !jumping)
+			if (speed.x > 0)// && !jumping)
 			{
 				speed.x = 0;
 			}
@@ -55,7 +55,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		if (flinchTimer < FLT_EPSILON)
 		{
-			if (speed.x < 0 && !jumping)
+			if (speed.x < 0)// && !jumping)
 			{
 				speed.x = 0;
 			}
