@@ -58,8 +58,7 @@ void Engine::init(glm::mat4* viewMat)
 
 }
 
-void Engine::render(const Player* player, const EnemyManager* enemyManager,
-	const Map* map, const ContentManager* content, const AnimationManager* anim)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content, const AnimationManager* anim, const GUI* gui, glm::vec3* campos)
 {
 	int facecount = 0;
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
@@ -83,7 +82,6 @@ void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	{
 		glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 	}
->>>>>>> origin/master
 	// - -Map Draw --
 	int id = 0;
 	int lastid = -1;
