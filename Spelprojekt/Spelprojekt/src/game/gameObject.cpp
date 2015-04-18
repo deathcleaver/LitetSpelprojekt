@@ -3,7 +3,17 @@
 int GameObject::bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const
 {
 	glProgramUniformMatrix4fv(*shaderProgram, *shaderuniform, 1, false, &worldMat[0][0]);
-	return id;
+	return contentIndex;
+}
+
+void GameObject::init(int idi)
+{
+	contentIndex = idi;
+}
+
+glm::mat4* GameObject::getWorldMat()
+{
+	return &worldMat;
 }
 
 void GameObject::rotate(float x, float y, float z)
@@ -69,7 +79,7 @@ void GameObject::moveTo(float x, float y, float z)
 	worldMat[2].w = z;
 }
 
-glm::vec3 GameObject::readPos()
+glm::vec3 GameObject::readPos() const
 {
 	return glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
 }
@@ -98,4 +108,9 @@ void GameObject::scaleFactor(float x, float y, float z)
 int GameObject::update(float deltaTime)
 {
 	return 0;
+}
+
+int GameObject::returnID() const
+{
+	return contentIndex;
 }

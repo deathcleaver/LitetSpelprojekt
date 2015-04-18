@@ -1,5 +1,7 @@
 #include "engine.h"
 
+#include "Shader.h"
+
 Engine::~Engine()
 {
 
@@ -7,9 +9,13 @@ Engine::~Engine()
 
 void Engine::init(glm::mat4* viewMat)
 {
+	// init static variable
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(GL_TRUE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0, 0, 0, 1);
 	//glEnable(GL_CULL_FACE);
 	//glFrontFace(GL_CCW);
@@ -17,182 +23,125 @@ void Engine::init(glm::mat4* viewMat)
 
 	//temp camera
 	viewMatrix = viewMat;
-	projMatrix = glm::perspective(3.14f*0.45f, 800.f / 800.0f, 0.1f, 1000.0f);
+	projMatrix = glm::perspective(3.14f*0.45f, 1080 / 720.0f, 0.1f, 1000.0f);
 
 	//Temp shader
-	const char* vertex_shader = R"(
-	#version 410
-	layout(location = 0) in vec3 vertex_position;
-	layout(location = 1) in vec2 UV;
-	//layout(location = 2) in vec3 target_vertex_position;
-	//layout (location = 3) in vec2 target_UV;
+	std::string shaders[] = { "src/shaders/default_vs.glsl", "src/shaders/gs.glsl", "src/shaders/default_fs.glsl" };
+	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_GEOMETRY_SHADER, GL_FRAGMENT_SHADER };
+	
+	CreateProgram(tempshader, shaders, shaderType, 3);
 
-	layout(location = 0) out vec2 UVCord;
+	//gBuffer shader
+	shaders[0] = "src/shaders/gBuffer_vs.glsl";
+	shaders[1] = "src/shaders/gBuffer_fs.glsl";
+	shaderType[1] = GL_FRAGMENT_SHADER;
 
-	uniform mat4 modelMatrix;
-	uniform mat4 VP;
-
-	//uniform float anim_weight;
-
-	void main () 
-	{
-		//Animationer
-		//float weightDif = 1 - anim_weight;
-		//clamp(weightDif, 0.0, 1.0);
-
-		//float sum_weight = anim_weight + weightDif;
-
-		//float anim_factor = anim_weight / sum_weight;
-		//float normal_factor = weightDif / sum_weight;
-		vec3 position = vertex_position;// * normal_factor + target_vertex_position * anim_factor;
-		
-		UVCord = UV;// * normal_factor + target_UV * anim_factor;
-		gl_Position =  VP * (vec4(position, 1.0f) * modelMatrix);
-	}
-)";
-
-	const char* fragment_shader = R"(
-	#version 410
-	layout(location = 0) in vec2 UV;
-
-	uniform sampler2D textureSample;
-	out vec4 fragment_color;
-
-	void main () 
-	{
-		fragment_color = texture(textureSample,vec2(UV.s, UV.t));
-	}
-)";
-
-	GLint success = 0;
-
-	//create vertex shader
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, nullptr);
-	glCompileShader(vs);
-	CompileErrorPrint(&vs);
-
-	//create fragment shader
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, nullptr);
-	glCompileShader(fs);
-	CompileErrorPrint(&fs);
-
-	//link shader program (connect vs and ps)
-	tempshader = glCreateProgram();
-	glAttachShader(tempshader, vs);
-	glAttachShader(tempshader, fs);
-	glLinkProgram(tempshader);
-
-	LinkErrorPrint(&tempshader);
+	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
+	gBuffer.shaderPtr = &tempshaderGBuffer;
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
-	uniformVP = glGetUniformLocation(tempshader, "VP");
+	uniformProj = glGetUniformLocation(tempshader, "P");
+	uniformView = glGetUniformLocation(tempshader, "V");
+
+
+	//gBuffer gui shader
+	shaders[0] = "src/shaders/gBuffer_gui_vs.glsl";
+	shaders[1] = "src/shaders/gBuffer_gui_fs.glsl";
+	CreateProgram(tempshaderGUI, shaders, shaderType, 2);
+	gBuffer.shaderGuiPtr = &tempshaderGUI;
+
+	
+	gBuffer.init(1080, 720, 4, true);
+
+	GLfloat* something = (GLfloat*)viewMatrix;
+	gBuffer.cameraPos = &something[12];
+
 }
 
 void Engine::render(const Player* player, const EnemyManager* enemyManager,
 	const Map* map, const ContentManager* content, const AnimationManager* anim)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int facecount = 0;
+	gBuffer.playerPos = (GLfloat*)&player->readPos();
+
+	// bind gbuffer FBO
+	gBuffer.bind(GL_FRAMEBUFFER);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 	glUseProgram(tempshader);
-	
+
 	glm::mat4 VP = projMatrix * *viewMatrix;
-	glProgramUniformMatrix4fv(tempshader, uniformVP, 1, false, &VP[0][0]);
+	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
+	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
 
 	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
 	facecount = anim->bindPlayer(); //animationManager
 
-	glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-
+	if (!player->isBlinking())
+	{
+		glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+	}
+>>>>>>> origin/master
 	// - -Map Draw --
 	int id = 0;
 	int lastid = -1;
-	int chunkcount = map->readSquareSize();
-	const MapChunk* chunks = map->getChunks();
+	int width = map->readSizeX();
+	int height = map->readSizeY();
+	MapChunk** chunks = map->getChunks();
+	int* upDraw = map->getUpDraw();
 	
-	//backgrounds
-	for (int n = 0; n < chunkcount; n++)
-	{
-		if(chunks[n].chunkBackground)
-		{
-			id = chunks[n].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
-			if(id != lastid)
-				facecount = content->bindMapObj(id); //This will be the same
-			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-			lastid = id;
-		}
-	}
-	lastid = -1;
-	//world objects
-	for (int n = 0; n < chunkcount; n++)
-	{
-		for (int k = 0; k < chunks[n].size; k++)
-		{
-			id = chunks[n].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
-			if (id != lastid)
-				facecount = content->bindMapObj(id); //This will be changed to AnimationManager, to get the animated meshes
-			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-			lastid = id;
-		}
-	}
+	//RenderChunks , X Y CULLED
+	for (int n = 0; n < upDraw[0]; n++)
+		if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
+			if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
+			{
+				int x = n * 2 + 1;
+				int y = n * 2 + 2;
+				//Render chunk background
+				if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
+				{
+					id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
+					if (id != lastid)
+						facecount = content->bindMapObj(id);
+					glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+					lastid = id;
+				}
+				lastid = -1;
+				//render chunk world objects
+				for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countWorldObjs; k++)
+				{
+					id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
+					if (id != lastid)
+						facecount = content->bindMapObj(id);
+					glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+					lastid = id;
+				}
+				lastid = -1;
+				//render chunk monsters
+				for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(k))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(k, &tempshader, &uniformModel);
+						if (id != lastid)
+							facecount = content->bindMonsterObj(id);
+						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						lastid = id;
+					}
+				}
+				lastid = -1;
+			}
+    
+	// bind default FBO and render gbuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDisable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	gBuffer.render(campos, gui, content, true);
+    
+	glEnable(GL_DEPTH_TEST);
 }
 
-void Engine::CompileErrorPrint(GLuint* shader)
-{
-	GLint success = 0;
-	glGetShaderiv(*shader, GL_COMPILE_STATUS, &success); //not working????
-	if (success == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &maxLength);
 
-		// The maxLength includes the NULL character
-		std::vector<GLchar> errorLog(maxLength);
-		glGetShaderInfoLog(*shader, maxLength, &maxLength, &errorLog[0]);
-
-		std::fstream myfile;
-		myfile.open("errorCheck.txt", std::fstream::out);
-		for (int i = 0; i < maxLength; i++)
-		{
-			myfile << errorLog[i];
-		}
-		myfile.close();
-
-		// Provide the infolog in whatever manor you deem best.
-		// Exit with failure.
-		glDeleteShader(*shader); // Don't leak the shader.
-		throw;
-	}
-}
-
-void Engine::LinkErrorPrint(GLuint* shaderProgram)
-{
-	GLint success = 10;
-	glGetProgramiv(*shaderProgram, GL_LINK_STATUS, &success);
-	if (success == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetProgramiv(*shaderProgram, GL_INFO_LOG_LENGTH, &maxLength);
-
-		// The maxLength includes the NULL character
-		std::vector<GLchar> errorLog(maxLength);
-		glGetProgramInfoLog(*shaderProgram, maxLength, &maxLength, &errorLog[0]);
-
-		std::fstream myfile;
-		myfile.open("errorCheck.txt", std::fstream::out);
-		for (int i = 0; i < maxLength; i++)
-		{
-			myfile << errorLog[i];
-		}
-		myfile.close();
-
-		// Provide the infolog in whatever manor you deem best.
-		// Exit with failure.
-		glDeleteProgram(*shaderProgram); // Don't leak the shader.
-
-		if (success == GL_FALSE)
-			throw;
-	}
-}

@@ -12,6 +12,14 @@ ContentManager::~ContentManager()
 		}
 		delete[] mapObjs;
 	}
+	if (monsterObjs)
+	{
+		for (int c = 0; c < monsterObjCount; c++)
+		{
+			delete monsterObjs[c];
+		}
+		delete[]monsterObjs;
+	}
 }
 
 void ContentManager::init()
@@ -23,6 +31,10 @@ void ContentManager::init()
 	loadMapObjs();
 
 	//load all monster meshes
+	loadMonsterObjs();
+	
+	//load all gui textures
+	loadGUIobjs();
 
 }
 
@@ -35,6 +47,8 @@ void ContentManager::loadPlayer()
 	playerAn[0] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp");
 	playerAn[1] = new Object("src/meshes/PlayerWalk.v", "", playerAn[0], false, true);
 	player = new Object("src/meshes/PlayerWalk.v", "src/textures/black.bmp");//new Animation(playerAn, 2, .5f);// = new Object("src/meshes/PlayerBase.v", "src/textures/HEIL.bmp");
+
+	player = new Object("src/meshes/PlayerBase.v", "src/textures/red.bmp");
 }
 
 void ContentManager::loadMapObjs()
@@ -42,12 +56,37 @@ void ContentManager::loadMapObjs()
 	if (mapObjs) //only call once
 		throw; 
 
-	mapObjCount = 2; 
+	mapObjCount = 3; 
 	mapObjs = new Object*[mapObjCount]();
 
 	mapObjs[0] = new Object("src/meshes/planeVerticalF.v", "src/textures/grid.bmp");
-	mapObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
+	mapObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/mudtest.bmp");
+	mapObjs[2] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp"); //Shrine
 
+}
+
+void ContentManager::loadMonsterObjs()
+{
+	if (monsterObjs)
+		throw;
+
+	monsterObjCount = 3;
+	monsterObjs = new Object*[monsterObjCount]();
+
+	monsterObjs[0] = new Object("src/meshes/BaseCube.v", "src/textures/grid.bmp");
+	monsterObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/Red.bmp");
+	monsterObjs[2] = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
+}
+
+void ContentManager::loadGUIobjs()
+{
+	if (guiObjs)
+		throw;
+
+	guiCount = 1;
+	guiObjs = new Object*[guiCount]();
+
+	guiObjs[0] = new Object("src/meshes/BaseBlit.v", "src/textures/gui/pause.bmp");
 }
 
 int ContentManager::bindPlayer() const
@@ -61,4 +100,20 @@ int ContentManager::bindMapObj(int id) const
 {
 	mapObjs[id]->bind();
 	return mapObjs[id]->getFaces();
+}
+
+int ContentManager::bindMonsterObj(int id) const
+{
+	monsterObjs[id]->bind();
+	return monsterObjs[id]->getFaces();
+}
+
+void ContentManager::bindGUItex(int id) const
+{
+	guiObjs[id]->bindTexOnly();
+}
+
+void ContentManager::bindGUIvert() const
+{
+	guiObjs[0]->bindVertOnly();
 }

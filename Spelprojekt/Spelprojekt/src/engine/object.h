@@ -57,6 +57,8 @@ public:
 	Object(const Object& obj);
 	~Object();
 	void bind();
+	void bindTexOnly();
+	void bindVertOnly();
 	int getFaces();
 
 	void updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLushort> someIndices);

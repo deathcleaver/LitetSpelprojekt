@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "../UserInput.h"
+#include "../GUI.h"
 
 #include "../engine/engine.h"
 #include "../engine/ContentManager.h"
@@ -14,20 +15,31 @@
 
 #include <GLFW/glfw3.h>
 
-class Game
+enum gameState
+{
+	MENU,
+	PLAY,
+	INTRO,
+	EDIT,
+	PAUSE,
+};
+
+class Game : public Align_16
 {
 private:
+	gameState current = MENU;
+	gameState last = MENU;
 	Engine* engine = 0;
 	ContentManager* content = 0;
 	Player* player = 0;
-	EnemyManager* enemyManager = 0;
 	AnimationManager* animationManager = 0;
 
 	Map* map = 0;
 	UserInput* in = 0;
+	GUI* gui = 0;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
-
+	bool cameraFollow = false;
 	mat4* viewMat = 0;
 
 	GLFWwindow* windowRef;

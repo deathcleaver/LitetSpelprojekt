@@ -92,13 +92,23 @@
     <ClCompile Include="src\engine\AnimationObject.cpp" />
     <ClCompile Include="src\engine\ContentManager.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
+    <ClCompile Include="src\engine\GBuffer.cpp" />
     <ClCompile Include="src\engine\object.cpp" />
+    <ClCompile Include="src\engine\RenderTarget.cpp" />
+    <ClCompile Include="src\game\Enemies\Bat.cpp" />
+    <ClCompile Include="src\game\Enemies\Flame.cpp" />
+    <ClCompile Include="src\game\Enemies\Spikes.cpp" />
+    <ClCompile Include="src\game\enemy.cpp" />
+    <ClCompile Include="src\game\enemyManager.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameObject.cpp" />
     <ClCompile Include="src\game\map.cpp" />
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
+    <ClCompile Include="src\game\Shrine.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\screenItem.cpp" />
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -107,13 +117,24 @@
     <ClInclude Include="src\engine\AnimationObject.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
     <ClInclude Include="src\engine\engine.h" />
+    <ClInclude Include="src\engine\GBuffer.h" />
     <ClInclude Include="src\engine\object.h" />
+    <ClInclude Include="src\engine\RenderTarget.h" />
+    <ClInclude Include="src\game\Enemies\Bat.h" />
+    <ClInclude Include="src\game\Enemies\Flame.h" />
+    <ClInclude Include="src\game\Enemies\Spikes.h" />
+    <ClInclude Include="src\game\enemy.h" />
+    <ClInclude Include="src\engine\Shader.h" />
     <ClInclude Include="src\game\enemyManager.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />
     <ClInclude Include="src\game\map.h" />
     <ClInclude Include="src\game\mapChunk.h" />
     <ClInclude Include="src\game\player.h" />
+    <ClInclude Include="src\game\rect.h" />
+    <ClInclude Include="src\game\Shrine.h" />
+    <ClInclude Include="src\GUI.h" />
+    <ClInclude Include="src\screenItem.h" />
     <ClInclude Include="src\UserInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

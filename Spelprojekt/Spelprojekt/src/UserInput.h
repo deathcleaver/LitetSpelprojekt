@@ -16,6 +16,8 @@ private:
 	float angleH = 0;
 	float angleV = 0;
 	vec3 up = { 0, 0, 0 };
+	float cameraOffset = 5.f;
+	float currOffset;
 
 	mat3 rotH;
 	mat3 rotV;
@@ -48,10 +50,16 @@ public:
 	void RMB(bool);
 	void Shift(bool);
 	void Space(bool);
+	bool getSpace();
 	void Ctrl(bool);
-	bool updateMouse();
 	vec3* GetPos();
 	vec3 getToTarget();
+
+	void followPlayer(vec3 p, vec2 s, float deltaTime);
+	bool getKeyState(char c);
+	void resetZoomViewDir();
+	bool updateMouse();
+	void cameraPan(vec3 moveTo, float delay, float deltaTime, bool playerPeak = false);
 };
 
 #endif

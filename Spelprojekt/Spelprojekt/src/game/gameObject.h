@@ -10,15 +10,18 @@
 
 class GameObject : public Align_16
 {
-private:
+protected: //private 
 	glm::mat4 worldMat = { 1, 0, 0, 0,
 						   0, 1, 0, 0,
 						   0, 0, 1, 0,
 						   0, 0, 0, 1 };
+protected:
+	bool facingRight;
+	int contentIndex;
 public:
-	GameObject(){};
-	int id = -1;
-	GameObject(int idi){ id = idi; };
+	glm::mat4* getWorldMat();
+	GameObject(){ facingRight = true; contentIndex = -1; };
+	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 	
 	void rotate(float x, float y, float z);
@@ -32,9 +35,10 @@ public:
 	void scaleFactor(float x, float y, float z);
 
 	virtual int update(float deltaTime);
-	
-	glm::vec3 readPos();
 
+	glm::vec3 readPos() const;
+
+	int returnID() const;
 };
 
 #endif

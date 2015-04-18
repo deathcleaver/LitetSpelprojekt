@@ -69,6 +69,18 @@ void Object::bind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 }
 
+void Object::bindVertOnly()
+{
+	glBindVertexArray(vertexAttribute);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexData);
+}
+
+void Object::bindTexOnly()
+{
+	glActiveTexture(GL_TEXTURE0 + TEXTUREINDEXOFFSET);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+}
+
 bool Object::loadVert(std::string path)
 {
 	std::string line;

@@ -71,14 +71,14 @@ Game::~Game()
 		delete content;
 	if (player)
 		delete player;
-	if (enemyManager)
-		delete enemyManager;
 	if (animationManager)
 		delete animationManager;
 	if (map)
 		delete map;
 	if (in)
 		delete in;
+	if (gui)
+		delete gui;
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -96,7 +96,7 @@ void Game::init(GLFWwindow* windowRef)
 		std::cout << "glDebugMessageCallback not available" << std::endl;
 #endif
 
-	glm::mat4* viewMat = new glm::mat4(); //deleted in UserInput
+	viewMat = new glm::mat4(); //deleted in UserInput
 	engine = new Engine();
 	engine->init(viewMat);
 	content = new ContentManager();
@@ -107,13 +107,14 @@ void Game::init(GLFWwindow* windowRef)
 	player->init();
 	map = new Map();
 	map->init();
-
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
-	in->Init(viewMat, glm::vec3(0, 0, 25), glm::vec3(0, 0, 24), glm::vec3(0, 1, 0));
-	
-	//temp
-	enemyManager = new EnemyManager();
+	in->Init(viewMat, glm::vec3(0, 0, 11), glm::vec3(0, 0, 10), glm::vec3(0, 1, 0));
+	cameraFollow = true;
+	gui = new GUI();
+	gui->init(in, player);
+	//start state
+	current = MENU;
 
 	// do not delete in this class
 	this->windowRef = windowRef;
@@ -127,12 +128,15 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
+
 	while (!glfwWindowShouldClose(windowRef))
 	{
 		glfwPollEvents();
 
 		readInput(deltaTime);
+		if (deltaTime > 0.0166666f)
+			deltaTime = 0.0166666f;
 		update(deltaTime);
 
 		glfwSwapBuffers(windowRef);
@@ -155,13 +159,69 @@ void Game::mainLoop()
 
 void Game::update(float deltaTime)
 {
-	//Game code
-	//..
-	//..
-	player->update(deltaTime);
-	animationManager->update();
+	gui->update((int)current);
+	switch(current) 
+	{
+		case(MENU):
+		{
+			current = PLAY;
+			break;
+		}
+		case(PLAY):
+		{
+			//enterState
+			if (last != PLAY && last != PAUSE)
+			{
+
+			}	
+			//state code
+
+			if (cameraFollow)
+			{
+				in->cameraPan(player->readPos(), 5, deltaTime, true);
+				player->update(in, map, deltaTime);
+			}
+			animationManager->update();
+			map->setUpDraw(*in->GetPos());
+			map->update(deltaTime);
+
+			//leave State code
+			if (in->getSpace())
+				current = PAUSE;
+
+			break;
+		}
+		case(INTRO):
+		{
+			break;
+		}
+		case(EDIT):
+		{
+			break;
+		}
+		case(PAUSE):
+		{
+			if (in->getKeyState('S'))
+				current = PLAY;
+			break;
+		}
+	}
+	last = current;
+
+	
+	if (!cameraFollow)
+	{
+		in->Act(deltaTime);
+		double x, y;
+		glfwGetCursorPos(windowRef, &x, &y);
+		if (in->updateMouse())
+			in->Mouse(x - lastX, y - lastY);
+		lastX = x;
+		lastY = y;
+	}
+	
 	//Render const
-	engine->render(player, enemyManager, map, content, animationManager);
+	engine->render(player, map, content, gui, in->GetPos());
 }
 
 void Game::readInput(float deltaTime)
@@ -179,6 +239,18 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->KeyDown('S') : in->KeyUp('S');
 	state = glfwGetKey(windowRef, GLFW_KEY_D);
 	state == GLFW_PRESS ? in->KeyDown('D') : in->KeyUp('D');
+	
+	//camera follow keys
+	state = glfwGetKey(windowRef, GLFW_KEY_C);
+	if (state == GLFW_PRESS) 
+	{ 
+		cameraFollow = true;
+		in->resetZoomViewDir();
+	};
+	state = glfwGetKey(windowRef, GLFW_KEY_V);
+	if (state == GLFW_PRESS) 
+		cameraFollow = false;	
+
 	//Special Keys
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_SHIFT);
 	state == GLFW_PRESS ? in->Shift(true) : in->Shift(false);
@@ -186,13 +258,4 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
-	
-	double x, y;
-	glfwGetCursorPos(windowRef, &x, &y);
-	if(in->updateMouse())
-		in->Mouse(x - lastX, y - lastY);
-	lastX = x;
-	lastY = y;
-	
-	in->Act(deltaTime);
 }
