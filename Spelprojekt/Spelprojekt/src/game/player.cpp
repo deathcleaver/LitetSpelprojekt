@@ -144,6 +144,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			speed.y = 0;
 		}
 		moveTo(tempPos.x, lastPos.y);
+		collideRect->update();
 	}
 	else
 	{
@@ -188,19 +189,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		if (flinchTimer > FLT_EPSILON)
 			flinchTimer -= 1.0f*deltaTime;
 	}
-	//map->getChunkIndex(vec2(readPos().x, readPos().y), &idX, &idY);
-	//if (idX != -1 && idY != -1)
-	//{
-	//	if (map->getChunks()[idX][idY].collide(collideRect)) //collideRect->intersects()
-	//	{
-	//		result = true;
-	//		printf("collision in chunk: %i.%i. Pos %f,%f\n", idX, idY, readPos().x, readPos().y);
-	//	}
-	//	else
-	//		printf("no collision%f,%f\n", readPos().x, readPos().y);
-	//}
-	//else
-	//	printf("out of map%f,%f\n", readPos().x, readPos().y);
+	
 	if (userInput->getKeyState('W') == false)
 		noAutoJump = true;
 	return 0;
