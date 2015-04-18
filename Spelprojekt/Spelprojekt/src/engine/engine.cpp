@@ -49,7 +49,7 @@ void Engine::init(glm::mat4* viewMat)
 
 }
 
-void Engine::render(const Player* player, const Map* map, const ContentManager* content, glm::vec3* campos)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos)
 {
 	int facecount = 0;
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
@@ -127,7 +127,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glDisable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	gBuffer.render(campos);
+	gBuffer.render(campos, gui, content, true);
     
 	glEnable(GL_DEPTH_TEST);
 

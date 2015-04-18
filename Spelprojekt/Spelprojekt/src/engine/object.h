@@ -39,6 +39,8 @@ public:
 	Object(std::string pathVert, std::string pathTex, Object* obj = 0, bool copyVert = false, bool copyTex = false);
 	~Object();
 	void bind();
+	void bindTexOnly();
+	void bindVertOnly();
 	int getFaces();
 };
 

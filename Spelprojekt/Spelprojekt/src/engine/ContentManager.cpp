@@ -32,6 +32,9 @@ void ContentManager::init()
 
 	//load all monster meshes
 	loadMonsterObjs();
+	
+	//load all gui textures
+	loadGUIobjs();
 
 }
 
@@ -70,6 +73,17 @@ void ContentManager::loadMonsterObjs()
 	monsterObjs[2] = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
 }
 
+void ContentManager::loadGUIobjs()
+{
+	if (guiObjs)
+		throw;
+
+	guiCount = 1;
+	guiObjs = new Object*[guiCount]();
+
+	guiObjs[0] = new Object("src/meshes/BaseBlit.v", "src/textures/gui/pause.bmp");
+}
+
 int ContentManager::bindPlayer() const
 {
 	player->bind();
@@ -86,4 +100,14 @@ int ContentManager::bindMonsterObj(int id) const
 {
 	monsterObjs[id]->bind();
 	return monsterObjs[id]->getFaces();
+}
+
+void ContentManager::bindGUItex(int id) const
+{
+	guiObjs[id]->bindTexOnly();
+}
+
+void ContentManager::bindGUIvert() const
+{
+	guiObjs[0]->bindVertOnly();
 }

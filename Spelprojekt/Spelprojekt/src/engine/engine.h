@@ -7,6 +7,7 @@
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
 
+#include "../GUI.h"
 #include "ContentManager.h"
 #include "object.h"
 #include "../game/player.h"
@@ -41,7 +42,7 @@ public:
 	~Engine();
 	void init(glm::mat4* viewMatrix);
 
-	void render(const Player* player, const Map* map, const ContentManager* content, vec3* campos);
+	void render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, vec3* campos);
 };
 
 #endif

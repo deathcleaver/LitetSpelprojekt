@@ -50,6 +50,7 @@ public:
 	void RMB(bool);
 	void Shift(bool);
 	void Space(bool);
+	bool getSpace();
 	void Ctrl(bool);
 	vec3* GetPos();
 	vec3 getToTarget();

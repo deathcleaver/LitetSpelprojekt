@@ -3,8 +3,9 @@
 
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
-
+#include "../GUI.h"
 #include "RenderTarget.h"
+#include "ContentManager.h"
 
 class Gbuffer : public RenderTarget
 {
@@ -17,7 +18,7 @@ public:
 
 	void bind(GLuint index);
 
-	void render(glm::vec3* campos);
+	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui = true);
 
 	GLuint* shaderPtr;
 	GLfloat* playerPos;

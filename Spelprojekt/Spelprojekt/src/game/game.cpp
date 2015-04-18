@@ -75,6 +75,8 @@ Game::~Game()
 		delete map;
 	if (in)
 		delete in;
+	if (gui)
+		delete gui;
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -101,12 +103,12 @@ void Game::init(GLFWwindow* windowRef)
 	player->init();
 	map = new Map();
 	map->init();
-
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
 	in->Init(viewMat, glm::vec3(0, 0, 11), glm::vec3(0, 0, 10), glm::vec3(0, 1, 0));
 	cameraFollow = true;
-
+	gui = new GUI();
+	gui->init(in, player);
 	//start state
 	current = MENU;
 
@@ -154,6 +156,7 @@ void Game::mainLoop()
 
 void Game::update(float deltaTime)
 {
+	gui->update((int)current);
 	switch(current) 
 	{
 		case(MENU):
@@ -179,7 +182,8 @@ void Game::update(float deltaTime)
 			map->update(deltaTime);
 
 			//leave State code
-			//if()
+			if (in->getSpace())
+				current = PAUSE;
 
 			break;
 		}
@@ -193,6 +197,8 @@ void Game::update(float deltaTime)
 		}
 		case(PAUSE):
 		{
+			if (in->getKeyState('S'))
+				current = PLAY;
 			break;
 		}
 	}
@@ -211,7 +217,7 @@ void Game::update(float deltaTime)
 	}
 	
 	//Render const
-	engine->render(player, map, content, in->GetPos());
+	engine->render(player, map, content, gui, in->GetPos());
 }
 
 void Game::readInput(float deltaTime)

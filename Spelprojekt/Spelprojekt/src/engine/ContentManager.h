@@ -17,6 +17,10 @@ private:
 	Object** monsterObjs = 0;
 	int monsterObjCount = 0;
 	void loadMonsterObjs();
+
+	Object** guiObjs = 0;
+	int guiCount = 0;
+	void loadGUIobjs();
 	
 public:
 	ContentManager() {};
@@ -25,6 +29,8 @@ public:
 	int bindPlayer() const;
 	int bindMapObj(int id) const;
 	int bindMonsterObj(int id) const;
+	void bindGUItex(int id) const;
+	void bindGUIvert() const;
 };
 
 #endif

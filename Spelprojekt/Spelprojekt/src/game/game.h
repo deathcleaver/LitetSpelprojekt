@@ -33,6 +33,7 @@ private:
 	Player* player = 0;
 	Map* map = 0;
 	UserInput* in = 0;
+	GUI* gui = 0;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
 	bool cameraFollow = false;

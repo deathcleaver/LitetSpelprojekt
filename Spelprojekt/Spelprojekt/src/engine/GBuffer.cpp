@@ -87,7 +87,7 @@ void Gbuffer::bind(GLuint target)
 	glBindFramebuffer(target, targetId);
 }
 
-void Gbuffer::render(glm::vec3* campos)
+void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui)
 {
 	// bind shader
 	glUseProgram(*shaderPtr);
@@ -108,6 +108,23 @@ void Gbuffer::render(glm::vec3* campos)
 	glProgramUniform3f(*shaderPtr, unifromPlayerPos, playerPos[0], playerPos[1], 4);
 	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	if (renderGui)
+	{
+		//bind gui shader
+
+		//int size = gui->readSize();
+		//ScreenItem** items = gui->getItems();
+		//bind tex blit
+		//content->bindGUIvert();
+
+		//for (int n = 0; n < size; n++)
+		//{
+			//items[n]->bindWorldMat()
+			//content->bindGUItex(n);
+			//glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		//}
+	}
 
 }
 

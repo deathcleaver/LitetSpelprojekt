@@ -115,6 +115,11 @@ void UserInput::Space(bool set)
 	space = set;
 }
 
+bool UserInput::getSpace()
+{
+	return space;
+}
+
 void UserInput::Ctrl(bool set)
 {
 	ctrl = set;

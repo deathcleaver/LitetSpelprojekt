@@ -38,7 +38,7 @@ public:
 
 	glm::vec3 readPos() const;
 
-	int returnID();
+	int returnID() const;
 };
 
 #endif
