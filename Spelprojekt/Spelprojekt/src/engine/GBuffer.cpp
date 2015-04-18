@@ -70,6 +70,8 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	//defaults 0
 	glProgramUniform1i(uniformGUItexture, uniformGUItexture, 0);
 	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 Gbuffer::~Gbuffer()
