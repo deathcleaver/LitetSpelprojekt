@@ -19,6 +19,7 @@ Bat::Bat(glm::vec2 firstPos)
 void Bat::init()
 {
 	moveTo(initPos.x, initPos.y);
+	movementScale = 0.0f;
 	facingRight = true;
 	alive = true;
 	health = 1;
