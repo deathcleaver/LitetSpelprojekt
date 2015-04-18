@@ -24,6 +24,7 @@ private:
 	// <temp>
 	GLuint tempshader;
 	GLuint tempshaderGBuffer;
+	GLuint tempshaderGUI;
 	GLuint uniformModel;
 	GLuint uniformView;
 	GLuint uniformProj;

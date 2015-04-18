@@ -21,6 +21,7 @@ public:
 	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui = true);
 
 	GLuint* shaderPtr;
+	GLuint* shaderGuiPtr;
 	GLfloat* playerPos;
 	GLfloat* cameraPos;
 
@@ -33,6 +34,10 @@ private:
 	GLuint* pos;
 	GLuint unifromCamPos;
 	GLuint unifromPlayerPos;
+	//gui
+	GLuint uniformGUItexture;
+	GLuint uniformGUIModel;
+
 };
 
 #endif

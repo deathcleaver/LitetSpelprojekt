@@ -18,7 +18,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	GLenum* DrawBuffers = new GLenum[nrTextures];
 	
-
 	for (size_t i = 0; i < nrTextures; i++)
 	{
 		if (i == 0 && depth)
@@ -66,6 +65,11 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	cameraPos = 0;
 	playerPos = 0;
 
+	//gui
+	uniformGUItexture = glGetUniformLocation(*shaderGuiPtr, "diffuse");
+	//defaults 0
+	glProgramUniform1i(uniformGUItexture, uniformGUItexture, 0);
+	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
 }
 
 Gbuffer::~Gbuffer()
@@ -111,19 +115,29 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 
 	if (renderGui)
 	{
-		//bind gui shader
+		glUseProgram(*shaderGuiPtr);
 
-		//int size = gui->readSize();
-		//ScreenItem** items = gui->getItems();
+		//However, if you want blending to occur when the primitive is texture mapped
+		//(i.e., you want parts of the texture map to allow the underlying color of the 
+		//primitive to show through), then don't use OpenGL blending. Instead, you'd use 
+		//glTexEnv(), and set the texture environment mode to GL_BLEND.In this case, you'd
+		//want to leave the texture environment color to its default value of (0,0,0,0).
+
+		int size = gui->readSize();
+		ScreenItem** items = gui->getItems();
 		//bind tex blit
-		//content->bindGUIvert();
-
-		//for (int n = 0; n < size; n++)
-		//{
-			//items[n]->bindWorldMat()
-			//content->bindGUItex(n);
-			//glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		//}
+		content->bindGUIvert();
+		
+		int id = 0;
+		int lastid = -1;
+		for (int n = 0; n < size; n++)
+		{
+			id = items[n]->bindWorldMat(shaderGuiPtr, &uniformGUIModel);
+			if(id != lastid)
+				content->bindGUItex(id);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			lastid = id;
+		}
 	}
 
 }

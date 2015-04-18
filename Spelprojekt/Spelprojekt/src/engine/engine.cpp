@@ -24,24 +24,31 @@ void Engine::init(glm::mat4* viewMat)
 	projMatrix = glm::perspective(3.14f*0.45f, 1080 / 720.0f, 0.1f, 1000.0f);
 
 	//Temp shader
-
 	std::string shaders[] = { "src/shaders/default_vs.glsl", "src/shaders/gs.glsl", "src/shaders/default_fs.glsl" };
 	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_GEOMETRY_SHADER, GL_FRAGMENT_SHADER };
-
+	
 	CreateProgram(tempshader, shaders, shaderType, 3);
 
+	//gBuffer shader
 	shaders[0] = "src/shaders/gBuffer_vs.glsl";
 	shaders[1] = "src/shaders/gBuffer_fs.glsl";
 	shaderType[1] = GL_FRAGMENT_SHADER;
 
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
-
 	gBuffer.shaderPtr = &tempshaderGBuffer;
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
 	uniformView = glGetUniformLocation(tempshader, "V");
 
+
+	//gBuffer gui shader
+	shaders[0] = "src/shaders/gBuffer_gui_vs.glsl";
+	shaders[1] = "src/shaders/gBuffer_gui_fs.glsl";
+	CreateProgram(tempshaderGUI, shaders, shaderType, 2);
+	gBuffer.shaderGuiPtr = &tempshaderGUI;
+
+	
 	gBuffer.init(1080, 720, 4, true);
 
 	GLfloat* something = (GLfloat*)viewMatrix;
