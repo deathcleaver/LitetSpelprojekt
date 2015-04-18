@@ -30,6 +30,7 @@ public:
 	void setUpDraw(glm::vec3 pos);
 	int* getUpDraw() const;
 	void respawnCheck();
+	void playerDiedSoRespawnEnemies(glm::vec3 playerPos);
 };
 
 #endif

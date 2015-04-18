@@ -19,10 +19,3 @@ Enemy::~Enemy()
 {
 	delete collideRect;
 }
-
-void Enemy::reset()
-{
-	moveTo(initPos.x, initPos.y);
-	alive = true;
-	health = 1;
-}

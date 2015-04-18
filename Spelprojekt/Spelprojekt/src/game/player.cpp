@@ -180,7 +180,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			else
 			{
 				printf("I'm fucking dead!\n");
-				respawn();
+				respawn(map);
 			}
 		}
 	}
@@ -213,7 +213,7 @@ vec2 Player::getSpeed()
 	return speed;
 }
 
-void Player::respawn()
+void Player::respawn(Map* map)
 {
 	HP = 3;
 	speed = vec2(0);
@@ -227,6 +227,7 @@ void Player::respawn()
 	{
 		moveTo(0, 2);
 	}
+	map->playerDiedSoRespawnEnemies(readPos());
 }
 
 bool Player::isBlinking() const

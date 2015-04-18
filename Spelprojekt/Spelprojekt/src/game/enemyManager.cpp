@@ -102,6 +102,6 @@ void EnemyManager::resetEnemies()
 {
 	for (int n = 0; n < nrOfEnemies; n++)
 	{
-		enemies[n]->reset();
+		enemies[n]->init();
 	}
 }

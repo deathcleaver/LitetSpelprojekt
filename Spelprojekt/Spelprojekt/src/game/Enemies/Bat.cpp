@@ -21,6 +21,7 @@ void Bat::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
+	health = 1;
 
 	collideRect->update();
 }

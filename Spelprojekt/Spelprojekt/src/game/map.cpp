@@ -263,3 +263,13 @@ void Map::respawnCheck()
 		lastUpDraw[n] = upDraw[n];
 	}
 }
+
+void Map::playerDiedSoRespawnEnemies(glm::vec3 playerPos)
+{
+	int idX, idY;
+	getChunkIndex(playerPos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		chunks[idX][idY].respawnEnemies();
+	}
+}
