@@ -55,7 +55,7 @@ void ContentManager::loadMapObjs()
 	mapObjs = new Object*[mapObjCount]();
 
 	mapObjs[0] = new Object("src/meshes/planeVerticalF.v", "src/textures/grid.bmp");
-	mapObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
+	mapObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/mudtest.bmp");
 	mapObjs[2] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp"); //Shrine
 
 }
