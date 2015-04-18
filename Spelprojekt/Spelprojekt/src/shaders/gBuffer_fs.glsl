@@ -20,7 +20,7 @@ void main ()
     vec4 n = texture(normal,vec2(UV.s, UV.t));
     vec4 diffuseColor = texture(diffuse,vec2(UV.s, UV.t));
     
-    float dist = distance(worldPos.xyz, lightPos.xyz);
+    float dist = distance(worldPos.xyz, playerPos.xyz);
     
     vec4 letThereBeLight;
     
@@ -32,7 +32,7 @@ void main ()
             attenuation = 1- clamp((pow(dist,1.5) / d), 0, 1);
             attenuation = max(attenuation, 0);
         
-        vec3 s = normalize(vec3(lightPos.xyz - worldPos.xyz));
+        vec3 s = normalize(vec3(playerPos.xyz - worldPos.xyz));
 
         vec3 r = reflect(s, n.xyz);
         
