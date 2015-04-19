@@ -21,12 +21,12 @@ MapChunk::~MapChunk()
 	}
 }
 
-void MapChunk::init(int xIndex, int yIndex)
+void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 {
 	//Build chunk filename
 	std::stringstream ss;
-	ss << "../Spelprojekt/src/map/" <<
-		xIndex << "_" << yIndex << ".chunk";
+	ss << "../Spelprojekt/src/map/" << mapname << "/"
+		<< xIndex << "_" << yIndex << ".chunk";
 	string fileName = ss.str();
 
 	ifstream in;

@@ -2,6 +2,11 @@
 #define MAP_H
 
 #include "mapChunk.h"
+#include <string>
+#include <sstream>
+#include <fstream>
+
+using namespace std;
 
 class Map
 {

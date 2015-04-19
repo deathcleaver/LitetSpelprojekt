@@ -16,15 +16,43 @@ Map::~Map()
 
 void Map::init()
 {
-	width = 3;
-	height = 3;
+	if (chunks)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			delete[] chunks[x];
+		}
+		delete[] chunks;
+	}
+	std::string fileName = "../Spelprojekt/src/map/maps";
+	std::string line;
+	std::string fetch;
+	ifstream in;
+	in.open(fileName);
+
+	std::getline(in, line);
+	stringstream iss(line);
+	iss >> fetch;
+	int mapcount = atoi(fetch.c_str());
+
+	std::getline(in, line);
+	iss = stringstream(line); //reset
+	std::getline(in, line);
+	iss << line;
+	iss >> fetch;
+	fileName = fetch;
+	iss >> fetch;
+	width = atoi(fetch.c_str());
+	iss >> fetch;
+	height = atoi(fetch.c_str());
+
 	chunks = new MapChunk*[width];
 	for (int x = 0; x < width; x++)
 	{
 		chunks[x] = new MapChunk[height];
 		for (int y = 0; y < height; y++)
 		{
-			chunks[x][y].init(x, y);
+			chunks[x][y].init(x, y, fileName);
 		}
 	}
 	upDraw = new int[9];
