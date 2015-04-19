@@ -23,6 +23,18 @@ void UserInput::KeyDown(char c)
 	case('D') :
 		D = true;
 		break;
+	case('G') :
+		G = true;
+		break;
+	case('M') :
+		M = true;
+		break;
+	case('C') :
+		C = true;
+		break;
+	case('N') :
+		N = true;
+		break;
 	}
 }
 
@@ -41,6 +53,18 @@ void UserInput::KeyUp(char c)
 		break;
 	case('D') :
 		D = false;
+		break;
+	case('G') :
+		G = false;
+		break;
+	case('M') :
+		M = false;
+		break;
+	case('C') :
+		C = false;
+		break;
+	case('N') :
+		N = false;
 		break;
 	}
 }
@@ -240,6 +264,18 @@ bool UserInput::getKeyState(char c)
 		break;
 	case('D') :
 		return D;
+		break;
+	case('G') :
+		return G;
+		break;
+	case('M') :
+		return M;
+		break;
+	case('C') :
+		return C;
+		break;
+	case('N') :
+		return N;
 		break;
 	}
 }

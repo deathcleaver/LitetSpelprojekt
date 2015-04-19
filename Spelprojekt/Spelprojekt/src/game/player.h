@@ -33,6 +33,8 @@ private:
 	float invulnTimer;
 
 	bool god;
+	bool noclip;
+
 	void respawn(Map* map);
 public:
 	Player(){};

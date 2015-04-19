@@ -234,7 +234,7 @@ void MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
 		Rect* shrineRect = shrine->getRekt();
 		if (playerRect->intersects(shrineRect))
 		{
-			printf("Hejsan svejsan");
+			printf("Hittade en respawnpunkt!\n");
 			currentSpawn = shrine;
 		}
 	}

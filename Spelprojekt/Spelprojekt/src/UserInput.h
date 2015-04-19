@@ -38,6 +38,10 @@ private:
 	bool A = false;
 	bool S = false;
 	bool D = false;
+	bool G = false;
+	bool M = false;
+	bool C = false;
+	bool N = false;
 
 	float toDegree(float val);
 	float toRadian(float val);
