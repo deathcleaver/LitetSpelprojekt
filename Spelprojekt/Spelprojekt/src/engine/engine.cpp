@@ -60,8 +60,10 @@ void Engine::init(glm::mat4* viewMat)
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos, int state)
 {
-	bool renderWorld = false;
 	bool renderPlayer = false;
+	bool renderBack = false;
+	bool renderWorld = false;
+	bool renderMonster = false;
 	bool renderGUI = true;
 
 	switch (state)
@@ -70,8 +72,10 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		
 		break;
 	case(1) : //PLAY
-		renderWorld = true;
 		renderPlayer = true;
+		renderBack = true;
+		renderWorld = true;
+		renderMonster = true;
 		break;
 	case(2) : //INTRO
 		
@@ -80,8 +84,10 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 		break;
 	case(4) : //PAUSE
-		renderWorld = true;
 		renderPlayer = true;
+		renderBack = true;
+		renderWorld = true;
+		renderMonster = true;
 		break;
 	}
 
@@ -99,9 +105,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
 
+	// -- PlayerDraw --
 	if (renderPlayer)
 	{
-		// -- PlayerDraw --
 		player->bindWorldMat(&tempshader, &uniformModel);
 		facecount = content->bindPlayer();
 		if (!player->isBlinking())
@@ -109,24 +115,23 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 		}
 	}
-	if (renderWorld)
-	{
-		// - -Map Draw --
-		int id = 0;
-		int lastid = -1;
-		int width = map->readSizeX();
-		int height = map->readSizeY();
-		MapChunk** chunks = map->getChunks();
-		int* upDraw = map->getUpDraw();
 
-		//RenderChunks , X Y CULLED
+	int id = 0;
+	int lastid = -1;
+	int width = map->readSizeX();
+	int height = map->readSizeY();
+	MapChunk** chunks = map->getChunks();
+	int* upDraw = map->getUpDraw();
+
+	//Render chunk background
+	if(renderBack)
 		for (int n = 0; n < upDraw[0]; n++)
 			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
 				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
 				{
 					int x = n * 2 + 1;
 					int y = n * 2 + 2;
-					//Render chunk background
+					
 					if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
@@ -135,8 +140,17 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
 					}
-					lastid = -1;
-					//render chunk world objects
+				}
+	lastid = -1;
+
+	//render chunk world objects
+	if(renderWorld)
+		for (int n = 0; n < upDraw[0]; n++)
+			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
+				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
+				{
+					int x = n * 2 + 1;
+					int y = n * 2 + 2;
 					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countWorldObjs; k++)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
@@ -144,9 +158,19 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 							facecount = content->bindMapObj(id);
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
-					}
-					lastid = -1;
-					//render chunk monsters
+					}	
+				}
+	lastid = -1;
+
+	//render chunk monsters
+	if(renderMonster)
+		for (int n = 0; n < upDraw[0]; n++)
+			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
+				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
+				{
+					int x = n * 2 + 1;
+					int y = n * 2 + 2;
+
 					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
 					{
 						if (chunks[upDraw[x]][upDraw[y]].enemyLives(k))
@@ -158,11 +182,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 							lastid = id;
 						}
 					}
-					lastid = -1;
 				}
-	} // render world end
-
-
+	lastid = -1;
+				
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST);

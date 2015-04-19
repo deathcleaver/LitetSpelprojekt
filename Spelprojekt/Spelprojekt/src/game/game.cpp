@@ -155,6 +155,7 @@ void Game::mainLoop()
 
 void Game::update(float deltaTime)
 {
+
 	buttonEvents(gui->update((int)current));
 
 	switch(current) 
