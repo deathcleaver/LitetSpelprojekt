@@ -78,7 +78,7 @@ void ContentManager::loadGUIobjs()
 	if (guiObjs)
 		throw;
 
-	guiCount = 100;
+	guiCount = 75;
 	guiObjs = new Object*[guiCount]();
 
 	//main menu reserved 0 - 19
@@ -106,8 +106,9 @@ void ContentManager::loadGUIobjs()
 	for (int n = 25; n < 50; n++)
 		guiObjs[n] = 0;
 
-	// edit reserved 50 - 99
-	for (int n = 50; n < 100; n++)
+	// edit reserved 50 - 74
+	guiObjs[50] = new Object("", "src/textures/gui/edit/editHud.bmp", guiObjs[0], true);
+	for (int n = 51; n < 75; n++)
 		guiObjs[n] = 0;
 }
 

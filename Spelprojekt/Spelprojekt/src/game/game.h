@@ -21,6 +21,7 @@ enum gameState
 	INTRO,
 	EDIT,
 	PAUSE,
+	CONTINUE,
 };
 
 class Game : public Align_16

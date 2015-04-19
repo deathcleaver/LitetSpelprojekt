@@ -110,6 +110,9 @@ void Map::setUpDraw(glm::vec3 pos)
 	int Xbounds = 15;
 	int Ybounds = 10;
 	
+	int XboundsD = 13;
+	int YboundsD = 8;
+
 	int X = 0;
 	if (pos.x < Xbounds) // - X
 	{
@@ -143,25 +146,25 @@ void Map::setUpDraw(glm::vec3 pos)
 	}
 	
 	//diagonals
-	if (X == -1 && Y == -1)
+	if (pos.x < XboundsD && pos.y > -YboundsD)  // - X  - Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
 		upDraw[0]++;
 	}
-	else if (X == 1 && Y == -1)
+	else if (pos.x > 34 - XboundsD && pos.y > -YboundsD) // X  - Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
 		upDraw[0]++;
 	}
-	else if (X == -1 && Y == 1)
+	else if (pos.x < XboundsD && pos.y < -(34 - YboundsD)) // - X  Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
 		upDraw[0]++;
 	}
-	else if (X == 1 && Y == 1)
+	else if (pos.x > 34 - XboundsD && pos.y < -(34 - YboundsD))  // X  Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;

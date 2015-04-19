@@ -77,22 +77,22 @@ void GUI::MENU(bool init)
 
 		//new game button
 		items[1]->init(1, 2, true, 1);
-		items[1]->MoveAutoSize(0, 0.2, content);
+		items[1]->MoveAutoSize(0, 0.1, content);
 
 		//continue button
 		items[2]->init(3, 4, true, 0, false);
-		items[2]->MoveAutoSize(0, 0, content);
+		items[2]->MoveAutoSize(0, -0.15, content);
 			//grayed out
 		items[3]->init(5, 5, false, 0);
-		items[3]->MoveAutoSize(0, 0, content);
+		items[3]->MoveAutoSize(0, -0.15, content);
 
 		//map maker button
-		items[4]->init(6, 7, true, 0);
-		items[4]->MoveAutoSize(0, -0.2, content);
+		items[4]->init(6, 7, true, 2);
+		items[4]->MoveAutoSize(0, -0.4, content);
 
 		//credits button
 		items[5]->init(8, 9, true, 0);
-		items[5]->MoveAutoSize(0, -0.4, content);
+		items[5]->MoveAutoSize(0, -0.6, content);
 	}
 }
 
@@ -116,7 +116,12 @@ void GUI::EDIT(bool init)
 {
 	if (init)
 	{
-
+		size = 1;
+		for (int n = 0; n < size; n++)
+			items[n] = new ScreenItem();
+		//Hud
+		items[0]->init(50, 50);
+		items[0]->MoveAutoSize(0, -0.8, content);
 	}
 }
 
@@ -127,10 +132,11 @@ void GUI::PAUSE(bool init)
 		size = 2;
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
-		
+		// paused text
 		items[0]->init(20, 20);
 		items[0]->MoveAutoSize(0, 0.2, content);
-		items[1]->init(21, 22, true);
+		// exit text
+		items[1]->init(21, 22, true, 3);
 		items[1]->MoveAutoSize(0, -0.1, content);
 	}
 }

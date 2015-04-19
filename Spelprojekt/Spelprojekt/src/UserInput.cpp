@@ -167,6 +167,20 @@ void UserInput::RMB(bool set)
 	rmb = set;
 }
 
+void UserInput::ESC(bool set)
+{
+	if (esc == true && set == false)
+		escReleased = true;
+	else
+		escReleased = false;
+	esc = set;
+}
+
+bool UserInput::getESC()
+{
+	return escReleased;
+}
+
 void UserInput::Mouse(float x, float y)
 {
 	angleH += x / 5.0f;
@@ -380,6 +394,8 @@ bool UserInput::updateMouse()
 
 void UserInput::resetZoomViewDir()
 {
+	angleH = -90;
+	angleV = -0;
 	pos.z = 11;
 	target = pos;
 	target.z--;

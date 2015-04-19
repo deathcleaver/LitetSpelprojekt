@@ -52,10 +52,6 @@ void Engine::init(glm::mat4* viewMat)
 
 	
 	gBuffer.init(1080, 720, 4, true);
-
-	GLfloat* something = (GLfloat*)viewMatrix;
-	gBuffer.cameraPos = &something[12];
-
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos, int state)
@@ -66,11 +62,12 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	bool renderMonster = false;
 	bool renderGUI = true;
 
+	gBuffer.playerPos = (GLfloat*)&player->readPos();
 	switch (state)
 	{
 	case(0) : //MENU
-		
 		break;
+	case(4) : //PAUSE
 	case(1) : //PLAY
 		renderPlayer = true;
 		renderBack = true;
@@ -81,18 +78,14 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		
 		break;
 	case(3) : //EDIT
-
-		break;
-	case(4) : //PAUSE
-		renderPlayer = true;
 		renderBack = true;
 		renderWorld = true;
 		renderMonster = true;
+		gBuffer.playerPos = (GLfloat*)campos;
 		break;
 	}
 
 	int facecount = 0;
-	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
 	// bind gbuffer FBO
 	gBuffer.bind(GL_FRAMEBUFFER);

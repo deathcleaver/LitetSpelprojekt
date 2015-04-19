@@ -62,7 +62,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	unifromCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
 	unifromPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
 
-	cameraPos = 0;
 	playerPos = 0;
 
 	//gui

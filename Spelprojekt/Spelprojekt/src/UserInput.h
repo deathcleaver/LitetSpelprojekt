@@ -31,6 +31,8 @@ private:
 	bool lmbReleased = false;
 	bool rmbReleased = false;
 
+	bool esc = false;
+	bool escReleased = false;
 	bool shift = false;
 	bool space = false;
 	bool ctrl = false;
@@ -55,9 +57,11 @@ public:
 	void Act(float deltaTime);
 	void LMB(bool);
 	void RMB(bool);
+	void ESC(bool);
 	void Shift(bool);
 	void Space(bool);
 	bool getSpace();
+	bool getESC();
 	void Ctrl(bool);
 	vec3* GetPos();
 	vec3 getToTarget();

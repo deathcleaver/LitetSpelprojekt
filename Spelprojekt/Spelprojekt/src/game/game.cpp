@@ -162,30 +162,25 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
-			//current = PLAY;
 			break;
 		}
 		case(PLAY):
 		{
-			//enterState
-			if (last != PLAY && last != PAUSE)
-			{
-
-			}	
-			//state code
-
 			if (cameraFollow)
 			{
 				in->cameraPan(player->readPos(), 5, deltaTime, true);
 				player->update(in, map, deltaTime);
 			}
+
 			map->setUpDraw(*in->GetPos());
 			map->update(deltaTime);
 
 			//leave State code
-			if (in->getSpace())
+			if (in->getESC())
+			{
+				//save player progression
 				current = PAUSE;
-
+			}
 			break;
 		}
 		case(INTRO):
@@ -194,12 +189,21 @@ void Game::update(float deltaTime)
 		}
 		case(EDIT):
 		{
+			map->setUpDraw(*in->GetPos());
+			if (in->getESC())
+			{
+				//save map
+				current = MENU;
+			}
 			break;
 		}
 		case(PAUSE):
 		{
-			if (in->getKeyState('S'))
+			if (in->getESC())
+			{
+				//save player progression
 				current = PLAY;
+			}
 			break;
 		}
 	}
@@ -228,10 +232,14 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(1) :
 		current = PLAY;
+		cameraFollow = true;
 		break;
-	case(2) : 
+	case(2) :
+		current = EDIT;
+		cameraFollow = false;
 		break;
 	case(3) :
+		current = MENU;
 		break;
 
 	}
@@ -270,12 +278,13 @@ void Game::readInput(float deltaTime)
 	state = glfwGetKey(windowRef, GLFW_KEY_C);
 	if (state == GLFW_PRESS) 
 	{ 
-		cameraFollow = true;
+		if(current == PLAY)
+			cameraFollow = true;
 		in->resetZoomViewDir();
 	};
 	state = glfwGetKey(windowRef, GLFW_KEY_V);
-	if (state == GLFW_PRESS) 
-		cameraFollow = false;	
+	if (state == GLFW_PRESS)
+		cameraFollow = false;
 
 	//Special Keys
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_SHIFT);
@@ -284,4 +293,6 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Space(true) : in->Space(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_LEFT_CONTROL);
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
+	state = glfwGetKey(windowRef, GLFW_KEY_ESCAPE);
+	state == GLFW_PRESS ? in->ESC(true) : in->ESC(false);
 }
