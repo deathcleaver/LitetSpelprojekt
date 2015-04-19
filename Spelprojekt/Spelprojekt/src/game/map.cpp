@@ -268,10 +268,11 @@ void Map::respawnCheck()
 
 void Map::playerDiedSoRespawnEnemies(glm::vec3 playerPos)
 {
-	int idX, idY;
-	getChunkIndex(playerPos, &idX, &idY);
-	if (idX != -1 && idY != -1)
+	for (int idX = 0; idX < width; idX++)
 	{
-		chunks[idX][idY].respawnEnemies();
+		for (int idY = 0; idY < height; idY++)
+		{
+			chunks[idX][idY].respawnEnemies();
+		}
 	}
 }
