@@ -127,11 +127,19 @@ void UserInput::Ctrl(bool set)
 
 void UserInput::LMB(bool set)
 {
+	if (lmb == true && set == false)
+		lmbReleased = true;
+	else
+		lmbReleased = false;
 	lmb = set;
 }
 
 void UserInput::RMB(bool set)
 {
+	if (rmb == true && set == false)
+		rmbReleased = true;
+	else
+		rmbReleased = false;
 	rmb = set;
 }
 
@@ -305,7 +313,6 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 
 void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, bool playerpeek)
 {
-
 	glm::vec3 oldPos = pos;
 	float keepZ = pos.z;
 	glm::vec3 toTarget = moveTo - pos;
@@ -340,4 +347,18 @@ void UserInput::resetZoomViewDir()
 	pos.z = 11;
 	target = pos;
 	target.z--;
+}
+
+void UserInput::getMouseState(float* x, float* y, bool* right, bool* left)
+{
+	*x = lastX;
+	*y = lastY;
+	*right = rmbReleased;
+	*left = lmbReleased;
+}
+
+void UserInput::setMousePos(float x, float y)
+{
+	lastX = x;
+	lastY = y;
 }

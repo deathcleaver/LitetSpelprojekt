@@ -29,6 +29,8 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 	
 	if (copyTex)
 	{
+		TexscaleX = obj->TexscaleX;
+		TexscaleY = obj->TexscaleY;
 		textureId = obj->textureId;
 		TEXTUREINDEXOFFSET = obj->TEXTUREINDEXOFFSET;
 	}
@@ -205,6 +207,9 @@ bool Object::loadBMP(std::string imagepath)
 	width = *(int*)&(header[0x12]);
 	height = *(int*)&(header[0x16]);
 
+	TexscaleX = float(width) / SCREENWIDTH;
+	TexscaleY =	float(height) / SCREENWIDTH;
+
 	// Some BMP files are misformatted, guess missing information
 	if (imageSize == 0)
 		imageSize = width*height * 3; // 3 : one byte for each Red, Green and Blue component
@@ -242,4 +247,14 @@ bool Object::loadBMP(std::string imagepath)
 int Object::getFaces()
 {
 	return faceCount;
+}
+
+float Object::scaleX()
+{
+	return TexscaleX;
+}
+
+float Object::scaleY()
+{
+	return TexscaleY;
 }

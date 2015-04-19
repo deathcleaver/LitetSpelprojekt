@@ -1,9 +1,10 @@
 #include "GUI.h"
 
-void GUI::init(UserInput* in, Player* player)
+void GUI::init(UserInput* in, Player* player, ContentManager* content)
 {
 	this->player = player;
 	this->in = in;
+	this->content = content;
 	capacity = 30;
 	items = new ScreenItem*[capacity];
 	for (int n = 0; n < capacity; n++)
@@ -11,7 +12,6 @@ void GUI::init(UserInput* in, Player* player)
 		items[n] = 0;
 	}
 	size = 0;
-
 }
 
 GUI::~GUI()
@@ -67,7 +67,32 @@ void GUI::MENU(bool init)
 {
 	if (init)
 	{
+		size = 6;
+		for (int n = 0; n < size; n++)
+			items[n] = new ScreenItem();
 
+		//logo
+		items[0]->init(0, 0);
+		items[0]->MoveAutoSize(0, 0.6, content);
+
+		//new game button
+		items[1]->init(1, 2, true, 1);
+		items[1]->MoveAutoSize(0, 0.2, content);
+
+		//continue button
+		items[2]->init(3, 4, true, 0, false);
+		items[2]->MoveAutoSize(0, 0, content);
+			//grayed out
+		items[3]->init(5, 5, false, 0);
+		items[3]->MoveAutoSize(0, 0, content);
+
+		//map maker button
+		items[4]->init(6, 7, true, 0);
+		items[4]->MoveAutoSize(0, -0.2, content);
+
+		//credits button
+		items[5]->init(8, 9, true, 0);
+		items[5]->MoveAutoSize(0, -0.4, content);
 	}
 }
 
@@ -99,24 +124,37 @@ void GUI::PAUSE(bool init)
 {
 	if (init)
 	{
-		size = 1;
+		size = 2;
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
 		
-		items[0]->init(0, 0);
+		items[0]->init(20, 20);
+		items[0]->MoveAutoSize(0, 0.2, content);
+		items[1]->init(21, 22, true);
+		items[1]->MoveAutoSize(0, -0.1, content);
 	}
 }
 
 int GUI::keyUpdate()
 {
 	int ret = 0;
+	float x, y;
+	bool rmb;
+	bool lmb;
+
+	in->getMouseState(&x, &y, &rmb, &lmb);
+	MouseToScreenSpace(&x, &y);
 	for (int n = 0; n < size; n++)
 	{
 		//temp click
-		ret = items[n]->update(0, 0, false);
-		if (ret != 0)
-			return ret;
+		if (items[n]->visable())
+		{
+			ret = items[n]->update(x, y, lmb);
+			if (ret != 0)
+				return ret;
+		}
 	}
+	return ret;
 }
 
 int GUI::readSize() const
@@ -127,4 +165,10 @@ int GUI::readSize() const
 ScreenItem** GUI::getItems() const
 {
 	return items;
+}
+
+void GUI::MouseToScreenSpace(float* x, float* y)
+{
+	*x = (*x / (SCREENWIDTH * 0.5)) -1;
+	*y = ((*y / (SCREENHEIGHT * 0.5)) -1) * -1;
 }

@@ -58,8 +58,33 @@ void Engine::init(glm::mat4* viewMat)
 
 }
 
-void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos, int state)
 {
+	bool renderWorld = false;
+	bool renderPlayer = false;
+	bool renderGUI = true;
+
+	switch (state)
+	{
+	case(0) : //MENU
+		
+		break;
+	case(1) : //PLAY
+		renderWorld = true;
+		renderPlayer = true;
+		break;
+	case(2) : //INTRO
+		
+		break;
+	case(3) : //EDIT
+
+		break;
+	case(4) : //PAUSE
+		renderWorld = true;
+		renderPlayer = true;
+		break;
+	}
+
 	int facecount = 0;
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
@@ -74,69 +99,76 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
 
-	// -- PlayerDraw --
-	player->bindWorldMat(&tempshader, &uniformModel);
-	facecount = content->bindPlayer();
-	if (!player->isBlinking())
+	if (renderPlayer)
 	{
-		glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+		// -- PlayerDraw --
+		player->bindWorldMat(&tempshader, &uniformModel);
+		facecount = content->bindPlayer();
+		if (!player->isBlinking())
+		{
+			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+		}
 	}
-	// - -Map Draw --
-	int id = 0;
-	int lastid = -1;
-	int width = map->readSizeX();
-	int height = map->readSizeY();
-	MapChunk** chunks = map->getChunks();
-	int* upDraw = map->getUpDraw();
-	
-	//RenderChunks , X Y CULLED
-	for (int n = 0; n < upDraw[0]; n++)
-		if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
-			if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
-			{
-				int x = n * 2 + 1;
-				int y = n * 2 + 2;
-				//Render chunk background
-				if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
+	if (renderWorld)
+	{
+		// - -Map Draw --
+		int id = 0;
+		int lastid = -1;
+		int width = map->readSizeX();
+		int height = map->readSizeY();
+		MapChunk** chunks = map->getChunks();
+		int* upDraw = map->getUpDraw();
+
+		//RenderChunks , X Y CULLED
+		for (int n = 0; n < upDraw[0]; n++)
+			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
+				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
 				{
-					id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
-					if (id != lastid)
-						facecount = content->bindMapObj(id);
-					glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-					lastid = id;
-				}
-				lastid = -1;
-				//render chunk world objects
-				for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countWorldObjs; k++)
-				{
-					id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
-					if (id != lastid)
-						facecount = content->bindMapObj(id);
-					glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-					lastid = id;
-				}
-				lastid = -1;
-				//render chunk monsters
-				for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
-				{
-					if (chunks[upDraw[x]][upDraw[y]].enemyLives(k))
+					int x = n * 2 + 1;
+					int y = n * 2 + 2;
+					//Render chunk background
+					if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
 					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(k, &tempshader, &uniformModel);
+						id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
-							facecount = content->bindMonsterObj(id);
+							facecount = content->bindMapObj(id);
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
 					}
+					lastid = -1;
+					//render chunk world objects
+					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countWorldObjs; k++)
+					{
+						id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
+						if (id != lastid)
+							facecount = content->bindMapObj(id);
+						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						lastid = id;
+					}
+					lastid = -1;
+					//render chunk monsters
+					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
+					{
+						if (chunks[upDraw[x]][upDraw[y]].enemyLives(k))
+						{
+							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(k, &tempshader, &uniformModel);
+							if (id != lastid)
+								facecount = content->bindMonsterObj(id);
+							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							lastid = id;
+						}
+					}
+					lastid = -1;
 				}
-				lastid = -1;
-			}
-    
+	} // render world end
+
+
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	gBuffer.render(campos, gui, content, true);
+	gBuffer.render(campos, gui, content, renderGUI);
     
 	glEnable(GL_DEPTH_TEST);
 

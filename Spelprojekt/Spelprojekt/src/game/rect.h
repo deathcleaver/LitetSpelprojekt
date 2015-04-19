@@ -25,11 +25,13 @@ public:
 			y2 = (*worldMat)[1].w - yHalfSize;
 		}
 	}
+	
 	Rect()
 	{
 		worldMat = 0;
 	};
 	~Rect(){};
+
 	void initGameObjectRect(glm::mat4* mat, float sizeX, float sizeY)
 	{
 		worldMat = mat;
@@ -37,6 +39,7 @@ public:
 		yHalfSize = sizeY * 0.5;
 		update();
 	}
+
 	void initMapRect(float ChunkOffsetX, float ChunkOffsetY, int x, int y, int type)
 	{
 		this->type = type;
@@ -47,6 +50,7 @@ public:
 		x2 = midX + 0.5;
 		y2 = midY - 0.5;
 	}
+	
 	bool intersects(Rect* test)
 	{
 		if (y2 > test->y1)
@@ -60,6 +64,19 @@ public:
 
 		return true;
 	}
+
+	bool intersectsPoint(float testx1, float testy1)
+	{
+		if (y2 > testy1)
+			return false; //ouside top
+		if (x2 < testx1)
+			return false; //outside left
+		if (x1 > testx1)
+			return false; //outside right
+		if (y1 < testy1)
+			return false; //outside botom
+	}
+	
 	//mapchunk collide usage
 	void readData(int* xMidRef, int* yMidRef, int* halfX, int* halfY)
 	{

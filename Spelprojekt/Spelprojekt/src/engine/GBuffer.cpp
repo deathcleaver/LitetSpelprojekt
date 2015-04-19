@@ -117,12 +117,6 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 	{
 		glUseProgram(*shaderGuiPtr);
 
-		//However, if you want blending to occur when the primitive is texture mapped
-		//(i.e., you want parts of the texture map to allow the underlying color of the 
-		//primitive to show through), then don't use OpenGL blending. Instead, you'd use 
-		//glTexEnv(), and set the texture environment mode to GL_BLEND.In this case, you'd
-		//want to leave the texture environment color to its default value of (0,0,0,0).
-
 		int size = gui->readSize();
 		ScreenItem** items = gui->getItems();
 		//bind tex blit
@@ -132,11 +126,14 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 		int lastid = -1;
 		for (int n = 0; n < size; n++)
 		{
-			id = items[n]->bindWorldMat(shaderGuiPtr, &uniformGUIModel);
-			if(id != lastid)
-				content->bindGUItex(id);
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-			lastid = id;
+			if (items[n]->visable())
+			{
+				id = items[n]->bindWorldMat(shaderGuiPtr, &uniformGUIModel);
+				if (id != lastid)
+					content->bindGUItex(id);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+				lastid = id;
+			}
 		}
 	}
 

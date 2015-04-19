@@ -31,6 +31,7 @@ public:
 	int bindMonsterObj(int id) const;
 	void bindGUItex(int id) const;
 	void bindGUIvert() const;
+	Object** gui(); //used to auto resize texture objects in GUI
 };
 
 #endif

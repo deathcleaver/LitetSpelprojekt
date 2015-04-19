@@ -43,7 +43,7 @@ public:
 	~Engine();
 	void init(glm::mat4* viewMatrix);
 
-	void render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, vec3* campos);
+	void render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, vec3* campos, int state);
 };
 
 #endif

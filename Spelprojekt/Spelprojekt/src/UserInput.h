@@ -28,6 +28,9 @@ private:
 
 	bool lmb = false;
 	bool rmb = false;
+	bool lmbReleased = false;
+	bool rmbReleased = false;
+
 	bool shift = false;
 	bool space = false;
 	bool ctrl = false;
@@ -54,7 +57,8 @@ public:
 	void Ctrl(bool);
 	vec3* GetPos();
 	vec3 getToTarget();
-
+	void setMousePos(float x, float y);
+	void getMouseState(float* x, float* y, bool* right, bool* left);
 	void followPlayer(vec3 p, vec2 s, float deltaTime);
 	bool getKeyState(char c);
 	void resetZoomViewDir();

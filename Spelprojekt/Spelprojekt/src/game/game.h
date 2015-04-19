@@ -36,6 +36,8 @@ private:
 	GUI* gui = 0;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
+	double xpos = 0.0f;
+	double ypos = 0.0f;
 	bool cameraFollow = false;
 	mat4* viewMat = 0;
 
@@ -48,6 +50,7 @@ public:
 	void mainLoop();
 	void update(float deltaTime);
 	void readInput(float deltaTime);
+	void buttonEvents(int buttonEv);
 };
 
 #endif

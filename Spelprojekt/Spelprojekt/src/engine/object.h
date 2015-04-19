@@ -24,6 +24,10 @@ private:
 	bool textureHost = false;
 	int TEXTUREINDEXOFFSET = 0;
 	int faceCount = -1;
+	float TexscaleX = 1;
+	float TexscaleY = 1;
+	int SCREENWIDTH = 1080;
+	int SCREENHEIGHT = 720;
 
 	struct TriangleVertex
 	{
@@ -42,6 +46,8 @@ public:
 	void bindTexOnly();
 	void bindVertOnly();
 	int getFaces();
+	float scaleX();
+	float scaleY();
 };
 
 #endif

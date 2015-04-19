@@ -62,7 +62,6 @@ extern "C"
 }
 #endif
 
-
 Game::~Game()
 {
 	if (engine)
@@ -108,7 +107,7 @@ void Game::init(GLFWwindow* windowRef)
 	in->Init(viewMat, glm::vec3(0, 0, 11), glm::vec3(0, 0, 10), glm::vec3(0, 1, 0));
 	cameraFollow = true;
 	gui = new GUI();
-	gui->init(in, player);
+	gui->init(in, player, content);
 	//start state
 	current = MENU;
 
@@ -156,12 +155,13 @@ void Game::mainLoop()
 
 void Game::update(float deltaTime)
 {
-	gui->update((int)current);
+	buttonEvents(gui->update((int)current));
+
 	switch(current) 
 	{
 		case(MENU):
 		{
-			current = PLAY;
+			//current = PLAY;
 			break;
 		}
 		case(PLAY):
@@ -207,17 +207,33 @@ void Game::update(float deltaTime)
 	
 	if (!cameraFollow)
 	{
-		in->Act(deltaTime);
-		double x, y;
-		glfwGetCursorPos(windowRef, &x, &y);
+		in->Act(deltaTime); //moves sideways
+		glfwGetCursorPos(windowRef, &xpos, &ypos);
 		if (in->updateMouse())
-			in->Mouse(x - lastX, y - lastY);
-		lastX = x;
-		lastY = y;
+			in->Mouse(xpos - lastX, xpos - lastY); //moves mouse
+		lastX = xpos;
+		lastY = ypos;
 	}
 	
 	//Render const
-	engine->render(player, map, content, gui, in->GetPos());
+	engine->render(player, map, content, gui, in->GetPos(), (int)current);
+}
+
+void Game::buttonEvents(int buttonEv)
+{
+	switch (buttonEv)
+	{
+	case(0) : //default empty event;
+		break;
+	case(1) :
+		current = PLAY;
+		break;
+	case(2) : 
+		break;
+	case(3) :
+		break;
+
+	}
 }
 
 void Game::readInput(float deltaTime)
@@ -226,6 +242,11 @@ void Game::readInput(float deltaTime)
 	//Mouse Buttons
 	state = glfwGetMouseButton(windowRef, GLFW_MOUSE_BUTTON_RIGHT);
 	state == GLFW_PRESS ? in->RMB(true) : in->RMB(false);
+	state = glfwGetMouseButton(windowRef, GLFW_MOUSE_BUTTON_LEFT);
+	state == GLFW_PRESS ? in->LMB(true) : in->LMB(false);
+	glfwGetCursorPos(windowRef, &xpos, &ypos);
+	in->setMousePos(xpos, ypos);
+
 	//Character Keys
 	state = glfwGetKey(windowRef, GLFW_KEY_W);
 	state == GLFW_PRESS ? in->KeyDown('W') : in->KeyUp('W');
