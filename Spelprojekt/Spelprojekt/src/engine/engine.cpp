@@ -125,13 +125,11 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	//Render chunk background
 	if(renderBack)
-		for (int n = 0; n < upDraw[0]; n++)
-			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
-				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
-				{
-					int x = n * 2 + 1;
-					int y = n * 2 + 2;
-					
+		for (int n = 0; n < upDraw[0]; n++){
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
 					if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
@@ -140,17 +138,16 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
 					}
-				}
+		}
 	lastid = -1;
 
 	//render chunk world objects
 	if(renderWorld)
-		for (int n = 0; n < upDraw[0]; n++)
-			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
-				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
-				{
-					int x = n * 2 + 1;
-					int y = n * 2 + 2;
+		for (int n = 0; n < upDraw[0]; n++){
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)	
 					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countWorldObjs; k++)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
@@ -159,20 +156,17 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
 					}	
-				}
+	}
 	lastid = -1;
 
 	//render chunk monsters
 	if(renderMonster)
-		for (int n = 0; n < upDraw[0]; n++)
-			if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
-				if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
-				{
-					int x = n * 2 + 1;
-					int y = n * 2 + 2;
-
+		for (int n = 0; n < upDraw[0]; n++){
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
 					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
-					{
 						if (chunks[upDraw[x]][upDraw[y]].enemyLives(k))
 						{
 							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(k, &tempshader, &uniformModel);
@@ -181,8 +175,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 							lastid = id;
 						}
-					}
-				}
+		}
 	lastid = -1;
 				
 	// bind default FBO and render gbuffer

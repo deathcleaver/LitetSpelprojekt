@@ -72,9 +72,11 @@ int Map::update(float deltaTime)
 	int msg = 0;
 	for (int n = 0; n < upDraw[0]; n++)
 	{
-		if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
-			if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
-				msg = chunks[upDraw[n * 2 + 1]][upDraw[n * 2 + 2]].update(deltaTime);
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime);
 	}
 	
 	return 0;
@@ -241,7 +243,7 @@ void Map::respawnCheck()
 	for (int n = 0; n < upDraw[0]; n++)
 	{
 		int x = n * 2 + 1;
-		int y = n * 2 + 2;
+		int y = x + 1;
 
 		//search
 		bool found = false;
