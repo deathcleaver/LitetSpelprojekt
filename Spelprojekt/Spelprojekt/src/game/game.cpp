@@ -204,17 +204,17 @@ void Game::update(float deltaTime)
 	}
 	last = current;
 
-	
+	glfwGetCursorPos(windowRef, &xpos, &ypos);
 	if (!cameraFollow)
 	{
 		in->Act(deltaTime); //moves sideways
-		glfwGetCursorPos(windowRef, &xpos, &ypos);
+		
 		if (in->updateMouse())
-			in->Mouse(xpos - lastX, xpos - lastY); //moves mouse
-		lastX = xpos;
-		lastY = ypos;
+			in->Mouse(xpos - lastX, ypos - lastY); //moves mouse
 	}
-	
+	lastX = xpos;
+	lastY = ypos;
+
 	//Render const
 	engine->render(player, map, content, gui, in->GetPos(), (int)current);
 }
