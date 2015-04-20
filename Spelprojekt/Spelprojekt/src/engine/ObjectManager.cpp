@@ -88,8 +88,8 @@ void ObjectManager::loadMonsterObjs()
 
 
 	//bats
-	Object* bat1 = new Object("src/meshes/BatWingsBack.v", "src/textures/Red.bmp");
-	Object* bat2 = new Object("src/meshes/BatWingsForward.v", "src/textures/Red.bmp");
+	Object* bat1 = new Object("src/meshes/BatWingsBackFix.v", "src/textures/Red.bmp");
+	Object* bat2 = new Object("src/meshes/BatWingsForwardFix.v", "src/textures/Red.bmp");
 	myMonsterObjs[1] = new AnimationObject(bat1, bat2, 0.5f, 0.05f);
 
 
