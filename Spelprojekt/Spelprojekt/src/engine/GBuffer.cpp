@@ -100,7 +100,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	lights[1].intensity = 1.0f;
 	lights[1].distance = 100.0f;
-
 	
 }
 

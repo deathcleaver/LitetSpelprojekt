@@ -276,7 +276,7 @@ void Object::updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLusho
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(someIndices[0]) * someIndices.size() , &someIndices[0], GL_STATIC_DRAW);
 	faceCount = count;
-	glEnableVertexAttribArray(indexBuffer);
+	//glEnableVertexAttribArray(indexBuffer);
 
 	glBindVertexArray(vertexAttribute);
 	glEnableVertexAttribArray(0);
