@@ -109,9 +109,16 @@ int Map::update(float deltaTime, glm::vec3 playerPos)
 	
 	int idX, idY;
 	getChunkIndex(playerPos, &idX, &idY);
-	if (chunks[idX][idY].hasBoss())
+	if (idX != -1 && idY != -1)
 	{
-		return 1;
+		if (chunks[idX][idY].hasBoss())
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		return 5; //Player out-of-map death
 	}
 
 	return 0;

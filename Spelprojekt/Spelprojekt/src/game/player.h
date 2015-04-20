@@ -56,6 +56,8 @@ public:
 	vec2 getSpeed();
 	std::string getAnimState();
 	bool isBlinking() const;
+
+	void execute(Map* map);
 };
 
 #endif

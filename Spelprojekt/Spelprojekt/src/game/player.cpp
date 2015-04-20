@@ -383,3 +383,8 @@ std::string Player::getAnimState()
 {
 	return animState;
 }
+
+void Player::execute(Map* map)
+{
+	respawn(map);
+}
