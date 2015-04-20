@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\glm\glm;..\glew-1.11.0\include;..\GLFW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\glew-1.11.0\lib\Release\Win32;..\GLFW\lib-vc2013;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\glm\glm;..\glew-1.11.0\include;..\GLFW\include;..\OpenAL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\glew-1.11.0\lib\Release\Win32;..\GLFW\lib-vc2013;..\OpenAL\lib\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -62,7 +62,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -95,6 +95,7 @@
     <ClCompile Include="src\engine\GBuffer.cpp" />
     <ClCompile Include="src\engine\object.cpp" />
     <ClCompile Include="src\engine\RenderTarget.cpp" />
+    <ClCompile Include="src\game\Audio.cpp" />
     <ClCompile Include="src\game\edit.cpp" />
     <ClCompile Include="src\game\Enemies\Bat.cpp" />
     <ClCompile Include="src\game\Enemies\Bossbat.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="src\engine\GBuffer.h" />
     <ClInclude Include="src\engine\object.h" />
     <ClInclude Include="src\engine\RenderTarget.h" />
+    <ClInclude Include="src\game\Audio.h" />
     <ClInclude Include="src\game\edit.h" />
     <ClInclude Include="src\game\Enemies\Bat.h" />
     <ClInclude Include="src\game\Enemies\Bossbat.h" />

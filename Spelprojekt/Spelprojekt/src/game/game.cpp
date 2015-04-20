@@ -116,6 +116,10 @@ void Game::init(GLFWwindow* windowRef)
 	//start state
 	current = MENU;
 
+	//start audio
+	audio = new Audio();
+	audio->playSound();
+
 	// do not delete in this class
 	this->windowRef = windowRef;
 }
