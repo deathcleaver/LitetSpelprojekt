@@ -107,6 +107,7 @@ Gbuffer::~Gbuffer()
 {
 	delete[] lights;
 	delete[] rTexture;
+	delete[] pos;
 	glDeleteBuffers(1, &targetId);
 
 	glDeleteBuffers(1, &lightBuffer);

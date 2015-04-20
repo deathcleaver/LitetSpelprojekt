@@ -6,6 +6,9 @@ MapChunk::~MapChunk()
 	delete enemyMan;
 	delete[] worldObjs;
 
+	if (shrine)
+		delete shrine;
+
 	if (worldCollide)
 	{
 		for (int x = 0; x < 35; x++)

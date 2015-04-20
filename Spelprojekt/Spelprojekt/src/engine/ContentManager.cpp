@@ -2,33 +2,22 @@
 
 ContentManager::~ContentManager()
 {
-	if (player)
-		delete player;
-	if (mapObjs)
+	
+	if (guiObjs)
 	{
-		for (int n = 0; n < mapObjCount; n++)
+		for (size_t i = 0; i < guiCount; i++)
 		{
-			delete mapObjs[n];
+			delete guiObjs[i];
 		}
-		delete[] mapObjs;
+		delete[] guiObjs;
 	}
-	if (monsterObjs)
-	{
-		for (int c = 0; c < monsterObjCount; c++)
-		{
-			delete monsterObjs[c];
-		}
-		delete[]monsterObjs;
-	}
+	
+	delete objectManager;
 }
 
 void ContentManager::init()
 {
 	loadObjManager();
-	loadPlayer();
-	loadMapObjs();
-	loadMonsterObjs();
-	
 	//load all gui textures
 	loadGUIobjs();
 
@@ -45,46 +34,6 @@ void ContentManager::loadObjManager()
 		throw;
 	objectManager = new ObjectManager();
 	objectManager->init();
-}
-
-void ContentManager::loadPlayer()
-{
-	if (player) //only call once
-		throw;
-	//this gon be two objects
-	Object** playerAn = new Object*[2];
-	playerAn[0] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp");
-	playerAn[1] = new Object("src/meshes/PlayerWalk.v", "", playerAn[0], false, true);
-	player = new Object("src/meshes/PlayerWalk.v", "src/textures/black.bmp");//new Animation(playerAn, 2, .5f);// = new Object("src/meshes/PlayerBase.v", "src/textures/HEIL.bmp");
-
-	player = new Object("src/meshes/PlayerBase.v", "src/textures/red.bmp");
-}
-
-void ContentManager::loadMapObjs()
-{
-	if (mapObjs) //only call once
-		throw; 
-
-	mapObjCount = 3; 
-	mapObjs = new Object*[mapObjCount]();
-
-	mapObjs[0] = new Object("src/meshes/planeVerticalF.v", "src/textures/grid.bmp");
-	mapObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/mudtest.bmp");
-	mapObjs[2] = new Object("src/meshes/PlayerBase.v", "src/textures/black.bmp"); //Shrine
-
-}
-
-void ContentManager::loadMonsterObjs()
-{
-	if (monsterObjs)
-		throw;
-
-	monsterObjCount = 3;
-	monsterObjs = new Object*[monsterObjCount]();
-
-	monsterObjs[0] = new Object("src/meshes/BaseCube.v", "src/textures/grid.bmp");
-	monsterObjs[1] = new Object("src/meshes/BaseCube.v", "src/textures/Red.bmp");
-	monsterObjs[2] = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
 }
 
 void ContentManager::loadGUIobjs()

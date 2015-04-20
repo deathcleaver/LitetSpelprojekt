@@ -166,9 +166,9 @@ bool Object::loadVert(std::string path)
 						indexVERT = vert.size();
 						vert.push_back(TriangleVertex());
 						vert[indexVERT] = vert[temp];
-vert[indexVERT].u = uv[indexUV].u;
-vert[indexVERT].v = uv[indexUV].v;
-Indices[count * 3 + n] = indexVERT;
+						vert[indexVERT].u = uv[indexUV].u;
+						vert[indexVERT].v = uv[indexUV].v;
+						Indices[count * 3 + n] = indexVERT;
 					}
 					iss >> sub; // normal index
 				}

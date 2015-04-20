@@ -11,16 +11,6 @@ class ContentManager
 private:
 	ObjectManager* objectManager;
 	void loadObjManager();
-	Object* player = 0;
-	void loadPlayer();
-
-	Object** mapObjs = 0;
-	int mapObjCount = 0;
-	void loadMapObjs();
-
-	Object** monsterObjs = 0;
-	int monsterObjCount = 0;
-	void loadMonsterObjs();
 
 	Object** guiObjs = 0;
 	int guiCount = 0;

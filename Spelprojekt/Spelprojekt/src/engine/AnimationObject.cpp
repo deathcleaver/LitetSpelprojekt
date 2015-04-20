@@ -33,12 +33,7 @@ AnimationObject::AnimationObject(Object** someBases, std::string pathVert, int a
 {
 	myNrOfBaseObjects = aNrOfBases;
 
-	myBaseObjects = new Object*[myNrOfBaseObjects];
-
-	for (int i = 0; i < myNrOfBaseObjects; i++)
-	{
-		myBaseObjects[i] = someBases[i];
-	}
+	myBaseObjects = someBases;
 
 	myWeight = aWeight;
 	mySpeed = aSpeed;
