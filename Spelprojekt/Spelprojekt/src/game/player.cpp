@@ -104,6 +104,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					if (speed.x > 0)// && !jumping)
 					{
 						speed.x = 0;
+						rotate(0, 3.1415927f, 0);
 					}
 					speed.x -= acceleration.x;
 				}
@@ -112,9 +113,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 				if (!jumping)
-					animState = "walkLeft";
+					animState = "walk";
 				else
-					animState = "airLeft";
+					animState = "air";
 			}
 			//right
 			if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
@@ -125,6 +126,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					if (speed.x < 0)// && !jumping)
 					{
 						speed.x = 0;
+						rotate(0, 3.1415927f, 0);
 					}
 					speed.x += acceleration.x;
 				}
@@ -132,9 +134,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					speed.x = maxSpeed.x;
 				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 				if (!jumping)
-					animState = "walkRight";
+					animState = "walk";
 				else
-					animState = "airRight";
+					animState = "air";
 			}
 
 			//stop
@@ -328,14 +330,13 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					{
 						speed.x = 10;
 						speed.y = 10;
-						animState = "flinchRight";
 					}
 					else
 					{
 						speed.x = -10;
 						speed.y = 10;
-						animState = "flinchLeft";
 					}
+					animState = "flinch";
 					isAttacking = false;
 					attackTimer = 0.0f;
 				}
@@ -365,6 +366,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	
 	if (isAttacking)
 	{
+		animState = "attack";
 		moveWeapon();
 		map->attackEnemies(&attackRect, playerPos);
 		attackTimer -= 2.0*deltaTime;

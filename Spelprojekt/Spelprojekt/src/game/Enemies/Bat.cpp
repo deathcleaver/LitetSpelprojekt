@@ -70,6 +70,8 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		{
 			facingRight = false;
 		}
+		if (!facingRight)
+			rotate(0, 3.1415927f, 0);
 	}
 	else
 	{
@@ -110,6 +112,8 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		{
 			facingRight = true;
 		}
+		if (facingRight)
+			rotate(0, 3.1415927f, 0);
 	}
 	return 0;
 }

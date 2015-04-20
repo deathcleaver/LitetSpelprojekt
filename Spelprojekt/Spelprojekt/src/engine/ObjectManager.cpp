@@ -138,16 +138,12 @@ void ObjectManager::setPlayerState(std::string state)
 {
 	if (state == "idle")
 		myPlayer->setAnimPoints(0, 0);
-	else if (state == "walkRight")
+	else if (state == "walk")
 		myPlayer->setAnimPoints(0, 1);
-	else if (state == "walkLeft")  
+	else if (state == "air")  
 		myPlayer->setAnimPoints(0, 1);
-	else if (state == "airRight")  
+	else if (state == "flinch")
 		myPlayer->setAnimPoints(0, 1);
-	else if (state == "airLeft")   
-		myPlayer->setAnimPoints(0, 1);
-	else if (state == "flinchRight")
-		myPlayer->setAnimPoints(0, 1);
-	else if (state == "flinchLeft")
-		myPlayer->setAnimPoints(0, 1);
+	else if (state == "attack")
+		myPlayer->setAnimPoints(0, 0);
 }
