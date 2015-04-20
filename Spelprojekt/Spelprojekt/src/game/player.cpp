@@ -21,7 +21,7 @@ void Player::init()
 	weaponMatrix = mat4(1);
 	animState = "idle";
 	bossFighting = false;
-	currentRune = 0;
+	currentRune = NORUNE;
 }
 
 Player::~Player()
@@ -33,7 +33,7 @@ void Player::moveWeapon()
 {
 	vec3 playerPos = readPos();
 	int bonusRange = 1;
-	if (currentRune == 1)
+	if (currentRune == FLAME)
 		bonusRange = 5;
 	if (facingRight)
 	{
@@ -330,9 +330,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
 			{
-				if (currentRune == 1)
+				if (currentRune == FLAME)
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
-				currentRune = 0;
+				currentRune = NORUNE;
 				invulnTimer = 1.0f;
 				if (HP > 1)
 				{

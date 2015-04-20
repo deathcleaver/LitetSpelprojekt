@@ -9,6 +9,15 @@
 #include "gameObject.h"
 #include "rect.h"
 
+enum ShrineUpgrades
+{
+	NORUNE,
+	FLAME,
+	SPARK,
+	FORCE,
+	STOMP
+};
+
 class Shrine
 {
 private:
