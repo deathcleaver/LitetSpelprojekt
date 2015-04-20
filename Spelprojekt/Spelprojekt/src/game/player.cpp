@@ -14,11 +14,33 @@ void Player::init()
 	jumpHeight = 6.5f;
 	noAutoJump = true;
 	landBreak = 0.8f;
+
+	facingRight = true;
+	isAttacking = false;
+	attackTimer = 0.0f;
+	attackRect.initGameObjectRect(&weaponMatrix, 1, 1);
+	weaponMatrix = mat4(1);
 }
 
 Player::~Player()
 {
 	delete collideRect;
+}
+
+void Player::moveWeapon()
+{
+	vec3 playerPos = readPos();
+	if (facingRight)
+	{
+		weaponMatrix[0].w = playerPos.x + sin(3.14*attackTimer);
+		weaponMatrix[1].w = playerPos.y;
+	}
+	else
+	{
+		weaponMatrix[0].w = playerPos.x - sin(3.14*attackTimer);
+		weaponMatrix[1].w = playerPos.y;
+	}
+	attackRect.update();
 }
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
@@ -70,51 +92,56 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		//MoveX
 		//left
-		if (userInput->getKeyState('A') && !userInput->getKeyState('D'))
+		if (!isAttacking)
 		{
-			if (flinchTimer < FLT_EPSILON)
+			if (userInput->getKeyState('A') && !userInput->getKeyState('D'))
 			{
-				if (speed.x > 0)// && !jumping)
+				facingRight = false;
+				if (flinchTimer < FLT_EPSILON)
 				{
-					speed.x = 0;
+					if (speed.x > 0)// && !jumping)
+					{
+						speed.x = 0;
+					}
+					speed.x -= acceleration.x;
 				}
-				speed.x -= acceleration.x;
+				if (speed.x < -maxSpeed.x)
+					speed.x = -maxSpeed.x;
+
+				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 			}
-			if (speed.x < -maxSpeed.x)
-				speed.x = -maxSpeed.x;
 
-			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
-		}
-
-		//right
-		if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
-		{
-			if (flinchTimer < FLT_EPSILON)
+			//right
+			if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
 			{
-				if (speed.x < 0)// && !jumping)
+				facingRight = true;
+				if (flinchTimer < FLT_EPSILON)
 				{
-					speed.x = 0;
+					if (speed.x < 0)// && !jumping)
+					{
+						speed.x = 0;
+					}
+					speed.x += acceleration.x;
 				}
-				speed.x += acceleration.x;
+				if (speed.x > maxSpeed.x)
+					speed.x = maxSpeed.x;
+
+				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 			}
-			if (speed.x > maxSpeed.x)
-				speed.x = maxSpeed.x;
 
-			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
-		}
-
-		//stop
-		if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
-			userInput->getKeyState('A') && userInput->getKeyState('D'))
-		{
-			if (flinchTimer < FLT_EPSILON)
+			//stop
+			if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
+				userInput->getKeyState('A') && userInput->getKeyState('D'))
 			{
-				if (!jumping)
+				if (flinchTimer < FLT_EPSILON)
 				{
-					speed.x = 0;
+					if (!jumping)
+					{
+						speed.x = 0;
+					}
 				}
+				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 			}
-			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
 
 		//update collide rect
@@ -134,19 +161,22 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		}
 
 		//MoveY
-		if (userInput->getKeyState('W') && noAutoJump)
+		if (!isAttacking)
 		{
-			if (!jumping && flinchTimer < FLT_EPSILON)
+			if (userInput->getKeyState('W') && noAutoJump)
 			{
-				noAutoJump = false;
-				speed.y = jumpHeight * 3;
-				jumping = true;
+				if (!jumping && flinchTimer < FLT_EPSILON)
+				{
+					noAutoJump = false;
+					speed.y = jumpHeight * 3;
+					jumping = true;
+				}
 			}
 		}
 
 
 		//gravity
-		if (userInput->getKeyState('W') && speed.y > 0)
+		if (userInput->getKeyState('W') && speed.y > 0 && !isAttacking)
 			speed.y -= (acceleration.y * 0.5f);
 		else
 			speed.y -= acceleration.y;
@@ -192,6 +222,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		if (userInput->getKeyState('A'))
 		{
+			facingRight = false;
 			if (speed.x > 0)// && !jumping)
 				speed.x = 0;
 			speed.x -= acceleration.x;
@@ -201,6 +232,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		}
 		if (userInput->getKeyState('D'))
 		{
+			facingRight = true;
 			if (speed.x < 0)// && !jumping)
 				speed.x = 0;
 			speed.x += acceleration.x;
@@ -238,11 +270,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		}
 	}
 
+	vec3 playerPos = readPos();
 	if (!noclip)
 	{
 		if (invulnTimer < FLT_EPSILON && !god)
 		{
-			vec3 playerPos = readPos();
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
 			{
@@ -277,8 +309,26 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				flinchTimer -= 1.0f*deltaTime;
 		}
 	}
-	if (userInput->getKeyState('W') == false)
+	if (!userInput->getKeyState('W'))
 		noAutoJump = true;
+
+	//Attacking
+	if (!isAttacking && userInput->getSpace())
+	{
+		isAttacking = true;
+		attackTimer = 1.0f;
+	}
+	
+	if (isAttacking)
+	{
+		moveWeapon();
+		map->attackEnemies(&attackRect, playerPos);
+		attackTimer -= 2.0*deltaTime;
+		if (attackTimer < FLT_EPSILON)
+		{
+			isAttacking = false;
+		}
+	}
 	return 0;
 }
 

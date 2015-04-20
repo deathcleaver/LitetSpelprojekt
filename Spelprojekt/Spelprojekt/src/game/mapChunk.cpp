@@ -219,12 +219,34 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 				if (enemyRect->intersects(playerRect))
 				{
 					hit = enemies[c]->getPos();
-					enemies[c]->hit(1);
 				}
 			}
 		}
 	}
 	return hit;
+}
+
+void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos)
+{
+	Enemy** enemies = enemyMan->getEnemies();
+	int nrOfEnemies = enemyMan->size();
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->getPos().x)
+						enemies[c]->hit(1, false);
+					else
+						enemies[c]->hit(1, true);
+				}
+			}
+		}
+	}
 }
 
 bool MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)

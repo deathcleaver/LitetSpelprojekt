@@ -10,7 +10,7 @@ public:
 	Spikes(glm::vec2 firstPos);
 	void init();
 	int update(float deltaTime, MapChunk* chunk);
-	void hit(int damage);
+	void hit(int damage, bool playerRightOfEnemy);
 };
 
 #endif

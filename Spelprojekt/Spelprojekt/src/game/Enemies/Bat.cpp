@@ -9,7 +9,7 @@ Bat::Bat(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 1;
 	health = 1;
-	speed = 3.0f;
+	speed = 4.0f;
 
 	movementScale = 0.0f;
 	collideRect = new Rect();
@@ -114,7 +114,7 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 	return 0;
 }
 
-void Bat::hit(int damage)
+void Bat::hit(int damage, bool playerRightOfEnemy)
 {
 	health -= damage;
 	if (health <= 0)

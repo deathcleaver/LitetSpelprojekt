@@ -27,12 +27,20 @@ private:
 	bool jumping;
 	bool noAutoJump;
 	float landBreak;
-	Rect* collideRect = 0;
-	Shrine* currentSpawn = 0;
+
+	//attacks
+	bool facingRight;
+	bool isAttacking;
+	float attackTimer;
+	Rect attackRect;
+	mat4 weaponMatrix;
+	void moveWeapon();
 
 	float flinchTimer;
 	float invulnTimer;
 
+	Rect* collideRect = 0;
+	Shrine* currentSpawn = 0;
 	bool god;
 	bool noclip;
 
