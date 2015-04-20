@@ -167,7 +167,6 @@ void Game::update(float deltaTime)
 {
 	buttonEvents(gui->update((int)current));
 	gui->update((int)current);
-	content->update();
 	switch(current) 
 	{
 		case(MENU):
@@ -195,6 +194,8 @@ void Game::update(float deltaTime)
 			}
 			content->setPlayerState(player->getAnimState());
 			map->setUpDraw(*in->GetPos());
+			//Animations
+			content->update();
 			int mapMsg = map->update(deltaTime, player->readPos());
 			if (!mapMsg)
 			{
