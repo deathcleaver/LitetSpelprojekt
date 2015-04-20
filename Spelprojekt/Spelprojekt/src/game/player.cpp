@@ -150,6 +150,13 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 			}
 		}
+		else  //is attacking, but movement continues in air
+		{
+			if (jumping)
+			{
+				moveTo(tempPos.x += speed.x*deltaTime, tempPos.y, 0);
+			}
+		}
 
 		//update collide rect
 		if (readPos() != lastPos)
@@ -225,7 +232,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			jumping = true;
 		}
 	}
-	else
+	else //noclip is on
 	{
 		if (userInput->getKeyState('A'))
 		{
@@ -328,7 +335,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
-		speed.x = 0.0f;
 	}
 	
 	if (isAttacking)
