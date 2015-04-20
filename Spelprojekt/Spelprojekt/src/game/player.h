@@ -16,6 +16,7 @@ class Player : public GameObject
 {
 private:
 	float timepass = 0.0f;
+	int MAX_HP;
 	int HP;
 
 	//movement
@@ -24,11 +25,18 @@ private:
 	vec2 maxSpeed;
 	vec2 acceleration;
 	bool jumping;
-	
+	bool noAutoJump;
+	float landBreak;
 	Rect* collideRect = 0;
 	Shrine* currentSpawn = 0;
 
-	void respawn();
+	float flinchTimer;
+	float invulnTimer;
+
+	bool god;
+	bool noclip;
+
+	void respawn(Map* map);
 public:
 	Player(){};
 	~Player();
@@ -36,6 +44,7 @@ public:
 
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	vec2 getSpeed();
+	bool isBlinking() const;
 };
 
 #endif

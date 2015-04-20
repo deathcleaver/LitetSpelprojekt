@@ -21,7 +21,7 @@ int main(int argv, char* argc[])
 
 	Game game;
 	game.init(wnd);
-
+	glfwSwapInterval(1);
 	game.mainLoop();
 
 	glfwDestroyWindow(wnd);

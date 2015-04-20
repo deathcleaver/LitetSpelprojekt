@@ -27,7 +27,7 @@ public:
 	GameObject* worldObjs = 0;
 	int countWorldObjs = 0;
 	Rect*** worldCollide = 0;
-	void init(int x, int y);
+	void init(int x, int y, std::string mapname);
 	int xOffset, yOffset;
 
 	bool collide(Rect* test, int overFlowX = 0, int overFlowY = 0);
@@ -37,9 +37,9 @@ public:
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
 	int update(float deltaTime);
-
-	bool playerVsEnemies(Rect* playerRect);
-	void playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
+	void respawnEnemies();
+	glm::vec3 playerVsEnemies(Rect* playerRect);
+	bool playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
 
 	bool enemyLives(int index);
 };

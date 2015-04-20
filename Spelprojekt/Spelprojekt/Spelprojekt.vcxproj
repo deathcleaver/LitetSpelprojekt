@@ -104,7 +104,9 @@
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
     <ClCompile Include="src\game\Shrine.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\screenItem.cpp" />
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +129,8 @@
     <ClInclude Include="src\game\player.h" />
     <ClInclude Include="src\game\rect.h" />
     <ClInclude Include="src\game\Shrine.h" />
+    <ClInclude Include="src\GUI.h" />
+    <ClInclude Include="src\screenItem.h" />
     <ClInclude Include="src\UserInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

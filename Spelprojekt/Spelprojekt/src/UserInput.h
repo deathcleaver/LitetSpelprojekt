@@ -28,6 +28,11 @@ private:
 
 	bool lmb = false;
 	bool rmb = false;
+	bool lmbReleased = false;
+	bool rmbReleased = false;
+
+	bool esc = false;
+	bool escReleased = false;
 	bool shift = false;
 	bool space = false;
 	bool ctrl = false;
@@ -35,6 +40,10 @@ private:
 	bool A = false;
 	bool S = false;
 	bool D = false;
+	bool G = false;
+	bool M = false;
+	bool C = false;
+	bool N = false;
 
 	float toDegree(float val);
 	float toRadian(float val);
@@ -48,17 +57,21 @@ public:
 	void Act(float deltaTime);
 	void LMB(bool);
 	void RMB(bool);
+	void ESC(bool);
 	void Shift(bool);
 	void Space(bool);
+	bool getSpace();
+	bool getESC();
 	void Ctrl(bool);
 	vec3* GetPos();
 	vec3 getToTarget();
-
+	void setMousePos(float x, float y);
+	void getMouseState(float* x, float* y, bool* right, bool* left);
 	void followPlayer(vec3 p, vec2 s, float deltaTime);
 	bool getKeyState(char c);
 	void resetZoomViewDir();
 	bool updateMouse();
-	void cameraPan(vec3 moveTo, float delay, float deltaTime);
+	void cameraPan(vec3 moveTo, float delay, float deltaTime, bool playerPeak = false);
 };
 
 #endif

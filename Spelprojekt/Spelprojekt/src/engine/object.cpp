@@ -29,6 +29,8 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 	
 	if (copyTex)
 	{
+		TexscaleX = obj->TexscaleX;
+		TexscaleY = obj->TexscaleY;
 		textureId = obj->textureId;
 		TEXTUREINDEXOFFSET = obj->TEXTUREINDEXOFFSET;
 	}
@@ -46,6 +48,18 @@ void Object::bind()
 	glBindVertexArray(vertexAttribute);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexData);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+}
+
+void Object::bindVertOnly()
+{
+	glBindVertexArray(vertexAttribute);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexData);
+}
+
+void Object::bindTexOnly()
+{
+	glActiveTexture(GL_TEXTURE0 + TEXTUREINDEXOFFSET);
+	glBindTexture(GL_TEXTURE_2D, textureId);
 }
 
 bool Object::loadVert(std::string path)
@@ -193,6 +207,9 @@ bool Object::loadBMP(std::string imagepath)
 	width = *(int*)&(header[0x12]);
 	height = *(int*)&(header[0x16]);
 
+	TexscaleX = float(width) / SCREENWIDTH;
+	TexscaleY =	float(height) / SCREENHEIGHT;
+
 	// Some BMP files are misformatted, guess missing information
 	if (imageSize == 0)
 		imageSize = width*height * 3; // 3 : one byte for each Red, Green and Blue component
@@ -230,4 +247,14 @@ bool Object::loadBMP(std::string imagepath)
 int Object::getFaces()
 {
 	return faceCount;
+}
+
+float Object::scaleX()
+{
+	return TexscaleX;
+}
+
+float Object::scaleY()
+{
+	return TexscaleY;
 }

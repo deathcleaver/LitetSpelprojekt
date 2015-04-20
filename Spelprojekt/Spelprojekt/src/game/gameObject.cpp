@@ -110,7 +110,7 @@ int GameObject::update(float deltaTime)
 	return 0;
 }
 
-int GameObject::returnID()
+int GameObject::returnID() const
 {
 	return contentIndex;
 }

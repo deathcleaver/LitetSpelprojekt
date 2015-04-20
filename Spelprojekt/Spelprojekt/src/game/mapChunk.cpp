@@ -21,12 +21,12 @@ MapChunk::~MapChunk()
 	}
 }
 
-void MapChunk::init(int xIndex, int yIndex)
+void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 {
 	//Build chunk filename
 	std::stringstream ss;
-	ss << "../Spelprojekt/src/map/" <<
-		xIndex << "_" << yIndex << ".chunk";
+	ss << "../Spelprojekt/src/map/" << mapname << "/"
+		<< xIndex << "_" << yIndex << ".chunk";
 	string fileName = ss.str();
 
 	ifstream in;
@@ -199,37 +199,50 @@ int MapChunk::update(float deltaTime)
 	return 0;
 }
 
-bool MapChunk::playerVsEnemies(Rect* playerRect)
+void MapChunk::respawnEnemies()
+{
+	enemyMan->resetEnemies();
+}
+
+glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 {
 	Enemy** enemies = enemyMan->getEnemies();
 	int nrOfEnemies = enemyMan->size();
-	bool hit = false;
-	for (int c = 0; c < nrOfEnemies && !hit; c++)
+	glm::vec3 hit = glm::vec3(0,0,-1);
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
 	{
-		Rect* enemyRect = enemies[c]->getRekt();
-		if (enemyRect && enemies[c]->isAlive())
+		if (enemies[c]->isAlive())
 		{
-			if (enemyRect->intersects(playerRect))
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
 			{
-				hit = true;
-				enemies[c]->hit(1);
+				if (enemyRect->intersects(playerRect))
+				{
+					hit = enemies[c]->getPos();
+					enemies[c]->hit(1);
+				}
 			}
 		}
 	}
 	return hit;
 }
 
-void MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
+bool MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
 {
-	if (currentSpawn != shrine && shrine != 0)
+	if (shrine)
 	{
 		Rect* shrineRect = shrine->getRekt();
 		if (playerRect->intersects(shrineRect))
 		{
-			printf("Hejsan svejsan");
-			currentSpawn = shrine;
+			if (currentSpawn != shrine && shrine != 0)
+			{
+				printf("Hittade en respawnpunkt!\n");
+				currentSpawn = shrine;
+			}
+			return true;
 		}
 	}
+	return false;
 }
 
 bool MapChunk::enemyLives(int index)

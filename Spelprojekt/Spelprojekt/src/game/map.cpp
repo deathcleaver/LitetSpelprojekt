@@ -3,6 +3,7 @@
 Map::~Map()
 {
 	delete[] upDraw;
+	delete[] lastUpDraw;
 	if (chunks)
 	{
 		for (int x = 0; x < width; x++)
@@ -15,22 +16,53 @@ Map::~Map()
 
 void Map::init()
 {
-	width = 3;
-	height = 3;
+	if (chunks)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			delete[] chunks[x];
+		}
+		delete[] chunks;
+	}
+	std::string fileName = "../Spelprojekt/src/map/maps";
+	std::string line;
+	std::string fetch;
+	ifstream in;
+	in.open(fileName);
+
+	std::getline(in, line);
+	stringstream iss(line);
+	iss >> fetch;
+	int mapcount = atoi(fetch.c_str());
+
+	std::getline(in, line);
+	iss = stringstream(line); //reset
+	std::getline(in, line);
+	iss << line;
+	iss >> fetch;
+	fileName = fetch;
+	iss >> fetch;
+	width = atoi(fetch.c_str());
+	iss >> fetch;
+	height = atoi(fetch.c_str());
+
 	chunks = new MapChunk*[width];
 	for (int x = 0; x < width; x++)
 	{
 		chunks[x] = new MapChunk[height];
 		for (int y = 0; y < height; y++)
 		{
-			chunks[x][y].init(x, y);
+			chunks[x][y].init(x, y, fileName);
 		}
 	}
 	upDraw = new int[9];
+	lastUpDraw = new int[9];
 	upDraw[0] = 0;
+	lastUpDraw[0] = 0;
 	for (int n = 1; n < 9; n++)
 	{
 		upDraw[n] = -1;
+		lastUpDraw[n] = -1;
 	}
 }
 
@@ -56,12 +88,23 @@ int Map::readSizeY() const
 
 int Map::update(float deltaTime)
 {
+	//Chunk respawn check every 10th frame
+	if (counter == 0)
+	{
+		counter = 10;
+		respawnCheck();
+	}
+	counter--;
+
+	//Culled uppdates
 	int msg = 0;
 	for (int n = 0; n < upDraw[0]; n++)
 	{
-		if (upDraw[n * 2 + 1] > -1 && upDraw[n * 2 + 1] < width)
-			if (upDraw[n * 2 + 2] > -1 && upDraw[n * 2 + 2] < height)
-				msg = chunks[upDraw[n * 2 + 1]][upDraw[n * 2 + 2]].update(deltaTime);
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime);
 	}
 	
 	return 0;
@@ -92,9 +135,12 @@ void Map::setUpDraw(glm::vec3 pos)
 	pos.y = int(pos.y - 17.5f) % 35;
 	//how far from edges the map will cull.
 	//numbers bigger than 17 will crash the game
-	int Xbounds = 17;
+	int Xbounds = 15;
 	int Ybounds = 10;
 	
+	int XboundsD = 13;
+	int YboundsD = 8;
+
 	int X = 0;
 	if (pos.x < Xbounds) // - X
 	{
@@ -103,7 +149,7 @@ void Map::setUpDraw(glm::vec3 pos)
 		upDraw[0]++;
 		X = -1;
 	}
-	else if (pos.x > 35 - Xbounds) // X
+	else if (pos.x > 34 - Xbounds) // X
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2];
@@ -119,7 +165,7 @@ void Map::setUpDraw(glm::vec3 pos)
 		upDraw[0]++;
 		Y = -1;
 	}
-	else if (pos.y < -(35 - Ybounds)) // Y
+	else if (pos.y < -(34 - Ybounds)) // Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1];
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
@@ -128,25 +174,25 @@ void Map::setUpDraw(glm::vec3 pos)
 	}
 	
 	//diagonals
-	if (X == -1 && Y == -1)
+	if (pos.x < XboundsD && pos.y > -YboundsD)  // - X  - Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
 		upDraw[0]++;
 	}
-	else if (X == 1 && Y == -1)
+	else if (pos.x > 34 - XboundsD && pos.y > -YboundsD) // X  - Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
 		upDraw[0]++;
 	}
-	else if (X == -1 && Y == 1)
+	else if (pos.x < XboundsD && pos.y < -(34 - YboundsD)) // - X  Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
 		upDraw[0]++;
 	}
-	else if (X == 1 && Y == 1)
+	else if (pos.x > 34 - XboundsD && pos.y < -(34 - YboundsD))  // X  Y
 	{
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
@@ -201,10 +247,10 @@ bool Map::collideMap(Rect* test, glm::vec3 pos)
 	return result;
 }
 
-bool Map::collideEnemies(Rect* test, glm::vec3 pos)
+glm::vec3 Map::collideEnemies(Rect* test, glm::vec3 pos)
 {
 	int idX, idY;
-	bool result = false;
+	glm::vec3 result;
 	getChunkIndex(pos, &idX, &idY);
 	if (idX != -1 && idY != -1)
 	{
@@ -213,12 +259,51 @@ bool Map::collideEnemies(Rect* test, glm::vec3 pos)
 	return result;
 }
 
-void Map::collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn)
+bool Map::collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn)
 {
 	int idX, idY;
 	getChunkIndex(pos, &idX, &idY);
 	if (idX != -1 && idY != -1)
 	{
-		chunks[idX][idY].playerVsShrine(test, currentSpawn);
+		return chunks[idX][idY].playerVsShrine(test, currentSpawn);
+	}
+}
+
+void Map::respawnCheck()
+{
+	for (int n = 0; n < upDraw[0]; n++)
+	{
+		int x = n * 2 + 1;
+		int y = x + 1;
+
+		//search
+		bool found = false;
+		for (int k = 0; k < lastUpDraw[0]; k++)
+		{
+			if (upDraw[x] == lastUpDraw[k * 2 + 1]
+				&& upDraw[y] == lastUpDraw[k * 2 + 2])
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+			if (upDraw[x] > -1 && upDraw[x] < width && upDraw[y] > -1 && upDraw[y] < height)
+				chunks[upDraw[x]][upDraw[y]].respawnEnemies();
+	}
+	for (int n = 0; n < 9; n++)
+	{
+		lastUpDraw[n] = upDraw[n];
+	}
+}
+
+void Map::playerDiedSoRespawnEnemies(glm::vec3 playerPos)
+{
+	for (int idX = 0; idX < width; idX++)
+	{
+		for (int idY = 0; idY < height; idY++)
+		{
+			chunks[idX][idY].respawnEnemies();
+		}
 	}
 }

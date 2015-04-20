@@ -18,7 +18,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	GLenum* DrawBuffers = new GLenum[nrTextures];
 	
-
 	for (size_t i = 0; i < nrTextures; i++)
 	{
 		if (i == 0 && depth)
@@ -63,9 +62,13 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	unifromCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
 	unifromPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
 
-	cameraPos = 0;
 	playerPos = 0;
 
+	//gui
+	uniformGUItexture = glGetUniformLocation(*shaderGuiPtr, "diffuse");
+	//defaults 0
+	glProgramUniform1i(uniformGUItexture, uniformGUItexture, 0);
+	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
 }
 
 Gbuffer::~Gbuffer()
@@ -87,7 +90,7 @@ void Gbuffer::bind(GLuint target)
 	glBindFramebuffer(target, targetId);
 }
 
-void Gbuffer::render()
+void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui)
 {
 	// bind shader
 	glUseProgram(*shaderPtr);
@@ -104,10 +107,34 @@ void Gbuffer::render()
 		glProgramUniform1i(*shaderPtr, pos[i], i);
 	}
 
-	glProgramUniform3f(*shaderPtr, unifromCamPos, -cameraPos[0], -cameraPos[1], 4);
+	glProgramUniform3f(*shaderPtr, unifromCamPos, campos->x, campos->y, 4);
 	glProgramUniform3f(*shaderPtr, unifromPlayerPos, playerPos[0], playerPos[1], 4);
 	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	if (renderGui)
+	{
+		glUseProgram(*shaderGuiPtr);
+
+		int size = gui->readSize();
+		ScreenItem** items = gui->getItems();
+		//bind tex blit
+		content->bindGUIvert();
+		
+		int id = 0;
+		int lastid = -1;
+		for (int n = 0; n < size; n++)
+		{
+			if (items[n]->visable())
+			{
+				id = items[n]->bindWorldMat(shaderGuiPtr, &uniformGUIModel);
+				if (id != lastid)
+					content->bindGUItex(id);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+				lastid = id;
+			}
+		}
+	}
 
 }
 

@@ -23,7 +23,7 @@ public:
 	int size();
 	void init(ifstream &file, int xOffset, int yOffset);
 	void initEmpty();
-
+	void resetEnemies();
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
 	Enemy** getEnemies();
