@@ -44,6 +44,19 @@ AnimationObject::AnimationObject(Object** someBases, int aNrOfBases, float aWeig
 	myAnimObject = new Object(*myBaseObjects[0]);
 }
 
+AnimationObject::AnimationObject(Object* aBase)
+{
+	myNrOfBaseObjects = 1;
+
+	myBaseObjects = new Object*[myNrOfBaseObjects];
+	
+	myBaseObjects[0] = new Object(*aBase);
+	myAnimObject = new Object(*aBase);
+
+	myWeight = 0.0f;
+	mySpeed = 0.0f;
+}
+
 AnimationObject::~AnimationObject()
 {
 	delete myAnimObject;
@@ -90,7 +103,7 @@ void AnimationObject::setSpeed(float aSpeed)
 
 void AnimationObject::update(int aTargetPos, int aBasePos)
 {
-	if (aTargetPos != aBasePos)
+	if (aTargetPos != aBasePos && myNrOfBaseObjects > 1)
 	{
 		//If our target and our base is the same, it is unecessary to update the animTarget, since it would be the same
 
@@ -134,7 +147,11 @@ void AnimationObject::update(int aTargetPos, int aBasePos)
 		}
 		myAnimObject->updateVAO(combVert, myAnimObject->Indices);
 	}
-
+	if (aTargetPos == aBasePos && myNrOfBaseObjects > 1)
+	{
+		//If we try to interpolate between the same two verts, we simply set the Rendered vertexbuffer to the same, this is also to make sure that we can stop an animationcycle
+		myAnimObject->updateVAO(myBaseObjects[aTargetPos]->vert, myBaseObjects[aTargetPos]->Indices);
+	}
 	bindAnimObject();
 }
 
@@ -145,12 +162,15 @@ void AnimationObject::bindAnimObject()
 
 void AnimationObject::updateWeight()
 {
-	if (myWeight >= 1.0f)
-		myDirection = -1;
-	else if (myWeight <= 0.0f)
-		myDirection = 1;
+	if (myNrOfBaseObjects > 1)
+	{
+		if (myWeight >= 1.0f)
+			myDirection = -1;
+		else if (myWeight <= 0.0f)
+			myDirection = 1;
 
-	myWeight += mySpeed * myDirection;
+		myWeight += mySpeed * myDirection;
+	}
 }
 
 int AnimationObject::getFaces()

@@ -8,6 +8,7 @@ class AnimationManager
 private:
 	AnimationObject* myPlayer;
 	AnimationObject** myAnimatedObjects;
+	AnimationObject** myMapObjs;
 
 	void loadPlayer();
 	void loadMapObjs();

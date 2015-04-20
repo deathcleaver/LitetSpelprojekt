@@ -19,6 +19,7 @@ public:
 	AnimationObject();
 	AnimationObject(Object* aBase1, Object* aBase2, float aWeight = 0.0f, float aSpeed = 0.05f);
 	AnimationObject(Object** someBases, int aNrOfBases, float aWeight = 0.0f, float aSpeed = 0.05f);
+	AnimationObject(Object* aBase);
 	~AnimationObject();
 
 	Object* getAnimObject();
