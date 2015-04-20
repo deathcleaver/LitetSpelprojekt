@@ -20,6 +20,7 @@ void Player::init()
 	attackRect.initGameObjectRect(&weaponMatrix, 0.6, 0.6);
 	weaponMatrix = mat4(1);
 	animState = "idle";
+	bossFighting = false;
 }
 
 Player::~Player()
@@ -231,6 +232,31 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			jumping = true;
 		}
+		if (bossFighting) //YOU CAN'T RUN FROM A TRAINER BATTLE
+		{
+			pos = readPos();
+			vec3 chunkMid = map->getChunkMiddle(lastPos);
+			if (pos.x < chunkMid.x - 17.5f)
+			{
+				moveTo(pos.x + 0.4, pos.y);
+				speed.x = -speed.x;
+			}
+			else if (pos.x > chunkMid.x + 17.5f)
+			{
+				moveTo(pos.x -0.4, pos.y);
+				speed.x = -speed.x;
+			}
+			if (pos.y < chunkMid.y - 17.5f)
+			{
+				moveTo(pos.x, pos.y + 0.4);
+				speed.y = -speed.y;
+			}
+			else if (pos.y > chunkMid.y + 17.5f)
+			{
+				moveTo(pos.x, pos.y - 0.4);
+				speed.y = -speed.y;
+			}
+		}
 	}
 	else //noclip is on
 	{
@@ -355,6 +381,11 @@ vec2 Player::getSpeed()
 	return speed;
 }
 
+bool Player::isBossFighting()
+{
+	return bossFighting;
+}
+
 void Player::respawn(Map* map)
 {
 	HP = 3;
@@ -393,4 +424,14 @@ std::string Player::getAnimState()
 void Player::execute(Map* map)
 {
 	respawn(map);
+}
+
+void Player::fightThatBossBro()
+{
+	bossFighting = true;
+}
+
+void Player::dingDongTheBossIsDead()
+{
+	bossFighting = false;
 }

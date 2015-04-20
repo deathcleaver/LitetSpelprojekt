@@ -30,8 +30,6 @@ public:
 
 	Enemy** getEnemies();
 	Enemy* getBoss();
-
-	bool hasBoss();
 };
 
 #endif

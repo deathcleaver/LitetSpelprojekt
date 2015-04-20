@@ -44,7 +44,7 @@ public:
 
 	bool enemyLives(int index);
 
-	bool hasBoss();
+	int hasBoss();
 };
 
 #endif

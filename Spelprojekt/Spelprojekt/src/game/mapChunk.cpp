@@ -226,11 +226,14 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{
-		Rect* bossRect = boss->getRekt();
-		if (bossRect)
+		if (boss->isAlive())
 		{
-			if (bossRect->intersects(playerRect))
-				hit = boss->getPos();
+			Rect* bossRect = boss->getRekt();
+			if (bossRect)
+			{
+				if (bossRect->intersects(playerRect))
+					hit = boss->getPos();
+			}
 		}
 	}
 	return hit;
@@ -296,8 +299,11 @@ bool MapChunk::enemyLives(int index)
 {
 	if (index == -1)
 	{
-		if (enemyMan->hasBoss())
-			return true;
+		if (enemyMan->getBoss())
+		{
+			if (enemyMan->getBoss()->isAlive())
+				return true;
+		}
 	}
 	else
 	{
@@ -308,7 +314,17 @@ bool MapChunk::enemyLives(int index)
 	}
 }
 
-bool MapChunk::hasBoss()
+int MapChunk::hasBoss()
 {
-	return enemyMan->hasBoss();
+	Enemy* boss = enemyMan->getBoss();
+	{
+		if (boss)
+		{
+			if (boss->isAlive())
+				return 1;
+			else
+				return 2;
+		}
+	}
+	return 0;
 }

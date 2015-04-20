@@ -111,17 +111,15 @@ int Map::update(float deltaTime, glm::vec3 playerPos)
 	getChunkIndex(playerPos, &idX, &idY);
 	if (idX != -1 && idY != -1)
 	{
-		if (chunks[idX][idY].hasBoss())
-		{
-			return 1;
-		}
+		msg = chunks[idX][idY].hasBoss(); //0 = no boss, 1 = alive boss, 2 = dead boss
+		
 	}
 	else
 	{
 		return 5; //Player out-of-map death
 	}
 
-	return 0;
+	return msg;
 }
 
 glm::vec3 Map::getChunkMiddle(glm::vec3 playerpos)

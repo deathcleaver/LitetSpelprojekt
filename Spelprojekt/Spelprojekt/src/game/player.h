@@ -47,6 +47,8 @@ private:
 	void respawn(Map* map);
 
 	std::string animState = "";
+
+	bool bossFighting = false;
 public:
 	Player(){};
 	~Player();
@@ -58,6 +60,10 @@ public:
 	bool isBlinking() const;
 
 	void execute(Map* map);
+
+	void fightThatBossBro();
+	void dingDongTheBossIsDead();
+	bool isBossFighting();
 };
 
 #endif

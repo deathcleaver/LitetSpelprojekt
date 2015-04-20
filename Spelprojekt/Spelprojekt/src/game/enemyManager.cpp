@@ -25,8 +25,9 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
-	if (xOffset == 1 && yOffset == 0)
-		boss = new Bat(glm::vec2(0 + xOffset * 35, 10 + yOffset * 35));
+	boss = 0;
+	if (xOffset == 2 && yOffset == 0)
+		boss = new Bat(glm::vec2(0 + xOffset * 35, 8 + yOffset * 35));
 	string line;
 	string type; //To store type
 	glm::vec2 pos; //To store pos
@@ -73,11 +74,9 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk)
 	}
 	if (boss)
 	{
-		msg = boss->update(deltaTime, chunk);
-		if (!boss->isAlive())
+		if (boss->isAlive())
 		{
-			delete boss;
-			boss = 0;
+			msg = boss->update(deltaTime, chunk);
 		}
 	}
 	return 0;
@@ -125,13 +124,6 @@ void EnemyManager::resetEnemies()
 	{
 		enemies[n]->init();
 	}
-}
-
-bool EnemyManager::hasBoss()
-{
-	if (boss)
-		return true;
-	return false;
 }
 
 Enemy* EnemyManager::getBoss()

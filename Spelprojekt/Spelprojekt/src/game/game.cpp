@@ -181,6 +181,8 @@ void Game::update(float deltaTime)
 				{
 					glm::vec3 currentPos((bossRoomMiddle.x + playerPos.x)/2.0f, (bossRoomMiddle.y +playerPos.y)/2.0f, 0);
 					in->cameraPan(currentPos, 5, deltaTime, true);
+					if (bossRoomMiddle.x + 10.0f > playerPos.x && bossRoomMiddle.x - 10.0f < playerPos.x && !player->isBossFighting())
+						player->fightThatBossBro();
 				}
 				player->update(in, map, deltaTime);
 			}
@@ -188,13 +190,23 @@ void Game::update(float deltaTime)
 			map->setUpDraw(*in->GetPos());
 			int mapMsg = map->update(deltaTime, player->readPos());
 			if (!mapMsg)
+			{
 				inBossRoom = false;
-			if (mapMsg == 1)
+				if (player->isBossFighting())
+					player->dingDongTheBossIsDead();
+			}
+			else if (mapMsg == 1)
 			{
 				bossRoomMiddle = map->getChunkMiddle(player->readPos());
 				inBossRoom = true;
 			}
-			if (mapMsg == 5)
+			else if (mapMsg == 2)
+			{
+				inBossRoom = false;
+				if (player->isBossFighting())
+					player->dingDongTheBossIsDead();
+			}
+			else if (mapMsg == 5)
 			{
 				player->execute(map);
 			}
