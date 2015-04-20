@@ -16,7 +16,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 2, 2);
+	collideRect->initGameObjectRect(&worldMat, 1.8, 2);
 }
 
 void Bossbat::init()
