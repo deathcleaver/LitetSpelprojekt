@@ -59,8 +59,8 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	pos[2] = glGetUniformLocation(*shaderPtr, "normal");
 	pos[3] = glGetUniformLocation(*shaderPtr, "world");
 
-	unifromCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
-	unifromPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
+	uniformCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
+	uniformPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
 
 	playerPos = 0;
 
@@ -69,12 +69,48 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	//defaults 0
 	glProgramUniform1i(uniformGUItexture, uniformGUItexture, 0);
 	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
+
+	uniformBufferLightPos = glGetUniformBlockIndex(*shaderPtr, "lightBlock");
+	uniformNrLightPos = glGetUniformLocation(*shaderPtr, "nrLights");
+	
+	glGenBuffers(1, &lightBuffer);
+
+	nrLight = 2;
+
+	lights = new Light[nrLight];
+
+	lights[0].posX = 4;
+	lights[0].posY = 6;
+	lights[0].posZ = 1;
+
+	lights[0].r = 1.0f;
+	lights[0].g = 0.0f;
+	lights[0].b = 0.0f;
+
+	lights[0].intensity = 1.0f;
+	lights[0].distance = 100.0f;
+
+	lights[1].posX = -6;
+	lights[1].posY = -2;
+	lights[1].posZ = 1;
+
+	lights[1].r = 0.0f;
+	lights[1].g = 1.0f;
+	lights[1].b = 0.0f;
+
+	lights[1].intensity = 1.0f;
+	lights[1].distance = 100.0f;
+
+	
 }
 
 Gbuffer::~Gbuffer()
 {
+	delete[] lights;
 	delete[] rTexture;
 	glDeleteBuffers(1, &targetId);
+
+	glDeleteBuffers(1, &lightBuffer);
 }
 
 void Gbuffer::resize(int x, int y)
@@ -107,9 +143,16 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 		glProgramUniform1i(*shaderPtr, pos[i], i);
 	}
 
-	glProgramUniform3f(*shaderPtr, unifromCamPos, campos->x, campos->y, 4);
-	glProgramUniform3f(*shaderPtr, unifromPlayerPos, playerPos[0], playerPos[1], 4);
+	glProgramUniform3f(*shaderPtr, uniformCamPos, campos->x, campos->y, 1.0f);
+	glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f);
 	
+	glProgramUniform1ui(*shaderPtr, uniformNrLightPos, nrLight);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), (void*)lights, GL_DYNAMIC_DRAW);
+
+	glBindBufferBase(GL_UNIFORM_BUFFER, uniformBufferLightPos, lightBuffer);
+
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	if (renderGui)

@@ -6,6 +6,7 @@
 #include "../GUI.h"
 #include "RenderTarget.h"
 #include "ContentManager.h"
+#include "../game/Light.h"
 
 class Gbuffer : public RenderTarget
 {
@@ -25,18 +26,29 @@ public:
 
 	GLfloat* playerPos;
 
+	Light* lights;
+	int nrLight;
+
 private:
 
 	void generate(int x, int y);
 
 	RenderTarget* rTexture;
 
+	GLuint lightBuffer;
+
 	GLuint* pos;
-	GLuint unifromCamPos;
-	GLuint unifromPlayerPos;
+	GLuint uniformCamPos;
+	GLuint uniformPlayerPos;
+
+	GLuint uniformBufferLightPos;
+	GLuint uniformNrLightPos;
+
 	//gui
 	GLuint uniformGUItexture;
 	GLuint uniformGUIModel;
+
+	
 
 };
 

@@ -130,6 +130,7 @@
     <ClInclude Include="src\game\enemyManager.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />
+    <ClInclude Include="src\game\Light.h" />
     <ClInclude Include="src\game\map.h" />
     <ClInclude Include="src\game\mapChunk.h" />
     <ClInclude Include="src\game\player.h" />
