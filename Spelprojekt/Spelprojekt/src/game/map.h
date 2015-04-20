@@ -31,7 +31,7 @@ public:
 	void getChunkIndex(glm::vec3 pos, int* idX, int* idY);
 	bool collideMap(Rect* test, glm::vec3 pos);
 	glm::vec3 collideEnemies(Rect* test, glm::vec3 pos);
-	void collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn);
+	bool collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn);
 	void setUpDraw(glm::vec3 pos);
 	int* getUpDraw() const;
 	void respawnCheck();

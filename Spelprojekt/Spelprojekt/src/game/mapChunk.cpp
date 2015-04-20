@@ -227,17 +227,22 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	return hit;
 }
 
-void MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
+bool MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
 {
-	if (currentSpawn != shrine && shrine != 0)
+	if (shrine)
 	{
 		Rect* shrineRect = shrine->getRekt();
 		if (playerRect->intersects(shrineRect))
 		{
-			printf("Hittade en respawnpunkt!\n");
-			currentSpawn = shrine;
+			if (currentSpawn != shrine && shrine != 0)
+			{
+				printf("Hittade en respawnpunkt!\n");
+				currentSpawn = shrine;
+			}
+			return true;
 		}
 	}
+	return false;
 }
 
 bool MapChunk::enemyLives(int index)

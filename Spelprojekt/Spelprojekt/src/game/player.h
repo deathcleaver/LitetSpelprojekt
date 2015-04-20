@@ -16,6 +16,7 @@ class Player : public GameObject
 {
 private:
 	float timepass = 0.0f;
+	int MAX_HP;
 	int HP;
 
 	//movement

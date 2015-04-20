@@ -39,7 +39,7 @@ public:
 	int update(float deltaTime);
 	void respawnEnemies();
 	glm::vec3 playerVsEnemies(Rect* playerRect);
-	void playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
+	bool playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
 
 	bool enemyLives(int index);
 };

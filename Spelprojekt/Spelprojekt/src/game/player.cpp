@@ -3,7 +3,7 @@
 
 void Player::init()
 {
-	HP = 3;
+	MAX_HP = HP = 3;
 	moveTo(0, 2);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
@@ -229,7 +229,14 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		collideRect->update();
 	}
 
-	map->collideShrine(collideRect, readPos(), currentSpawn);
+	if (map->collideShrine(collideRect, readPos(), currentSpawn))
+	{
+		if (HP != MAX_HP)
+		{
+			HP = MAX_HP;
+			printf("Max HP regained\n");
+		}
+	}
 
 	if (!noclip)
 	{
