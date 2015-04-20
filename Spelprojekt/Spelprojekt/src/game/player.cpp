@@ -14,6 +14,7 @@ void Player::init()
 	jumpHeight = 6.5f;
 	noAutoJump = true;
 	landBreak = 0.8f;
+	animState = "idle";
 }
 
 Player::~Player()
@@ -23,6 +24,7 @@ Player::~Player()
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
+	animState = "idle";
 	timepass += deltaTime;
 
 	// update pos & camera using user input
@@ -48,6 +50,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			speed.x = -maxSpeed.x;
 
 		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+		if (!jumping)
+			animState = "walkLeft";
+		else
+			animState = "airLeft";
 	}
 
 	//right
@@ -64,7 +70,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		if (speed.x > maxSpeed.x)
 			speed.x = maxSpeed.x;
 
-		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);}
+		moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+		if (!jumping)
+			animState = "walkRight";
+		else
+			animState = "airRight";
+	}
 
 	//stop
 	if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
@@ -169,11 +180,13 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				{
 					speed.x = 10;
 					speed.y = 10;
+					animState = "flinchRight";
 				}
 				else
 				{
 					speed.x = -10;
 					speed.y = 10;
+					animState = "flinchLeft";
 				}
 			}
 			else
@@ -228,4 +241,9 @@ bool Player::isBlinking() const
 		}
 	}
 	return false;
+}
+
+std::string Player::getAnimState()
+{
+	return animState;
 }

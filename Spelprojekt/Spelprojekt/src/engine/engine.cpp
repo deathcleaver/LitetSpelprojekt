@@ -58,7 +58,7 @@ void Engine::init(glm::mat4* viewMat)
 
 }
 
-void Engine::render(const Player* player, const Map* map, const ContentManager* content, const AnimationManager* anim, const GUI* gui, glm::vec3* campos)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos)
 {
 	int facecount = 0;
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
@@ -76,7 +76,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	// -- PlayerDraw --
 	player->bindWorldMat(&tempshader, &uniformModel);
-	facecount = anim->bindPlayer(); //animationManager
+	facecount = content->bindPlayer(); //ObjectManager
 
 	if (!player->isBlinking())
 	{

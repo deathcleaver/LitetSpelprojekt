@@ -96,7 +96,7 @@
     <ClCompile Include="src\engine\AnimationObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\AnimationManager.cpp">
+    <ClCompile Include="src\engine\ObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,10 +164,13 @@
     <ClInclude Include="src\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\AnimationManager.h">
+    <ClInclude Include="src\engine\AnimationObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\AnimationObject.h">
+    <ClInclude Include="src\Align16.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\ObjectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

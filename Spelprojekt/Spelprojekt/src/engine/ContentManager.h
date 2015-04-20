@@ -3,11 +3,14 @@
 
 #include <string>
 #include "object.h"
+#include "ObjectManager.h"
 
 
 class ContentManager
 {
 private:
+	ObjectManager* objectManager;
+	void loadObjManager();
 	Object* player = 0;
 	void loadPlayer();
 
@@ -27,11 +30,13 @@ public:
 	ContentManager() {};
 	~ContentManager();
 	void init();
+	void update();
 	int bindPlayer() const;
 	int bindMapObj(int id) const;
 	int bindMonsterObj(int id) const;
 	void bindGUItex(int id) const;
 	void bindGUIvert() const;
+	void setPlayerState(std::string state);
 };
 
 #endif

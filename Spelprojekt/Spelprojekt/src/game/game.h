@@ -7,7 +7,7 @@
 #include "../engine/engine.h"
 #include "../engine/ContentManager.h"
 #include "../engine/object.h"
-#include "../engine/AnimationManager.h"
+#include "../engine/ObjectManager.h"
 
 #include "player.h"
 #include "enemyManager.h"
@@ -32,7 +32,6 @@ private:
 	Engine* engine = 0;
 	ContentManager* content = 0;
 	Player* player = 0;
-	AnimationManager* animationManager = 0;
 
 	Map* map = 0;
 	UserInput* in = 0;

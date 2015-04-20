@@ -24,18 +24,27 @@ ContentManager::~ContentManager()
 
 void ContentManager::init()
 {
-	//load all player meshes
+	loadObjManager();
 	loadPlayer();
-
-	//load all map meshes
 	loadMapObjs();
-
-	//load all monster meshes
 	loadMonsterObjs();
 	
 	//load all gui textures
 	loadGUIobjs();
 
+}
+
+void ContentManager::update()
+{
+	objectManager->update();
+}
+
+void ContentManager::loadObjManager()
+{
+	if (objectManager)
+		throw;
+	objectManager = new ObjectManager();
+	objectManager->init();
 }
 
 void ContentManager::loadPlayer()
@@ -92,20 +101,24 @@ void ContentManager::loadGUIobjs()
 int ContentManager::bindPlayer() const
 {
 	//player->updateWeight();
-	player->bind();
-	return player->getFaces();
+	/*player->bind();
+	return player->getFaces();*/
+	return objectManager->bindPlayer();
 }
 
 int ContentManager::bindMapObj(int id) const
 {
+	/*
 	mapObjs[id]->bind();
-	return mapObjs[id]->getFaces();
+	return mapObjs[id]->getFaces();*/
+	return objectManager->bindMapObj(id);
 }
 
 int ContentManager::bindMonsterObj(int id) const
 {
-	monsterObjs[id]->bind();
-	return monsterObjs[id]->getFaces();
+	/*monsterObjs[id]->bind();
+	return monsterObjs[id]->getFaces();*/
+	return objectManager->bindMonsterObj(id);
 }
 
 void ContentManager::bindGUItex(int id) const
@@ -116,4 +129,9 @@ void ContentManager::bindGUItex(int id) const
 void ContentManager::bindGUIvert() const
 {
 	guiObjs[0]->bindVertOnly();
+}
+
+void ContentManager::setPlayerState(std::string state)
+{
+	objectManager->setPlayerState(state);
 }

@@ -71,8 +71,7 @@ Game::~Game()
 		delete content;
 	if (player)
 		delete player;
-	if (animationManager)
-		delete animationManager;
+
 	if (map)
 		delete map;
 	if (in)
@@ -101,8 +100,6 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
-	animationManager = new AnimationManager();
-	animationManager->init();
 	player = new Player();
 	player->init();
 	map = new Map();
@@ -160,6 +157,7 @@ void Game::mainLoop()
 void Game::update(float deltaTime)
 {
 	gui->update((int)current);
+	content->update();
 	switch(current) 
 	{
 		case(MENU):
@@ -181,7 +179,7 @@ void Game::update(float deltaTime)
 				in->cameraPan(player->readPos(), 5, deltaTime, true);
 				player->update(in, map, deltaTime);
 			}
-			animationManager->update();
+			content->setPlayerState(player->getAnimState());
 			map->setUpDraw(*in->GetPos());
 			map->update(deltaTime);
 
@@ -221,7 +219,7 @@ void Game::update(float deltaTime)
 	}
 	
 	//Render const
-	engine->render(player, map, content, animationManager, gui, in->GetPos());
+	engine->render(player, map, content, gui, in->GetPos());
 }
 
 void Game::readInput(float deltaTime)

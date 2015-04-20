@@ -12,7 +12,7 @@
 #include "object.h"
 #include "../game/player.h"
 #include "../game/enemyManager.h"
-#include "AnimationManager.h"
+#include "ObjectManager.h"
 #include "../game/map.h"
 
 #include "../Align16.h"
@@ -44,7 +44,7 @@ public:
 	~Engine();
 	void init(glm::mat4* viewMatrix);
 
-	void render(const Player* player, const Map* map, const ContentManager* content, const AnimationManager* anim, const GUI* gui, glm::vec3* campos);
+	void render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos);
 };
 
 #endif

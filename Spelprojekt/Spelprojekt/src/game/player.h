@@ -34,6 +34,8 @@ private:
 
 	bool god;
 	void respawn(Map* map);
+
+	std::string animState = "";
 public:
 	Player(){};
 	~Player();
@@ -41,6 +43,7 @@ public:
 
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	vec2 getSpeed();
+	std::string getAnimState();
 	bool isBlinking() const;
 };
 
