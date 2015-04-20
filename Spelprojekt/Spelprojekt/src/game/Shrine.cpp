@@ -5,7 +5,7 @@ Shrine::Shrine(GameObject* object)
 	this->object = object;
 	if (object->returnID() == 2)
 	{
-		rune = 1;
+		rune = FLAME;
 	}
 	collision = new Rect();
 	collision->initGameObjectRect(object->getWorldMat(), 1.0f, 2.0f);
