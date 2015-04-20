@@ -186,13 +186,17 @@ void Game::update(float deltaTime)
 			}
 			content->setPlayerState(player->getAnimState());
 			map->setUpDraw(*in->GetPos());
-			int isBossRoom = map->update(deltaTime, player->readPos());
-			if (!isBossRoom)
+			int mapMsg = map->update(deltaTime, player->readPos());
+			if (!mapMsg)
 				inBossRoom = false;
-			if (isBossRoom == 1)
+			if (mapMsg == 1)
 			{
 				bossRoomMiddle = map->getChunkMiddle(player->readPos());
 				inBossRoom = true;
+			}
+			if (mapMsg == 5)
+			{
+				player->execute(map);
 			}
 
 			//leave State code
