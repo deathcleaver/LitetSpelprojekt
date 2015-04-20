@@ -9,7 +9,9 @@ Flame::Flame(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 2;
 	health = 3;
-	speed = 1.0f;
+	speed = 2.0f;
+	invulnTimer = 0.0f;
+	hasBounced = true;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
@@ -21,6 +23,9 @@ void Flame::init()
 	facingRight = true;
 	alive = true;
 	health = 3;
+	invulnTimer = 0.0f;
+	hasBounced = true;
+	speed = 2.0f;
 
 	collideRect->update();
 }
@@ -34,6 +39,11 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 		{
 			facingRight = false;
 			translate(-1.0f, 1.0f);
+			if (invulnTimer > FLT_EPSILON)
+			{
+				speed = 2.0f;
+				hasBounced = true;
+			}
 		}
 		else
 		{
@@ -43,6 +53,12 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 			{
 				translate(-speed*deltaTime, 0.0f);
 				facingRight = false;
+
+				if (invulnTimer > FLT_EPSILON)
+				{
+					speed = 2.0f;
+					hasBounced = true;
+				}
 			}
 		}
 	}
@@ -53,6 +69,11 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 		{
 			facingRight = true;
 			translate(1.0f, 1.0f);
+			if (invulnTimer > FLT_EPSILON)
+			{
+				speed = 2.0f;
+				hasBounced = true;
+			}
 		}
 		else
 		{
@@ -62,6 +83,26 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 			{
 				translate(speed*deltaTime, 0.0f);
 				facingRight = true;
+				if (invulnTimer > FLT_EPSILON)
+				{
+					speed = 2.0f;
+					hasBounced = true;
+				}
+			}
+		}
+	}
+	if (invulnTimer > FLT_EPSILON)
+	{
+		invulnTimer -= 1.0f*deltaTime;
+		if (invulnTimer < FLT_EPSILON)
+		{
+			speed = 2.0f;
+			if (!hasBounced)
+			{
+				if (facingRight)
+					facingRight = false;
+				else
+					facingRight = true;
 			}
 		}
 	}
@@ -69,12 +110,33 @@ int Flame::update(float deltaTime, MapChunk* chunk)
 	return 0;
 }
 
-void Flame::hit(int damage)
+void Flame::hit(int damage, bool playerRightOfEnemy)
 {
-	health -= damage;
-	if (health <= 0)
+	if (invulnTimer < FLT_EPSILON)
 	{
-		alive = false;
+		speed = 6.0f;
+		health -= damage;
+		if (health <= 0)
+		{
+			alive = false;
+		}
+		invulnTimer = 0.6f;
+		if (playerRightOfEnemy)
+		{
+			if (facingRight)
+			{
+				facingRight = false;
+				hasBounced = false;
+			}
+		}
+		else
+		{
+			if (!facingRight)
+			{
+				facingRight = true;
+				hasBounced = false;
+			}
+		}
 	}
 }
 

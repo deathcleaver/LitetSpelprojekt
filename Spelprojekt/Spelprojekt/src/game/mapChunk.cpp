@@ -21,12 +21,12 @@ MapChunk::~MapChunk()
 	}
 }
 
-void MapChunk::init(int xIndex, int yIndex)
+void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 {
 	//Build chunk filename
 	std::stringstream ss;
-	ss << "../Spelprojekt/src/map/" <<
-		xIndex << "_" << yIndex << ".chunk";
+	ss << "../Spelprojekt/src/map/" << mapname << "/"
+		<< xIndex << "_" << yIndex << ".chunk";
 	string fileName = ss.str();
 
 	ifstream in;
@@ -216,33 +216,96 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
-				{
 					hit = enemies[c]->getPos();
-					enemies[c]->hit(1);
-				}
 			}
+		}
+	}
+	Enemy* boss = enemyMan->getBoss();
+	if (boss)
+	{
+		Rect* bossRect = boss->getRekt();
+		if (bossRect)
+		{
+			if (bossRect->intersects(playerRect))
+				hit = boss->getPos();
 		}
 	}
 	return hit;
 }
 
-void MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
+void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos)
 {
-	if (currentSpawn != shrine && shrine != 0)
+	Enemy** enemies = enemyMan->getEnemies();
+	int nrOfEnemies = enemyMan->size();
+	for (int c = 0; c < nrOfEnemies; c++)
 	{
-		Rect* shrineRect = shrine->getRekt();
-		if (playerRect->intersects(shrineRect))
+		if (enemies[c]->isAlive())
 		{
-			printf("Hejsan svejsan");
-			currentSpawn = shrine;
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->getPos().x)
+						enemies[c]->hit(1, false);
+					else
+						enemies[c]->hit(1, true);
+				}
+			}
+		}
+	}
+	Enemy* boss = enemyMan->getBoss();
+	if (boss)
+	{
+		Rect* bossRect = boss->getRekt();
+		if (bossRect)
+		{
+			if (bossRect->intersects(wpnRect))
+			{
+				if (playerPos.x < boss->getPos().x)
+					boss->hit(1, false);
+				else
+					boss->hit(1, true);
+			}
 		}
 	}
 }
 
+bool MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
+{
+	if (shrine)
+	{
+		Rect* shrineRect = shrine->getRekt();
+		if (playerRect->intersects(shrineRect))
+		{
+			if (currentSpawn != shrine && shrine != 0)
+			{
+				printf("Hittade en respawnpunkt!\n");
+				currentSpawn = shrine;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
 bool MapChunk::enemyLives(int index)
 {
-	Enemy** enemies = enemyMan->getEnemies();
-	if (enemies[index]->isAlive())
-		return true;
-	return false;
+	if (index == -1)
+	{
+		if (enemyMan->hasBoss())
+			return true;
+	}
+	else
+	{
+		Enemy** enemies = enemyMan->getEnemies();
+		if (enemies[index]->isAlive())
+			return true;
+		return false;
+	}
+}
+
+bool MapChunk::hasBoss()
+{
+	return enemyMan->hasBoss();
 }

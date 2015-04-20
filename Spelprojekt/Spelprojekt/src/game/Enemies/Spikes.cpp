@@ -27,6 +27,6 @@ int Spikes::update(float deltaTime, MapChunk* chunk)
 	return 0;
 }
 
-void Spikes::hit(int damage)
+void Spikes::hit(int damage, bool playerRightOfEnemy)
 {
 }

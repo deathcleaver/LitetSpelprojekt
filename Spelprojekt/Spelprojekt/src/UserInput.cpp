@@ -23,6 +23,18 @@ void UserInput::KeyDown(char c)
 	case('D') :
 		D = true;
 		break;
+	case('G') :
+		G = true;
+		break;
+	case('M') :
+		M = true;
+		break;
+	case('C') :
+		C = true;
+		break;
+	case('N') :
+		N = true;
+		break;
 	}
 }
 
@@ -41,6 +53,18 @@ void UserInput::KeyUp(char c)
 		break;
 	case('D') :
 		D = false;
+		break;
+	case('G') :
+		G = false;
+		break;
+	case('M') :
+		M = false;
+		break;
+	case('C') :
+		C = false;
+		break;
+	case('N') :
+		N = false;
 		break;
 	}
 }
@@ -127,12 +151,34 @@ void UserInput::Ctrl(bool set)
 
 void UserInput::LMB(bool set)
 {
+	if (lmb == true && set == false)
+		lmbReleased = true;
+	else
+		lmbReleased = false;
 	lmb = set;
 }
 
 void UserInput::RMB(bool set)
 {
+	if (rmb == true && set == false)
+		rmbReleased = true;
+	else
+		rmbReleased = false;
 	rmb = set;
+}
+
+void UserInput::ESC(bool set)
+{
+	if (esc == true && set == false)
+		escReleased = true;
+	else
+		escReleased = false;
+	esc = set;
+}
+
+bool UserInput::getESC()
+{
+	return escReleased;
 }
 
 void UserInput::Mouse(float x, float y)
@@ -233,6 +279,18 @@ bool UserInput::getKeyState(char c)
 	case('D') :
 		return D;
 		break;
+	case('G') :
+		return G;
+		break;
+	case('M') :
+		return M;
+		break;
+	case('C') :
+		return C;
+		break;
+	case('N') :
+		return N;
+		break;
 	}
 }
 
@@ -305,7 +363,6 @@ void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
 
 void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, bool playerpeek)
 {
-
 	glm::vec3 oldPos = pos;
 	float keepZ = pos.z;
 	glm::vec3 toTarget = moveTo - pos;
@@ -337,7 +394,23 @@ bool UserInput::updateMouse()
 
 void UserInput::resetZoomViewDir()
 {
+	angleH = -90;
+	angleV = -0;
 	pos.z = 11;
 	target = pos;
 	target.z--;
+}
+
+void UserInput::getMouseState(float* x, float* y, bool* right, bool* left)
+{
+	*x = lastX;
+	*y = lastY;
+	*right = rmbReleased;
+	*left = lmbReleased;
+}
+
+void UserInput::setMousePos(float x, float y)
+{
+	lastX = x;
+	lastY = y;
 }

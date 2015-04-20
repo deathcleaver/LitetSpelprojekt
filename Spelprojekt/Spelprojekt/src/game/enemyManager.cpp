@@ -16,10 +16,17 @@ EnemyManager::~EnemyManager()
 		delete enemies[c];
 	}
 	delete[]enemies;
+
+	if (boss)
+	{
+		delete boss;
+	}
 }
 
 void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
+	if (xOffset == 1 && yOffset == 0)
+		boss = new Bat(glm::vec2(0 + xOffset * 35, 10 + yOffset * 35));
 	string line;
 	string type; //To store type
 	glm::vec2 pos; //To store pos
@@ -64,6 +71,15 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk)
 			msg = enemies[c]->update(deltaTime, chunk);
 		}
 	}
+	if (boss)
+	{
+		msg = boss->update(deltaTime, chunk);
+		if (!boss->isAlive())
+		{
+			delete boss;
+			boss = 0;
+		}
+	}
 	return 0;
 }
 
@@ -90,6 +106,11 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform)
 {
+	if (index == -1)
+	{
+		if (boss)
+			return boss->bindWorldMat(shader, uniform);
+	}
 	return enemies[index]->bindWorldMat(shader, uniform);
 }
 
@@ -104,4 +125,16 @@ void EnemyManager::resetEnemies()
 	{
 		enemies[n]->init();
 	}
+}
+
+bool EnemyManager::hasBoss()
+{
+	if (boss)
+		return true;
+	return false;
+}
+
+Enemy* EnemyManager::getBoss()
+{
+	return boss;
 }

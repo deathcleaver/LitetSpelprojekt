@@ -26,7 +26,7 @@ void main()
 
     for( int i = 0; i < 3; i++ )
     {
-        gl_Position =  P * V * (gl_in[i].gl_Position * modelMatrix);
+        gl_Position = P * V * (gl_in[i].gl_Position * modelMatrix);
         UVCord = UV[i];
         worldPos = (gl_in[i].gl_Position * modelMatrix).xyz;
         EmitVertex();

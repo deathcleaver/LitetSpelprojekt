@@ -22,8 +22,8 @@ public:
 
 	GLuint* shaderPtr;
 	GLuint* shaderGuiPtr;
+
 	GLfloat* playerPos;
-	GLfloat* cameraPos;
 
 private:
 

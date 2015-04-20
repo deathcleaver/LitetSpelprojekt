@@ -95,6 +95,7 @@
     <ClCompile Include="src\engine\GBuffer.cpp" />
     <ClCompile Include="src\engine\object.cpp" />
     <ClCompile Include="src\engine\RenderTarget.cpp" />
+    <ClCompile Include="src\game\edit.cpp" />
     <ClCompile Include="src\game\Enemies\Bat.cpp" />
     <ClCompile Include="src\game\Enemies\Flame.cpp" />
     <ClCompile Include="src\game\Enemies\Spikes.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="src\engine\GBuffer.h" />
     <ClInclude Include="src\engine\object.h" />
     <ClInclude Include="src\engine\RenderTarget.h" />
+    <ClInclude Include="src\game\edit.h" />
     <ClInclude Include="src\game\Enemies\Bat.h" />
     <ClInclude Include="src\game\Enemies\Flame.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />

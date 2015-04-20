@@ -16,6 +16,7 @@ class Player : public GameObject
 {
 private:
 	float timepass = 0.0f;
+	int MAX_HP;
 	int HP;
 
 	//movement
@@ -26,13 +27,23 @@ private:
 	bool jumping;
 	bool noAutoJump;
 	float landBreak;
-	Rect* collideRect = 0;
-	Shrine* currentSpawn = 0;
+
+	//attacks
+	bool facingRight;
+	bool isAttacking;
+	float attackTimer;
+	Rect attackRect;
+	mat4 weaponMatrix;
+	void moveWeapon();
 
 	float flinchTimer;
 	float invulnTimer;
 
+	Rect* collideRect = 0;
+	Shrine* currentSpawn = 0;
 	bool god;
+	bool noclip;
+
 	void respawn(Map* map);
 public:
 	Player(){};

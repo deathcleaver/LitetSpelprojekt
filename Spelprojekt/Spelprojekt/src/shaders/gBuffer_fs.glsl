@@ -12,6 +12,7 @@ uniform vec3 playerPos;
 float lDist = 100;
 
 vec3 lightColor = vec3(1, 1, 1);
+vec4 ambient = vec4(0.2, 0.2, 0.2, 1);
 
 void main () 
 {
@@ -36,7 +37,7 @@ void main ()
 
         vec3 r = reflect(s, n.xyz);
         
-        letThereBeLight = vec4(lightColor.xyz * attenuation * max(dot(n.xyz, s), 0), 1.0);
+        letThereBeLight = vec4(lightColor.xyz * attenuation * max(dot(n.xyz, s), 0), 1.0) + ambient;
     }
     
     fragment_color = diffuseColor * letThereBeLight;

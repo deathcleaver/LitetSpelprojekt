@@ -4,6 +4,7 @@
 #include "../UserInput.h"
 #include "../GUI.h"
 
+#include "edit.h"
 #include "../engine/engine.h"
 #include "../engine/ContentManager.h"
 #include "../engine/object.h"
@@ -22,6 +23,7 @@ enum gameState
 	INTRO,
 	EDIT,
 	PAUSE,
+	CONTINUE,
 };
 
 class Game : public Align_16
@@ -37,13 +39,18 @@ private:
 	Map* map = 0;
 	UserInput* in = 0;
 	GUI* gui = 0;
+	Edit* edit = 0;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
+	double xpos = 0.0f;
+	double ypos = 0.0f;
 	bool cameraFollow = false;
 	mat4* viewMat = 0;
 
 	GLFWwindow* windowRef;
 
+	bool inBossRoom = false;
+	glm::vec3 bossRoomMiddle;
 public:
 	Game() {};
 	~Game();
@@ -51,6 +58,7 @@ public:
 	void mainLoop();
 	void update(float deltaTime);
 	void readInput(float deltaTime);
+	void buttonEvents(int buttonEv);
 };
 
 #endif
