@@ -76,6 +76,8 @@ Game::~Game()
 		delete in;
 	if (gui)
 		delete gui;
+	if (edit)
+		delete edit;
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -108,6 +110,8 @@ void Game::init(GLFWwindow* windowRef)
 	cameraFollow = true;
 	gui = new GUI();
 	gui->init(in, player, content);
+	edit = new Edit();
+	edit->init(map, in);
 	//start state
 	current = MENU;
 
@@ -241,8 +245,10 @@ void Game::buttonEvents(int buttonEv)
 	case(3) :
 		current = MENU;
 		break;
-
 	}
+	//Editor buttons
+	if (buttonEv > 99)
+		edit->guiHandle(buttonEv);
 }
 
 void Game::readInput(float deltaTime)

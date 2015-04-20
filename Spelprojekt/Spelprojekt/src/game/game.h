@@ -4,6 +4,7 @@
 #include "../UserInput.h"
 #include "../GUI.h"
 
+#include "edit.h"
 #include "../engine/engine.h"
 #include "../engine/ContentManager.h"
 #include "../engine/object.h"
@@ -35,6 +36,7 @@ private:
 	Map* map = 0;
 	UserInput* in = 0;
 	GUI* gui = 0;
+	Edit* edit = 0;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
 	double xpos = 0.0f;
