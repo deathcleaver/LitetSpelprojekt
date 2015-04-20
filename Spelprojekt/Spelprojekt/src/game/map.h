@@ -26,7 +26,7 @@ public:
 	int readSizeY() const;
 	MapChunk** getChunks() const;
 
-	int update(float deltaTime);
+	int update(float deltaTime, glm::vec3 playerPos);
 	//data ref x = -1, y -1 = outofbounds
 	void getChunkIndex(glm::vec3 pos, int* idX, int* idY);
 	bool collideMap(Rect* test, glm::vec3 pos);
@@ -37,6 +37,8 @@ public:
 	int* getUpDraw() const;
 	void respawnCheck();
 	void playerDiedSoRespawnEnemies(glm::vec3 playerPos);
+
+	glm::vec3 getChunkMiddle(glm::vec3 playerpos);
 };
 
 #endif

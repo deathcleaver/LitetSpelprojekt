@@ -15,6 +15,8 @@ private:
 	Enemy** enemies;
 
 	void addEnemy(string type, glm::vec2 pos, int c);
+
+	Enemy* boss;
 public:
 	EnemyManager();
 	EnemyManager(int enemies);
@@ -27,6 +29,9 @@ public:
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
 	Enemy** getEnemies();
+	Enemy* getBoss();
+
+	bool hasBoss();
 };
 
 #endif

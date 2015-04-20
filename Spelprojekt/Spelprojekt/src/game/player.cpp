@@ -18,7 +18,7 @@ void Player::init()
 	facingRight = true;
 	isAttacking = false;
 	attackTimer = 0.0f;
-	attackRect.initGameObjectRect(&weaponMatrix, 1, 1);
+	attackRect.initGameObjectRect(&weaponMatrix, 0.6, 0.6);
 	weaponMatrix = mat4(1);
 }
 
@@ -294,6 +294,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 						speed.x = -10;
 						speed.y = 10;
 					}
+					isAttacking = false;
+					attackTimer = 0.0f;
 				}
 				else
 				{
@@ -317,6 +319,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
+		speed.x = 0.0f;
 	}
 	
 	if (isAttacking)

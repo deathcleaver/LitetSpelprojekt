@@ -43,6 +43,8 @@ public:
 	void attackEnemies(Rect* wpnRect, glm::vec3 playerPos);
 
 	bool enemyLives(int index);
+
+	bool hasBoss();
 };
 
 #endif

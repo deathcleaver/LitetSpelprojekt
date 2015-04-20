@@ -86,7 +86,7 @@ int Map::readSizeY() const
 	return height;
 }
 
-int Map::update(float deltaTime)
+int Map::update(float deltaTime, glm::vec3 playerPos)
 {
 	//Chunk respawn check every 10th frame
 	if (counter == 0)
@@ -107,7 +107,24 @@ int Map::update(float deltaTime)
 				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime);
 	}
 	
+	int idX, idY;
+	getChunkIndex(playerPos, &idX, &idY);
+	if (chunks[idX][idY].hasBoss())
+	{
+		return 1;
+	}
+
 	return 0;
+}
+
+glm::vec3 Map::getChunkMiddle(glm::vec3 playerpos)
+{
+	int idX, idY;
+	getChunkIndex(playerpos, &idX, &idY);
+	float x = 0, y = 0;
+	x = idX * 35;
+	y = idY * 35;
+	return glm::vec3(x, y, 0.0f);
 }
 
 void Map::getChunkIndex(glm::vec3 pos, int* idX, int* idY)

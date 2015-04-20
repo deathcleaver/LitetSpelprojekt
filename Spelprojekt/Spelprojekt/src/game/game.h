@@ -46,6 +46,8 @@ private:
 
 	GLFWwindow* windowRef;
 
+	bool inBossRoom = false;
+	glm::vec3 bossRoomMiddle;
 public:
 	Game() {};
 	~Game();

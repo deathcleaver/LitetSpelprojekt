@@ -114,13 +114,13 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 {
 	if (invulnTimer < FLT_EPSILON)
 	{
-		speed = 4.0f;
+		speed = 6.0f;
 		health -= damage;
 		if (health <= 0)
 		{
 			alive = false;
 		}
-		invulnTimer = 0.7f;
+		invulnTimer = 0.6f;
 		if (playerRightOfEnemy)
 		{
 			if (facingRight)
