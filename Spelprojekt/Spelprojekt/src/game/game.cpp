@@ -70,8 +70,7 @@ Game::~Game()
 		delete content;
 	if (player)
 		delete player;
-	if (animationManager)
-		delete animationManager;
+
 	if (map)
 		delete map;
 	if (in)
@@ -102,8 +101,6 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
-	animationManager = new AnimationManager();
-	animationManager->init();
 	player = new Player();
 	player->init();
 	map = new Map();
@@ -162,9 +159,9 @@ void Game::mainLoop()
 
 void Game::update(float deltaTime)
 {
-
 	buttonEvents(gui->update((int)current));
-
+	gui->update((int)current);
+	content->update();
 	switch(current) 
 	{
 		case(MENU):
@@ -187,6 +184,7 @@ void Game::update(float deltaTime)
 				}
 				player->update(in, map, deltaTime);
 			}
+			content->setPlayerState(player->getAnimState());
 			map->setUpDraw(*in->GetPos());
 			int isBossRoom = map->update(deltaTime, player->readPos());
 			if (!isBossRoom)

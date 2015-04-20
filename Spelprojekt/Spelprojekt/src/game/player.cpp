@@ -14,12 +14,12 @@ void Player::init()
 	jumpHeight = 6.5f;
 	noAutoJump = true;
 	landBreak = 0.8f;
-
 	facingRight = true;
 	isAttacking = false;
 	attackTimer = 0.0f;
 	attackRect.initGameObjectRect(&weaponMatrix, 0.6, 0.6);
 	weaponMatrix = mat4(1);
+	animState = "idle";
 }
 
 Player::~Player()
@@ -45,6 +45,7 @@ void Player::moveWeapon()
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
+	animState = "idle";
 	timepass += deltaTime;
 
 	// update pos & camera using user input
@@ -109,8 +110,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					speed.x = -maxSpeed.x;
 
 				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+				if (!jumping)
+					animState = "walkLeft";
+				else
+					animState = "airLeft";
 			}
-
 			//right
 			if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
 			{
@@ -125,8 +129,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				}
 				if (speed.x > maxSpeed.x)
 					speed.x = maxSpeed.x;
-
 				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+				if (!jumping)
+					animState = "walkRight";
+				else
+					animState = "airRight";
 			}
 
 			//stop
@@ -288,11 +295,13 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					{
 						speed.x = 10;
 						speed.y = 10;
+						animState = "flinchRight";
 					}
 					else
 					{
 						speed.x = -10;
 						speed.y = 10;
+						animState = "flinchLeft";
 					}
 					isAttacking = false;
 					attackTimer = 0.0f;
@@ -368,4 +377,9 @@ bool Player::isBlinking() const
 		}
 	}
 	return false;
+}
+
+std::string Player::getAnimState()
+{
+	return animState;
 }

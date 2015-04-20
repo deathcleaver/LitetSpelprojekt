@@ -12,7 +12,7 @@
 #include "object.h"
 #include "../game/player.h"
 #include "../game/enemyManager.h"
-#include "AnimationManager.h"
+#include "ObjectManager.h"
 #include "../game/map.h"
 
 #include "../Align16.h"
