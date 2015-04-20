@@ -11,17 +11,70 @@ void Edit::init(Map* map, UserInput* in)
 
 void Edit::update(float x, float y)
 {
-	if (editMode != editModeLast)
+	if (editMode != NONEM)
 	{
-		placeState = PlaceState::MOVE;
+		if (editState != editStateLast)
+		{
+			placeState = PlaceState::MOVE;
+			internalPlaceState = 0;
+		}
+		//convert mouse x, y to world
+		mouseToWorld(&x, &y);
+
+		//get current chunk index edit
+		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
+		map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
+		
+		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse)
+		{
+			switch (editState)
+			{
+			case PLACE:
+				placeObject(x, y);
+				break;
+			case REMOVE:
+				break;
+			case CHANGE:
+				break;
+			case NONES:
+				break;
+			default:
+				break;
+			}
+		}
+		editModeLast = editMode;
+		placeStateLast = placeState;
 	}
+}
 
-	//convert mouse x, y to world
-	mouseToWorld(&x, &y);
+void Edit::placeObject(float x, float y)
+{
+	if (placeState == NONEP)
+	{
+		if (editContentID != -1)
+		{
+			internalPlaceState = 0;
+			current = new GameObject();
+			current->init(editContentID);
+			placeState = MOVE;
+		}
+	}
+	else
+	{
+		switch (placeState)
+		{
+		case MOVE:
+			if(internalPlaceState == 0)
 
-	//get current chunk index edit
-	map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
-	map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
+			break;
+		case SCALE:
+
+			break;
+		case ROT:
+
+			break;
+		}
+	}
 }
 
 void Edit::mouseToWorld(float* x, float* y)
@@ -42,18 +95,74 @@ void Edit::guiHandle(int bEvent)
 {
 	switch (bEvent)
 	{
-	case(100):
+		//EDIT MODE BUTTON SET
 
+	case(100): //EDIT MODE BACKGROUND
+		editMode = EditMode::BACK;
+		editContentID = -1;
 		break;
-	case(101) :
+	case(101) : //EDIT MODE WORLD
 		editMode = EditMode::WORLD;
+		editContentID = -1;
 		break;
-	case(102) :
+	case(102) : //EDIT MODE MONSTER
+		editMode = EditMode::MONSTER;
+		editContentID = -1;
+		break;
+	case(103) : //EDIT MODE REKT
+		editMode = EditMode::REKT;
+		editContentID = -1;
+		break;
+	case(104) : //EDIT MODE LIGHT
+		editMode = EditMode::LIGHT;
+		editContentID = -1;
+		break;
+	case(105) : //EDIT MODE SPECIAL
+		editMode = EditMode::SPECIAL;
+		editContentID = -1;
+		break;
+	case(106) : //EDIT MODE NONEM
+		editState = EditState::NONES;
+		editContentID = -1;
+		break;
 
-		break;
-	case(103) :
+		//EDIT STATE SET
 
+	case(110):
+		editState = EditState::PLACE;
 		break;
+	case(111) :
+		editState = EditState::REMOVE;
+		break;
+	case(112) :
+		editState = EditState::CHANGE;
+		break;
+	case(113) :
+		editState = EditState::NONES;
+		break;
+
+		// PLACE STATE
+
+	case(120) :
+		placeState = PlaceState::MOVE;
+		break;
+	case(121) :
+		placeState = PlaceState::SCALE;
+		break;
+	case(122) :
+		placeState = PlaceState::ROT;
+		break;
+	case(123) :
+		placeState = PlaceState::NONEP;
+		break;
+	}
+		// OBJECT ID
+	if (bEvent > 199)
+	{
+		editContentID = bEvent - 200;
+		editState = EditState::PLACE;
+		placeState = PlaceState::MOVE;
+
 	}
 }
 //Edit::

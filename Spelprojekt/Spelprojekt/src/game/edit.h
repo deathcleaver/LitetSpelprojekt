@@ -43,6 +43,7 @@ private:
 	int chunkXMouse = 0;
 	int chunkYMouse = 0;
 	UserInput* in;
+	GameObject* current;
 	int width;
 	int height;
 	float SCREENWIDTH = 1080;
@@ -54,10 +55,14 @@ private:
 	PlaceState placeState = PlaceState::NONEP;
 	PlaceState placeStateLast = PlaceState::NONEP;
 
-	void mouseToScreenSpace(float* x, float* y);
+	int editContentID = -1;
+	int internalPlaceState = 0;
+	void mouseToScreenSpace(float* x, float* y);	
 	void mouseToWorld(float* x, float* y);
-
+	
 	void undo();
+	
+	void placeObject(float x, float y);
 
 public:
 	Edit(){};
