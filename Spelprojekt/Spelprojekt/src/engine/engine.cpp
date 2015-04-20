@@ -88,6 +88,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	int facecount = 0;
 
 	// bind gbuffer FBO
+	gBuffer.clearLight();
 	gBuffer.bind(GL_FRAMEBUFFER);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -169,7 +170,49 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						}
 		}
 	lastid = -1;
-				
+
+	// bind chunk lights
+
+
+	Light* l = new Light[3];
+
+	l[0].posX = 4;
+	l[0].posY = 6;
+	l[0].posZ = 1;
+
+	l[0].r = 1.0f;
+	l[0].g = 1.0f;
+	l[0].b = 0.0f;
+
+	l[0].intensity = 1.0f;
+	l[0].distance = 100.0f;
+
+	l[1].posX = -6;
+	l[1].posY = -2;
+	l[1].posZ = 1;
+
+	l[1].r = 0.0f;
+	l[1].g = 1.0f;
+	l[1].b = 0.0f;
+
+	l[1].intensity = 1.0f;
+	l[1].distance = 100.0f;
+
+	l[2].posX = -3;
+	l[2].posY = 7;
+	l[2].posZ = 1;
+
+	l[2].r = 0.0f;
+	l[2].g = 0.0f;
+	l[2].b = 1.0f;
+
+	l[2].intensity = 1.0f;
+	l[2].distance = 100.0f;
+
+	gBuffer.pushLights(l, 3);
+
+	delete[] l;
+
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST);

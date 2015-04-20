@@ -75,37 +75,17 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	
 	glGenBuffers(1, &lightBuffer);
 
-	nrLight = 2;
+	nrLight = 10;
 
-	lights = new Light[nrLight];
+	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), NULL, GL_DYNAMIC_DRAW);
 
-	lights[0].posX = 4;
-	lights[0].posY = 6;
-	lights[0].posZ = 1;
-
-	lights[0].r = 1.0f;
-	lights[0].g = 0.0f;
-	lights[0].b = 0.0f;
-
-	lights[0].intensity = 1.0f;
-	lights[0].distance = 100.0f;
-
-	lights[1].posX = -6;
-	lights[1].posY = -2;
-	lights[1].posZ = 1;
-
-	lights[1].r = 0.0f;
-	lights[1].g = 1.0f;
-	lights[1].b = 0.0f;
-
-	lights[1].intensity = 1.0f;
-	lights[1].distance = 100.0f;
+	nrLight = 0;
 	
 }
 
 Gbuffer::~Gbuffer()
 {
-	delete[] lights;
 	delete[] rTexture;
 	delete[] pos;
 	glDeleteBuffers(1, &targetId);
@@ -121,9 +101,21 @@ void Gbuffer::resize(int x, int y)
 	}
 }
 
+void Gbuffer::pushLights(Light* light, int lightsAdded)
+{
+	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+	glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
+	nrLight += lightsAdded;
+}
+
 void Gbuffer::bind(GLuint target)
 {
 	glBindFramebuffer(target, targetId);
+}
+
+void Gbuffer::clearLight()
+{
+	nrLight = 0;
 }
 
 void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui)
@@ -149,8 +141,6 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 	glProgramUniform1ui(*shaderPtr, uniformNrLightPos, nrLight);
 
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
-	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), (void*)lights, GL_DYNAMIC_DRAW);
-
 	glBindBufferBase(GL_UNIFORM_BUFFER, uniformBufferLightPos, lightBuffer);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

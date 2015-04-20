@@ -21,12 +21,14 @@ public:
 
 	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui = true);
 
+	void clearLight();
+	void pushLights(Light* light, int nrLight);
+
 	GLuint* shaderPtr;
 	GLuint* shaderGuiPtr;
 
 	GLfloat* playerPos;
 
-	Light* lights;
 	int nrLight;
 
 private:
