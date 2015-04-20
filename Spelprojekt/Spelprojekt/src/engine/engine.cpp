@@ -160,7 +160,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 			if (upDraw[x] > -1 && upDraw[x] < width)
 				if (upDraw[y] > -1 && upDraw[y] < height)
 					for (int k = -1; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
-						if (chunks[upDraw[x]][upDraw[y]].enemyLives(k))
+						if (chunks[upDraw[x]][upDraw[y]].enemyLives(k) && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(k))
 						{
 							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(k, &tempshader, &uniformModel);
 							if (id != lastid)

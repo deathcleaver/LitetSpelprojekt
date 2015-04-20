@@ -140,6 +140,11 @@ void EnemyManager::resetEnemies()
 	{
 		enemies[n]->init();
 	}
+	if (boss)
+	{
+		if (boss->isAlive())
+			boss->init();
+	}
 }
 
 Enemy* EnemyManager::getBoss()

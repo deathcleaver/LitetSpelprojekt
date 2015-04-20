@@ -19,3 +19,8 @@ Enemy::~Enemy()
 {
 	delete collideRect;
 }
+
+bool Enemy::isBlinking()
+{
+	return false;
+}

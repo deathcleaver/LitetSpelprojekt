@@ -9,6 +9,7 @@ private:
 	float movementScale;
 	float speed;
 	bool collidesWithWorld(MapChunk* chunk);
+	bool slow;
 public:
 	Bat(glm::vec2 firstPos);
 	void init();

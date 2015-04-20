@@ -314,6 +314,22 @@ bool MapChunk::enemyLives(int index)
 	}
 }
 
+bool MapChunk::enemyBlinking(int index)
+{
+	if (index == -1)
+	{
+		if (enemyMan->getBoss())
+		{
+			return enemyMan->getBoss()->isBlinking();
+		}
+	}
+	else
+	{
+		Enemy** enemies = enemyMan->getEnemies();
+		return enemies[index]->isBlinking();
+	}
+}
+
 int MapChunk::hasBoss()
 {
 	Enemy* boss = enemyMan->getBoss();
