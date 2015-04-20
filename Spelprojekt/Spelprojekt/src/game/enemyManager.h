@@ -17,6 +17,7 @@ private:
 	void addEnemy(string type, glm::vec2 pos, int c);
 
 	Enemy* boss;
+	void addBoss(string type, glm::vec2 pos);
 public:
 	EnemyManager();
 	EnemyManager(int enemies);

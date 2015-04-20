@@ -2,6 +2,7 @@
 #include "Enemies/Spikes.h"
 #include "Enemies/Bat.h"
 #include "Enemies/Flame.h"
+#include "Enemies/Bossbat.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -26,8 +27,6 @@ EnemyManager::~EnemyManager()
 void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
 	boss = 0;
-	if (xOffset == 2 && yOffset == 0)
-		boss = new Bat(glm::vec2(0 + xOffset * 35, 8 + yOffset * 35));
 	string line;
 	string type; //To store type
 	glm::vec2 pos; //To store pos
@@ -37,6 +36,23 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	getline(file, line);
 	istringstream iss(line);
 	string sub;
+	iss >> sub;
+	if (atoi(sub.c_str()) == 1) //THERE IS A BOSS HOLY HELL
+	{
+		getline(file, line);
+		iss = istringstream(line);
+		iss >> sub;
+		type = sub; //Läs bosstyp
+		iss >> sub;
+		pos.x = atof(sub.c_str());
+		pos.x = pos.x + xOffset * 35;
+		iss >> sub;
+		pos.y = atof(sub.c_str());
+		pos.y = pos.y - yOffset * 35;
+		addBoss(type, pos);
+	}
+	getline(file, line);
+	iss = istringstream(line);
 	iss >> sub;
 	nrOfEnemies = atoi(sub.c_str());
 	enemies = new Enemy*[nrOfEnemies];
@@ -129,4 +145,13 @@ void EnemyManager::resetEnemies()
 Enemy* EnemyManager::getBoss()
 {
 	return boss;
+}
+
+void EnemyManager::addBoss(string type, glm::vec2 pos)
+{
+	if (type == "Bossbat")
+	{
+		boss = new Bossbat(pos);
+		boss->scaleFactor(2, 2, 2);
+	}
 }

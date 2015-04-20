@@ -97,6 +97,7 @@
     <ClCompile Include="src\engine\RenderTarget.cpp" />
     <ClCompile Include="src\game\edit.cpp" />
     <ClCompile Include="src\game\Enemies\Bat.cpp" />
+    <ClCompile Include="src\game\Enemies\Bossbat.cpp" />
     <ClCompile Include="src\game\Enemies\Flame.cpp" />
     <ClCompile Include="src\game\Enemies\Spikes.cpp" />
     <ClCompile Include="src\game\enemy.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="src\engine\RenderTarget.h" />
     <ClInclude Include="src\game\edit.h" />
     <ClInclude Include="src\game\Enemies\Bat.h" />
+    <ClInclude Include="src\game\Enemies\Bossbat.h" />
     <ClInclude Include="src\game\Enemies\Flame.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />
     <ClInclude Include="src\game\enemy.h" />
