@@ -328,11 +328,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					flinchTimer = 0.3f;
 					if (result.x < playerPos.x)
 					{
+						if (facingRight)
+							rotate(0, 3.1415927f, 0);
 						speed.x = 10;
 						speed.y = 10;
 					}
 					else
 					{
+						if (!facingRight)
+							rotate(0, 3.1415927f, 0);
 						speed.x = -10;
 						speed.y = 10;
 					}
