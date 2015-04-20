@@ -1,7 +1,9 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-struct Light
+#include "../Align16.h"
+
+struct Light : public Align_16
 {
 	float posX, posY, posZ;
 	float pad1;
@@ -9,6 +11,7 @@ struct Light
 	float pad2;
 	float distance;
 	float intensity;
+	float pad3[2];
 
 };
 

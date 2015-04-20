@@ -110,7 +110,6 @@
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Light.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\GBuffer.h" />
@@ -124,6 +123,7 @@
     <ClInclude Include="src\game\enemyManager.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />
+    <ClInclude Include="src\game\Light.h" />
     <ClInclude Include="src\game\map.h" />
     <ClInclude Include="src\game\mapChunk.h" />
     <ClInclude Include="src\game\player.h" />

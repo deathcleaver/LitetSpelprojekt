@@ -1,4 +1,4 @@
-#version 410
+#version 430
 layout(location = 0) in vec2 UV;
 
 uniform sampler2D diffuse;
@@ -13,15 +13,18 @@ struct Light
     vec4 color;
     float distance;
     float intensity;
+    float pad;
+    float pad2;
 };
 
-uniform vec3 lightPos;
 uniform vec3 playerPos;
+uniform uint nrLights;
 float lDist = 100;
 
-//Light [] light;
-
-vec3 lightColor = vec3(1, 1, 1);
+layout(std140, binding = 0) uniform lightBlock
+{
+    Light light[10];
+};
 
 void main () 
 {
@@ -30,25 +33,54 @@ void main ()
     vec4 n = texture(normal,vec2(UV.s, UV.t));
     vec4 diffuseColor = texture(diffuse,vec2(UV.s, UV.t));
     
-    float dist = distance(worldPos.xyz, playerPos.xyz);
+    vec4 letThereBeLight = vec4(0);
     
-    vec4 letThereBeLight;
-    
-    if(dist < lDist)
+    for(int i = 0; i < nrLights; i++)
     {
-        float d = lDist;
-        float attenuation;
+        Light l = light[i]; 
+        float dist = distance(worldPos.xyz, l.pos.xyz);
+        
+        float d = l.distance;
+        
+        if(dist < d)
+        {
+            float attenuation = 1.0;
+            if(dist != 0)
+                attenuation = 1 - clamp((pow(dist,1.5) / d), 0, 1);
+                attenuation = max(attenuation, 0);
+            
+            vec3 s = normalize(vec3(l.pos.xyz - worldPos.xyz));
+
+            vec3 r = reflect(s, n.xyz);
+            
+            letThereBeLight += vec4(l.color.rgb * attenuation * max(dot(n.xyz, s), 0), 1.0);
+        }
+    }
+    
+    Light l;
+    l.pos = vec4(playerPos.xyz, 0.0);
+    l.color = vec4(1, 1, 1, 1);
+    l.distance = 25.f;
+    l.intensity = 1.0f;
+    
+    float dist = distance(worldPos.xyz, l.pos.xyz);
+    
+    float d = l.distance;
+    
+    if(dist < d)
+    {
+        float attenuation = 1.0;
         if(dist != 0)
-            attenuation = 1- clamp((pow(dist,1.5) / d), 0, 1);
+            attenuation = 1 - clamp((pow(dist,1.5) / d), 0, 1);
             attenuation = max(attenuation, 0);
         
-        vec3 s = normalize(vec3(playerPos.xyz - worldPos.xyz));
+        vec3 s = normalize(vec3(l.pos.xyz - worldPos.xyz));
 
         vec3 r = reflect(s, n.xyz);
         
-        letThereBeLight = vec4(lightColor.xyz * attenuation * max(dot(n.xyz, s), 0), 1.0);
-    }
+        letThereBeLight += vec4(l.color.rgb * attenuation * max(dot(n.xyz, s), 0), 1.0);
     
+    }
     fragment_color = diffuseColor * letThereBeLight;
     
 }

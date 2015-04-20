@@ -152,14 +152,14 @@
     <ClInclude Include="src\game\Shrine.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="src\screenItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Light.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
