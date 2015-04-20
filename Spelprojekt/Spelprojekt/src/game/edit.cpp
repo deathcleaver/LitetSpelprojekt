@@ -49,7 +49,7 @@ void Edit::update(float x, float y)
 
 void Edit::placeObject(float x, float y)
 {
-	if(y >)
+	if(y > -1)
 	if (placeState == NONEP)
 	{
 		if (editContentID != -1)
