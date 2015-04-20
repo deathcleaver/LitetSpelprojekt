@@ -5,7 +5,7 @@ Shrine::Shrine(GameObject* object)
 	this->object = object;
 	if (object->returnID() == 2)
 	{
-		powerUp = 1;
+		rune = 1;
 	}
 	collision = new Rect();
 	collision->initGameObjectRect(object->getWorldMat(), 1.0f, 2.0f);
@@ -24,5 +24,9 @@ Rect* Shrine::getRekt()
 glm::vec2 Shrine::getPos()
 {
 	return glm::vec2(object->readPos());
+}
 
+int Shrine::getRune()
+{
+	return rune;
 }

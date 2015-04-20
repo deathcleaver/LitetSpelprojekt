@@ -17,10 +17,11 @@ void Player::init()
 	facingRight = true;
 	isAttacking = false;
 	attackTimer = 0.0f;
-	attackRect.initGameObjectRect(&weaponMatrix, 0.6, 0.6);
+	attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
 	weaponMatrix = mat4(1);
 	animState = "idle";
 	bossFighting = false;
+	currentRune = 0;
 }
 
 Player::~Player()
@@ -31,14 +32,17 @@ Player::~Player()
 void Player::moveWeapon()
 {
 	vec3 playerPos = readPos();
+	int bonusRange = 1;
+	if (currentRune == 1)
+		bonusRange = 5;
 	if (facingRight)
 	{
-		weaponMatrix[0].w = playerPos.x + sin(3.14*attackTimer);
+		weaponMatrix[0].w = playerPos.x +0.1f + sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
 	}
 	else
 	{
-		weaponMatrix[0].w = playerPos.x - sin(3.14*attackTimer);
+		weaponMatrix[0].w = playerPos.x -0.1f - sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
 	}
 	attackRect.update();
@@ -310,6 +314,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			HP = MAX_HP;
 			printf("Max HP regained\n");
 		}
+		if (currentRune == 0)
+		{
+			currentRune = currentSpawn->getRune();
+			if (currentRune == 1)
+				attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
+		}
 	}
 
 	vec3 playerPos = readPos();
@@ -320,6 +330,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
 			{
+				if (currentRune == 1)
+					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
+				currentRune = 0;
 				invulnTimer = 1.0f;
 				if (HP > 1)
 				{
