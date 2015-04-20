@@ -81,6 +81,12 @@ Game::~Game()
 		delete gui;
 	if (edit)
 		delete edit;
+
+	if (audio)
+	{
+		audio->shutdown();
+		delete audio;
+	}
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -120,7 +126,6 @@ void Game::init(GLFWwindow* windowRef)
 
 	//start audio
 	audio = new Audio();
-	audio->playSound();
 
 	// do not delete in this class
 	this->windowRef = windowRef;
@@ -171,10 +176,12 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
+			audio->LoadWaveFile(0);
 			break;
 		}
 		case(PLAY):
 		{
+			audio->LoadWaveFile(1);
 			if (cameraFollow)
 			{
 				glm::vec3 playerPos = player->readPos();
