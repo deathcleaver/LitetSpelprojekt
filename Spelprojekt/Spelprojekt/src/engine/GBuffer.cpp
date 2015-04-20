@@ -67,7 +67,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	//gui
 	uniformGUItexture = glGetUniformLocation(*shaderGuiPtr, "diffuse");
 	//defaults 0
-	glProgramUniform1i(uniformGUItexture, uniformGUItexture, 0);
+	glProgramUniform1i(*shaderGuiPtr, uniformGUItexture, 0);
 	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
 
 	uniformBufferLightPos = glGetUniformBlockIndex(*shaderPtr, "lightBlock");

@@ -184,7 +184,7 @@ bool Object::loadVert(std::string path)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices[0]) * count * 3, &Indices[0], GL_STATIC_DRAW);
 		faceCount = count;
-		glEnableVertexAttribArray(indexBuffer);
+		//glEnableVertexAttribArray(indexBuffer);
 
 		//define vertex data layout
 		glGenVertexArrays(1, &vertexAttribute);
