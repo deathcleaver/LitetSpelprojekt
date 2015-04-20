@@ -13,7 +13,7 @@ class Shrine
 {
 private:
 	//Powerup
-	int powerUp;
+	int rune;
 	GameObject* object;
 	Rect* collision;
 public:
@@ -21,7 +21,7 @@ public:
 	~Shrine();
 	Rect* getRekt();
 	glm::vec2 getPos();
-	//Give Powerup
+	int getRune();
 };
 
 #endif
