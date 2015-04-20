@@ -7,9 +7,19 @@ uniform sampler2D world;
 
 out vec4 fragment_color;
 
+struct Light
+{
+    vec4 pos;
+    vec4 color;
+    float distance;
+    float intensity;
+};
+
 uniform vec3 lightPos = vec3(0, 0, 4);
 uniform vec3 playerPos;
 float lDist = 100;
+
+//Light [] light;
 
 vec3 lightColor = vec3(1, 1, 1);
 

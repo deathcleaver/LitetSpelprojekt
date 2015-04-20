@@ -108,6 +108,7 @@
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Light.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\GBuffer.h" />

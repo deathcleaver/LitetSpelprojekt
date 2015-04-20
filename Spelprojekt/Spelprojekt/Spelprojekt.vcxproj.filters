@@ -146,5 +146,8 @@
     <ClInclude Include="src\game\Shrine.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
