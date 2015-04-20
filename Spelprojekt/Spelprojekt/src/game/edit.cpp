@@ -49,6 +49,7 @@ void Edit::update(float x, float y)
 
 void Edit::placeObject(float x, float y)
 {
+	if(y >)
 	if (placeState == NONEP)
 	{
 		if (editContentID != -1)
@@ -97,7 +98,7 @@ void Edit::guiHandle(int bEvent)
 	{
 		//EDIT MODE BUTTON SET
 
-	case(100): //EDIT MODE BACKGROUND
+	case(100) : //EDIT MODE BACKGROUND
 		editMode = EditMode::BACK;
 		editContentID = -1;
 		break;
@@ -128,7 +129,7 @@ void Edit::guiHandle(int bEvent)
 
 		//EDIT STATE SET
 
-	case(110):
+	case(110) :
 		editState = EditState::PLACE;
 		break;
 	case(111) :
@@ -141,28 +142,12 @@ void Edit::guiHandle(int bEvent)
 		editState = EditState::NONES;
 		break;
 
-		// PLACE STATE
-
-	case(120) :
-		placeState = PlaceState::MOVE;
-		break;
-	case(121) :
-		placeState = PlaceState::SCALE;
-		break;
-	case(122) :
-		placeState = PlaceState::ROT;
-		break;
-	case(123) :
-		placeState = PlaceState::NONEP;
-		break;
-	}
 		// OBJECT ID
-	if (bEvent > 199)
-	{
-		editContentID = bEvent - 200;
-		editState = EditState::PLACE;
-		placeState = PlaceState::MOVE;
-
+		if (bEvent > 199)
+		{
+			editContentID = bEvent - 200;
+			editState = EditState::PLACE;
+			placeState = PlaceState::MOVE;
+		}
 	}
 }
-//Edit::
