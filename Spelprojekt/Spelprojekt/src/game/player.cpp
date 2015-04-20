@@ -324,7 +324,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		noAutoJump = true;
 
 	//Attacking
-	if (!isAttacking && userInput->getSpace())
+	if (!isAttacking && userInput->getSpace() && flinchTimer < FLT_EPSILON)
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
