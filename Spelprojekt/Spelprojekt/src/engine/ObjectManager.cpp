@@ -84,7 +84,7 @@ void ObjectManager::loadMonsterObjs()
 	myMonsterObjs = new AnimationObject*[myNrOfMonsterObjects]();
 
 	//spikes
-	myMonsterObjs[0] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/grid.bmp");
+	myMonsterObjs[0] = new AnimationObject("src/meshes/SpikeBase.v", "src/textures/Red.bmp");
 
 
 	//bats
@@ -94,7 +94,9 @@ void ObjectManager::loadMonsterObjs()
 
 
 	//flamecubes
-	myMonsterObjs[2] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/black.bmp");
+	Object* FCube1 = new Object("src/meshes/FlameCubeContracted.v", "src/textures/Red.bmp");
+	Object* FCube2 = new Object("src/meshes/FlameCubeExtruded.v", "src/textures/Red.bmp");
+	myMonsterObjs[2] = new AnimationObject(FCube1, FCube2, 0.5f, 0.02f);
 
 }
 
