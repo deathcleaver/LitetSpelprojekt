@@ -14,7 +14,7 @@ Audio::~Audio()
 {
 }
 
-bool Audio::LoadWaveFile(int fileId)
+bool Audio::LoadMusic(int fileId)
 {
 	if (currTrack != fileId)
 	{

@@ -176,12 +176,12 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
-			audio->LoadWaveFile(0);
+			audio->LoadMusic(0);
 			break;
 		}
 		case(PLAY):
 		{
-			audio->LoadWaveFile(1);
+			audio->LoadMusic(1);
 			if (cameraFollow)
 			{
 				glm::vec3 playerPos = player->readPos();

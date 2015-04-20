@@ -22,7 +22,7 @@ public:
 	Audio();
 	~Audio();
 	//ALboolean LoadALData();
-	bool LoadWaveFile(int fileId);
+	bool LoadMusic(int fileId);
 	void  playSound();
 	void shutdown();
 
