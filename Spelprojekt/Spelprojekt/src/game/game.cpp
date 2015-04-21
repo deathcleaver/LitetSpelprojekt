@@ -333,6 +333,11 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->KeyDown('C') : in->KeyUp('C');
 	state = glfwGetKey(windowRef, GLFW_KEY_N);
 	state == GLFW_PRESS ? in->KeyDown('N') : in->KeyUp('N');
+	state = glfwGetKey(windowRef, GLFW_KEY_Q);
+	state == GLFW_PRESS ? in->KeyDown('Q') : in->KeyUp('Q');
+	state = glfwGetKey(windowRef, GLFW_KEY_E);
+	state == GLFW_PRESS ? in->KeyDown('E') : in->KeyUp('E');
+
 	
 	//camera follow keys
 	state = glfwGetKey(windowRef, GLFW_KEY_C);

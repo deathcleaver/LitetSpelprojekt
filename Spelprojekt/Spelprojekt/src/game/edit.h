@@ -42,6 +42,8 @@ private:
 	int chunkYCam = 0;
 	int chunkXMouse = 0;
 	int chunkYMouse = 0;
+	float lastMousePosX = 0;
+	float lastMousePosY = 0;
 	UserInput* in;
 	GameObject* current = 0;
 	int width;

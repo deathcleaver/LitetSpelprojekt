@@ -18,8 +18,13 @@ void Edit::update(float x, float y)
 			placeState = PlaceState::NONEP;
 			internalPlaceState = 0;
 		}
+
+		bool inHud = false;
+		if (y > 560)
+			inHud = true;
 		//convert mouse x, y to world
 		mouseToWorld(&x, &y);
+
 
 		//get current chunk index edit
 		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
@@ -28,7 +33,7 @@ void Edit::update(float x, float y)
 		if (chunkXCam == -1 || chunkXMouse == -1)
 			return;
 
-		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse)
+		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse && !inHud)
 		{
 			switch (editState)
 			{
@@ -47,6 +52,8 @@ void Edit::update(float x, float y)
 		}
 		editModeLast = editMode;
 		placeStateLast = placeState;
+		lastMousePosX = x;
+		lastMousePosY = y;
 	}
 	else
 	{
@@ -59,8 +66,7 @@ void Edit::update(float x, float y)
 
 void Edit::placeObject(float x, float y)
 {
-	if (y > 500)
-		return;
+	
 	if (placeState == NONEP)
 	{
 		if (editContentID != -1)
@@ -73,37 +79,51 @@ void Edit::placeObject(float x, float y)
 	}
 	else
 	{
-		float tempx, tempy;
-		bool left, right;
-		in->getMouseState(&tempx, &tempy, &right, &left);
-		if (left)
+		if (in->getLMBrelease())
 			internalPlaceState++;
+		if (in->getRMBdown())
+		{
+			x = 0;
+			y = 0;
+			lastMousePosX = 0;
+			lastMousePosY = 0;
+		}
 
 		switch (placeState)
 		{
 		case MOVE:
 			if (internalPlaceState == 0)
-				current->moveToXY(x, y);
+			{
+				if(in->getKeyState('Q'))
+					current->translateSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+				else
+					current->translateEDITOR(x - lastMousePosX, y - lastMousePosY, 0);
+			}
 			else if (internalPlaceState == 1)
-				current->moveToZ(y);
+			{
+				if (in->getKeyState('Q'))
+					current->translateSNAP(0, 0, y - lastMousePosY);
+				else
+					current->translateEDITOR(0, 0, y - lastMousePosY);
+			}
 			else if (internalPlaceState == 2)
 			{
-				placeState == SCALE;
+				placeState = SCALE;
 				internalPlaceState = 0;
 			}
 			break;
 		case SCALE:
 		{
 			int k = 1;
-			//if (internalPlaceState == 0)
-			//	current->scaleUniformFactor(y);
-			//else if (internalPlaceState == 1)
-			//	current->scaleUniformFactor(y);
-			//else if (internalPlaceState == 2)
-			//{
-			//	placeState == ROT;
-			//	internalPlaceState = 0;
-			//}
+			if (internalPlaceState == 0)
+				current->scaleAD(x, y, 0);
+			else if (internalPlaceState == 1)
+				current->scaleAD(0, 0, y);
+			else if (internalPlaceState == 2)
+			{
+				placeState == ROT;
+				internalPlaceState = 0;
+			}
 		}
 			break;
 		case ROT:
@@ -206,7 +226,7 @@ void Edit::guiHandle(int bEvent)
 		{
 			editContentID = bEvent - 200;
 			editState = EditState::PLACE;
-			placeState = PlaceState::MOVE;
+			//placeState = PlaceState::MOVE;
 		}
 	}
 }

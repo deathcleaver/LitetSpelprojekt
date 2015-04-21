@@ -59,6 +59,35 @@ void GameObject::translate(float x, float y, float z)
 	worldMat[2].w += z;
 }
 
+void GameObject::translateEDITOR(float x, float y, float z)
+{
+	worldMat[0].w += x;
+	worldMat[1].w += y;
+	worldMat[2].w += z;
+	posXfloatsave = worldMat[0].w;
+	posYfloatsave = worldMat[1].w;
+	posZfloatsave = worldMat[2].w;
+}
+
+void GameObject::translateSNAP(float x, float y, float z)
+{
+	if (posXfloatsave < -99900.0f)
+		posXfloatsave = worldMat[0].w;
+	if (posYfloatsave < -99900.0f)
+		posYfloatsave = worldMat[1].w;
+	if (posZfloatsave < -99900.0f)
+		posZfloatsave = worldMat[2].w;
+
+	posXfloatsave += x;
+	posYfloatsave += y;
+	posZfloatsave += z;
+
+	worldMat[0].w = (int)posXfloatsave;
+	worldMat[1].w = (int)posYfloatsave;
+	worldMat[2].w = (int)posZfloatsave;
+
+}
+
 void GameObject::moveTo(glm::vec3 target)
 {
 	worldMat[0].w = target.x;
@@ -114,6 +143,23 @@ void GameObject::scaleFactor(float x, float y, float z)
 	worldMat[0].x *= x;
 	worldMat[1].y *= y;
 	worldMat[2].z *= z;
+}
+
+void GameObject::scaleAD(float x, float y, float z)
+{
+	worldMat[0].x += x;
+	worldMat[1].y += y;
+	worldMat[2].z += z;
+}
+
+void GameObject::scaleFactorADsnap(float x, float y, float z)
+{
+	worldMat[0].x += x;
+	worldMat[0].x = (int)worldMat[0].x;
+	worldMat[1].y += y;
+	worldMat[1].y = (int)worldMat[1].y;
+	worldMat[2].z += z;
+	worldMat[2].z = (int)worldMat[2].z;
 }
 
 int GameObject::update(float deltaTime)

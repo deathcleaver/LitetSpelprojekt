@@ -44,6 +44,8 @@ private:
 	bool M = false;
 	bool C = false;
 	bool N = false;
+	bool Q = false;
+	bool E = false;
 
 	float toDegree(float val);
 	float toRadian(float val);
@@ -67,6 +69,12 @@ public:
 	vec3 getToTarget();
 	void setMousePos(float x, float y);
 	void getMouseState(float* x, float* y, bool* right, bool* left);
+	
+	bool getRMBrelease();
+	bool getRMBdown();
+	bool getLMBrelease();
+	bool getLMBdown();
+
 	void followPlayer(vec3 p, vec2 s, float deltaTime);
 	bool getKeyState(char c);
 	void resetZoomViewDir();
