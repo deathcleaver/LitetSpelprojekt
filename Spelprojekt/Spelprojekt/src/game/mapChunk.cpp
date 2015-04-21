@@ -167,7 +167,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		chunkBackground->init(0);
 		chunkBackground->moveTo(xOffset * 35, yOffset * -35);
 		
-		
+		musicId = -1;
 		
 		enemyMan = new EnemyManager;
 		enemyMan->initEmpty();
