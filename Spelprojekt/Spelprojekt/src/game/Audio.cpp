@@ -173,36 +173,38 @@ void Audio::playMusic(int track)
 
 void Audio::playMusicFade(int track, float deltaTime)
 {
-	if (currTrack != track)
+	if (track < numOfTracks && track >= 0)
 	{
-		if (currTrack < 0)//check to make sure that the fileId is above -1
+		if (currTrack != track)
 		{
-			stopMusic(currTrack);
-			if (track != -1)
+			if (currTrack < 0)//check to make sure that the fileId is above -1
 			{
+				stopMusic(currTrack);
 				alSourcePlay(musicSource[track]);
+				currTrack = track;
 			}
-			currTrack = track;
+			else
+			{
+				oldTrack = currTrack;
+				alSourcePlay(musicSource[track]);
+				currTrack = track;
+				oldVolume = currVolume;
+				currVolume = 0.0f;
+			}
 		}
-		else
+		if (fadeMusic(deltaTime) == true)
 		{
-			oldTrack = currTrack;
+			stopMusic(oldTrack);
 			if (track != -1)
 			{
-				alSourcePlay(musicSource[track]);
+				alSourcePlay(musicSource[currTrack]);
 			}
-			currTrack = track;
-			oldVolume = currVolume;
-			currVolume = 0.0f;
 		}
 	}
-	if (fadeMusic(deltaTime) == true)
+	else //if out of bounds
 	{
-		stopMusic(oldTrack);
-		if (track != -1)
-		{
-			alSourcePlay(musicSource[currTrack]);
-		}
+		alSourceStop(musicSource[currTrack]);
+		currTrack = -1;
 	}
 }
 
