@@ -46,7 +46,7 @@ void ObjectManager::init()
 void ObjectManager::loadPlayer()
 {
 	Object** playerAn = new Object*[5];
-	playerAn[0] = new Object("src/meshes/PlayerBaseSword2.v", "src/textures/red.bmp");
+	playerAn[0] = new Object("src/meshes/PlayerBaseSword2.v", "src/textures/blue.bmp");
 	playerAn[1] = new Object("src/meshes/PlayerWalkLeft.v", "", playerAn[0], false, true);
 	playerAn[2] = new Object("src/meshes/PlayerWalkRight.v", "", playerAn[0], false, true);
 	playerAn[3] = new Object("src/meshes/PlayerAttackUp.v", "", playerAn[0], false, true);
