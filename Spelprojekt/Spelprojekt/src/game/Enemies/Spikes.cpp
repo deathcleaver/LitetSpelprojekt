@@ -30,3 +30,8 @@ int Spikes::update(float deltaTime, MapChunk* chunk)
 void Spikes::hit(int damage, bool playerRightOfEnemy)
 {
 }
+
+string Spikes::isBoss()
+{
+	return "ChuckTesta";
+}

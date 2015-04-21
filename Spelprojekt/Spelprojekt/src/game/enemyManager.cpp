@@ -154,6 +154,11 @@ Enemy* EnemyManager::getBoss()
 
 void EnemyManager::addBoss(string type, glm::vec2 pos)
 {
+	if (type == "Fake")
+	{
+		boss = new Spikes(pos);
+		boss->scaleFactor(0.01, 0.01, 0.01);
+	}
 	if (type == "Bossbat")
 	{
 		boss = new Bossbat(pos);

@@ -11,6 +11,7 @@ public:
 	void init();
 	int update(float deltaTime, MapChunk* chunk);
 	void hit(int damage, bool playerRightOfEnemy);
+	std::string isBoss();
 };
 
 #endif
