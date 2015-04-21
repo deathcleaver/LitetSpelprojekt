@@ -204,6 +204,7 @@ void Audio::playMusicFade(int track, float deltaTime)
 	else //if out of bounds
 	{
 		alSourceStop(musicSource[currTrack]);
+		alSourceStop(musicSource[oldTrack]);
 		currTrack = -1;
 	}
 }

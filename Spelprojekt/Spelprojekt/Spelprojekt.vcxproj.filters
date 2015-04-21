@@ -122,9 +122,6 @@
     <ClInclude Include="src\game\enemyManager.h">
       <Filter>Header Files\Game\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\engine.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\Shader.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
@@ -196,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="src\game\Progress.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\engine.h">
+      <Filter>Header Files\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
