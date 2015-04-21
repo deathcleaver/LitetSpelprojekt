@@ -84,7 +84,7 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 		iss >> sub;
 		pos.y = atof(sub.c_str());
 		pos.y = pos.y - yOffset * 35;
-		addEnemy(type, pos, c);
+		addEnemy(type, pos);
 	}
 }
 
@@ -142,7 +142,7 @@ int EnemyManager::size(string type)
 	return 0;
 }
 
-void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
+void EnemyManager::addEnemy(string type, glm::vec2 pos)
 {
 	if (type == "Spikes")
 	{
@@ -175,11 +175,11 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 			return boss->bindWorldMat(shader, uniform);
 	}
 	else if (type == "Bat")
-		bats[index]->bindWorldMat(shader, uniform);
+		return bats[index]->bindWorldMat(shader, uniform);
 	else if (type == "Flame")
-		flames[index]->bindWorldMat(shader, uniform);
+		return flames[index]->bindWorldMat(shader, uniform);
 	else //if (type == "Spikes")
-		spikes[index]->bindWorldMat(shader, uniform);
+		return spikes[index]->bindWorldMat(shader, uniform);
 }
 
 Enemy** EnemyManager::getEnemies(string type)

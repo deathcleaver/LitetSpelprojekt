@@ -15,7 +15,7 @@ private:
 	Enemy** bats; int batCount, batMax;
 	Enemy** spikes; int spikeCount, spikeMax;
 
-	void addEnemy(string type, glm::vec2 pos, int c);
+	void addEnemy(string type, glm::vec2 pos);
 
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);
