@@ -113,7 +113,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				iss >> sub;
 				lights[c].posX = atof(sub.c_str()) + xOffset*35;
 				iss >> sub;
-				lights[c].posY = atof(sub.c_str()) + yOffset*35;
+				lights[c].posY = atof(sub.c_str()) - yOffset*35;
 				iss >> sub;
 				lights[c].posZ = atof(sub.c_str());
 				iss >> sub;
