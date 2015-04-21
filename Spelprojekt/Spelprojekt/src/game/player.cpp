@@ -10,7 +10,7 @@ void Player::init()
 	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
 	speed = vec2(0);
 	maxSpeed = vec2(10, -30);
-	acceleration = vec2(0.4f,1.3f); // y = gravity
+	acceleration = vec2(0.4f,0.25f); // y = gravity
 	jumping = false;
 	jumpHeight = 6.5f;
 	noAutoJump = true;
