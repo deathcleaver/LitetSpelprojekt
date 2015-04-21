@@ -25,7 +25,7 @@ void Bossbat::init()
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
 	if (!facingRight)
-		rotate(0, 3.1415927f, 0);
+		rotateTo(0, 3.1415927f, 0);
 	facingRight = true;
 	alive = true;
 	health = 4;
@@ -70,7 +70,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk)
 		if (movementScale > 1.5f)
 			facingRight = false;
 		if (!facingRight)
-			rotate(0, 3.1415927f, 0);
+			rotateTo(0, 3.1415927f, 0);
 	}
 	else
 	{
@@ -105,7 +105,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk)
 		if (movementScale < -1.5f)
 			facingRight = true;
 		if (facingRight)
-			rotate(0, 3.1415927f, 0);
+			rotateTo(0, 3.1415927f, 0);
 	}
 
 	if (invulnTimer > FLT_EPSILON)

@@ -46,6 +46,17 @@ private:
 	bool N = false;
 	bool Q = false;
 	bool E = false;
+	
+	bool _1 = false;
+	bool _2 = false;
+	bool _3 = false;
+	bool _4 = false;
+	bool _5 = false;
+	bool _6 = false;
+	bool _7 = false;
+	bool _8 = false;
+	bool _9 = false;
+	bool _0 = false;
 
 	float toDegree(float val);
 	float toRadian(float val);
@@ -54,7 +65,9 @@ public:
 	~UserInput();
 	void Init(mat4* mat, vec3 posIn, vec3 lookIn, vec3 upIn);
 	void KeyDown(char c);
+	void KeyNumberDown(int n);
 	void KeyUp(char c);
+	void KeyNumberUp(int n);
 	void Mouse(float x, float y);
 	void Act(float deltaTime);
 	void LMB(bool);
@@ -77,6 +90,7 @@ public:
 
 	void followPlayer(vec3 p, vec2 s, float deltaTime);
 	bool getKeyState(char c);
+	bool getKeyNumberState(int n);
 	void resetZoomViewDir();
 	bool updateMouse();
 	void cameraPan(vec3 moveTo, float delay, float deltaTime, bool playerPeak = false);

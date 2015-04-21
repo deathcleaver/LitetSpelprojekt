@@ -44,6 +44,43 @@ void UserInput::KeyDown(char c)
 	}
 }
 
+void UserInput::KeyNumberDown(int n)
+{
+	switch (n)
+	{
+	case(1) :
+		_1 = true;
+		break;
+	case(2) :
+		_2 = true;
+		break;
+	case(3) :
+		_3 = true;
+		break;
+	case(4) :
+		_4 = true;
+		break;
+	case(5) :
+		_5 = true;
+		break;
+	case(6) :
+		_6 = true;
+		break;
+	case(7) :
+		_7 = true;
+		break;
+	case(8) :
+		_8 = true;
+		break;
+	case(9) :
+		_9 = true;
+		break;
+	case(0) :
+		_0 = true;
+		break;
+	}
+}
+
 void UserInput::KeyUp(char c)
 {
 	switch (c)
@@ -77,6 +114,43 @@ void UserInput::KeyUp(char c)
 		break;
 	case('E') :
 		E = false;
+		break;
+	}
+}
+
+void UserInput::KeyNumberUp(int n)
+{
+	switch (n)
+	{
+	case(1) :
+		_1 = false;
+		break;
+	case(2) :
+		_2 = false;
+		break;
+	case(3) :
+		_3 = false;
+		break;
+	case(4) :
+		_4 = false;
+		break;
+	case(5) :
+		_5 = false;
+		break;
+	case(6) :
+		_6 = false;
+		break;
+	case(7) :
+		_7 = false;
+		break;
+	case(8) :
+		_8 = false;
+		break;
+	case(9) :
+		_9 = false;
+		break;
+	case(0) :
+		_0 = false;
 		break;
 	}
 }
@@ -330,6 +404,44 @@ bool UserInput::getKeyState(char c)
 		return E;
 		break;
 	}
+}
+
+bool UserInput::getKeyNumberState(int n)
+{
+	switch (n)
+	{
+	case(1) :
+		return _1;
+		break;
+	case(2) :
+		return _2;
+		break;
+	case(3) :
+		return _3;
+		break;
+	case(4) :
+		return _4;
+		break;
+	case(5) :
+		return _5;
+		break;
+	case(6) :
+		return _6;
+		break;
+	case(7) :
+		return _7;
+		break;
+	case(8) :
+		return _8;
+		break;
+	case(9) :
+		return _9;
+		break;
+	case(0) :
+		return _0;
+		break;
+	}
+	return false;
 }
 
 void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)

@@ -22,7 +22,7 @@ void Bat::init()
 	moveTo(initPos.x, initPos.y);
 	movementScale = 0.0f;
 	if (!facingRight)
-		rotate(0, 3.1415927f, 0);
+		rotateTo(0, 3.1415927f, 0);
 	facingRight = true;
 	alive = true;
 	health = 1;
@@ -68,7 +68,7 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		if (movementScale > 1.5f)
 			facingRight = false;
 		if (!facingRight)
-			rotate(0, 3.1415927f, 0);
+			rotateTo(0, 3.1415927f, 0);
 	}
 	else
 	{
@@ -103,7 +103,7 @@ int Bat::update(float deltaTime, MapChunk* chunk)
 		if (movementScale < -1.5f)
 			facingRight = true;
 		if (facingRight)
-			rotate(0, 3.1415927f, 0);
+			rotateTo(0, 3.1415927f, 0);
 	}
 	return 0;
 }

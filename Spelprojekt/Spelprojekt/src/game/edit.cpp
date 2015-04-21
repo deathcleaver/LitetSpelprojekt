@@ -19,6 +19,19 @@ void Edit::update(float x, float y)
 			internalPlaceState = 0;
 		}
 
+		if (newItem)
+		{
+			newItem = false;
+			if (editContentID != -1)
+			{
+				internalPlaceState = 0;
+				current = new GameObject();
+				current->init(editContentID);
+				current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
+				placeState = MOVE;
+			}
+		}
+
 		bool inHud = false;
 		if (y > 560)
 			inHud = true;
@@ -66,29 +79,36 @@ void Edit::update(float x, float y)
 
 void Edit::placeObject(float x, float y)
 {
-	
+	if (in->getKeyNumberState(5)) //reset
+	{
+		delete current;
+		current = new GameObject();
+		current->init(editContentID);
+		current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
+	}
 	if (placeState == NONEP)
 	{
-		if (editContentID != -1)
-		{
-			internalPlaceState = 0;
-			current = new GameObject();
-			current->init(editContentID);
+		if (in->getKeyNumberState(2))
 			placeState = MOVE;
-		}
+		else if (in->getKeyNumberState(3))
+			placeState = SCALE;
+		else if (in->getKeyNumberState(4))
+			placeState = ROT;
 	}
 	else
 	{
+		if (in->getKeyNumberState(1))
+			placeState = NONEP;
+
 		if (in->getLMBrelease())
 			internalPlaceState++;
-		if (in->getRMBdown())
+		if (in->getRMBdown() || in->updateMouse())
 		{
 			x = 0;
 			y = 0;
 			lastMousePosX = 0;
 			lastMousePosY = 0;
 		}
-
 		switch (placeState)
 		{
 		case MOVE:
@@ -108,29 +128,56 @@ void Edit::placeObject(float x, float y)
 			}
 			else if (internalPlaceState == 2)
 			{
-				placeState = SCALE;
+				placeState = NONEP;
 				internalPlaceState = 0;
 			}
 			break;
 		case SCALE:
-		{
-			int k = 1;
 			if (internalPlaceState == 0)
-				current->scaleAD(x, y, 0);
+				if (in->getKeyState('Q'))
+					current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+				else
+					current->scaleAD(x - lastMousePosX, y - lastMousePosY, 0);
 			else if (internalPlaceState == 1)
-				current->scaleAD(0, 0, y);
+				if (in->getKeyState('Q'))
+					current->scaleSNAP(0, 0, y - lastMousePosY);
+				else
+					current->scaleAD(0, 0, y - lastMousePosY);
 			else if (internalPlaceState == 2)
 			{
-				placeState == ROT;
+				placeState = NONEP;
 				internalPlaceState = 0;
 			}
-		}
 			break;
 		case ROT:
+			if (internalPlaceState == 0)
+				if (in->getKeyState('Q'))
+					current->rotateToYSNAP(x * 0.2); //CURRENTLY NOT WORKING
+				else
+					current->rotateToX((y - lastMousePosY) * 0.8);
 
+			else if (internalPlaceState == 1)
+			{
+				current->rotateToY((x - lastMousePosX) * 0.8);
+			}
+
+			else if (internalPlaceState == 2)
+			{
+				current->rotateToZ((y - lastMousePosY) * 0.8);
+			}
+			else if (internalPlaceState == 3)
+			{
+				placeState = NONEP;
+				internalPlaceState = 0;
+			}
 			break;
 		}
 	}
+}
+
+void Edit::giveObjectToChunk()
+{
+
 }
 
 EditMode Edit::getEditMode()

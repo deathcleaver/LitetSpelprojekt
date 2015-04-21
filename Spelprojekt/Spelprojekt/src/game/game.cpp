@@ -72,7 +72,6 @@ Game::~Game()
 		delete content;
 	if (player)
 		delete player;
-
 	if (map)
 		delete map;
 	if (in)
@@ -350,6 +349,30 @@ void Game::readInput(float deltaTime)
 	state = glfwGetKey(windowRef, GLFW_KEY_E);
 	state == GLFW_PRESS ? in->KeyDown('E') : in->KeyUp('E');
 
+	//Editor Keys
+	if (current == EDIT)
+	{
+		state = glfwGetKey(windowRef, GLFW_KEY_1);
+		state == GLFW_PRESS ? in->KeyNumberDown(1) : in->KeyNumberUp(1);
+		state = glfwGetKey(windowRef, GLFW_KEY_2);
+		state == GLFW_PRESS ? in->KeyNumberDown(2) : in->KeyNumberUp(2);
+		state = glfwGetKey(windowRef, GLFW_KEY_3);
+		state == GLFW_PRESS ? in->KeyNumberDown(3) : in->KeyNumberUp(3);
+		state = glfwGetKey(windowRef, GLFW_KEY_4);
+		state == GLFW_PRESS ? in->KeyNumberDown(4) : in->KeyNumberUp(4);
+		state = glfwGetKey(windowRef, GLFW_KEY_5);
+		state == GLFW_PRESS ? in->KeyNumberDown(5) : in->KeyNumberUp(5);
+		state = glfwGetKey(windowRef, GLFW_KEY_6);
+		state == GLFW_PRESS ? in->KeyNumberDown(6) : in->KeyNumberUp(6);
+		state = glfwGetKey(windowRef, GLFW_KEY_7);
+		state == GLFW_PRESS ? in->KeyNumberDown(7) : in->KeyNumberUp(7);
+		state = glfwGetKey(windowRef, GLFW_KEY_8);
+		state == GLFW_PRESS ? in->KeyNumberDown(8) : in->KeyNumberUp(8);
+		state = glfwGetKey(windowRef, GLFW_KEY_9);
+		state == GLFW_PRESS ? in->KeyNumberDown(9) : in->KeyNumberUp(9);
+		state = glfwGetKey(windowRef, GLFW_KEY_0);
+		state == GLFW_PRESS ? in->KeyNumberDown(0) : in->KeyNumberUp(0);
+	}
 	
 	//camera follow keys
 	state = glfwGetKey(windowRef, GLFW_KEY_C);
