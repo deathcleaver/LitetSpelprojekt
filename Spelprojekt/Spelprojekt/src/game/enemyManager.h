@@ -20,7 +20,7 @@ private:
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);
 
-	void expandEnemyArray(Enemy** arr, int &oldMax);
+	void expandEnemyArray(Enemy**& arr, int &oldMax);
 public:
 	EnemyManager();
 	EnemyManager(int enemies);

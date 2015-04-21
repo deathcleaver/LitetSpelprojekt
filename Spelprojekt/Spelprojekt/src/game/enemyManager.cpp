@@ -230,7 +230,7 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 	}
 }
 
-void EnemyManager::expandEnemyArray(Enemy** arr, int &oldMax)
+void EnemyManager::expandEnemyArray(Enemy**& arr, int &oldMax)
 {
 	Enemy** temparr = new Enemy*[oldMax + 5];
 	for (int c = 0; c < oldMax; c++)
