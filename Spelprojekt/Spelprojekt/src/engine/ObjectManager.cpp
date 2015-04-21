@@ -151,12 +151,12 @@ void ObjectManager::setPlayerState(std::string state)
 	}
 	else if (state == "air")
 	{
-		myPlayer->setAnimPoints(0, 1);
+		myPlayer->setAnimPoints(1, 2);
 		myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "flinch")
 	{
-		myPlayer->setAnimPoints(0, 1);
+		myPlayer->setAnimPoints(2, 2);
 		myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "attack")
