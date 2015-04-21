@@ -410,8 +410,8 @@ bool MapChunk::enemyLives(int index, string type)
 		Enemy** enemies = enemyMan->getEnemies(type);
 		if (enemies[index]->isAlive())
 			return true;
-		return false;
 	}
+	return false;
 }
 
 bool MapChunk::enemyBlinking(int index, string type)

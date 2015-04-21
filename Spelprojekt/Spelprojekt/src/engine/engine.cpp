@@ -166,30 +166,47 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 					int size = chunks[upDraw[x]][upDraw[y]].countEnemies("Bat");
 					for (int i = 0; i < size; i++)
 					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Bat");
-						if (id != lastid)
-							facecount = content->bindMonsterObj(id);
-						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-						lastid = id;
+						if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Bat") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Bat"))
+						{
+							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Bat");
+							if (id != lastid)
+								facecount = content->bindMonsterObj(id);
+							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							lastid = id;
+						}
 					}
 					size = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
 					for (int i = 0; i < size; i++)
 					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Flame");
-						if (id != lastid)
-							facecount = content->bindMonsterObj(id);
-						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-						lastid = id;
+						if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Flame") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Flame"))
+						{
+							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Flame");
+							if (id != lastid)
+								facecount = content->bindMonsterObj(id);
+							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							lastid = id;
+						}
 					}
 					size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spikes");
 					for (int i = 0; i < size; i++)
 					{
+						
 						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Spikes");
 						if (id != lastid)
 							facecount = content->bindMonsterObj(id);
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
 					}
+
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Bat") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Bat"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Bat");
+						if (id != lastid)
+							facecount = content->bindMonsterObj(id);
+						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						lastid = id;
+					}
+
 				}
 
 					/*for (int k = -1; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
@@ -276,6 +293,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	}
 
 	gBuffer.pushLights(l, nrOfLights);
+
+	delete[] l;
 
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
