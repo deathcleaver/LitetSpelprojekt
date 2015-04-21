@@ -12,10 +12,15 @@ private:
 	bool slow;
 public:
 	Bat(glm::vec2 firstPos);
-	Bat(Bat* copy);
+	Bat(Bat* copy, bool bossSpawn);
 	void init();
 	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
+	void setFacing(bool faceRight);
+	std::string getType()
+	{
+		return "Bat";
+	}
 };
 
 #endif

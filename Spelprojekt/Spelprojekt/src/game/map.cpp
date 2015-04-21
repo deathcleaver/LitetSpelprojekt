@@ -104,7 +104,7 @@ int Map::update(float deltaTime, glm::vec3 playerPos)
 		int y = x + 1;
 		if (upDraw[x] > -1 && upDraw[x] < width)
 			if (upDraw[y] > -1 && upDraw[y] < height)
-				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime, playerPos);
+				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime, playerPos, this);
 	}
 	
 	int idX, idY;
@@ -352,4 +352,15 @@ std::string Map::getBoss(glm::vec3 playerpos, bool startBoss)
 		return boss;
 	}
 	return "No boss, wtf happened";
+}
+
+void Map::findNewHome(Enemy* orphan)
+{
+	glm::vec3 enemyPos = orphan->readPos();
+	int idX, idY;
+	getChunkIndex(enemyPos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		chunks[idX][idY].addVisitor(orphan, orphan->getType());
+	}
 }

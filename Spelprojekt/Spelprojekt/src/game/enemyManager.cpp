@@ -1,4 +1,5 @@
 #include "enemyManager.h"
+#include "mapChunk.h"
 #include "Enemies/Spikes.h"
 #include "Enemies/Bat.h"
 #include "Enemies/Flame.h"
@@ -32,6 +33,8 @@ EnemyManager::~EnemyManager()
 	{
 		delete boss;
 	}
+	if (visitorHolder)
+		delete[]visitorHolder;
 }
 
 void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
@@ -100,12 +103,36 @@ void EnemyManager::initEmpty()
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
+	if (visitorHolder)
+	{
+		for (int c = 0; c < visitorsToSendOut; c++)
+			delete visitorHolder[c];
+		delete[]visitorHolder;
+	}
+	visitorsToSendOut = 0;
+	int maxVisitors = 5;
+	visitorHolder = new Enemy*[maxVisitors];
+
 	int msg = 0;
+	glm::vec3 chunkMid = glm::vec3(chunk->xOffset * 35, chunk->yOffset * 35, 0);
+	glm::vec3 pos;
 	for (int c = 0; c < batCount; c++)
 	{
 		if (bats[c]->isAlive())
 		{
 			msg = bats[c]->update(deltaTime, chunk, playerPos);
+			pos = bats[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y * 35 - 17.5f || pos.y > chunkMid.y + 17.5f)
+			{
+				Bat* visitBat = new Bat((Bat*)bats[c], false);
+				visitBat->setVisitor();
+				bats[c]->hit(999, true);
+				visitorHolder[visitorsToSendOut] = visitBat;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
+			}
 		}
 	}
 	for (int c = 0; c < flameCount; c++)
@@ -122,7 +149,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			msg = boss->update(deltaTime, chunk, playerPos);
 		}
 	}
-	return 0;
+	return visitorsToSendOut;
 }
 
 int EnemyManager::size(string type)
@@ -213,13 +240,7 @@ void EnemyManager::resetEnemies()
 	}
 	for (int n = flameCount-1; n >= 0; n--)
 	{
-		if (flames[n]->isVisitor())
-		{
-			delete flames[n];
-			flameCount--;
-		}
-		else
-			flames[n]->init();
+		flames[n]->init();
 	}
 	if (boss)
 	{
@@ -267,16 +288,16 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 {
 	if (type == "Bat")
 	{
-		bats[batCount] = new Bat((Bat*)visitor);
+		bats[batCount] = new Bat((Bat*)visitor, false);
 		batCount++;
 		if (batCount == batMax)
 			expandEnemyArray(bats, batMax);
 	}
-	if (type == "Flame")
+	else if (type == "BatSpawn")
 	{
-	//	flames[flameCount] = new Flame(visitor);
-	//	flameCount++;
-	//	if (flameCount == flameMax)
-	//		expandEnemyArray(flames, flameMax);
+		bats[batCount] = new Bat((Bat*)visitor, true);
+		batCount++;
+		if (batCount == batMax)
+			expandEnemyArray(bats, batMax);
 	}
 }

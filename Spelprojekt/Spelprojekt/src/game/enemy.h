@@ -27,8 +27,8 @@ public:
 	virtual int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos) = 0;
 	virtual void hit(int damage, bool playerRightOfEnemy) = 0;
 	virtual bool isBlinking();
+	virtual std::string getType() = 0;
 	bool isAlive();
-	glm::vec3 getPos();
 
 	virtual std::string isBoss();
 	virtual bool isInitiated();

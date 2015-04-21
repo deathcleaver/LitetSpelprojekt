@@ -17,18 +17,22 @@ Bat::Bat(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 }
 
-Bat::Bat(Bat* copy)
+Bat::Bat(Bat* copy, bool bossSpawn)
 {
 	visitor = copy->visitor;
 	worldMat = copy->worldMat;
 	initPos = copy->initPos;
 	glm::vec3 pos = copy->readPos();
 	moveTo(pos.x, pos.y);
+	if (bossSpawn)
+		translate(0.0f, -3.0f);
 	alive = true;
 	facingRight = copy->facingRight;
 	contentIndex = 1;
 	health = 1;
 	speed = 4.0f;
+	if (bossSpawn)
+		speed = 6.0;
 	slow = copy->slow;
 
 	movementScale = copy->movementScale;
@@ -140,4 +144,11 @@ bool Bat::collidesWithWorld(MapChunk* chunk)
 {
 	collideRect->update();
 	return chunk->collide(collideRect);
+}
+
+void Bat::setFacing(bool faceRight)
+{
+	if (facingRight != faceRight)
+		rotateTo(0, 3.1415927f, 0);
+	facingRight = faceRight;
 }

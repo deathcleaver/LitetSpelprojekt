@@ -20,6 +20,9 @@ private:
 
 	void addEnemy(string type, glm::vec2 pos);
 	void expandEnemyArray(Enemy**& arr, int &oldMax);
+
+	int visitorsToSendOut;
+	Enemy** visitorHolder;
 public:
 	EnemyManager();
 	EnemyManager(int enemies);
@@ -36,6 +39,10 @@ public:
 	void startBoss();
 
 	void addOutsider(Enemy* visitor, string type);
+	Enemy** getVisitors()
+	{
+		return visitorHolder;
+	}
 };
 
 #endif

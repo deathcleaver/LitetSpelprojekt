@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "mapChunk.h"
+#include "enemy.h"
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -41,6 +42,8 @@ public:
 	glm::vec3 getChunkMiddle(glm::vec3 playerpos);
 
 	std::string getBoss(glm::vec3 playerpos, bool startBoss);
+
+	void findNewHome(Enemy* orphan);
 };
 
 #endif

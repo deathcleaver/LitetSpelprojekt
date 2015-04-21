@@ -25,6 +25,10 @@ public:
 	std::string isBoss();
 
 	bool isInitiated();
+	std::string getType()
+	{
+		return "Bossbat";
+	}
 };
 
 #endif

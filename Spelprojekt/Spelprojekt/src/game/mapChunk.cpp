@@ -1,4 +1,5 @@
 #include "mapChunk.h"
+#include "map.h"
 
 MapChunk::~MapChunk()
 {
@@ -234,11 +235,18 @@ int MapChunk::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
 	return enemyMan->bindEnemy(index, shader, uniform, type);
 }
 
-int MapChunk::update(float deltaTime, glm::vec3 playerPos)
+int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 {
-	int msg = 0;
+	int visitors = 0;
 	if (enemyMan)
-		msg = enemyMan->update(deltaTime, this, playerPos);
+	{
+		visitors = enemyMan->update(deltaTime, this, playerPos);
+		Enemy** visitArr = enemyMan->getVisitors();
+		for (int c = 0; c < visitors; c++)
+		{
+			map->findNewHome(visitArr[c]);
+		}
+	}
 	return 0;
 }
 
@@ -260,7 +268,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
-					return hit = enemies[c]->getPos();
+					return hit = enemies[c]->readPos();
 			}
 		}
 	}
@@ -274,7 +282,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
-					return hit = enemies[c]->getPos();
+					return hit = enemies[c]->readPos();
 			}
 		}
 	}
@@ -288,7 +296,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
-					return hit = enemies[c]->getPos();
+					return hit = enemies[c]->readPos();
 			}
 		}
 	}
@@ -301,7 +309,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (bossRect)
 			{
 				if (bossRect->intersects(playerRect))
-					return hit = boss->getPos();
+					return hit = boss->readPos();
 			}
 		}
 	}
@@ -321,7 +329,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 			{
 				if (enemyRect->intersects(wpnRect))
 				{
-					if (playerPos.x < enemies[c]->getPos().x)
+					if (playerPos.x < enemies[c]->readPos().x)
 						enemies[c]->hit(damage, false);
 					else
 						enemies[c]->hit(damage, true);
@@ -340,7 +348,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 			{
 				if (enemyRect->intersects(wpnRect))
 				{
-					if (playerPos.x < enemies[c]->getPos().x)
+					if (playerPos.x < enemies[c]->readPos().x)
 						enemies[c]->hit(damage, false);
 					else
 						enemies[c]->hit(damage, true);
@@ -359,7 +367,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 			{
 				if (enemyRect->intersects(wpnRect))
 				{
-					if (playerPos.x < enemies[c]->getPos().x)
+					if (playerPos.x < enemies[c]->readPos().x)
 						enemies[c]->hit(damage, false);
 					else
 						enemies[c]->hit(damage, true);
@@ -375,7 +383,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 		{
 			if (bossRect->intersects(wpnRect))
 			{
-				if (playerPos.x < boss->getPos().x)
+				if (playerPos.x < boss->readPos().x)
 					boss->hit(damage, false);
 				else
 					boss->hit(damage, true);
@@ -478,6 +486,5 @@ string MapChunk::getBossType()
 
 void MapChunk::addVisitor(Enemy* visitor, string type)
 {
-	visitor->setVisitor();
 	enemyMan->addOutsider(visitor, type);
 }

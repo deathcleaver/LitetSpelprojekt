@@ -13,6 +13,8 @@
 
 using namespace std;
 
+class Map;
+
 class MapChunk
 {
 private:
@@ -40,7 +42,7 @@ public:
 	int countEnemies(string type);
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform, std::string type);
 
-	int update(float deltaTime, glm::vec3 playerPos);
+	int update(float deltaTime, glm::vec3 playerPos, Map* map);
 	void respawnEnemies();
 	glm::vec3 playerVsEnemies(Rect* playerRect);
 	bool playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);

@@ -56,8 +56,10 @@ void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
 		if (batTimer < FLT_EPSILON)
 		{
 			glm::vec3 pos = readPos();
-			Enemy* newBat = new Bat(glm::vec2(pos.x, pos.y));
-			chunk->addVisitor(newBat, "Bat");
+			Bat* newBat = new Bat(glm::vec2(pos.x, pos.y));
+			newBat->setFacing(facingRight);
+			chunk->addVisitor(newBat, "BatSpawn");
+			delete newBat;
 			batsToSpawn--;
 			if (batsToSpawn > 0)
 				batTimer = 0.3f;

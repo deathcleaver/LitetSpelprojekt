@@ -1,9 +1,10 @@
 0
-11 Antal fiender #  type posX posY
+13 Antal fiender #  type posX posY
 Flame -14 -6
 Flame 7 -5
 Flame 8 -14
 Flame 0 -9
+Flame -7 -9
 Spikes -6 -1
 Spikes -5 -1
 Bat 4 -7
@@ -11,6 +12,7 @@ Bat -6 5
 Bat -2 6
 Bat 4 -1
 Bat 5 -9
+Bat -17 -5 //Testbat
 25 Antal Map Objects # type posX posY posZ sizeX sizeY sizeZ
 Box 0 14 0 35 7 2 //Top box
 Box 16 -3.5 0 3 28 2 //Right wall
