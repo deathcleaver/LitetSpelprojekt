@@ -126,6 +126,7 @@ void Game::init(GLFWwindow* windowRef)
 
 	//start audio
 	audio = new Audio();
+	audio->init();
 
 	// do not delete in this class
 	this->windowRef = windowRef;
@@ -175,7 +176,8 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
-					  audio->playMusic(0, deltaTime);
+					  audio->playMusic(0);
+					  audio->updateListener(player->readPos());
 			break;
 		}
 		case(PLAY):
@@ -185,9 +187,8 @@ void Game::update(float deltaTime)
 					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
 					  tempId = tempChunk[tempX][tempY].getMusicId();
 					  if (tempId != NULL)//change music track
-						  audio->playMusic(tempId, deltaTime);
-					  else//chunk doesn't have music
-						  audio->shutdown();
+						  audio->playMusic(tempId);
+
 			if (cameraFollow)
 			{
 				glm::vec3 playerPos = player->readPos();
@@ -204,6 +205,7 @@ void Game::update(float deltaTime)
 						player->fightThatBossBro();
 				}
 				player->update(in, map, deltaTime);
+				audio->updateListener(player->readPos());
 			}
 			content->setPlayerState(player->getAnimState());
 			map->setUpDraw(*in->GetPos());
