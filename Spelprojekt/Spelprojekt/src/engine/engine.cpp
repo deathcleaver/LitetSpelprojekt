@@ -147,15 +147,28 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 			int x = n * 2 + 1;
 			int y = x + 1;
 			if (upDraw[x] > -1 && upDraw[x] < width)
-				if (upDraw[y] > -1 && upDraw[y] < height)	
-					for (int k = 0; k < chunks[upDraw[x]][upDraw[y]].countWorldObjs; k++)
+				if (upDraw[y] > -1 && upDraw[y] < height)
+				{
+					//render boxes
+					int size = chunks[upDraw[x]][upDraw[y]].Box_Objs.size();
+					for (int k = 0; k < size; k++)
 					{
-						id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
+						id = chunks[upDraw[x]][upDraw[y]].Box_Objs[k]->bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
 							facecount = content->bindMapObj(id);
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
-					}	
+					}
+					//render shrines
+					if (chunks[upDraw[x]][upDraw[y]].shrine)
+					{
+						id = chunks[upDraw[x]][upDraw[y]].shrine->returnThis()->bindWorldMat(&tempshader, &uniformModel);
+						if (id != lastid)
+							facecount = content->bindMapObj(id);
+						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						lastid = id;
+					}
+				}
 	}
 	lastid = -1;
 

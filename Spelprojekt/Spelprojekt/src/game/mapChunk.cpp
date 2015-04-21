@@ -4,13 +4,18 @@ MapChunk::~MapChunk()
 {
 	delete chunkBackground;
 	delete enemyMan;
-	delete[] worldObjs;
 
 	if (shrine)
 		delete shrine;
 	
 	if (nrOfLights > 0)
 		delete[]lights;
+
+	int size = Box_Objs.size();
+	for (int n = 0; n < size; n++)
+	{
+		delete Box_Objs[n];
+	}
 
 	if (worldCollide)
 	{
@@ -63,7 +68,6 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		iss >> sub;
 
 		countWorldObjs = atoi(sub.c_str());
-		worldObjs = new GameObject[countWorldObjs];
 		for (int c = 0; c < countWorldObjs; c++)
 		{
 			if (!(getline(in, line))) break;
@@ -84,19 +88,24 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			scale.z = atof(sub.c_str());
 			if (type == "Box")
 			{
-				worldObjs[c].init(1); //1 = box
-				worldObjs[c].moveTo(xOffset * 35, yOffset * -35);
-				worldObjs[c].translate(pos.x, pos.y, pos.z);
-				worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
+				GameObject* boxtemp = new GameObject();
+				boxtemp->init(1);
+				boxtemp->moveTo(xOffset * 35, yOffset * -35);
+				boxtemp->translate(pos.x, pos.y, pos.z);
+				boxtemp->scaleFactor(scale.x, scale.y, scale.z);
+				Box_Objs.push_back(boxtemp);
 			}
-
 			if (type == "Shrine")
 			{
-				worldObjs[c].init(2); //2 = playerBase svart
-				worldObjs[c].moveTo(xOffset * 35, yOffset * -35);
-				worldObjs[c].translate(pos.x, pos.y, pos.z);
-				worldObjs[c].scaleFactor(scale.x, scale.y, scale.z);
-				shrine = new Shrine(&worldObjs[c]);
+				if (!shrine)
+				{
+					GameObject* shrineTemp = new GameObject();
+					shrineTemp->init(2); //2 = playerBase svart
+					shrineTemp->moveTo(xOffset * 35, yOffset * -35);
+					shrineTemp->translate(pos.x, pos.y, pos.z);
+					shrineTemp->scaleFactor(scale.x, scale.y, scale.z);
+					shrine = new Shrine(shrineTemp);
+				}
 			}
 		}
 		//Load music id
@@ -173,7 +182,6 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		enemyMan->initEmpty();
 
 		countWorldObjs = 0;
-		worldObjs = new GameObject[countWorldObjs];
 
 		worldCollide = new Rect**[35];
 		for (int c = 0; c < 35; c++)
@@ -401,4 +409,14 @@ string MapChunk::getBossType()
 {
 	Enemy* boss = enemyMan->getBoss();
 	return boss->isBoss();
+}
+
+void MapChunk::recieveWorld(GameObject* item)
+{
+	if (item->returnID() == 1) // box
+	{
+		Box_Objs.push_back(item);
+		lastRecievedWorld = item;
+		lastRecievedItemWorld = 1;
+	}
 }

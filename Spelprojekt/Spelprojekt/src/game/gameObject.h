@@ -30,6 +30,7 @@ public:
 	void rotateToY(float y);
 	void rotateToYSNAP(float y);
 	void rotateToZ(float z);
+	void rotateToZSNAP(float z);
 	void rotateToXY(float x, float y);
 	void rotateToXYSNAP(float x, float y);
 
@@ -64,9 +65,9 @@ private:
 	float rotXfloatsave = 0;
 	float rotYfloatsave = 0;
 	float rotZfloatsave = 0;
-	float rotXfloatsaveLAST = 0;
-	float rotYfloatsaveLAST = 0;
-	float rotZfloatsaveLAST = 0;
+	float rotXfloatsaveTEMP = 0;
+	float rotYfloatsaveTEMP = 0;
+	float rotZfloatsaveTEMP = 0;
 };
 
 #endif

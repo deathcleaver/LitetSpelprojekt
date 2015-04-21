@@ -3,6 +3,7 @@
 void Edit::init(Map* map, UserInput* in)
 {
 	this->map = map;
+	chunks = map->getChunks();
 	this->in = in;
 	this->width = map->readSizeX();
 	this->height = map->readSizeY();
@@ -29,8 +30,11 @@ void Edit::update(float x, float y)
 				current->init(editContentID);
 				current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
 				placeState = MOVE;
+				giveObjectToChunk();
 			}
 		}
+		if (in->getKeyNumberState(0))
+			newItem = true;
 
 		bool inHud = false;
 		if (y > 560)
@@ -115,14 +119,14 @@ void Edit::placeObject(float x, float y)
 			if (internalPlaceState == 0)
 			{
 				if(in->getKeyState('Q'))
-					current->translateSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+					current->translateSNAP(x - lastMousePosX, y - lastMousePosY, 0);	
 				else
 					current->translateEDITOR(x - lastMousePosX, y - lastMousePosY, 0);
 			}
 			else if (internalPlaceState == 1)
 			{
 				if (in->getKeyState('Q'))
-					current->translateSNAP(0, 0, y - lastMousePosY);
+					current->translateSNAP(0, 0, y - lastMousePosY);	
 				else
 					current->translateEDITOR(0, 0, y - lastMousePosY);
 			}
@@ -135,14 +139,16 @@ void Edit::placeObject(float x, float y)
 		case SCALE:
 			if (internalPlaceState == 0)
 				if (in->getKeyState('Q'))
-					current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+					current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);	
 				else
 					current->scaleAD(x - lastMousePosX, y - lastMousePosY, 0);
+
 			else if (internalPlaceState == 1)
 				if (in->getKeyState('Q'))
 					current->scaleSNAP(0, 0, y - lastMousePosY);
 				else
 					current->scaleAD(0, 0, y - lastMousePosY);
+
 			else if (internalPlaceState == 2)
 			{
 				placeState = NONEP;
@@ -151,20 +157,16 @@ void Edit::placeObject(float x, float y)
 			break;
 		case ROT:
 			if (internalPlaceState == 0)
-				if (in->getKeyState('Q'))
-					current->rotateToYSNAP(x * 0.2); //CURRENTLY NOT WORKING
-				else
-					current->rotateToX((y - lastMousePosY) * 0.8);
+				//if (in->getKeyState('Q'))
+				//	current->rotateToXSNAP((y - lastMousePosY) * 0.8); //CURRENTLY NOT WORKING
+				current->rotateToX((y - lastMousePosY) * 0.8);
 
 			else if (internalPlaceState == 1)
-			{
 				current->rotateToY((x - lastMousePosX) * 0.8);
-			}
 
 			else if (internalPlaceState == 2)
-			{
 				current->rotateToZ((y - lastMousePosY) * 0.8);
-			}
+
 			else if (internalPlaceState == 3)
 			{
 				placeState = NONEP;
@@ -177,7 +179,22 @@ void Edit::placeObject(float x, float y)
 
 void Edit::giveObjectToChunk()
 {
-
+	switch (editMode)
+	{
+	case BACK:
+		break;
+	case WORLD:
+		chunks[chunkXCam][chunkYCam].recieveWorld(current);
+		break;
+	case MONSTER:
+		break;
+	case REKT:
+		break;
+	case LIGHT:
+		break;
+	case SPECIAL:
+		break;
+	}
 }
 
 EditMode Edit::getEditMode()
