@@ -4,7 +4,6 @@
 
 Engine::~Engine()
 {
-
 }
 
 void Engine::init(glm::mat4* viewMat)
@@ -173,45 +172,39 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	// bind chunk lights
 
+	int nrOfLights = 0;
 
-	Light* l = new Light[3];
+	Light* chunkLights = 0;
+	int lightSize = 0;
+	for (int n = 0; n < upDraw[0]; n++)
+	{
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+			{
+				chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
+				if (lightSize > 0)
+				{
+					for (int c = 0; c < lightSize; c++)
+					{
+						l[nrOfLights + c].posX = chunkLights[c].posX;
+						l[nrOfLights + c].posY = chunkLights[c].posY;
+						l[nrOfLights + c].posZ = chunkLights[c].posZ;
 
-	l[0].posX = 4;
-	l[0].posY = 6;
-	l[0].posZ = 1;
+						l[nrOfLights + c].r = chunkLights[c].r;
+						l[nrOfLights + c].g = chunkLights[c].g;
+						l[nrOfLights + c].b = chunkLights[c].b;
 
-	l[0].r = 1.0f;
-	l[0].g = 1.0f;
-	l[0].b = 0.0f;
+						l[nrOfLights + c].intensity = chunkLights[c].intensity;
+						l[nrOfLights + c].distance = chunkLights[c].distance;
+					}
+					nrOfLights += lightSize;
+				}
+			}
+	}
 
-	l[0].intensity = 1.0f;
-	l[0].distance = 100.0f;
-
-	l[1].posX = -6;
-	l[1].posY = -2;
-	l[1].posZ = 1;
-
-	l[1].r = 0.0f;
-	l[1].g = 1.0f;
-	l[1].b = 0.0f;
-
-	l[1].intensity = 1.0f;
-	l[1].distance = 100.0f;
-
-	l[2].posX = -3;
-	l[2].posY = 7;
-	l[2].posZ = 1;
-
-	l[2].r = 0.0f;
-	l[2].g = 0.0f;
-	l[2].b = 1.0f;
-
-	l[2].intensity = 1.0f;
-	l[2].distance = 100.0f;
-
-	gBuffer.pushLights(l, 3);
-
-	delete[] l;
+	gBuffer.pushLights(l, nrOfLights);
 
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

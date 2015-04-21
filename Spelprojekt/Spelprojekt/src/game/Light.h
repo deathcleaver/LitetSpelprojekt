@@ -15,5 +15,4 @@ struct Light : public Align_16
 
 };
 
-
 #endif

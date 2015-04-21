@@ -8,6 +8,9 @@ MapChunk::~MapChunk()
 
 	if (shrine)
 		delete shrine;
+	
+	if (nrOfLights > 0)
+		delete[]lights;
 
 	if (worldCollide)
 	{
@@ -95,6 +98,37 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				shrine = new Shrine(&worldObjs[c]);
 			}
 		}
+		//Load lights
+		getline(in, line);
+		iss = istringstream(line);
+		iss >> sub;
+		nrOfLights = atoi(sub.c_str());
+		if (nrOfLights > 0)
+		{
+			lights = new Light[nrOfLights];
+			for (int c = 0; c < nrOfLights; c++)
+			{
+				getline(in, line);
+				iss = istringstream(line);
+				iss >> sub;
+				lights[c].posX = atof(sub.c_str()) + xOffset*35;
+				iss >> sub;
+				lights[c].posY = atof(sub.c_str()) + yOffset*35;
+				iss >> sub;
+				lights[c].posZ = atof(sub.c_str());
+				iss >> sub;
+				lights[c].r = atof(sub.c_str());
+				iss >> sub;
+				lights[c].g = atof(sub.c_str());
+				iss >> sub;
+				lights[c].b = atof(sub.c_str());
+				iss >> sub;
+				lights[c].intensity = atof(sub.c_str());
+				iss >> sub;
+				lights[c].distance = atof(sub.c_str());
+			}
+		}
+
 		worldCollide = new Rect**[35];
 		for (int c = 0; c < 35; c++)
 		{
@@ -343,4 +377,10 @@ int MapChunk::hasBoss()
 		}
 	}
 	return 0;
+}
+
+Light* MapChunk::getLights(int &lightNr)
+{
+	lightNr = nrOfLights;
+	return lights;
 }

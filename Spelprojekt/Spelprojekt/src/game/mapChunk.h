@@ -9,6 +9,7 @@
 
 #include "enemyManager.h"
 #include "Shrine.h"
+#include "Light.h"
 
 using namespace std;
 
@@ -19,6 +20,8 @@ private:
 	Shrine* shrine = 0;
 	//map collision re-use variables
 	int x1, y1, sizeX, sizeY;
+	Light* lights;
+	int nrOfLights;
 public:
 	MapChunk(){};
 	~MapChunk();
@@ -46,6 +49,8 @@ public:
 	bool enemyBlinking(int index);
 
 	int hasBoss();
+
+	Light* getLights(int &lightNr);
 };
 
 #endif
