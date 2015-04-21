@@ -12,11 +12,21 @@ EnemyManager::EnemyManager()
 
 EnemyManager::~EnemyManager()
 {
-	for (int c = 0; c < nrOfEnemies; c++)
+	for (int c = 0; c < batCount; c++)
 	{
-		delete enemies[c];
+		delete bats[c];
 	}
-	delete[]enemies;
+	delete[]bats;
+	for (int c = 0; c < flameCount; c++)
+	{
+		delete flames[c];
+	}
+	delete[]flames;
+	for (int c = 0; c < spikeCount; c++)
+	{
+		delete spikes[c];
+	}
+	delete[]spikes;
 
 	if (boss)
 	{
@@ -26,6 +36,13 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 {
+	batCount = 0; batMax = 5;
+	bats = new Enemy*[batMax];
+	spikeCount = 0; spikeMax = 5;
+	spikes = new Enemy*[spikeMax];
+	flameCount = 0; flameMax = 5;
+	flames = new Enemy*[flameMax];
+
 	boss = 0;
 	string line;
 	string type; //To store type
@@ -54,8 +71,7 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	getline(file, line);
 	iss = istringstream(line);
 	iss >> sub;
-	nrOfEnemies = atoi(sub.c_str());
-	enemies = new Enemy*[nrOfEnemies];
+	int nrOfEnemies = atoi(sub.c_str());
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
 		if (!(getline(file, line))) break;
@@ -74,18 +90,29 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 
 void EnemyManager::initEmpty()
 {
-	nrOfEnemies = -1;
-	enemies = 0;
+	flameCount = -1;
+	flames = 0;
+	spikeCount = -1;
+	spikes = 0;
+	batCount = -1;
+	bats = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk)
 {
 	int msg = 0;
-	for (int c = 0; c < nrOfEnemies; c++)
+	for (int c = 0; c < batCount; c++)
 	{
-		if (enemies[c]->isAlive())
+		if (bats[c]->isAlive())
 		{
-			msg = enemies[c]->update(deltaTime, chunk);
+			msg = bats[c]->update(deltaTime, chunk);
+		}
+	}
+	for (int c = 0; c < flameCount; c++)
+	{
+		if (flames[c]->isAlive())
+		{
+			msg = flames[c]->update(deltaTime, chunk);
 		}
 	}
 	if (boss)
@@ -98,47 +125,89 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk)
 	return 0;
 }
 
-int EnemyManager::size()
+int EnemyManager::size(string type)
 {
-	return nrOfEnemies;
+	if (type == "Spikes")
+	{
+		return spikeCount;
+	}
+	if (type == "Bat")
+	{
+		return batCount;
+	}
+	if (type == "Flame")
+	{
+		return flameCount;
+	}
+	return 0;
 }
 
 void EnemyManager::addEnemy(string type, glm::vec2 pos, int c)
 {
 	if (type == "Spikes")
 	{
-		enemies[c] = new Spikes(pos);
+		spikes[spikeCount] = new Spikes(pos);
+		spikeCount++;
+		if (spikeCount == spikeMax)
+			expandEnemyArray(spikes, spikeMax);
 	}
 	if (type == "Bat")
 	{
-		enemies[c] = new Bat(pos);
+		bats[batCount] = new Bat(pos);
+		batCount++;
+		if (batCount == batMax)
+			expandEnemyArray(bats, batMax);
 	}
 	if (type == "Flame")
 	{
-		enemies[c] = new Flame(pos);
+		flames[flameCount] = new Flame(pos);
+		flameCount++;
+		if (flameCount == flameMax)
+			expandEnemyArray(flames, flameMax);
 	}
 }
 
-int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform)
+int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
 {
 	if (index == -1)
 	{
 		if (boss)
 			return boss->bindWorldMat(shader, uniform);
 	}
-	return enemies[index]->bindWorldMat(shader, uniform);
+	else if (type == "Bat")
+		bats[index]->bindWorldMat(shader, uniform);
+	else if (type == "Flame")
+		flames[index]->bindWorldMat(shader, uniform);
+	else //if (type == "Spikes")
+		spikes[index]->bindWorldMat(shader, uniform);
 }
 
-Enemy** EnemyManager::getEnemies()
+Enemy** EnemyManager::getEnemies(string type)
 {
-	return enemies;
+	if (type == "Spikes")
+	{
+		return spikes;
+	}
+	if (type == "Bat")
+	{
+		return bats;
+	}
+	if (type == "Flame")
+	{
+		return flames;
+	}
+	return 0;
 }
 
 void EnemyManager::resetEnemies()
 {
-	for (int n = 0; n < nrOfEnemies; n++)
+	for (int n = 0; n < batCount; n++)
 	{
-		enemies[n]->init();
+		bats[n]->init();
+	}
+	for (int n = 0; n < flameCount; n++)
+	{
+		flames[n]->init();
 	}
 	if (boss)
 	{
@@ -159,4 +228,16 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 		boss = new Bossbat(pos);
 		boss->scaleFactor(2, 2, 2);
 	}
+}
+
+void EnemyManager::expandEnemyArray(Enemy** arr, int &oldMax)
+{
+	Enemy** temparr = new Enemy*[oldMax + 5];
+	for (int c = 0; c < oldMax; c++)
+	{
+		temparr[c] = arr[c];
+	}
+	delete[]arr;
+	arr = temparr;
+	oldMax += 5;
 }

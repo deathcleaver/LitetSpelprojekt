@@ -217,14 +217,14 @@ bool MapChunk::collide(Rect* test, int overFlowX, int overFlowY)
 	return false;
 }
 
-int MapChunk::countEnemies()
+int MapChunk::countEnemies(string type)
 {
-	return enemyMan->size();
+	return enemyMan->size(type);
 }
 
-int MapChunk::bindEnemy(int index, GLuint* shader, GLuint* uniform)
+int MapChunk::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
 {
-	return enemyMan->bindEnemy(index, shader, uniform);
+	return enemyMan->bindEnemy(index, shader, uniform, type);
 }
 
 int MapChunk::update(float deltaTime)
@@ -242,8 +242,8 @@ void MapChunk::respawnEnemies()
 
 glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 {
-	Enemy** enemies = enemyMan->getEnemies();
-	int nrOfEnemies = enemyMan->size();
+	Enemy** enemies = enemyMan->getEnemies("Flame");
+	int nrOfEnemies = enemyMan->size("Flame");
 	glm::vec3 hit = glm::vec3(0,0,-1);
 	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
 	{
@@ -253,7 +253,35 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
-					hit = enemies[c]->getPos();
+					return hit = enemies[c]->getPos();
+			}
+		}
+	}
+	enemies = enemyMan->getEnemies("Bat");
+	nrOfEnemies = enemyMan->size("Bat");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->getPos();
+			}
+		}
+	}
+	enemies = enemyMan->getEnemies("Spikes");
+	nrOfEnemies = enemyMan->size("Spikes");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->getPos();
 			}
 		}
 	}
@@ -266,7 +294,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			if (bossRect)
 			{
 				if (bossRect->intersects(playerRect))
-					hit = boss->getPos();
+					return hit = boss->getPos();
 			}
 		}
 	}
@@ -275,8 +303,46 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 
 void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 {
-	Enemy** enemies = enemyMan->getEnemies();
-	int nrOfEnemies = enemyMan->size();
+	Enemy** enemies = enemyMan->getEnemies("Bat");
+	int nrOfEnemies = enemyMan->size("Bat");
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->getPos().x)
+						enemies[c]->hit(damage, false);
+					else
+						enemies[c]->hit(damage, true);
+				}
+			}
+		}
+	}
+	enemies = enemyMan->getEnemies("Flame");
+	nrOfEnemies = enemyMan->size("Flame");
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->getPos().x)
+						enemies[c]->hit(damage, false);
+					else
+						enemies[c]->hit(damage, true);
+				}
+			}
+		}
+	}
+	enemies = enemyMan->getEnemies("Spikes");
+	nrOfEnemies = enemyMan->size("Spikes");
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
 		if (enemies[c]->isAlive())
@@ -329,7 +395,7 @@ bool MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
 	return false;
 }
 
-bool MapChunk::enemyLives(int index)
+bool MapChunk::enemyLives(int index, string type)
 {
 	if (index == -1)
 	{
@@ -341,14 +407,14 @@ bool MapChunk::enemyLives(int index)
 	}
 	else
 	{
-		Enemy** enemies = enemyMan->getEnemies();
+		Enemy** enemies = enemyMan->getEnemies(type);
 		if (enemies[index]->isAlive())
 			return true;
 		return false;
 	}
 }
 
-bool MapChunk::enemyBlinking(int index)
+bool MapChunk::enemyBlinking(int index, string type)
 {
 	if (index == -1)
 	{
@@ -359,7 +425,7 @@ bool MapChunk::enemyBlinking(int index)
 	}
 	else
 	{
-		Enemy** enemies = enemyMan->getEnemies();
+		Enemy** enemies = enemyMan->getEnemies(type);
 		return enemies[index]->isBlinking();
 	}
 }
