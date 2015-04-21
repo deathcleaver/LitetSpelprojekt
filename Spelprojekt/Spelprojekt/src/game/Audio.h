@@ -24,15 +24,17 @@ public:
 	~Audio();
 	//ALboolean LoadALData();
 	bool init();
-	bool loadMusic(int fileId);
+	bool loadAudio(int fileId, ALuint source, ALuint buffer);
 	void playMusic(int track);
+	void playMusicFade(int track, float deltaTime);
 	void playSound();
 	void updateListener(glm::vec3 pos);
 	void stopMusic(int track);
+	int	getTrack();
 	void shutdown();
 
 private:
-	bool fadeMusic(bool fadeToZero);
+	bool fadeMusic(float deltaTime);
 	int endWithError(char* msg, int error = 0);
 	
 private:
@@ -41,21 +43,20 @@ private:
 
 	int numOfTracks = 3;
 	char* musicTracks[3];
-	int currTrack, newTrack;
+	char* soundTracks[1];
+	int currTrack, oldTrack;
 	float maxVolume;
-	float currVolume;
-	float fadeVolume;
+	float currVolume, oldVolume;
+	float fadeCurrVol, fadeNextVol;
 
 	//source and buffers
+	//music
 	ALuint musicSource[3];
 	ALuint musicBuffer[3];
 
-
-	//ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
-	//ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
-	//ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
-	//ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
-	//ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 };	
+	//sound
+	ALuint soundSource[1];
+	ALuint soundBuffer[1];
 };
 
 #endif

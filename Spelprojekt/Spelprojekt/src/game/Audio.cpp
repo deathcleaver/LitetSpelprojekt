@@ -6,6 +6,8 @@ using namespace std;
 Audio::Audio()
 {
 	currTrack = -1;
+	maxVolume = 1.0f;
+	currVolume = 1.0f;
 	musicTracks[0] = "../Audio/Music/witcher_dusk.wav";
 	musicTracks[1] = "../Audio/Music/witcher_omnious.wav";
 	musicTracks[2] = "../Audio/Music/witcher_battle.wav";
@@ -25,16 +27,15 @@ bool Audio::init()
 	alcMakeContextCurrent(context);
 	if (!context) return endWithError("no sound context");
 
-	loadMusic(0);
-	loadMusic(1);
-	loadMusic(2);
+	loadAudio(0, musicSource[0], musicBuffer[0]);
+	loadAudio(1, musicSource[1], musicBuffer[1]);
+	loadAudio(2, musicSource[2], musicBuffer[2]);
 
 	return EXIT_SUCCESS;
 }
 
-bool Audio::loadMusic(int fileId)
+bool Audio::loadAudio(int fileId, ALuint source, ALuint buffer)
 {
-	//Loading of the WAVE file
 	FILE *fp = NULL;
 	fp = fopen(musicTracks[fileId], "rb");
 	if (!fp) return endWithError("Failed to open file");
@@ -143,7 +144,7 @@ bool Audio::loadMusic(int fileId)
 	//Clean-up
 	fclose(fp);
 	delete[] buf;
-	
+
 	return EXIT_SUCCESS;
 }
 
@@ -154,6 +155,32 @@ void Audio::playMusic(int track)
 		stopMusic(currTrack);
 		alSourcePlay(musicSource[track]);
 		currTrack = track;
+	}
+}
+
+void Audio::playMusicFade(int track, float deltaTime)
+{
+	if (currTrack != track)
+	{
+		if (currTrack < 0)//check to make sure that the fileId is above -1
+		{
+			stopMusic(currTrack);
+			alSourcePlay(musicSource[track]);
+			currTrack = track;
+		}
+		else
+		{
+			oldTrack = currTrack;
+			alSourcePlay(musicSource[track]);
+			currTrack = track;
+			oldVolume = currVolume;
+			currVolume = 0.0f;
+		}
+	}
+	if (fadeMusic(deltaTime) == true)
+	{
+		stopMusic(oldTrack);
+		alSourcePlay(musicSource[currTrack]);
 	}
 }
 
@@ -168,12 +195,18 @@ void Audio::updateListener(glm::vec3 pos)
 	ALfloat listenerPos[] = { pos.x, pos.y, pos.z };
 	ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
 	alSourcefv(musicSource[currTrack], AL_POSITION, SourcePos);
+	alSourcefv(musicSource[oldTrack], AL_POSITION, SourcePos);
 	alListenerfv(AL_POSITION, listenerPos);
 }
 
 void Audio::stopMusic(int track)
 {
 	alSourceStop(musicSource[track]);
+}
+
+int Audio::getTrack()
+{
+	return currTrack;
 }
 
 void Audio::shutdown()
@@ -185,6 +218,34 @@ void Audio::shutdown()
 	}
 	alcDestroyContext(context);
 	alcCloseDevice(device);
+}
+
+bool Audio::fadeMusic(float deltaTime)
+{
+	// fade old track to 0
+	oldVolume -= 0.8 * deltaTime;
+	if (oldVolume < 0.0f)
+	{
+		oldVolume = 0.0f;
+	}
+	alSourcef(musicSource[oldTrack], AL_GAIN, oldVolume);
+
+	// fade current track to 1.0
+	currVolume += 0.8 * deltaTime;
+	if (maxVolume > 1.0f)
+		currVolume = 1.0f;
+
+	alSourcef(musicSource[currTrack], AL_GAIN, currVolume);
+
+	if (currVolume == maxVolume && oldVolume == 0.0f)
+	{
+		currVolume = maxVolume;
+		oldVolume = 0.0f;
+		stopMusic(oldTrack);
+		return true;
+	}
+
+	return false;
 }
 
 int Audio::endWithError(char* msg, int error)
