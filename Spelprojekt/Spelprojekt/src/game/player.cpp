@@ -103,13 +103,16 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			if (userInput->getKeyState('A') && !userInput->getKeyState('D'))
 			{
-				facingRight = false;
+				if (facingRight)
+				{
+					facingRight = false;
+					rotate(0, 3.1415927f, 0);
+				}
 				if (flinchTimer < FLT_EPSILON)
 				{
 					if (speed.x > 0)// && !jumping)
 					{
 						speed.x = 0;
-						rotate(0, 3.1415927f, 0);
 					}
 					speed.x -= acceleration.x;
 				}
@@ -125,13 +128,16 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			//right
 			if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
 			{
-				facingRight = true;
+				if (!facingRight)
+				{
+					facingRight = true;
+					rotate(0, 3.1415927f, 0);
+				}
 				if (flinchTimer < FLT_EPSILON)
 				{
 					if (speed.x < 0)// && !jumping)
 					{
 						speed.x = 0;
-						rotate(0, 3.1415927f, 0);
 					}
 					speed.x += acceleration.x;
 				}
@@ -349,14 +355,20 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					if (result.x < playerPos.x)
 					{
 						if (facingRight)
+						{
+							facingRight = false;
 							rotate(0, 3.1415927f, 0);
+						}
 						speed.x = 10;
 						speed.y = 10;
 					}
 					else
 					{
 						if (!facingRight)
+						{
+							facingRight = true;
 							rotate(0, 3.1415927f, 0);
+						}
 						speed.x = -10;
 						speed.y = 10;
 					}
