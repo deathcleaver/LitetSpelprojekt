@@ -139,7 +139,7 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 
 	while (!glfwWindowShouldClose(windowRef))
 	{

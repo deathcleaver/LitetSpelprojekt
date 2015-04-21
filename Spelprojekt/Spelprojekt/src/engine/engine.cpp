@@ -131,7 +131,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
 							facecount = content->bindMapObj(id);
-						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						//glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1, 0, 0);
 						lastid = id;
 					}
 		}
@@ -149,7 +150,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						id = chunks[upDraw[x]][upDraw[y]].worldObjs[k].bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
 							facecount = content->bindMapObj(id);
-						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						//glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1, 0, 0);
 						lastid = id;
 					}	
 	}
@@ -171,7 +173,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Bat");
 							if (id != lastid)
 								facecount = content->bindMonsterObj(id);
-							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							//glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1, 0, 0);
 							lastid = id;
 						}
 					}
@@ -183,7 +186,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Flame");
 							if (id != lastid)
 								facecount = content->bindMonsterObj(id);
-							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							//glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1, 0, 0);
 							lastid = id;
 						}
 					}
@@ -194,7 +198,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Spikes");
 						if (id != lastid)
 							facecount = content->bindMonsterObj(id);
-						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						//glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1, 0, 0);
 						lastid = id;
 					}
 
