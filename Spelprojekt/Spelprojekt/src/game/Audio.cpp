@@ -8,9 +8,14 @@ Audio::Audio()
 	currTrack = -1;
 	maxVolume = 1.0f;
 	currVolume = 1.0f;
+	//music
 	musicTracks[0] = "../Audio/Music/witcher_dusk.wav";
 	musicTracks[1] = "../Audio/Music/witcher_omnious.wav";
 	musicTracks[2] = "../Audio/Music/witcher_battle.wav";
+
+	//sound
+	soundTracks[0] = "../Audio/Sounds/greeting.wav";
+	//...
 }
 
 Audio::~Audio()
@@ -25,16 +30,29 @@ bool Audio::init()
 	if (!device) return endWithError("no sound device");
 	context = alcCreateContext(device, NULL);
 	alcMakeContextCurrent(context);
-	if (!context) return endWithError("no sound context");
+	if (!context) return endWithError("no sound context");                                    //Velocity of the musicSource sound
+	
+	//Listener
+	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };                                  //Position of the listener
+	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };                                  //Velocity of the listener
+	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 };                 //Orientation of the listener
+	//First direction vector, then vector pointing up)                                                                                
+	alListenerfv(AL_POSITION, ListenerPos);                                  //Set position of the listener
+	alListenerfv(AL_VELOCITY, ListenerVel);                                  //Set velocity of the listener
+	alListenerfv(AL_ORIENTATION, ListenerOri);
 
-	loadAudio(0, musicSource[0], musicBuffer[0]);
-	loadAudio(1, musicSource[1], musicBuffer[1]);
-	loadAudio(2, musicSource[2], musicBuffer[2]);
+	//load music
+	loadAudio(0);
+	loadAudio(1);
+	loadAudio(2);
+
+	//load sounds
+	//loadAudio(0,soundSource[0], soundBuffer[0]);
 
 	return EXIT_SUCCESS;
 }
 
-bool Audio::loadAudio(int fileId, ALuint source, ALuint buffer)
+bool Audio::loadAudio(int fileId)
 {
 	FILE *fp = NULL;
 	fp = fopen(musicTracks[fileId], "rb");
@@ -123,15 +141,7 @@ bool Audio::loadAudio(int fileId, ALuint source, ALuint buffer)
 
 	//Sound setting variables
 	ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };                                    //Position of the musicSource sound
-	ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };                                    //Velocity of the musicSource sound
-	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };                                  //Position of the listener
-	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };                                  //Velocity of the listener
-	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 };                 //Orientation of the listener
-	//First direction vector, then vector pointing up) 
-	//Listener                                                                               
-	alListenerfv(AL_POSITION, ListenerPos);                                  //Set position of the listener
-	alListenerfv(AL_VELOCITY, ListenerVel);                                  //Set velocity of the listener
-	alListenerfv(AL_ORIENTATION, ListenerOri);                                  //Set orientation of the listener
+	ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };                                 //Set orientation of the listener
 
 	//musicSource
 	alSourcei(musicSource[fileId], AL_BUFFER, musicBuffer[fileId]);                                 //Link the musicBuffer to the musicSource

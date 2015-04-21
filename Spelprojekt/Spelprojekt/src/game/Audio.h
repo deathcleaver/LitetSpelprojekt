@@ -24,7 +24,7 @@ public:
 	~Audio();
 	//ALboolean LoadALData();
 	bool init();
-	bool loadAudio(int fileId, ALuint source, ALuint buffer);
+	bool loadAudio(int fileId);
 	void playMusic(int track);
 	void playMusicFade(int track, float deltaTime);
 	void playSound();
