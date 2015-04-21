@@ -35,6 +35,12 @@ void UserInput::KeyDown(char c)
 	case('N') :
 		N = true;
 		break;
+	case('Q') :
+		Q = true;
+		break;
+	case('E') :
+		E = true;
+		break;
 	}
 }
 
@@ -65,6 +71,12 @@ void UserInput::KeyUp(char c)
 		break;
 	case('N') :
 		N = false;
+		break;
+	case('Q') :
+		Q = false;
+		break;
+	case('E') :
+		E = false;
 		break;
 	}
 }
@@ -181,6 +193,26 @@ bool UserInput::getESC()
 	return escReleased;
 }
 
+bool UserInput::getRMBrelease()
+{
+	return rmbReleased;
+}
+
+bool UserInput::getRMBdown()
+{
+	return rmb;
+}
+
+bool UserInput::getLMBrelease()
+{
+	return lmbReleased;
+}
+
+bool UserInput::getLMBdown()
+{
+	return lmb;
+}
+
 void UserInput::Mouse(float x, float y)
 {
 	angleH += x / 5.0f;
@@ -290,6 +322,12 @@ bool UserInput::getKeyState(char c)
 		break;
 	case('N') :
 		return N;
+		break;
+	case('Q') :
+		return Q;
+		break;
+	case('E') :
+		return E;
 		break;
 	}
 }

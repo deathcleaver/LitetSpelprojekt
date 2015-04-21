@@ -35,12 +35,20 @@ public:
 	void scaleUniformAD(float val);
 	void scaleUniformFactor(float val);
 	void scaleFactor(float x, float y, float z);
+	void scaleAD(float x, float y, float z);
+	void scaleFactorADsnap(float x, float y, float z);
+	void translateSNAP(float x, float y, float z);
+	void translateEDITOR(float x, float y, float z);
 
 	virtual int update(float deltaTime);
 
 	glm::vec3 readPos() const;
 
 	int returnID() const;
+private:
+	float posXfloatsave = -99999.0f;
+	float posYfloatsave = -99999.0f;
+	float posZfloatsave = -99999.0f;
 };
 
 #endif
