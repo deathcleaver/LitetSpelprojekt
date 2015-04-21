@@ -203,21 +203,13 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Bat");
 						if (id != lastid)
 							facecount = content->bindMonsterObj(id);
-						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						//glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						glDrawElementsInstancedBaseVertexBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1, 0, 0);
 						lastid = id;
 					}
 
 				}
 
-					/*for (int k = -1; k < chunks[upDraw[x]][upDraw[y]].countEnemies(); k++)
-						if (chunks[upDraw[x]][upDraw[y]].enemyLives(k) && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(k))
-						{
-							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(k, &tempshader, &uniformModel);
-							if (id != lastid)
-								facecount = content->bindMonsterObj(id);
-							glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-							lastid = id;
-						}*/
 		}
 	lastid = -1;
 	
