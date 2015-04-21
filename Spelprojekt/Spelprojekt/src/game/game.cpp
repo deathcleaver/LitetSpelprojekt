@@ -148,7 +148,7 @@ void Game::mainLoop()
 
 		readInput(deltaTime);
 		if (deltaTime > 0.0166666f)
-			deltaTime = 0.0166666f;
+		deltaTime = 0.0166666f;
 		update(deltaTime);
 
 		glfwSwapBuffers(windowRef);
