@@ -176,6 +176,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	Light* chunkLights = 0;
 	int lightSize = 0;
+
+	Light* l = new Light[100];
+
 	for (int n = 0; n < upDraw[0]; n++)
 	{
 		int x = n * 2 + 1;
@@ -191,6 +194,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						l[nrOfLights + c].posX = chunkLights[c].posX;
 						l[nrOfLights + c].posY = chunkLights[c].posY;
 						l[nrOfLights + c].posZ = chunkLights[c].posZ;
+	
 
 						l[nrOfLights + c].r = chunkLights[c].r;
 						l[nrOfLights + c].g = chunkLights[c].g;

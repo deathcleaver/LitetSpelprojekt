@@ -6,13 +6,9 @@
 struct Light : public Align_16
 {
 	float posX, posY, posZ;
-	float pad1;
-	float r, g, b;
-	float pad2;
 	float distance;
+	float r, g, b;
 	float intensity;
-	float pad3[2];
-
 };
 
 #endif

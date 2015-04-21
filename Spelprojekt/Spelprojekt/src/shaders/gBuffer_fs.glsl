@@ -11,22 +11,18 @@ struct Light
 {
     vec4 pos;
     vec4 color;
-    float distance;
-    float intensity;
-    float pad;
-    float pad2;
 };
 
 uniform vec3 playerPos;
 uniform uint nrLights;
-float lDist = 100;
+
 
 vec3 lightColor = vec3(1, 1, 1);
 vec4 ambient = vec4(0.2, 0.2, 0.2, 1);
 
 layout(std140, binding = 0) uniform lightBlock
 {
-    Light light[10];
+    Light light[100];
 };
 
 void main () 
@@ -43,7 +39,7 @@ void main ()
         Light l = light[i]; 
         float dist = distance(worldPos.xyz, l.pos.xyz);
         
-        float d = l.distance;
+        float d = l.pos.w;
         
         if(dist < d)
         {
@@ -61,14 +57,12 @@ void main ()
     }
     
     Light l;
-    l.pos = vec4(playerPos.xyz, 0.0);
+    l.pos = vec4(playerPos.xyz, 25.0);
     l.color = vec4(1, 1, 1, 1);
-    l.distance = 25.f;
-    l.intensity = 1.0f;
     
     float dist = distance(worldPos.xyz, l.pos.xyz);
     
-    float d = l.distance;
+    float d = l.pos.w;
     
     if(dist < d)
     {
