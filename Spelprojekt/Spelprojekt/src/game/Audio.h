@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <stdlib.h>
 
+#include <..\glm\glm.hpp>
 #include <AL\alut.h>
 
 class Audio
@@ -22,8 +23,12 @@ public:
 	Audio();
 	~Audio();
 	//ALboolean LoadALData();
-	bool playMusic(int fileId, float deltaTime);
+	bool init();
+	bool loadMusic(int fileId);
+	void playMusic(int track);
 	void playSound();
+	void updateListener(glm::vec3 pos);
+	void stopMusic(int track);
 	void shutdown();
 
 private:
@@ -34,6 +39,7 @@ private:
 	ALCdevice *device;                                                          //Create an OpenAL Device
 	ALCcontext *context;
 
+	int numOfTracks = 3;
 	char* musicTracks[3];
 	int currTrack, newTrack;
 	float maxVolume;
@@ -41,8 +47,8 @@ private:
 	float fadeVolume;
 
 	//source and buffers
-	ALuint source;
-	ALuint buffer;
+	ALuint musicSource[3];
+	ALuint musicBuffer[3];
 
 
 	//ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
