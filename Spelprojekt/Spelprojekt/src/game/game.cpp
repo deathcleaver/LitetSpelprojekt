@@ -217,23 +217,27 @@ void Game::update(float deltaTime)
 			map->setUpDraw(*in->GetPos());
 			//Animations
 			content->update();
-			int mapMsg = map->update(deltaTime, player->readPos());
+			vec3 pPos = player->readPos();
+			int mapMsg = map->update(deltaTime, pPos);
 			if (!mapMsg)
 			{
 				inBossRoom = false;
 				if (player->isBossFighting())
-					player->dingDongTheBossIsDead();
+					player->dingDongTheBossIsDead("No boss at all");
 			}
 			else if (mapMsg == 1)
 			{
-				bossRoomMiddle = map->getChunkMiddle(player->readPos());
+				bossRoomMiddle = map->getChunkMiddle(pPos);
 				inBossRoom = true;
 			}
 			else if (mapMsg == 2)
 			{
 				inBossRoom = false;
 				if (player->isBossFighting())
-					player->dingDongTheBossIsDead();
+				{
+					std::string boss = map->getBoss(pPos);
+					player->dingDongTheBossIsDead(boss);
+				}
 			}
 			else if (mapMsg == 5)
 			{

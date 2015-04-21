@@ -24,3 +24,8 @@ bool Enemy::isBlinking()
 {
 	return false;
 }
+
+std::string Enemy::isBoss()
+{
+	return "Notboss";
+}

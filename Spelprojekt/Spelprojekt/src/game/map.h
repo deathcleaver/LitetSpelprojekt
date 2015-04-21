@@ -36,9 +36,11 @@ public:
 	void setUpDraw(glm::vec3 pos);
 	int* getUpDraw() const;
 	void respawnCheck();
-	void playerDiedSoRespawnEnemies(glm::vec3 playerPos);
+	void playerDiedSoRespawnEnemies();
 
 	glm::vec3 getChunkMiddle(glm::vec3 playerpos);
+
+	std::string getBoss(glm::vec3 playerpos);
 };
 
 #endif

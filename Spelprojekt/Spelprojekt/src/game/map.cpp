@@ -329,7 +329,7 @@ void Map::respawnCheck()
 	}
 }
 
-void Map::playerDiedSoRespawnEnemies(glm::vec3 playerPos)
+void Map::playerDiedSoRespawnEnemies()
 {
 	for (int idX = 0; idX < width; idX++)
 	{
@@ -338,4 +338,15 @@ void Map::playerDiedSoRespawnEnemies(glm::vec3 playerPos)
 			chunks[idX][idY].respawnEnemies();
 		}
 	}
+}
+
+std::string Map::getBoss(glm::vec3 playerpos)
+{
+	int idX, idY;
+	getChunkIndex(playerpos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		return chunks[idX][idY].getBossType();
+	}
+	return "No boss, wtf happened";
 }

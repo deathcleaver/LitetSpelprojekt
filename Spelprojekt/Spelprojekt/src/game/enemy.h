@@ -5,6 +5,7 @@
 #include <GLFW\glfw3.h>
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
+#include <string>
 
 #include "gameObject.h"
 #include "rect.h"
@@ -27,6 +28,8 @@ public:
 	virtual bool isBlinking();
 	bool isAlive();
 	glm::vec3 getPos();
+
+	virtual std::string isBoss();
 };
 
 #endif

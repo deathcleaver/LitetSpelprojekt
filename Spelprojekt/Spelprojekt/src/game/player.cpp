@@ -12,7 +12,8 @@ void Player::init()
 	maxSpeed = vec2(10, -30);
 	acceleration = vec2(0.4f, 1.3f); // y = gravity
 	jumping = false;
-	jumpHeight = 6.5f;
+	doubleJump = false;
+	jumpHeight = 6.0f;
 	noAutoJump = true;
 	landBreak = 0.8f;
 	facingRight = true;
@@ -193,6 +194,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			if (userInput->getKeyState('W') && noAutoJump)
 			{
+				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
+				{
+					noAutoJump = false;
+					speed.y = jumpHeight * 2.5;
+					doubleJump = true;
+				}
 				if (!jumping && flinchTimer < FLT_EPSILON)
 				{
 					noAutoJump = false;
@@ -231,6 +238,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				{
 					speed.x *= landBreak;
 					jumping = false;
+					doubleJump = false;
 					speed.y = 0;
 				}
 			}
@@ -429,6 +437,7 @@ void Player::respawn(Map* map)
 	HP = 3;
 	speed = vec2(0);
 	jumping = false;
+	doubleJump = false;
 	if (currentSpawn != 0)
 	{
 		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
@@ -438,7 +447,7 @@ void Player::respawn(Map* map)
 	{
 		moveTo(0, 2);
 	}
-	map->playerDiedSoRespawnEnemies(readPos());
+	map->playerDiedSoRespawnEnemies();
 }
 
 bool Player::isBlinking() const
@@ -469,7 +478,8 @@ void Player::fightThatBossBro()
 	bossFighting = true;
 }
 
-void Player::dingDongTheBossIsDead()
+void Player::dingDongTheBossIsDead(std::string boss)
 {
 	bossFighting = false;
+	progressMeter.checkBossType(boss);
 }

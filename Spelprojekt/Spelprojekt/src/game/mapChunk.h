@@ -53,6 +53,8 @@ public:
 
 	Light* getLights(int &lightNr);
 	int getMusicId();
+
+	string getBossType();
 };
 
 #endif

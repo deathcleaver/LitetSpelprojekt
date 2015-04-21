@@ -11,10 +11,12 @@
 #include "map.h"
 #include "mapChunk.h"
 #include "../UserInput.h"
+#include "Progress.h"
 
 class Player : public GameObject
 {
 private:
+	Progress progressMeter;
 	float timepass = 0.0f;
 	int MAX_HP;
 	int HP;
@@ -28,6 +30,7 @@ private:
 	vec2 maxSpeed;
 	vec2 acceleration;
 	bool jumping;
+	bool doubleJump;
 	bool noAutoJump;
 	float landBreak;
 
@@ -65,7 +68,7 @@ public:
 	void execute(Map* map);
 
 	void fightThatBossBro();
-	void dingDongTheBossIsDead();
+	void dingDongTheBossIsDead(std::string boss);
 	bool isBossFighting();
 };
 

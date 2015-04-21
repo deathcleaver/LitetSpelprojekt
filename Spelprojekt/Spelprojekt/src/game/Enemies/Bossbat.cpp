@@ -148,3 +148,8 @@ bool Bossbat::isBlinking()
 	}
 	return false;
 }
+
+std::string Bossbat::isBoss()
+{
+	return "Bossbat";
+}

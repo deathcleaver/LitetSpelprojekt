@@ -17,6 +17,7 @@ public:
 	int update(float deltaTime, MapChunk* chunk);
 	void hit(int damage, bool playerRightOfEnemy);
 	bool isBlinking();
+	std::string isBoss();
 };
 
 #endif

@@ -396,3 +396,9 @@ int MapChunk::getMusicId()
 {
 	return musicId;
 }
+
+string MapChunk::getBossType()
+{
+	Enemy* boss = enemyMan->getBoss();
+	return boss->isBoss();
+}
