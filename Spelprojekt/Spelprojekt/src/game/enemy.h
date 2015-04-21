@@ -15,6 +15,7 @@ class MapChunk;
 class Enemy : public GameObject
 {
 protected:
+	bool visitor = false;
 	bool alive;
 	glm::vec2 initPos;
 	int health;
@@ -23,13 +24,16 @@ public:
 	Rect* getRekt();
 	virtual void init() = 0;
 	virtual ~Enemy();
-	virtual int update(float deltaTime, MapChunk* chunk) = 0;
+	virtual int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos) = 0;
 	virtual void hit(int damage, bool playerRightOfEnemy) = 0;
 	virtual bool isBlinking();
 	bool isAlive();
 	glm::vec3 getPos();
 
 	virtual std::string isBoss();
+	virtual bool isInitiated();
+	void setVisitor();
+	bool isVisitor();
 };
 
 #endif

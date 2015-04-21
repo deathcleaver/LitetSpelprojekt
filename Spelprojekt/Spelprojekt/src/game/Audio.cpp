@@ -177,20 +177,11 @@ void Audio::playMusicFade(int track, float deltaTime)
 	{
 		if (currTrack != track)
 		{
-			if (currTrack < 0)//check to make sure that the fileId is above -1
-			{
-				stopMusic(currTrack);
-				alSourcePlay(musicSource[track]);
-				currTrack = track;
-			}
-			else
-			{
 				oldTrack = currTrack;
 				alSourcePlay(musicSource[track]);
 				currTrack = track;
 				oldVolume = currVolume;
 				currVolume = 0.0f;
-			}
 		}
 		if (fadeMusic(deltaTime) == true)
 		{

@@ -146,6 +146,8 @@ void Game::mainLoop()
 		glfwPollEvents();
 
 		readInput(deltaTime);
+
+		if (deltaTime > 0.0166666f)
 		deltaTime = 0.0166666f;
 		update(deltaTime);
 
@@ -207,8 +209,10 @@ void Game::update(float deltaTime)
 					if (bossRoomMiddle.x + 10.0f > playerPos.x && bossRoomMiddle.x - 10.0f < playerPos.x &&
 						bossRoomMiddle.y + 10.0f > playerPos.y && bossRoomMiddle.y - 10.0f < playerPos.y && !player->isBossFighting())
 					{
-						if (map->getBoss(playerPos) != "ChuckTesta")
+						if (map->getBoss(playerPos, true) != "ChuckTesta")
+						{
 							player->fightThatBossBro();
+						}
 					}
 				}
 				player->update(in, map, deltaTime);
@@ -236,7 +240,7 @@ void Game::update(float deltaTime)
 				inBossRoom = false;
 				if (player->isBossFighting())
 				{
-					std::string boss = map->getBoss(pPos);
+					std::string boss = map->getBoss(pPos, false);
 					player->dingDongTheBossIsDead(boss);
 				}
 			}

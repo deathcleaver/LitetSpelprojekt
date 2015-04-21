@@ -104,7 +104,7 @@ int Map::update(float deltaTime, glm::vec3 playerPos)
 		int y = x + 1;
 		if (upDraw[x] > -1 && upDraw[x] < width)
 			if (upDraw[y] > -1 && upDraw[y] < height)
-				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime);
+				msg = chunks[upDraw[x]][upDraw[y]].update(deltaTime, playerPos);
 	}
 	
 	int idX, idY;
@@ -340,13 +340,16 @@ void Map::playerDiedSoRespawnEnemies()
 	}
 }
 
-std::string Map::getBoss(glm::vec3 playerpos)
+std::string Map::getBoss(glm::vec3 playerpos, bool startBoss)
 {
 	int idX, idY;
 	getChunkIndex(playerpos, &idX, &idY);
 	if (idX != -1 && idY != -1)
 	{
-		return chunks[idX][idY].getBossType();
+		std::string boss = chunks[idX][idY].getBossType();
+		if (startBoss && boss != "ChuckTesta")
+			chunks[idX][idY].initBoss();
+		return boss;
 	}
 	return "No boss, wtf happened";
 }

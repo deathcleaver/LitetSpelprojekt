@@ -14,7 +14,7 @@ private:
 public:
 	Flame(glm::vec2 firstPos);
 	void init();
-	int update(float deltaTime, MapChunk* chunk);
+	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
 };
 

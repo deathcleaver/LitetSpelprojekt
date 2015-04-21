@@ -8,7 +8,7 @@ Flame::Flame(glm::vec2 firstPos)
 	alive = true;
 	facingRight = true;
 	contentIndex = 2;
-	health = 3;
+	health = 2;
 	speed = 2.0f;
 	invulnTimer = 0.0f;
 	hasBounced = true;
@@ -22,7 +22,7 @@ void Flame::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
-	health = 3;
+	health = 2;
 	invulnTimer = 0.0f;
 	hasBounced = true;
 	speed = 2.0f;
@@ -30,7 +30,7 @@ void Flame::init()
 	collideRect->update();
 }
 
-int Flame::update(float deltaTime, MapChunk* chunk)
+int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
 	if (facingRight)
 	{

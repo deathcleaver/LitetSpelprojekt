@@ -29,3 +29,18 @@ std::string Enemy::isBoss()
 {
 	return "Notboss";
 }
+
+bool Enemy::isInitiated()
+{
+	return true;
+}
+
+void Enemy::setVisitor()
+{
+	visitor = true;
+}
+
+bool Enemy::isVisitor()
+{
+	return visitor;
+}

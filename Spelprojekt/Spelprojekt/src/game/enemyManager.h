@@ -22,7 +22,7 @@ public:
 	EnemyManager();
 	EnemyManager(int enemies);
 	~EnemyManager();
-	int update(float deltaTime, MapChunk* chunk);
+	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
 	int size();
 	void init(ifstream &file, int xOffset, int yOffset);
 	void initEmpty();
@@ -31,6 +31,7 @@ public:
 
 	Enemy** getEnemies();
 	Enemy* getBoss();
+	void startBoss();
 };
 
 #endif
