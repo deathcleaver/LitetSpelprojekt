@@ -22,6 +22,7 @@ private:
 	int x1, y1, sizeX, sizeY;
 	Light* lights;
 	int nrOfLights;
+	int musicId;
 public:
 	MapChunk(){};
 	~MapChunk();
@@ -51,6 +52,7 @@ public:
 	int hasBoss();
 
 	Light* getLights(int &lightNr);
+	int getMusicId();
 };
 
 #endif

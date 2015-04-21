@@ -6,15 +6,16 @@ using namespace std;
 Audio::Audio()
 {
 	currTrack = -1;
-	musicTracks[0] = "../Audio/witcher_dusk.wav";
-	musicTracks[1] = "../Audio/witcher_omnious.wav";
+	musicTracks[0] = "../Audio/Music/witcher_dusk.wav";
+	musicTracks[1] = "../Audio/Music/witcher_omnious.wav";
+	musicTracks[2] = "../Audio/Music/witcher_battle.wav";
 }
 
 Audio::~Audio()
 {
 }
 
-bool Audio::LoadMusic(int fileId)
+bool Audio::playMusic(int fileId, float deltaTime)
 {
 	if (currTrack != fileId)
 	{

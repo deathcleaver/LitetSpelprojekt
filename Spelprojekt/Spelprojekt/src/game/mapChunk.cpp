@@ -61,6 +61,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		istringstream iss(line);
 		string sub;
 		iss >> sub;
+
 		countWorldObjs = atoi(sub.c_str());
 		worldObjs = new GameObject[countWorldObjs];
 		for (int c = 0; c < countWorldObjs; c++)
@@ -98,6 +99,12 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				shrine = new Shrine(&worldObjs[c]);
 			}
 		}
+		//Load music id
+		getline(in, line);
+		iss = istringstream(line);
+		iss >> sub;
+		musicId = atoi(sub.c_str());
+
 		//Load lights
 		getline(in, line);
 		iss = istringstream(line);
@@ -383,4 +390,9 @@ Light* MapChunk::getLights(int &lightNr)
 {
 	lightNr = nrOfLights;
 	return lights;
+}
+
+int MapChunk::getMusicId()
+{
+	return musicId;
 }

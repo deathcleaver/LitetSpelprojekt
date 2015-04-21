@@ -22,19 +22,23 @@ public:
 	Audio();
 	~Audio();
 	//ALboolean LoadALData();
-	bool LoadMusic(int fileId);
-	void  playSound();
+	bool playMusic(int fileId, float deltaTime);
+	void playSound();
 	void shutdown();
 
 private:
+	bool fadeMusic(bool fadeToZero);
 	int endWithError(char* msg, int error = 0);
 	
 private:
 	ALCdevice *device;                                                          //Create an OpenAL Device
 	ALCcontext *context;
 
-	char* musicTracks[2];
-	int currTrack;
+	char* musicTracks[3];
+	int currTrack, newTrack;
+	float maxVolume;
+	float currVolume;
+	float fadeVolume;
 
 	//source and buffers
 	ALuint source;

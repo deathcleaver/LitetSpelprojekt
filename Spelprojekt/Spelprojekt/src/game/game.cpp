@@ -175,12 +175,17 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
-			audio->LoadMusic(0);
+					  audio->playMusic(0, deltaTime);
 			break;
 		}
 		case(PLAY):
 		{
-			audio->LoadMusic(1);
+					  int tempX, tempY, tempId;
+					  MapChunk** tempChunk = map->getChunks();
+					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
+					  tempId = tempChunk[tempX][tempY].getMusicId();
+					  if (tempId != NULL)
+						audio->playMusic(tempId, deltaTime);
 			if (cameraFollow)
 			{
 				glm::vec3 playerPos = player->readPos();
