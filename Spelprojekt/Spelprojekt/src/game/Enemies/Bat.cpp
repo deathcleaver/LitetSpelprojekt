@@ -31,7 +31,7 @@ void Bat::init()
 	collideRect->update();
 }
 
-int Bat::update(float deltaTime, MapChunk* chunk)
+int Bat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
 	glm::vec3 pos = readPos();
 

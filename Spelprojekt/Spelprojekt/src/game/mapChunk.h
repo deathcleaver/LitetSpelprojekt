@@ -40,7 +40,7 @@ public:
 	int countEnemies();
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform);
 
-	int update(float deltaTime);
+	int update(float deltaTime, glm::vec3 playerPos);
 	void respawnEnemies();
 	glm::vec3 playerVsEnemies(Rect* playerRect);
 	bool playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
@@ -54,7 +54,10 @@ public:
 	Light* getLights(int &lightNr);
 	int getMusicId();
 
+	void initBoss();
 	string getBossType();
+
+	void addVisitor(Enemy* visitor, string type);
 };
 
 #endif

@@ -234,11 +234,11 @@ int MapChunk::bindEnemy(int index, GLuint* shader, GLuint* uniform)
 	return enemyMan->bindEnemy(index, shader, uniform);
 }
 
-int MapChunk::update(float deltaTime)
+int MapChunk::update(float deltaTime, glm::vec3 playerPos)
 {
 	int msg = 0;
 	if (enemyMan)
-		msg = enemyMan->update(deltaTime, this);
+		msg = enemyMan->update(deltaTime, this, playerPos);
 	return 0;
 }
 
@@ -377,7 +377,7 @@ int MapChunk::hasBoss()
 	{
 		if (boss)
 		{
-			if (boss->isAlive())
+			if (!boss->isInitiated() || boss->isAlive())
 				return 1;
 			else
 				return 2;
@@ -397,8 +397,17 @@ int MapChunk::getMusicId()
 	return musicId;
 }
 
+void MapChunk::initBoss()
+{
+	enemyMan->startBoss();
+}
+
 string MapChunk::getBossType()
 {
 	Enemy* boss = enemyMan->getBoss();
 	return boss->isBoss();
+}
+
+void MapChunk::addVisitor(Enemy* visitor, string type)
+{
 }

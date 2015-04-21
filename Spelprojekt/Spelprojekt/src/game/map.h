@@ -40,7 +40,7 @@ public:
 
 	glm::vec3 getChunkMiddle(glm::vec3 playerpos);
 
-	std::string getBoss(glm::vec3 playerpos);
+	std::string getBoss(glm::vec3 playerpos, bool startBoss);
 };
 
 #endif

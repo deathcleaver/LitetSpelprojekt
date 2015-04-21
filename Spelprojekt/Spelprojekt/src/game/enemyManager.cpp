@@ -78,21 +78,21 @@ void EnemyManager::initEmpty()
 	enemies = 0;
 }
 
-int EnemyManager::update(float deltaTime, MapChunk* chunk)
+int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
 	int msg = 0;
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
 		if (enemies[c]->isAlive())
 		{
-			msg = enemies[c]->update(deltaTime, chunk);
+			msg = enemies[c]->update(deltaTime, chunk, playerPos);
 		}
 	}
 	if (boss)
 	{
 		if (boss->isAlive())
 		{
-			msg = boss->update(deltaTime, chunk);
+			msg = boss->update(deltaTime, chunk, playerPos);
 		}
 	}
 	return 0;
@@ -164,4 +164,9 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 		boss = new Bossbat(pos);
 		boss->scaleFactor(2, 2, 2);
 	}
+}
+
+void EnemyManager::startBoss()
+{
+	boss->init();
 }

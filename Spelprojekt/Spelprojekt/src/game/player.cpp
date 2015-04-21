@@ -10,7 +10,7 @@ void Player::init()
 	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
 	speed = vec2(0);
 	maxSpeed = vec2(10, -30);
-	acceleration = vec2(0.4f, 1.3f); // y = gravity
+	acceleration = vec2(0.4f, 1.35f); // y = gravity
 	jumping = false;
 	doubleJump = false;
 	jumpHeight = 6.0f;
@@ -387,6 +387,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				else
 				{
 					printf("I'm fucking dead!\n");
+					map->getBoss(playerPos, true);
 					respawn(map);
 				}
 			}

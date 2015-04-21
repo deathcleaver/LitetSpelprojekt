@@ -6,7 +6,8 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	scaleFactor(2, 2, 2);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
-	alive = true;
+	alive = false;
+	isInit = false;
 	facingRight = true;
 	contentIndex = 1;
 	health = 4;
@@ -21,22 +22,52 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 
 void Bossbat::init()
 {
-	moveTo(initPos.x, initPos.y);
-	invulnTimer = 0.0f;
-	movementScale = 0.0f;
-	if (!facingRight)
-		rotateTo(0, 3.1415927f, 0);
-	facingRight = true;
-	alive = true;
-	health = 4;
-	slow = false;
-	collideRect->update();
+	if (!isInit)
+	{
+		isInit = true;
+		moveTo(initPos.x, initPos.y);
+		invulnTimer = 0.0f;
+		movementScale = 0.0f;
+		if (!facingRight)
+			rotateTo(0, 3.1415927f, 0);
+		facingRight = true;
+		alive = true;
+		health = 4;
+		slow = false;
+		collideRect->update();
+	}
+	else
+	{
+		isInit = false;
+		alive = false;
+	}
 }
 
-int Bossbat::update(float deltaTime, MapChunk* chunk)
+int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
 	glm::vec3 pos = readPos();
-	
+	if (invulnTimer > FLT_EPSILON)
+	{
+		invulnTimer -= 1.0*deltaTime;
+		moveTo(pos.x, pos.y + speed*deltaTime);
+		if (collidesWithWorld(chunk))
+		{
+			moveTo(pos.x, pos.y - speed*deltaTime);
+		}
+	}
+	else
+	{
+		float distanceDown = pos.y - initPos.y;
+		if (distanceDown > FLT_EPSILON)
+		{
+			moveTo(pos.x, pos.y - speed*deltaTime*(distanceDown / 10.0f));
+			if (collidesWithWorld(chunk))
+			{
+				moveTo(pos.x, pos.y + speed*deltaTime*(distanceDown / 10.0f));
+			}
+		}
+	}
+	pos = readPos();
 	if (facingRight)
 	{
 		if (movementScale < -1.0f)
@@ -107,12 +138,12 @@ int Bossbat::update(float deltaTime, MapChunk* chunk)
 		if (facingRight)
 			rotateTo(0, 3.1415927f, 0);
 	}
-
-	if (invulnTimer > FLT_EPSILON)
-	{
-		invulnTimer -= 1.0*deltaTime;
-	}
 	return 0;
+}
+
+bool Bossbat::isInitiated()
+{
+	return isInit;
 }
 
 void Bossbat::hit(int damage, bool playerRightOfEnemy)
