@@ -53,15 +53,18 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.init(1080, 720, 4, true);
 }
 
-void Engine::render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, glm::vec3* campos, int state)
+void Engine::render(const Player* player, const Map* map, const ContentManager* content, 
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit)
 {
 	bool renderPlayer = false;
 	bool renderBack = false;
 	bool renderWorld = false;
 	bool renderMonster = false;
+	bool renderEditObject = false;
 	bool renderGUI = true;
 
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
+	
 	switch (state)
 	{
 	case(0) : //MENU
@@ -81,6 +84,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		renderWorld = true;
 		renderMonster = true;
 		gBuffer.playerPos = (GLfloat*)campos;
+		renderEditObject = true;
 		break;
 	}
 
@@ -169,6 +173,39 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						}
 		}
 	lastid = -1;
+	
+	//Render Edit Object
+	if (renderEditObject)
+	{
+		GameObject* holder = edit->getObject();
+		if (holder)
+		{
+			id = holder->bindWorldMat(&tempshader, &uniformModel);
+			int editmode = edit->getEditMode();
+			switch (editmode)
+			{
+			case BACK:
+				break;
+			case WORLD:
+				facecount = content->bindMapObj(id);
+				break;
+			case MONSTER:
+				break;
+			case REKT:
+				break;
+			case LIGHT:
+				break;
+			case SPECIAL:
+				break;
+			case NONEM:
+				break;
+			default:
+				break;
+			}
+			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+		}
+	}
+
 
 	// bind chunk lights
 

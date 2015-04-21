@@ -171,7 +171,6 @@ void Game::mainLoop()
 void Game::update(float deltaTime)
 {
 	buttonEvents(gui->update((int)current));
-	gui->update((int)current);
 	switch(current) 
 	{
 		case(MENU):
@@ -241,6 +240,7 @@ void Game::update(float deltaTime)
 		case(EDIT):
 		{
 			map->setUpDraw(*in->GetPos());
+			edit->update(lastX, lastY);
 			if (in->getESC())
 			{
 				//save map
@@ -272,7 +272,7 @@ void Game::update(float deltaTime)
 	lastY = ypos;
 
 	//Render const
-	engine->render(player, map, content, gui, in->GetPos(), (int)current);
+	engine->render(player, map, content, gui, in->GetPos(),(int)current, edit);
 }
 
 void Game::buttonEvents(int buttonEv)

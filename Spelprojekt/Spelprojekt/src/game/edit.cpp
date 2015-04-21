@@ -6,16 +6,16 @@ void Edit::init(Map* map, UserInput* in)
 	this->in = in;
 	this->width = map->readSizeX();
 	this->height = map->readSizeY();
-	editMode = EditMode::WORLD;
+	editMode = EditMode::NONEM;
 }
 
 void Edit::update(float x, float y)
 {
 	if (editMode != NONEM)
 	{
-		if (editState != editStateLast)
+		if (editMode != editModeLast)
 		{
-			placeState = PlaceState::MOVE;
+			placeState = PlaceState::NONEP;
 			internalPlaceState = 0;
 		}
 		//convert mouse x, y to world
@@ -25,6 +25,9 @@ void Edit::update(float x, float y)
 		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
 		map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
 		
+		if (chunkXCam == -1 || chunkXMouse == -1)
+			return;
+
 		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse)
 		{
 			switch (editState)
@@ -45,11 +48,19 @@ void Edit::update(float x, float y)
 		editModeLast = editMode;
 		placeStateLast = placeState;
 	}
+	else
+	{
+		//temporary force
+		editMode = WORLD;
+		editState = PLACE;
+		editContentID = 1;
+	}
 }
 
 void Edit::placeObject(float x, float y)
 {
-	if(y > -1)
+	if (y > 500)
+		return;
 	if (placeState == NONEP)
 	{
 		if (editContentID != -1)
@@ -62,20 +73,49 @@ void Edit::placeObject(float x, float y)
 	}
 	else
 	{
+		float tempx, tempy;
+		bool left, right;
+		in->getMouseState(&tempx, &tempy, &right, &left);
+		if (left)
+			internalPlaceState++;
+
 		switch (placeState)
 		{
 		case MOVE:
-			if(internalPlaceState == 0)
-
+			if (internalPlaceState == 0)
+				current->moveToXY(x, y);
+			else if (internalPlaceState == 1)
+				current->moveToZ(y);
+			else if (internalPlaceState == 2)
+			{
+				placeState == SCALE;
+				internalPlaceState = 0;
+			}
 			break;
 		case SCALE:
-
+		{
+			int k = 1;
+			//if (internalPlaceState == 0)
+			//	current->scaleUniformFactor(y);
+			//else if (internalPlaceState == 1)
+			//	current->scaleUniformFactor(y);
+			//else if (internalPlaceState == 2)
+			//{
+			//	placeState == ROT;
+			//	internalPlaceState = 0;
+			//}
+		}
 			break;
 		case ROT:
 
 			break;
 		}
 	}
+}
+
+EditMode Edit::getEditMode()
+{
+	return editMode;
 }
 
 void Edit::mouseToWorld(float* x, float* y)
@@ -142,6 +182,25 @@ void Edit::guiHandle(int bEvent)
 		editState = EditState::NONES;
 		break;
 
+		//PLACE STATE SET
+
+	case(120) :
+		placeState = PlaceState::MOVE;
+		internalPlaceState = 0;
+		break;
+	case(121) :
+		placeState = PlaceState::SCALE;
+		internalPlaceState = 0;
+		break;
+	case(122) :
+		placeState = PlaceState::ROT;
+		internalPlaceState = 0;
+		break;
+	case(123) :
+		placeState = PlaceState::NONEP;
+		internalPlaceState = 0;
+		break;
+
 		// OBJECT ID
 		if (bEvent > 199)
 		{
@@ -150,4 +209,9 @@ void Edit::guiHandle(int bEvent)
 			placeState = PlaceState::MOVE;
 		}
 	}
+}
+
+GameObject* Edit::getObject()
+{
+	return current;
 }

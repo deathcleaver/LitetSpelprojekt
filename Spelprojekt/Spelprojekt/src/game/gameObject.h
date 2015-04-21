@@ -29,6 +29,8 @@ public:
 	void translate(float x, float y);
 	void moveTo(float x, float y);
 	void moveTo(float x, float y, float z);
+	void moveToXY(float x, float y);
+	void moveToZ(float z);
 	void moveTo(glm::vec3 target);
 	void scaleUniformAD(float val);
 	void scaleUniformFactor(float val);

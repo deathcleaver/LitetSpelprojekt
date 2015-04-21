@@ -43,7 +43,7 @@ private:
 	int chunkXMouse = 0;
 	int chunkYMouse = 0;
 	UserInput* in;
-	GameObject* current;
+	GameObject* current = 0;
 	int width;
 	int height;
 	float SCREENWIDTH = 1080;
@@ -69,6 +69,8 @@ public:
 	void init(Map* map, UserInput* in);
 	void update(float x, float y);
 	void guiHandle(int bEvent);
+	EditMode getEditMode();
+	GameObject* getObject();
 };
 
 #endif

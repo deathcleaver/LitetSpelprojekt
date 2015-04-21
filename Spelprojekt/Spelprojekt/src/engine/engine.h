@@ -14,6 +14,7 @@
 #include "../game/enemyManager.h"
 #include "ObjectManager.h"
 #include "../game/map.h"
+#include "../game/edit.h"
 
 #include "../Align16.h"
 
@@ -43,7 +44,8 @@ public:
 	Engine(){};
 	~Engine();
 	void init(glm::mat4* viewMatrix);
-	void render(const Player* player, const Map* map, const ContentManager* content, const GUI* gui, vec3* campos, int state);
+	void render(const Player* player, const Map* map, const ContentManager* content,
+		const GUI* gui, vec3* campos, int state, Edit* edit);
 };
 
 #endif
