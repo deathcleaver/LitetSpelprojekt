@@ -40,17 +40,20 @@ void ObjectManager::init()
 
 	loadMapObjs();
 
-	
+
 }
 
 void ObjectManager::loadPlayer()
 {
-	Object** playerAn = new Object*[2];
-	playerAn[0] = new Object("src/meshes/PlayerBase.v", "src/textures/red.bmp");
-	playerAn[1] = new Object("src/meshes/PlayerWalk.v", "", playerAn[0], false, true);
+	Object** playerAn = new Object*[5];
+	playerAn[0] = new Object("src/meshes/PlayerBaseSword2.v", "src/textures/red.bmp");
+	playerAn[1] = new Object("src/meshes/PlayerWalkLeft.v", "", playerAn[0], false, true);
+	playerAn[2] = new Object("src/meshes/PlayerWalkRight.v", "", playerAn[0], false, true);
+	playerAn[3] = new Object("src/meshes/PlayerAttackUp.v", "", playerAn[0], false, true);
+	playerAn[4] = new Object("src/meshes/PlayerAttackDown.v", "", playerAn[0], false, true);
 
-	myPlayer = new AnimationObject(playerAn, "src/meshes/PlayerBase.v",  2, 0.5f, 0.05f);
-	myPlayer->setAnimPoints(0, 1);
+	myPlayer = new AnimationObject(playerAn, "src/meshes/PlayerBaseSword2.v", 5, 0.5f, 0.05f);
+
 }
 
 void ObjectManager::loadMapObjs()
@@ -137,13 +140,28 @@ int ObjectManager::bindMonsterObj(int id) const
 void ObjectManager::setPlayerState(std::string state)
 {
 	if (state == "idle")
+	{
 		myPlayer->setAnimPoints(0, 0);
+		myPlayer->setSpeed(0.02f);
+	}
 	else if (state == "walk")
+	{
+		myPlayer->setAnimPoints(1, 2);
+		myPlayer->setSpeed(0.02f);
+	}
+	else if (state == "air")
+	{
 		myPlayer->setAnimPoints(0, 1);
-	else if (state == "air")  
-		myPlayer->setAnimPoints(0, 1);
+		myPlayer->setSpeed(0.02f);
+	}
 	else if (state == "flinch")
+	{
 		myPlayer->setAnimPoints(0, 1);
+		myPlayer->setSpeed(0.02f);
+	}
 	else if (state == "attack")
-		myPlayer->setAnimPoints(0, 0);
+	{
+		myPlayer->setAnimPoints(3, 4);
+		myPlayer->setSpeed(0.08f);
+	}
 }
