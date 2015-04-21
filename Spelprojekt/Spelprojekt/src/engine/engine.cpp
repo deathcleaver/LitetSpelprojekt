@@ -4,6 +4,7 @@
 
 Engine::~Engine()
 {
+	delete[]light;
 }
 
 void Engine::init(glm::mat4* viewMat)
@@ -51,6 +52,9 @@ void Engine::init(glm::mat4* viewMat)
 
 	
 	gBuffer.init(1080, 720, 4, true);
+	
+	light = new Light[100];
+
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content, 
@@ -214,8 +218,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	Light* chunkLights = 0;
 	int lightSize = 0;
 
-	Light* l = new Light[100];
-
 	for (int n = 0; n < upDraw[0]; n++)
 	{
 		int x = n * 2 + 1;
@@ -228,24 +230,24 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				{
 					for (int c = 0; c < lightSize; c++)
 					{
-						l[nrOfLights + c].posX = chunkLights[c].posX;
-						l[nrOfLights + c].posY = chunkLights[c].posY;
-						l[nrOfLights + c].posZ = chunkLights[c].posZ;
+						light[nrOfLights + c].posX = chunkLights[c].posX;
+						light[nrOfLights + c].posY = chunkLights[c].posY;
+						light[nrOfLights + c].posZ = chunkLights[c].posZ;
 	
 
-						l[nrOfLights + c].r = chunkLights[c].r;
-						l[nrOfLights + c].g = chunkLights[c].g;
-						l[nrOfLights + c].b = chunkLights[c].b;
+						light[nrOfLights + c].r = chunkLights[c].r;
+						light[nrOfLights + c].g = chunkLights[c].g;
+						light[nrOfLights + c].b = chunkLights[c].b;
 
-						l[nrOfLights + c].intensity = chunkLights[c].intensity;
-						l[nrOfLights + c].distance = chunkLights[c].distance;
+						light[nrOfLights + c].intensity = chunkLights[c].intensity;
+						light[nrOfLights + c].distance = chunkLights[c].distance;
 					}
 					nrOfLights += lightSize;
 				}
 			}
 	}
 
-	gBuffer.pushLights(l, nrOfLights);
+	gBuffer.pushLights(light, nrOfLights);
 
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

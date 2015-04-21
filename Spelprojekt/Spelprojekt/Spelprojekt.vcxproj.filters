@@ -195,7 +195,7 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\engine.h">
-      <Filter>Header Files\Game\Enemy</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

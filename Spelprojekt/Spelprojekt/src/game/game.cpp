@@ -72,7 +72,6 @@ Game::~Game()
 		delete content;
 	if (player)
 		delete player;
-
 	if (map)
 		delete map;
 	if (in)
@@ -147,6 +146,7 @@ void Game::mainLoop()
 		glfwPollEvents();
 
 		readInput(deltaTime);
+
 		if (deltaTime > 0.0166666f)
 		deltaTime = 0.0166666f;
 		update(deltaTime);
@@ -206,9 +206,12 @@ void Game::update(float deltaTime)
 				{
 					glm::vec3 currentPos((bossRoomMiddle.x + playerPos.x)/2.0f, (bossRoomMiddle.y +playerPos.y)/2.0f, 0);
 					in->cameraPan(currentPos, 5, deltaTime, true);
-					if (bossRoomMiddle.x + 2.5f > playerPos.x && bossRoomMiddle.x - 2.5f < playerPos.x &&
-						bossRoomMiddle.y + 2.5f > playerPos.y && bossRoomMiddle.y - 2.5f < playerPos.y && !player->isBossFighting())
-						player->fightThatBossBro();
+					if (bossRoomMiddle.x + 10.0f > playerPos.x && bossRoomMiddle.x - 10.0f < playerPos.x &&
+						bossRoomMiddle.y + 10.0f > playerPos.y && bossRoomMiddle.y - 10.0f < playerPos.y && !player->isBossFighting())
+					{
+						if (map->getBoss(playerPos) != "ChuckTesta")
+							player->fightThatBossBro();
+					}
 				}
 				player->update(in, map, deltaTime);
 				audio->updateListener(player->readPos());
@@ -350,6 +353,30 @@ void Game::readInput(float deltaTime)
 	state = glfwGetKey(windowRef, GLFW_KEY_E);
 	state == GLFW_PRESS ? in->KeyDown('E') : in->KeyUp('E');
 
+	//Editor Keys
+	if (current == EDIT)
+	{
+		state = glfwGetKey(windowRef, GLFW_KEY_1);
+		state == GLFW_PRESS ? in->KeyNumberDown(1) : in->KeyNumberUp(1);
+		state = glfwGetKey(windowRef, GLFW_KEY_2);
+		state == GLFW_PRESS ? in->KeyNumberDown(2) : in->KeyNumberUp(2);
+		state = glfwGetKey(windowRef, GLFW_KEY_3);
+		state == GLFW_PRESS ? in->KeyNumberDown(3) : in->KeyNumberUp(3);
+		state = glfwGetKey(windowRef, GLFW_KEY_4);
+		state == GLFW_PRESS ? in->KeyNumberDown(4) : in->KeyNumberUp(4);
+		state = glfwGetKey(windowRef, GLFW_KEY_5);
+		state == GLFW_PRESS ? in->KeyNumberDown(5) : in->KeyNumberUp(5);
+		state = glfwGetKey(windowRef, GLFW_KEY_6);
+		state == GLFW_PRESS ? in->KeyNumberDown(6) : in->KeyNumberUp(6);
+		state = glfwGetKey(windowRef, GLFW_KEY_7);
+		state == GLFW_PRESS ? in->KeyNumberDown(7) : in->KeyNumberUp(7);
+		state = glfwGetKey(windowRef, GLFW_KEY_8);
+		state == GLFW_PRESS ? in->KeyNumberDown(8) : in->KeyNumberUp(8);
+		state = glfwGetKey(windowRef, GLFW_KEY_9);
+		state == GLFW_PRESS ? in->KeyNumberDown(9) : in->KeyNumberUp(9);
+		state = glfwGetKey(windowRef, GLFW_KEY_0);
+		state == GLFW_PRESS ? in->KeyNumberDown(0) : in->KeyNumberUp(0);
+	}
 	
 	//camera follow keys
 	state = glfwGetKey(windowRef, GLFW_KEY_C);

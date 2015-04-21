@@ -24,7 +24,15 @@ public:
 	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 	
-	void rotate(float x, float y, float z);
+	void rotateTo(float x, float y, float z);
+	void rotateToX(float x);
+	void rotateToXSNAP(float x);
+	void rotateToY(float y);
+	void rotateToYSNAP(float y);
+	void rotateToZ(float z);
+	void rotateToXY(float x, float y);
+	void rotateToXYSNAP(float x, float y);
+
 	void translate(float x, float y, float z);
 	void translate(float x, float y);
 	void moveTo(float x, float y);
@@ -36,6 +44,7 @@ public:
 	void scaleUniformFactor(float val);
 	void scaleFactor(float x, float y, float z);
 	void scaleAD(float x, float y, float z);
+	void scaleSNAP(float x, float y, float z);
 	void scaleFactorADsnap(float x, float y, float z);
 	void translateSNAP(float x, float y, float z);
 	void translateEDITOR(float x, float y, float z);
@@ -49,6 +58,15 @@ private:
 	float posXfloatsave = -99999.0f;
 	float posYfloatsave = -99999.0f;
 	float posZfloatsave = -99999.0f;
+	float scaleXfloatsave = -99999.0f;
+	float scaleYfloatsave = -99999.0f;
+	float scaleZfloatsave = -99999.0f;
+	float rotXfloatsave = 0;
+	float rotYfloatsave = 0;
+	float rotZfloatsave = 0;
+	float rotXfloatsaveLAST = 0;
+	float rotYfloatsaveLAST = 0;
+	float rotZfloatsaveLAST = 0;
 };
 
 #endif

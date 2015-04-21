@@ -38,7 +38,7 @@ private:
 
 	Gbuffer gBuffer;
 
-	Light l[40];
+	Light* light;
 
 public:
 	Engine(){};

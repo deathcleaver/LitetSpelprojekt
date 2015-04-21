@@ -16,31 +16,124 @@ glm::mat4* GameObject::getWorldMat()
 	return &worldMat;
 }
 
-void GameObject::rotate(float x, float y, float z)
+void GameObject::rotateTo(float x, float y, float z)
 {
-	//float rotx = toRad * x;
-	//float roty = toRad * y;
-	//float rotz = toRad * z;
-	float rotx =  x;
-	float roty =  y;
-	float rotz =  z;
-
 	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
 
+	//move to origo
 	worldMat[0].w -= pos.x;
 	worldMat[1].w -= pos.y;
 	worldMat[2].w -= pos.z;
 
-	//rot z
-
-	//rot x
-
+	//rot X
+	worldMat *= glm::mat4(1, 0.0f, 0.0f, 0.0f,
+						0.0f, cos(x), -sin(x), 0.0f,
+						0.0f, sin(x), cos(x), 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f);
 	//rot Y
-	worldMat *= glm::mat4(cos(roty), 0.0f, -sin(roty), 0.0f,
+	worldMat *= glm::mat4(cos(y), 0.0f, -sin(y), 0.0f,
+						0.0f, 1.0f, 0.0f, 0.0f,
+						sin(y), 0.0f, cos(y), 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f);
+
+	//rot Z
+	worldMat *= glm::mat4(cos(z), -sin(z), 0.0f, 0.0f,
+						sin(z), cos(z), 0.0f, 0.0f,
+						0.0f, 0.0f, 1.0f, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f);
+
+	//move back to worldspace pos
+	worldMat[0].w += pos.x;
+	worldMat[1].w += pos.y;
+	worldMat[2].w += pos.z;
+}
+
+void GameObject::rotateToX(float x)
+{
+	rotXfloatsave += x;
+
+	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
+
+	//move to origo
+	worldMat[0].w -= pos.x;
+	worldMat[1].w -= pos.y;
+	worldMat[2].w -= pos.z;
+
+	//rot X
+	worldMat *= glm::mat4(1, 0.0f, 0.0f, 0.0f,
+		0.0f, cos(x), sin(x), 0.0f,
+		0.0f, -sin(x), cos(x), 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f);
+
+	//move back to worldspace pos
+	worldMat[0].w += pos.x;
+	worldMat[1].w += pos.y;
+	worldMat[2].w += pos.z;
+}
+
+void GameObject::rotateToXSNAP(float xin)
+{
+
+}
+
+void GameObject::rotateToY(float y)
+{
+	rotYfloatsave += y;
+
+	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
+
+	//move to origo
+	worldMat[0].w -= pos.x;
+	worldMat[1].w -= pos.y;
+	worldMat[2].w -= pos.z;
+
+	//rot Z
+	worldMat *= glm::mat4(cos(y), 0.0f, -sin(y), 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
-		sin(roty), 0.0f, cos(roty), 0.0f,
+		sin(y), 0.0f, cos(y), 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
+	//move back to worldspace pos
+	worldMat[0].w += pos.x;
+	worldMat[1].w += pos.y;
+	worldMat[2].w += pos.z;
+}
+
+void GameObject::rotateToYSNAP(float yin)
+{
+	
+}
+
+void GameObject::rotateToXY(float x, float y)
+{
+	rotateToX(x);
+	rotateToY(y);
+}
+
+void GameObject::rotateToXYSNAP(float x, float y)
+{
+	//rotateToXSNAP(x);
+	//rotateToYSNAP(y);
+}
+
+void GameObject::rotateToZ(float z)
+{
+	rotZfloatsave += z;
+
+	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
+
+	//move to origo
+	worldMat[0].w -= pos.x;
+	worldMat[1].w -= pos.y;
+	worldMat[2].w -= pos.z;
+
+	//rot Z
+	worldMat *= glm::mat4(cos(z), -sin(z), 0.0f, 0.0f,
+						sin(z), cos(z), 0.0f, 0.0f,
+						0.0f, 0.0f, 1.0f, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f);
+
+	//move back to worldspace pos
 	worldMat[0].w += pos.x;
 	worldMat[1].w += pos.y;
 	worldMat[2].w += pos.z;
@@ -150,16 +243,39 @@ void GameObject::scaleAD(float x, float y, float z)
 	worldMat[0].x += x;
 	worldMat[1].y += y;
 	worldMat[2].z += z;
+
+	if (worldMat[0].x < 0.1)
+		worldMat[0].x = 0.1;
+	if (worldMat[1].y < 0.1)
+		worldMat[1].y = 0.1;
+	if (worldMat[2].z < 0.1)
+		worldMat[2].z = 0.1;
 }
 
-void GameObject::scaleFactorADsnap(float x, float y, float z)
+void GameObject::scaleSNAP(float x, float y, float z)
 {
-	worldMat[0].x += x;
-	worldMat[0].x = (int)worldMat[0].x;
-	worldMat[1].y += y;
-	worldMat[1].y = (int)worldMat[1].y;
-	worldMat[2].z += z;
-	worldMat[2].z = (int)worldMat[2].z;
+
+	if (scaleXfloatsave < -99900.0f)
+		scaleXfloatsave = worldMat[0].x;
+	if (scaleYfloatsave < -99900.0f)
+		scaleYfloatsave = worldMat[1].y;
+	if (scaleZfloatsave < -99900.0f)
+		scaleZfloatsave = worldMat[2].z;
+
+	scaleXfloatsave += x;
+	scaleYfloatsave += y;
+	scaleZfloatsave += z;
+
+	worldMat[0].x = (int)scaleXfloatsave;
+	worldMat[1].y = (int)scaleYfloatsave;
+	worldMat[2].z = (int)scaleZfloatsave;
+
+	if (worldMat[0].x < 1.0)
+		worldMat[0].x = 1.0;
+	if (worldMat[1].y < 1.0)
+		worldMat[1].y = 1.0;
+	if (worldMat[2].z < 1.0)
+		worldMat[2].z = 1.0;
 }
 
 int GameObject::update(float deltaTime)

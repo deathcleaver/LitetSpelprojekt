@@ -48,6 +48,7 @@ private:
 	GameObject* current = 0;
 	int width;
 	int height;
+	bool newItem = true;
 	float SCREENWIDTH = 1080;
 	float SCREENHEIGHT = 720;
 	EditMode editMode = EditMode::NONEM;
@@ -65,6 +66,7 @@ private:
 	void undo();
 	
 	void placeObject(float x, float y);
+	void giveObjectToChunk();
 
 public:
 	Edit(){};

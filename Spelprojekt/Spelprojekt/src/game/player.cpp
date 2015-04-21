@@ -107,7 +107,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (facingRight)
 				{
 					facingRight = false;
-					rotate(0, 3.1415927f, 0);
+					rotateTo(0, 3.1415927f, 0);
 				}
 				if (flinchTimer < FLT_EPSILON)
 				{
@@ -132,7 +132,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (!facingRight)
 				{
 					facingRight = true;
-					rotate(0, 3.1415927f, 0);
+					rotateTo(0, 3.1415927f, 0);
 				}
 				if (flinchTimer < FLT_EPSILON)
 				{
@@ -365,7 +365,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 						if (facingRight)
 						{
 							facingRight = false;
-							rotate(0, 3.1415927f, 0);
+							rotateTo(0, 3.1415927f, 0);
 						}
 						speed.x = 10;
 						speed.y = 10;
@@ -375,7 +375,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 						if (!facingRight)
 						{
 							facingRight = true;
-							rotate(0, 3.1415927f, 0);
+							rotateTo(0, 3.1415927f, 0);
 						}
 						speed.x = -10;
 						speed.y = 10;

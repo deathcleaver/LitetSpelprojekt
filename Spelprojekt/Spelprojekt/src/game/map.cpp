@@ -128,7 +128,7 @@ glm::vec3 Map::getChunkMiddle(glm::vec3 playerpos)
 	getChunkIndex(playerpos, &idX, &idY);
 	float x = 0, y = 0;
 	x = idX * 35;
-	y = idY * 35;
+	y = -idY * 35;
 	return glm::vec3(x, y, 0.0f);
 }
 
