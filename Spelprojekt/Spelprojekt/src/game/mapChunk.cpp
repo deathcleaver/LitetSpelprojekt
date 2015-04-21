@@ -43,7 +43,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 	yOffset = yIndex;
 	
 
-	//TODO:: load objects from file
+	//load objects from file
 	if (in.is_open())
 	{
 		enemyMan = new EnemyManager();
