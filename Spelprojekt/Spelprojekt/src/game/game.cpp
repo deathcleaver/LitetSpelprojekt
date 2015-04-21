@@ -184,8 +184,10 @@ void Game::update(float deltaTime)
 					  MapChunk** tempChunk = map->getChunks();
 					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
 					  tempId = tempChunk[tempX][tempY].getMusicId();
-					  if (tempId != NULL)
-						audio->playMusic(tempId, deltaTime);
+					  if (tempId != NULL)//change music track
+						  audio->playMusic(tempId, deltaTime);
+					  else//chunk doesn't have music
+						  audio->shutdown();
 			if (cameraFollow)
 			{
 				glm::vec3 playerPos = player->readPos();
