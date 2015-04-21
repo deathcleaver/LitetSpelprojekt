@@ -173,8 +173,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	// bind chunk lights
 
-
-	Light* l = new Light[3];
+	Light* l = new Light[100];
 
 	l[0].posX = 4;
 	l[0].posY = 6;
@@ -209,7 +208,19 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	l[2].intensity = 1.0f;
 	l[2].distance = 100.0f;
 
-	gBuffer.pushLights(l, 3);
+	for (size_t i = 2; i < 100; i++)
+	{
+		l[i].posX = 5.0f * i;
+		l[i].posY = 0;
+		l[i].posZ = 1;
+		l[i].r = 1;
+		l[i].g = 1;
+		l[i].b = 1;
+		l[i].distance = 100.0f;
+		l[i].intensity = 1.0f;
+	}
+
+	gBuffer.pushLights(l, 100);
 
 	delete[] l;
 

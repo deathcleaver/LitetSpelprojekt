@@ -75,7 +75,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	
 	glGenBuffers(1, &lightBuffer);
 
-	nrLight = 10;
+	nrLight = 100;
 
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), NULL, GL_DYNAMIC_DRAW);
@@ -103,9 +103,12 @@ void Gbuffer::resize(int x, int y)
 
 void Gbuffer::pushLights(Light* light, int lightsAdded)
 {
-	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
-	glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
-	nrLight += lightsAdded;
+	if (nrLight + lightsAdded <= 100)
+	{
+		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+		glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
+		nrLight += lightsAdded;
+	}
 }
 
 void Gbuffer::bind(GLuint target)
