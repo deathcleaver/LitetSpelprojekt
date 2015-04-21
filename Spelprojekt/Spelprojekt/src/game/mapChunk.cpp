@@ -239,7 +239,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	return hit;
 }
 
-void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos)
+void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 {
 	Enemy** enemies = enemyMan->getEnemies();
 	int nrOfEnemies = enemyMan->size();
@@ -253,9 +253,9 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos)
 				if (enemyRect->intersects(wpnRect))
 				{
 					if (playerPos.x < enemies[c]->getPos().x)
-						enemies[c]->hit(1, false);
+						enemies[c]->hit(damage, false);
 					else
-						enemies[c]->hit(1, true);
+						enemies[c]->hit(damage, true);
 				}
 			}
 		}
@@ -269,9 +269,9 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos)
 			if (bossRect->intersects(wpnRect))
 			{
 				if (playerPos.x < boss->getPos().x)
-					boss->hit(1, false);
+					boss->hit(damage, false);
 				else
-					boss->hit(1, true);
+					boss->hit(damage, true);
 			}
 		}
 	}

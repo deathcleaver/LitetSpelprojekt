@@ -32,7 +32,7 @@ public:
 	bool collideMap(Rect* test, glm::vec3 pos);
 	glm::vec3 collideEnemies(Rect* test, glm::vec3 pos);
 	bool collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn);
-	void attackEnemies(Rect* wpnRect, glm::vec3 playerpos);
+	void attackEnemies(Rect* wpnRect, glm::vec3 playerpos, int damage);
 	void setUpDraw(glm::vec3 pos);
 	int* getUpDraw() const;
 	void respawnCheck();

@@ -20,6 +20,8 @@ private:
 	int HP;
 	int currentRune;
 
+	int DMG;
+
 	//movement
 	float jumpHeight;
 	vec2 speed;

@@ -4,6 +4,7 @@
 void Player::init()
 {
 	MAX_HP = HP = 3;
+	DMG = 1;
 	moveTo(0, 2);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
@@ -317,8 +318,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		if (currentRune == 0)
 		{
 			currentRune = currentSpawn->getRune();
-			if (currentRune == 1)
+			if (currentRune == FLAME)
+			{
 				attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
+				DMG += 1;
+			}
 		}
 	}
 
@@ -331,7 +335,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (result.z > -FLT_EPSILON)
 			{
 				if (currentRune == FLAME)
+				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
+					DMG -= 1;
+				}
 				currentRune = NORUNE;
 				invulnTimer = 1.0f;
 				if (HP > 1)
@@ -385,7 +392,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	{
 		animState = "attack";
 		moveWeapon();
-		map->attackEnemies(&attackRect, playerPos);
+		map->attackEnemies(&attackRect, playerPos, DMG);
 		attackTimer -= 2.0*deltaTime;
 		if (attackTimer < FLT_EPSILON)
 		{

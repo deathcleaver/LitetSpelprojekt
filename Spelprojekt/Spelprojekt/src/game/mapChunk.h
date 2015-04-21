@@ -40,7 +40,7 @@ public:
 	void respawnEnemies();
 	glm::vec3 playerVsEnemies(Rect* playerRect);
 	bool playerVsShrine(Rect* playerRect, Shrine*& currentSpawn);
-	void attackEnemies(Rect* wpnRect, glm::vec3 playerPos);
+	void attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage);
 
 	bool enemyLives(int index);
 	bool enemyBlinking(int index);

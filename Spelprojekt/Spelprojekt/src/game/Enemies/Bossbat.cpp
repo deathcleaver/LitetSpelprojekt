@@ -9,7 +9,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	alive = true;
 	facingRight = true;
 	contentIndex = 1;
-	health = 2;
+	health = 4;
 	speed = 4.0f;
 	slow = false;
 
@@ -28,7 +28,7 @@ void Bossbat::init()
 		rotate(0, 3.1415927f, 0);
 	facingRight = true;
 	alive = true;
-	health = 2;
+	health = 4;
 	slow = false;
 	collideRect->update();
 }

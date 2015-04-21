@@ -281,13 +281,13 @@ glm::vec3 Map::collideEnemies(Rect* test, glm::vec3 pos)
 	return result;
 }
 
-void Map::attackEnemies(Rect* wpnRect, glm::vec3 playerpos)
+void Map::attackEnemies(Rect* wpnRect, glm::vec3 playerpos, int damage)
 {
 	int idX, idY;
 	getChunkIndex(playerpos, &idX, &idY);
 	if (idX != -1 && idY != -1)
 	{
-		chunks[idX][idY].attackEnemies(wpnRect, playerpos);
+		chunks[idX][idY].attackEnemies(wpnRect, playerpos, damage);
 	}
 }
 
