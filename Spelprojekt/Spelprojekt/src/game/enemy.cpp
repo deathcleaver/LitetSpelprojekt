@@ -27,7 +27,7 @@ bool Enemy::isBlinking()
 
 std::string Enemy::isBoss()
 {
-	return "Notboss";
+	return "ChuckTesta";
 }
 
 bool Enemy::isInitiated()

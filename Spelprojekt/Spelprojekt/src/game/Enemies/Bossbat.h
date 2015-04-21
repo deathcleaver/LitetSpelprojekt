@@ -12,6 +12,10 @@ private:
 	bool slow;
 	float invulnTimer;
 	bool isInit;
+
+	float batTimer;
+	int batsToSpawn;
+	void spawnBat(MapChunk* chunk, float deltaTime);
 public:
 	Bossbat(glm::vec2 firstPos);
 	void init();

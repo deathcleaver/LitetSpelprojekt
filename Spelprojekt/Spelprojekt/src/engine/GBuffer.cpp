@@ -82,6 +82,15 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	nrLight = 0;
 	
+
+	// bind textures
+	for (size_t i = 1; i < nrTextures; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
+		glProgramUniform1i(*shaderPtr, pos[i], i);
+	}
+
 }
 
 Gbuffer::~Gbuffer()
@@ -129,14 +138,6 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 	// bind buffer
 	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
 	glBindVertexArray(renderVao);
-
-	// bind textures
-	for (size_t i = 1; i < nrTextures; i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
-		glProgramUniform1i(*shaderPtr, pos[i], i);
-	}
 
 	glProgramUniform3f(*shaderPtr, uniformCamPos, campos->x, campos->y, 1.0f);
 	glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f);

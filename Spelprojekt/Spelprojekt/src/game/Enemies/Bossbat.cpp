@@ -1,5 +1,6 @@
 #include "Bossbat.h"
 #include "../mapChunk.h"
+#include "Bat.h"
 
 Bossbat::Bossbat(glm::vec2 firstPos)
 {
@@ -18,6 +19,8 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	movementScale = 0.0f;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 2);
+	batsToSpawn = 0;
+	batTimer = 0.0f;
 }
 
 void Bossbat::init()
@@ -35,11 +38,30 @@ void Bossbat::init()
 		health = 4;
 		slow = false;
 		collideRect->update();
+		batsToSpawn = 0;
+		batTimer = 0.0f;
 	}
 	else
 	{
 		isInit = false;
 		alive = false;
+	}
+}
+
+void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
+{
+	if (batsToSpawn > 0)
+	{
+		batTimer -= 1.0*deltaTime;
+		if (batTimer < FLT_EPSILON)
+		{
+			glm::vec3 pos = readPos();
+			Enemy* newBat = new Bat(glm::vec2(pos.x, pos.y));
+			chunk->addVisitor(newBat, "Bat");
+			batsToSpawn--;
+			if (batsToSpawn > 0)
+				batTimer = 0.3f;
+		}
 	}
 }
 
@@ -54,6 +76,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		{
 			moveTo(pos.x, pos.y - speed*deltaTime);
 		}
+		spawnBat(chunk, deltaTime);
 	}
 	else
 	{
@@ -150,6 +173,8 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 {
 	if (invulnTimer < FLT_EPSILON)
 	{
+		batsToSpawn = 3;
+		batTimer = 0.3f;
 		health -= damage;
 		if (health > 0)
 		{
