@@ -423,8 +423,11 @@ bool MapChunk::enemyLives(int index, string type)
 	else
 	{
 		Enemy** enemies = enemyMan->getEnemies(type);
-		if (enemies[index]->isAlive())
-			return true;
+		if (enemies[index])
+		{
+			if (enemies[index]->isAlive())
+				return true;
+		}
 	}
 	return false;
 }

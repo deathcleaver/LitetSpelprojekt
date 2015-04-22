@@ -118,20 +118,23 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	glm::vec3 pos;
 	for (int c = 0; c < batCount; c++)
 	{
-		if (bats[c]->isAlive())
+		if (bats[c])
 		{
-			msg = bats[c]->update(deltaTime, chunk, playerPos);
-			pos = bats[c]->readPos();
-			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
-				pos.y < chunkMid.y * 35 - 17.5f || pos.y > chunkMid.y + 17.5f)
+			if (bats[c]->isAlive())
 			{
-				Bat* visitBat = new Bat((Bat*)bats[c], false);
-				visitBat->setVisitor();
-				bats[c]->hit(999, true);
-				visitorHolder[visitorsToSendOut] = visitBat;
-				visitorsToSendOut++;
-				if (visitorsToSendOut == maxVisitors)
-					expandEnemyArray(visitorHolder, maxVisitors);
+				msg = bats[c]->update(deltaTime, chunk, playerPos);
+				pos = bats[c]->readPos();
+				if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+					pos.y < chunkMid.y * 35 - 17.5f || pos.y > chunkMid.y + 17.5f)
+				{
+					Bat* visitBat = new Bat((Bat*)bats[c]);
+					visitBat->setVisitor();
+					bats[c]->hit(999, true);
+					visitorHolder[visitorsToSendOut] = visitBat;
+					visitorsToSendOut++;
+					if (visitorsToSendOut == maxVisitors)
+						expandEnemyArray(visitorHolder, maxVisitors);
+				}
 			}
 		}
 	}
@@ -233,6 +236,7 @@ void EnemyManager::resetEnemies()
 		if (bats[n]->isVisitor())
 		{
 			delete bats[n];
+			bats[n] = 0;
 			batCount--;
 		}
 		else
@@ -288,14 +292,7 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 {
 	if (type == "Bat")
 	{
-		bats[batCount] = new Bat((Bat*)visitor, false);
-		batCount++;
-		if (batCount == batMax)
-			expandEnemyArray(bats, batMax);
-	}
-	else if (type == "BatSpawn")
-	{
-		bats[batCount] = new Bat((Bat*)visitor, true);
+		bats[batCount] = new Bat((Bat*)visitor);
 		batCount++;
 		if (batCount == batMax)
 			expandEnemyArray(bats, batMax);

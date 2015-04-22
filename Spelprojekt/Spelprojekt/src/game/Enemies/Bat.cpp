@@ -17,22 +17,18 @@ Bat::Bat(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 }
 
-Bat::Bat(Bat* copy, bool bossSpawn)
+Bat::Bat(Bat* copy)
 {
 	visitor = copy->visitor;
 	worldMat = copy->worldMat;
 	initPos = copy->initPos;
 	glm::vec3 pos = copy->readPos();
 	moveTo(pos.x, pos.y);
-	if (bossSpawn)
-		translate(0.0f, -3.0f);
 	alive = true;
 	facingRight = copy->facingRight;
 	contentIndex = 1;
 	health = 1;
 	speed = 4.0f;
-	if (bossSpawn)
-		speed = 6.0;
 	slow = copy->slow;
 
 	movementScale = copy->movementScale;
