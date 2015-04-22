@@ -8,14 +8,19 @@ Audio::Audio()
 	currTrack = -1;
 	maxVolume = 1.0f;
 	currVolume = 1.0f;
+	
 	//music
-	musicTracks[0] = "../Audio/Music/witcher_dusk.wav";
-	musicTracks[1] = "../Audio/Music/witcher_omnious.wav";
-	musicTracks[2] = "../Audio/Music/witcher_battle.wav";
+	music[0].file = "../Audio/Music/witcher_dusk.wav";;
+	music[1].file = "../Audio/Music/witcher_omnious.wav";
+	music[2].file = "../Audio/Music/witcher_battle.wav";
+	
+	//musicTracks[0] = "../Audio/Music/witcher_dusk.wav";
+	//musicTracks[1] = "../Audio/Music/witcher_omnious.wav";
+	//musicTracks[2] = "../Audio/Music/witcher_battle.wav";
 
-	//sound
-	soundTracks[0] = "../Audio/Sounds/greeting.wav";
-	//...
+	////sound
+	//soundTracks[0] = "../Audio/Sounds/greeting.wav";
+	////...
 }
 
 Audio::~Audio()
@@ -42,9 +47,9 @@ bool Audio::init()
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
 	//load music
-	loadAudio(0);
-	loadAudio(1);
-	loadAudio(2);
+	loadAudio(&music[0]);
+	loadAudio(&music[1]);
+	loadAudio(&music[2]);
 
 	//load sounds
 	//loadAudio(0,soundSource[0], soundBuffer[0]);
@@ -52,10 +57,10 @@ bool Audio::init()
 	return EXIT_SUCCESS;
 }
 
-bool Audio::loadAudio(int fileId)
+bool Audio::loadAudio(AudioObject* audioObj)
 {
 	FILE *fp = NULL;
-	fp = fopen(musicTracks[fileId], "rb");
+	fp = fopen(audioObj->file, "rb");
 	if (!fp) return endWithError("Failed to open file");
 
 	WaveHeader waveFileHeader;
@@ -114,8 +119,8 @@ bool Audio::loadAudio(int fileId)
 	ALenum format = 0;                                                            //The audio format (bits per sample, number of channels)
 	ALint state;
 
-	alGenBuffers(1, &musicBuffer[fileId]);                                                    //Generate one OpenAL musicBuffer and link to "musicBuffer"
-	alGenSources(1, &musicSource[fileId]);                                                   //Generate one OpenAL musicSource and link to "musicSource"
+	alGenBuffers(1, &audioObj->buffer);                                                    //Generate one OpenAL musicBuffer and link to "musicBuffer"
+	alGenSources(1, &audioObj->source);                                                   //Generate one OpenAL musicSource and link to "musicSource"
 	if (alGetError() != AL_NO_ERROR) return endWithError("Error GenSource");     //Error during musicBuffer/musicSource generation
 
 	//Figure out the format of the WAVE file
@@ -135,7 +140,7 @@ bool Audio::loadAudio(int fileId)
 	}
 	if (!format) return endWithError("Wrong BitPerSample");                      //Not valid format
 
-	alBufferData(musicBuffer[fileId], format, buf, waveFileHeader.dataSize, frequency);                    //Store the sound data in the OpenAL musicBuffer
+	alBufferData(audioObj->buffer, format, buf, waveFileHeader.dataSize, frequency);                    //Store the sound data in the OpenAL musicBuffer
 	if (alGetError() != AL_NO_ERROR)
 		return endWithError("Error loading ALBuffer");                              //Error during musicBuffer loading
 
@@ -144,12 +149,12 @@ bool Audio::loadAudio(int fileId)
 	ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };                                 //Set orientation of the listener
 
 	//musicSource
-	alSourcei(musicSource[fileId], AL_BUFFER, musicBuffer[fileId]);                                 //Link the musicBuffer to the musicSource
-	alSourcef(musicSource[fileId], AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
-	alSourcef(musicSource[fileId], AL_GAIN, 1.0f);                                 //Set the gain of the musicSource
-	alSourcefv(musicSource[fileId], AL_POSITION, SourcePos);                                 //Set the position of the musicSource
-	alSourcefv(musicSource[fileId], AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
-	alSourcei(musicSource[fileId], AL_LOOPING, AL_TRUE);                                 //Set if musicSource is looping sound
+	alSourcei(audioObj->source, AL_BUFFER, audioObj->buffer);                                 //Link the musicBuffer to the musicSource
+	alSourcef(audioObj->source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
+	alSourcef(audioObj->source, AL_GAIN, 1.0f);                                 //Set the gain of the musicSource
+	alSourcefv(audioObj->source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
+	alSourcefv(audioObj->source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
+	alSourcei(audioObj->source, AL_LOOPING, AL_TRUE);                                 //Set if musicSource is looping sound
 
 	//Clean-up
 	fclose(fp);
@@ -165,7 +170,7 @@ void Audio::playMusic(int track)
 		stopMusic(currTrack);
 		if (track != -1)
 		{
-			alSourcePlay(musicSource[track]);
+			alSourcePlay(music[track].source);
 		}
 		currTrack = track;
 	}
@@ -178,7 +183,7 @@ void Audio::playMusicFade(int track, float deltaTime)
 		if (currTrack != track)
 		{
 				oldTrack = currTrack;
-				alSourcePlay(musicSource[track]);
+				alSourcePlay(music[track].source);
 				currTrack = track;
 				oldVolume = currVolume;
 				currVolume = 0.0f;
@@ -188,14 +193,14 @@ void Audio::playMusicFade(int track, float deltaTime)
 			stopMusic(oldTrack);
 			if (track != -1)
 			{
-				alSourcePlay(musicSource[currTrack]);
+				alSourcePlay(music[currTrack].source);
 			}
 		}
 	}
 	else //if out of bounds
 	{
-		alSourceStop(musicSource[currTrack]);
-		alSourceStop(musicSource[oldTrack]);
+		alSourceStop(music[currTrack].source);
+		alSourceStop(music[oldTrack].source);
 		currTrack = -1;
 	}
 }
@@ -210,14 +215,14 @@ void Audio::updateListener(glm::vec3 pos)
 {
 	ALfloat listenerPos[] = { pos.x, pos.y, pos.z };
 	ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
-	alSourcefv(musicSource[currTrack], AL_POSITION, SourcePos);
-	alSourcefv(musicSource[oldTrack], AL_POSITION, SourcePos);
+	alSourcefv(music[currTrack].source, AL_POSITION, SourcePos);
+	alSourcefv(music[oldTrack].source, AL_POSITION, SourcePos);
 	alListenerfv(AL_POSITION, listenerPos);
 }
 
 void Audio::stopMusic(int track)
 {
-	alSourceStop(musicSource[track]);
+	alSourceStop(music[track].source);
 }
 
 int Audio::getTrack()
@@ -229,8 +234,8 @@ void Audio::shutdown()
 {
 	for (int i = 0; i < numOfTracks; i++)
 	{
-		alDeleteSources(1, &musicSource[i]);
-		alDeleteBuffers(1, &musicBuffer[i]);
+		alDeleteSources(1, &music[i].source);
+		alDeleteBuffers(1, &music[i].buffer);
 	}
 	alcDestroyContext(context);
 	alcCloseDevice(device);
@@ -244,14 +249,14 @@ bool Audio::fadeMusic(float deltaTime)
 	{
 		oldVolume = 0.0f;
 	}
-	alSourcef(musicSource[oldTrack], AL_GAIN, oldVolume);
+	alSourcef(music[oldTrack].source, AL_GAIN, oldVolume);
 
 	// fade current track to 1.0
 	currVolume += 0.8 * deltaTime;
 	if (maxVolume > 1.0f)
 		currVolume = 1.0f;
 
-	alSourcef(musicSource[currTrack], AL_GAIN, currVolume);
+	alSourcef(music[currTrack].source, AL_GAIN, currVolume);
 
 	if (currVolume == maxVolume && oldVolume == 0.0f)
 	{
