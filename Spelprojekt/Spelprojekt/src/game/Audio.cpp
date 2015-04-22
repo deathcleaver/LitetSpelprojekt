@@ -232,14 +232,15 @@ void Audio::playMusicFade(int track, float deltaTime)
 		}
 		else if(currTrack == track)//check if currently fading in or out
 		{
-		
+			if (music[track]->state == A_FADEOUT)
+				music[track]->state = A_FADEIN;
 		}
 	}
 	else //if out of bounds
 	{
 		music[currTrack]->state = A_FADEOUT;
 		music[oldTrack]->state = A_FADEOUT;
-		currTrack = -1;
+		
 	}
 }
 
@@ -249,14 +250,20 @@ void Audio::playSound()
 	//alSourcePlay(musicSource);
 }
 
+void Audio::playSoundAtPos(glm::vec3 pos)
+{
+
+}
+
 void Audio::updateListener(glm::vec3 pos)
 {
 	ALfloat listenerPos[] = { pos.x, pos.y, pos.z };
-	ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
+	ALfloat musicPos[] = { pos.x, pos.y, pos.z };
 
+	//music
 	alListenerfv(AL_POSITION, listenerPos);
 	for (int i = 0; i < musicFiles; i++)
-		alSourcefv(music[i]->source, AL_POSITION, SourcePos);
+		alSourcefv(music[i]->source, AL_POSITION, musicPos);
 }
 
 void Audio::stopMusic(int track)

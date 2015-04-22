@@ -49,6 +49,7 @@ public:
 	void playMusic(int track);
 	void playMusicFade(int track, float deltaTime);
 	void playSound();
+	void playSoundAtPos(glm::vec3 pos);
 	void updateListener(glm::vec3 pos);
 	int	getTrack();
 	void shutdown();
