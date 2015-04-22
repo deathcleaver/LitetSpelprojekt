@@ -21,6 +21,8 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 1.8, 2);
 	batsToSpawn = 0;
 	batTimer = 0.0f;
+	charging = false;
+	chargeTimer = 3.0f;
 }
 
 void Bossbat::init()
@@ -40,6 +42,10 @@ void Bossbat::init()
 		collideRect->update();
 		batsToSpawn = 0;
 		batTimer = 0.0f;
+		chargeTimer = 3.0f;
+		charging = false;
+		returnPos = chargePos = readPos();
+		hasTurned = false;
 	}
 	else
 	{
@@ -94,75 +100,130 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		}
 	}
 	pos = readPos();
-	if (facingRight)
+	if (!charging)
 	{
-		if (movementScale < -1.0f)
-			slow = true;
-		else if (movementScale > 1.0f)
-			slow = true;
-		else
-			slow = false;
-
-		if (slow)
-			moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
-		if (!slow)
-			moveTo(pos.x + speed*deltaTime, pos.y);
-		movementScale += 1.0*deltaTime;
-
-		if (collidesWithWorld(chunk))
+		if (facingRight)
 		{
-			movementScale -= 1.0*deltaTime;
-			if (slow)
-			{
-				moveTo(pos.x - speed*deltaTime * 0.5, pos.y);
-				facingRight = false;
-			}
+			if (movementScale < -1.0f)
+				slow = true;
+			else if (movementScale > 1.0f)
+				slow = true;
 			else
+				slow = false;
+
+			if (slow)
+				moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
+			if (!slow)
+				moveTo(pos.x + speed*deltaTime, pos.y);
+			movementScale += 1.0*deltaTime;
+
+			if (collidesWithWorld(chunk))
 			{
-				moveTo(pos.x - speed*deltaTime, pos.y);
-				facingRight = false;
+				movementScale -= 1.0*deltaTime;
+				if (slow)
+				{
+					moveTo(pos.x - speed*deltaTime * 0.5, pos.y);
+					facingRight = false;
+				}
+				else
+				{
+					moveTo(pos.x - speed*deltaTime, pos.y);
+					facingRight = false;
+				}
 			}
+
+			if (movementScale > 1.5f)
+				facingRight = false;
+			if (!facingRight)
+				rotateTo(0, 3.1415927f, 0);
 		}
-		
-		if (movementScale > 1.5f)
-			facingRight = false;
-		if (!facingRight)
-			rotateTo(0, 3.1415927f, 0);
+		else
+		{
+			if (movementScale < -1.0f)
+				slow = true;
+			else if (movementScale > 1.0f)
+				slow = true;
+			else
+				slow = false;
+
+			if (slow)
+				moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
+			if (!slow)
+				moveTo(pos.x - speed*deltaTime, pos.y);
+			movementScale -= 1.0*deltaTime;
+
+			if (collidesWithWorld(chunk))
+			{
+				movementScale += 1.0*deltaTime;
+				if (slow)
+				{
+					moveTo(pos.x + speed*deltaTime * 0.5, pos.y);
+					facingRight = true;
+				}
+				else
+				{
+					moveTo(pos.x + speed*deltaTime, pos.y);
+					facingRight = true;
+				}
+			}
+
+			if (movementScale < -1.5f)
+				facingRight = true;
+			if (facingRight)
+				rotateTo(0, 3.1415927f, 0);
+		}
 	}
 	else
 	{
-		if (movementScale < -1.0f)
-			slow = true;
-		else if (movementScale > 1.0f)
-			slow = true;
-		else
-			slow = false;
-
-		if (slow)
-			moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
-		if (!slow)
-			moveTo(pos.x - speed*deltaTime, pos.y);
-		movementScale -= 1.0*deltaTime;
-
-		if (collidesWithWorld(chunk))
+		chargeTimer -= 1.0f*deltaTime;
+		float distX = returnPos.x - chargePos.x;
+		float distY = returnPos.y - chargePos.y;
+		moveTo(pos.x - speed*deltaTime*distX/3, pos.y - speed*deltaTime*distY/3);
+		if (collidesWithWorld(chunk) || chargeTimer < FLT_EPSILON)
 		{
-			movementScale += 1.0*deltaTime;
-			if (slow)
+			moveTo(pos.x + speed*deltaTime*distX/3, pos.y + speed*deltaTime*distY/3);
+			charging = false;
+			chargeTimer = 3.0f;
+		}
+	}
+
+	if (!charging)
+	{
+		chargeTimer -= 1.0f*deltaTime;
+		if (chargeTimer < FLT_EPSILON)
+		{
+			charging = true;
+			chargePos = playerPos;
+			returnPos = readPos();
+			chargeTimer = 1.0f;
+			if (chargePos.x < returnPos.x)
 			{
-				moveTo(pos.x + speed*deltaTime * 0.5, pos.y);
-				facingRight = true;
+				if (facingRight)
+				{
+					hasTurned = true;
+					rotateTo(0, 3.1415927f, 0);
+				}
 			}
-			else
+			else if (chargePos.x > returnPos.x)
 			{
-				moveTo(pos.x + speed*deltaTime, pos.y);
-				facingRight = true;
+				if (!facingRight)
+				{
+					hasTurned = true;
+					rotateTo(0, 3.1415927f, 0);
+				}
 			}
 		}
-
-		if (movementScale < -1.5f)
-			facingRight = true;
-		if (facingRight)
-			rotateTo(0, 3.1415927f, 0);
+		else if (chargeTimer > 2.0f)
+		{
+			float distX = chargePos.x - returnPos.x;
+			float distY = chargePos.y - returnPos.y;
+			moveTo(pos.x - speed*deltaTime*distX / 4, pos.y - speed*deltaTime*distY / 4);
+			if (hasTurned)
+			{
+				hasTurned = false;
+				rotateTo(0, 3.1415927f, 0);
+			}
+		}
 	}
 	return 0;
 }
