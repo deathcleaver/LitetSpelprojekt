@@ -413,7 +413,9 @@ void MapChunk::initBoss()
 string MapChunk::getBossType()
 {
 	Enemy* boss = enemyMan->getBoss();
-	return boss->isBoss();
+	if (boss)
+		return boss->isBoss();
+	return "ChuckTesta";
 }
 
 

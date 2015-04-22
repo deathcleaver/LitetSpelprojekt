@@ -124,6 +124,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	int* upDraw = map->getUpDraw();
 
 	//Render chunk background
+	renderBack = false;
 	if(renderBack)
 		for (int n = 0; n < upDraw[0]; n++){
 			int x = n * 2 + 1;
