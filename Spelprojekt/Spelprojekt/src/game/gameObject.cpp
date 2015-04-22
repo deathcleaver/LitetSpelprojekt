@@ -360,3 +360,8 @@ void GameObject::coppyMat(GameObject* obj)
 	this->rotYfloatsaveTEMP = obj->rotYfloatsaveTEMP;
 	this->rotZfloatsaveTEMP = obj->rotZfloatsaveTEMP;
 }
+
+void GameObject::setWorldMat(glm::mat4* mat)
+{
+	worldMat = *mat;
+}

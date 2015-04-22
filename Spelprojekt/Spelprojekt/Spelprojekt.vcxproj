@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
+    <ClInclude Include="src\contentItem.h" />
     <ClInclude Include="src\engine\ObjectManager.h" />
     <ClInclude Include="src\engine\AnimationObject.h" />
     <ClInclude Include="src\engine\ContentManager.h" />

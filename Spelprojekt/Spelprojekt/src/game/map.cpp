@@ -24,7 +24,7 @@ void Map::init()
 		}
 		delete[] chunks;
 	}
-	std::string fileName = "../Spelprojekt/src/map/maps";
+	std::string fileName = "../Spelprojekt/src/map/maps1";
 	std::string line;
 	std::string fetch;
 	ifstream in;

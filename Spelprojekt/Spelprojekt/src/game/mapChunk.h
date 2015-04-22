@@ -30,6 +30,7 @@ private:
 	int lastRecievedItemWorld = -1;
 	GameObject* lastRecievedWorld = 0;
 	void saveObject(GameObject* object, ofstream* out);
+	void loadObject(ifstream* in);
 public:
 	MapChunk(){};
 	~MapChunk();
