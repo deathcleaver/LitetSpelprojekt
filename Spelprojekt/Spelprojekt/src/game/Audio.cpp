@@ -18,8 +18,7 @@ Audio::Audio()
 	}
 
 	music[0]->file = "../Audio/Music/witcher_dusk.wav";
-	music[1]->file = "../Audio/Sounds/test.wav";
-	//music[1]->file = "../Audio/Music/witcher_omnious.wav";
+	music[1]->file = "../Audio/Music/witcher_omnious.wav";
 	music[2]->file = "../Audio/Music/witcher_battle.wav";
 
 	//sound
