@@ -160,6 +160,18 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 						lastid = id;
 					}
+
+					//render mushrooms
+					size = chunks[upDraw[x]][upDraw[y]].Mushroom_Objs.size();
+					for (int k = 0; k < size; k++)
+					{
+						id = chunks[upDraw[x]][upDraw[y]].Mushroom_Objs[k]->bindWorldMat(&tempshader, &uniformModel);
+						if (id != lastid)
+							facecount = content->bindMapObj(id);
+						glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+						lastid = id;
+					}
+
 					//render shrines
 					if (chunks[upDraw[x]][upDraw[y]].shrine)
 					{

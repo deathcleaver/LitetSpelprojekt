@@ -39,6 +39,7 @@ public:
 	int countWorldObjs = 0;
 
 	vector<GameObject*> Box_Objs;
+	vector<GameObject*> Mushroom_Objs;
 
 	Rect*** worldCollide = 0;
 	void init(int x, int y, std::string mapname);

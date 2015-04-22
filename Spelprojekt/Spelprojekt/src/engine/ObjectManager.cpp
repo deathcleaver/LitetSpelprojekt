@@ -63,7 +63,7 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 3;
+	myNrOfMapObjects = 4;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
@@ -76,6 +76,10 @@ void ObjectManager::loadMapObjs()
 
 	//shrine
 	myMapObjs[2] = new AnimationObject("src/meshes/PlayerBase.v", "src/textures/black.bmp");
+
+	//mushroom
+	myMapObjs[3] = new AnimationObject("src/meshes/MushroomTest.v", "src/textures/MushroomTexture2.bmp");
+
 }
 
 void ObjectManager::loadMonsterObjs()

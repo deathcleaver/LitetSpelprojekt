@@ -89,12 +89,21 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			scale.z = atof(sub.c_str());
 			if (type == "Box")
 			{
-				GameObject* boxtemp = new GameObject();
-				boxtemp->init(1);
-				boxtemp->moveTo(xOffset * 35, yOffset * -35);
-				boxtemp->translate(pos.x, pos.y, pos.z);
-				boxtemp->scaleFactor(scale.x, scale.y, scale.z);
-				Box_Objs.push_back(boxtemp);
+				GameObject* temp = new GameObject();
+				temp->init(1);
+				temp->moveTo(xOffset * 35, yOffset * -35);
+				temp->translate(pos.x, pos.y, pos.z);
+				temp->scaleFactor(scale.x, scale.y, scale.z);
+				Box_Objs.push_back(temp);
+			}
+			if (type == "Mushroom")
+			{
+				GameObject* temp = new GameObject();
+				temp->init(3);
+				temp->moveTo(xOffset * 35, yOffset * -35);
+				temp->translate(pos.x, pos.y, pos.z);
+				temp->scaleFactor(scale.x, scale.y, scale.z);
+				Mushroom_Objs.push_back(temp);
 			}
 			if (type == "Shrine")
 			{
