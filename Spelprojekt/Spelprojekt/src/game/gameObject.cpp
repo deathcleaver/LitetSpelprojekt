@@ -73,7 +73,41 @@ void GameObject::rotateToX(float x)
 
 void GameObject::rotateToXSNAP(float xin)
 {
+	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
+	glm::vec3 scale = glm::vec3(worldMat[0].x, worldMat[1].y, worldMat[2].z);
+	
+	//move to origo
+	worldMat[0].w -= pos.x;
+	worldMat[1].w -= pos.y;
+	worldMat[2].w -= pos.z;
 
+	//scale to 1
+	worldMat[0].x *= (1.0f / scale.x);
+	worldMat[1].y *= (1.0f / scale.y);
+	worldMat[2].z *= (1.0f / scale.z);
+
+	rotXfloatsaveTEMP += xin;
+	int Octs = rotXfloatsaveTEMP / (3.141592653 * 0.5);
+	float x = float(Octs) * 3.141592653 * 0.5;
+
+	rotXfloatsave = x;
+	
+	//rot X
+	worldMat *= glm::mat4(1, 0.0f, 0.0f, 0.0f,
+		0.0f, cos(x), sin(x), 0.0f,
+		0.0f, -sin(x), cos(x), 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	//scale back
+	worldMat[0].x *= scale.x;
+	worldMat[1].y *= scale.y;
+	worldMat[2].z *= scale.z;
+
+
+	//move back to worldspace pos
+	worldMat[0].w += pos.x;
+	worldMat[1].w += pos.y;
+	worldMat[2].w += pos.z;
 }
 
 void GameObject::rotateToY(float y)
@@ -112,8 +146,8 @@ void GameObject::rotateToXY(float x, float y)
 
 void GameObject::rotateToXYSNAP(float x, float y)
 {
-	//rotateToXSNAP(x);
-	//rotateToYSNAP(y);
+	rotateToXSNAP(x);
+	rotateToYSNAP(y);
 }
 
 void GameObject::rotateToZ(float z)
@@ -132,6 +166,29 @@ void GameObject::rotateToZ(float z)
 						sin(z), cos(z), 0.0f, 0.0f,
 						0.0f, 0.0f, 1.0f, 0.0f,
 						0.0f, 0.0f, 0.0f, 1.0f);
+
+	//move back to worldspace pos
+	worldMat[0].w += pos.x;
+	worldMat[1].w += pos.y;
+	worldMat[2].w += pos.z;
+}
+
+void GameObject::rotateToZSNAP(float z)
+{
+	rotZfloatsave += z;
+
+	glm::vec3 pos = glm::vec3(worldMat[0].w, worldMat[1].w, worldMat[2].w);
+
+	//move to origo
+	worldMat[0].w -= pos.x;
+	worldMat[1].w -= pos.y;
+	worldMat[2].w -= pos.z;
+
+	//rot Z
+	worldMat *= glm::mat4(cos(z), -sin(z), 0.0f, 0.0f,
+		sin(z), cos(z), 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
 
 	//move back to worldspace pos
 	worldMat[0].w += pos.x;

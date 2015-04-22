@@ -31,6 +31,10 @@ public:
 	Rect* getRekt();
 	glm::vec2 getPos();
 	int getRune();
+	GameObject* returnThis()
+	{
+		return object;
+	}
 };
 
 #endif

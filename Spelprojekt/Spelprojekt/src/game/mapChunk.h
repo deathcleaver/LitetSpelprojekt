@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
 #include "enemyManager.h"
 #include "Shrine.h"
@@ -19,19 +20,26 @@ class MapChunk
 {
 private:
 	EnemyManager* enemyMan;
-	Shrine* shrine = 0;
 	//map collision re-use variables
 	int x1, y1, sizeX, sizeY;
 	Light* lights;
 	int nrOfLights;
 	int musicId;
+
+	//for mapmaker UNDO
+	int lastRecievedItemWorld = -1;
+	GameObject* lastRecievedWorld = 0;
 public:
 	MapChunk(){};
 	~MapChunk();
 
 	GameObject* chunkBackground = 0;
-	GameObject* worldObjs = 0;
+	Shrine* shrine = 0;
+	
 	int countWorldObjs = 0;
+
+	vector<GameObject*> Box_Objs;
+
 	Rect*** worldCollide = 0;
 	void init(int x, int y, std::string mapname);
 	int xOffset, yOffset;
@@ -58,6 +66,14 @@ public:
 
 	void initBoss();
 	string getBossType();
+
+	void recieveWorld(GameObject* item);
+	void recieveMonster(GameObject* item, bool visitor);
+	void recieveBackObj(GameObject* item);
+	void recieveLightObj(GameObject* item);
+	void recieveSpecial(GameObject* item);
+	void addRekt(int x, int y);
+	void removeRekt(int x, int y);
 
 	void addVisitor(Enemy* visitor, string type);
 };
