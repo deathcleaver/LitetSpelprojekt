@@ -34,6 +34,7 @@ public:
 	virtual bool isInitiated();
 	void setVisitor();
 	bool isVisitor();
+	void diePls();
 };
 
 #endif

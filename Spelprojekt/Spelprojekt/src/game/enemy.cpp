@@ -39,3 +39,8 @@ bool Enemy::isVisitor()
 {
 	return visitor;
 }
+
+void Enemy::diePls()
+{
+	alive = false;
+}

@@ -8,13 +8,31 @@ Flame::Flame(glm::vec2 firstPos)
 	alive = true;
 	facingRight = true;
 	contentIndex = 2;
-	health = 2;
-	speed = 2.0f;
+	health = 3;
+	speed = glm::vec2(2.0f, 0.0);
 	invulnTimer = 0.0f;
-	hasBounced = true;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
+}
+
+Flame::Flame(Flame* copy)
+{
+	visitor = copy->visitor;
+	worldMat = copy->worldMat;
+	glm::vec3 pos = copy->readPos();
+	initPos = glm::vec2(pos.x, pos.y);
+	moveTo(pos.x, pos.y);
+	alive = true;
+	facingRight = copy->facingRight;
+	contentIndex = 2;
+	health = copy->health;
+	speed = copy->speed;
+	invulnTimer = copy->invulnTimer;
+	flying = copy->flying;
+
+	collideRect = new Rect();
+	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
 }
 
 void Flame::init()
@@ -22,89 +40,104 @@ void Flame::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
-	health = 2;
+	health = 3;
 	invulnTimer = 0.0f;
-	hasBounced = true;
-	speed = 2.0f;
+	speed = glm::vec2(2.0f, 0.0);
 
 	collideRect->update();
 }
 
 int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
-	if (facingRight)
+	if (!flying)
 	{
-		translate(1.0f, -1.0f);
-		if (!collidesWithWorld(chunk))
+		if (facingRight)
 		{
-			facingRight = false;
-			translate(-1.0f, 1.0f);
-			if (invulnTimer > FLT_EPSILON)
+			translate(1.0f, -1.0f);
+			if (!collidesWithWorld(chunk))
 			{
-				speed = 2.0f;
-				hasBounced = true;
+				facingRight = false;
+				translate(-1.0f, 1.0f);
+			}
+			else
+			{
+				translate(-1.0f, 1.0f);
+				translate(speed.x*deltaTime, 0.0f);
+				if (collidesWithWorld(chunk))
+				{
+					translate(-speed.x*deltaTime, 0.0f);
+					facingRight = false;
+				}
 			}
 		}
 		else
 		{
-			translate(-1.0f, 1.0f);
-			translate(speed*deltaTime, 0.0f);
-			if (collidesWithWorld(chunk))
+			translate(-1.0f, -1.0f);
+			if (!collidesWithWorld(chunk))
 			{
-				translate(-speed*deltaTime, 0.0f);
-				facingRight = false;
-
-				if (invulnTimer > FLT_EPSILON)
+				facingRight = true;
+				translate(1.0f, 1.0f);
+			}
+			else
+			{
+				translate(1.0f, 1.0f);
+				translate(-speed.x*deltaTime, 0.0f);
+				if (collidesWithWorld(chunk))
 				{
-					speed = 2.0f;
-					hasBounced = true;
+					translate(speed.x*deltaTime, 0.0f);
+					facingRight = true;
 				}
 			}
 		}
 	}
 	else
 	{
-		translate(-1.0f, -1.0f);
-		if (!collidesWithWorld(chunk))
-		{
-			facingRight = true;
-			translate(1.0f, 1.0f);
-			if (invulnTimer > FLT_EPSILON)
-			{
-				speed = 2.0f;
-				hasBounced = true;
-			}
-		}
+		if (facingRight)
+			translate(speed.x*deltaTime, 0);
 		else
+			translate(-speed.x*deltaTime, 0);
+		if (collidesWithWorld(chunk))
 		{
-			translate(1.0f, 1.0f);
-			translate(-speed*deltaTime, 0.0f);
-			if (collidesWithWorld(chunk))
+			if (facingRight)
+				translate(-speed.x*deltaTime, 0);
+			else
+				translate(speed.x*deltaTime, 0);
+			speed.x = 0;
+		}
+
+		speed.y -= 1.0f;
+		if (speed.y < -20.0f)
+		{
+			speed.y = -20.0f;
+		}
+		translate(0, speed.y*deltaTime);
+		if (collidesWithWorld(chunk))
+		{
+			if (speed.y > 0)
 			{
-				translate(speed*deltaTime, 0.0f);
-				facingRight = true;
-				if (invulnTimer > FLT_EPSILON)
+				translate(0, -speed.y*deltaTime);
+				speed.y = 0;
+			}
+			else
+			{
+				translate(0, -speed.y*deltaTime);
+				translate(0, speed.y*deltaTime*0.5);
+				if (collidesWithWorld(chunk))
 				{
-					speed = 2.0f;
-					hasBounced = true;
+					translate(0, -speed.y*deltaTime*0.5);
+					translate(0, speed.y*deltaTime*0.25);
+					if (collidesWithWorld(chunk))
+						translate(0, -speed.y*deltaTime*0.25);
 				}
+				speed.x = 2.0f;
+				speed.y = 0.0f;
+				flying = false;
 			}
 		}
 	}
 	if (invulnTimer > FLT_EPSILON)
 	{
 		invulnTimer -= 1.0f*deltaTime;
-		if (invulnTimer < FLT_EPSILON)
-		{
-			speed = 2.0f;
-			if (!hasBounced)
-			{
-				if (facingRight)
-					facingRight = false;
-				else
-					facingRight = true;
-			}
-		}
 	}
 	collideRect->update();
 	return 0;
@@ -114,7 +147,9 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 {
 	if (invulnTimer < FLT_EPSILON)
 	{
-		speed = 6.0f;
+		speed.x = 12.0f;
+		speed.y = 15.0f;
+		flying = true;
 		health -= damage;
 		if (health <= 0)
 		{
@@ -126,7 +161,6 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 			if (facingRight)
 			{
 				facingRight = false;
-				hasBounced = false;
 			}
 		}
 		else
@@ -134,7 +168,6 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 			if (!facingRight)
 			{
 				facingRight = true;
-				hasBounced = false;
 			}
 		}
 	}

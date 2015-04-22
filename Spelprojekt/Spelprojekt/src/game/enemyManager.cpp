@@ -118,23 +118,20 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	glm::vec3 pos;
 	for (int c = 0; c < batCount; c++)
 	{
-		if (bats[c])
+		if (bats[c]->isAlive())
 		{
-			if (bats[c]->isAlive())
+			msg = bats[c]->update(deltaTime, chunk, playerPos);
+			pos = bats[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
 			{
-				msg = bats[c]->update(deltaTime, chunk, playerPos);
-				pos = bats[c]->readPos();
-				if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
-					pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
-				{
-					Bat* visitBat = new Bat((Bat*)bats[c]);
-					visitBat->setVisitor();
-					bats[c]->hit(999, true);
-					visitorHolder[visitorsToSendOut] = visitBat;
-					visitorsToSendOut++;
-					if (visitorsToSendOut == maxVisitors)
-						expandEnemyArray(visitorHolder, maxVisitors);
-				}
+				Bat* visitBat = new Bat((Bat*)bats[c]);
+				visitBat->setVisitor();
+				bats[c]->diePls();
+				visitorHolder[visitorsToSendOut] = visitBat;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
 			}
 		}
 	}
@@ -143,6 +140,18 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		if (flames[c]->isAlive())
 		{
 			msg = flames[c]->update(deltaTime, chunk, playerPos);
+			pos = flames[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
+			{
+				Flame* visitFlame = new Flame((Flame*)flames[c]);
+				visitFlame->setVisitor();
+				flames[c]->diePls();
+				visitorHolder[visitorsToSendOut] = visitFlame;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
+			}
 		}
 	}
 	if (boss)
@@ -244,7 +253,14 @@ void EnemyManager::resetEnemies()
 	}
 	for (int n = flameCount-1; n >= 0; n--)
 	{
-		flames[n]->init();
+		if (flames[n]->isVisitor())
+		{
+			delete flames[n];
+			flames[n] = 0;
+			flameCount--;
+		}
+		else
+			flames[n]->init();
 	}
 	if (boss)
 	{
@@ -296,5 +312,12 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		batCount++;
 		if (batCount == batMax)
 			expandEnemyArray(bats, batMax);
+	}
+	if (type == "Flame")
+	{
+		flames[flameCount] = new Flame((Flame*)visitor);
+		flameCount++;
+		if (flameCount == flameMax)
+			expandEnemyArray(flames, flameMax);
 	}
 }
