@@ -35,7 +35,7 @@ enum PlaceState
 class Edit
 {
 private:
-	~Edit();
+	
 	Map* map;
 	MapChunk** chunks;
 	int chunkXCam = 0;
@@ -87,6 +87,7 @@ private:
 
 public:
 	Edit(){};
+	~Edit();
 	void init(Map* map, UserInput* in);
 	void update(float x, float y);
 	void guiHandle(int bEvent);
