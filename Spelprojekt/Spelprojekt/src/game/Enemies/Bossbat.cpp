@@ -86,10 +86,12 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			moveTo(pos.x, pos.y - speed*deltaTime);
 		}
 		spawnBat(chunk, deltaTime);
+		if (invulnTimer < FLT_EPSILON)
+			chargePos = readPos();
 	}
 	else
 	{
-		float distanceDown = pos.y - initPos.y;
+		float distanceDown = chargePos.y - initPos.y;
 		if (distanceDown > FLT_EPSILON)
 		{
 			moveTo(pos.x, pos.y - speed*deltaTime*(distanceDown / 10.0f));
