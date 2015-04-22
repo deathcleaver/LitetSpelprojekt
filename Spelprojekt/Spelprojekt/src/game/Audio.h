@@ -9,6 +9,7 @@
 
 class Audio
 {
+private:
 	struct WaveHeader
 	{
 		char type[4];
@@ -19,12 +20,22 @@ class Audio
 		unsigned long dataSize;
 	};
 
+	struct AudioObject
+	{
+		ALuint source;
+		ALuint buffer;
+		char* file;
+		float volume;
+		bool looping;
+	};
+
+
 public:
 	Audio();
 	~Audio();
 	//ALboolean LoadALData();
 	bool init();
-	bool loadAudio(int fileId);
+	bool loadAudio(AudioObject* audioObj);
 	void playMusic(int track);
 	void playMusicFade(int track, float deltaTime);
 	void playSound();
@@ -41,22 +52,14 @@ private:
 	ALCdevice *device;                                                          //Create an OpenAL Device
 	ALCcontext *context;
 
+	AudioObject music[3];
+	AudioObject sounds[1];
+
 	int numOfTracks = 3;
-	char* musicTracks[3];
-	char* soundTracks[1];
 	int currTrack, oldTrack;
 	float maxVolume;
 	float currVolume, oldVolume;
 	float fadeCurrVol, fadeNextVol;
-
-	//source and buffers
-	//music
-	ALuint musicSource[3];
-	ALuint musicBuffer[3];
-
-	//sound
-	ALuint soundSource[1];
-	ALuint soundBuffer[1];
 };
 
 #endif
