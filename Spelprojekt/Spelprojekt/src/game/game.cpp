@@ -181,16 +181,13 @@ void Game::update(float deltaTime)
 		}
 		case(PLAY):
 		{
-					  // audio
+					  // music
 					  int tempX, tempY, tempId;
 					  MapChunk** tempChunk = map->getChunks();
 					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
 					  tempId = tempChunk[tempX][tempY].getMusicId();
 					  if (tempId != NULL)//change music track
 					  {
-						  if (audio->getTrack() == 0)
-							  audio->playMusic(tempId);
-						  else
 							  audio->playMusicFade(tempId, deltaTime);
 					  }
 						  
@@ -293,6 +290,9 @@ void Game::update(float deltaTime)
 	}
 	lastX = xpos;
 	lastY = ypos;
+
+	//update audio
+	audio->update(deltaTime);
 
 	//Render const
 	engine->render(player, map, content, gui, in->GetPos(),(int)current, edit);

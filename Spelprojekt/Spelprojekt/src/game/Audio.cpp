@@ -7,29 +7,40 @@ Audio::Audio()
 {
 	currTrack = -1;
 	maxVolume = 1.0f;
-	currVolume = 1.0f;
-	
-	//music
-	music[0].file = "../Audio/Music/witcher_dusk.wav";;
-	music[1].file = "../Audio/Music/witcher_omnious.wav";
-	music[2].file = "../Audio/Music/witcher_battle.wav";
-	
-	//musicTracks[0] = "../Audio/Music/witcher_dusk.wav";
-	//musicTracks[1] = "../Audio/Music/witcher_omnious.wav";
-	//musicTracks[2] = "../Audio/Music/witcher_battle.wav";
+	//currVolume = 1.0f;
 
-	////sound
-	//soundTracks[0] = "../Audio/Sounds/greeting.wav";
-	////...
+	//music
+	for (int i = 0; i < musicFiles; i++)
+	{
+		music[i] = new AudioObject;
+		music[i]->volume = 0.0;
+		music[i]->looping = AL_TRUE;
+	}
+
+	music[0]->file = "../Audio/Music/witcher_dusk.wav";
+	music[1]->file = "../Audio/Sounds/test.wav";
+	//music[1]->file = "../Audio/Music/witcher_omnious.wav";
+	music[2]->file = "../Audio/Music/witcher_battle.wav";
+
+	//sound
+	for (int i = 0; i < soundFiles; i++)
+	{
+		sounds[i] = new AudioObject;
+		sounds[i]->volume = maxVolume;
+		sounds[i]->looping = AL_FALSE;
+	}
+
+	sounds[0]->file = "../Audio/Sounds/greeting.wav";
+	//...
 }
 
 Audio::~Audio()
 {
+
 }
 
 bool Audio::init()
 {
-
 	//Init OpenAL
 	device = alcOpenDevice(NULL);
 	if (!device) return endWithError("no sound device");
@@ -47,12 +58,12 @@ bool Audio::init()
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
 	//load music
-	loadAudio(&music[0]);
-	loadAudio(&music[1]);
-	loadAudio(&music[2]);
+	for (int i = 0; i < musicFiles; i++)
+		loadAudio(music[i]);
 
 	//load sounds
-	//loadAudio(0,soundSource[0], soundBuffer[0]);
+	for (int j = 0; j < soundFiles; j++)
+		loadAudio(sounds[j]);
 
 	return EXIT_SUCCESS;
 }
@@ -154,7 +165,9 @@ bool Audio::loadAudio(AudioObject* audioObj)
 	alSourcef(audioObj->source, AL_GAIN, 1.0f);                                 //Set the gain of the musicSource
 	alSourcefv(audioObj->source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
 	alSourcefv(audioObj->source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
-	alSourcei(audioObj->source, AL_LOOPING, AL_TRUE);                                 //Set if musicSource is looping sound
+	alSourcei(audioObj->source, AL_LOOPING, audioObj->looping);                                 //Set if musicSource is looping sound
+
+	audioObj->state = A_NOT_PLAYING;
 
 	//Clean-up
 	fclose(fp);
@@ -165,42 +178,68 @@ bool Audio::loadAudio(AudioObject* audioObj)
 
 void Audio::playMusic(int track)
 {
-	if (currTrack != track)
+	if (music[track]->state == A_NOT_PLAYING)
 	{
 		stopMusic(currTrack);
 		if (track != -1)
 		{
-			alSourcePlay(music[track].source);
+			alSourcePlay(music[track]->source);
+			music[track]->state = A_PLAYING;
 		}
 		currTrack = track;
 	}
 }
 
+void Audio::update(float deltaTime)
+{
+	for (int i = 0; i < musicFiles; i++)
+	{
+		if (music[i]->state == A_FADEIN)
+		{
+			music[i]->volume += FADEINTIME * deltaTime;
+			if (music[i]->volume >= maxVolume)
+			{
+				music[i]->state = A_PLAYING;
+				music[i]->volume = maxVolume;
+			}	
+			alSourcef(music[i]->source, AL_GAIN, music[i]->volume);
+		}
+
+		else if (music[i]->state == A_FADEOUT)
+		{
+			music[i]->volume -= FADEOUTTIME * deltaTime;
+			if (music[i]->volume <= 0.0f)
+			{
+				music[i]->state = A_NOT_PLAYING;
+				music[i]->volume = 0.0f;
+				stopMusic(i);
+			}
+			alSourcef(music[i]->source, AL_GAIN, music[i]->volume);
+		}
+	}
+}
+
 void Audio::playMusicFade(int track, float deltaTime)
 {
-	if (track < numOfTracks && track >= 0)
+	if (track < musicFiles && track >= 0)
 	{
-		if (currTrack != track)
+		if (currTrack != track)//if not current track
 		{
-				oldTrack = currTrack;
-				alSourcePlay(music[track].source);
-				currTrack = track;
-				oldVolume = currVolume;
-				currVolume = 0.0f;
+			oldTrack = currTrack;
+			music[oldTrack]->state = A_FADEOUT;//fade out old music
+			music[track]->state = A_FADEIN;//fade in new music
+			alSourcePlay(music[track]->source);
+			currTrack = track;
 		}
-		if (fadeMusic(deltaTime) == true)
+		else if(currTrack == track)//check if currently fading in or out
 		{
-			stopMusic(oldTrack);
-			if (track != -1)
-			{
-				alSourcePlay(music[currTrack].source);
-			}
+		
 		}
 	}
 	else //if out of bounds
 	{
-		alSourceStop(music[currTrack].source);
-		alSourceStop(music[oldTrack].source);
+		music[currTrack]->state = A_FADEOUT;
+		music[oldTrack]->state = A_FADEOUT;
 		currTrack = -1;
 	}
 }
@@ -215,14 +254,20 @@ void Audio::updateListener(glm::vec3 pos)
 {
 	ALfloat listenerPos[] = { pos.x, pos.y, pos.z };
 	ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
-	alSourcefv(music[currTrack].source, AL_POSITION, SourcePos);
-	alSourcefv(music[oldTrack].source, AL_POSITION, SourcePos);
+
 	alListenerfv(AL_POSITION, listenerPos);
+	for (int i = 0; i < musicFiles; i++)
+		alSourcefv(music[i]->source, AL_POSITION, SourcePos);
 }
 
 void Audio::stopMusic(int track)
 {
-	alSourceStop(music[track].source);
+	if (track >= 0)
+	{
+		music[track]->state = A_NOT_PLAYING;
+		alSourceStop(music[track]->source);
+	}
+	
 }
 
 int Audio::getTrack()
@@ -232,41 +277,14 @@ int Audio::getTrack()
 
 void Audio::shutdown()
 {
-	for (int i = 0; i < numOfTracks; i++)
+	for (int i = 0; i < musicFiles; i++)
 	{
-		alDeleteSources(1, &music[i].source);
-		alDeleteBuffers(1, &music[i].buffer);
+		alDeleteSources(1, &music[i]->source);
+		alDeleteBuffers(1, &music[i]->buffer);
+		delete music[i];
 	}
 	alcDestroyContext(context);
 	alcCloseDevice(device);
-}
-
-bool Audio::fadeMusic(float deltaTime)
-{
-	// fade old track to 0
-	oldVolume -= 0.8 * deltaTime;
-	if (oldVolume < 0.0f)
-	{
-		oldVolume = 0.0f;
-	}
-	alSourcef(music[oldTrack].source, AL_GAIN, oldVolume);
-
-	// fade current track to 1.0
-	currVolume += 0.8 * deltaTime;
-	if (maxVolume > 1.0f)
-		currVolume = 1.0f;
-
-	alSourcef(music[currTrack].source, AL_GAIN, currVolume);
-
-	if (currVolume == maxVolume && oldVolume == 0.0f)
-	{
-		currVolume = maxVolume;
-		oldVolume = 0.0f;
-		stopMusic(oldTrack);
-		return true;
-	}
-
-	return false;
 }
 
 int Audio::endWithError(char* msg, int error)
