@@ -347,7 +347,7 @@ std::string Map::getBoss(glm::vec3 playerpos, bool startBoss)
 	if (idX != -1 && idY != -1)
 	{
 		std::string boss = chunks[idX][idY].getBossType();
-		if (startBoss && boss != "ChuckTesta")
+		if (startBoss && boss != "ChuckTesta" && chunks[idX][idY].hasBoss() != 2)
 			chunks[idX][idY].initBoss();
 		return boss;
 	}
