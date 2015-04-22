@@ -36,6 +36,8 @@ private:
 	int cameraSwapCounter = 0;
 	// </temp>
 
+	GLuint uniformUseBuffer;
+
 	Gbuffer gBuffer;
 
 	Light* light;

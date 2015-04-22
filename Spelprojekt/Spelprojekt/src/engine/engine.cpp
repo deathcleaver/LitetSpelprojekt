@@ -43,6 +43,7 @@ void Engine::init(glm::mat4* viewMat)
 	uniformProj = glGetUniformLocation(tempshader, "P");
 	uniformView = glGetUniformLocation(tempshader, "V");
 
+	uniformUseBuffer = glGetUniformLocation(tempshader, "useBuffer");
 
 	//gBuffer gui shader
 	shaders[0] = "src/shaders/gBuffer_gui_vs.glsl";
@@ -142,6 +143,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	lastid = -1;
 
 	//render chunk world objects
+
+	
 	if(renderWorld)
 		for (int n = 0; n < upDraw[0]; n++){
 			int x = n * 2 + 1;
@@ -150,15 +153,25 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
 					//render boxes
+
+					// temp for now
+					glProgramUniform1i(tempshader, uniformUseBuffer, 0);
+
 					int size = chunks[upDraw[x]][upDraw[y]].Box_Objs.size();
-					for (int k = 0; k < size; k++)
-					{
-						id = chunks[upDraw[x]][upDraw[y]].Box_Objs[k]->bindWorldMat(&tempshader, &uniformModel);
-						if (id != lastid)
-							facecount = content->bindMapObj(id);
-						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						lastid = id;
-					}
+					facecount = content->bindMapObj(1);
+					chunks[upDraw[x]][upDraw[y]].bindShaderBuffer();
+					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, size);
+					//for (int k = 0; k < size; k++)
+					//{
+					//	id = chunks[upDraw[x]][upDraw[y]].Box_Objs[k]->bindWorldMat(&tempshader, &uniformModel);
+					//	if (id != lastid)
+					//		facecount = content->bindMapObj(id);
+					//	glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+					//	lastid = id;
+					//}
+
+					// temp for now
+					glProgramUniform1i(tempshader, uniformUseBuffer, 1);
 
 					//render mushrooms
 					size = chunks[upDraw[x]][upDraw[y]].Mushroom_Objs.size();
@@ -183,6 +196,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				}
 	}
 	lastid = -1;
+
 
 	//render chunk monsters
 	if(renderMonster)

@@ -29,9 +29,14 @@ private:
 	//for mapmaker UNDO
 	int lastRecievedItemWorld = -1;
 	GameObject* lastRecievedWorld = 0;
+
+	GLuint ShaderBuffer;
+
 public:
 	MapChunk(){};
 	~MapChunk();
+
+	void bindShaderBuffer();
 
 	GameObject* chunkBackground = 0;
 	Shrine* shrine = 0;

@@ -31,6 +31,13 @@ MapChunk::~MapChunk()
 		}
 		delete[] worldCollide;
 	}
+
+	glDeleteBuffers(1, &ShaderBuffer);
+}
+
+void MapChunk::bindShaderBuffer()
+{
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, ShaderBuffer);
 }
 
 void MapChunk::init(int xIndex, int yIndex, std::string mapname)
@@ -210,6 +217,29 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			}
 	}
 	in.close();
+
+	glGenBuffers(1, &ShaderBuffer);
+	if (Box_Objs.size())
+	{
+
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, ShaderBuffer);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, Box_Objs.size() * sizeof(glm::mat4), NULL, GL_STATIC_COPY);
+		glm::mat4* data = (glm::mat4*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, Box_Objs.size() * sizeof(glm::mat4), GL_MAP_WRITE_BIT);
+
+		glm::mat4 * arr = new glm::mat4[Box_Objs.size()];
+
+		for (int i = 0; i < Box_Objs.size(); i++)
+		{
+			arr[i] = *Box_Objs[i]->getWorldMat();
+		}
+
+		memcpy_s(data, Box_Objs.size() * sizeof(glm::mat4), (void*)arr, Box_Objs.size() * sizeof(glm::mat4));
+
+		delete [] arr;
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+	}
+
 }
 
 bool MapChunk::collide(Rect* test, int overFlowX, int overFlowY)
