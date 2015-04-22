@@ -311,7 +311,6 @@ void GameObject::scaleAD(float x, float y, float z)
 
 void GameObject::scaleSNAP(float x, float y, float z)
 {
-
 	if (scaleXfloatsave < -99900.0f)
 		scaleXfloatsave = worldMat[0].x;
 	if (scaleYfloatsave < -99900.0f)
@@ -343,4 +342,21 @@ int GameObject::update(float deltaTime)
 int GameObject::returnID() const
 {
 	return contentIndex;
+}
+
+void GameObject::coppyMat(GameObject* obj)
+{
+	this->worldMat = obj->worldMat;
+	this->posXfloatsave = obj->posXfloatsave;
+	this->posYfloatsave = obj->posYfloatsave;
+	this->posZfloatsave = obj->posZfloatsave;
+	this->scaleXfloatsave = obj->scaleXfloatsave;
+	this->scaleYfloatsave = obj->scaleYfloatsave;
+	this->scaleZfloatsave = obj->scaleZfloatsave;
+	this->rotXfloatsave = obj->rotXfloatsave;
+	this->rotYfloatsave = obj->rotYfloatsave;
+	this->rotZfloatsave = obj->rotZfloatsave;
+	this->rotXfloatsaveTEMP = obj->rotXfloatsaveTEMP;
+	this->rotYfloatsaveTEMP = obj->rotYfloatsaveTEMP;
+	this->rotZfloatsaveTEMP = obj->rotZfloatsaveTEMP;
 }

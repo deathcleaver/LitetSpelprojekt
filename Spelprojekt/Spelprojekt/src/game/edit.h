@@ -20,7 +20,6 @@ enum EditMode
 enum EditState
 {
 	PLACE,
-	REMOVE,
 	CHANGE,
 	NONES,
 };
@@ -36,6 +35,7 @@ enum PlaceState
 class Edit
 {
 private:
+	~Edit();
 	Map* map;
 	MapChunk** chunks;
 	int chunkXCam = 0;
@@ -45,10 +45,10 @@ private:
 	float lastMousePosX = 0;
 	float lastMousePosY = 0;
 	UserInput* in;
-	GameObject* current = 0;
+
 	int width;
 	int height;
-	bool newItem = true;
+
 	float SCREENWIDTH = 1080;
 	float SCREENHEIGHT = 720;
 	EditMode editMode = EditMode::NONEM;
@@ -59,7 +59,24 @@ private:
 	PlaceState placeStateLast = PlaceState::NONEP;
 
 	int editContentID = -1;
+	int lastEditId = -2;
+
 	int internalPlaceState = 0;
+	GameObject* current = 0;
+	GameObject* lastPlaced = 0;
+	bool newItem = false;
+	bool coppyLast = false;
+
+	void EditorMode();
+	void EditorState();
+	void HoldNewItem();
+	void PlaceEditorState(float x, float y);
+	void discard();
+
+	void EditID();
+	bool debugBackground = false;
+	bool ForceEditBG();
+
 	void mouseToScreenSpace(float* x, float* y);	
 	void mouseToWorld(float* x, float* y);
 	

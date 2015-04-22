@@ -52,6 +52,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 	//load objects from file
 	if (in.is_open())
 	{
+		mapnamepath = mapname;
 		enemyMan = new EnemyManager();
 		enemyMan->init(in, xOffset, yOffset);
 
@@ -210,6 +211,85 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			}
 	}
 	in.close();
+}
+
+void MapChunk::saveChunk()
+{
+	std::stringstream ss;
+	ss << "../Spelprojekt/src/map/" << mapnamepath << "/"
+		<< xOffset << "_" << yOffset << ".chunkS";
+	string fileName = ss.str();
+
+	ofstream out;
+	out.open(fileName, std::ofstream::out | std::ofstream::trunc);
+
+	//save enemies
+
+	//save background
+
+	//save nr of map objects
+	out << countWorldObjs << endl;
+
+	//save map objects
+	for (int n = 0; n < Box_Objs.size(); n++)
+	{
+		out << "Box ";
+		saveObject(Box_Objs[n], &out);
+	}
+
+	//save shrine
+
+	//save nr of lights
+	//save lights
+
+	//save music id
+
+	//save collision
+}
+
+void MapChunk::saveObject(GameObject* object, ofstream* out)
+{
+	glm::mat4* mat;
+	mat = object->getWorldMat();
+
+	//save POS X
+	if (object->posXfloatsave < -9999)
+		*out << (*mat)[0].w << " ";
+	else
+		*out << object->posXfloatsave << " ";
+
+	//save POS Y
+	if (object->posYfloatsave < -9999)
+		*out << (*mat)[1].w << " ";
+	else
+		*out << object->posXfloatsave << " ";
+
+	//save POS Z
+	if (object->posZfloatsave < -9999)
+		*out << (*mat)[2].w << " ";
+	else
+		*out << object->posXfloatsave << " ";
+
+	//save Scale X
+	if (object->scaleXfloatsave < -9999)
+		*out << (*mat)[0].x << " ";
+	else
+		*out << object->scaleXfloatsave << " ";
+
+	//save Scale Y
+	if (object->scaleYfloatsave < -9999)
+		*out << (*mat)[1].y << " ";
+	else
+		*out << object->scaleYfloatsave << " ";
+
+	//save Scale Z
+	if (object->scaleZfloatsave < -9999)
+		*out << (*mat)[2].z << " ";
+	else
+		*out << object->scaleZfloatsave << " ";
+
+	//save Rotation
+	*out << object->rotXfloatsave << " " << object->rotYfloatsave << " " << object->rotZfloatsave << endl;
 }
 
 bool MapChunk::collide(Rect* test, int overFlowX, int overFlowY)
@@ -504,7 +584,6 @@ string MapChunk::getBossType()
 	return "ChuckTesta";
 }
 
-
 void MapChunk::recieveWorld(GameObject* item)
 {
 	if (item->returnID() == 1) // box
@@ -512,8 +591,10 @@ void MapChunk::recieveWorld(GameObject* item)
 		Box_Objs.push_back(item);
 		lastRecievedWorld = item;
 		lastRecievedItemWorld = 1;
+		countWorldObjs++;
 	}
 }
+
 void MapChunk::addVisitor(Enemy* visitor, string type)
 {
 	enemyMan->addOutsider(visitor, type);

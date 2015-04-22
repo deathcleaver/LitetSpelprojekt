@@ -29,7 +29,7 @@ void RenderTarget::resize(int x, int y)
 	}
 	if (y == 0)
 	{
-		y = 1;
+		//y = 1;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, targetId);

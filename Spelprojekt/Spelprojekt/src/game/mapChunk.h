@@ -29,6 +29,7 @@ private:
 	//for mapmaker UNDO
 	int lastRecievedItemWorld = -1;
 	GameObject* lastRecievedWorld = 0;
+	void saveObject(GameObject* object, ofstream* out);
 public:
 	MapChunk(){};
 	~MapChunk();
@@ -36,6 +37,7 @@ public:
 	GameObject* chunkBackground = 0;
 	Shrine* shrine = 0;
 	
+	string mapnamepath = "";
 	int countWorldObjs = 0;
 
 	vector<GameObject*> Box_Objs;
@@ -75,8 +77,8 @@ public:
 	void recieveSpecial(GameObject* item);
 	void addRekt(int x, int y);
 	void removeRekt(int x, int y);
-
 	void addVisitor(Enemy* visitor, string type);
+	void saveChunk();
 };
 
 #endif

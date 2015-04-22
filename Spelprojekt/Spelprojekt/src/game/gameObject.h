@@ -23,7 +23,8 @@ public:
 	GameObject(){ facingRight = true; contentIndex = -1; };
 	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
-	
+	void coppyMat(GameObject* obj);
+
 	void rotateTo(float x, float y, float z);
 	void rotateToX(float x);
 	void rotateToXSNAP(float x);
@@ -55,7 +56,7 @@ public:
 	glm::vec3 readPos() const;
 
 	int returnID() const;
-private:
+	
 	float posXfloatsave = -99999.0f;
 	float posYfloatsave = -99999.0f;
 	float posZfloatsave = -99999.0f;
@@ -68,6 +69,7 @@ private:
 	float rotXfloatsaveTEMP = 0;
 	float rotYfloatsaveTEMP = 0;
 	float rotZfloatsaveTEMP = 0;
+private:
 };
 
 #endif

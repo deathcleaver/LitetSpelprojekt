@@ -1,5 +1,10 @@
 #include "edit.h"
 
+Edit::~Edit()
+{
+	delete current;
+}
+
 void Edit::init(Map* map, UserInput* in)
 {
 	this->map = map;
@@ -8,125 +13,229 @@ void Edit::init(Map* map, UserInput* in)
 	this->width = map->readSizeX();
 	this->height = map->readSizeY();
 	editMode = EditMode::NONEM;
+	lastMousePosX = 0;
+	lastMousePosY = 0;
+	current = 0;
+	lastPlaced = 0;
 }
 
 void Edit::update(float x, float y)
 {
-	if (editMode != NONEM)
-	{
-		if (editMode != editModeLast)
-		{
-			placeState = PlaceState::NONEP;
-			internalPlaceState = 0;
-		}
-
-		if (newItem)
-		{
-			newItem = false;
-			if (editContentID != -1)
-			{
-				internalPlaceState = 0;
-				current = new GameObject();
-				current->init(editContentID);
-				current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
-				placeState = MOVE;
-				giveObjectToChunk();
-			}
-		}
-		if (in->getKeyNumberState(0))
-			newItem = true;
-
-		bool inHud = false;
-		if (y > 560)
-			inHud = true;
-		//convert mouse x, y to world
-		mouseToWorld(&x, &y);
-
-
-		//get current chunk index edit
-		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
-		map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
-		
-		if (chunkXCam == -1 || chunkXMouse == -1)
-			return;
-
-		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse && !inHud)
-		{
-			switch (editState)
-			{
-			case PLACE:
-				placeObject(x, y);
-				break;
-			case REMOVE:
-				break;
-			case CHANGE:
-				break;
-			case NONES:
-				break;
-			default:
-				break;
-			}
-		}
-		editModeLast = editMode;
-		placeStateLast = placeState;
-		lastMousePosX = x;
-		lastMousePosY = y;
-	}
-	else
+	//Set Editor mode
+	if (editMode == NONEM)
 	{
 		//temporary force
 		editMode = WORLD;
-		editState = PLACE;
-		editContentID = 1;
+	}
+	if (editMode != NONEM)
+	{
+		EditorMode();
+	}
+
+	editModeLast = editMode;
+	editStateLast = editState;
+	placeStateLast = placeState;
+}
+
+void Edit::EditorMode()
+{
+	//If edit mode was changed
+	if (editMode != editModeLast)
+	{
+		placeState = PlaceState::NONEP;
+		internalPlaceState = 0;
+		editContentID = -1;
+		discard();
+	}
+	
+	switch (editMode)
+	{
+	case BACK:
+	case WORLD:
+	case MONSTER:
+	{
+		//select editorState
+		if (editState == NONES)
+		{
+			//temp force
+			editState = EditState::PLACE;
+		}
+		if (editState != NONES)
+		{
+			EditorState();
+		}
+	}
+	break;
+	case SPECIAL:
+		break;
+	case REKT:
+		break;
+	case LIGHT:
+		break;
+	}
+}
+
+void Edit::EditorState()
+{
+	//if edit state was changed
+	if (editState != editStateLast)
+	{
+		discard();
+		editContentID = -1;
+		placeState = PlaceState::NONEP;
+		internalPlaceState = 0;
+	}
+	
+	float x, y;
+	bool lmb, rmb;
+	in->getMouseState(&x, &y, &rmb, &lmb);
+
+	if (editState == EditState::PLACE)
+	{
+		if (editContentID == -1)
+		{
+			editContentID = 1;
+		}
+		if(editContentID != -1)
+		{
+			if (in->getKeyNumberState(0))
+				newItem = true;
+			if (in->getKeyNumberState(9))
+			{
+				newItem = true;
+				coppyLast = true;
+			}
+			if (newItem)
+				HoldNewItem();
+
+			if (current)
+			{
+				PlaceEditorState(x, y);
+			}
+		}
+	}
+	else if (editState == EditState::CHANGE)
+	{
+		// get object from chunk
+	}
+}
+
+void Edit::HoldNewItem()
+{
+	bool useOld = false;
+	glm::vec3 pos;
+	//init new at currentposs if possible
+	//if (current)
+	//{
+	//	useOld = true;
+	//	pos = current->readPos();
+	//	discard();
+	//}
+	discard();
+
+	internalPlaceState = 0;
+	placeState = NONEP;
+	newItem = false;
+	if (coppyLast)
+	{
+		coppyLast = false;
+		if (lastPlaced)
+		{
+			current = new GameObject();
+			current->init(lastPlaced->returnID());
+			current->coppyMat(lastPlaced);
+		}
+	}
+	else
+	{	
+		current = new GameObject();
+		current->init(editContentID);
+		//if(useOld)
+		//	current->moveTo(pos.x, pos.y, pos.z);
+		//else
+		current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
+	}
+}
+
+void Edit::PlaceEditorState(float x, float y)
+{
+	bool inHud = false;
+	if (y > 560)
+		inHud = true;
+	//convert mouse x, y to world
+	mouseToWorld(&x, &y);
+
+	//get current chunk index edit
+	map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
+	map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
+
+	if (chunkXCam == -1 || chunkXMouse == -1)
+		return;
+
+	if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse && !inHud)
+	{
+		switch (editState)
+		{
+		case PLACE:
+			placeObject(x, y);
+			if (current)
+				if (in->getKeyState('E'))
+					giveObjectToChunk();
+			break;
+		case CHANGE:
+			break;
+		case NONES:
+			break;
+		}
 	}
 }
 
 void Edit::placeObject(float x, float y)
 {
-	if (in->getKeyNumberState(5)) //reset
+	//Set Place State
+	if (in->getKeyNumberState(1))
+		placeState = NONEP;
+	if (in->getKeyNumberState(2))
 	{
-		delete current;
-		current = new GameObject();
-		current->init(editContentID);
-		current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
+		placeState = MOVE;
+		internalPlaceState = 0;
 	}
-	if (placeState == NONEP)
+	else if (in->getKeyNumberState(3))
 	{
-		if (in->getKeyNumberState(2))
-			placeState = MOVE;
-		else if (in->getKeyNumberState(3))
-			placeState = SCALE;
-		else if (in->getKeyNumberState(4))
-			placeState = ROT;
+		placeState = SCALE;
+		internalPlaceState = 0;
 	}
-	else
+	else if (in->getKeyNumberState(4))
 	{
-		if (in->getKeyNumberState(1))
-			placeState = NONEP;
+		placeState = ROT;
+		internalPlaceState = 0;
+	}
+	if (placeState != placeStateLast)
+	{
+		internalPlaceState = 0;
+	}
+	if (in->getLMBrelease())
+		internalPlaceState++;
+	if (in->getRMBdown() || in->updateMouse())
+	{
 
-		if (in->getLMBrelease())
-			internalPlaceState++;
-		if (in->getRMBdown() || in->updateMouse())
-		{
-			x = 0;
-			y = 0;
-			lastMousePosX = 0;
-			lastMousePosY = 0;
-		}
+	}
+	else //update if lmb or shift isnt down
+	{
 		switch (placeState)
 		{
 		case MOVE:
 			if (internalPlaceState == 0)
 			{
-				if(in->getKeyState('Q'))
-					current->translateSNAP(x - lastMousePosX, y - lastMousePosY, 0);	
+				if (in->getKeyState('Q'))
+					current->translateSNAP(x - lastMousePosX, y - lastMousePosY, 0);
 				else
 					current->translateEDITOR(x - lastMousePosX, y - lastMousePosY, 0);
 			}
 			else if (internalPlaceState == 1)
 			{
 				if (in->getKeyState('Q'))
-					current->translateSNAP(0, 0, y - lastMousePosY);	
+					current->translateSNAP(0, 0, y - lastMousePosY);
 				else
 					current->translateEDITOR(0, 0, y - lastMousePosY);
 			}
@@ -139,7 +248,7 @@ void Edit::placeObject(float x, float y)
 		case SCALE:
 			if (internalPlaceState == 0)
 				if (in->getKeyState('Q'))
-					current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);	
+					current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);
 				else
 					current->scaleAD(x - lastMousePosX, y - lastMousePosY, 0);
 
@@ -175,6 +284,8 @@ void Edit::placeObject(float x, float y)
 			break;
 		}
 	}
+	lastMousePosX = x;
+	lastMousePosY = y;
 }
 
 void Edit::giveObjectToChunk()
@@ -185,6 +296,8 @@ void Edit::giveObjectToChunk()
 		break;
 	case WORLD:
 		chunks[chunkXCam][chunkYCam].recieveWorld(current);
+		lastPlaced = current;
+		current = 0;
 		break;
 	case MONSTER:
 		break;
@@ -195,6 +308,12 @@ void Edit::giveObjectToChunk()
 	case SPECIAL:
 		break;
 	}
+}
+
+void Edit::discard()
+{
+	delete current;
+	current = 0;
 }
 
 EditMode Edit::getEditMode()
@@ -257,12 +376,9 @@ void Edit::guiHandle(int bEvent)
 		editState = EditState::PLACE;
 		break;
 	case(111) :
-		editState = EditState::REMOVE;
-		break;
-	case(112) :
 		editState = EditState::CHANGE;
 		break;
-	case(113) :
+	case(112) :
 		editState = EditState::NONES;
 		break;
 
