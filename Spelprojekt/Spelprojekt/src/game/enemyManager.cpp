@@ -114,7 +114,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	visitorHolder = new Enemy*[maxVisitors];
 
 	int msg = 0;
-	glm::vec3 chunkMid = glm::vec3(chunk->xOffset * 35, chunk->yOffset * 35, 0);
+	glm::vec3 chunkMid = glm::vec3(chunk->xOffset * 35, chunk->yOffset * -35, 0);
 	glm::vec3 pos;
 	for (int c = 0; c < batCount; c++)
 	{
@@ -125,7 +125,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 				msg = bats[c]->update(deltaTime, chunk, playerPos);
 				pos = bats[c]->readPos();
 				if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
-					pos.y < chunkMid.y * 35 - 17.5f || pos.y > chunkMid.y + 17.5f)
+					pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
 				{
 					Bat* visitBat = new Bat((Bat*)bats[c]);
 					visitBat->setVisitor();

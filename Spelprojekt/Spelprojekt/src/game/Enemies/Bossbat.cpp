@@ -217,11 +217,17 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		{
 			float distX = chargePos.x - returnPos.x;
 			float distY = chargePos.y - returnPos.y;
-			moveTo(pos.x - speed*deltaTime*distX / 4, pos.y - speed*deltaTime*distY / 4);
+			moveTo(pos.x - speed*deltaTime*distX / 5, pos.y - speed*deltaTime*distY / 5);
 			if (hasTurned)
 			{
 				hasTurned = false;
 				rotateTo(0, 3.1415927f, 0);
+			}
+			if (collidesWithWorld(chunk))
+			{
+				moveTo(pos.x + speed*deltaTime*distX / 5, pos.y + speed*deltaTime*distY / 5);
+				charging = false;
+				chargeTimer = 2.0f;
 			}
 		}
 	}

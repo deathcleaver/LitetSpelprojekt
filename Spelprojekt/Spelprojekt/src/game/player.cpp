@@ -335,7 +335,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (currentRune == FLAME)
 			{
 				attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
-				DMG += 1;
 			}
 		}
 	}
@@ -351,7 +350,6 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (currentRune == FLAME)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
-					DMG -= 1;
 				}
 				currentRune = NORUNE;
 				invulnTimer = 1.0f;
