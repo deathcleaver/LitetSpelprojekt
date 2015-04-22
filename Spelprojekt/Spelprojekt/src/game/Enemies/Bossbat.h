@@ -16,6 +16,12 @@ private:
 	float batTimer;
 	int batsToSpawn;
 	void spawnBat(MapChunk* chunk, float deltaTime);
+
+	float chargeTimer;
+	bool charging;
+	glm::vec3 chargePos;
+	glm::vec3 returnPos;
+	bool hasTurned;
 public:
 	Bossbat(glm::vec2 firstPos);
 	void init();
