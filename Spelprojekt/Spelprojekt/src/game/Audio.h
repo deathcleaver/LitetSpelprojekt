@@ -15,6 +15,7 @@
 #define A_FADEOUT 4
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
+#define VOLUME_MAX 1.0f // goes from 0.0 to 1.0
 
 class Audio
 {
@@ -35,7 +36,7 @@ private:
 		ALuint source;
 		ALuint buffer;
 		char* file;
-		float volume;
+		ALfloat volume;
 		ALint looping;
 	};
 
@@ -49,7 +50,8 @@ public:
 	void playMusic(int track);
 	void playMusicFade(int track, float deltaTime);
 	void playSound();
-	void playSoundAtPos(glm::vec3 pos);
+	void playSoundAtPos(int track, glm::vec3 pos);
+	void createSoundAtPos(int track, glm::vec3 pos);
 	void updateListener(glm::vec3 pos);
 	int	getTrack();
 	void shutdown();
@@ -72,8 +74,6 @@ private:
 	int musicFiles = 3;
 	int soundFiles = 1;
 	int currTrack, oldTrack;
-	float maxVolume;
-	//float currVolume, oldVolume;
 };
 
 #endif

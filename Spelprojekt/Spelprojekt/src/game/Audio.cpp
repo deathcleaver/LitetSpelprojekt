@@ -6,8 +6,6 @@ using namespace std;
 Audio::Audio()
 {
 	currTrack = -1;
-	maxVolume = 1.0f;
-	//currVolume = 1.0f;
 
 	//music
 	for (int i = 0; i < musicFiles; i++)
@@ -25,11 +23,11 @@ Audio::Audio()
 	for (int i = 0; i < soundFiles; i++)
 	{
 		sounds[i] = new AudioObject;
-		sounds[i]->volume = maxVolume;
-		sounds[i]->looping = AL_FALSE;
+		sounds[i]->volume = VOLUME_MAX;
+		sounds[i]->looping = AL_TRUE;
 	}
 
-	sounds[0]->file = "../Audio/Sounds/greeting.wav";
+	sounds[0]->file = "../Audio/Sounds/fire.wav";
 	//...
 }
 
@@ -161,7 +159,7 @@ bool Audio::loadAudio(AudioObject* audioObj)
 	//musicSource
 	alSourcei(audioObj->source, AL_BUFFER, audioObj->buffer);                                 //Link the musicBuffer to the musicSource
 	alSourcef(audioObj->source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
-	alSourcef(audioObj->source, AL_GAIN, 1.0f);                                 //Set the gain of the musicSource
+	alSourcef(audioObj->source, AL_GAIN, VOLUME_MAX);                                 //Set the gain of the musicSource
 	alSourcefv(audioObj->source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
 	alSourcefv(audioObj->source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
 	alSourcei(audioObj->source, AL_LOOPING, audioObj->looping);                                 //Set if musicSource is looping sound
@@ -182,8 +180,8 @@ void Audio::playMusic(int track)
 		stopMusic(currTrack);
 		if (track != -1)
 		{
-			alSourcePlay(music[track]->source);
 			music[track]->state = A_PLAYING;
+			alSourcePlay(music[track]->source);
 		}
 		currTrack = track;
 	}
@@ -196,10 +194,10 @@ void Audio::update(float deltaTime)
 		if (music[i]->state == A_FADEIN)
 		{
 			music[i]->volume += FADEINTIME * deltaTime;
-			if (music[i]->volume >= maxVolume)
+			if (music[i]->volume >= VOLUME_MAX)
 			{
 				music[i]->state = A_PLAYING;
-				music[i]->volume = maxVolume;
+				music[i]->volume = VOLUME_MAX;
 			}	
 			alSourcef(music[i]->source, AL_GAIN, music[i]->volume);
 		}
@@ -239,8 +237,7 @@ void Audio::playMusicFade(int track, float deltaTime)
 	else //if out of bounds
 	{
 		music[currTrack]->state = A_FADEOUT;
-		music[oldTrack]->state = A_FADEOUT;
-		
+		music[oldTrack]->state = A_FADEOUT;		
 	}
 }
 
@@ -250,9 +247,17 @@ void Audio::playSound()
 	//alSourcePlay(musicSource);
 }
 
-void Audio::playSoundAtPos(glm::vec3 pos)
+void Audio::playSoundAtPos(int track, glm::vec3 pos)
 {
+	if (sounds[track]->state == A_NOT_PLAYING)
+	{
+		ALfloat soundPos[] = { pos.x, pos.y, pos.z };
 
+		sounds[track]->state = A_PLAYING;
+		alSourcefv(sounds[track]->source, AL_POSITION, soundPos);
+		alSourcePlay(sounds[track]->source);
+	}
+	
 }
 
 void Audio::updateListener(glm::vec3 pos)
@@ -289,6 +294,14 @@ void Audio::shutdown()
 		alDeleteBuffers(1, &music[i]->buffer);
 		delete music[i];
 	}
+	
+	for (int j = 0; j < soundFiles; j++)
+	{
+		alDeleteSources(1, &sounds[j]->source);
+		alDeleteBuffers(1, &sounds[j]->buffer);
+		delete sounds[j];
+	}
+
 	alcDestroyContext(context);
 	alcCloseDevice(device);
 }

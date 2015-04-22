@@ -190,6 +190,8 @@ void Game::update(float deltaTime)
 					  {
 							  audio->playMusicFade(tempId, deltaTime);
 					  }
+
+					  //audio->playSoundAtPos(0, { -2.0, 0.0, 0.0 });
 						  
 			if (cameraFollow)
 			{
