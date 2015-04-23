@@ -21,34 +21,43 @@ void main()
 {
  
     vec3 partPos = gl_in[0].gl_Position.xyz;
-    float partSize = gl_in[0].gl_Position.w * 0.5;
+    float partSize = gl_in[0].gl_Position.w * 0.5f;
     
     vec3 dist = (partPos - camPos);
-    
-    vec3 strafe = normalize(cross(dist, upFixed));
-    vec3 up = normalize(cross(dist, strafe));
-    
-    outColor = color[0];
-    center = P * V * vec4(partPos, 1);
-    
-    size = partSize;
-    
-    // Top left
-    cornerPos = gl_Position = P * V * vec4(partPos - (strafe * partSize) + (up * partSize), 1);
-    EmitVertex();
-    
-    // bottom left
-    cornerPos = gl_Position = P * V * vec4(partPos - (strafe * partSize) - (up * partSize), 1);
-    EmitVertex();
-    
-    // top right
-    cornerPos = gl_Position = P * V * vec4(partPos + (strafe * partSize) + (up * partSize), 1);
-    EmitVertex();
-    
-    // bottom right
-    cornerPos = gl_Position = P * V * vec4(partPos + (strafe * partSize) - (up * partSize), 1);
-    EmitVertex();
-    
-    EndPrimitive();
+    float culldist = length(partPos.x - camPos.x);
+	if(culldist < (15 + partSize * 0.2))
+	{
+		float culldist = length(partPos.y - camPos.y);
+		if(culldist < (8 + partSize * 0.2))
+		{
+			vec3 strafe = normalize(cross(dist, upFixed));
+			vec3 up = normalize(cross(dist, strafe));
+			
+			mat4 PV = P * V;
+			
+			outColor = color[0];
+			center = PV * vec4(partPos, 1);
+			
+			size = partSize;
+			
+			// Top left
+			cornerPos = gl_Position = PV * vec4(partPos - (strafe * partSize) + (up * partSize), 1);
+			EmitVertex();
+			
+			// bottom left
+			cornerPos = gl_Position = PV * vec4(partPos - (strafe * partSize) - (up * partSize), 1);
+			EmitVertex();
+			
+			// top right
+			cornerPos = gl_Position = PV * vec4(partPos + (strafe * partSize) + (up * partSize), 1);
+			EmitVertex();
+			
+			// bottom right
+			cornerPos = gl_Position = PV * vec4(partPos + (strafe * partSize) - (up * partSize), 1);
+			EmitVertex();
+			
+			EndPrimitive();
+		}
+	}
     
 }
