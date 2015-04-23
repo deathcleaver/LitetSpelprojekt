@@ -179,6 +179,15 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 							facecount = content->bindMapObj(id);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
+						GameObject* rune = chunks[upDraw[x]][upDraw[y]].shrine->returnRune();
+						if (rune)
+						{
+							id = rune->bindWorldMat(&tempshader, &uniformModel);
+							if (id != lastid)
+								facecount = content->bindMapObj(id);
+							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+							lastid = id;
+						}
 					}
 				}
 	}

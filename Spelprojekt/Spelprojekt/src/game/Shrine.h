@@ -23,7 +23,9 @@ class Shrine
 private:
 	//Powerup
 	int rune;
+	bool runeTaken;
 	GameObject* object;
+	GameObject* runeObj;
 	Rect* collision;
 public:
 	Shrine(GameObject* object);
@@ -31,9 +33,16 @@ public:
 	Rect* getRekt();
 	glm::vec2 getPos();
 	int getRune();
+	void resetRune();
 	GameObject* returnThis()
 	{
 		return object;
+	}
+	GameObject* returnRune()
+	{
+		if (!runeTaken)
+			return runeObj;
+		return 0;
 	}
 };
 

@@ -589,6 +589,10 @@ int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 
 void MapChunk::respawnEnemies()
 {
+	if (shrine)
+	{
+		shrine->resetRune();
+	}
 	enemyMan->resetEnemies();
 }
 

@@ -53,14 +53,16 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 
 	//Find all enemies, create them, and load them
 	
+	if (xOffset == 1 && yOffset == 1)
+	{
+		printf("Hej");
+	}
 	getline(file, line);
 	istringstream iss(line);
 	string sub;
 	iss >> sub;
 	if (atoi(sub.c_str()) == 1) //THERE IS A BOSS HOLY HELL
 	{
-		getline(file, line);
-		iss = istringstream(line);
 		iss >> sub;
 		type = sub; //Läs bosstyp
 		iss >> sub;
@@ -97,7 +99,13 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	resetEnemies();
 
 	//save boss  OBSERVERA!!!!! 0 boss
-	*out << 0 << " : BOSS" << endl;
+	if (boss)
+	{
+		glm::vec3 bossPos = boss->readPos();
+		*out << 1 << " " << boss->getType() << " " << bossPos.x << " " << bossPos.y << endl;
+	}
+	else
+		*out << 0 << " : ChuckTesta" << endl;
 	*out << batCount + flameCount + spikeCount << " : Enemy Count" << endl;
 
 	for (int n = 0; n < batCount; n++)
