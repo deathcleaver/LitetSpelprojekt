@@ -24,10 +24,10 @@ Audio::Audio()
 	{
 		sounds[i] = new AudioObject;
 		sounds[i]->volume = VOLUME_MAX;
-		sounds[i]->looping = AL_TRUE;
+		sounds[i]->looping = AL_FALSE;
 	}
 
-	sounds[0]->file = "../Audio/Sounds/fire.wav";
+	sounds[0]->file = "../Audio/Sounds/greeting.wav";
 	//...
 }
 
@@ -247,11 +247,11 @@ void Audio::playSound()
 	//alSourcePlay(musicSource);
 }
 
-void Audio::playSoundAtPos(int track, glm::vec3 pos)
+void Audio::playSoundAtPos(int track, glm::vec2 pos, bool looping)
 {
 	if (sounds[track]->state == A_NOT_PLAYING)
 	{
-		ALfloat soundPos[] = { pos.x, pos.y, pos.z };
+		ALfloat soundPos[] = { pos.x, pos.y, 0.0 };
 
 		sounds[track]->state = A_PLAYING;
 		alSourcefv(sounds[track]->source, AL_POSITION, soundPos);

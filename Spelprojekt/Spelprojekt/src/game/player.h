@@ -12,6 +12,7 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 #include "Progress.h"
+#include "Audio.h"
 
 class Player : public GameObject
 {
@@ -61,7 +62,7 @@ public:
 	~Player();
 	void init();
 
-	int update(UserInput* userInput, Map* map, float deltaTime);
+	int update(UserInput* userInput, Map* map, Audio* audio, float deltaTime);
 	vec2 getSpeed();
 	std::string getAnimState();
 	bool isBlinking() const;

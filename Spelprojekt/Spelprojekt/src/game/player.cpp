@@ -51,7 +51,7 @@ void Player::moveWeapon()
 	attackRect.update();
 }
 
-int Player::update(UserInput* userInput, Map* map, float deltaTime)
+int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime)
 {
 	animState = "idle";
 	timepass += deltaTime;
@@ -328,6 +328,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		if (HP != MAX_HP)
 		{
 			HP = MAX_HP;
+			audio->playSoundAtPos(0, currentSpawn->getPos(), false);
 			printf("Max HP regained\n");
 		}
 		if (currentRune == 0)

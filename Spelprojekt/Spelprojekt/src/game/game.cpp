@@ -190,8 +190,6 @@ void Game::update(float deltaTime)
 					  {
 							  audio->playMusicFade(tempId, deltaTime);
 					  }
-
-					  //audio->playSoundAtPos(0, { -2.0, 0.0, 0.0 });
 						  
 			if (cameraFollow)
 			{
@@ -211,7 +209,7 @@ void Game::update(float deltaTime)
 							player->fightThatBossBro();
 					}
 				}
-				player->update(in, map, deltaTime);
+				player->update(in, map, audio, deltaTime);
 				audio->updateListener(player->readPos());
 			}
 			content->setPlayerState(player->getAnimState());

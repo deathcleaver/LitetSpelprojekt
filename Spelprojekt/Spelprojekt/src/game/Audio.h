@@ -50,8 +50,8 @@ public:
 	void playMusic(int track);
 	void playMusicFade(int track, float deltaTime);
 	void playSound();
-	void playSoundAtPos(int track, glm::vec3 pos);
-	void createSoundAtPos(int track, glm::vec3 pos);
+	void playSoundAtPos(int track, glm::vec2 pos, bool looping);
+	void createSoundAtPos(int track, glm::vec2 pos);
 	void updateListener(glm::vec3 pos);
 	int	getTrack();
 	void shutdown();
