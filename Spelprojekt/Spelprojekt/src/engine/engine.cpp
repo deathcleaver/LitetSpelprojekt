@@ -321,25 +321,25 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				for (int c = 0; c < flameCount; c++)
 				{
 					Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
-						if (temp)
-						{
+					if (temp)
+					{
 						
-						light[nrOfLights + c].posX = temp->posX;
-						light[nrOfLights + c].posY = temp->posY;
-						light[nrOfLights + c].posZ = temp->posZ;
+						light[nrOfLights + lightSize].posX = temp->posX;
+						light[nrOfLights + lightSize].posY = temp->posY;
+						light[nrOfLights + lightSize].posZ = temp->posZ;
 
-						light[nrOfLights + c].r = temp->r;
-						light[nrOfLights + c].g = temp->g;
-						light[nrOfLights + c].b = temp->b;
+						light[nrOfLights + lightSize].r = temp->r;
+						light[nrOfLights + lightSize].g = temp->g;
+						light[nrOfLights + lightSize].b = temp->b;
 
-						light[nrOfLights + c].intensity = temp->intensity;
-						light[nrOfLights + c].distance = temp->distance;
+						light[nrOfLights + lightSize].intensity = temp->intensity;
+						light[nrOfLights + lightSize].distance = temp->distance;
 						lightSize++;
 					}
 				}
 				nrOfLights += lightSize;
 			}
-	}
+		}
 
 	gBuffer.pushLights(light, nrOfLights);
 
