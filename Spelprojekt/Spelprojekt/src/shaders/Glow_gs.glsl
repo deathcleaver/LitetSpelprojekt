@@ -19,11 +19,12 @@ vec3 upFixed = vec3(0, 1, 0);
 
 void main()
 {
- 
+    mat4 VP = P*V;
     vec3 partPos = gl_in[0].gl_Position.xyz;
     float partSize = gl_in[0].gl_Position.w * 0.5f;
     
     vec3 dist = (partPos - camPos);
+
     float culldist = length(partPos.x - camPos.x);
 	if(culldist < (15 + partSize * 0.2))
 	{
@@ -59,5 +60,4 @@ void main()
 			EndPrimitive();
 		}
 	}
-    
 }

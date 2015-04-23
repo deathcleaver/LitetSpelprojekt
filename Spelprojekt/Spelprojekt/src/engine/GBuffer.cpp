@@ -103,6 +103,9 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glVertexAttribPointer(0, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 0));
 	glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 4));
 
+	glVertexAttribDivisor(0, 1);
+	glVertexAttribDivisor(1, 1);
+
 }
 
 Gbuffer::~Gbuffer()
@@ -153,7 +156,8 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 	glBindBuffer(GL_ARRAY_BUFFER, lightBuffer);
 	glBindVertexArray(LightVao);
 
-	glDrawArrays(GL_POINTS, 0, nrLight);
+	//glDrawArrays(GL_POINTS, 0, nrLight);
+	glDrawArraysInstanced(GL_POINTS, 0, 1, nrLight);
 
 }
 
