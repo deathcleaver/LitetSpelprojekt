@@ -1,6 +1,6 @@
 1 ChuckTesta 0 10
 0 : Enemy Count
-0 0 0 0 :  BACKGROUND!
+8 0 0 -2 :  BACKGROUND!
 -1 NO SHRINE
 2 :  Number of world objects
 Box 35 0 0 0 0 17 0 9 0 0 2 0 0 0 0 1
