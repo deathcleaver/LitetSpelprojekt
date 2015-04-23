@@ -484,7 +484,7 @@ void UserInput::resetZoomViewDir()
 {
 	angleH = -90;
 	angleV = -0;
-	pos.z = 11;
+	pos.z = 10;
 	target = pos;
 	target.z--;
 }
