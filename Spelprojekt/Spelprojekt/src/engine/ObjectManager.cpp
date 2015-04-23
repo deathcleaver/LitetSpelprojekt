@@ -66,7 +66,7 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 6;
+	myNrOfMapObjects = 7;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
@@ -89,6 +89,9 @@ void ObjectManager::loadMapObjs()
 	//Damage rune
 	myMapObjs[5] = new AnimationObject("src/meshes/RuneDamage.v", "src/textures/Rune-Damage.bmp");
 
+	//Shield rune
+	myMapObjs[6] = new AnimationObject("src/meshes/RuneShield.v", "src/textures/Rune-Shield.bmp");
+
 }
 
 void ObjectManager::loadMonsterObjs()
@@ -106,7 +109,7 @@ void ObjectManager::loadMonsterObjs()
 	//bats
 	Object* bat1 = new Object("src/meshes/BatWingsBackFix.v", "src/textures/Red.bmp");
 	Object* bat2 = new Object("src/meshes/BatWingsForwardFix.v", "src/textures/Red.bmp");
-	myMonsterObjs[1] = new AnimationObject(bat1, bat2, 0.5f, 0.05f);
+	myMonsterObjs[1] = new AnimationObject(bat1, bat2, 0.5f, 0.08f);
 
 
 	//flamecubes
