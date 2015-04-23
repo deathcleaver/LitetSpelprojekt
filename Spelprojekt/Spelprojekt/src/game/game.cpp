@@ -208,9 +208,7 @@ void Game::update(float deltaTime)
 						bossRoomMiddle.y + 10.0f > playerPos.y && bossRoomMiddle.y - 10.0f < playerPos.y && !player->isBossFighting())
 					{
 						if (map->getBoss(playerPos, true) != "ChuckTesta")
-						{
 							player->fightThatBossBro();
-						}
 					}
 				}
 				player->update(in, map, deltaTime);

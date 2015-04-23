@@ -28,8 +28,6 @@ public:
 	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
 	bool isBlinking();
-	std::string isBoss();
-
 	bool isInitiated();
 	std::string getType()
 	{

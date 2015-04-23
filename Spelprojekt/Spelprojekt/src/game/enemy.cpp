@@ -20,11 +20,6 @@ bool Enemy::isBlinking()
 	return false;
 }
 
-std::string Enemy::isBoss()
-{
-	return "ChuckTesta";
-}
-
 bool Enemy::isInitiated()
 {
 	return true;
