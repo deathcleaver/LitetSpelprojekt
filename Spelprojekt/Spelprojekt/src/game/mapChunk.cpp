@@ -177,27 +177,27 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				switch (runeType)
 				{
 				case FLAME:
-					lights[nrOfLights - 1].r = 1.0;
-					lights[nrOfLights - 1].g = 0.5;
-					lights[nrOfLights - 1].b = 0.02;
+					lights[nrOfLights - 1].r = 0.5;
+					lights[nrOfLights - 1].g = 0.25;
+					lights[nrOfLights - 1].b = 0.01;
 					break;
 				case SPARK:
 					lights[nrOfLights - 1].r = 0.0;
-					lights[nrOfLights - 1].g = 1.0;
-					lights[nrOfLights - 1].b = 1.0;
+					lights[nrOfLights - 1].g = 0.5;
+					lights[nrOfLights - 1].b = 0.5;
 					break;
 				case FORCE:
 					lights[nrOfLights - 1].r = 0.0;
-					lights[nrOfLights - 1].g = 1.0;
+					lights[nrOfLights - 1].g = 0.5;
 					lights[nrOfLights - 1].b = 0.0;
 					break;
 				case STOMP:
-					lights[nrOfLights - 1].r = 1.0;
-					lights[nrOfLights - 1].g = 1.0;
-					lights[nrOfLights - 1].b = 1.0;
+					lights[nrOfLights - 1].r = 0.5;
+					lights[nrOfLights - 1].g = 0.5;
+					lights[nrOfLights - 1].b = 0.5;
 					break;
 				}
-				lights[nrOfLights - 1].intensity = 2;
+				lights[nrOfLights - 1].intensity = 0.1;
 				lights[nrOfLights - 1].distance = 15.0;
 				shrine->giveLight(&lights[nrOfLights - 1]);
 			}
