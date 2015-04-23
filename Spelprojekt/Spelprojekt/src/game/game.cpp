@@ -202,7 +202,7 @@ void Game::update(float deltaTime)
 				}
 				else
 				{
-					glm::vec3 currentPos((bossRoomMiddle.x + playerPos.x)/2.0f, (bossRoomMiddle.y +playerPos.y)/2.0f, 0);
+					glm::vec3 currentPos((5 * bossRoomMiddle.x) / 6.0f + playerPos.x / 6.0f, (2 * bossRoomMiddle.y) / 3.0f + playerPos.y / 3.0f, 0);
 					in->cameraPan(currentPos, 5, deltaTime, true);
 					if (bossRoomMiddle.x + 10.0f > playerPos.x && bossRoomMiddle.x - 10.0f < playerPos.x &&
 						bossRoomMiddle.y + 10.0f > playerPos.y && bossRoomMiddle.y - 10.0f < playerPos.y && !player->isBossFighting())
