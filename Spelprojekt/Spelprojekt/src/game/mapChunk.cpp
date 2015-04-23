@@ -106,10 +106,10 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			ss >> sub;
 			pos.z = atof(sub.c_str());
 			GameObject* temp = new GameObject();
-			temp->init(id);
+			temp->init(2);
 			temp->moveTo(pos);
 			temp->translate(xOffset * 35, yOffset * -35, 0);
-			shrine = new Shrine(temp);
+			shrine = new Shrine(temp, id);
 		}
 
 		// --- Load World Count --- 
@@ -197,8 +197,8 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 					lights[nrOfLights - 1].b = 1.0;
 					break;
 				}
-				lights[nrOfLights - 1].intensity = 2.0;
-				lights[nrOfLights - 1].distance = 20.0;
+				lights[nrOfLights - 1].intensity = 2;
+				lights[nrOfLights - 1].distance = 15.0;
 			}
 		}
 		
@@ -235,7 +235,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			GameObject* temp = new GameObject();
 			temp->init(2);
 			temp->scaleUniformFactor(0);
-			shrine = new Shrine(temp);
+			shrine = new Shrine(temp, 0);
 		}
 		else
 			shrine = 0;
@@ -342,7 +342,7 @@ void MapChunk::initOld(int xIndex, int yIndex, std::string mapname)
 					shrineTemp->moveTo(xOffset * 35, yOffset * -35);
 					shrineTemp->translate(pos.x, pos.y, pos.z);
 					shrineTemp->scaleFactor(scale.x, scale.y, scale.z);
-					shrine = new Shrine(shrineTemp);
+					shrine = new Shrine(shrineTemp, 0);
 				}
 			}
 		}
@@ -466,7 +466,7 @@ void MapChunk::saveChunk()
 	if (shrine)
 	{
 		glm::mat4* mat = shrine->returnThis()->getWorldMat();
-		out << shrine->returnThis()->returnID();
+		out << shrine->getRune();
 		out << " " << (*mat)[0].w - xOffset * 35 << " " << (*mat)[1].w + yOffset * 35 << " " << (*mat)[2].w << " :  SHRINE!" << endl;;
 	}
 	else
