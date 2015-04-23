@@ -137,9 +137,12 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		nrOfLights = atoi(sub.c_str());
 
 		//--- Load Lights --- 
-		if (nrOfLights > 0)
+		if (nrOfLights > 0 || shrine)
 		{
-			lights = new Light[nrOfLights];
+			if (shrine)
+				lights = new Light[nrOfLights+1];
+			else
+				lights = new Light[nrOfLights];
 			for (int c = 0; c < nrOfLights; c++)
 			{
 				getline(in, line);
@@ -160,6 +163,42 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				lights[c].intensity = atof(sub.c_str());
 				ss >> sub;
 				lights[c].distance = atof(sub.c_str());
+			}
+			if (shrine)
+			{
+				nrOfLights++;
+				glm::vec3 lPos = shrine->returnRune()->readPos();
+				int runeType = shrine->getRune();
+				shrine->resetRune();
+				lights[nrOfLights - 1].posX = lPos.x;
+				lights[nrOfLights - 1].posY = lPos.y;
+				lights[nrOfLights - 1].posZ = lPos.z+0.5;
+
+				switch (runeType)
+				{
+				case FLAME:
+					lights[nrOfLights - 1].r = 1.0;
+					lights[nrOfLights - 1].g = 0.0;
+					lights[nrOfLights - 1].b = 0.0;
+					break;
+				case SPARK:
+					lights[nrOfLights - 1].r = 1.0;
+					lights[nrOfLights - 1].g = 1.0;
+					lights[nrOfLights - 1].b = 0.0;
+					break;
+				case FORCE:
+					lights[nrOfLights - 1].r = 0.0;
+					lights[nrOfLights - 1].g = 1.0;
+					lights[nrOfLights - 1].b = 0.0;
+					break;
+				case STOMP:
+					lights[nrOfLights - 1].r = 1.0;
+					lights[nrOfLights - 1].g = 1.0;
+					lights[nrOfLights - 1].b = 1.0;
+					break;
+				}
+				lights[nrOfLights - 1].intensity = 2.0;
+				lights[nrOfLights - 1].distance = 20.0;
 			}
 		}
 		
