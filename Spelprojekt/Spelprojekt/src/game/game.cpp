@@ -114,7 +114,7 @@ void Game::init(GLFWwindow* windowRef)
 	map->init();
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
-	in->Init(viewMat, glm::vec3(0, 0, 11), glm::vec3(0, 0, 10), glm::vec3(0, 1, 0));
+	in->Init(viewMat, glm::vec3(0, 0, 10), glm::vec3(0, 0, 9), glm::vec3(0, 1, 0));
 	cameraFollow = true;
 	gui = new GUI();
 	gui->init(in, player, content);

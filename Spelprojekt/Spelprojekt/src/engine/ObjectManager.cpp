@@ -74,7 +74,7 @@ void ObjectManager::loadMapObjs()
 
 
 	//basic platform
-	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/mudtest.bmp");
+	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/BackgroundRockWallDIRT.bmp");
 
 
 	//shrine
@@ -92,9 +92,9 @@ void ObjectManager::loadMapObjs()
 	//Shield rune
 	myMapObjs[6] = new AnimationObject("src/meshes/RuneShield.v", "src/textures/Rune-Shield.bmp");
 
-	myMapObjs[7] = new AnimationObject("src/meshes/BackgroundRockyWall.v", "src/textures/BackgroundRockWall.bmp");
+	myMapObjs[7] = new AnimationObject("src/meshes/BackgroundRockWallFix.v", "src/textures/BackgroundRockWall.bmp");
 	
-	myMapObjs[8] = new AnimationObject("src/meshes/BackgroundRockyWall.v", "src/textures/BackgroundRockWallDIRT.bmp");
+	myMapObjs[8] = new AnimationObject("src/meshes/BackgroundRockWallFix.v", "src/textures/BackgroundRockWallDIRT.bmp");
 
 }
 
