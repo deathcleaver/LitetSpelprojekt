@@ -22,7 +22,6 @@ private:
 	glm::vec3 chargePos;
 	glm::vec3 returnPos;
 	bool hasTurned;
-	bool turnRight;
 public:
 	Bossbat(glm::vec2 firstPos);
 	void init();
