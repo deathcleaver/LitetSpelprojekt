@@ -32,12 +32,26 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(tempshader, shaders, shaderType, 3);
 
 	//gBuffer shader
+
+	shaders[0] = "src/shaders/glow_vs.glsl";
+	shaders[1] = "src/shaders/glow_gs.glsl";
+	shaders[2] = "src/shaders/glow_fs.glsl";
+
+	CreateProgram(tempshaderGBufferGlow, shaders, shaderType, 3);
+	gBuffer.shaderGlowPtr = &tempshaderGBufferGlow;
+
+	uniformProjGlow = glGetUniformLocation(tempshaderGBufferGlow, "P");
+	uniformViewGlow = glGetUniformLocation(tempshaderGBufferGlow, "V");
+
+	gBuffer.uniformCamPosGlow = glGetUniformLocation(tempshaderGBufferGlow, "camPos");
+
 	shaders[0] = "src/shaders/gBuffer_vs.glsl";
 	shaders[1] = "src/shaders/gBuffer_fs.glsl";
 	shaderType[1] = GL_FRAGMENT_SHADER;
 
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
 	gBuffer.shaderPtr = &tempshaderGBuffer;
+
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
@@ -51,7 +65,7 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.shaderGuiPtr = &tempshaderGUI;
 
 	
-	gBuffer.init(1080, 720, 4, true);
+	gBuffer.init(1080, 720, 5, true);
 	
 	light = new Light[100];
 
@@ -109,6 +123,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glm::mat4 VP = projMatrix * *viewMatrix;
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
+
+	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &(*viewMatrix)[0][0]);
+	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &projMatrix[0][0]);
 
 	// -- PlayerDraw --
 	if (renderPlayer)
@@ -373,9 +390,12 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	gBuffer.pushLights(light, nrOfLights);
 
+	glDisable(GL_DEPTH_TEST);
+
+	gBuffer.renderGlow(campos);
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDisable(GL_DEPTH_TEST);
+	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	gBuffer.render(campos, gui, content, renderGUI);

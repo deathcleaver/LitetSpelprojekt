@@ -9,6 +9,8 @@ struct Light : public Align_16
 	float distance;
 	float r, g, b;
 	float intensity;
+	//int volume;
+	//float pad[3];
 };
 
 #endif

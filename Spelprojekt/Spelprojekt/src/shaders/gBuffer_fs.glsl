@@ -4,6 +4,7 @@ layout(location = 0) in vec2 UV;
 uniform sampler2D diffuse;
 uniform sampler2D normal;
 uniform sampler2D world;
+uniform sampler2D glow;
 
 out vec4 fragment_color;
 
@@ -30,7 +31,18 @@ void main ()
     vec4 worldPos = texture(world,vec2(UV.s, UV.t));
     vec4 n = texture(normal,vec2(UV.s, UV.t));
     vec4 diffuseColor = texture(diffuse,vec2(UV.s, UV.t));
-	
+    
+    vec4 glowColor = texture(glow, UV);
+    
+	//ON Clear Color
+	//if(diffuseColor.x < 0.05f && diffuseColor.y < 0.05f && diffuseColor.z < 0.05f)
+	//{
+	//	fragment_color = vec4(0);
+	//	return;
+	//}
+
+	vec4 letThereBeLight = vec4(0);
+
 	// Collision Rekt Render
 	if(diffuseColor.x > 0.99 && diffuseColor.y < 0.01 && diffuseColor.z > 0.99)   
 	{
@@ -84,8 +96,8 @@ void main ()
 			letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
 		
 		}
-		fragment_color = diffuseColor * letThereBeLight;
+        fragment_color = (diffuseColor * letThereBeLight) + glowColor;
 		
 	}
-	
+
 }

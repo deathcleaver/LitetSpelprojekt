@@ -57,6 +57,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	pos[1] = glGetUniformLocation(*shaderPtr, "diffuse");
 	pos[2] = glGetUniformLocation(*shaderPtr, "normal");
 	pos[3] = glGetUniformLocation(*shaderPtr, "world");
+	pos[4] = glGetUniformLocation(*shaderPtr, "glow");
 
 	uniformCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
 	uniformPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
@@ -89,6 +90,18 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
 		glProgramUniform1i(*shaderPtr, pos[i], i);
 	}
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, lightBuffer);
+	glGenVertexArrays(1, &LightVao);
+
+	glBindVertexArray(LightVao);
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(0, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 0));
+	glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 4));
 
 }
 
@@ -129,8 +142,24 @@ void Gbuffer::clearLight()
 	nrLight = 0;
 }
 
+void Gbuffer::renderGlow(glm::vec3* campos)
+{
+	// bind glowShader
+
+	glUseProgram(*shaderGlowPtr);
+
+	glProgramUniform3f(*shaderGlowPtr, uniformCamPosGlow, campos->x, campos->y, campos->z);
+
+	glBindBuffer(GL_ARRAY_BUFFER, lightBuffer);
+	glBindVertexArray(LightVao);
+
+	glDrawArrays(GL_POINTS, 0, nrLight);
+
+}
+
 void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui)
 {
+	
 	// bind shader
 	glUseProgram(*shaderPtr);
 
