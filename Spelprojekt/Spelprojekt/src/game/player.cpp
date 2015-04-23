@@ -338,7 +338,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			else if (currentRune == SPARK)
 				DMG += 1;
 			else if (currentRune == FORCE)
-				shield = 3;
+				shield = 2;
 		}
 	}
 
@@ -354,15 +354,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
 				else if (currentRune == SPARK)
 					DMG -= 1;
-				else if (currentRune == FORCE)
-					shield -= 1;
-				if (shield == 0)
-					currentRune = NORUNE;
 				invulnTimer = 1.0f;
 				if (HP > 1)
 				{
 					if (shield == 0)
 						HP -= 1;
+					if (currentRune == FORCE)
+						shield -= 1;
+					if (shield == 0)
+						currentRune = NORUNE;
 					printf("Ow, I'm hit! HP remaining is %d\n", HP);
 					flinchTimer = 0.3f;
 					if (result.x < playerPos.x)

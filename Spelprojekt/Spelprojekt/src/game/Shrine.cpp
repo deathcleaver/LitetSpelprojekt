@@ -45,8 +45,15 @@ Shrine::~Shrine()
 	delete runeObj;
 }
 
+void Shrine::giveLight(Light* l)
+{
+	myLight = l;
+}
+
 void Shrine::resetRune()
 {
+	if (myLight)
+		myLight->intensity = 2.0f;
 	runeTaken = false;
 }
 
@@ -64,6 +71,8 @@ int Shrine::getRune()
 {
 	if (!runeTaken)
 	{
+		if (myLight)
+			myLight->intensity = 0.0f;
 		runeTaken = true;
 		return rune;
 	}

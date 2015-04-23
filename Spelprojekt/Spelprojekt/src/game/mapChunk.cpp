@@ -199,6 +199,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				}
 				lights[nrOfLights - 1].intensity = 2;
 				lights[nrOfLights - 1].distance = 15.0;
+				shrine->giveLight(&lights[nrOfLights - 1]);
 			}
 		}
 		

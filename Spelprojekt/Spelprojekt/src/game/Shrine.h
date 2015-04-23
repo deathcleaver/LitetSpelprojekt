@@ -8,6 +8,7 @@
 
 #include "gameObject.h"
 #include "rect.h"
+#include "Light.h"
 
 enum ShrineUpgrades
 {
@@ -30,9 +31,12 @@ private:
 
 	float runeMove;
 	bool runeUp;
+
+	Light* myLight;
 public:
 	Shrine(GameObject* object, int runetype);
 	~Shrine();
+	void giveLight(Light* l);
 	Rect* getRekt();
 	glm::vec2 getPos();
 	int getRune();
