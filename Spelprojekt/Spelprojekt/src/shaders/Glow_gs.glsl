@@ -26,7 +26,7 @@ void main()
 	
 	//code to make glows change size depending on campos
 	float xydist = length(partPos.xy - camPos.xy);
-	partSize *= min((5f / xydist), 2f);
+	partSize *= min((3f / xydist), 1.5f);
 
     float culldist = length(partPos.x - camPos.x);
 	if(culldist < (15f + partSize * 0.2f))
