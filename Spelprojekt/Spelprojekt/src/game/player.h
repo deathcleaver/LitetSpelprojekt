@@ -23,6 +23,7 @@ private:
 	int currentRune;
 
 	int DMG;
+	int shield;
 
 	//movement
 	float jumpHeight;

@@ -18,13 +18,13 @@ Shrine::Shrine(GameObject* object, int runetype)
 	case 1 :
 		rune = SPARK;
 		runeObj = new GameObject();
-		runeObj->init(4);
+		runeObj->init(5);
 		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
 		break;
 	case 2 :
 		rune = FORCE;
 		runeObj = new GameObject();
-		runeObj->init(4);
+		runeObj->init(6);
 		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
 		break;
 	case 3 :
