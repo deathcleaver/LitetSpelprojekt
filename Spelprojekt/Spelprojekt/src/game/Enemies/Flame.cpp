@@ -1,6 +1,11 @@
 #include "Flame.h"
 #include "../mapChunk.h"
 
+Flame::~Flame()
+{
+	delete myLight;
+}
+
 Flame::Flame(glm::vec2 firstPos)
 {
 	initPos = firstPos;
@@ -14,6 +19,10 @@ Flame::Flame(glm::vec2 firstPos)
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
+
+	myLight = new Light();
+	myLight->posX = initPos.x; myLight->posY = initPos.y; myLight->posZ = 0.0;
+	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 30.0;
 }
 
 Flame::Flame(Flame* copy)
@@ -140,6 +149,10 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		invulnTimer -= 1.0f*deltaTime;
 	}
 	collideRect->update();
+
+	glm::vec3 myPos = readPos();
+	myLight->posX = myPos.x;
+	myLight->posY = myPos.y;
 	return 0;
 }
 

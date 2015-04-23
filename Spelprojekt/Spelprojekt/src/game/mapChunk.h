@@ -66,6 +66,7 @@ public:
 
 	int hasBoss();
 
+	Light* getFlameLight(int index);
 	Light* getLights(int &lightNr);
 	int getMusicId();
 

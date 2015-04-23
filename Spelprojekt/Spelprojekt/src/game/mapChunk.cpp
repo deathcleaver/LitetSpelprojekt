@@ -1,5 +1,6 @@
 #include "mapChunk.h"
 #include "map.h"
+#include "Enemies/Flame.h"
 
 MapChunk::~MapChunk()
 {
@@ -802,6 +803,12 @@ int MapChunk::hasBoss()
 		}
 	}
 	return 0;
+}
+
+Light* MapChunk::getFlameLight(int index)
+{
+	Enemy** enemies = enemyMan->getEnemies("Flame");
+	return ((Flame*)(enemies[index]))->getLight();
 }
 
 Light* MapChunk::getLights(int &lightNr)
