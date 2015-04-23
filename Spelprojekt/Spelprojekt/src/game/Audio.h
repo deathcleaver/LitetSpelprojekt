@@ -16,6 +16,8 @@
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
 #define VOLUME_MAX 1.0f // goes from 0.0 to 1.0
+#define MUSIC_FILES 3
+#define SOUND_FILES 2
 
 class Audio
 {
@@ -67,12 +69,10 @@ private:
 	ALCcontext *context;
 
 	//object arrays
-	AudioObject* music[3];
-	AudioObject* sounds[1];
+	AudioObject* music[MUSIC_FILES];
+	AudioObject* sounds[SOUND_FILES];
 
 	//misc vars
-	int musicFiles = 3;
-	int soundFiles = 1;
 	int currTrack, oldTrack;
 };
 

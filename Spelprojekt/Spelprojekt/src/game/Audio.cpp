@@ -8,7 +8,7 @@ Audio::Audio()
 	currTrack = -1;
 
 	//music
-	for (int i = 0; i < musicFiles; i++)
+	for (int i = 0; i < MUSIC_FILES; i++)
 	{
 		music[i] = new AudioObject;
 		music[i]->volume = 0.0;
@@ -20,14 +20,15 @@ Audio::Audio()
 	music[2]->file = "../Audio/Music/witcher_battle.wav";
 
 	//sound
-	for (int i = 0; i < soundFiles; i++)
+	for (int i = 0; i < SOUND_FILES; i++)
 	{
 		sounds[i] = new AudioObject;
 		sounds[i]->volume = VOLUME_MAX;
 		sounds[i]->looping = AL_FALSE;
 	}
 
-	sounds[0]->file = "../Audio/Sounds/item.wav";
+	sounds[0]->file = "../Audio/Sounds/rune_received.wav";
+	sounds[1]->file = "../Audio/Sounds/boss_bat_attack.wav";
 	//...
 }
 
@@ -55,11 +56,11 @@ bool Audio::init()
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
 	//load music
-	for (int i = 0; i < musicFiles; i++)
+	for (int i = 0; i < MUSIC_FILES; i++)
 		loadAudio(music[i]);
 
 	//load sounds
-	for (int j = 0; j < soundFiles; j++)
+	for (int j = 0; j < SOUND_FILES; j++)
 		loadAudio(sounds[j]);
 
 	return EXIT_SUCCESS;
@@ -176,7 +177,7 @@ bool Audio::loadAudio(AudioObject* audioObj)
 void Audio::update(float deltaTime)
 {
 	//music
-	for (int i = 0; i < musicFiles; i++)
+	for (int i = 0; i < MUSIC_FILES; i++)
 	{
 		if (music[i]->state == A_FADEIN)
 		{
@@ -203,7 +204,7 @@ void Audio::update(float deltaTime)
 	}
 
 	//sounds
-	for (int i = 0; i < soundFiles; i++)
+	for (int i = 0; i < SOUND_FILES; i++)
 	{
 		if (sounds[i]->state == A_PLAYING)
 		{
@@ -231,7 +232,7 @@ void Audio::playMusic(int track)
 
 void Audio::playMusicFade(int track, float deltaTime)
 {
-	if (track < musicFiles && track >= 0)
+	if (track < MUSIC_FILES && track >= 0)
 	{
 		if (currTrack != track)//if not current track
 		{
@@ -284,11 +285,11 @@ void Audio::updateListener(glm::vec3 pos)
 	alListenerfv(AL_POSITION, listenerPos);
 
 	//music
-	for (int i = 0; i < musicFiles; i++)
+	for (int i = 0; i < MUSIC_FILES; i++)
 		alSourcefv(music[i]->source, AL_POSITION, musicPos);
 
 	//non env sounds
-	for (int i = 0; i < soundFiles; i++)
+	for (int i = 0; i < SOUND_FILES; i++)
 		alSourcefv(sounds[i]->source, AL_POSITION, musicPos);
 }
 
@@ -309,14 +310,14 @@ int Audio::getTrack()
 
 void Audio::shutdown()
 {
-	for (int i = 0; i < musicFiles; i++)
+	for (int i = 0; i < MUSIC_FILES; i++)
 	{
 		alDeleteSources(1, &music[i]->source);
 		alDeleteBuffers(1, &music[i]->buffer);
 		delete music[i];
 	}
 	
-	for (int j = 0; j < soundFiles; j++)
+	for (int j = 0; j < SOUND_FILES; j++)
 	{
 		alDeleteSources(1, &sounds[j]->source);
 		alDeleteBuffers(1, &sounds[j]->buffer);
