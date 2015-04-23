@@ -66,7 +66,7 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 7;
+	myNrOfMapObjects = 9;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
@@ -91,6 +91,10 @@ void ObjectManager::loadMapObjs()
 
 	//Shield rune
 	myMapObjs[6] = new AnimationObject("src/meshes/RuneShield.v", "src/textures/Rune-Shield.bmp");
+
+	myMapObjs[7] = new AnimationObject("src/meshes/BackgroundRockyWall.v", "src/textures/BackgroundRockWall.bmp");
+	
+	myMapObjs[8] = new AnimationObject("src/meshes/BackgroundRockyWall.v", "src/textures/BackgroundRockWallDIRT.bmp");
 
 }
 
