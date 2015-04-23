@@ -4,6 +4,7 @@
 #include "Enemies/Bat.h"
 #include "Enemies/Flame.h"
 #include "Enemies/Bossbat.h"
+#include "Enemies/Bossdummy.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -53,10 +54,6 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 
 	//Find all enemies, create them, and load them
 	
-	if (xOffset == 1 && yOffset == 1)
-	{
-		printf("Hej");
-	}
 	getline(file, line);
 	istringstream iss(line);
 	string sub;
@@ -303,12 +300,12 @@ Enemy* EnemyManager::getBoss()
 
 void EnemyManager::addBoss(string type, glm::vec2 pos)
 {
-	if (type == "Fake")
+	if (type == "ChuckTesta")
 	{
-		boss = new Spikes(pos);
+		boss = new Dummy(pos);
 		boss->scaleFactor(0.01, 0.01, 0.01);
 	}
-	if (type == "Bossbat")
+	else if (type == "Bossbat")
 	{
 		boss = new Bossbat(pos);
 		boss->scaleFactor(2, 2, 2);
