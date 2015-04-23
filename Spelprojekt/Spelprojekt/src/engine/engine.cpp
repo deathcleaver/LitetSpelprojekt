@@ -160,7 +160,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 					int size = chunks[upDraw[x]][upDraw[y]].Box_Objs.size();
 					facecount = content->bindMapObj(1);
 					chunks[upDraw[x]][upDraw[y]].bindShaderBuffer();
-					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, size);
+					glDrawElementsInstancedBaseInstance(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, size, 0);
 					//for (int k = 0; k < size; k++)
 					//{
 					//	id = chunks[upDraw[x]][upDraw[y]].Box_Objs[k]->bindWorldMat(&tempshader, &uniformModel);

@@ -195,6 +195,12 @@ bool Object::loadVert(std::string path)
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Object::TriangleVertex), BUFFER_OFFSET(0));
 		//uv
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Object::TriangleVertex), BUFFER_OFFSET(sizeof(float) * 3));
+
+		glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, sizeof(int), 0);
+		glVertexAttribDivisor(2, vert.size());
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glEnableVertexAttribArray(2);
+
 		return true;
 	}
 	else //file not found
@@ -274,7 +280,7 @@ void Object::updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLusho
 	glBufferData(GL_ARRAY_BUFFER, sizeof(someVerts[0])* someVerts.size(), &someVerts[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(someIndices[0]) * someIndices.size() , &someIndices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(someIndices[0]) * someIndices.size(), &someIndices[0], GL_STATIC_DRAW);
 	faceCount = count;
 	//glEnableVertexAttribArray(indexBuffer);
 
@@ -284,7 +290,13 @@ void Object::updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLusho
 	//pos
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), BUFFER_OFFSET(0));
 	//uv
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), BUFFER_OFFSET(sizeof(float) * 3));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), BUFFER_OFFSET(sizeof(float)* 3));
+
+	glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, sizeof(int), 0);
+	glVertexAttribDivisor(2, someVerts.size());
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glEnableVertexAttribArray(2);
+
 }
 
 float Object::scaleX()

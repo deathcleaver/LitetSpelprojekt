@@ -219,21 +219,29 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 	in.close();
 
 	glGenBuffers(1, &ShaderBuffer);
-	if (Box_Objs.size())
+
+	int size = Box_Objs.size() + Mushroom_Objs.size();
+
+	if (size > 0)
 	{
 
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, ShaderBuffer);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, Box_Objs.size() * sizeof(glm::mat4), NULL, GL_STATIC_COPY);
-		glm::mat4* data = (glm::mat4*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, Box_Objs.size() * sizeof(glm::mat4), GL_MAP_WRITE_BIT);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, size * sizeof(glm::mat4), NULL, GL_STATIC_COPY);
+		glm::mat4* data = (glm::mat4*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, size * sizeof(glm::mat4), GL_MAP_WRITE_BIT);
 
-		glm::mat4 * arr = new glm::mat4[Box_Objs.size()];
+		glm::mat4 * arr = new glm::mat4[size];
 
 		for (int i = 0; i < Box_Objs.size(); i++)
 		{
 			arr[i] = *Box_Objs[i]->getWorldMat();
 		}
 
-		memcpy_s(data, Box_Objs.size() * sizeof(glm::mat4), (void*)arr, Box_Objs.size() * sizeof(glm::mat4));
+		for (int i = 0; i < Mushroom_Objs.size(); i++)
+		{
+			arr[Box_Objs.size() + i] = *Mushroom_Objs[i]->getWorldMat();
+		}
+
+		memcpy_s(data, size * sizeof(glm::mat4), (void*)arr, size * sizeof(glm::mat4));
 
 		delete [] arr;
 
