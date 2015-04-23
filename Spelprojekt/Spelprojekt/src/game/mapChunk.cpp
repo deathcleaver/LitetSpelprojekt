@@ -850,7 +850,14 @@ Light* MapChunk::getFlameLight(int index)
 {
 	Enemy** enemies = enemyMan->getEnemies("Flame");
 	if (enemies[index]->isAlive())
+	{
 		return ((Flame*)(enemies[index]))->getLight();
+	}
+	else if (((Flame*)(enemies[index]))->isFading())
+	{
+		((Flame*)(enemies[index]))->fade();
+		return ((Flame*)(enemies[index]))->getLight();
+	}
 	return 0;
 }
 

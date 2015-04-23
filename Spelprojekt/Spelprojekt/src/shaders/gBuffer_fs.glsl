@@ -58,13 +58,13 @@ void main ()
 
 				vec3 r = reflect(s, n.xyz);
 				
-				letThereBeLight += vec4(l.color.rgb * attenuation * max(dot(n.xyz, s), 0), 1.0);
+				letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
 			}
 		}
 		
 		Light l;
 		l.pos = vec4(playerPos.xyz, 25.0);
-		l.color = vec4(1, 1, 1, 1);
+		l.color = vec4(1, 1, 1, 0.5);
 		
 		float dist = distance(worldPos.xyz, l.pos.xyz);
 		
@@ -81,9 +81,11 @@ void main ()
 
 			vec3 r = reflect(s, n.xyz);
 		   
-			letThereBeLight += vec4(l.color.rgb * attenuation * max(dot(n.xyz, s), 0), 1.0);
+			letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
 		
 		}
 		fragment_color = diffuseColor * letThereBeLight;
+		
 	}
+	
 }

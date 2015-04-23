@@ -23,6 +23,10 @@ Flame::Flame(glm::vec2 firstPos)
 	myLight = new Light();
 	myLight->posX = initPos.x; myLight->posY = initPos.y; myLight->posZ = 0.0;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 30.0;
+
+	maxInt = 2.0f;
+	minInt = 0.0f;
+	increase = 0.01;
 }
 
 Flame::Flame(Flame* copy)
@@ -33,6 +37,8 @@ Flame::Flame(Flame* copy)
 	initPos = glm::vec2(pos.x, pos.y);
 	moveTo(pos.x, pos.y);
 	alive = true;
+	fading = true;
+	copy->fading = false;
 	facingRight = copy->facingRight;
 	contentIndex = 2;
 	health = copy->health;
@@ -41,6 +47,10 @@ Flame::Flame(Flame* copy)
 	flying = copy->flying;
 
 	myLight = new Light();
+
+	maxInt = copy->maxInt;
+	minInt = copy->minInt;
+	increase = copy->increase;
 
 	myLight->posX = copy->myLight->posX; myLight->posY = copy->myLight->posY; myLight->posZ = copy->myLight->posZ;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 30.0;
@@ -54,9 +64,11 @@ void Flame::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
+	fading = true;
 	health = 3;
 	invulnTimer = 0.0f;
 	speed = glm::vec2(2.0f, 0.0);
+	myLight->intensity = 1.0;
 
 	collideRect->update();
 }
@@ -158,7 +170,26 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	glm::vec3 myPos = readPos();
 	myLight->posX = myPos.x;
 	myLight->posY = myPos.y;
+
+	myLight->intensity += increase;
+	if (myLight->intensity > maxInt || myLight->intensity < minInt)
+	{
+		increase = -increase;
+	}
+
 	return 0;
+}
+
+bool Flame::isFading()
+{
+	return fading;
+}
+
+void Flame::fade()
+{
+	myLight->intensity -= abs(increase);
+	if (myLight->intensity < 0.0f)
+		fading = false;
 }
 
 void Flame::hit(int damage, bool playerRightOfEnemy)
