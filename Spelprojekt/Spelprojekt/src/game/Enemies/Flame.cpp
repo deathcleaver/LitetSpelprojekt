@@ -25,7 +25,7 @@ Flame::Flame(glm::vec2 firstPos)
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
 
 	maxInt = 2.0f;
-	minInt = 0.0f;
+	minInt = 0.5f;
 	increase = 0.01;
 }
 

@@ -21,7 +21,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	batsToSpawn = 0;
 	batTimer = 0.0f;
 	charging = false;
-	chargeTimer = 3.0f;
+	chargeTimer = 4.0f;
 }
 
 void Bossbat::init()
@@ -31,7 +31,7 @@ void Bossbat::init()
 		worldMat = glm::mat4(1);
 		scaleFactor(4, 4, 4);
 		isInit = true;
-		moveTo(initPos.x, initPos.y, -10.0f);
+		moveTo(initPos.x, initPos.y, -6.0f);
 		invulnTimer = 0.0f;
 		movementScale = 0.0f;
 		facingRight = true;
@@ -41,7 +41,7 @@ void Bossbat::init()
 		collideRect->update();
 		batsToSpawn = 0;
 		batTimer = 0.0f;
-		chargeTimer = 3.0f;
+		chargeTimer = 4.0f;
 		charging = false;
 		returnPos = chargePos = readPos();
 		hasTurned = false;
@@ -97,15 +97,22 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		if (invulnTimer < FLT_EPSILON)
 			chargePos = readPos();
 	}
-	else
+	else if (!charging)
 	{
-		float distanceDown = chargePos.y - initPos.y;
-		if (distanceDown > FLT_EPSILON)
+		if (pos.y < initPos.y - 0.5f)
 		{
-			moveTo(pos.x, pos.y - speed*deltaTime*(distanceDown / 10.0f));
+			moveTo(pos.x, pos.y + speed*deltaTime);
 			if (collidesWithWorld(chunk))
 			{
-				moveTo(pos.x, pos.y + speed*deltaTime*(distanceDown / 10.0f));
+				moveTo(pos.x, pos.y - speed*deltaTime);
+			}
+		}
+		else if (pos.y > initPos.y + 0.5f)
+		{
+			moveTo(pos.x, pos.y - speed*deltaTime);
+			if (collidesWithWorld(chunk))
+			{
+				moveTo(pos.x, pos.y + speed*deltaTime);
 			}
 		}
 	}
@@ -193,7 +200,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		{
 			moveTo(pos.x + speed*deltaTime*distX/3, pos.y + speed*deltaTime*distY/3);
 			charging = false;
-			chargeTimer = 2.0f;
+			chargeTimer = 4.0f;
 		}
 	}
 
@@ -223,7 +230,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 				}
 			}
 		}
-		else if (chargeTimer > 1.5f)
+		else if (chargeTimer > 3.5f)
 		{
 			float distX = chargePos.x - returnPos.x;
 			float distY = chargePos.y - returnPos.y;
@@ -237,7 +244,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			{
 				moveTo(pos.x + speed*deltaTime*distX / 5, pos.y + speed*deltaTime*distY / 5);
 				charging = false;
-				chargeTimer = 1.5f;
+				chargeTimer = 3.5f;
 			}
 		}
 	}
