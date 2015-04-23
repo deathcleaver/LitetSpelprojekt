@@ -396,6 +396,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
+					audio->playSound(2); //player_attack_miss
 				}
 			}
 		}
@@ -414,6 +415,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
+		audio->playSound(1); //player_attack_miss
 	}
 	
 	if (isAttacking)

@@ -27,8 +27,10 @@ Audio::Audio()
 		sounds[i]->looping = AL_FALSE;
 	}
 
-	sounds[0]->file = "../Audio/Sounds/rune_received.wav";
-	sounds[1]->file = "../Audio/Sounds/boss_bat_attack.wav";
+	sounds[0]->file = "../Audio/Sounds/Shrine/rune_received.wav";
+	sounds[1]->file = "../Audio/Sounds/Player/player_attack_miss.wav";
+	sounds[2]->file = "../Audio/Sounds/Player/player_resurrected.wav";
+	sounds[3]->file = "../Audio/Sounds/Bosses/Bat/boss_bat_attack.wav";
 	//...
 }
 
