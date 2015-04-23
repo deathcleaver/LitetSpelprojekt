@@ -1,5 +1,6 @@
 #include "mapChunk.h"
 #include "map.h"
+#include "Enemies/Flame.h"
 
 MapChunk::~MapChunk()
 {
@@ -584,6 +585,8 @@ int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 			map->findNewHome(visitArr[c]);
 		}
 	}
+	if (shrine)
+		shrine->update(deltaTime);
 	return 0;
 }
 
@@ -804,6 +807,14 @@ int MapChunk::hasBoss()
 	return 0;
 }
 
+Light* MapChunk::getFlameLight(int index)
+{
+	Enemy** enemies = enemyMan->getEnemies("Flame");
+	if (enemies[index]->isAlive())
+		return ((Flame*)(enemies[index]))->getLight();
+	return 0;
+}
+
 Light* MapChunk::getLights(int &lightNr)
 {
 	lightNr = nrOfLights;
@@ -824,7 +835,7 @@ string MapChunk::getBossType()
 {
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
-		return boss->isBoss();
+		return boss->getType();
 	return "ChuckTesta";
 }
 

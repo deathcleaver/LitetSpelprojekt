@@ -30,7 +30,6 @@ public:
 	virtual std::string getType() = 0;
 	bool isAlive();
 
-	virtual std::string isBoss();
 	virtual bool isInitiated();
 	void setVisitor();
 	bool isVisitor();

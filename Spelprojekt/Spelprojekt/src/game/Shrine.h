@@ -27,6 +27,9 @@ private:
 	GameObject* object;
 	GameObject* runeObj;
 	Rect* collision;
+
+	float runeMove;
+	bool runeUp;
 public:
 	Shrine(GameObject* object);
 	~Shrine();
@@ -44,6 +47,8 @@ public:
 			return runeObj;
 		return 0;
 	}
+
+	void update(float deltaTime);
 };
 
 #endif

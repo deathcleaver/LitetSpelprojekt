@@ -2,15 +2,17 @@
 
 Shrine::Shrine(GameObject* object)
 {
+	runeMove = 0.0f;
+	runeUp = true;
 	runeTaken = false;
 	this->object = object;
 	if (object->returnID() == 2)
 	{
 		rune = FLAME;
 		runeObj = new GameObject();
-		runeObj->init(1);
+		runeObj->init(4);
 		glm::vec3 pos = object->readPos();
-		runeObj->moveTo(pos.x, pos.y, pos.z + 1);
+		runeObj->moveTo(pos.x, pos.y+0.1, pos.z + 0.5);
 		runeObj->scaleFactor(0.5, 0.5, 0.5);
 	}
 	collision = new Rect();
@@ -47,4 +49,24 @@ int Shrine::getRune()
 		return rune;
 	}
 	return NORUNE;
+}
+
+void Shrine::update(float deltaTime)
+{
+	glm::vec3 runePos = runeObj->readPos();
+	if (runeMove > 0.5f)
+		runeUp = false;
+	if (runeMove < -0.5)
+		runeUp = true;
+	if (runeUp)
+	{
+		runeObj->moveTo(runePos.x, runePos.y + 0.1*deltaTime);
+		runeMove += 1.0*deltaTime;
+	}
+	else
+	{
+		runeObj->moveTo(runePos.x, runePos.y - 0.1*deltaTime);
+		runeMove -= 1.0*deltaTime;
+	}
+	runeObj->rotateTo(0, 1.0*deltaTime, 0);
 }
