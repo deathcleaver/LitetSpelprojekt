@@ -6,6 +6,7 @@
 class ObjectManager
 {
 private:
+	AnimationObject* collisionRekt;
 	AnimationObject* myPlayer;
 	AnimationObject** myMapObjs;
 	AnimationObject** myMonsterObjs;
@@ -27,5 +28,6 @@ public:
 	int bindPlayer() const;
 	int bindMapObj(int id) const;
 	int bindMonsterObj(int id) const;
+	void bindRekt() const;
 };
 #endif

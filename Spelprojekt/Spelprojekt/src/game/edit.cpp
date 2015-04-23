@@ -367,8 +367,8 @@ void Edit::mouseToWorld(float* x, float* y)
 {
 	mouseToScreenSpace(x, y);
 	glm::vec3* temp = in->GetPos();
-	*x = temp->x + (*x * 15);
-	*y = temp->y + (*y * 10);
+	*x = temp->x + (*x * 14);
+	*y = temp->y + (*y * 9.5);
 }
 
 void Edit::mouseToScreenSpace(float* x, float* y)

@@ -19,7 +19,7 @@ public:
 
 	void bind(GLuint index);
 
-	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui = true);
+	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui);
 
 	void clearLight();
 	void pushLights(Light* light, int nrLight);

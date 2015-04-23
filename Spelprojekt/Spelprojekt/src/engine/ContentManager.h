@@ -21,6 +21,7 @@ public:
 	~ContentManager();
 	void init();
 	void update();
+	void bindRekt() const;
 	int bindPlayer() const;
 	int bindMapObj(int id) const;
 	int bindMonsterObj(int id) const;

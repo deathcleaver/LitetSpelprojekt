@@ -11,6 +11,9 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
+	if (collisionRekt)
+		delete collisionRekt;
+
 	if (myPlayer != nullptr)
 		delete myPlayer;
 
@@ -35,12 +38,12 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::init()
 {
+
 	loadMonsterObjs();
 	loadPlayer();
-
 	loadMapObjs();
-
-
+	
+	collisionRekt = new AnimationObject("src/meshes/Rekt.v", "src/textures/pink.bmp");
 }
 
 void ObjectManager::loadPlayer()
@@ -139,6 +142,11 @@ int ObjectManager::bindMonsterObj(int id) const
 	//myMonsterObjs[id]->update();
 	myMonsterObjs[id]->bindAnimObject();
 	return myMonsterObjs[id]->getFaces();
+}
+
+void ObjectManager::bindRekt() const
+{
+	collisionRekt->bindAnimObject();
 }
 
 void ObjectManager::setPlayerState(std::string state)

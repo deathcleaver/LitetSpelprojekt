@@ -75,6 +75,11 @@ void ContentManager::loadGUIobjs()
 		guiObjs[n] = 0;
 }
 
+void ContentManager::bindRekt() const
+{
+	objectManager->bindRekt();
+}
+
 int ContentManager::bindPlayer() const
 {
 	//player->updateWeight();
@@ -112,6 +117,7 @@ Object** ContentManager::gui()
 {
 	return guiObjs;
 }
+
 void ContentManager::setPlayerState(std::string state)
 {
 	objectManager->setPlayerState(state);

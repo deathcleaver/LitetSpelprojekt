@@ -2,7 +2,6 @@
 
 void Gbuffer::init(int x, int y, int nrTex, bool depth)
 {
-
 	if (renderQuad == 0)
 	{
 		genQuad();

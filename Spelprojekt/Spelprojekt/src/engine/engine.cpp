@@ -66,6 +66,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	bool renderMonster = false;
 	bool renderEditObject = false;
 	bool renderGUI = true;
+	bool renderRekts = false;
+
 
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 	
@@ -89,6 +91,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		renderMonster = true;
 		gBuffer.playerPos = (GLfloat*)campos;
 		renderEditObject = true;
+		if (edit->getEditMode() == EditMode::REKT)
+			renderRekts = true;
 		break;
 	}
 
@@ -282,14 +286,40 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		}
 	}
 
+	//if render collision rekts
+	if (renderRekts)
+	{
+		glDisable(GL_DEPTH_TEST);
+		content->bindRekt();
+		GameObject temprekt;
+		glm::vec3 pos;
+		facecount = 2;
+		
+		for (int n = 0; n < upDraw[0]; n++)
+		{
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
 
-	// bind chunk lights
+					for (int xIndex = 0; xIndex < 35; xIndex++)
+						for (int yIndex = 0; yIndex < 35; yIndex++)
+							if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
+							{
+								pos.x = (-17 + upDraw[x] * 35) + xIndex;
+								pos.y = (17 - upDraw[y] * 35) - yIndex;
+								pos.z = 0;
+								temprekt.moveTo(pos);
+								temprekt.bindWorldMat(&tempshader, &uniformModel);
+								glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+							}
+		}
+	}
 
-	int nrOfLights = 0;
-
+	 // bind chunk lights
 	Light* chunkLights = 0;
 	int lightSize = 0;
-
+	int nrOfLights = 0;
 	for (int n = 0; n < upDraw[0]; n++)
 	{
 		int x = n * 2 + 1;
@@ -305,7 +335,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						light[nrOfLights + c].posX = chunkLights[c].posX;
 						light[nrOfLights + c].posY = chunkLights[c].posY;
 						light[nrOfLights + c].posZ = chunkLights[c].posZ;
-	
+
 
 						light[nrOfLights + c].r = chunkLights[c].r;
 						light[nrOfLights + c].g = chunkLights[c].g;
