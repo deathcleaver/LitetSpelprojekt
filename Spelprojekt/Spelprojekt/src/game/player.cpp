@@ -360,12 +360,14 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 				{
 					if (shield == 0)
 						HP -= 1;
-					if (currentRune == FORCE)
-						shield -= 1;
-					if (shield == 0)
-						currentRune = NORUNE;
 					printf("Ow, I'm hit! HP remaining is %d\n", HP);
 					flinchTimer = 0.3f;
+					float recoil = 10.0f;
+					if (currentRune == FORCE)
+					{
+						recoil = 5.0f;
+						flinchTimer = 0.1f;
+					}
 					if (result.x < playerPos.x)
 					{
 						if (facingRight)
@@ -373,8 +375,8 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 							facingRight = false;
 							rotateTo(0, 3.1415927f, 0);
 						}
-						speed.x = 10;
-						speed.y = 10;
+						speed.x = recoil;
+						speed.y = recoil;
 					}
 					else
 					{
@@ -383,12 +385,16 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 							facingRight = true;
 							rotateTo(0, 3.1415927f, 0);
 						}
-						speed.x = -10;
-						speed.y = 10;
+						speed.x = -recoil;
+						speed.y = recoil;
 					}
 					animState = "flinch";
 					isAttacking = false;
 					attackTimer = 0.0f;
+					if (currentRune == FORCE)
+						shield -= 1;
+					if (shield == 0)
+						currentRune = NORUNE;
 				}
 				else
 				{
