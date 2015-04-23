@@ -51,7 +51,7 @@ void Player::moveWeapon()
 	attackRect.update();
 }
 
-int Player::update(UserInput* userInput, Map* map, float deltaTime)
+int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime)
 {
 	animState = "idle";
 	timepass += deltaTime;
@@ -339,6 +339,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				DMG += 1;
 			else if (currentRune == FORCE)
 				shield = 2;
+			audio->playSound(0);//item
 		}
 	}
 
