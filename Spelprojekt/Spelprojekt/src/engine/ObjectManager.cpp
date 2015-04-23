@@ -75,7 +75,7 @@ void ObjectManager::loadMapObjs()
 
 
 	//shrine
-	myMapObjs[2] = new AnimationObject("src/meshes/PlayerBase.v", "src/textures/black.bmp");
+	myMapObjs[2] = new AnimationObject("src/meshes/Shrine.v", "src/textures/Shrine2.bmp");
 
 	//mushroom
 	myMapObjs[3] = new AnimationObject("src/meshes/MushroomTest.v", "src/textures/MushroomTexture2.bmp");
