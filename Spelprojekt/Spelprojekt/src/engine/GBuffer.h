@@ -21,15 +21,20 @@ public:
 
 	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui = true);
 
+	void renderGlow(glm::vec3* campos);
+
 	void clearLight();
 	void pushLights(Light* light, int nrLight);
 
 	GLuint* shaderPtr;
+	GLuint* shaderGlowPtr;
 	GLuint* shaderGuiPtr;
 
 	GLfloat* playerPos;
 
 	int nrLight;
+
+	GLuint uniformCamPosGlow;
 
 private:
 
@@ -39,10 +44,13 @@ private:
 
 	GLuint lightBuffer;
 
+	GLuint LightVao;
+
+
 	GLuint* pos;
 	GLuint uniformCamPos;
+	
 	GLuint uniformPlayerPos;
-
 	GLuint uniformBufferLightPos;
 	GLuint uniformNrLightPos;
 
