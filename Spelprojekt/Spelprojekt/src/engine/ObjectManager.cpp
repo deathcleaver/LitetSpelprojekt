@@ -66,7 +66,7 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 9;
+	myNrOfMapObjects = 10;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
@@ -95,6 +95,8 @@ void ObjectManager::loadMapObjs()
 	myMapObjs[7] = new AnimationObject("src/meshes/BackgroundRockWallFix.v", "src/textures/BackgroundRockWall.bmp");
 	
 	myMapObjs[8] = new AnimationObject("src/meshes/BackgroundRockWallFix.v", "src/textures/BackgroundRockWallDIRT.bmp");
+
+	myMapObjs[9] = new AnimationObject("src/meshes/BackgroundBat.v", "src/textures/BackgroundBat.bmp");
 
 }
 
