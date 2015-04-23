@@ -584,6 +584,8 @@ int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 			map->findNewHome(visitArr[c]);
 		}
 	}
+	if (shrine)
+		shrine->update(deltaTime);
 	return 0;
 }
 
