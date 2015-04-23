@@ -2,6 +2,7 @@
 #define FLAME_H
 
 #include "../Enemy.h"
+#include "../Light.h"
 
 class Flame : public Enemy
 {
@@ -11,7 +12,9 @@ private:
 
 	float invulnTimer;
 	bool flying;
+	Light* myLight;
 public:
+	~Flame();
 	Flame(Flame* copy);
 	Flame(glm::vec2 firstPos);
 	void init();
@@ -20,6 +23,11 @@ public:
 	std::string getType()
 	{
 		return "Flame";
+	}
+
+	Light* getLight()
+	{
+		return myLight;
 	}
 };
 

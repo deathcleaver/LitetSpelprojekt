@@ -316,8 +316,30 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 					}
 					nrOfLights += lightSize;
 				}
+				int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
+				lightSize = 0;
+				for (int c = 0; c < flameCount; c++)
+				{
+					Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
+					if (temp)
+					{
+						
+						light[nrOfLights + lightSize].posX = temp->posX;
+						light[nrOfLights + lightSize].posY = temp->posY;
+						light[nrOfLights + lightSize].posZ = temp->posZ;
+
+						light[nrOfLights + lightSize].r = temp->r;
+						light[nrOfLights + lightSize].g = temp->g;
+						light[nrOfLights + lightSize].b = temp->b;
+
+						light[nrOfLights + lightSize].intensity = temp->intensity;
+						light[nrOfLights + lightSize].distance = temp->distance;
+						lightSize++;
+					}
+				}
+				nrOfLights += lightSize;
 			}
-	}
+		}
 
 	gBuffer.pushLights(light, nrOfLights);
 
