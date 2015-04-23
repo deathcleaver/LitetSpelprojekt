@@ -13,7 +13,7 @@ Shrine::Shrine(GameObject* object)
 		runeObj->init(4);
 		glm::vec3 pos = object->readPos();
 		runeObj->moveTo(pos.x, pos.y+0.1, pos.z + 0.5);
-		runeObj->scaleFactor(0.5, 0.5, 0.5);
+		//runeObj->scaleFactor(0.5, 0.5, 0.5);
 	}
 	collision = new Rect();
 	collision->initGameObjectRect(object->getWorldMat(), 1.0f, 2.0f);
