@@ -246,7 +246,7 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 	if (invulnTimer < FLT_EPSILON)
 	{
 		batsToSpawn = 3;
-		batTimer = 0.3f;
+		batTimer = 0.6f;
 		health -= damage;
 		if (health > 0)
 		{

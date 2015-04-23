@@ -182,9 +182,9 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 					lights[nrOfLights - 1].b = 0.02;
 					break;
 				case SPARK:
-					lights[nrOfLights - 1].r = 1.0;
+					lights[nrOfLights - 1].r = 0.0;
 					lights[nrOfLights - 1].g = 1.0;
-					lights[nrOfLights - 1].b = 0.0;
+					lights[nrOfLights - 1].b = 1.0;
 					break;
 				case FORCE:
 					lights[nrOfLights - 1].r = 0.0;
