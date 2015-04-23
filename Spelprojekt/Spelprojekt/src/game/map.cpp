@@ -67,8 +67,8 @@ void Map::init()
 				chunks[x][y].init(x, y, fileName);
 		}
 	}
-	upDraw = new int[9];
-	lastUpDraw = new int[9];
+	upDraw = new int[13];
+	lastUpDraw = new int[13];
 	upDraw[0] = 0;
 	lastUpDraw[0] = 0;
 	for (int n = 1; n < 9; n++)
@@ -231,6 +231,140 @@ void Map::setUpDraw(glm::vec3 pos)
 		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
 		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
 		upDraw[0]++;
+	}
+}
+
+void Map::setUpDraw3x2(glm::vec3 pos)
+{
+	upDraw[0] = 0;
+	//add middle
+	getChunkIndex(pos, &upDraw[1], &upDraw[2]);
+	if (upDraw[1] == -1 || upDraw[2] == -1)
+		return;
+
+	upDraw[0]++;
+
+	pos.x = int(pos.x + 17.5f) % 35;
+	pos.y = int(pos.y - 17.5f) % 35;
+
+	//how far from edges the map will cull.
+	//numbers bigger than 17 will crash the game
+	int Xbounds = 8;
+	int Ybounds = 13;
+
+	int XboundsD = 17;
+	int YboundsD = 13;
+
+	int X = 0;
+	if (pos.x < Xbounds) // - X
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+		upDraw[0]++;
+		X = -1;
+	}
+	else if (pos.x > 34 - Xbounds) // X
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+		upDraw[0]++;
+		X = 1;
+	}
+	else
+		X = 2;
+
+	int Y = 0;
+	if (pos.y > -Ybounds) // - Y
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1];
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+		upDraw[0]++;
+		Y = -1;
+	}
+	else if (pos.y < -(34 - Ybounds)) // Y
+	{
+		upDraw[upDraw[0] * 2 + 1] = upDraw[1];
+		upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+		upDraw[0]++;
+		Y = 1;
+	}
+
+	if (X == 2) //render 3 x ?
+	{
+		if (Y == 0) // add 3 x 1
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+			upDraw[0]++;
+
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+			upDraw[0]++;
+		}
+		else if (Y == 1) // add 3 x 2 + Y
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+			upDraw[0]++;
+
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+			upDraw[0]++;
+
+			//upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			//upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+			//upDraw[0]++;
+			//
+			//upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			//upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+			//upDraw[0]++;
+		}
+		else // add 3 x 2 - Y
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+			upDraw[0]++;
+
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2];
+			upDraw[0]++;
+
+			//upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			//upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+			//upDraw[0]++;
+			//
+			//upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			//upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+			//upDraw[0]++;
+		}
+	}
+	else
+	{
+		//diagonals
+		if (pos.x < XboundsD && pos.y > -YboundsD)  // - X  - Y
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+			upDraw[0]++;
+		}
+		else if (pos.x > 34 - XboundsD && pos.y > -YboundsD) // X  - Y
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2] - 1;
+			upDraw[0]++;
+		}
+		else if (pos.x < XboundsD && pos.y < -(34 - YboundsD)) // - X  Y
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] - 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+			upDraw[0]++;
+		}
+		else if (pos.x > 34 - XboundsD && pos.y < -(34 - YboundsD))  // X  Y
+		{
+			upDraw[upDraw[0] * 2 + 1] = upDraw[1] + 1;
+			upDraw[upDraw[0] * 2 + 2] = upDraw[2] + 1;
+			upDraw[0]++;
+		}
 	}
 }
 
