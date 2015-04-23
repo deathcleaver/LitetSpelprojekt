@@ -46,6 +46,7 @@ private:
 	bool N = false;
 	bool Q = false;
 	bool E = false;
+	bool Ereleased = false;
 	
 	bool _1 = false;
 	bool _2 = false;
@@ -87,6 +88,8 @@ public:
 	bool getRMBdown();
 	bool getLMBrelease();
 	bool getLMBdown();
+
+	bool getEreleased();
 
 	void followPlayer(vec3 p, vec2 s, float deltaTime);
 	bool getKeyState(char c);

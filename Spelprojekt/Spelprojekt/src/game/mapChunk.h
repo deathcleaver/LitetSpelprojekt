@@ -23,13 +23,14 @@ private:
 	//map collision re-use variables
 	int x1, y1, sizeX, sizeY;
 	Light* lights;
-	int nrOfLights;
-	int musicId;
+	int nrOfLights = 0;
+	int musicId = -1;
 
 	//for mapmaker UNDO
 	int lastRecievedItemWorld = -1;
 	GameObject* lastRecievedWorld = 0;
 	void saveObject(GameObject* object, ofstream* out);
+	void loadObject(ifstream* in);
 public:
 	MapChunk(){};
 	~MapChunk();
@@ -45,6 +46,7 @@ public:
 
 	Rect*** worldCollide = 0;
 	void init(int x, int y, std::string mapname);
+	void initOld(int x, int y, std::string mapname);
 	int xOffset, yOffset;
 
 	bool collide(Rect* test, int overFlowX = 0, int overFlowY = 0);

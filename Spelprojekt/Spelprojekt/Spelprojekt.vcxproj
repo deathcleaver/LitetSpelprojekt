@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
+    <ClInclude Include="src\contentItem.h" />
     <ClInclude Include="src\engine\ObjectManager.h" />
     <ClInclude Include="src\engine\AnimationObject.h" />
     <ClInclude Include="src\engine\ContentManager.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="src\game\edit.h" />
     <ClInclude Include="src\game\Enemies\Bat.h" />
     <ClInclude Include="src\game\Enemies\Bossbat.h" />
+    <ClInclude Include="src\game\Enemies\Bossdummy.h" />
     <ClInclude Include="src\game\Enemies\Flame.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />
     <ClInclude Include="src\game\enemy.h" />

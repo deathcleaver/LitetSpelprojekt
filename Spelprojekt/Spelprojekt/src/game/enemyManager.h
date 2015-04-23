@@ -30,6 +30,7 @@ public:
 	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
 	int size(string type);
 	void init(ifstream &file, int xOffset, int yOffset);
+	void save(ofstream* out, int xOffset, int yOffset);
 	void initEmpty();
 	void resetEnemies();
 	int bindEnemy(int index, GLuint* shader, GLuint* uniform, string type);

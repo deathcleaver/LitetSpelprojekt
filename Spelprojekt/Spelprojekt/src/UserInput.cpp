@@ -40,6 +40,7 @@ void UserInput::KeyDown(char c)
 		break;
 	case('E') :
 		E = true;
+		Ereleased = false;
 		break;
 	}
 }
@@ -113,6 +114,10 @@ void UserInput::KeyUp(char c)
 		Q = false;
 		break;
 	case('E') :
+		if (E == true)
+			Ereleased = true;
+		else
+			Ereleased = false;
 		E = false;
 		break;
 	}
@@ -444,73 +449,6 @@ bool UserInput::getKeyNumberState(int n)
 	return false;
 }
 
-void UserInput::followPlayer(vec3 p, vec2 s, float deltaTime)
-{
-	vec3 oldPos = pos;
-	vec2 speed = s;
-	float dist = 0;
-
-	cameraOffset = 2.f;
-
-	speed.x *= deltaTime;
-	speed.y *= deltaTime;
-
-	if (speed.x < 0) // moving to the left
-	{
-			currOffset += ((speed.x) * deltaTime) * 50;
-			
-			if (currOffset > cameraOffset)
-				currOffset = cameraOffset;
-			
-			pos.x = p.x + currOffset;
-
-			if (pos.x < p.x - cameraOffset)
-				pos.x = p.x - cameraOffset;
-	}
-
-	if (speed.x > 0) // moving to the right
-	{
-		currOffset += ((speed.x) * deltaTime) * 50;
-
-		if (currOffset < -cameraOffset)
-			currOffset = cameraOffset;
-
-		pos.x = p.x + currOffset;
-
-		if (pos.x > p.x + cameraOffset)
-			pos.x = p.x + cameraOffset;
-	}
-
-	if (speed.x == 0) // standing still
-	{	
-		if (pos.x + currOffset < p.x)
-		{
-			dist = (pos.x - p.x);
-			pos.x -= dist * 20 * deltaTime;
-		}
-			
-		else if (pos.x + currOffset > p.x)
-		{
-			dist = (p.x - pos.x);
-			pos.x += dist * 20 * deltaTime;
-		}
-		else
-		{
-			pos.x = p.x;
-			currOffset = 0;
-		}
-	}
-
-	//printf("posx: %f: px: %f: coff: %f\n", pos.x, p.x, currOffset);
-
-	// update camera pos y (no smoothing)
-	pos.y = p.y;
-
-	// update target and camera view
-	target += (pos - oldPos);
-	*viewMatrix = lookAt(pos, target, up);
-}
-
 void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, bool playerpeek)
 {
 	glm::vec3 oldPos = pos;
@@ -563,4 +501,9 @@ void UserInput::setMousePos(float x, float y)
 {
 	lastX = x;
 	lastY = y;
+}
+
+bool UserInput::getEreleased()
+{
+	return Ereleased;
 }

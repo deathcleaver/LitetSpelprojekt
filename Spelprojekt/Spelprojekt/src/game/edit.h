@@ -68,10 +68,13 @@ private:
 	bool coppyLast = false;
 
 	void EditorMode();
+
 	void EditorState();
 	void HoldNewItem();
 	void PlaceEditorState(float x, float y);
 	void discard();
+
+	void RektEdit();
 
 	void EditID();
 	bool debugBackground = false;

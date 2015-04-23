@@ -22,11 +22,11 @@ void Edit::init(Map* map, UserInput* in)
 void Edit::update(float x, float y)
 {
 	//Set Editor mode
-	if (editMode == NONEM)
-	{
-		//temporary force
-		editMode = WORLD;
-	}
+	if (in->getKeyNumberState(8))
+		editMode = EditMode::WORLD;
+	else if (in->getKeyNumberState(7))
+		editMode = EditMode::REKT;
+
 	if (editMode != NONEM)
 	{
 		EditorMode();
@@ -69,9 +69,50 @@ void Edit::EditorMode()
 	case SPECIAL:
 		break;
 	case REKT:
+		RektEdit();
 		break;
 	case LIGHT:
 		break;
+	}
+}
+
+void Edit::RektEdit()
+{
+	//only if we are holding down a key
+	int action = -1;
+	if (in->getLMBdown())
+		action = 1; //add
+	if (in->getRMBdown())
+		action = 0; // remove
+	if (action == -1)
+		return;
+
+	float x, y;
+	bool l, r;
+	in->getMouseState(&x, &y, &r, &l);
+
+	if (y > 560) //in hud
+		return; 
+
+	mouseToWorld(&x, &y);
+
+	map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
+
+	if (chunkXCam > -1 && chunkXCam < map->readSizeX() &&
+		chunkYCam > -1 && chunkYCam < map->readSizeY())
+	{
+		int xindex = int(x + 17.5f) % 35;
+		int yindex = -(int(y - 17.5f) % 35);
+
+		if (xindex > -1 && xindex < 35 && yindex > -1 && yindex < 35)
+		{
+			//remove
+			if (action == 0)
+				chunks[chunkXCam][chunkYCam].removeRekt(xindex, yindex);
+			//add
+			else if (action == 1)
+				chunks[chunkXCam][chunkYCam].addRekt(xindex, yindex);
+		}
 	}
 }
 
@@ -179,7 +220,7 @@ void Edit::PlaceEditorState(float x, float y)
 		case PLACE:
 			placeObject(x, y);
 			if (current)
-				if (in->getKeyState('E'))
+				if (in->getEreleased())
 					giveObjectToChunk();
 			break;
 		case CHANGE:
@@ -298,6 +339,7 @@ void Edit::giveObjectToChunk()
 		chunks[chunkXCam][chunkYCam].recieveWorld(current);
 		lastPlaced = current;
 		current = 0;
+		newItem = true;
 		break;
 	case MONSTER:
 		break;

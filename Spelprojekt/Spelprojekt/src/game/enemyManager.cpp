@@ -4,6 +4,7 @@
 #include "Enemies/Bat.h"
 #include "Enemies/Flame.h"
 #include "Enemies/Bossbat.h"
+#include "Enemies/Bossdummy.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -59,8 +60,6 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	iss >> sub;
 	if (atoi(sub.c_str()) == 1) //THERE IS A BOSS HOLY HELL
 	{
-		getline(file, line);
-		iss = istringstream(line);
 		iss >> sub;
 		type = sub; //Läs bosstyp
 		iss >> sub;
@@ -89,6 +88,31 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 		pos.y = pos.y - yOffset * 35;
 		addEnemy(type, pos);
 	}
+}
+
+void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
+{
+	//reset all enemies to their original pos
+	resetEnemies();
+
+	//save boss  OBSERVERA!!!!! 0 boss
+	if (boss)
+	{
+		glm::vec3 bossPos = boss->readPos();
+		*out << 1 << " " << boss->getType() << " " << bossPos.x << " " << bossPos.y << endl;
+	}
+	else
+		*out << 0 << " : ChuckTesta" << endl;
+	*out << batCount + flameCount + spikeCount << " : Enemy Count" << endl;
+
+	for (int n = 0; n < batCount; n++)
+		*out << "Bat " << bats[n]->readPos().x - xOffset * 35 << " " << bats[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < flameCount; n++)
+		*out << "Flame " << flames[n]->readPos().x - xOffset * 35 << " " << flames[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < spikeCount; n++)
+		*out << "Spikes " << spikes[n]->readPos().x - xOffset * 35 << " " << spikes[n]->readPos().y + yOffset * 35 << endl;
 }
 
 void EnemyManager::initEmpty()
@@ -276,12 +300,12 @@ Enemy* EnemyManager::getBoss()
 
 void EnemyManager::addBoss(string type, glm::vec2 pos)
 {
-	if (type == "Fake")
+	if (type == "ChuckTesta")
 	{
-		boss = new Spikes(pos);
+		boss = new Dummy(pos);
 		boss->scaleFactor(0.01, 0.01, 0.01);
 	}
-	if (type == "Bossbat")
+	else if (type == "Bossbat")
 	{
 		boss = new Bossbat(pos);
 		boss->scaleFactor(2, 2, 2);
@@ -292,6 +316,7 @@ void EnemyManager::startBoss()
 {
 	boss->init();
 }
+
 void EnemyManager::expandEnemyArray(Enemy**& arr, int &oldMax)
 {
 	Enemy** temparr = new Enemy*[oldMax + 5];

@@ -24,6 +24,7 @@ public:
 	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 	void coppyMat(GameObject* obj);
+	void setWorldMat(glm::mat4* mat);
 
 	void rotateTo(float x, float y, float z);
 	void rotateToX(float x);
