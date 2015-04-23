@@ -13,6 +13,9 @@ private:
 	float invulnTimer;
 	bool flying;
 	Light* myLight;
+
+	float maxInt, minInt, increase;
+
 public:
 	~Flame();
 	Flame(Flame* copy);

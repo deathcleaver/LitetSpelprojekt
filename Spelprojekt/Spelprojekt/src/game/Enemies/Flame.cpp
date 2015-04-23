@@ -23,6 +23,10 @@ Flame::Flame(glm::vec2 firstPos)
 	myLight = new Light();
 	myLight->posX = initPos.x; myLight->posY = initPos.y; myLight->posZ = 0.0;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 30.0;
+
+	maxInt = 2.0f;
+	minInt = 0.0f;
+	increase = 0.01;
 }
 
 Flame::Flame(Flame* copy)
@@ -41,6 +45,10 @@ Flame::Flame(Flame* copy)
 	flying = copy->flying;
 
 	myLight = new Light();
+
+	maxInt = copy->maxInt;
+	minInt = copy->minInt;
+	increase = copy->increase;
 
 	myLight->posX = copy->myLight->posX; myLight->posY = copy->myLight->posY; myLight->posZ = copy->myLight->posZ;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 30.0;
@@ -158,6 +166,13 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	glm::vec3 myPos = readPos();
 	myLight->posX = myPos.x;
 	myLight->posY = myPos.y;
+
+	myLight->intensity += increase;
+	if (myLight->intensity > maxInt || myLight->intensity < minInt)
+	{
+		increase = -increase;
+	}
+
 	return 0;
 }
 
