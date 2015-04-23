@@ -183,7 +183,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		{
 			moveTo(pos.x + speed*deltaTime*distX/3, pos.y + speed*deltaTime*distY/3);
 			charging = false;
-			chargeTimer = 3.0f;
+			chargeTimer = 2.0f;
 		}
 	}
 
@@ -195,7 +195,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			charging = true;
 			chargePos = playerPos;
 			returnPos = readPos();
-			chargeTimer = 1.0f;
+			chargeTimer = 0.8f;
 			if (chargePos.x < returnPos.x)
 			{
 				if (facingRight)
@@ -213,7 +213,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 				}
 			}
 		}
-		else if (chargeTimer > 2.0f)
+		else if (chargeTimer > 1.5f)
 		{
 			float distX = chargePos.x - returnPos.x;
 			float distY = chargePos.y - returnPos.y;
@@ -227,7 +227,7 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			{
 				moveTo(pos.x + speed*deltaTime*distX / 5, pos.y + speed*deltaTime*distY / 5);
 				charging = false;
-				chargeTimer = 2.0f;
+				chargeTimer = 1.5f;
 			}
 		}
 	}

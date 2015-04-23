@@ -795,7 +795,7 @@ int MapChunk::hasBoss()
 	{
 		if (boss)
 		{
-			if (!boss->isInitiated() || boss->isAlive())
+			if (!boss->isInitiated() || boss->isAlive() || boss->getType() == "ChuckTesta")
 				return 1;
 			else
 				return 2;
