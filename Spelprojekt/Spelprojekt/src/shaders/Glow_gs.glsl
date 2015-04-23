@@ -23,12 +23,16 @@ void main()
     float partSize = gl_in[0].gl_Position.w * 0.5f;
     
     vec3 dist = (partPos - camPos);
+	
+	//code to make glows change size depending on campos
+	float xydist = length(partPos.xy - camPos.xy);
+	partSize *= min((5f / xydist), 2f);
 
     float culldist = length(partPos.x - camPos.x);
-	if(culldist < (15 + partSize * 0.2))
+	if(culldist < (15f + partSize * 0.2f))
 	{
 		float culldist = length(partPos.y - camPos.y);
-		if(culldist < (8 + partSize * 0.2))
+		if(culldist < (8f + partSize * 0.2f))
 		{
 			vec3 strafe = normalize(cross(dist, upFixed));
 			vec3 up = normalize(cross(dist, strafe));
