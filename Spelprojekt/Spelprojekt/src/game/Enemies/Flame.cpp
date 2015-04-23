@@ -37,6 +37,8 @@ Flame::Flame(Flame* copy)
 	initPos = glm::vec2(pos.x, pos.y);
 	moveTo(pos.x, pos.y);
 	alive = true;
+	fading = true;
+	copy->fading = false;
 	facingRight = copy->facingRight;
 	contentIndex = 2;
 	health = copy->health;
@@ -62,9 +64,11 @@ void Flame::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
+	fading = true;
 	health = 3;
 	invulnTimer = 0.0f;
 	speed = glm::vec2(2.0f, 0.0);
+	myLight->intensity = 1.0;
 
 	collideRect->update();
 }
@@ -174,6 +178,18 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	}
 
 	return 0;
+}
+
+bool Flame::isFading()
+{
+	return fading;
+}
+
+void Flame::fade()
+{
+	myLight->intensity -= abs(increase);
+	if (myLight->intensity < 0.0f)
+		fading = false;
 }
 
 void Flame::hit(int damage, bool playerRightOfEnemy)

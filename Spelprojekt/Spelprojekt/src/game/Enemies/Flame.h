@@ -16,6 +16,8 @@ private:
 
 	float maxInt, minInt, increase;
 
+	bool fading;
+
 public:
 	~Flame();
 	Flame(Flame* copy);
@@ -23,6 +25,10 @@ public:
 	void init();
 	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
+
+	bool isFading();
+	void fade();
+
 	std::string getType()
 	{
 		return "Flame";
