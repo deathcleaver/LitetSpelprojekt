@@ -4,7 +4,6 @@
 
 Bossbat::Bossbat(glm::vec2 firstPos)
 {
-	scaleFactor(2, 2, 2);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
 	alive = false;
@@ -18,7 +17,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1.8, 2);
+	collideRect->initGameObjectRect(&worldMat, 2, 3);
 	batsToSpawn = 0;
 	batTimer = 0.0f;
 	charging = false;
@@ -29,12 +28,12 @@ void Bossbat::init()
 {
 	if (!isInit)
 	{
+		worldMat = glm::mat4(1);
+		scaleFactor(4, 4, 4);
 		isInit = true;
 		moveTo(initPos.x, initPos.y, -10.0f);
 		invulnTimer = 0.0f;
 		movementScale = 0.0f;
-		if (!facingRight)
-			rotateTo(0, 3.1415927f, 0);
 		facingRight = true;
 		alive = true;
 		health = 4;
