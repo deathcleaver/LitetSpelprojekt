@@ -23,8 +23,8 @@ private:
 	//map collision re-use variables
 	int x1, y1, sizeX, sizeY;
 	Light* lights;
-	int nrOfLights;
-	int musicId;
+	int nrOfLights = 0;
+	int musicId = -1;
 
 	//for mapmaker UNDO
 	int lastRecievedItemWorld = -1;

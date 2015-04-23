@@ -14,7 +14,7 @@ Spikes 0 16
 Spikes -1 16
 Spikes -2 16
 0 0 0 0 :  BACKGROUND!
-2 12 11 0 :  SHRINE!
+2 12 11.5 0 :  SHRINE!
 27 :  Number of world objects
 Box 3 0 0 16 0 3 0 -15 0 0 2 0 0 0 0 1
 Box 35 0 0 0 0 1 0 -17 0 0 2 0 0 0 0 1

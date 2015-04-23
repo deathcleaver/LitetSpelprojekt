@@ -77,11 +77,11 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		{
 			glm::vec3 pos;
 			ss >> sub;
-			pos.x = atoi(sub.c_str());
+			pos.x = atof(sub.c_str());
 			ss >> sub;
-			pos.y = atoi(sub.c_str());
+			pos.y = atof(sub.c_str());
 			ss >> sub;
-			pos.z = atoi(sub.c_str());
+			pos.z = atof(sub.c_str());
 			chunkBackground = new GameObject();
 			chunkBackground->init(id);
 			chunkBackground->moveTo(pos);
@@ -99,11 +99,11 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		{
 			glm::vec3 pos;
 			ss >> sub;
-			pos.x = atoi(sub.c_str());
+			pos.x = atof(sub.c_str());
 			ss >> sub;
-			pos.y = atoi(sub.c_str());
+			pos.y = atof(sub.c_str());
 			ss >> sub;
-			pos.z = atoi(sub.c_str());
+			pos.z = atof(sub.c_str());
 			GameObject* temp = new GameObject();
 			temp->init(id);
 			temp->moveTo(pos);
