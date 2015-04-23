@@ -808,7 +808,9 @@ int MapChunk::hasBoss()
 Light* MapChunk::getFlameLight(int index)
 {
 	Enemy** enemies = enemyMan->getEnemies("Flame");
-	return ((Flame*)(enemies[index]))->getLight();
+	if (enemies[index]->isAlive())
+		return ((Flame*)(enemies[index]))->getLight();
+	return 0;
 }
 
 Light* MapChunk::getLights(int &lightNr)

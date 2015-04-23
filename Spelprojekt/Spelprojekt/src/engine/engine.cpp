@@ -317,21 +317,27 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 					nrOfLights += lightSize;
 				}
 				int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
+				lightSize = 0;
 				for (int c = 0; c < flameCount; c++)
 				{
 					Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
-					light[nrOfLights + c].posX = temp->posX;
-					light[nrOfLights + c].posY = temp->posY;
-					light[nrOfLights + c].posZ = temp->posZ;
+						if (temp)
+						{
+						
+						light[nrOfLights + c].posX = temp->posX;
+						light[nrOfLights + c].posY = temp->posY;
+						light[nrOfLights + c].posZ = temp->posZ;
 
-					light[nrOfLights + c].r = temp->r;
-					light[nrOfLights + c].g = temp->g;
-					light[nrOfLights + c].b = temp->b;
+						light[nrOfLights + c].r = temp->r;
+						light[nrOfLights + c].g = temp->g;
+						light[nrOfLights + c].b = temp->b;
 
-					light[nrOfLights + c].intensity = temp->intensity;
-					light[nrOfLights + c].distance = temp->distance;
+						light[nrOfLights + c].intensity = temp->intensity;
+						light[nrOfLights + c].distance = temp->distance;
+						lightSize++;
+					}
 				}
-				nrOfLights += flameCount;
+				nrOfLights += lightSize;
 			}
 	}
 

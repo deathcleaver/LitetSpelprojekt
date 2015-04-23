@@ -40,6 +40,11 @@ Flame::Flame(Flame* copy)
 	invulnTimer = copy->invulnTimer;
 	flying = copy->flying;
 
+	myLight = new Light();
+
+	myLight->posX = copy->myLight->posX; myLight->posY = copy->myLight->posY; myLight->posZ = copy->myLight->posZ;
+	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 30.0;
+
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
 }
