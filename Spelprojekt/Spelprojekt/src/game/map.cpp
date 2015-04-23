@@ -24,7 +24,16 @@ void Map::init()
 		}
 		delete[] chunks;
 	}
-	std::string fileName = "../Spelprojekt/src/map/maps1";
+
+	bool USE_OLD_LOAD = false;
+
+	std::string fileName;
+
+	if(USE_OLD_LOAD)
+		fileName  = "../Spelprojekt/src/map/maps0";
+	else
+		fileName = "../Spelprojekt/src/map/maps1";
+
 	std::string line;
 	std::string fetch;
 	ifstream in;
@@ -52,7 +61,10 @@ void Map::init()
 		chunks[x] = new MapChunk[height];
 		for (int y = 0; y < height; y++)
 		{
-			chunks[x][y].init(x, y, fileName);
+			if(USE_OLD_LOAD)
+				chunks[x][y].initOld(x, y, fileName);
+			else
+				chunks[x][y].init(x, y, fileName);
 		}
 	}
 	upDraw = new int[9];

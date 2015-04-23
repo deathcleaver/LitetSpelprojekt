@@ -1,18 +1,5 @@
-0 : BOSS
-13 : Enemy Count
-Bat 2 4
-Bat 5 -13
-Flame -14 6
-Flame -3 -16
-Flame 8 -16
-Spikes -17 -16
-Spikes -16 -16
-Spikes -15 -16
-Spikes 8 2
-Spikes 9 2
-Spikes 0 16
-Spikes -1 16
-Spikes -2 16
+0 : No Boss
+0 : Nr of enemies
 0 0 0 0 :  BACKGROUND!
 2 12 11 0 :  SHRINE!
 27 :  Number of world objects

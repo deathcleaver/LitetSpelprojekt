@@ -57,15 +57,13 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 	//load objects from file
 	if (in.is_open())
 	{
-		// --- Load Monsters --- 
-		//enemyMan = new EnemyManager();
-		//enemyMan->init(in, xOffset, yOffset);
-		enemyMan = new EnemyManager();
-		enemyMan->initEmpty();
-
 		string line;
 		string sub;
 		stringstream ss;
+
+		// --- Load Monsters --- 
+		enemyMan = new EnemyManager();
+		enemyMan->init(in, xOffset, yOffset);
 
 		// --- Load Background ---
 		getline(in, line);
@@ -223,17 +221,196 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 	in.close();
 }
 
+void MapChunk::initOld(int xIndex, int yIndex, std::string mapname)
+{
+	//Build chunk filename
+	std::stringstream ss;
+	ss << "../Spelprojekt/src/map/" << mapname << "/"
+		<< xIndex << "_" << yIndex << ".chunk";
+	string fileName = ss.str();
+
+	ifstream in;
+	in.open(fileName);
+
+
+	xOffset = xIndex;
+	yOffset = yIndex;
+
+	//load objects from file
+	if (in.is_open())
+	{
+		mapnamepath = mapname;
+		enemyMan = new EnemyManager();
+		enemyMan->init(in, xOffset, yOffset);
+
+		chunkBackground = new GameObject();
+		chunkBackground->init(0);
+		chunkBackground->moveTo(xOffset * 35, yOffset * -35);
+
+		glm::vec3 pos;
+		glm::vec3 scale;
+		string type;
+		string line;
+		getline(in, line);
+		istringstream iss(line);
+		string sub;
+		iss >> sub;
+
+		countWorldObjs = atoi(sub.c_str());
+		for (int c = 0; c < countWorldObjs; c++)
+		{
+			if (!(getline(in, line))) break;
+			iss = istringstream(line);
+			iss >> sub;
+			type = sub; //Läs objekttyp
+			iss >> sub;
+			pos.x = atof(sub.c_str());
+			iss >> sub;
+			pos.y = atof(sub.c_str());
+			iss >> sub;
+			pos.z = atof(sub.c_str());
+			iss >> sub;
+			scale.x = atof(sub.c_str());
+			iss >> sub;
+			scale.y = atof(sub.c_str());
+			iss >> sub;
+			scale.z = atof(sub.c_str());
+			if (type == "Box")
+			{
+				GameObject* temp = new GameObject();
+				temp->init(1);
+				temp->moveTo(xOffset * 35, yOffset * -35);
+				temp->translate(pos.x, pos.y, pos.z);
+				temp->scaleFactor(scale.x, scale.y, scale.z);
+				Box_Objs.push_back(temp);
+			}
+			if (type == "Mushroom")
+			{
+				GameObject* temp = new GameObject();
+				temp->init(3);
+				temp->moveTo(xOffset * 35, yOffset * -35);
+				temp->translate(pos.x, pos.y, pos.z);
+				temp->scaleFactor(scale.x, scale.y, scale.z);
+				Mushroom_Objs.push_back(temp);
+			}
+			if (type == "Shrine")
+			{
+				if (!shrine)
+				{
+					GameObject* shrineTemp = new GameObject();
+					shrineTemp->init(2); //2 = playerBase svart
+					shrineTemp->moveTo(xOffset * 35, yOffset * -35);
+					shrineTemp->translate(pos.x, pos.y, pos.z);
+					shrineTemp->scaleFactor(scale.x, scale.y, scale.z);
+					shrine = new Shrine(shrineTemp);
+				}
+			}
+		}
+		//Load music id
+		getline(in, line);
+		iss = istringstream(line);
+		iss >> sub;
+		musicId = atoi(sub.c_str());
+
+		//Load lights
+		getline(in, line);
+		iss = istringstream(line);
+		iss >> sub;
+		nrOfLights = atoi(sub.c_str());
+		if (nrOfLights > 0)
+		{
+			lights = new Light[nrOfLights];
+			for (int c = 0; c < nrOfLights; c++)
+			{
+				getline(in, line);
+				iss = istringstream(line);
+				iss >> sub;
+				lights[c].posX = atof(sub.c_str()) + xOffset * 35;
+				iss >> sub;
+				lights[c].posY = atof(sub.c_str()) - yOffset * 35;
+				iss >> sub;
+				lights[c].posZ = atof(sub.c_str());
+				iss >> sub;
+				lights[c].r = atof(sub.c_str());
+				iss >> sub;
+				lights[c].g = atof(sub.c_str());
+				iss >> sub;
+				lights[c].b = atof(sub.c_str());
+				iss >> sub;
+				lights[c].intensity = atof(sub.c_str());
+				iss >> sub;
+				lights[c].distance = atof(sub.c_str());
+			}
+		}
+
+		worldCollide = new Rect**[35];
+		for (int c = 0; c < 35; c++)
+		{
+			worldCollide[c] = new Rect*[35];
+		}
+
+		for (int y = 0; y < 35; y++)
+		{
+			getline(in, line);
+			for (int x = 0; x < 35; x++)
+			{
+				char lineAt = line.at(x);
+				if (lineAt == 'X')
+				{
+					worldCollide[x][y] = new Rect();
+					worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+				}
+				else
+				{
+					worldCollide[x][y] = 0;
+				}
+			}
+		}
+	}
+	else //init 0
+	{
+		//default background
+		chunkBackground = new GameObject();
+		chunkBackground->init(0);
+		chunkBackground->moveTo(xOffset * 35, yOffset * -35);
+
+		musicId = -1;
+
+		enemyMan = new EnemyManager;
+		enemyMan->initEmpty();
+
+		countWorldObjs = 0;
+
+		worldCollide = new Rect**[35];
+		for (int c = 0; c < 35; c++)
+			worldCollide[c] = new Rect*[35];
+
+		for (int y = 0; y < 35; y++)
+			for (int x = 0; x < 35; x++)
+			{
+				if (x > 2 && y == 35)
+				{
+					worldCollide[x][y] = new Rect();
+					worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+				}
+				else
+					worldCollide[x][y] = 0;
+			}
+	}
+	in.close();
+}
+
 void MapChunk::saveChunk()
 {
 	std::stringstream ss;
-	ss << "../Spelprojekt/src/map/" << mapnamepath << "/"
+	ss << "../Spelprojekt/src/map/" << "map1" << "/"
 		<< xOffset << "_" << yOffset << ".chunk";
 	string fileName = ss.str();
 
 	ofstream out;
 	out.open(fileName, std::ofstream::out | std::ofstream::trunc);
 
-	//save enemies
+	enemyMan->save(&out, xOffset, yOffset);
 
 	//save background
 	if (chunkBackground)
@@ -351,7 +528,7 @@ void MapChunk::loadObject(ifstream* in)
 	else if (type == "Mushroom")
 	{
 		temp->init(3);
-		Box_Objs.push_back(temp);
+		Mushroom_Objs.push_back(temp);
 	}
 }
 

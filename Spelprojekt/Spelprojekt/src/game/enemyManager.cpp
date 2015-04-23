@@ -91,6 +91,25 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	}
 }
 
+void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
+{
+	//reset all enemies to their original pos
+	resetEnemies();
+
+	//save boss  OBSERVERA!!!!! 0 boss
+	*out << 0 << " : BOSS" << endl;
+	*out << batCount + flameCount + spikeCount << " : Enemy Count" << endl;
+
+	for (int n = 0; n < batCount; n++)
+		*out << "Bat " << bats[n]->readPos().x - xOffset * 35 << " " << bats[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < flameCount; n++)
+		*out << "Flame " << flames[n]->readPos().x - xOffset * 35 << " " << flames[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < spikeCount; n++)
+		*out << "Spikes " << spikes[n]->readPos().x - xOffset * 35 << " " << spikes[n]->readPos().y + yOffset * 35 << endl;
+}
+
 void EnemyManager::initEmpty()
 {
 	flameCount = -1;
@@ -292,6 +311,7 @@ void EnemyManager::startBoss()
 {
 	boss->init();
 }
+
 void EnemyManager::expandEnemyArray(Enemy**& arr, int &oldMax)
 {
 	Enemy** temparr = new Enemy*[oldMax + 5];
