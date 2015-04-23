@@ -54,12 +54,11 @@ void Edit::EditorMode()
 	case WORLD:
 	case MONSTER:
 	{
-		//select editorState
-		if (editState == NONES)
-		{
-			//temp force
+		//if (in->getKeyNumberState(5))
 			editState = EditState::PLACE;
-		}
+		//if (in->getKeyNumberState(6))
+			//editState = EditState::CHANGE;
+
 		if (editState != NONES)
 		{
 			EditorState();
@@ -157,7 +156,11 @@ void Edit::EditorState()
 	}
 	else if (editState == EditState::CHANGE)
 	{
-		// get object from chunk
+		//grab item
+		if (in->getLMBdown())
+		{
+			
+		}
 	}
 }
 
@@ -176,6 +179,7 @@ void Edit::HoldNewItem()
 
 	internalPlaceState = 0;
 	placeState = NONEP;
+	editState = PLACE;
 	newItem = false;
 	if (coppyLast)
 	{

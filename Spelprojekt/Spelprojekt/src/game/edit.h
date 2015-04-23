@@ -87,6 +87,8 @@ private:
 	
 	void placeObject(float x, float y);
 	void giveObjectToChunk();
+	void takeItem();
+	bool itemtaken = false;
 
 public:
 	Edit(){};

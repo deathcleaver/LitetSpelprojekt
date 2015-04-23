@@ -30,7 +30,7 @@ void Bossbat::init()
 	if (!isInit)
 	{
 		isInit = true;
-		moveTo(initPos.x, initPos.y, -3.0f);
+		moveTo(initPos.x, initPos.y, -10.0f);
 		invulnTimer = 0.0f;
 		movementScale = 0.0f;
 		if (!facingRight)
@@ -47,7 +47,6 @@ void Bossbat::init()
 		returnPos = chargePos = readPos();
 		hasTurned = false;
 		rotateTo(0, 3.1415927f / 2.0f, 0);
-		turnRight = false;
 	}
 	else
 	{
@@ -80,11 +79,12 @@ int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 {
 	glm::vec3 pos = readPos();
 	if (pos.z < 0.0f)
-		moveTo(pos.x, pos.y, pos.z + 3.0*deltaTime);
-	else if (!turnRight)
 	{
-		turnRight = true;
-		rotateTo(0, 3 * 3.1415927f / 2.0f, 0);
+		moveTo(pos.x, pos.y, pos.z + 10.0*deltaTime);
+		if (pos.z >= -1.0f)
+		{
+			rotateTo(0, -(3.1415927f/2.0f)*deltaTime*10.0f, 0);
+		}
 	}
 	if (invulnTimer > FLT_EPSILON)
 	{
