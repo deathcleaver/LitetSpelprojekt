@@ -328,7 +328,6 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 		if (HP != MAX_HP)
 		{
 			HP = MAX_HP;
-			audio->playSoundAtPos(0, currentSpawn->getPos(), false);
 			printf("Max HP regained\n");
 		}
 		if (currentRune == 0)
@@ -340,6 +339,8 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 				DMG += 1;
 			else if (currentRune == FORCE)
 				shield = 3;
+
+			audio->playSound(0);//item
 		}
 	}
 

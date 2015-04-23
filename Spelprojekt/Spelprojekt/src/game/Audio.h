@@ -49,7 +49,7 @@ public:
 	void update(float deltaTime);
 	void playMusic(int track);
 	void playMusicFade(int track, float deltaTime);
-	void playSound();
+	void playSound(int track);
 	void playSoundAtPos(int track, glm::vec2 pos, bool looping);
 	void createSoundAtPos(int track, glm::vec2 pos);
 	void updateListener(glm::vec3 pos);
