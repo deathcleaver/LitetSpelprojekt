@@ -31,7 +31,7 @@ private:
 	float runeMove;
 	bool runeUp;
 public:
-	Shrine(GameObject* object);
+	Shrine(GameObject* object, int runetype);
 	~Shrine();
 	Rect* getRekt();
 	glm::vec2 getPos();

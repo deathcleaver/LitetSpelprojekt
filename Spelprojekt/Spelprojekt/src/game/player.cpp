@@ -333,9 +333,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			currentRune = currentSpawn->getRune();
 			if (currentRune == FLAME)
-			{
 				attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
-			}
+			else if (currentRune == SPARK)
+				DMG += 1;
 		}
 	}
 
@@ -348,9 +348,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (result.z > -FLT_EPSILON)
 			{
 				if (currentRune == FLAME)
-				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
-				}
+				else if (currentRune == SPARK)
+					DMG -= 1;
 				currentRune = NORUNE;
 				invulnTimer = 1.0f;
 				if (HP > 1)

@@ -1,19 +1,38 @@
 #include "Shrine.h"
 
-Shrine::Shrine(GameObject* object)
+Shrine::Shrine(GameObject* object, int runetype)
 {
 	runeMove = 0.0f;
 	runeUp = true;
 	runeTaken = false;
 	this->object = object;
-	if (object->returnID() == 2)
+	glm::vec3 pos = object->readPos();
+	switch (runetype)
 	{
+	case 0 :
 		rune = FLAME;
 		runeObj = new GameObject();
 		runeObj->init(4);
-		glm::vec3 pos = object->readPos();
-		runeObj->moveTo(pos.x, pos.y+0.1, pos.z + 0.5);
-		//runeObj->scaleFactor(0.5, 0.5, 0.5);
+		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
+		break;
+	case 1 :
+		rune = SPARK;
+		runeObj = new GameObject();
+		runeObj->init(4);
+		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
+		break;
+	case 2 :
+		rune = FORCE;
+		runeObj = new GameObject();
+		runeObj->init(4);
+		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
+		break;
+	case 3 :
+		rune = STOMP;
+		runeObj = new GameObject();
+		runeObj->init(4);
+		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
+		break;
 	}
 	collision = new Rect();
 	collision->initGameObjectRect(object->getWorldMat(), 1.0f, 2.0f);
