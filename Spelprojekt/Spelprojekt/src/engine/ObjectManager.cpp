@@ -66,7 +66,7 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 14;
+	myNrOfMapObjects = 17;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
@@ -112,6 +112,15 @@ void ObjectManager::loadMapObjs()
 
 	//Minetrack
 	myMapObjs[13] = new AnimationObject("src/meshes/Background Objects/Minetrack.v", "src/textures/Background Objects/Minetrack.bmp");
+
+	//Minestrut small
+	myMapObjs[14] = new AnimationObject("src/meshes/Background Objects/MineStrutSmall.v", "src/textures/Background Objects/MineStrut.bmp");
+
+	//Minestrut large
+	myMapObjs[15] = new AnimationObject("src/meshes/Background Objects/MineStrutLarge.v", "src/textures/Background Objects/MineStrut.bmp");
+
+	//Lantern
+	myMapObjs[16] = new AnimationObject("src/meshes/Background Objects/Lantern.v", "src/textures/Background Objects/Lantern.bmp");
 
 }
 
