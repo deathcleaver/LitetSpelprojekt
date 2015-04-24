@@ -341,7 +341,7 @@ void Engine::renderEnemies()
 					glColorMask(1, 1, 1, 1);
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 					glDisable(GL_CULL_FACE);
-
+					lastid = -1;  
 			}
 
 	}
