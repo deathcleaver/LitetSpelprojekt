@@ -332,13 +332,16 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 		}
 		if (currentRune == 0)
 		{
-			currentRune = currentSpawn->getRune();
-			if (currentRune == FLAME)
-				attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
-			else if (currentRune == SPARK)
-				DMG += 1;
-			else if (currentRune == FORCE)
-				shield = 2;
+			if (currentSpawn)
+			{
+				currentRune = currentSpawn->getRune();
+				if (currentRune == FLAME)
+					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
+				else if (currentRune == SPARK)
+					DMG += 1;
+				else if (currentRune == FORCE)
+					shield = 2;
+			}
 			audio->playSound(0);//item
 		}
 	}
@@ -401,6 +404,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
+					audio->playSound(2); //player_attack_miss
 				}
 			}
 		}
@@ -419,6 +423,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
+		audio->playSound(1); //player_attack_miss
 	}
 	
 	if (isAttacking)

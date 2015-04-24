@@ -57,7 +57,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	pos[1] = glGetUniformLocation(*shaderPtr, "diffuse");
 	pos[2] = glGetUniformLocation(*shaderPtr, "normal");
 	pos[3] = glGetUniformLocation(*shaderPtr, "world");
-	pos[4] = glGetUniformLocation(*shaderPtr, "glow");
 
 	uniformCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
 	uniformPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
@@ -102,6 +101,9 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	glVertexAttribPointer(0, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 0));
 	glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 4));
+
+	glVertexAttribDivisor(0, 1);
+	glVertexAttribDivisor(1, 1);
 
 }
 
@@ -153,7 +155,8 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 	glBindBuffer(GL_ARRAY_BUFFER, lightBuffer);
 	glBindVertexArray(LightVao);
 
-	glDrawArrays(GL_POINTS, 0, nrLight);
+	//glDrawArrays(GL_POINTS, 0, nrLight);
+	glDrawArraysInstanced(GL_POINTS, 0, 1, nrLight);
 
 }
 

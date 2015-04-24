@@ -213,7 +213,7 @@ void Game::update(float deltaTime)
 				audio->updateListener(player->readPos());
 			}
 			content->setPlayerState(player->getAnimState());
-			map->setUpDraw(*in->GetPos());
+			map->setUpDraw3x2(*in->GetPos());
 			//Animations
 			content->update();
 			vec3 pPos = player->readPos();
@@ -257,7 +257,7 @@ void Game::update(float deltaTime)
 		}
 		case(EDIT):
 		{
-			map->setUpDraw(*in->GetPos());
+			map->setUpDraw3x2(*in->GetPos());
 			edit->update(lastX, lastY);
 			if (in->getESC())
 			{

@@ -7,7 +7,6 @@ uniform sampler2D textureSample;
 layout(location = 1) out vec4 diffuseOut;
 layout(location = 2) out vec4 normalOut;
 layout(location = 3) out vec4 worldOut;
-layout(location = 4) out vec4 depthOut;
 
 void main () 
 {

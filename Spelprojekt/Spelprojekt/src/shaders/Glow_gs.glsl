@@ -19,36 +19,48 @@ vec3 upFixed = vec3(0, 1, 0);
 
 void main()
 {
- 
     vec3 partPos = gl_in[0].gl_Position.xyz;
-    float partSize = gl_in[0].gl_Position.w * 0.5;
+    float partSize = gl_in[0].gl_Position.w * 0.5f;
     
     vec3 dist = (partPos - camPos);
-    
-    vec3 strafe = normalize(cross(dist, upFixed));
-    vec3 up = normalize(cross(dist, strafe));
-    
-    outColor = color[0];
-    center = P * V * vec4(partPos, 1);
-    
-    size = partSize;
-    
-    // Top left
-    cornerPos = gl_Position = P * V * vec4(partPos - (strafe * partSize) + (up * partSize), 1);
-    EmitVertex();
-    
-    // bottom left
-    cornerPos = gl_Position = P * V * vec4(partPos - (strafe * partSize) - (up * partSize), 1);
-    EmitVertex();
-    
-    // top right
-    cornerPos = gl_Position = P * V * vec4(partPos + (strafe * partSize) + (up * partSize), 1);
-    EmitVertex();
-    
-    // bottom right
-    cornerPos = gl_Position = P * V * vec4(partPos + (strafe * partSize) - (up * partSize), 1);
-    EmitVertex();
-    
-    EndPrimitive();
-    
+	
+	//code to make glows change size depending on campos
+	float xydist = length(partPos.xy - camPos.xy);
+	partSize *= min((3f / xydist), 1.5f);
+
+    float culldist = length(partPos.x - camPos.x);
+	if(culldist < (15f + partSize * 0.2f))
+	{
+		float culldist = length(partPos.y - camPos.y);
+		if(culldist < (8f + partSize * 0.2f))
+		{
+			vec3 strafe = normalize(cross(dist, upFixed));
+			vec3 up = normalize(cross(dist, strafe));
+			
+			mat4 PV = P * V;
+			
+			outColor = color[0];
+			center = PV * vec4(partPos, 1);
+			
+			size = partSize;
+			
+			// Top left
+			cornerPos = gl_Position = PV * vec4(partPos - (strafe * partSize) + (up * partSize), 1);
+			EmitVertex();
+			
+			// bottom left
+			cornerPos = gl_Position = PV * vec4(partPos - (strafe * partSize) - (up * partSize), 1);
+			EmitVertex();
+			
+			// top right
+			cornerPos = gl_Position = PV * vec4(partPos + (strafe * partSize) + (up * partSize), 1);
+			EmitVertex();
+			
+			// bottom right
+			cornerPos = gl_Position = PV * vec4(partPos + (strafe * partSize) - (up * partSize), 1);
+			EmitVertex();
+			
+			EndPrimitive();
+		}
+	}
 }

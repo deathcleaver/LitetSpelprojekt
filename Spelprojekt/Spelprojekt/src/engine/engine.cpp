@@ -65,7 +65,7 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.shaderGuiPtr = &tempshaderGUI;
 
 	
-	gBuffer.init(1080, 720, 5, true);
+	gBuffer.init(1080, 720, 4, true);
 	
 	light = new Light[100];
 
@@ -81,6 +81,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	bool renderEditObject = false;
 	bool renderGUI = true;
 	bool renderRekts = false;
+	bool renderGlow = false;
 
 
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
@@ -95,6 +96,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		renderBack = true;
 		renderWorld = true;
 		renderMonster = true;
+		renderGlow = true;
 		break;
 	case(2) : //INTRO
 		
@@ -103,6 +105,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		renderBack = true;
 		renderWorld = true;
 		renderMonster = true;
+		renderGlow = true;
 		gBuffer.playerPos = (GLfloat*)campos;
 		renderEditObject = true;
 		if (edit->getEditMode() == EditMode::REKT)
@@ -392,7 +395,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	glDisable(GL_DEPTH_TEST);
 
-	gBuffer.renderGlow(campos);
+	if (renderGlow)
+		gBuffer.renderGlow(campos);
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
