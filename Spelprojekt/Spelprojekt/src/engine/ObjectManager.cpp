@@ -49,13 +49,13 @@ void ObjectManager::init()
 void ObjectManager::loadPlayer()
 {
 	Object** playerAn = new Object*[5];
-	playerAn[0] = new Object("src/meshes/PlayerBaseSword2.v", "src/textures/blue.bmp");
-	playerAn[1] = new Object("src/meshes/PlayerWalkLeft.v", "", playerAn[0], false, true);
-	playerAn[2] = new Object("src/meshes/PlayerWalkRight.v", "", playerAn[0], false, true);
-	playerAn[3] = new Object("src/meshes/PlayerAttackUp.v", "", playerAn[0], false, true);
-	playerAn[4] = new Object("src/meshes/PlayerAttackDown.v", "", playerAn[0], false, true);
+	playerAn[0] = new Object("src/meshes/Player/PlayerBaseSword2.v", "src/textures/blue.bmp");
+	playerAn[1] = new Object("src/meshes/Player/PlayerWalkLeft.v", "", playerAn[0], false, true);
+	playerAn[2] = new Object("src/meshes/Player/PlayerWalkRight.v", "", playerAn[0], false, true);
+	playerAn[3] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
+	playerAn[4] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
 
-	myPlayer = new AnimationObject(playerAn, "src/meshes/PlayerBaseSword2.v", 5, 0.5f, 0.05f);
+	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerBaseSword2.v", 5, 0.5f, 0.05f);
 
 }
 
@@ -66,49 +66,52 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 13;
+	myNrOfMapObjects = 14;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
-	myMapObjs[0] = new AnimationObject("src/meshes/planeVerticalF.v", "src/textures/grid.bmp");
+	myMapObjs[0] = new AnimationObject("src/meshes/planeVerticalF.v", "src/textures/Background/grid.bmp");
 
 
 	//basic platform
-	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/BackgroundRockWallDIRT.bmp");
+	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
 
 
 	//shrine
-	myMapObjs[2] = new AnimationObject("src/meshes/Shrine.v", "src/textures/Shrine2.bmp");
+	myMapObjs[2] = new AnimationObject("src/meshes/Interactive Objects/Shrine.v", "src/textures/Interactive Objects/Shrine2.bmp");
 
 	//mushroom
-	myMapObjs[3] = new AnimationObject("src/meshes/MushroomTest.v", "src/textures/MushroomTexture2.bmp");
+	myMapObjs[3] = new AnimationObject("src/meshes/Background OBjects/MushroomTest.v", "src/textures/Background Objects/MushroomTexture2.bmp");
 
 	//Attack runes
-	myMapObjs[4] = new AnimationObject("src/meshes/RuneAttack.v", "src/textures/Rune-Attack.bmp");
+	myMapObjs[4] = new AnimationObject("src/meshes/Interactive Objects/RuneAttack.v", "src/textures/Interactive Objects/Rune-Attack.bmp");
 
 	//Damage rune
-	myMapObjs[5] = new AnimationObject("src/meshes/RuneDamage.v", "src/textures/Rune-Damage.bmp");
+	myMapObjs[5] = new AnimationObject("src/meshes/Interactive Objects/RuneDamage.v", "src/textures/Interactive Objects/Rune-Damage.bmp");
 
 	//Shield rune
-	myMapObjs[6] = new AnimationObject("src/meshes/RuneShield.v", "src/textures/Rune-Shield.bmp");
+	myMapObjs[6] = new AnimationObject("src/meshes/Interactive Objects/RuneShield.v", "src/textures/Interactive Objects/Rune-Shield.bmp");
 
 	//Grey rock wall
-	myMapObjs[7] = new AnimationObject("src/meshes/BackgroundRockWallFix.v", "src/textures/BackgroundRockWall.bmp");
+	myMapObjs[7] = new AnimationObject("src/meshes/Background/BackgroundRockWallFix.v", "src/textures/Background/BackgroundRockWall.bmp");
 	
 	//Brown rock wall
-	myMapObjs[8] = new AnimationObject("src/meshes/BackgroundRockWallFix.v", "src/textures/BackgroundRockWallDIRT.bmp");
+	myMapObjs[8] = new AnimationObject("src/meshes/Background/BackgroundRockWallFix.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
 
 	//Batboss special wall
-	myMapObjs[9] = new AnimationObject("src/meshes/BackgroundBat.v", "src/textures/BackgroundBat.bmp");
+	myMapObjs[9] = new AnimationObject("src/meshes/Background/BackgroundBat.v", "src/textures/Background/BackgroundBat.bmp");
 
 	//stalactite
-	myMapObjs[10] = new AnimationObject("src/meshes/Stalactite.v", "src/textures/Stalactimite.bmp");
+	myMapObjs[10] = new AnimationObject("src/meshes/Background Objects/Stalactite.v", "src/textures/Background Objects/Stalactimite.bmp");
 
 	//stalagmite
-	myMapObjs[11] = new AnimationObject("src/meshes/Stalagmite.v", "src/textures/Stalactimite.bmp");
+	myMapObjs[11] = new AnimationObject("src/meshes/Background Objects/Stalagmite.v", "src/textures/Background Objects/Stalactimite.bmp");
 
 	//Minecart
-	myMapObjs[12] = new AnimationObject("src/meshes/MeinKart.v", "src/textures/MeinKart.bmp");
+	myMapObjs[12] = new AnimationObject("src/meshes/Background Objects/MeinKart.v", "src/textures/Background Objects/MeinKart.bmp");
+
+	//Minetrack
+	myMapObjs[13] = new AnimationObject("src/meshes/Background Objects/Minetrack.v", "src/textures/Background Objects/Minetrack.bmp");
 
 }
 
@@ -121,18 +124,18 @@ void ObjectManager::loadMonsterObjs()
 	myMonsterObjs = new AnimationObject*[myNrOfMonsterObjects]();
 
 	//spikes
-	myMonsterObjs[0] = new AnimationObject("src/meshes/SpikeBase.v", "src/textures/Red.bmp");
+	myMonsterObjs[0] = new AnimationObject("src/meshes/Enemies/SpikeBase.v", "src/textures/Red.bmp");
 
 
 	//bats
-	Object* bat1 = new Object("src/meshes/BatWingsBackFix.v", "src/textures/Red.bmp");
-	Object* bat2 = new Object("src/meshes/BatWingsForwardFix.v", "src/textures/Red.bmp");
+	Object* bat1 = new Object("src/meshes/Enemies/BatWingsBackFix.v", "src/textures/Red.bmp");
+	Object* bat2 = new Object("src/meshes/Enemies/BatWingsForwardFix.v", "src/textures/Red.bmp");
 	myMonsterObjs[1] = new AnimationObject(bat1, bat2, 0.5f, 0.08f);
 
 
 	//flamecubes
-	Object* FCube1 = new Object("src/meshes/FlameCubeContracted.v", "src/textures/Red.bmp");
-	Object* FCube2 = new Object("src/meshes/FlameCubeExtruded.v", "src/textures/Red.bmp");
+	Object* FCube1 = new Object("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
+	Object* FCube2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	myMonsterObjs[2] = new AnimationObject(FCube1, FCube2, 0.5f, 0.02f);
 
 }
