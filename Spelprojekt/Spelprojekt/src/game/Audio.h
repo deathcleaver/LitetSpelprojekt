@@ -17,7 +17,7 @@
 #define FADEOUTTIME 0.4f
 #define VOLUME_MAX 1.0f // goes from 0.0 to 1.0
 #define MUSIC_FILES 3
-#define SOUND_FILES 4
+#define SOUND_FILES 8
 
 class Audio
 {
@@ -62,7 +62,7 @@ private:
 	bool loadAudio(AudioObject* audioObj);
 	void stopMusic(int track);
 	int endWithError(char* msg, int error = 0);
-	
+
 private:
 	//OpenAL device and context
 	ALCdevice *device;                                                          //Create an OpenAL Device
