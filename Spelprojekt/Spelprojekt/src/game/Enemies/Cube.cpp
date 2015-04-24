@@ -21,7 +21,7 @@ Cube::Cube(glm::vec2 firstPos)
 
 Cube::Cube(Cube* copy)
 {
-	scaleFactor(1.8, 1.8, 1.8);
+	//scaleFactor(1.8, 1.8, 1.8);
 	visitor = copy->visitor;
 	worldMat = copy->worldMat;
 	glm::vec3 copyPos = copy->readPos();
@@ -81,7 +81,7 @@ int Cube::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		}
 	}
 	myPos = readPos();
-	speed.y += 1.0f;
+	speed.y += 0.7f;
 	if (speed.y > maxSpeed.y)
 		speed.y = maxSpeed.y;
 	moveTo(myPos.x, myPos.y - speed.y*deltaTime);
@@ -103,15 +103,9 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 	{
 		health -= damage;
 		if (playerRightOfEnemy)
-		{
 			speed.x = -16.0f;
-			speed.y = 20.0f;
-		}
 		else
-		{
 			speed.x = 16.0f;
-			speed.y = 20.0f;
-		}
 		if (health <= 0)
 		{
 			alive = false;
