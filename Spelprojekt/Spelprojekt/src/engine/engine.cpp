@@ -119,6 +119,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	gBuffer.clearLight();
 	gBuffer.bind(GL_FRAMEBUFFER);
 
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 	glUseProgram(tempshader);
@@ -306,35 +307,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		}
 	}
 
-	//if render collision rekts
-	if (renderRekts)
-	{
-		glDisable(GL_DEPTH_TEST);
-		content->bindRekt();
-		GameObject temprekt;
-		glm::vec3 pos;
-		facecount = 2;
-		
-		for (int n = 0; n < upDraw[0]; n++)
-		{
-			int x = n * 2 + 1;
-			int y = x + 1;
-			if (upDraw[x] > -1 && upDraw[x] < width)
-				if (upDraw[y] > -1 && upDraw[y] < height)
-
-					for (int xIndex = 0; xIndex < 35; xIndex++)
-						for (int yIndex = 0; yIndex < 35; yIndex++)
-							if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
-							{
-								pos.x = (-17 + upDraw[x] * 35) + xIndex;
-								pos.y = (17 - upDraw[y] * 35) - yIndex;
-								pos.z = 0;
-								temprekt.moveTo(pos);
-								temprekt.bindWorldMat(&tempshader, &uniformModel);
-								glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-							}
-		}
-	}
 
 	 // bind chunk lights
 	Light* chunkLights = 0;
@@ -395,8 +367,37 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	glDisable(GL_DEPTH_TEST);
 
-	if (renderGlow)
-		gBuffer.renderGlow(campos);
+	//if render collision rekts
+	if (renderRekts)
+	{
+		glUseProgram(tempshader);
+		glDisable(GL_DEPTH_TEST);
+		content->bindRekt();
+		GameObject temprekt;
+		glm::vec3 pos;
+		facecount = 2;
+
+		for (int n = 0; n < upDraw[0]; n++)
+		{
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+
+			for (int xIndex = 0; xIndex < 35; xIndex++)
+			for (int yIndex = 0; yIndex < 35; yIndex++)
+			if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
+			{
+				pos.x = (-17 + upDraw[x] * 35) + xIndex;
+				pos.y = (17 - upDraw[y] * 35) - yIndex;
+				pos.z = 0;
+				temprekt.moveTo(pos);
+				temprekt.bindWorldMat(&tempshader, &uniformModel);
+				glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+			}
+		}
+	}
+
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
@@ -404,7 +405,15 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	
 	gBuffer.render(campos, gui, content, renderGUI);
     
+	if (renderGlow)
+	{
+		glClear(GL_DEPTH_BUFFER_BIT);
+		gBuffer.renderGlow(campos);
+	}
+
 	glEnable(GL_DEPTH_TEST);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
