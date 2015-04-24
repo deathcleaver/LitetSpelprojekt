@@ -5,9 +5,7 @@ layout(location = 1) in vec4 fragmentPos;
 layout(location = 2) in vec4 color;
 layout(location = 3) in float maxDist;
 
-//uniform sampler2D depthTexture;
-
-layout(location = 4) out vec4 glowOut;
+layout(location = 1) out vec4 glowOut;
 
 void main () 
 {

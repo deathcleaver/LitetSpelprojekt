@@ -57,7 +57,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	pos[1] = glGetUniformLocation(*shaderPtr, "diffuse");
 	pos[2] = glGetUniformLocation(*shaderPtr, "normal");
 	pos[3] = glGetUniformLocation(*shaderPtr, "world");
-	pos[4] = glGetUniformLocation(*shaderPtr, "glow");
 
 	uniformCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
 	uniformPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");

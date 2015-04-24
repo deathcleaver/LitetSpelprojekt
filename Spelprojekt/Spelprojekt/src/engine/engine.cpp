@@ -65,7 +65,7 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.shaderGuiPtr = &tempshaderGUI;
 
 	
-	gBuffer.init(1080, 720, 5, true);
+	gBuffer.init(1080, 720, 4, true);
 	
 	light = new Light[100];
 
