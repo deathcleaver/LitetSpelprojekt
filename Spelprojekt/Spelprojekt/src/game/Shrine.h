@@ -36,6 +36,7 @@ struct RuneLights
 		
 		flameRune.intensity = 3.0f;
 		flameRune.distance = 5.0f;
+		flameRune.volume = 1;
 
 		sparkRune.posX = 0.0f;
 		sparkRune.posY = 0.0f;
@@ -47,6 +48,7 @@ struct RuneLights
 
 		sparkRune.intensity = 3.0f;
 		sparkRune.distance = 5.0f;
+		sparkRune.volume = 1;
 
 		forceRune.posX = 0.0f;
 		forceRune.posY = 0.0f;
@@ -58,6 +60,7 @@ struct RuneLights
 
 		forceRune.intensity = 3.0f;
 		forceRune.distance = 5.0f;
+		forceRune.volume = 1;
 	}
 };
 
@@ -76,7 +79,7 @@ private:
 
 	Light* myLight;
 public:
-	RuneLights lightForPlayer;
+	RuneLights* lightForPlayer;
 	Shrine(GameObject* object, int runetype);
 	~Shrine();
 	void giveLight(Light* l);

@@ -357,17 +357,17 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 				if (currentRune == FLAME)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
-					runeEffect = new Light(currentSpawn->lightForPlayer.flameRune);
+					runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
 				}
 				else if (currentRune == SPARK)
 				{
 					DMG += 1;
-					runeEffect = new Light(currentSpawn->lightForPlayer.sparkRune);
+					runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
 				}
 				else if (currentRune == FORCE)
 				{
 					shield = 2;
-					runeEffect = new Light(currentSpawn->lightForPlayer.forceRune);
+					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
 			audio->playSound(0);//item
@@ -379,6 +379,12 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		if (invulnTimer < FLT_EPSILON && !god)
 		{
+			if (shield == 0 && currentRune == FORCE)
+			{
+				currentRune = NORUNE;
+				delete runeEffect;
+				runeEffect = 0;
+			}
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
 			{
@@ -434,12 +440,6 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					attackTimer = 0.0f;
 					if (currentRune == FORCE)
 						shield -= 1;
-					if (shield == 0 && currentRune == FORCE)
-					{
-						currentRune = NORUNE;
-						delete runeEffect;
-						runeEffect = 0;
-					}
 				}
 				else
 				{

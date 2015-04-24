@@ -377,6 +377,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 		light[nrOfLights].intensity = runeEffect->intensity;
 		light[nrOfLights].distance = runeEffect->distance;
+		light[nrOfLights].volume = runeEffect->volume;
 		nrOfLights++;
 	}
 
