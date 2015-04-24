@@ -303,6 +303,17 @@ void Engine::renderEnemies()
 					lastid = id;
 				}
 
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
+				for (int i = 0; i < size; i++)
+				{
+
+					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Flame");
+					if (id != lastid)
+						facecount = content->bind(OBJ::ENEMY, EnemyID::flame);
+					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+					lastid = id;
+				}
+
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Bat") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Bat"))
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Bat");
@@ -311,7 +322,7 @@ void Engine::renderEnemies()
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
 				}
-				
+				lastid = -1;
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 					glColorMask(0, 0, 1, 1);
 					glEnable(GL_CULL_FACE);
@@ -322,7 +333,7 @@ void Engine::renderEnemies()
 						{
 							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Cube");
 							if (id != lastid)
-								facecount = content->bindMonsterObj(id);
+								facecount = content->bind(OBJ::WORLD, WorldID::box);
 							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 							lastid = id;
 						}

@@ -473,9 +473,9 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
-		if (currentRune == SPARK)
+		if (currentRune == MiscID::rune_damage)
 			audio->playSound(4);
-		else if (currentRune == FLAME)
+		else if (currentRune == MiscID::rune_range)
 			audio->playSound(3); //player_attack_fire
 		else
 			audio->playSound(2); //player_attack_miss
