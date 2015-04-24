@@ -197,7 +197,7 @@ void Engine::renderBack()
 					{
 						id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
-							facecount = content->bind(OBJ::BACK, BackID::rock_dirt);
+							facecount = content->bind(OBJ::BACK, id);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
@@ -274,20 +274,11 @@ void Engine::renderEnemies()
 				int size = chunks[upDraw[x]][upDraw[y]].countEnemies("Bat");
 				for (int i = 0; i < size; i++)
 				{
-					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Bat") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Bat"))
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Bat"))
 					{
 						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Bat");
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
-						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						lastid = id;
-					}
-					//Rendering the boss
-					if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
-					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
-						if (id != lastid)
-							facecount = content->bind(OBJ::ENEMY, EnemyID::flame);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
@@ -306,17 +297,19 @@ void Engine::renderEnemies()
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
 				for (int i = 0; i < size; i++)
 				{
-
-					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Flame");
-					if (id != lastid)
-						facecount = content->bind(OBJ::ENEMY, EnemyID::flame);
-					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-					lastid = id;
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Flame"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Flame");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::flame);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
 				}
 
-				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Bat") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Bat"))
+				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
 				{
-					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Bat");
+					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 					if (id != lastid)
 						facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
@@ -329,7 +322,7 @@ void Engine::renderEnemies()
 					size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
 					for (int i = 0; i < size; i++)
 					{
-						if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Cube") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Cube"))
+						if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Cube"))
 						{
 							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Cube");
 							if (id != lastid)

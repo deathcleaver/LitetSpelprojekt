@@ -73,7 +73,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 	
 	//mushroom
-	add = new AnimationObject("src/meshes/Background OBjects/MushroomTest.v", "src/textures/Background Objects/MushroomTexture2.bmp");
+	add = new AnimationObject("src/meshes/Background Objects/MushroomTest.v", "src/textures/Background Objects/MushroomTexture2.bmp");
 	objects[OBJ::WORLD].push_back(add);
 	
 	//stalactite

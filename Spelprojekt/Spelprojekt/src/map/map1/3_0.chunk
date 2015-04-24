@@ -12,7 +12,7 @@ Flame 0 -9
 Cube -7 -8.5
 Spikes -6 -1
 Spikes -5 -1
-8 0 0 -2 :  BACKGROUND!
+2 0 0 -2 :  BACKGROUND!
 1 13 3.5 0 :  SHRINE!
 25 :  Number of world objects
 0 35 0 0 0 0 7 0 14 0 0 2 0 0 0 0 1
