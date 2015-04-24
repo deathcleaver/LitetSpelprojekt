@@ -18,8 +18,8 @@ void main ()
     
     float power = pow(1 - min(dist, 1), 4);
     power = clamp(power, 0, 1);
-    
-    glowOut = vec4((color.rgb * color.w), min(power * fade, 1s));
+
+    glowOut = vec4((color.rgb * color.w), min(power * fade, 1));
     
     fragment_color = glowOut;
     

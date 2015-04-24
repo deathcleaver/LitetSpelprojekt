@@ -200,9 +200,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
 					//render boxes
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+					/*glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 					glEnable(GL_CULL_FACE);
-					glColorMask(0, 0, 1, 1);
+					glColorMask(0, 0, 1, 1);*/
 					int size = chunks[upDraw[x]][upDraw[y]].Box_Objs.size();
 					for (int k = 0; k < size; k++)
 					{
@@ -212,12 +212,12 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
-					
+					/*
 					
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 					glDisable(GL_CULL_FACE);
 					
-					glColorMask(1, 1, 1, 1);
+					glColorMask(1, 1, 1, 1);*/
 
 					//render mushrooms
 					size = chunks[upDraw[x]][upDraw[y]].Mushroom_Objs.size();
