@@ -74,7 +74,7 @@ void ObjectManager::loadMapObjs()
 
 
 	//basic platform
-	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/BackgroundRockWallDIRT.bmp");
+	myMapObjs[1] = new AnimationObject("src/meshes/MeinKart.v", "src/textures/MeinKart.bmp");
 
 
 	//shrine
@@ -106,6 +106,9 @@ void ObjectManager::loadMapObjs()
 
 	//stalagmite
 	myMapObjs[11] = new AnimationObject("src/meshes/Stalagmite.v", "src/textures/Stalactimite.bmp");
+
+	//Minecart
+	myMapObjs[12] = new AnimationObject("src/meshes/MeinKart.v", "src/textures/MeinKart.bmp");
 
 }
 
