@@ -29,6 +29,8 @@ public:
 	void bindGUIvert() const;
 	Object** gui(); //used to auto resize texture objects in GUI
 	void setPlayerState(std::string state);
+	int nrOfWorldItems() const;
+	int nrOfMonsterItems() const;
 };
 
 #endif

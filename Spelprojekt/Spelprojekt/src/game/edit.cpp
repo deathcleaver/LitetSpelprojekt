@@ -21,12 +21,6 @@ void Edit::init(Map* map, UserInput* in)
 
 void Edit::update(float x, float y)
 {
-	//Set Editor mode
-	if (in->getKeyNumberState(8))
-		editMode = EditMode::WORLD;
-	else if (in->getKeyNumberState(7))
-		editMode = EditMode::REKT;
-
 	if (editMode != NONEM)
 	{
 		EditorMode();
@@ -54,24 +48,41 @@ void Edit::EditorMode()
 	case WORLD:
 	case MONSTER:
 	{
-		//if (in->getKeyNumberState(5))
-			editState = EditState::PLACE;
-		//if (in->getKeyNumberState(6))
-			//editState = EditState::CHANGE;
+		//hold item code
+		itemTableClick();
 
 		if (editState != NONES)
 		{
 			EditorState();
 		}
-	}
-	break;
-	case SPECIAL:
 		break;
+	}		
 	case REKT:
 		RektEdit();
 		break;
 	case LIGHT:
 		break;
+	}
+}
+
+void Edit::itemTableClick()
+{
+	if (in->getLMBrelease())
+	{
+		float x, y;
+		bool l, r;
+		in->getMouseState(&x, &y, &r, &l);
+
+		if (x > 247 && x < 596 && y > 596 && y < 717)
+		{
+			int indexX = (x - 247) / 24;
+			int indexY = (y - 596) / 24;
+
+			editContentID = 12 * indexY + indexX;
+
+			discard();
+			HoldNewItem();
+		}
 	}
 }
 
@@ -132,10 +143,6 @@ void Edit::EditorState()
 
 	if (editState == EditState::PLACE)
 	{
-		if (editContentID == -1)
-		{
-			editContentID = 1;
-		}
 		if(editContentID != -1)
 		{
 			if (in->getKeyNumberState(0))
@@ -351,8 +358,6 @@ void Edit::giveObjectToChunk()
 		break;
 	case LIGHT:
 		break;
-	case SPECIAL:
-		break;
 	}
 }
 
@@ -387,35 +392,42 @@ void Edit::guiHandle(int bEvent)
 	{
 		//EDIT MODE BUTTON SET
 
-	case(100) : //EDIT MODE BACKGROUND
-		editMode = EditMode::BACK;
-		editContentID = -1;
-		break;
-	case(101) : //EDIT MODE WORLD
+	case(100) :
 		editMode = EditMode::WORLD;
 		editContentID = -1;
 		break;
-	case(102) : //EDIT MODE MONSTER
-		editMode = EditMode::MONSTER;
-		editContentID = -1;
-		break;
-	case(103) : //EDIT MODE REKT
+	case(101) : 
 		editMode = EditMode::REKT;
 		editContentID = -1;
 		break;
-	case(104) : //EDIT MODE LIGHT
+	case(102) : 
 		editMode = EditMode::LIGHT;
 		editContentID = -1;
 		break;
-	case(105) : //EDIT MODE SPECIAL
-		editMode = EditMode::SPECIAL;
+	case(103) :
+		editMode = EditMode::MONSTER;
 		editContentID = -1;
 		break;
-	case(106) : //EDIT MODE NONEM
-		editState = EditState::NONES;
+	case(104) :
+		editMode = EditMode::BACK;
 		editContentID = -1;
 		break;
-
+	case(105) : 
+		editMode = EditMode::SHRINE;
+		editContentID = -1;
+		break;
+	case(106) : 
+		editMode = EditMode::BOSS;
+		editContentID = -1;
+		break;
+	case(107) :
+		editMode = EditMode::AUDIO;
+		editContentID = -1;
+		break;
+	case(108) :
+		editMode = EditMode::NONEM;
+		editContentID = -1;
+		break;
 		//EDIT STATE SET
 
 	case(110) :
@@ -427,37 +439,16 @@ void Edit::guiHandle(int bEvent)
 	case(112) :
 		editState = EditState::NONES;
 		break;
-
-		//PLACE STATE SET
-
-	case(120) :
-		placeState = PlaceState::MOVE;
-		internalPlaceState = 0;
-		break;
-	case(121) :
-		placeState = PlaceState::SCALE;
-		internalPlaceState = 0;
-		break;
-	case(122) :
-		placeState = PlaceState::ROT;
-		internalPlaceState = 0;
-		break;
-	case(123) :
-		placeState = PlaceState::NONEP;
-		internalPlaceState = 0;
-		break;
-
-		// OBJECT ID
-		if (bEvent > 199)
-		{
-			editContentID = bEvent - 200;
-			editState = EditState::PLACE;
-			//placeState = PlaceState::MOVE;
-		}
 	}
 }
 
 GameObject* Edit::getObject()
 {
 	return current;
+}
+
+void Edit::invalidID()
+{
+	discard();
+	editContentID = -1;
 }

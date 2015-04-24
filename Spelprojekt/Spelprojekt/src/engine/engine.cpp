@@ -282,20 +282,23 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		{
 			id = holder->bindWorldMat(&tempshader, &uniformModel);
 			int editmode = edit->getEditMode();
+			bool valid = false;
 			switch (editmode)
 			{
 			case BACK:
 				break;
 			case WORLD:
-				facecount = content->bindMapObj(id);
+				//check if valid
+				if (id < content->nrOfWorldItems())
+					facecount = content->bindMapObj(id);
+				else
+					edit->invalidID();
 				break;
 			case MONSTER:
 				break;
 			case REKT:
 				break;
 			case LIGHT:
-				break;
-			case SPECIAL:
 				break;
 			case NONEM:
 				break;

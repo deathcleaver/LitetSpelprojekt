@@ -71,7 +71,10 @@ void ContentManager::loadGUIobjs()
 
 	// edit reserved 50 - 74
 	guiObjs[50] = new Object("", "src/textures/gui/edit/editHud.bmp", guiObjs[0], true);
-	for (int n = 51; n < 75; n++)
+	guiObjs[51] = new Object("", "src/textures/gui/edit/switch.bmp", guiObjs[0], true);
+	guiObjs[52] = new Object("", "src/textures/gui/edit/switchON.bmp", guiObjs[0], true);
+
+	for (int n = 53; n < 75; n++)
 		guiObjs[n] = 0;
 }
 
@@ -121,4 +124,13 @@ Object** ContentManager::gui()
 void ContentManager::setPlayerState(std::string state)
 {
 	objectManager->setPlayerState(state);
+}
+
+int ContentManager::nrOfWorldItems() const
+{
+	return objectManager->nrOfWorldItems();
+}
+int ContentManager::nrOfMonsterItems() const
+{
+	return objectManager->nrOfMonsterItems();
 }

@@ -891,8 +891,6 @@ void MapChunk::recieveWorld(GameObject* item)
 	if (item->returnID() == 1) // box
 	{
 		Box_Objs.push_back(item);
-		lastRecievedWorld = item;
-		lastRecievedItemWorld = 1;
 		countWorldObjs++;
 	}
 }

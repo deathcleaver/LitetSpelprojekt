@@ -8,12 +8,14 @@
 
 enum EditMode
 {
-	BACK,
 	WORLD,
-	MONSTER,
 	REKT,
 	LIGHT,
-	SPECIAL,
+	MONSTER,
+	BACK,
+	SHRINE,
+	BOSS,
+	AUDIO,
 	NONEM,
 };
 
@@ -89,6 +91,7 @@ private:
 	void giveObjectToChunk();
 	void takeItem();
 	bool itemtaken = false;
+	void itemTableClick();
 
 public:
 	Edit(){};
@@ -98,6 +101,7 @@ public:
 	void guiHandle(int bEvent);
 	EditMode getEditMode();
 	GameObject* getObject();
+	void invalidID();
 };
 
 #endif

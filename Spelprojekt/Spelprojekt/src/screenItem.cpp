@@ -8,6 +8,8 @@ void ScreenItem::init(int id, int idHover, bool button, int idEvent, bool show)
 	hover = false;
 	this->idEvent = idEvent;
 	this->show = show;
+	switchButton = false;
+	switchActive = false;
 }
 
 int ScreenItem::update(float x, float y, bool click)
@@ -16,11 +18,18 @@ int ScreenItem::update(float x, float y, bool click)
 		return 0;
 
 	hover = false;
+	if (switchActive)
+		hover = true;
+	
 	if (this->collide.intersectsPoint(x, y))
 	{
 		hover = true;
 		if (click)
+		{
+			if (switchButton)
+				switchActive = true;
 			return idEvent;
+		}
 	}
 	
 	return 0;
@@ -42,4 +51,15 @@ void ScreenItem::MoveAutoSize(float x, float y, ContentManager* content)
 	this->translate(x, y);
 	collide = Rect();
 	collide.initGameObjectRect(&(this->worldMat), 2 * temp->scaleX(), 2 * temp->scaleY());
+}
+
+void ScreenItem::initSwitch()
+{
+	switchButton = true;
+	switchActive = false;
+}
+
+void ScreenItem::setActive(bool set)
+{
+	switchActive = set;
 }

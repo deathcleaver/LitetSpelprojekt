@@ -29,5 +29,7 @@ public:
 	int bindMapObj(int id) const;
 	int bindMonsterObj(int id) const;
 	void bindRekt() const;
+	int nrOfWorldItems() const;
+	int nrOfMonsterItems() const;
 };
 #endif

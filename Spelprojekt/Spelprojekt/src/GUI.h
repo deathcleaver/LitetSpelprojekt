@@ -26,6 +26,9 @@ private:
 	int keyUpdate();
 	float SCREENWIDTH = 1080;
 	float SCREENHEIGHT = 720;
+
+	void modeSwitchesFalse();
+
 public:
 	GUI(){};
 	~GUI();

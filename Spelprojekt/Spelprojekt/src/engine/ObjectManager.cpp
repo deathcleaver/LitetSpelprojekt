@@ -192,3 +192,12 @@ void ObjectManager::setPlayerState(std::string state)
 		myPlayer->setSpeed(0.08f);
 	}
 }
+
+int ObjectManager::nrOfWorldItems() const
+{
+	return myNrOfMapObjects;
+}
+int ObjectManager::nrOfMonsterItems() const
+{
+	return myNrOfMonsterObjects;
+}
