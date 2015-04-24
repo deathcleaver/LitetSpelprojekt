@@ -2,11 +2,16 @@
 
 ObjectManager::ObjectManager()
 {
-	myPlayer = nullptr;
-
-	myMapObjs = nullptr;
-
-	myMonsterObjs = nullptr;
+	objects = vector<vector<AnimationObject*>>();
+	vector<AnimationObject*> myBackObjs = vector<AnimationObject*>();
+	vector<AnimationObject*> myMapObjs = vector<AnimationObject*>();
+	vector<AnimationObject*> myMiscObjs = vector<AnimationObject*>();
+	vector<AnimationObject*> myMonsterObjs = vector<AnimationObject*>();
+	
+	objects.push_back(myBackObjs);
+	objects.push_back(myMapObjs);
+	objects.push_back(myMiscObjs);
+	objects.push_back(myMonsterObjs);
 }
 
 ObjectManager::~ObjectManager()
@@ -17,32 +22,32 @@ ObjectManager::~ObjectManager()
 	if (myPlayer != nullptr)
 		delete myPlayer;
 
-	if (myMapObjs != nullptr)
+	for (int n = 0; n < back_count; n++)
 	{
-		for (int i = 0; i < myNrOfMapObjects; i++)
-		{
-			delete myMapObjs[i];
-		}
-		delete[] myMapObjs;
+		delete objects[BACK][n];
 	}
-
-	if (myMonsterObjs != nullptr)
+	for (int n = 0; n < world_count; n++)
 	{
-		for (int i = 0; i < myNrOfMonsterObjects; i++)
-		{
-			delete myMonsterObjs[i];
-		}
-		delete[] myMonsterObjs;
+		delete objects[WORLD][n];
+	}
+	for (int n = 0; n < misc_count; n++)
+	{
+		delete objects[MISC][n];
+	}
+	for (int n = 0; n < enemy_count; n++)
+	{
+		delete objects[ENEMY][n];
 	}
 }
 
 void ObjectManager::init()
 {
-
-	loadMonsterObjs();
 	loadPlayer();
+	loadBackObjs();
 	loadMapObjs();
-	
+	loadMiscObjs();
+	loadMonsterObjs();
+
 	collisionRekt = new AnimationObject("src/meshes/Rekt.v", "src/textures/pink.bmp");
 }
 
@@ -60,105 +65,123 @@ void ObjectManager::loadPlayer()
 }
 
 void ObjectManager::loadMapObjs()
-{
-	//to be added
+{	
+	AnimationObject* add;
 
-	if (myMapObjs) //only call once
-		throw;
-
-	myNrOfMapObjects = 17;
-	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
-
-	//backgroudn grid
-	myMapObjs[0] = new AnimationObject("src/meshes/planeVerticalF.v", "src/textures/Background/grid.bmp");
-
-
-	//basic platform
-	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
-
-
-	//shrine
-	myMapObjs[2] = new AnimationObject("src/meshes/Interactive Objects/Shrine.v", "src/textures/Interactive Objects/Shrine2.bmp");
-
-	//mushroom
-	myMapObjs[3] = new AnimationObject("src/meshes/Background OBjects/MushroomTest.v", "src/textures/Background Objects/MushroomTexture2.bmp");
-
-	//Attack runes
-	myMapObjs[4] = new AnimationObject("src/meshes/Interactive Objects/RuneAttack.v", "src/textures/Interactive Objects/Rune-Attack.bmp");
-
-	//Damage rune
-	myMapObjs[5] = new AnimationObject("src/meshes/Interactive Objects/RuneDamage.v", "src/textures/Interactive Objects/Rune-Damage.bmp");
-
-	//Shield rune
-	myMapObjs[6] = new AnimationObject("src/meshes/Interactive Objects/RuneShield.v", "src/textures/Interactive Objects/Rune-Shield.bmp");
-
-	//Grey rock wall
-	myMapObjs[7] = new AnimationObject("src/meshes/Background/BackgroundRockWallFix.v", "src/textures/Background/BackgroundRockWall.bmp");
+	//box
+	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
+	objects[OBJ::WORLD].push_back(add);
 	
-	//Brown rock wall
-	myMapObjs[8] = new AnimationObject("src/meshes/Background/BackgroundRockWallFix.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
-
-	//Batboss special wall
-	myMapObjs[9] = new AnimationObject("src/meshes/Background/BackgroundBat.v", "src/textures/Background/BackgroundBat.bmp");
-
+	//mushroom
+	add = new AnimationObject("src/meshes/Background OBjects/MushroomTest.v", "src/textures/Background Objects/MushroomTexture2.bmp");
+	objects[OBJ::WORLD].push_back(add);
+	
 	//stalactite
-	myMapObjs[10] = new AnimationObject("src/meshes/Background Objects/Stalactite.v", "src/textures/Background Objects/Stalactimite.bmp");
+	add = new AnimationObject("src/meshes/Background Objects/Stalactite.v", "src/textures/Background Objects/Stalactimite.bmp");
+	objects[OBJ::WORLD].push_back(add);
 
 	//stalagmite
-	myMapObjs[11] = new AnimationObject("src/meshes/Background Objects/Stalagmite.v", "src/textures/Background Objects/Stalactimite.bmp");
+	add = new AnimationObject("src/meshes/Background Objects/Stalagmite.v", "src/textures/Background Objects/Stalactimite.bmp");
+	objects[OBJ::WORLD].push_back(add);
 
-	//Minecart
-	myMapObjs[12] = new AnimationObject("src/meshes/Background Objects/MeinKart.v", "src/textures/Background Objects/MeinKart.bmp");
+	//minecart
+	add = new AnimationObject("src/meshes/Background Objects/MeinKart.v", "src/textures/Background Objects/MeinKart.bmp");
+	objects[OBJ::WORLD].push_back(add);
 
-	//Minetrack
-	myMapObjs[13] = new AnimationObject("src/meshes/Background Objects/Minetrack.v", "src/textures/Background Objects/Minetrack.bmp");
+	//minetrack
+	add = new AnimationObject("src/meshes/Background Objects/Minetrack.v", "src/textures/Background Objects/Minetrack.bmp");
+	objects[OBJ::WORLD].push_back(add);
 
-	//Minestrut small
-	myMapObjs[14] = new AnimationObject("src/meshes/Background Objects/MineStrutSmall.v", "src/textures/Background Objects/MineStrut.bmp");
+	//minestruct_small 
+	add = new AnimationObject("src/meshes/Background Objects/MineStrutSmall.v", "src/textures/Background Objects/MineStrut.bmp");
+	objects[OBJ::WORLD].push_back(add);
 
-	//Minestrut large
-	myMapObjs[15] = new AnimationObject("src/meshes/Background Objects/MineStrutLarge.v", "src/textures/Background Objects/MineStrut.bmp");
+	//minestruct_large 
+	add = new AnimationObject("src/meshes/Background Objects/MineStrutLarge.v", "src/textures/Background Objects/MineStrut.bmp");
+	objects[OBJ::WORLD].push_back(add);
 
-	//Lantern
-	myMapObjs[16] = new AnimationObject("src/meshes/Background Objects/Lantern.v", "src/textures/Background Objects/Lantern.bmp");
-
+	//lantern
+	add = new AnimationObject("src/meshes/Background Objects/Lantern.v", "src/textures/Background Objects/Lantern.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
 {
-	if (myMonsterObjs)
-		throw;
-
-	myNrOfMonsterObjects = 3;
-	myMonsterObjs = new AnimationObject*[myNrOfMonsterObjects]();
+	AnimationObject* add;
 
 	//spikes
-	myMonsterObjs[0] = new AnimationObject("src/meshes/Enemies/SpikeBase.v", "src/textures/Red.bmp");
-
+	add = new AnimationObject("src/meshes/Enemies/SpikeBase.v", "src/textures/Red.bmp");
+	objects[OBJ::ENEMY].push_back(add);
 
 	//bats
 	Object* bat1 = new Object("src/meshes/Enemies/BatWingsBackFix.v", "src/textures/Red.bmp");
 	Object* bat2 = new Object("src/meshes/Enemies/BatWingsForwardFix.v", "src/textures/Red.bmp");
-	myMonsterObjs[1] = new AnimationObject(bat1, bat2, 0.5f, 0.08f);
+	add = new AnimationObject(bat1, bat2, 0.5f, 0.08f);
+	objects[OBJ::ENEMY].push_back(add);
 
-
-	//flamecubes
+	//flame
 	Object* FCube1 = new Object("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
 	Object* FCube2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
-	myMonsterObjs[2] = new AnimationObject(FCube1, FCube2, 0.5f, 0.02f);
+	add = new AnimationObject(FCube1, FCube2, 0.5f, 0.02f);
+	objects[OBJ::ENEMY].push_back(add);
+}
 
+void ObjectManager::loadMiscObjs()
+{
+	AnimationObject* add;
+
+	//shrine
+	add = new AnimationObject("src/meshes/Interactive Objects/Shrine.v", "src/textures/Interactive Objects/Shrine2.bmp");
+	objects[OBJ::MISC].push_back(add);
+
+	//rune_range
+	add = new AnimationObject("src/meshes/Interactive Objects/RuneAttack.v", "src/textures/Interactive Objects/Rune-Attack.bmp");
+	objects[OBJ::MISC].push_back(add);
+
+	//rune_damage
+	add = new AnimationObject("src/meshes/Interactive Objects/RuneDamage.v", "src/textures/Interactive Objects/Rune-Damage.bmp");
+	objects[OBJ::MISC].push_back(add);
+
+	//rune_shield
+	add = new AnimationObject("src/meshes/Interactive Objects/RuneShield.v", "src/textures/Interactive Objects/Rune-Shield.bmp");
+	objects[OBJ::MISC].push_back(add);
+}
+
+void ObjectManager::loadBackObjs()
+{
+	AnimationObject* add;
+
+	//grid
+	add = new AnimationObject("src/meshes/planeVerticalF.v", "src/textures/Background/grid.bmp");
+	objects[OBJ::BACK].push_back(add);
+
+	//rock_grey
+	add = new AnimationObject("src/meshes/Background/BackgroundRockWallFix.v", "src/textures/Background/BackgroundRockWall.bmp");
+	objects[OBJ::BACK].push_back(add);
+
+	//rock_dirt
+	add = new AnimationObject("src/meshes/Background/BackgroundRockWallFix.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
+	objects[OBJ::BACK].push_back(add);
+
+	//rock_boss
+	add = new AnimationObject("src/meshes/Background/BackgroundBat.v", "src/textures/Background/BackgroundBat.bmp");
+	objects[OBJ::BACK].push_back(add);
 }
 
 void ObjectManager::update()
 {
 	myPlayer->update();
-	for (int i = 0; i < myNrOfMapObjects; i++)
+	for (int i = 0; i < WorldID::world_count ; i++)
 	{
-		myMapObjs[i]->update();
+		objects[WORLD][i]->update();
 	}
-	for (int i = 0; i < myNrOfMonsterObjects; i++)
+	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
-		myMonsterObjs[i]->update();
+		objects[ENEMY][i]->update();
+	}
+	for (int i = 0; i < MiscID::misc_count; i++)
+	{
+		objects[MISC][i]->update();
 	}
 }
 
@@ -169,18 +192,10 @@ int ObjectManager::bindPlayer() const
 	return myPlayer->getFaces();
 }
 
-int ObjectManager::bindMapObj(int id) const
+int ObjectManager::bind(int type, int id) const
 {
-	//myMapObjs[id]->update();
-	myMapObjs[id]->bindAnimObject();
-	return myMapObjs[id]->getFaces();
-}
-
-int ObjectManager::bindMonsterObj(int id) const
-{
-	//myMonsterObjs[id]->update();
-	myMonsterObjs[id]->bindAnimObject();
-	return myMonsterObjs[id]->getFaces();
+	objects[type][id]->bindAnimObject();
+	return objects[type][id]->getFaces();
 }
 
 void ObjectManager::bindRekt() const
@@ -219,9 +234,10 @@ void ObjectManager::setPlayerState(std::string state)
 
 int ObjectManager::nrOfWorldItems() const
 {
-	return myNrOfMapObjects;
+	return WorldID::world_count;
 }
+
 int ObjectManager::nrOfMonsterItems() const
 {
-	return myNrOfMonsterObjects;
+	return EnemyID::enemy_count;
 }

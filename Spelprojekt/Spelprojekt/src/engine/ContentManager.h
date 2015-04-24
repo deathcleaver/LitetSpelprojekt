@@ -23,8 +23,7 @@ public:
 	void update();
 	void bindRekt() const;
 	int bindPlayer() const;
-	int bindMapObj(int id) const;
-	int bindMonsterObj(int id) const;
+	int bind(int type, int id) const;
 	void bindGUItex(int id) const;
 	void bindGUIvert() const;
 	Object** gui(); //used to auto resize texture objects in GUI

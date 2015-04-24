@@ -11,6 +11,7 @@
 #include "enemyManager.h"
 #include "Shrine.h"
 #include "Light.h"
+#include "../legend.h"
 
 using namespace std;
 
@@ -25,11 +26,14 @@ private:
 	Light* lights;
 	int nrOfLights = 0;
 	int musicId = -1;
-
+	int countWorldObjs = 0;
+	
 	//for mapmaker UNDO
 	int lastRecievedItemWorld = -1;
 	GameObject* lastRecievedWorld = 0;
+	
 	void saveObject(GameObject* object, ofstream* out);
+	void loadObjectOld(ifstream* in);
 	void loadObject(ifstream* in);
 public:
 	MapChunk(){};
@@ -39,10 +43,8 @@ public:
 	Shrine* shrine = 0;
 	
 	string mapnamepath = "";
-	int countWorldObjs = 0;
 
-	vector<GameObject*> Box_Objs;
-	vector<GameObject*> Mushroom_Objs;
+	vector<vector<GameObject*>> gameObjects;
 
 	Rect*** worldCollide = 0;
 	void init(int x, int y, std::string mapname);

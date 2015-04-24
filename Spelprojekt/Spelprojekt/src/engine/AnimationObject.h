@@ -30,7 +30,7 @@ public:
 	float getWeight();
 	float getSpeed();
 
-	int getFaces();
+	int getFaces() const;
 
 	void setAnimObject(Object* aObject);
 	void setWeight(float aWeight);
@@ -38,7 +38,7 @@ public:
 	void setAnimPoints(int aPoint1, int aPoint2);
 
 	void update();
-	void bindAnimObject();
+	void bindAnimObject() const;
 
 	void updateWeight();
 };

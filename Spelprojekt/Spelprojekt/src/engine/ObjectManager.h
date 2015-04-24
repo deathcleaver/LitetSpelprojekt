@@ -2,21 +2,25 @@
 #define OBJECTMANAGER_H
 
 #include"AnimationObject.h"
+#include <vector>
+#include "../legend.h"
+
+using std::vector;
 
 class ObjectManager
 {
 private:
 	AnimationObject* collisionRekt;
 	AnimationObject* myPlayer;
-	AnimationObject** myMapObjs;
-	AnimationObject** myMonsterObjs;
+	
+	vector<vector<AnimationObject*>> objects;
 
 	void loadPlayer();
+	void loadBackObjs();
 	void loadMapObjs();
+	void loadMiscObjs();
 	void loadMonsterObjs();
 
-	int myNrOfMapObjects;
-	int myNrOfMonsterObjects;
 	int myToUpdate;
 public:
 	ObjectManager();
@@ -25,9 +29,8 @@ public:
 
 	void update();
 	void setPlayerState(std::string state);
+	int bind(int type, int id) const;
 	int bindPlayer() const;
-	int bindMapObj(int id) const;
-	int bindMonsterObj(int id) const;
 	void bindRekt() const;
 	int nrOfWorldItems() const;
 	int nrOfMonsterItems() const;

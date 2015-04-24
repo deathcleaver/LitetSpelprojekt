@@ -367,7 +367,7 @@ void Edit::discard()
 	current = 0;
 }
 
-EditMode Edit::getEditMode()
+Edit::EditMode Edit::getEditMode()
 {
 	return editMode;
 }

@@ -10,15 +10,6 @@
 #include "rect.h"
 #include "Light.h"
 
-enum ShrineUpgrades
-{
-	NORUNE,
-	FLAME,
-	SPARK,
-	FORCE,
-	STOMP
-};
-
 struct RuneLights
 {
 	Light flameRune;
@@ -68,7 +59,7 @@ class Shrine
 {
 private:
 	//Powerup
-	int rune;
+	MiscID rune;
 	bool runeTaken;
 	GameObject* object;
 	GameObject* runeObj;
@@ -80,12 +71,12 @@ private:
 	Light* myLight;
 public:
 	RuneLights* lightForPlayer;
-	Shrine(GameObject* object, int runetype);
+	Shrine(GameObject* object, MiscID runetype);
 	~Shrine();
 	void giveLight(Light* l);
 	Rect* getRekt();
 	glm::vec2 getPos();
-	int getRune();
+	MiscID getRune();
 	void resetRune();
 	GameObject* returnThis()
 	{

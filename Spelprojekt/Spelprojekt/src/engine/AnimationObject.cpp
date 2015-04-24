@@ -177,7 +177,7 @@ void AnimationObject::update()
 	bindAnimObject();
 }
 
-void AnimationObject::bindAnimObject()
+void AnimationObject::bindAnimObject() const
 {
 	myAnimObject->bind();
 }
@@ -195,7 +195,7 @@ void AnimationObject::updateWeight()
 	}
 }
 
-int AnimationObject::getFaces()
+int AnimationObject::getFaces() const
 {
 	return myAnimObject->getFaces();
 }

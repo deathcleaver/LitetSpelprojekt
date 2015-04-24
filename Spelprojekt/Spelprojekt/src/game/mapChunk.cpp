@@ -15,13 +15,13 @@ MapChunk::~MapChunk()
 	if (nrOfLights > 0)
 		delete[]lights;
 
-	int size = Box_Objs.size();
-	for (int n = 0; n < size; n++)
-		delete Box_Objs[n];
-
-	size = Mushroom_Objs.size();
-	for (int n = 0; n < size; n++)
-		delete Mushroom_Objs[n];
+	for (int n = 0; n < WorldID::world_count; n++)
+	{
+		for (int k = 0; k < gameObjects[n].size(); k++)
+		{
+			delete  gameObjects[n][k];
+		}
+	}
 
 	if (worldCollide)
 	{
@@ -40,6 +40,14 @@ MapChunk::~MapChunk()
 
 void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 {
+	gameObjects = vector<vector<GameObject*>>();
+	
+	for (int n = 0; n < WorldID::world_count; n++)
+	{
+		vector<GameObject*> temp;
+		gameObjects.push_back(temp);
+	}
+
 	//Build chunk filename
 	std::stringstream ss;
 	ss << "../Spelprojekt/src/map/" << mapname << "/"
@@ -94,9 +102,8 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		ss = stringstream(line);
 		ss >> sub;
 		id = atoi(sub.c_str());
-		if (id == -1) //no shrine
-			shrine = 0;
-		else
+		shrine = 0;
+		if (id > 0) //if shrine
 		{
 			glm::vec3 pos;
 			ss >> sub;
@@ -106,17 +113,17 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			ss >> sub;
 			pos.z = atof(sub.c_str());
 			GameObject* temp = new GameObject();
-			temp->init(2);
+			temp->init(MiscID::shrine);
 			temp->moveTo(pos);
 			temp->translate(xOffset * 35, yOffset * -35, 0);
-			shrine = new Shrine(temp, id);
+			shrine = new Shrine(temp, MiscID(id));
 		}
 
 		// --- Load World Count --- 
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub;
-		countWorldObjs = atoi(sub.c_str());
+		int countWorldObjs = atoi(sub.c_str());
 		
 		// --- Load World Objects ---
 		for (int n = 0; n < countWorldObjs; n++)
@@ -170,7 +177,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			{
 				nrOfLights++;
 				glm::vec3 lPos = shrine->returnRune()->readPos();
-				int runeType = shrine->getRune();
+				MiscID runeType = shrine->getRune();
 				shrine->resetRune();
 				lights[nrOfLights - 1].posX = lPos.x;
 				lights[nrOfLights - 1].posY = lPos.y;
@@ -178,26 +185,26 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 
 				switch (runeType)
 				{
-				case FLAME:
+				case MiscID::rune_range: //flame
 					lights[nrOfLights - 1].r = 0.5;
 					lights[nrOfLights - 1].g = 0.25;
 					lights[nrOfLights - 1].b = 0.01;
 					break;
-				case SPARK:
+				case MiscID::rune_damage: //spark
 					lights[nrOfLights - 1].r = 0.0;
 					lights[nrOfLights - 1].g = 0.5;
 					lights[nrOfLights - 1].b = 0.5;
 					break;
-				case FORCE:
+				case MiscID::rune_shield: //force
 					lights[nrOfLights - 1].r = 0.0;
 					lights[nrOfLights - 1].g = 0.5;
 					lights[nrOfLights - 1].b = 0.0;
 					break;
-				case STOMP:
-					lights[nrOfLights - 1].r = 0.5;
-					lights[nrOfLights - 1].g = 0.5;
-					lights[nrOfLights - 1].b = 0.5;
-					break;
+				//case STOMP:
+				//	lights[nrOfLights - 1].r = 0.5;
+				//	lights[nrOfLights - 1].g = 0.5;
+				//	lights[nrOfLights - 1].b = 0.5;
+				//	break;
 				}
 				lights[nrOfLights - 1].intensity = 2.0f;
 				lights[nrOfLights - 1].distance = 15.0;
@@ -237,9 +244,9 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		if (xOffset == 0 && yOffset == 0)
 		{
 			GameObject* temp = new GameObject();
-			temp->init(2);
+			temp->init(MiscID::shrine);
 			temp->scaleUniformFactor(0);
-			shrine = new Shrine(temp, 0);
+			shrine = new Shrine(temp, MiscID(0));
 		}
 		else
 			shrine = 0;
@@ -326,7 +333,7 @@ void MapChunk::initOld(int xIndex, int yIndex, std::string mapname)
 				temp->moveTo(xOffset * 35, yOffset * -35);
 				temp->translate(pos.x, pos.y, pos.z);
 				temp->scaleFactor(scale.x, scale.y, scale.z);
-				Box_Objs.push_back(temp);
+				gameObjects[WorldID::box].push_back(temp);
 			}
 			if (type == "Mushroom")
 			{
@@ -335,18 +342,18 @@ void MapChunk::initOld(int xIndex, int yIndex, std::string mapname)
 				temp->moveTo(xOffset * 35, yOffset * -35);
 				temp->translate(pos.x, pos.y, pos.z);
 				temp->scaleFactor(scale.x, scale.y, scale.z);
-				Mushroom_Objs.push_back(temp);
+				gameObjects[WorldID::mushroom].push_back(temp);
 			}
 			if (type == "Shrine")
 			{
 				if (!shrine)
 				{
 					GameObject* shrineTemp = new GameObject();
-					shrineTemp->init(2); //2 = playerBase svart
+					shrineTemp->init(MiscID::shrine); //2 = playerBase svart
 					shrineTemp->moveTo(xOffset * 35, yOffset * -35);
 					shrineTemp->translate(pos.x, pos.y, pos.z);
 					shrineTemp->scaleFactor(scale.x, scale.y, scale.z);
-					shrine = new Shrine(shrineTemp, 0);
+					shrine = new Shrine(shrineTemp, MiscID(0));
 				}
 			}
 		}
@@ -477,19 +484,21 @@ void MapChunk::saveChunk()
 		out << -1 << " NO SHRINE" << endl;
 
 	//save nr of world objects
-	out << countWorldObjs << " :  Number of world objects" << endl;
+	
+	int count = 0;
+	for (int n = 0; n < WorldID::world_count; n++)
+		count += gameObjects[n].size();
+
+	out << count << " :  Number of world objects" << endl;
 
 	//save map objects
-	for (int n = 0; n < Box_Objs.size(); n++)
+	for (int n = 0; n < WorldID::world_count; n++)
 	{
-		out << "Box ";
-		saveObject(Box_Objs[n], &out);
-	}
-
-	for (int n = 0; n < Mushroom_Objs.size(); n++)
-	{
-		out << "Mushroom ";
-		saveObject(Mushroom_Objs[n], &out);
+		for (int k = 0; k < gameObjects[n].size(); k++)
+		{
+			out << gameObjects[n][k]->returnID() << " ";
+			saveObject(gameObjects[n][k], &out);
+		}
 	}
 
 	//save music id
@@ -536,7 +545,7 @@ void MapChunk::loadObject(ifstream* in)
 	string line;
 	string sub;
 
-	string type;
+	int type;
 	glm::mat4* mat = new glm::mat4;
 
 	getline(*in, line);
@@ -544,8 +553,45 @@ void MapChunk::loadObject(ifstream* in)
 	
 	//Läs objekttyp
 	iss >> sub;
-	type = sub; 
+	type = atoi(sub.c_str());
 	
+	//läs in world mat
+	for (int n = 0; n < 4; n++)
+	{
+		iss >> sub;
+		(*mat)[n].x = atof(sub.c_str());
+		iss >> sub;
+		(*mat)[n].y = atof(sub.c_str());
+		iss >> sub;
+		(*mat)[n].z = atof(sub.c_str());
+		iss >> sub;
+		(*mat)[n].w = atof(sub.c_str());
+	}
+	//create temp object
+	GameObject* temp = new GameObject();
+	temp->setWorldMat(mat);
+	temp->translate(xOffset * 35, yOffset * -35);
+	delete mat;
+
+	temp->init(type);
+	gameObjects[type].push_back(temp);
+}
+
+void MapChunk::loadObjectOld(ifstream* in)
+{
+	string line;
+	string sub;
+
+	string type;
+	glm::mat4* mat = new glm::mat4;
+
+	getline(*in, line);
+	istringstream iss = istringstream(line);
+
+	//Läs objekttyp
+	iss >> sub;
+	type = sub;
+
 	//läs in world mat
 	for (int n = 0; n < 4; n++)
 	{
@@ -566,13 +612,13 @@ void MapChunk::loadObject(ifstream* in)
 
 	if (type == "Box")
 	{
-		temp->init(1);
-		Box_Objs.push_back(temp);
+		temp->init(WorldID::box);
+		gameObjects[WorldID::box].push_back(temp);
 	}
 	else if (type == "Mushroom")
 	{
-		temp->init(3);
-		Mushroom_Objs.push_back(temp);
+		temp->init(WorldID::mushroom);
+		gameObjects[WorldID::mushroom].push_back(temp);
 	}
 }
 
@@ -891,11 +937,7 @@ string MapChunk::getBossType()
 
 void MapChunk::recieveWorld(GameObject* item)
 {
-	if (item->returnID() == 1) // box
-	{
-		Box_Objs.push_back(item);
-		countWorldObjs++;
-	}
+	gameObjects[item->returnID()].push_back(item);
 }
 
 void MapChunk::addVisitor(Enemy* visitor, string type)

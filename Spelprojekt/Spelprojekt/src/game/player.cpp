@@ -23,7 +23,7 @@ void Player::init()
 	weaponMatrix = mat4(1);
 	animState = "idle";
 	bossFighting = false;
-	currentRune = NORUNE;
+	currentRune = 0;
 	runeEffect = 0;
 	shield = 0;
 	effectVisible = false;
@@ -38,13 +38,13 @@ void Player::moveWeapon()
 {
 	vec3 playerPos = readPos();
 	int bonusRange = 1;
-	if (currentRune == FLAME)
+	if (currentRune == MiscID::rune_range)
 		bonusRange = 3;
 	if (facingRight)
 	{
 		weaponMatrix[0].w = playerPos.x +0.1f + sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
-		if (currentRune == FLAME || currentRune == SPARK)
+		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
 			runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
 			runeEffect->posY = playerPos.y;
@@ -54,7 +54,7 @@ void Player::moveWeapon()
 	{
 		weaponMatrix[0].w = playerPos.x -0.1f - sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
-		if (currentRune == FLAME || currentRune == SPARK)
+		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
 			effectVisible;
 			runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
@@ -354,17 +354,17 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					delete runeEffect;
 					runeEffect = 0;
 				}
-				if (currentRune == FLAME)
+				if (currentRune == MiscID::rune_range)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
 					runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
 				}
-				else if (currentRune == SPARK)
+				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG += 1;
 					runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
 				}
-				else if (currentRune == FORCE)
+				else if (currentRune == MiscID::rune_shield)
 				{
 					shield = 2;
 					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
@@ -379,28 +379,28 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		if (invulnTimer < FLT_EPSILON && !god)
 		{
-			if (shield == 0 && currentRune == FORCE)
+			if (shield == 0 && currentRune == MiscID::rune_shield)
 			{
-				currentRune = NORUNE;
+				currentRune = 0;
 				delete runeEffect;
 				runeEffect = 0;
 			}
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
 			{
-				if (currentRune == FLAME)
+				if (currentRune == MiscID::rune_range)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
 					delete runeEffect;
 					runeEffect = 0;
-					currentRune = NORUNE;
+					currentRune = 0;
 				}
-				else if (currentRune == SPARK)
+				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG -= 1;
 					delete runeEffect;
 					runeEffect = 0;
-					currentRune = NORUNE;
+					currentRune = 0;
 				}
 				invulnTimer = 1.0f;
 				if (HP > 1)
@@ -410,7 +410,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					printf("Ow, I'm hit! HP remaining is %d\n", HP);
 					flinchTimer = 0.3f;
 					float recoil = 10.0f;
-					if (currentRune == FORCE)
+					if (currentRune == MiscID::rune_shield)
 					{
 						recoil = 5.0f;
 						flinchTimer = 0.1f;
@@ -438,7 +438,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					animState = "flinch";
 					isAttacking = false;
 					attackTimer = 0.0f;
-					if (currentRune == FORCE)
+					if (currentRune == MiscID::rune_shield)
 						shield -= 1;
 				}
 				else
@@ -452,7 +452,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 		}
 		else
 		{
-			if (currentRune == FORCE)
+			if (currentRune == MiscID::rune_shield)
 			{
 				effectVisible = true;
 				runeEffect->posX = playerPos.x;
@@ -477,7 +477,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	
 	if (isAttacking)
 	{
-		if (currentRune == SPARK || currentRune == FLAME)
+		if (currentRune == MiscID::rune_damage || currentRune == MiscID::rune_range)
 			effectVisible = true;
 		animState = "attack";
 		moveWeapon();

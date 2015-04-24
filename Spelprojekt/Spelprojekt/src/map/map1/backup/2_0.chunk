@@ -1,7 +1,16 @@
-0 : No Boss
-0 : Nr of enemies
-0 0 0 0 :  BACKGROUND!
-2 8 0 0 :  SHRINE!
+0 : ChuckTesta
+9 : Enemy Count
+Bat -5 4
+Bat 7 0
+Flame -12 3
+Flame -6 -4
+Spikes 0 -10
+Spikes 1 -10
+Spikes 2 -10
+Spikes 3 -10
+Spikes 4 -10
+8 0 0 -2 :  BACKGROUND!
+2 8 -0.5 0 :  SHRINE!
 15 :  Number of world objects
 Box 35 0 0 0 0 7 0 14 0 0 2 0 0 0 0 1
 Box 35 0 0 0 0 7 0 -14 0 0 2 0 0 0 0 1
@@ -19,7 +28,12 @@ Box 16 0 0 -8.5 0 1 0 -10 0 0 2 0 0 0 0 1
 Box 13 0 0 11 0 1 0 -10 0 0 2 0 0 0 0 1
 Box 1 0 0 6 0 3 0 0 0 0 2 0 0 0 0 1
 1 : Music ID
-0 : Nr of Lights 
+5 : Nr of Lights
+-10 -1 -0.5 0.3 0.3 0.8 0.5 50 0
+-8 -6 1 0.2 0.4 0.7 0.5 50 0
+0 6 -0.5 0.1 0.5 0.5 0.8 100 0
+6 6 1 0 0.6 0.4 0.6 40 0
+7 -4 0.5 0.1 0.7 0.3 0.5 60 0
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -203,5 +203,8 @@
     <ClInclude Include="src\game\Enemies\Bossdummy.h">
       <Filter>Header Files\Game\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="src\legend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

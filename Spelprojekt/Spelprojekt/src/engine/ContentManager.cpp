@@ -91,19 +91,9 @@ int ContentManager::bindPlayer() const
 	return objectManager->bindPlayer();
 }
 
-int ContentManager::bindMapObj(int id) const
+int::ContentManager::bind(int type, int id) const
 {
-	/*
-	mapObjs[id]->bind();
-	return mapObjs[id]->getFaces();*/
-	return objectManager->bindMapObj(id);
-}
-
-int ContentManager::bindMonsterObj(int id) const
-{
-	/*monsterObjs[id]->bind();
-	return monsterObjs[id]->getFaces();*/
-	return objectManager->bindMonsterObj(id);
+	return objectManager->bind(type, id);
 }
 
 void ContentManager::bindGUItex(int id) const

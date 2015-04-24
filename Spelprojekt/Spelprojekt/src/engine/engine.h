@@ -52,6 +52,24 @@ private:
 	bool fadeIn;
 	bool fadeOut;
 
+	void renderPlayer(const Player*);
+	void renderBack();
+	void renderWorld();
+	void renderMisc();
+	void renderEnemies();
+	void bindLights(const Player*);
+	void renderRekts();
+	void renderEditObject(Edit*);
+
+	int width = 0;
+	int height = 0;
+	MapChunk** chunks = 0;
+	const ContentManager* content;
+	int* upDraw = 0;
+	int facecount;
+	int id;
+	int lastid;
+	
 public:
 	Engine(){};
 	~Engine();

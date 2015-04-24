@@ -6,38 +6,36 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 
-enum EditMode
-{
-	WORLD,
-	REKT,
-	LIGHT,
-	MONSTER,
-	BACK,
-	SHRINE,
-	BOSS,
-	AUDIO,
-	NONEM,
-};
-
-enum EditState
-{
-	PLACE,
-	CHANGE,
-	NONES,
-};
-
-enum PlaceState
-{
-	MOVE,
-	SCALE,
-	ROT,
-	NONEP,
-};
-
 class Edit
 {
 private:
-	
+	enum EditMode
+	{
+		WORLD,
+		REKT,
+		LIGHT,
+		MONSTER,
+		BACK,
+		SHRINE,
+		BOSS,
+		AUDIO,
+		NONEM,
+	};
+	enum EditState
+	{
+		PLACE,
+		CHANGE,
+		NONES,
+	};
+
+	enum PlaceState
+	{
+		MOVE,
+		SCALE,
+		ROT,
+		NONEP,
+	};
+
 	Map* map;
 	MapChunk** chunks;
 	int chunkXCam = 0;
@@ -94,6 +92,9 @@ private:
 	void itemTableClick();
 
 public:
+
+	
+
 	Edit(){};
 	~Edit();
 	void init(Map* map, UserInput* in);

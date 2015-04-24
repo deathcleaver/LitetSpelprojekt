@@ -1,6 +1,6 @@
 #include "Shrine.h"
 
-Shrine::Shrine(GameObject* object, int runetype)
+Shrine::Shrine(GameObject* object, MiscID runetype)
 {
 	lightForPlayer = new RuneLights();
 	runeMove = 0.0f;
@@ -10,30 +10,34 @@ Shrine::Shrine(GameObject* object, int runetype)
 	glm::vec3 pos = object->readPos();
 	switch (runetype)
 	{
-	case 0 :
-		rune = FLAME;
+	case ((MiscID)0) :
+		rune = (MiscID)0;
+		runeObj = 0;
+		break;
+	case MiscID::rune_range:
+		rune = MiscID::rune_range;
 		runeObj = new GameObject();
-		runeObj->init(4);
+		runeObj->init(MiscID::rune_range);
 		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
 		break;
-	case 1 :
-		rune = SPARK;
+	case MiscID::rune_damage:
+		rune = MiscID::rune_damage;
 		runeObj = new GameObject();
-		runeObj->init(5);
+		runeObj->init(MiscID::rune_damage);
 		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
 		break;
-	case 2 :
-		rune = FORCE;
+	case MiscID::rune_shield:
+		rune = MiscID::rune_shield;
 		runeObj = new GameObject();
-		runeObj->init(6);
+		runeObj->init(MiscID::rune_shield);
 		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
 		break;
-	case 3 :
-		rune = STOMP;
-		runeObj = new GameObject();
-		runeObj->init(4);
-		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
-		break;
+	//case 3 :
+	//	rune = STOMP;
+	//	runeObj = new GameObject();
+	//	runeObj->init(4);
+	//	runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
+	//	break;
 	}
 	collision = new Rect();
 	collision->initGameObjectRect(object->getWorldMat(), 1.0f, 2.0f);
@@ -72,7 +76,7 @@ glm::vec2 Shrine::getPos()
 	return glm::vec2(object->readPos());
 }
 
-int Shrine::getRune()
+MiscID Shrine::getRune()
 {
 	if (!runeTaken)
 	{
@@ -84,7 +88,7 @@ int Shrine::getRune()
 		runeTaken = true;
 		return rune;
 	}
-	return NORUNE;
+	return (MiscID)0;
 }
 
 void Shrine::update(float deltaTime)
