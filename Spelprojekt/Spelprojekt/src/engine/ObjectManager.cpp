@@ -66,7 +66,7 @@ void ObjectManager::loadMapObjs()
 	if (myMapObjs) //only call once
 		throw;
 
-	myNrOfMapObjects = 12;
+	myNrOfMapObjects = 13;
 	myMapObjs = new AnimationObject*[myNrOfMapObjects]();
 
 	//backgroudn grid
@@ -74,7 +74,7 @@ void ObjectManager::loadMapObjs()
 
 
 	//basic platform
-	myMapObjs[1] = new AnimationObject("src/meshes/MeinKart.v", "src/textures/MeinKart.bmp");
+	myMapObjs[1] = new AnimationObject("src/meshes/BaseCube.v", "src/textures/BackgroundRockWallDIRT.bmp");
 
 
 	//shrine
