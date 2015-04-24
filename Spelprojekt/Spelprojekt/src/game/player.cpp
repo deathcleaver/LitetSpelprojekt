@@ -24,7 +24,9 @@ void Player::init()
 	animState = "idle";
 	bossFighting = false;
 	currentRune = NORUNE;
+	runeEffect = 0;
 	shield = 0;
+	effectVisible = false;
 }
 
 Player::~Player()
@@ -37,22 +39,34 @@ void Player::moveWeapon()
 	vec3 playerPos = readPos();
 	int bonusRange = 1;
 	if (currentRune == FLAME)
-		bonusRange = 5;
+		bonusRange = 3;
 	if (facingRight)
 	{
 		weaponMatrix[0].w = playerPos.x +0.1f + sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
+		if (currentRune == FLAME || currentRune == SPARK)
+		{
+			runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
+			runeEffect->posY = playerPos.y;
+		}
 	}
 	else
 	{
 		weaponMatrix[0].w = playerPos.x -0.1f - sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
+		if (currentRune == FLAME || currentRune == SPARK)
+		{
+			effectVisible;
+			runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
+			runeEffect->posY = playerPos.y;
+		}
 	}
 	attackRect.update();
 }
 
 int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime)
 {
+	effectVisible = false;
 	animState = "idle";
 	timepass += deltaTime;
 
@@ -335,12 +349,26 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 			if (currentSpawn)
 			{
 				currentRune = currentSpawn->getRune();
+				if (runeEffect)
+				{
+					delete runeEffect;
+					runeEffect = 0;
+				}
 				if (currentRune == FLAME)
-					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 2.5);
+				{
+					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
+					runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
+				}
 				else if (currentRune == SPARK)
+				{
 					DMG += 1;
+					runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
+				}
 				else if (currentRune == FORCE)
+				{
 					shield = 2;
+					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
+				}
 			}
 			audio->playSound(0);//item
 		}
@@ -351,13 +379,29 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		if (invulnTimer < FLT_EPSILON && !god)
 		{
+			if (shield == 0 && currentRune == FORCE)
+			{
+				currentRune = NORUNE;
+				delete runeEffect;
+				runeEffect = 0;
+			}
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
 			{
 				if (currentRune == FLAME)
+				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
+					delete runeEffect;
+					runeEffect = 0;
+					currentRune = NORUNE;
+				}
 				else if (currentRune == SPARK)
+				{
 					DMG -= 1;
+					delete runeEffect;
+					runeEffect = 0;
+					currentRune = NORUNE;
+				}
 				invulnTimer = 1.0f;
 				if (HP > 1)
 				{
@@ -396,8 +440,6 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					attackTimer = 0.0f;
 					if (currentRune == FORCE)
 						shield -= 1;
-					if (shield == 0)
-						currentRune = NORUNE;
 				}
 				else
 				{
@@ -410,6 +452,13 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 		}
 		else
 		{
+			if (currentRune == FORCE)
+			{
+				effectVisible = true;
+				runeEffect->posX = playerPos.x;
+				runeEffect->posY = playerPos.y;
+				runeEffect->posZ = playerPos.z;
+			}
 			invulnTimer -= 1.0f*deltaTime;
 			if (flinchTimer > FLT_EPSILON)
 				flinchTimer -= 1.0f*deltaTime;
@@ -428,6 +477,8 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	
 	if (isAttacking)
 	{
+		if (currentRune == SPARK || currentRune == FLAME)
+			effectVisible = true;
 		animState = "attack";
 		moveWeapon();
 		map->attackEnemies(&attackRect, playerPos, DMG);
@@ -452,6 +503,11 @@ bool Player::isBossFighting()
 
 void Player::respawn(Map* map)
 {
+	if (runeEffect)
+	{
+		delete runeEffect;
+		runeEffect = 0;
+	}
 	HP = 3;
 	shield = 0;
 	speed = vec2(0);
@@ -501,4 +557,30 @@ void Player::dingDongTheBossIsDead(std::string boss)
 {
 	bossFighting = false;
 	progressMeter.checkBossType(boss);
+}
+
+Light* Player::getRuneLight() const
+{
+	if (effectVisible)
+		return runeEffect;
+	return 0;
+}
+
+bool Player::isBossDead(std::string boss)
+{
+	if (boss == "Bossbat")
+		return progressMeter.batboss;
+	return false;
+}
+
+void Player::setProgress(Progress p)
+{
+	progressMeter.batboss = p.batboss;
+	progressMeter.ghostboss = p.ghostboss;
+	progressMeter.spiderboss = p.spiderboss;
+}
+
+Progress Player::getProgress()
+{
+	return progressMeter;
 }

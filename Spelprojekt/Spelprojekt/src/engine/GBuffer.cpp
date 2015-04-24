@@ -57,7 +57,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	pos[1] = glGetUniformLocation(*shaderPtr, "diffuse");
 	pos[2] = glGetUniformLocation(*shaderPtr, "normal");
 	pos[3] = glGetUniformLocation(*shaderPtr, "world");
-	pos[4] = glGetUniformLocation(*shaderPtr, "glow");
 
 	uniformCamPos = glGetUniformLocation(*shaderPtr, "lightPos");
 	uniformPlayerPos = glGetUniformLocation(*shaderPtr, "playerPos");
@@ -76,6 +75,8 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glGenBuffers(1, &lightBuffer);
 
 	nrLight = 100;
+
+	volume = new int[nrLight];
 
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), NULL, GL_DYNAMIC_DRAW);
@@ -99,11 +100,14 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glVertexAttribPointer(0, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 0));
 	glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 4));
+	glVertexAttribPointer(2, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 8));
 
 	glVertexAttribDivisor(0, 1);
+	glVertexAttribDivisor(1, 1);
 	glVertexAttribDivisor(1, 1);
 
 }
@@ -112,6 +116,7 @@ Gbuffer::~Gbuffer()
 {
 	delete[] rTexture;
 	delete[] pos;
+	delete[] volume;
 	glDeleteBuffers(1, &targetId);
 
 	glDeleteBuffers(1, &lightBuffer);
@@ -131,6 +136,11 @@ void Gbuffer::pushLights(Light* light, int lightsAdded)
 	{
 		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 		glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
+		for (int i = 0; i < lightsAdded; i++)
+		{
+			volume[i] = light[i].volume;
+		}
+		
 		nrLight += lightsAdded;
 	}
 }
@@ -157,7 +167,11 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 	glBindVertexArray(LightVao);
 
 	//glDrawArrays(GL_POINTS, 0, nrLight);
-	glDrawArraysInstanced(GL_POINTS, 0, 1, nrLight);
+	//glDrawArraysInstanced(GL_POINTS, 0, 1, nrLight);
+	for (int i = 0; i < nrLight; i++)
+	{
+		glDrawArraysInstancedBaseInstance(GL_POINTS, 0, 1, volume[i], i);
+	}
 
 }
 

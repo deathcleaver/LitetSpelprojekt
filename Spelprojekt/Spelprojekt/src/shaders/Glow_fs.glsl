@@ -5,9 +5,10 @@ layout(location = 1) in vec4 fragmentPos;
 layout(location = 2) in vec4 color;
 layout(location = 3) in float maxDist;
 
-//uniform sampler2D depthTexture;
+uniform float fade;
 
-layout(location = 4) out vec4 glowOut;
+layout(location = 1) out vec4 glowOut;
+out vec4 fragment_color;
 
 void main () 
 {
@@ -15,9 +16,11 @@ void main ()
     
     dist *= 2;
     
-    float power = pow(1 - dist,4);
+    float power = pow(1 - min(dist, 1), 4);
     power = clamp(power, 0, 1);
     
-    glowOut = vec4((color.rgb * color.w), power);
+    glowOut = vec4((color.rgb * color.w), min(power * fade, 1s));
+    
+    fragment_color = glowOut;
     
 }

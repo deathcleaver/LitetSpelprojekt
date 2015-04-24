@@ -1,4 +1,5 @@
 #include "map.h"
+#include "player.h"
 
 Map::~Map()
 {
@@ -98,8 +99,9 @@ int Map::readSizeY() const
 	return height;
 }
 
-int Map::update(float deltaTime, glm::vec3 playerPos)
+int Map::update(float deltaTime, Player* player)
 {
+	glm::vec3 playerPos = player->readPos();
 	//Chunk respawn check every 10th frame
 	if (counter == 0)
 	{
@@ -124,7 +126,12 @@ int Map::update(float deltaTime, glm::vec3 playerPos)
 	if (idX != -1 && idY != -1)
 	{
 		msg = chunks[idX][idY].hasBoss(); //0 = no boss, 1 = alive boss, 2 = dead boss
-		
+		if (msg == 1)
+		{
+			std::string boss = chunks[idX][idY].getBossType();
+			if (player->isBossDead(boss))
+				msg = 2;
+		}
 	}
 	else
 	{

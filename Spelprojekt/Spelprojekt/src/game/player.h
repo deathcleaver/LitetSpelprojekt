@@ -21,6 +21,8 @@ private:
 	int MAX_HP;
 	int HP;
 	int currentRune;
+	Light* runeEffect;
+	bool effectVisible;
 
 	int DMG;
 	int shield;
@@ -71,6 +73,17 @@ public:
 	void fightThatBossBro();
 	void dingDongTheBossIsDead(std::string boss);
 	bool isBossFighting();
+
+	Light* getRuneLight() const;
+
+	Shrine* getCurrentSpawn()
+	{
+		return currentSpawn;
+	}
+
+	bool isBossDead(std::string boss);
+	void setProgress(Progress p);
+	Progress getProgress();
 };
 
 #endif

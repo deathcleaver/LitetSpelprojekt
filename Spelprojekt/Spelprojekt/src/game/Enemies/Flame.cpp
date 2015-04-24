@@ -23,6 +23,7 @@ Flame::Flame(glm::vec2 firstPos)
 	myLight = new Light();
 	myLight->posX = initPos.x; myLight->posY = initPos.y; myLight->posZ = 0.0;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
+	myLight->volume = 1;
 
 	maxInt = 2.0f;
 	minInt = 0.5f;
@@ -55,6 +56,8 @@ Flame::Flame(Flame* copy)
 	myLight->posX = copy->myLight->posX; myLight->posY = copy->myLight->posY; myLight->posZ = copy->myLight->posZ;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
 
+	myLight->volume = 1;
+
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
 }
@@ -69,7 +72,7 @@ void Flame::init()
 	invulnTimer = 0.0f;
 	speed = glm::vec2(2.0f, 0.0);
 	myLight->intensity = 1.0;
-
+	myLight->volume = 1;
 	collideRect->update();
 }
 

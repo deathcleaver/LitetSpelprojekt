@@ -26,13 +26,12 @@ private:
 	int keyUpdate();
 	float SCREENWIDTH = 1080;
 	float SCREENHEIGHT = 720;
-
 	void modeSwitchesFalse();
-
+	bool grayContinue = true;
 public:
 	GUI(){};
 	~GUI();
-	void init(UserInput* in, Player* player, ContentManager* content);
+	void init(UserInput* in, Player* player, ContentManager* content, bool grayContinue = true);
 	int update(int state);
 	int GUI::readSize() const;
 	int GUI::bindIndex(int index) const;

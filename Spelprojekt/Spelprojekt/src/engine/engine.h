@@ -34,6 +34,9 @@ private:
 
 	GLuint uniformViewGlow;
 	GLuint uniformProjGlow;
+	GLuint uniformFadePos;
+	GLuint uniformFadePosGlow;
+
 
 	glm::mat4* viewMatrix;
 	glm::mat4 projMatrix;
@@ -45,12 +48,20 @@ private:
 
 	Light* light;
 
+	float fadeEffect;
+	bool fadeIn;
+	bool fadeOut;
+
 public:
 	Engine(){};
 	~Engine();
 	void init(glm::mat4* viewMatrix);
 	void render(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit);
+
+	void setFadeIn();
+	void setFadeOut();
+	void setFade(float fadeEffect);
 };
 
 #endif

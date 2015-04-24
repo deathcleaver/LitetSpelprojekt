@@ -52,6 +52,9 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
 	gBuffer.shaderPtr = &tempshaderGBuffer;
 
+	uniformFadePos = glGetUniformLocation(tempshaderGBuffer, "fade");
+	uniformFadePosGlow = glGetUniformLocation(tempshaderGBufferGlow, "fade");
+
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
@@ -65,10 +68,31 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.shaderGuiPtr = &tempshaderGUI;
 
 	
-	gBuffer.init(1080, 720, 5, true);
+	gBuffer.init(1080, 720, 4, true);
 	
 	light = new Light[100];
 
+	fadeEffect = 0;
+
+	fadeIn = false;
+	fadeOut = false;
+}
+
+void Engine::setFadeIn()
+{
+	fadeIn = true;
+	fadeOut = false;
+}
+
+void Engine::setFadeOut()
+{
+	fadeIn = false;
+	fadeOut = true;
+}
+
+void Engine::setFade(float fadeEffect)
+{
+	this->fadeEffect = fadeEffect;
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content, 
@@ -119,6 +143,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	gBuffer.clearLight();
 	gBuffer.bind(GL_FRAMEBUFFER);
 
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 	glUseProgram(tempshader);
@@ -166,6 +191,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	lastid = -1;
 
 	//render chunk world objects
+	
 	if(renderWorld)
 		for (int n = 0; n < upDraw[0]; n++){
 			int x = n * 2 + 1;
@@ -174,6 +200,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
 					//render boxes
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+					glEnable(GL_CULL_FACE);
+					glColorMask(0, 0, 1, 1);
 					int size = chunks[upDraw[x]][upDraw[y]].Box_Objs.size();
 					for (int k = 0; k < size; k++)
 					{
@@ -183,6 +212,12 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
+					
+					
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					glDisable(GL_CULL_FACE);
+					
+					glColorMask(1, 1, 1, 1);
 
 					//render mushrooms
 					size = chunks[upDraw[x]][upDraw[y]].Mushroom_Objs.size();
@@ -309,35 +344,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		}
 	}
 
-	//if render collision rekts
-	if (renderRekts)
-	{
-		glDisable(GL_DEPTH_TEST);
-		content->bindRekt();
-		GameObject temprekt;
-		glm::vec3 pos;
-		facecount = 2;
-		
-		for (int n = 0; n < upDraw[0]; n++)
-		{
-			int x = n * 2 + 1;
-			int y = x + 1;
-			if (upDraw[x] > -1 && upDraw[x] < width)
-				if (upDraw[y] > -1 && upDraw[y] < height)
-
-					for (int xIndex = 0; xIndex < 35; xIndex++)
-						for (int yIndex = 0; yIndex < 35; yIndex++)
-							if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
-							{
-								pos.x = (-17 + upDraw[x] * 35) + xIndex;
-								pos.y = (17 - upDraw[y] * 35) - yIndex;
-								pos.z = 0;
-								temprekt.moveTo(pos);
-								temprekt.bindWorldMat(&tempshader, &uniformModel);
-								glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-							}
-		}
-	}
 
 	 // bind chunk lights
 	Light* chunkLights = 0;
@@ -366,6 +372,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 						light[nrOfLights + c].intensity = chunkLights[c].intensity;
 						light[nrOfLights + c].distance = chunkLights[c].distance;
+						light[nrOfLights + c].volume = chunkLights[c].volume;
 					}
 					nrOfLights += lightSize;
 				}
@@ -387,27 +394,99 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 						light[nrOfLights + lightSize].intensity = temp->intensity;
 						light[nrOfLights + lightSize].distance = temp->distance;
+						light[nrOfLights + c].volume = temp->volume;
 						lightSize++;
 					}
 				}
 				nrOfLights += lightSize;
 			}
 		}
+	Light* runeEffect = player->getRuneLight();
+	if (runeEffect)
+	{
+		light[nrOfLights].posX = runeEffect->posX;
+		light[nrOfLights].posY = runeEffect->posY;
+		light[nrOfLights].posZ = runeEffect->posZ;
+
+		light[nrOfLights].r = runeEffect->r;
+		light[nrOfLights].g = runeEffect->g;
+		light[nrOfLights].b = runeEffect->b;
+
+		light[nrOfLights].intensity = runeEffect->intensity;
+		light[nrOfLights].distance = runeEffect->distance;
+		light[nrOfLights].volume = runeEffect->volume;
+		nrOfLights++;
+	}
 
 	gBuffer.pushLights(light, nrOfLights);
 
 	glDisable(GL_DEPTH_TEST);
 
-	if (renderGlow)
-		gBuffer.renderGlow(campos);
+	//if render collision rekts
+	if (renderRekts)
+	{
+		glUseProgram(tempshader);
+		glDisable(GL_DEPTH_TEST);
+		content->bindRekt();
+		GameObject temprekt;
+		glm::vec3 pos;
+		facecount = 2;
+
+		for (int n = 0; n < upDraw[0]; n++)
+		{
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+
+			for (int xIndex = 0; xIndex < 35; xIndex++)
+			for (int yIndex = 0; yIndex < 35; yIndex++)
+			if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
+			{
+				pos.x = (-17 + upDraw[x] * 35) + xIndex;
+				pos.y = (17 - upDraw[y] * 35) - yIndex;
+				pos.z = 0;
+				temprekt.moveTo(pos);
+				temprekt.bindWorldMat(&tempshader, &uniformModel);
+				glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
+			}
+		}
+	}
+
 	// bind default FBO and render gbuffer
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
+	glProgramUniform1f(tempshaderGBuffer, uniformFadePos, fadeEffect);
+	glProgramUniform1f(tempshaderGBufferGlow, uniformFadePosGlow, fadeEffect);
+
 	gBuffer.render(campos, gui, content, renderGUI);
     
+	if (renderGlow)
+	{
+		glClear(GL_DEPTH_BUFFER_BIT);
+		gBuffer.renderGlow(campos);
+	}
+
+	// fade
+	
+
+
 	glEnable(GL_DEPTH_TEST);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (fadeIn)
+		fadeEffect += 0.01f;
+	if (fadeOut)
+		fadeEffect -= 0.01f;
+
+	if (fadeEffect > 1.0)
+		fadeIn = false;
+	if (fadeEffect < 0.0)
+		fadeOut = false;
 }
 
 

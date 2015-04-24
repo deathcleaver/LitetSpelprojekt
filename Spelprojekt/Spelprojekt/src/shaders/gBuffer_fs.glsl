@@ -4,7 +4,8 @@ layout(location = 0) in vec2 UV;
 uniform sampler2D diffuse;
 uniform sampler2D normal;
 uniform sampler2D world;
-uniform sampler2D glow;
+
+uniform float fade;
 
 out vec4 fragment_color;
 
@@ -12,6 +13,10 @@ struct Light
 {
     vec4 pos;
     vec4 color;
+    float distance;
+    float intensity;
+    float pad;
+    float pad2;
 };
 
 uniform vec3 playerPos;
@@ -31,8 +36,6 @@ void main ()
     vec4 worldPos = texture(world,vec2(UV.s, UV.t));
     vec4 n = texture(normal,vec2(UV.s, UV.t));
     vec4 diffuseColor = texture(diffuse,vec2(UV.s, UV.t));
-    
-    vec4 glowColor = texture(glow, UV);
     
 	//ON Clear Color
 	//if(diffuseColor.x < 0.05f && diffuseColor.y < 0.05f && diffuseColor.z < 0.05f)
@@ -71,7 +74,7 @@ void main ()
 				vec3 r = reflect(s, n.xyz);
 				
 				letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
-			}
+            }
 		}
 		
 		Light l;
@@ -96,7 +99,7 @@ void main ()
 			letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
 		
 		}
-        fragment_color = (diffuseColor * letThereBeLight) + glowColor;
+        fragment_color = vec4((diffuseColor * letThereBeLight).rgb, fade);
 		
 	}
 

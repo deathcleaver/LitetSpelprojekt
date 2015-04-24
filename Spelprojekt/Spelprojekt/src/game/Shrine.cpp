@@ -2,6 +2,7 @@
 
 Shrine::Shrine(GameObject* object, int runetype)
 {
+	lightForPlayer = new RuneLights();
 	runeMove = 0.0f;
 	runeUp = true;
 	runeTaken = false;
@@ -43,6 +44,7 @@ Shrine::~Shrine()
 	delete collision;
 	delete object;
 	delete runeObj;
+	delete lightForPlayer;
 }
 
 void Shrine::giveLight(Light* l)
@@ -53,7 +55,10 @@ void Shrine::giveLight(Light* l)
 void Shrine::resetRune()
 {
 	if (myLight)
+	{
 		myLight->intensity = 2.0f;
+		myLight->distance = 15.0f;
+	}
 	runeTaken = false;
 }
 
@@ -72,7 +77,10 @@ int Shrine::getRune()
 	if (!runeTaken)
 	{
 		if (myLight)
+		{
 			myLight->intensity = 0.0f;
+			myLight->distance = 0.0f;
+		}
 		runeTaken = true;
 		return rune;
 	}

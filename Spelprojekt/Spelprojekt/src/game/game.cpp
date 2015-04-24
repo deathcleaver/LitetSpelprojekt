@@ -66,6 +66,7 @@ extern "C"
 
 Game::~Game()
 {
+	saveGame();
 	if (engine)
 		delete engine;
 	if (content)
@@ -116,8 +117,6 @@ void Game::init(GLFWwindow* windowRef)
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
 	in->Init(viewMat, glm::vec3(0, 0, 10), glm::vec3(0, 0, 9), glm::vec3(0, 1, 0));
 	cameraFollow = true;
-	gui = new GUI();
-	gui->init(in, player, content);
 	edit = new Edit();
 	edit->init(map, in);
 	//start state
@@ -129,6 +128,14 @@ void Game::init(GLFWwindow* windowRef)
 
 	// do not delete in this class
 	this->windowRef = windowRef;
+
+	start = 0;
+	checkForSave();
+	gui = new GUI();
+	if (start)
+		gui->init(in, player, content, false);
+	else
+		gui->init(in, player, content);
 }
 
 void Game::mainLoop()
@@ -175,6 +182,8 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
+
+					  engine->setFade(0.0f);
 					  audio->playMusic(0);
 					  audio->updateListener(player->readPos());
 			break;
@@ -217,7 +226,7 @@ void Game::update(float deltaTime)
 			//Animations
 			content->update();
 			vec3 pPos = player->readPos();
-			int mapMsg = map->update(deltaTime, pPos);
+			int mapMsg = map->update(deltaTime, player);
 			if (!mapMsg)
 			{
 				inBossRoom = false;
@@ -305,13 +314,24 @@ void Game::buttonEvents(int buttonEv)
 	case(1) :
 		current = PLAY;
 		cameraFollow = true;
+		engine->setFadeIn();
 		break;
 	case(2) :
+		engine->setFade(1.0f);
 		current = EDIT;
 		cameraFollow = false;
 		break;
 	case(3) :
+		saveGame();
 		current = MENU;
+		engine->setFade(0.0f);
+		engine->setFadeOut();
+		break;
+	case(4) :
+		current = PLAY;
+		cameraFollow = true;
+		player->setProgress(playerProgress);
+		player->moveTo(start->returnThis()->readPos());
 		break;
 	}
 	//Editor buttons
@@ -398,4 +418,64 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_ESCAPE);
 	state == GLFW_PRESS ? in->ESC(true) : in->ESC(false);
+}
+
+void Game::checkForSave()
+{
+	ifstream in;
+	char* save = "save.s";
+	int xIndex = -1, yIndex = -1;
+	in.open(save);
+	if (in)
+	{
+		string line;
+		string sub;
+		stringstream ss;
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		xIndex = atoi(sub.c_str());
+		ss >> sub;
+		yIndex = atoi(sub.c_str());
+		if (xIndex != -1 && yIndex != -1)
+		{
+			MapChunk** chunks = map->getChunks();
+			start = chunks[xIndex][yIndex].shrine;
+			for (int c = 0; c < 3; c++)
+			{
+				getline(in, line);
+				ss = stringstream(line);
+				ss >> sub;
+				playerProgress.checkBossType(sub);
+			}
+		}
+		in.close();
+	}
+}
+
+void Game::saveGame()
+{
+	Shrine* savePoint = player->getCurrentSpawn();
+	playerProgress = player->getProgress();
+	ofstream out;
+	out.open("save.s", ios::trunc);
+	if (out)
+	{
+		if (savePoint)
+		{
+			int idX, idY;
+			glm::vec3 savePos = savePoint->returnThis()->readPos();
+			map->getChunkIndex(savePos, &idX, &idY);
+			out << idX << " " << idY << "\n";
+			for (int c = 0; c < 3; c++)
+			{
+				out << playerProgress.getBossType(c) << "\n";
+			}
+		}
+		else
+		{
+			out << "-1 -1\nNo\nNo\nNo";
+		}
+		out.close();
+	}
 }
