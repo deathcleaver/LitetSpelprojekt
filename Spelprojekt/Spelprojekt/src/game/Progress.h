@@ -9,15 +9,25 @@ struct Progress
 {
 	bool batboss = false;
 	bool spiderboss = false;
-	bool scaryboss = false;
+	bool ghostboss = false;
 	void checkBossType(std::string boss)
 	{
 		if (boss == "Bossbat")
 			batboss = true;
-		if (boss == "Spiderboss")
+		if (boss == "Bossspider")
 			spiderboss = true;
-		if (boss == "Grim")
-			scaryboss = true;
+		if (boss == "Bossghost")
+			ghostboss = true;
+	}
+	std::string getBossType(int index)
+	{
+		if (index == 0 && batboss)
+			return "Bossbat";
+		if (index == 1 && spiderboss)
+			return "Bossspider";
+		if (index == 2 && ghostboss)
+			return "Bossghost";
+		return "No";
 	}
 };
 

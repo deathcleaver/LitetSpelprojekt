@@ -1,6 +1,6 @@
 #include "GUI.h"
 
-void GUI::init(UserInput* in, Player* player, ContentManager* content)
+void GUI::init(UserInput* in, Player* player, ContentManager* content, bool grayContinue)
 {
 	this->player = player;
 	this->in = in;
@@ -12,6 +12,7 @@ void GUI::init(UserInput* in, Player* player, ContentManager* content)
 		items[n] = 0;
 	}
 	size = 0;
+	this->grayContinue = grayContinue;
 }
 
 GUI::~GUI()
@@ -79,12 +80,24 @@ void GUI::MENU(bool init)
 		items[1]->init(1, 2, true, 1);
 		items[1]->MoveAutoSize(0, 0.1, content);
 
-		//continue button
-		items[2]->init(3, 4, true, 0, false);
-		items[2]->MoveAutoSize(0, -0.15, content);
+		if (grayContinue)
+		{
+			//continue button
+			items[2]->init(3, 4, true, 4, false);
+			items[2]->MoveAutoSize(0, -0.15, content);
 			//grayed out
-		items[3]->init(5, 5, false, 0);
-		items[3]->MoveAutoSize(0, -0.15, content);
+			items[3]->init(5, 5, false, 0);
+			items[3]->MoveAutoSize(0, -0.15, content);
+		}
+		else
+		{
+			//continue button
+			items[2]->init(3, 4, true, 4);
+			items[2]->MoveAutoSize(0, -0.15, content);
+			//NOT grayed out
+			items[3]->init(5, 5, false, 0, false);
+			items[3]->MoveAutoSize(0, -0.15, content);
+		}
 
 		//map maker button
 		items[4]->init(6, 7, true, 2);

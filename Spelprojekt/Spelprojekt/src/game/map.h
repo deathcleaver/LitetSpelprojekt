@@ -7,6 +7,8 @@
 #include <sstream>
 #include <fstream>
 
+class Player;
+
 using namespace std;
 
 class Map
@@ -27,7 +29,7 @@ public:
 	int readSizeY() const;
 	MapChunk** getChunks() const;
 
-	int update(float deltaTime, glm::vec3 playerPos);
+	int update(float deltaTime, Player* player);
 	//data ref x = -1, y -1 = outofbounds
 	void getChunkIndex(glm::vec3 pos, int* idX, int* idY);
 	bool collideMap(Rect* test, glm::vec3 pos);

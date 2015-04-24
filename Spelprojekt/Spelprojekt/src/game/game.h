@@ -53,6 +53,11 @@ private:
 
 	bool inBossRoom = false;
 	glm::vec3 bossRoomMiddle;
+
+	Progress playerProgress;
+	Shrine* start;
+	void checkForSave();
+	void saveGame();
 public:
 	Game() {};
 	~Game();

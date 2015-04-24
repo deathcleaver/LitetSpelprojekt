@@ -362,6 +362,21 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				nrOfLights += lightSize;
 			}
 		}
+	Light* runeEffect = player->getRuneLight();
+	if (runeEffect)
+	{
+		light[nrOfLights].posX = runeEffect->posX;
+		light[nrOfLights].posY = runeEffect->posY;
+		light[nrOfLights].posZ = runeEffect->posZ;
+
+		light[nrOfLights].r = runeEffect->r;
+		light[nrOfLights].g = runeEffect->g;
+		light[nrOfLights].b = runeEffect->b;
+
+		light[nrOfLights].intensity = runeEffect->intensity;
+		light[nrOfLights].distance = runeEffect->distance;
+		nrOfLights++;
+	}
 
 	gBuffer.pushLights(light, nrOfLights);
 
