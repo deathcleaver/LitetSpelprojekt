@@ -509,6 +509,7 @@ bool Player::isBossFighting()
 
 void Player::respawn(Map* map)
 {
+	map->playerDiedSoRespawnEnemies();
 	if (runeEffect)
 	{
 		delete runeEffect;
@@ -528,7 +529,6 @@ void Player::respawn(Map* map)
 	{
 		moveTo(0, 2);
 	}
-	map->playerDiedSoRespawnEnemies();
 }
 
 bool Player::isBlinking() const

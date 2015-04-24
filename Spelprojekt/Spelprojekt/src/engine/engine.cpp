@@ -295,9 +295,27 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						lastid = id;
 					}
 
-					if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Bat") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Bat"))
+					//glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+					//glEnable(GL_CULL_FACE);
+					size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
+					for (int i = 0; i < size; i++)
 					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Bat");
+						if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Cube") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Cube"))
+						{
+							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Cube");
+							if (id != lastid)
+								facecount = content->bindMonsterObj(id);
+							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+							lastid = id;
+						}
+					}
+					//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					//glDisable(GL_CULL_FACE);
+
+					//Rendering the boss
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 						if (id != lastid)
 							facecount = content->bindMonsterObj(id);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);

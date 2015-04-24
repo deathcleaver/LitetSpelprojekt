@@ -5,6 +5,7 @@
 #include "Enemies/Flame.h"
 #include "Enemies/Bossbat.h"
 #include "Enemies/Bossdummy.h"
+#include "Enemies/Cube.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -29,6 +30,12 @@ EnemyManager::~EnemyManager()
 		delete spikes[c];
 	}
 	delete[]spikes;
+	for (int c = 0; c < cubeCount; c++)
+	{
+		delete cubes[c];
+	}
+	delete[]cubes;
+
 
 	if (boss)
 	{
@@ -46,6 +53,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	spikes = new Enemy*[spikeMax];
 	flameCount = 0; flameMax = 5;
 	flames = new Enemy*[flameMax];
+	cubeCount = 0; cubeMax = 5;
+	cubes = new Enemy*[cubeMax];
 
 	boss = 0;
 	string line;
@@ -178,6 +187,25 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			}
 		}
 	}
+	for (int c = 0; c < cubeCount; c++)
+	{
+		if (cubes[c]->isAlive())
+		{
+			msg = cubes[c]->update(deltaTime, chunk, playerPos);
+			pos = cubes[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
+			{
+				Cube* visitCube = new Cube((Cube*)cubes[c]);
+				visitCube->setVisitor();
+				cubes[c]->diePls();
+				visitorHolder[visitorsToSendOut] = visitCube;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
+			}
+		}
+	}
 	if (boss)
 	{
 		if (boss->isAlive())
@@ -191,17 +219,13 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 int EnemyManager::size(string type)
 {
 	if (type == "Spikes")
-	{
 		return spikeCount;
-	}
 	if (type == "Bat")
-	{
 		return batCount;
-	}
 	if (type == "Flame")
-	{
 		return flameCount;
-	}
+	if (type == "Cube")
+		return cubeCount;
 	return 0;
 }
 
@@ -228,6 +252,13 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (flameCount == flameMax)
 			expandEnemyArray(flames, flameMax);
 	}
+	if (type == "Cube")
+	{
+		cubes[cubeCount] = new Cube(pos);
+		cubeCount++;
+		if (cubeCount == cubeMax)
+			expandEnemyArray(cubes, cubeMax);
+	}
 }
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
@@ -241,24 +272,22 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return bats[index]->bindWorldMat(shader, uniform);
 	else if (type == "Flame")
 		return flames[index]->bindWorldMat(shader, uniform);
-	else //if (type == "Spikes")
+	else if (type == "Spikes")
 		return spikes[index]->bindWorldMat(shader, uniform);
+	else //if (type == "Cube")
+		return cubes[index]->bindWorldMat(shader, uniform);
 }
 
 Enemy** EnemyManager::getEnemies(string type)
 {
 	if (type == "Spikes")
-	{
 		return spikes;
-	}
 	if (type == "Bat")
-	{
 		return bats;
-	}
 	if (type == "Flame")
-	{
 		return flames;
-	}
+	if (type == "Cube")
+		return cubes;
 	return 0;
 }
 
@@ -285,6 +314,17 @@ void EnemyManager::resetEnemies()
 		}
 		else
 			flames[n]->init();
+	}
+	for (int n = cubeCount - 1; n >= 0; n--)
+	{
+		if (cubes[n]->isVisitor())
+		{
+			delete cubes[n];
+			cubes[n] = 0;
+			cubeCount--;
+		}
+		else
+			cubes[n]->init();
 	}
 	if (boss)
 	{
@@ -344,5 +384,12 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		flameCount++;
 		if (flameCount == flameMax)
 			expandEnemyArray(flames, flameMax);
+	}
+	if (type == "Cube")
+	{
+		cubes[cubeCount] = new Cube((Cube*)visitor);
+		cubeCount++;
+		if (cubeCount == flameMax)
+			expandEnemyArray(cubes, cubeMax);
 	}
 }
