@@ -163,7 +163,8 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				lights[c].intensity = atof(sub.c_str());
 				ss >> sub;
 				lights[c].distance = atof(sub.c_str());
-				lights[c].volume = 0;
+				ss >> sub;
+				lights[c].volume = atoi(sub.c_str());
 			}
 			if (shrine)
 			{
