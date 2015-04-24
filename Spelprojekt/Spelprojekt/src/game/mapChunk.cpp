@@ -163,6 +163,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				lights[c].intensity = atof(sub.c_str());
 				ss >> sub;
 				lights[c].distance = atof(sub.c_str());
+				lights[c].volume = 0;
 			}
 			if (shrine)
 			{
@@ -199,6 +200,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				}
 				lights[nrOfLights - 1].intensity = 2.0f;
 				lights[nrOfLights - 1].distance = 15.0;
+				lights[nrOfLights - 1].volume = 1;
 				shrine->giveLight(&lights[nrOfLights - 1]);
 			}
 		}

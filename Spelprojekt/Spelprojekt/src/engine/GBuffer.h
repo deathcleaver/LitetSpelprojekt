@@ -34,6 +34,8 @@ public:
 
 	int nrLight;
 
+	int* volume;
+
 	GLuint uniformCamPosGlow;
 
 private:

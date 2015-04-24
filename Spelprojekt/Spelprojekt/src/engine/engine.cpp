@@ -335,6 +335,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 						light[nrOfLights + c].intensity = chunkLights[c].intensity;
 						light[nrOfLights + c].distance = chunkLights[c].distance;
+						light[nrOfLights + c].volume = chunkLights[c].volume;
 					}
 					nrOfLights += lightSize;
 				}
@@ -356,6 +357,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 						light[nrOfLights + lightSize].intensity = temp->intensity;
 						light[nrOfLights + lightSize].distance = temp->distance;
+						light[nrOfLights + c].volume = temp->volume;
 						lightSize++;
 					}
 				}

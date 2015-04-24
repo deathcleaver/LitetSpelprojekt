@@ -11,6 +11,10 @@ struct Light
 {
     vec4 pos;
     vec4 color;
+    float distance;
+    float intensity;
+    float pad;
+    float pad2;
 };
 
 uniform vec3 playerPos;
@@ -68,7 +72,7 @@ void main ()
 				vec3 r = reflect(s, n.xyz);
 				
 				letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
-			}
+            }
 		}
 		
 		Light l;
