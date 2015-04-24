@@ -78,7 +78,7 @@ void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
 
 int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	if (chunk = 0)
+	if (chunk == 0)
 	{
 		int idX, idY;
 		map->getChunkIndex(readPos(), &idX, &idY);
