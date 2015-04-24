@@ -667,7 +667,7 @@ int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 	int visitors = 0;
 	if (enemyMan)
 	{
-		visitors = enemyMan->update(deltaTime, this, playerPos);
+		visitors = enemyMan->update(deltaTime, this, playerPos, map);
 		Enemy** visitArr = enemyMan->getVisitors();
 		for (int c = 0; c < visitors; c++)
 		{

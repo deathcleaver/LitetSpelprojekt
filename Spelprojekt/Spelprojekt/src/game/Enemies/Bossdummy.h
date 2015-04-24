@@ -18,7 +18,7 @@ public:
 		moveTo(initPos.x, initPos.y);
 		collideRect->update();
 	}
-	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+	int update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		return 0;
 	}

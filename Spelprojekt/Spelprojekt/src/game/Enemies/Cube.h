@@ -11,18 +11,17 @@ private:
 	glm::vec2 maxSpeed;
 
 	float invulnTimer;
+	bool collidesWithWorld(Map* map);
 public:
 	Cube(glm::vec2 firstPos);
 	Cube(Cube* copy);
 	void init();
-	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
+	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
 	std::string getType()
 	{
 		return "Cube";
 	}
-
-	bool collidesWithWorld(MapChunk* chunk);
 };
 
 #endif

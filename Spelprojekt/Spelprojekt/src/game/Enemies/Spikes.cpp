@@ -22,7 +22,7 @@ void Spikes::init()
 	collideRect->update();
 }
 
-int Spikes::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+int Spikes::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	return 0;
 }

@@ -1,5 +1,5 @@
 #include "Flame.h"
-#include "../mapChunk.h"
+#include "../map.h"
 
 Flame::~Flame()
 {
@@ -75,14 +75,14 @@ void Flame::init()
 	collideRect->update();
 }
 
-int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	if (!flying)
 	{
 		if (facingRight)
 		{
 			translate(1.0f, -1.0f);
-			if (!collidesWithWorld(chunk))
+			if (!collidesWithWorld(map))
 			{
 				facingRight = false;
 				translate(-1.0f, 1.0f);
@@ -91,7 +91,7 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			{
 				translate(-1.0f, 1.0f);
 				translate(speed.x*deltaTime, 0.0f);
-				if (collidesWithWorld(chunk))
+				if (collidesWithWorld(map))
 				{
 					translate(-speed.x*deltaTime, 0.0f);
 					facingRight = false;
@@ -101,7 +101,7 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		else
 		{
 			translate(-1.0f, -1.0f);
-			if (!collidesWithWorld(chunk))
+			if (!collidesWithWorld(map))
 			{
 				facingRight = true;
 				translate(1.0f, 1.0f);
@@ -110,7 +110,7 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			{
 				translate(1.0f, 1.0f);
 				translate(-speed.x*deltaTime, 0.0f);
-				if (collidesWithWorld(chunk))
+				if (collidesWithWorld(map))
 				{
 					translate(speed.x*deltaTime, 0.0f);
 					facingRight = true;
@@ -124,7 +124,7 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			translate(speed.x*deltaTime, 0);
 		else
 			translate(-speed.x*deltaTime, 0);
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			if (facingRight)
 				translate(-speed.x*deltaTime, 0);
@@ -139,7 +139,7 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			speed.y = -20.0f;
 		}
 		translate(0, speed.y*deltaTime);
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			if (speed.y > 0)
 			{
@@ -150,11 +150,11 @@ int Flame::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			{
 				translate(0, -speed.y*deltaTime);
 				translate(0, speed.y*deltaTime*0.5);
-				if (collidesWithWorld(chunk))
+				if (collidesWithWorld(map))
 				{
 					translate(0, -speed.y*deltaTime*0.5);
 					translate(0, speed.y*deltaTime*0.25);
-					if (collidesWithWorld(chunk))
+					if (collidesWithWorld(map))
 						translate(0, -speed.y*deltaTime*0.25);
 				}
 				speed.x = 2.0f;
@@ -224,8 +224,8 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 	}
 }
 
-bool Flame::collidesWithWorld(MapChunk* chunk)
+bool Flame::collidesWithWorld(Map* map)
 {
 	collideRect->update();
-	return chunk->collide(collideRect);
+	return map->collideMap(collideRect, readPos());
 }

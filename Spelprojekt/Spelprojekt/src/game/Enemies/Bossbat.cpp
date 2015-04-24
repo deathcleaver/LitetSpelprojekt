@@ -1,5 +1,6 @@
 #include "Bossbat.h"
 #include "../mapChunk.h"
+#include "../map.h"
 #include "Bat.h"
 
 Bossbat::Bossbat(glm::vec2 firstPos)
@@ -22,6 +23,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	batTimer = 0.0f;
 	charging = false;
 	chargeTimer = 4.0f;
+	chunk = 0;
 }
 
 void Bossbat::init()
@@ -74,8 +76,15 @@ void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
 	}
 }
 
-int Bossbat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
+	if (chunk = 0)
+	{
+		int idX, idY;
+		map->getChunkIndex(readPos(), &idX, &idY);
+		MapChunk** tempHolder = map->getChunks();
+		chunk = &tempHolder[idX][idY];
+	}
 	glm::vec3 pos = readPos();
 	if (pos.z < 0.0f)
 	{

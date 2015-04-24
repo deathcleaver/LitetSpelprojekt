@@ -1,5 +1,5 @@
 #include "Cube.h"
-#include "../mapChunk.h"
+#include "../map.h"
 
 Cube::Cube(glm::vec2 firstPos)
 {
@@ -49,7 +49,7 @@ void Cube::init()
 	collideRect->update();
 }
 
-int Cube::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	glm::vec3 myPos = readPos();
 	if (playerPos.x < myPos.x)
@@ -60,7 +60,7 @@ int Cube::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		if (speed.x < -maxSpeed.x && invulnTimer < FLT_EPSILON)
 			speed.x = -maxSpeed.x;
 		moveTo(myPos.x + speed.x*deltaTime, myPos.y);
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -74,7 +74,7 @@ int Cube::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 		if (speed.x > maxSpeed.x && invulnTimer < FLT_EPSILON)
 			speed.x = maxSpeed.x;
 		moveTo(myPos.x + speed.x*deltaTime, myPos.y);
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -85,7 +85,7 @@ int Cube::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	if (speed.y > maxSpeed.y)
 		speed.y = maxSpeed.y;
 	moveTo(myPos.x, myPos.y - speed.y*deltaTime);
-	if (collidesWithWorld(chunk))
+	if (collidesWithWorld(map))
 	{
 		moveTo(myPos.x, myPos.y + speed.y*deltaTime);
 		speed.y = 0;
@@ -116,8 +116,8 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 
 }
 
-bool Cube::collidesWithWorld(MapChunk* chunk)
+bool Cube::collidesWithWorld(Map* map)
 {
 	collideRect->update();
-	return chunk->collide(collideRect);
+	return map->collideMap(collideRect, readPos());
 }

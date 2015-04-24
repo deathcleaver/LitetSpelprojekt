@@ -8,13 +8,13 @@ class Bat : public Enemy
 private:
 	float movementScale;
 	float speed;
-	bool collidesWithWorld(MapChunk* chunk);
+	bool collidesWithWorld(Map* map);
 	bool slow;
 public:
 	Bat(glm::vec2 firstPos);
 	Bat(Bat* copy);
 	void init();
-	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
+	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
 	void setFacing(bool faceRight);
 	std::string getType()

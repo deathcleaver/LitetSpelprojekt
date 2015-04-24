@@ -6,6 +6,8 @@
 class Bossbat : public Enemy
 {
 private:
+	MapChunk* chunk;
+
 	float movementScale;
 	float speed;
 	bool collidesWithWorld(MapChunk* chunk);
@@ -25,7 +27,7 @@ private:
 public:
 	Bossbat(glm::vec2 firstPos);
 	void init();
-	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
+	int update(float deltaTime, Map* chunk, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
 	bool isBlinking();
 	bool isInitiated();

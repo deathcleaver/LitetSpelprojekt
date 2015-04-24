@@ -6,6 +6,9 @@
 
 #include "enemy.h"
 
+class MapChunk;
+class Map;
+
 using namespace std;
 
 class EnemyManager
@@ -28,7 +31,7 @@ public:
 	EnemyManager();
 	EnemyManager(int enemies);
 	~EnemyManager();
-	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos);
+	int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map);
 	int size(string type);
 	void init(ifstream &file, int xOffset, int yOffset);
 	void save(ofstream* out, int xOffset, int yOffset);

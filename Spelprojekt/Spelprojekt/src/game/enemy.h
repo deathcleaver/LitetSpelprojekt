@@ -10,6 +10,7 @@
 #include "gameObject.h"
 #include "rect.h"
 
+class Map;
 class MapChunk;
 
 class Enemy : public GameObject
@@ -24,7 +25,7 @@ public:
 	Rect* getRekt();
 	virtual void init() = 0;
 	virtual ~Enemy();
-	virtual int update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos) = 0;
+	virtual int update(float deltaTime, Map* map, glm::vec3 playerPos) = 0;
 	virtual void hit(int damage, bool playerRightOfEnemy) = 0;
 	virtual bool isBlinking();
 	virtual std::string getType() = 0;

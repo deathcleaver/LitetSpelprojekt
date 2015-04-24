@@ -1,5 +1,5 @@
 #include "Bat.h"
-#include "../mapChunk.h"
+#include "../map.h"
 
 Bat::Bat(glm::vec2 firstPos)
 {
@@ -50,7 +50,7 @@ void Bat::init()
 	collideRect->update();
 }
 
-int Bat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+int Bat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	glm::vec3 pos = readPos();
 
@@ -69,7 +69,7 @@ int Bat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			moveTo(pos.x + speed*deltaTime, pos.y);
 		movementScale += 1.0*deltaTime;
 
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			movementScale -= 1.0*deltaTime;
 			if (slow)
@@ -104,7 +104,7 @@ int Bat::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 			moveTo(pos.x - speed*deltaTime, pos.y);
 		movementScale -= 1.0*deltaTime;
 
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			movementScale += 1.0*deltaTime;
 			if (slow)
@@ -136,10 +136,10 @@ void Bat::hit(int damage, bool playerRightOfEnemy)
 	}
 }
 
-bool Bat::collidesWithWorld(MapChunk* chunk)
+bool Bat::collidesWithWorld(Map* map)
 {
 	collideRect->update();
-	return chunk->collide(collideRect);
+	return map->collideMap(collideRect, readPos());
 }
 
 void Bat::setFacing(bool faceRight)

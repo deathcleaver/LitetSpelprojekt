@@ -1,5 +1,6 @@
 #include "enemyManager.h"
 #include "mapChunk.h"
+#include "map.h"
 #include "Enemies/Spikes.h"
 #include "Enemies/Bat.h"
 #include "Enemies/Flame.h"
@@ -134,8 +135,9 @@ void EnemyManager::initEmpty()
 	bats = 0;
 }
 
-int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
+int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
 {
+	int idX = -1, idY = -1;
 	if (visitorHolder)
 	{
 		for (int c = 0; c < visitorsToSendOut; c++)
@@ -153,7 +155,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	{
 		if (bats[c]->isAlive())
 		{
-			msg = bats[c]->update(deltaTime, chunk, playerPos);
+			msg = bats[c]->update(deltaTime, map, playerPos);
 			pos = bats[c]->readPos();
 			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
 				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
@@ -172,7 +174,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	{
 		if (flames[c]->isAlive())
 		{
-			msg = flames[c]->update(deltaTime, chunk, playerPos);
+			msg = flames[c]->update(deltaTime, map, playerPos);
 			pos = flames[c]->readPos();
 			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
 				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
@@ -191,7 +193,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	{
 		if (cubes[c]->isAlive())
 		{
-			msg = cubes[c]->update(deltaTime, chunk, playerPos);
+			msg = cubes[c]->update(deltaTime, map, playerPos);
 			pos = cubes[c]->readPos();
 			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
 				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
@@ -210,7 +212,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 	{
 		if (boss->isAlive())
 		{
-			msg = boss->update(deltaTime, chunk, playerPos);
+			msg = boss->update(deltaTime, map, playerPos);
 		}
 	}
 	return visitorsToSendOut;
@@ -389,7 +391,7 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 	{
 		cubes[cubeCount] = new Cube((Cube*)visitor);
 		cubeCount++;
-		if (cubeCount == flameMax)
+		if (cubeCount == cubeMax)
 			expandEnemyArray(cubes, cubeMax);
 	}
 }
