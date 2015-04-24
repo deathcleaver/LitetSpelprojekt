@@ -52,6 +52,9 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(tempshaderGBuffer, shaders, shaderType, 2);
 	gBuffer.shaderPtr = &tempshaderGBuffer;
 
+	uniformFadePos = glGetUniformLocation(tempshaderGBuffer, "fade");
+	uniformFadePosGlow = glGetUniformLocation(tempshaderGBufferGlow, "fade");
+
 
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
@@ -69,6 +72,27 @@ void Engine::init(glm::mat4* viewMat)
 	
 	light = new Light[100];
 
+	fadeEffect = 0;
+
+	fadeIn = false;
+	fadeOut = false;
+}
+
+void Engine::setFadeIn()
+{
+	fadeIn = true;
+	fadeOut = false;
+}
+
+void Engine::setFadeOut()
+{
+	fadeIn = false;
+	fadeOut = true;
+}
+
+void Engine::setFade(float fadeEffect)
+{
+	this->fadeEffect = fadeEffect;
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* content, 
@@ -167,6 +191,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	lastid = -1;
 
 	//render chunk world objects
+	
 	if(renderWorld)
 		for (int n = 0; n < upDraw[0]; n++){
 			int x = n * 2 + 1;
@@ -175,6 +200,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
 					//render boxes
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+					glEnable(GL_CULL_FACE);
+					glColorMask(0, 0, 1, 1);
 					int size = chunks[upDraw[x]][upDraw[y]].Box_Objs.size();
 					for (int k = 0; k < size; k++)
 					{
@@ -184,6 +212,12 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
+					
+					
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					glDisable(GL_CULL_FACE);
+					
+					glColorMask(1, 1, 1, 1);
 
 					//render mushrooms
 					size = chunks[upDraw[x]][upDraw[y]].Mushroom_Objs.size();
@@ -417,10 +451,14 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	}
 
 	// bind default FBO and render gbuffer
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
+	glProgramUniform1f(tempshaderGBuffer, uniformFadePos, fadeEffect);
+	glProgramUniform1f(tempshaderGBufferGlow, uniformFadePosGlow, fadeEffect);
+
 	gBuffer.render(campos, gui, content, renderGUI);
     
 	if (renderGlow)
@@ -429,9 +467,23 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		gBuffer.renderGlow(campos);
 	}
 
+	// fade
+	
+
+
 	glEnable(GL_DEPTH_TEST);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (fadeIn)
+		fadeEffect += 0.01f;
+	if (fadeOut)
+		fadeEffect -= 0.01f;
+
+	if (fadeEffect > 1.0)
+		fadeIn = false;
+	if (fadeEffect < 0.0)
+		fadeOut = false;
 }
 
 

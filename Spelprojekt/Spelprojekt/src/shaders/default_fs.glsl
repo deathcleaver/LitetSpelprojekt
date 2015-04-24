@@ -8,9 +8,11 @@ layout(location = 1) out vec4 diffuseOut;
 layout(location = 2) out vec4 normalOut;
 layout(location = 3) out vec4 worldOut;
 
+out vec4 fragment_color;
+
 void main () 
 {
-    diffuseOut = texture(textureSample,vec2(UV.s, UV.t));
+    diffuseOut = vec4(texture(textureSample,vec2(UV.s, UV.t)).rgb, 1);
     worldOut = vec4(worldPos, 1);
     normalOut = vec4(normal, 1);
     

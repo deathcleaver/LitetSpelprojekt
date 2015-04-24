@@ -5,6 +5,8 @@ uniform sampler2D diffuse;
 uniform sampler2D normal;
 uniform sampler2D world;
 
+uniform float fade;
+
 out vec4 fragment_color;
 
 struct Light
@@ -97,7 +99,7 @@ void main ()
 			letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
 		
 		}
-        fragment_color = (diffuseColor * letThereBeLight);
+        fragment_color = vec4((diffuseColor * letThereBeLight).rgb, fade);
 		
 	}
 

@@ -182,6 +182,8 @@ void Game::update(float deltaTime)
 	{
 		case(MENU):
 		{
+
+					  engine->setFade(0.0f);
 					  audio->playMusic(0);
 					  audio->updateListener(player->readPos());
 			break;
@@ -312,14 +314,18 @@ void Game::buttonEvents(int buttonEv)
 	case(1) :
 		current = PLAY;
 		cameraFollow = true;
+		engine->setFadeIn();
 		break;
 	case(2) :
+		engine->setFade(1.0f);
 		current = EDIT;
 		cameraFollow = false;
 		break;
 	case(3) :
 		saveGame();
 		current = MENU;
+		engine->setFade(0.0f);
+		engine->setFadeOut();
 		break;
 	case(4) :
 		current = PLAY;
