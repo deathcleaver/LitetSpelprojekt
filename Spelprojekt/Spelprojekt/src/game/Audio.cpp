@@ -28,9 +28,13 @@ Audio::Audio()
 	}
 
 	sounds[0]->file = "../Audio/Sounds/Shrine/rune_received.wav";
-	sounds[1]->file = "../Audio/Sounds/Player/player_attack_miss.wav";
-	sounds[2]->file = "../Audio/Sounds/Player/player_resurrected.wav";
-	sounds[3]->file = "../Audio/Sounds/Bosses/Bat/boss_bat_attack.wav";
+	sounds[1]->file = "../Audio/Sounds/Player/player_resurrected.wav";
+	sounds[2]->file = "../Audio/Sounds/Player/player_attack_miss.wav";
+	sounds[3]->file = "../Audio/Sounds/Player/player_attack_fire.wav";
+	sounds[4]->file = "../Audio/Sounds/Player/player_attack_ice.wav";
+	sounds[5]->file = "../Audio/Sounds/Player/player_shield_force.wav";
+	sounds[6]->file = "../Audio/Sounds/Interface/button.wav";
+	sounds[7]->file = "../Audio/Sounds/Interface/pause.wav";
 	//...
 }
 
@@ -47,7 +51,7 @@ bool Audio::init()
 	context = alcCreateContext(device, NULL);
 	alcMakeContextCurrent(context);
 	if (!context) return endWithError("no sound context");                                    //Velocity of the musicSource sound
-	
+
 	//Listener
 	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };                                  //Position of the listener
 	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };                                  //Velocity of the listener
@@ -244,7 +248,7 @@ void Audio::playMusicFade(int track, float deltaTime)
 			alSourcePlay(music[track]->source);
 			currTrack = track;
 		}
-		else if(currTrack == track)//check if currently fading in or out
+		else if (currTrack == track)//check if currently fading in or out
 		{
 			if (music[track]->state == A_FADEOUT)
 				music[track]->state = A_FADEIN;
@@ -253,12 +257,13 @@ void Audio::playMusicFade(int track, float deltaTime)
 	else //if out of bounds
 	{
 		music[currTrack]->state = A_FADEOUT;
-		music[oldTrack]->state = A_FADEOUT;		
+		music[oldTrack]->state = A_FADEOUT;
 	}
 }
 
 void Audio::playSound(int track)
 {
+	if (track < SOUND_FILES)
 	if (sounds[track]->state == A_NOT_PLAYING)
 	{
 		sounds[track]->state = A_PLAYING;
@@ -276,7 +281,7 @@ void Audio::playSoundAtPos(int track, glm::vec2 pos, bool looping)
 		alSourcefv(sounds[track]->source, AL_POSITION, soundPos);
 		alSourcePlay(sounds[track]->source);
 	}
-	
+
 }
 
 void Audio::updateListener(glm::vec3 pos)
@@ -302,7 +307,7 @@ void Audio::stopMusic(int track)
 		music[track]->state = A_NOT_PLAYING;
 		alSourceStop(music[track]->source);
 	}
-	
+
 }
 
 int Audio::getTrack()
@@ -318,7 +323,7 @@ void Audio::shutdown()
 		alDeleteBuffers(1, &music[i]->buffer);
 		delete music[i];
 	}
-	
+
 	for (int j = 0; j < SOUND_FILES; j++)
 	{
 		alDeleteSources(1, &sounds[j]->source);

@@ -42,7 +42,7 @@ void Player::moveWeapon()
 		bonusRange = 3;
 	if (facingRight)
 	{
-		weaponMatrix[0].w = playerPos.x +0.1f + sin(3.14*attackTimer)*bonusRange;
+		weaponMatrix[0].w = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
@@ -52,7 +52,7 @@ void Player::moveWeapon()
 	}
 	else
 	{
-		weaponMatrix[0].w = playerPos.x -0.1f - sin(3.14*attackTimer)*bonusRange;
+		weaponMatrix[0].w = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
@@ -279,7 +279,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 			}
 			else if (pos.x > chunkMid.x + 17.5f)
 			{
-				moveTo(pos.x -0.4, pos.y);
+				moveTo(pos.x - 0.4, pos.y);
 				speed.x = -speed.x;
 			}
 			if (pos.y < chunkMid.y - 17.5f)
@@ -446,7 +446,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
-					audio->playSound(2); //player_attack_miss
+					audio->playSound(1); //player_resurrected
 				}
 			}
 		}
@@ -458,6 +458,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 				runeEffect->posX = playerPos.x;
 				runeEffect->posY = playerPos.y;
 				runeEffect->posZ = playerPos.z;
+				audio->playSound(5); //player_shield_force
 			}
 			invulnTimer -= 1.0f*deltaTime;
 			if (flinchTimer > FLT_EPSILON)
@@ -472,9 +473,14 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
-		audio->playSound(1); //player_attack_miss
+		if (currentRune == SPARK)
+			audio->playSound(4);
+		else if (currentRune == FLAME)
+			audio->playSound(3); //player_attack_fire
+		else
+			audio->playSound(2); //player_attack_miss
 	}
-	
+
 	if (isAttacking)
 	{
 		if (currentRune == MiscID::rune_damage || currentRune == MiscID::rune_range)
@@ -503,6 +509,7 @@ bool Player::isBossFighting()
 
 void Player::respawn(Map* map)
 {
+	map->playerDiedSoRespawnEnemies();
 	if (runeEffect)
 	{
 		delete runeEffect;
@@ -522,14 +529,13 @@ void Player::respawn(Map* map)
 	{
 		moveTo(0, 2);
 	}
-	map->playerDiedSoRespawnEnemies();
 }
 
 bool Player::isBlinking() const
 {
 	if (invulnTimer > 0.0f && !god)
 	{
-		int check = int(invulnTimer*10);
+		int check = int(invulnTimer * 10);
 		if (check % 3)
 		{
 			return true;

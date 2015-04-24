@@ -14,6 +14,7 @@ private:
 	Enemy** flames; int flameCount, flameMax;
 	Enemy** bats; int batCount, batMax;
 	Enemy** spikes; int spikeCount, spikeMax;
+	Enemy** cubes; int cubeCount, cubeMax;
 
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);

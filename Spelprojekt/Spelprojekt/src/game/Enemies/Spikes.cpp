@@ -30,8 +30,3 @@ int Spikes::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos)
 void Spikes::hit(int damage, bool playerRightOfEnemy)
 {
 }
-
-string Spikes::isBoss()
-{
-	return "ChuckTesta";
-}

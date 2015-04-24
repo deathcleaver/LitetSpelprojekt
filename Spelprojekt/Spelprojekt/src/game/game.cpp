@@ -256,6 +256,7 @@ void Game::update(float deltaTime)
 			if (in->getESC())
 			{
 				//save player progression
+				audio->playSound(7); //pause
 				current = PAUSE;
 			}
 			break;
@@ -313,22 +314,27 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(1) :
 		current = PLAY;
+		audio->playSound(6); //button
 		cameraFollow = true;
 		engine->setFadeIn();
 		break;
 	case(2) :
 		engine->setFade(1.0f);
 		current = EDIT;
+		audio->playSound(6); //button
 		cameraFollow = false;
 		break;
 	case(3) :
 		saveGame();
 		current = MENU;
+		audio->playSound(6); //button
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
 	case(4) :
 		current = PLAY;
+		audio->playSound(6); //button
+		engine->setFadeIn();
 		cameraFollow = true;
 		player->setProgress(playerProgress);
 		player->moveTo(start->returnThis()->readPos());

@@ -733,6 +733,20 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("Cube");
+	nrOfEnemies = enemyMan->size("Cube");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->readPos();
+			}
+		}
+	}
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{
@@ -791,6 +805,25 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	}
 	enemies = enemyMan->getEnemies("Spikes");
 	nrOfEnemies = enemyMan->size("Spikes");
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->readPos().x)
+						enemies[c]->hit(damage, false);
+					else
+						enemies[c]->hit(damage, true);
+				}
+			}
+		}
+	}
+	enemies = enemyMan->getEnemies("Cube");
+	nrOfEnemies = enemyMan->size("Cube");
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
 		if (enemies[c]->isAlive())
