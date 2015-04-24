@@ -297,7 +297,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 					glColorMask(0, 0, 1, 1);
-					//glEnable(GL_CULL_FACE);
+					glEnable(GL_CULL_FACE);
 					size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
 					for (int i = 0; i < size; i++)
 					{
@@ -312,7 +312,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 					}
 					glColorMask(1, 1, 1, 1);
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-					//glDisable(GL_CULL_FACE);
+					glDisable(GL_CULL_FACE);
 
 					//Rendering the boss
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
