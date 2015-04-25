@@ -238,6 +238,31 @@ void GameObject::translateSNAP(float x, float y, float z)
 
 }
 
+void GameObject::translateSNAPXY(float x, float y)
+{
+	if (posXfloatsave < -99900.0f)
+		posXfloatsave = worldMat[0].w;
+	if (posYfloatsave < -99900.0f)
+		posYfloatsave = worldMat[1].w;
+
+	posXfloatsave += x;
+	posYfloatsave += y;
+
+	worldMat[0].w = (int)posXfloatsave;
+	worldMat[1].w = (int)posYfloatsave;
+}
+
+void GameObject::translateSNAPZ(float z)
+{
+	if (posZfloatsave < -99900.0f)
+		posZfloatsave = worldMat[2].w;
+
+	posZfloatsave += z;
+
+	worldMat[2].w = (int)posZfloatsave;
+
+}
+
 void GameObject::moveTo(glm::vec3 target)
 {
 	worldMat[0].w = target.x;

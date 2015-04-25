@@ -92,13 +92,13 @@ private:
 	GameObject takenCopy;
 	bool itemtaken = false;
 	void itemTableClick();
-
 public:
 
 	Edit(){};
 	~Edit();
 	void init(Map* map, UserInput* in);
 	void update(float x, float y, GUI* gui);
+	void refreshOnEnter();
 	void guiHandle(int bEvent);
 	EditMode getEditMode();
 	GameObject* getObject();

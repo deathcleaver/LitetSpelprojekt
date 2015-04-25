@@ -317,16 +317,19 @@ void Game::buttonEvents(int buttonEv)
 		audio->playSound(6); //button
 		cameraFollow = true;
 		engine->setFadeIn();
+		in->resetZoomViewDir();
 		break;
 	case(2) :
 		engine->setFade(1.0f);
 		current = EDIT;
+		edit->refreshOnEnter();
 		audio->playSound(6); //button
 		cameraFollow = false;
 		break;
 	case(3) :
 		saveGame();
 		current = MENU;
+		edit->refreshOnEnter();
 		audio->playSound(6); //button
 		engine->setFade(0.0f);
 		engine->setFadeOut();
