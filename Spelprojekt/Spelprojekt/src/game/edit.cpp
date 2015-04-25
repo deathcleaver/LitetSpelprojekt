@@ -19,6 +19,13 @@ void Edit::init(Map* map, UserInput* in)
 	lastPlaced = 0;
 }
 
+void Edit::refreshOnEnter()
+{
+	editMode = NONEM;
+	editState = NONES;
+	editStateLast = NONES;
+}
+
 void Edit::update(float x, float y, GUI* gui)
 {
 	if (editMode != NONEM)
@@ -168,6 +175,8 @@ void Edit::EditorState()
 			if (current)
 			{
 				PlaceEditorState(x, y);
+				if (in->getEreleased())
+					giveObjectToChunk();
 			}
 		}
 	}
@@ -176,11 +185,10 @@ void Edit::EditorState()
 		//grab item
 		if (in->getLMBrelease())
 		{
-			discard();
-			editContentID = -1;
-
 			if (y < 560)
 			{
+				discard();
+				editContentID = -1;
 				itemtaken = true;
 				current = chunks[chunkXCam][chunkYCam].takeClosestWorldItem(*in->GetPos());
 				if (current) // if null wasnt returend
@@ -235,33 +243,21 @@ void Edit::HoldNewItem()
 
 void Edit::PlaceEditorState(float x, float y)
 {
-	bool inHud = false;
-	if (y > 560)
-		inHud = true;
-	//convert mouse x, y to world
-	mouseToWorld(&x, &y);
-
-	//get current chunk index edit
-	map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
-	map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
-
-	if (chunkXCam == -1 || chunkXMouse == -1)
-		return;
-
-	if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse && !inHud)
+	if (y < 560)
 	{
-		switch (editState)
+		//convert mouse x, y to world
+		mouseToWorld(&x, &y);
+
+		//get current chunk index edit
+		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
+		map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
+
+		if (chunkXCam == -1 || chunkXMouse == -1)
+			return;
+
+		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse)
 		{
-		case PLACE:
 			placeObject(x, y);
-			if (current)
-				if (in->getEreleased())
-					giveObjectToChunk();
-			break;
-		case CHANGE:
-			break;
-		case NONES:
-			break;
 		}
 	}
 }
@@ -304,14 +300,14 @@ void Edit::placeObject(float x, float y)
 			if (internalPlaceState == 0)
 			{
 				if (in->getKeyState('Q'))
-					current->translateSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+					current->translateSNAPXY(x - lastMousePosX, y - lastMousePosY);
 				else
 					current->translateEDITOR(x - lastMousePosX, y - lastMousePosY, 0);
 			}
 			else if (internalPlaceState == 1)
 			{
 				if (in->getKeyState('Q'))
-					current->translateSNAP(0, 0, y - lastMousePosY);
+					current->translateSNAPZ(y - lastMousePosY);
 				else
 					current->translateEDITOR(0, 0, y - lastMousePosY);
 			}

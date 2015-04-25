@@ -51,6 +51,8 @@ public:
 	void scaleSNAP(float x, float y, float z);
 	void scaleFactorADsnap(float x, float y, float z);
 	void translateSNAP(float x, float y, float z);
+	void translateSNAPXY(float x, float y);
+	void translateSNAPZ(float z);
 	void translateEDITOR(float x, float y, float z);
 
 	virtual int update(float deltaTime);
