@@ -38,7 +38,7 @@ struct RuneLights
 		sparkRune.b = 0.7f;
 
 		sparkRune.intensity = 3.0f;
-		sparkRune.distance = 5.0f;
+		sparkRune.distance = 4.0f;
 		sparkRune.volume = 1;
 
 		forceRune.posX = 0.0f;
