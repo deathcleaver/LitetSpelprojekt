@@ -4,10 +4,6 @@ Edit::~Edit()
 {
 	delete current;
 	delete currentLight;
-	if (lastPlaced)
-		delete lastPlaced;
-	if (lastPlacedLight)
-		delete lastPlacedLight;
 }
 
 void Edit::init(Map* map, UserInput* in)
@@ -21,7 +17,6 @@ void Edit::init(Map* map, UserInput* in)
 	lastMousePosX = 0;
 	lastMousePosY = 0;
 	current = 0;
-	lastPlaced = 0;
 }
 
 void Edit::refreshOnEnter()
@@ -60,6 +55,8 @@ void Edit::EditorMode()
 		internalPlaceState = 0;
 		editContentID = -1;
 		discard();
+		itemtaken = false;
+		itemPlaced = false;
 	}
 	
 	switch (editMode)
@@ -195,6 +192,7 @@ void Edit::EditorState()
 				discard();
 				editContentID = -1;
 				itemtaken = true;
+				itemPlaced = false;
 				if (editMode == EditMode::LIGHT)
 				{
 					currentLight = chunks[chunkXCam][chunkYCam].takeClosestLight(*in->GetPos());
@@ -249,23 +247,23 @@ void Edit::HoldNewItem()
 				current->coppyMat(&takenCopy);
 			}
 		}
-		else if(lastPlaced && editMode != EditMode::LIGHT)
+		else if (itemPlaced && editMode != EditMode::LIGHT)
 		{
 			current = new GameObject();
-			current->init(lastPlaced->returnID());
-			current->coppyMat(lastPlaced);
+			current->init(lastPlaced.returnID());
+			current->coppyMat(&lastPlaced);
 		}
-		else if (lastPlacedLight && editMode == EditMode::LIGHT)
+		else if (itemPlaced && editMode == EditMode::LIGHT)
 		{
-			currentLight = new Light;
-			*currentLight = *lastPlacedLight;
+			currentLight = new Light();
+			*currentLight = lastPlacedLight;
 		}
 	}
 	else
 	{	
 		if (editMode == EditMode::LIGHT)
 		{
-			currentLight = new Light;
+			currentLight = new Light();
 			currentLight->init(in->GetPos()->x, in->GetPos()->y);
 		}
 		else
@@ -456,9 +454,10 @@ void Edit::giveObjectToChunk()
 		break;
 	case WORLD:
 		chunks[chunkXCam][chunkYCam].recieveWorld(current);
-		lastPlaced = current;
+		lastPlaced = *current;
 		current = 0;
 		newItem = true;
+		itemPlaced = true;
 		itemtaken = false;
 		break;
 	case MONSTER:
@@ -466,14 +465,13 @@ void Edit::giveObjectToChunk()
 	case REKT:
 		break;
 	case LIGHT:
-		delete lastPlacedLight;
 		chunks[chunkXCam][chunkYCam].recieveLight(currentLight);
-		lastPlacedLight = new Light();
-		*lastPlacedLight = *currentLight;
+		lastPlacedLight = *currentLight;
 		discard();
 		currentLight = 0;
 		newItem = true;
 		itemtaken = false;
+		itemPlaced = true;
 		break;
 	}
 }
