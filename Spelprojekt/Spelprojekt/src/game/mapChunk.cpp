@@ -1032,17 +1032,26 @@ void MapChunk::recieveLight(Light* item)
 {
 	if (item)
 	{
-		Light* lightsTemp;
-		lightsTemp = lights;
-		lights = new Light[nrOfLights + 1];
-		
-		for (int n = 0; n < nrOfLights; n++)
+		if (nrOfLights <= 0)
 		{
-			lights[n] = lightsTemp[n];
+			lights = new Light[1];
+			lights[0] = *item;
+			nrOfLights++;
 		}
-		delete[] lightsTemp;
+		else
+		{
+			Light* lightsTemp;
+			lightsTemp = lights;
+			lights = new Light[nrOfLights + 1];
 
-		lights[nrOfLights] = *item;
-		nrOfLights++;
+			for (int n = 0; n < nrOfLights; n++)
+			{
+				lights[n] = lightsTemp[n];
+			}
+			delete[] lightsTemp;
+
+			lights[nrOfLights] = *item;
+			nrOfLights++;
+		}
 	}
 }
