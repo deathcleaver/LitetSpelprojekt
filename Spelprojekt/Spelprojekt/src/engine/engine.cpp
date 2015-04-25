@@ -141,8 +141,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	
 	glDisable(GL_DEPTH_TEST);
 
-	//renderRekts();
-
+	if(edit->getEditMode() == 1) //editmode rekt
+	renderRekts();
 
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
