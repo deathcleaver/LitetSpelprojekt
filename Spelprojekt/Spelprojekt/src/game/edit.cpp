@@ -26,17 +26,17 @@ void Edit::update(float x, float y, GUI* gui)
 		EditorMode();
 	}
 
-	editModeLast = editMode;
-	editStateLast = editState;
-	placeStateLast = placeState;
-
-	if (editState != EditState::NONES)
+	if (editState != editStateLast)
 	{
 		if (editState == EditState::CHANGE)
 			gui->fixEditorSwitches(false, true);
 		else if (editState == EditState::PLACE)
 			gui->fixEditorSwitches(true, false);
 	}
+
+	editModeLast = editMode;
+	editStateLast = editState;
+	placeStateLast = placeState;
 }
 
 void Edit::EditorMode()
