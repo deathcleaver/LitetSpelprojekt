@@ -5,7 +5,7 @@ void Player::init()
 {
 	MAX_HP = HP = 3;
 	DMG = 1;
-	moveTo(0, 2);
+	moveTo(76, -8);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
 	speed = vec2(0);
