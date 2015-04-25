@@ -12,6 +12,7 @@ private:
 
 	float invulnTimer;
 	bool collidesWithWorld(Map* map);
+	float jumpTimer;
 public:
 	Cube(glm::vec2 firstPos);
 	Cube(Cube* copy);

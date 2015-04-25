@@ -17,11 +17,11 @@ Cube::Cube(glm::vec2 firstPos)
 	maxSpeed = glm::vec2(12, 30);
 	acc = 0.3f;
 	invulnTimer = 0.0f;
+	jumpTimer = 0.0f;
 }
 
 Cube::Cube(Cube* copy)
 {
-	//scaleFactor(1.8, 1.8, 1.8);
 	visitor = copy->visitor;
 	worldMat = copy->worldMat;
 	glm::vec3 copyPos = copy->readPos();
@@ -64,6 +64,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
+			jumpTimer += 1.0*deltaTime;
 		}
 	}
 	else if (playerPos.x > myPos.x)
@@ -78,6 +79,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
+			jumpTimer += 1.0*deltaTime;
 		}
 	}
 	myPos = readPos();
@@ -90,6 +92,13 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		moveTo(myPos.x, myPos.y + speed.y*deltaTime);
 		speed.y = 0;
 	}
+
+	if (jumpTimer > 1.0f)
+	{
+		speed.y -= 20.0f;
+		jumpTimer = 0.0f;
+	}
+
 	if (invulnTimer > FLT_EPSILON)
 	{
 		invulnTimer -= 1.0f*deltaTime;
