@@ -37,6 +37,7 @@ public:
 	int GUI::bindIndex(int index) const;
 	ScreenItem** getItems() const;
 	void MouseToScreenSpace(float* x, float* y);
+	void fixEditorSwitches(bool place, bool change);
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include "map.h"
 #include "mapChunk.h"
 #include "../UserInput.h"
+#include "../GUI.h"
 
 class Edit
 {
@@ -88,17 +89,16 @@ private:
 	void placeObject(float x, float y);
 	void giveObjectToChunk();
 	void takeItem();
+	GameObject takenCopy;
 	bool itemtaken = false;
 	void itemTableClick();
 
 public:
 
-	
-
 	Edit(){};
 	~Edit();
 	void init(Map* map, UserInput* in);
-	void update(float x, float y);
+	void update(float x, float y, GUI* gui);
 	void guiHandle(int bEvent);
 	EditMode getEditMode();
 	GameObject* getObject();

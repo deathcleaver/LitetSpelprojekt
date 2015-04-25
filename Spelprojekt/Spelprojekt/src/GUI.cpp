@@ -269,3 +269,11 @@ void GUI::modeSwitchesFalse()
 		items[n]->setActive(false);
 	}
 }
+
+void GUI::fixEditorSwitches(bool place, bool change)
+{
+	// 9 place
+	items[9]->setActive(place);
+	//10 change
+	items[10]->setActive(change);
+}

@@ -268,7 +268,7 @@ void Game::update(float deltaTime)
 		case(EDIT):
 		{
 			map->setUpDraw3x2(*in->GetPos());
-			edit->update(lastX, lastY);
+			edit->update(lastX, lastY, gui);
 			if (in->getESC())
 			{
 				//save map

@@ -76,7 +76,8 @@ public:
 	string getBossType();
 
 	void recieveWorld(GameObject* item);
-	void recieveMonster(GameObject* item, bool visitor);
+	GameObject* takeClosestWorldItem(glm::vec3 pos);
+	void recieveMonster(GameObject* item);
 	void recieveBackObj(GameObject* item);
 	void recieveLightObj(GameObject* item);
 	void recieveSpecial(GameObject* item);

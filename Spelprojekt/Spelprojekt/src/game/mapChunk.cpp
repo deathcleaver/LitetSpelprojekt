@@ -973,6 +973,36 @@ void MapChunk::recieveWorld(GameObject* item)
 	gameObjects[item->returnID()].push_back(item);
 }
 
+GameObject* MapChunk::takeClosestWorldItem(glm::vec3 pos)
+{
+	GameObject* found = 0;
+	float minDist = 999999;
+	int type = 0;
+	int index = 0;
+	for (int n = 0; n < WorldID::world_count; n++)
+	{
+		for (int k = 0; k < gameObjects[n].size(); k++)
+		{
+			//compare
+			float len = glm::length(gameObjects[n][k]->readPos() - pos);
+			if (len < minDist)
+			{
+				found = gameObjects[n][k];
+				minDist = len;
+				type = n;
+				index = k;
+			}
+		}
+	}
+	if (found) //remove item from chunk, fill it's pos with the last item in list
+	{
+		int last = gameObjects[type].size() - 1;
+		gameObjects[type][index] = gameObjects[type][last];
+		gameObjects[type].pop_back();
+	}
+	return found;
+}
+
 void MapChunk::addVisitor(Enemy* visitor, string type)
 {
 	enemyMan->addOutsider(visitor, type);

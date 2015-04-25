@@ -19,7 +19,7 @@ void Edit::init(Map* map, UserInput* in)
 	lastPlaced = 0;
 }
 
-void Edit::update(float x, float y)
+void Edit::update(float x, float y, GUI* gui)
 {
 	if (editMode != NONEM)
 	{
@@ -29,6 +29,14 @@ void Edit::update(float x, float y)
 	editModeLast = editMode;
 	editStateLast = editState;
 	placeStateLast = placeState;
+
+	if (editState != EditState::NONES)
+	{
+		if (editState == EditState::CHANGE)
+			gui->fixEditorSwitches(false, true);
+		else if (editState == EditState::PLACE)
+			gui->fixEditorSwitches(true, false);
+	}
 }
 
 void Edit::EditorMode()
@@ -73,8 +81,10 @@ void Edit::itemTableClick()
 		bool l, r;
 		in->getMouseState(&x, &y, &r, &l);
 
-		if (x > 247 && x < 596 && y > 596 && y < 717)
+		if (x > 247 && x < 535 && y > 596 && y < 717)
 		{
+			itemtaken = false;
+
 			int indexX = (x - 247) / 24;
 			int indexY = (y - 596) / 24;
 
@@ -129,7 +139,7 @@ void Edit::RektEdit()
 void Edit::EditorState()
 {
 	//if edit state was changed
-	if (editState != editStateLast)
+	if (editState == EditState::CHANGE && editStateLast != EditState::CHANGE)
 	{
 		discard();
 		editContentID = -1;
@@ -145,9 +155,9 @@ void Edit::EditorState()
 	{
 		if(editContentID != -1)
 		{
-			if (in->getKeyNumberState(0))
+			if (in->getKeyNumberState(5))
 				newItem = true;
-			if (in->getKeyNumberState(9))
+			if (in->getKeyNumberState(6))
 			{
 				newItem = true;
 				coppyLast = true;
@@ -164,24 +174,32 @@ void Edit::EditorState()
 	else if (editState == EditState::CHANGE)
 	{
 		//grab item
-		if (in->getLMBdown())
+		if (in->getLMBrelease())
 		{
-			
+			discard();
+			editContentID = -1;
+
+			if (y < 560)
+			{
+				itemtaken = true;
+				current = chunks[chunkXCam][chunkYCam].takeClosestWorldItem(*in->GetPos());
+				if (current) // if null wasnt returend
+				{
+					editContentID = current->returnID();
+					takenCopy.init(editContentID);
+					takenCopy.coppyMat(current);
+				}
+				if (!in->getKeyState('Q')) //change into place mode
+				{
+					editState = EditState::PLACE;
+				}
+			}
 		}
 	}
 }
 
 void Edit::HoldNewItem()
 {
-	bool useOld = false;
-	glm::vec3 pos;
-	//init new at currentposs if possible
-	//if (current)
-	//{
-	//	useOld = true;
-	//	pos = current->readPos();
-	//	discard();
-	//}
 	discard();
 
 	internalPlaceState = 0;
@@ -191,7 +209,13 @@ void Edit::HoldNewItem()
 	if (coppyLast)
 	{
 		coppyLast = false;
-		if (lastPlaced)
+		if (itemtaken)
+		{
+			current = new GameObject();
+			current->init(takenCopy.returnID());
+			current->coppyMat(&takenCopy);
+		}
+		else if(lastPlaced)
 		{
 			current = new GameObject();
 			current->init(lastPlaced->returnID());
