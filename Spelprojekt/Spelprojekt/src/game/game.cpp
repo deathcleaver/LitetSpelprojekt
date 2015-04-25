@@ -231,7 +231,11 @@ void Game::update(float deltaTime)
 			{
 				inBossRoom = false;
 				if (player->isBossFighting())
+				{
 					player->dingDongTheBossIsDead("No boss at all");
+					audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
+				}
+					
 			}
 			else if (mapMsg == 1)
 			{
@@ -246,6 +250,8 @@ void Game::update(float deltaTime)
 					std::string boss = map->getBoss(pPos, false);
 					player->dingDongTheBossIsDead(boss);
 				}
+				audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
+				audio->playSound(8);
 			}
 			else if (mapMsg == 5)
 			{
