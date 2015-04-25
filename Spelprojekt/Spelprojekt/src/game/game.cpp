@@ -250,6 +250,8 @@ void Game::update(float deltaTime)
 					std::string boss = map->getBoss(pPos, false);
 					player->dingDongTheBossIsDead(boss);
 				}
+				audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
+				audio->playSound(8);
 			}
 			else if (mapMsg == 5)
 			{

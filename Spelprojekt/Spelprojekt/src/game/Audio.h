@@ -15,9 +15,9 @@
 #define A_FADEOUT 4
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
-#define VOLUME_MAX 1.0f // goes from 0.0 to 1.0
+#define VOLUME_MAX 0.5f // goes from 0.0 to 1.0
 #define MUSIC_FILES 3
-#define SOUND_FILES 8
+#define SOUND_FILES 9
 
 class Audio
 {
