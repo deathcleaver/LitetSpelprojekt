@@ -450,6 +450,7 @@ void Edit::giveObjectToChunk()
 	case LIGHT:
 		chunks[chunkXCam][chunkYCam].recieveLight(currentLight);
 		lastPlacedLight = currentLight;
+		discard();
 		currentLight = 0;
 		newItem = true;
 		break;
