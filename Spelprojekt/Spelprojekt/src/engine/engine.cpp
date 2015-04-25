@@ -137,7 +137,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	renderEditObject(edit);
 
-	bindLights(player);
+	bindLights(player, edit);
 	
 	glDisable(GL_DEPTH_TEST);
 
@@ -341,7 +341,7 @@ void Engine::renderEnemies()
 	lastid = -1;
 }
 
-void Engine::bindLights(const Player* player)
+void Engine::bindLights(const Player* player, Edit* edit)
 {
 	// bind chunk lights
 	Light* chunkLights = 0;
@@ -414,6 +414,26 @@ void Engine::bindLights(const Player* player)
 		light[nrOfLights].distance = runeEffect->distance;
 		light[nrOfLights].volume = runeEffect->volume;
 		nrOfLights++;
+	}
+
+	if (edit->getEditMode() == 2) //light editmode
+	{
+		Light* temp = edit->getLight();
+		if (temp)
+		{
+			light[nrOfLights].posX = temp->posX;
+			light[nrOfLights].posY = temp->posY;
+			light[nrOfLights].posZ = temp->posZ;
+
+			light[nrOfLights].r = temp->r;
+			light[nrOfLights].g = temp->g;
+			light[nrOfLights].b = temp->b;
+
+			light[nrOfLights].intensity = temp->intensity;
+			light[nrOfLights].distance = temp->distance;
+			light[nrOfLights].volume = temp->volume;
+			nrOfLights++;
+		}
 	}
 
 	gBuffer.pushLights(light, nrOfLights);

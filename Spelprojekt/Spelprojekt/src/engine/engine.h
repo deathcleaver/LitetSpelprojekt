@@ -57,7 +57,7 @@ private:
 	void renderWorld();
 	void renderMisc();
 	void renderEnemies();
-	void bindLights(const Player*);
+	void bindLights(const Player*, Edit* edit);
 	void renderRekts();
 	void renderEditObject(Edit*);
 
