@@ -442,6 +442,7 @@ void Edit::giveObjectToChunk()
 		lastPlaced = current;
 		current = 0;
 		newItem = true;
+		itemtaken = false;
 		break;
 	case MONSTER:
 		break;
@@ -453,6 +454,7 @@ void Edit::giveObjectToChunk()
 		discard();
 		currentLight = 0;
 		newItem = true;
+		itemtaken = false;
 		break;
 	}
 }
