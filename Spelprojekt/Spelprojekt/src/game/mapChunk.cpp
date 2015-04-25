@@ -1055,3 +1055,39 @@ void MapChunk::recieveLight(Light* item)
 		}
 	}
 }
+
+Light* MapChunk::takeClosestLight(glm::vec3 pos)
+{
+	if (nrOfLights > 0)
+	{
+		Light* found = new Light();
+		float minDist = 999999;
+		int index = 0;
+		
+		for (int n = 0; n < nrOfLights; n++)
+		{
+			glm::vec3 dist = glm::vec3(lights[n].posX, lights[n].posY, lights[n].posZ);
+			float distance = glm::length(dist - pos);
+			if (distance < minDist)
+			{
+				minDist = distance;
+				index = n;
+			}
+		}
+		*found = lights[index];
+
+		lights[index] = lights[nrOfLights - 1];
+
+		Light* temp = lights;
+		lights = new Light[nrOfLights - 1];
+		nrOfLights--;
+		for (int n = 0; n < nrOfLights; n++)
+		{
+			lights[n] = temp[n];
+		}
+		delete[] temp;
+		return found;
+	}
+	else 
+		return 0;
+}

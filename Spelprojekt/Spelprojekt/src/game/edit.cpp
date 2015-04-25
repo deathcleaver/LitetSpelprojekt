@@ -4,6 +4,10 @@ Edit::~Edit()
 {
 	delete current;
 	delete currentLight;
+	if (lastPlaced)
+		delete lastPlaced;
+	if (lastPlacedLight)
+		delete lastPlacedLight;
 }
 
 void Edit::init(Map* map, UserInput* in)
@@ -191,12 +195,25 @@ void Edit::EditorState()
 				discard();
 				editContentID = -1;
 				itemtaken = true;
-				current = chunks[chunkXCam][chunkYCam].takeClosestWorldItem(*in->GetPos());
-				if (current) // if null wasnt returend
+				if (editMode == EditMode::LIGHT)
 				{
-					editContentID = current->returnID();
-					takenCopy.init(editContentID);
-					takenCopy.coppyMat(current);
+					currentLight = chunks[chunkXCam][chunkYCam].takeClosestLight(*in->GetPos());
+					if(currentLight)
+						takenCopyLight = *currentLight;
+					else
+						itemtaken = false;
+				}
+				else
+				{
+					current = chunks[chunkXCam][chunkYCam].takeClosestWorldItem(*in->GetPos());
+					if (current) // if null wasnt returend
+					{
+						editContentID = current->returnID();
+						takenCopy.init(editContentID);
+						takenCopy.coppyMat(current);
+					}
+					else
+						itemtaken = false;
 				}
 				if (!in->getKeyState('Q')) //change into place mode
 				{
@@ -449,8 +466,10 @@ void Edit::giveObjectToChunk()
 	case REKT:
 		break;
 	case LIGHT:
+		delete lastPlacedLight;
 		chunks[chunkXCam][chunkYCam].recieveLight(currentLight);
-		lastPlacedLight = currentLight;
+		lastPlacedLight = new Light();
+		*lastPlacedLight = *currentLight;
 		discard();
 		currentLight = 0;
 		newItem = true;
@@ -557,4 +576,11 @@ void Edit::invalidID()
 Light* Edit::getLight()
 {
 	return currentLight;
+}
+
+bool Edit::isMovingLights()
+{
+	if (editMode == EditMode::LIGHT && editState == EditState::CHANGE)
+		return true;
+	return false;
 }

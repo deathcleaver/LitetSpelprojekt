@@ -80,7 +80,7 @@ private:
 
 	void LightEdit();
 	Light* currentLight = 0;
-	Light* lastPlacedLight = 0;
+	Light* lastPlacedLight;
 	Light takenCopyLight;
 
 	void EditID();
@@ -110,6 +110,7 @@ public:
 	GameObject* getObject();
 	Light* getLight();
 	void invalidID();
+	bool isMovingLights();
 };
 
 #endif

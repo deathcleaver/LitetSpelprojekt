@@ -347,58 +347,121 @@ void Engine::bindLights(const Player* player, Edit* edit)
 	Light* chunkLights = 0;
 	int lightSize = 0;
 	int nrOfLights = 0;
-	for (int n = 0; n < upDraw[0]; n++)
+	
+	//If moving lights in the editor, force glow
+	if (edit->isMovingLights())
 	{
-		int x = n * 2 + 1;
-		int y = x + 1;
-		if (upDraw[x] > -1 && upDraw[x] < width)
-			if (upDraw[y] > -1 && upDraw[y] < height)
-			{
-				chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
-				if (lightSize > 0)
+		for (int n = 0; n < upDraw[0]; n++)
+		{
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
-					for (int c = 0; c < lightSize; c++)
+					chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
+					if (lightSize > 0)
 					{
-						light[nrOfLights + c].posX = chunkLights[c].posX;
-						light[nrOfLights + c].posY = chunkLights[c].posY;
-						light[nrOfLights + c].posZ = chunkLights[c].posZ;
+						for (int c = 0; c < lightSize; c++)
+						{
+							light[nrOfLights + c].posX = chunkLights[c].posX;
+							light[nrOfLights + c].posY = chunkLights[c].posY;
+							light[nrOfLights + c].posZ = chunkLights[c].posZ;
 
 
-						light[nrOfLights + c].r = chunkLights[c].r;
-						light[nrOfLights + c].g = chunkLights[c].g;
-						light[nrOfLights + c].b = chunkLights[c].b;
+							light[nrOfLights + c].r = chunkLights[c].r;
+							light[nrOfLights + c].g = chunkLights[c].g;
+							light[nrOfLights + c].b = chunkLights[c].b;
 
-						light[nrOfLights + c].intensity = chunkLights[c].intensity;
-						light[nrOfLights + c].distance = chunkLights[c].distance;
-						light[nrOfLights + c].volume = chunkLights[c].volume;
+							light[nrOfLights + c].intensity = chunkLights[c].intensity;
+							light[nrOfLights + c].distance = chunkLights[c].distance;
+							light[nrOfLights + c].volume = 1;
+						}
+						nrOfLights += lightSize;
+					}
+					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
+					lightSize = 0;
+					for (int c = 0; c < flameCount; c++)
+					{
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
+						if (temp)
+						{
+
+							light[nrOfLights + lightSize].posX = temp->posX;
+							light[nrOfLights + lightSize].posY = temp->posY;
+							light[nrOfLights + lightSize].posZ = temp->posZ;
+
+							light[nrOfLights + lightSize].r = temp->r;
+							light[nrOfLights + lightSize].g = temp->g;
+							light[nrOfLights + lightSize].b = temp->b;
+
+							light[nrOfLights + lightSize].intensity = temp->intensity;
+							light[nrOfLights + lightSize].distance = temp->distance;
+							light[nrOfLights + c].volume = 0;
+							lightSize++;
+						}
 					}
 					nrOfLights += lightSize;
 				}
-				int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
-				lightSize = 0;
-				for (int c = 0; c < flameCount; c++)
-				{
-					Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
-					if (temp)
-					{
-
-						light[nrOfLights + lightSize].posX = temp->posX;
-						light[nrOfLights + lightSize].posY = temp->posY;
-						light[nrOfLights + lightSize].posZ = temp->posZ;
-
-						light[nrOfLights + lightSize].r = temp->r;
-						light[nrOfLights + lightSize].g = temp->g;
-						light[nrOfLights + lightSize].b = temp->b;
-
-						light[nrOfLights + lightSize].intensity = temp->intensity;
-						light[nrOfLights + lightSize].distance = temp->distance;
-						light[nrOfLights + c].volume = temp->volume;
-						lightSize++;
-					}
-				}
-				nrOfLights += lightSize;
-			}
+		}
 	}
+	else // if editor is not moving lights
+	{
+		for (int n = 0; n < upDraw[0]; n++)
+		{
+			int x = n * 2 + 1;
+			int y = x + 1;
+			if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
+				{
+					chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
+					if (lightSize > 0)
+					{
+						for (int c = 0; c < lightSize; c++)
+						{
+							light[nrOfLights + c].posX = chunkLights[c].posX;
+							light[nrOfLights + c].posY = chunkLights[c].posY;
+							light[nrOfLights + c].posZ = chunkLights[c].posZ;
+
+
+							light[nrOfLights + c].r = chunkLights[c].r;
+							light[nrOfLights + c].g = chunkLights[c].g;
+							light[nrOfLights + c].b = chunkLights[c].b;
+
+							light[nrOfLights + c].intensity = chunkLights[c].intensity;
+							light[nrOfLights + c].distance = chunkLights[c].distance;
+							light[nrOfLights + c].volume = chunkLights[c].volume;
+						}
+						nrOfLights += lightSize;
+					}
+					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
+					lightSize = 0;
+					for (int c = 0; c < flameCount; c++)
+					{
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
+						if (temp)
+						{
+
+							light[nrOfLights + lightSize].posX = temp->posX;
+							light[nrOfLights + lightSize].posY = temp->posY;
+							light[nrOfLights + lightSize].posZ = temp->posZ;
+
+							light[nrOfLights + lightSize].r = temp->r;
+							light[nrOfLights + lightSize].g = temp->g;
+							light[nrOfLights + lightSize].b = temp->b;
+
+							light[nrOfLights + lightSize].intensity = temp->intensity;
+							light[nrOfLights + lightSize].distance = temp->distance;
+							light[nrOfLights + c].volume = temp->volume;
+							lightSize++;
+						}
+					}
+					nrOfLights += lightSize;
+				}
+		}
+	}
+
+
+
 	Light* runeEffect = player->getRuneLight();
 	if (runeEffect)
 	{
