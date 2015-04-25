@@ -3,6 +3,7 @@
 Edit::~Edit()
 {
 	delete current;
+	delete currentLight;
 }
 
 void Edit::init(Map* map, UserInput* in)
@@ -67,15 +68,15 @@ void Edit::EditorMode()
 		itemTableClick();
 
 		if (editState != NONES)
-		{
 			EditorState();
-		}
 		break;
 	}		
 	case REKT:
 		RektEdit();
 		break;
 	case LIGHT:
+		if (editState != NONES)
+			EditorState();
 		break;
 	}
 }
@@ -160,7 +161,7 @@ void Edit::EditorState()
 
 	if (editState == EditState::PLACE)
 	{
-		if(editContentID != -1)
+		if(editContentID != -1 || editMode == EditMode::LIGHT)
 		{
 			if (in->getKeyNumberState(5))
 				newItem = true;
@@ -172,7 +173,7 @@ void Edit::EditorState()
 			if (newItem)
 				HoldNewItem();
 
-			if (current)
+			if (current || currentLight)
 			{
 				PlaceEditorState(x, y);
 				if (in->getEreleased())
@@ -219,25 +220,43 @@ void Edit::HoldNewItem()
 		coppyLast = false;
 		if (itemtaken)
 		{
-			current = new GameObject();
-			current->init(takenCopy.returnID());
-			current->coppyMat(&takenCopy);
+			if (editMode == EditMode::LIGHT)
+			{
+				currentLight = new Light();
+				*currentLight = takenCopyLight;
+			}
+			else
+			{
+				current = new GameObject();
+				current->init(takenCopy.returnID());
+				current->coppyMat(&takenCopy);
+			}
 		}
-		else if(lastPlaced)
+		else if(lastPlaced && editMode != EditMode::LIGHT)
 		{
 			current = new GameObject();
 			current->init(lastPlaced->returnID());
 			current->coppyMat(lastPlaced);
 		}
+		else if (lastPlacedLight && editMode == EditMode::LIGHT)
+		{
+			currentLight = new Light;
+			*currentLight = *lastPlacedLight;
+		}
 	}
 	else
 	{	
-		current = new GameObject();
-		current->init(editContentID);
-		//if(useOld)
-		//	current->moveTo(pos.x, pos.y, pos.z);
-		//else
-		current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
+		if (editMode == EditMode::LIGHT)
+		{
+			currentLight = new Light;
+			currentLight->init(in->GetPos()->x, in->GetPos()->y);
+		}
+		else
+		{
+			current = new GameObject();
+			current->init(editContentID);
+			current->moveTo(in->GetPos()->x, in->GetPos()->y, 0);
+		}
 	}
 }
 
@@ -283,11 +302,11 @@ void Edit::placeObject(float x, float y)
 		internalPlaceState = 0;
 	}
 	if (placeState != placeStateLast)
-	{
 		internalPlaceState = 0;
-	}
+
 	if (in->getLMBrelease())
 		internalPlaceState++;
+
 	if (in->getRMBdown() || in->updateMouse())
 	{
 
@@ -299,17 +318,33 @@ void Edit::placeObject(float x, float y)
 		case MOVE:
 			if (internalPlaceState == 0)
 			{
-				if (in->getKeyState('Q'))
-					current->translateSNAPXY(x - lastMousePosX, y - lastMousePosY);
+				if (editMode == EditMode::LIGHT)
+				{
+					if (in->getKeyState('Q'))
+						currentLight->translate( 0 , 0 , y - lastMousePosY);
+					else
+						currentLight->translate(x - lastMousePosX, y - lastMousePosY, 0);
+				}
 				else
-					current->translateEDITOR(x - lastMousePosX, y - lastMousePosY, 0);
+				{
+					if (in->getKeyState('Q'))
+						current->translateSNAPXY(x - lastMousePosX, y - lastMousePosY);
+					else
+						current->translateEDITOR(x - lastMousePosX, y - lastMousePosY, 0);
+				}
 			}
 			else if (internalPlaceState == 1)
 			{
-				if (in->getKeyState('Q'))
+				if (editMode == EditMode::LIGHT)
+				{
+					internalPlaceState = 0;
+					placeState = NONEP;
+				}
+				else if (in->getKeyState('Q'))
 					current->translateSNAPZ(y - lastMousePosY);
 				else
 					current->translateEDITOR(0, 0, y - lastMousePosY);
+
 			}
 			else if (internalPlaceState == 2)
 			{
@@ -319,16 +354,35 @@ void Edit::placeObject(float x, float y)
 			break;
 		case SCALE:
 			if (internalPlaceState == 0)
-				if (in->getKeyState('Q'))
-					current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+			{
+				if (editMode == EditMode::LIGHT)
+				{
+					if (in->getKeyState('Q'))
+						currentLight->scale( 0 , 0 , y - lastMousePosY);
+					else
+						currentLight->scale(x - lastMousePosX, y - lastMousePosY, 0);
+				}
 				else
-					current->scaleAD(x - lastMousePosX, y - lastMousePosY, 0);
+				{
+					if (in->getKeyState('Q'))
+						current->scaleSNAP(x - lastMousePosX, y - lastMousePosY, 0);
+					else
+						current->scaleAD(x - lastMousePosX, y - lastMousePosY, 0);
+				}
+			}
 
 			else if (internalPlaceState == 1)
-				if (in->getKeyState('Q'))
+			{
+				if (editMode == EditMode::LIGHT)
+				{
+					internalPlaceState = 0;
+					placeState = NONEP;
+				}
+				else if (in->getKeyState('Q'))
 					current->scaleSNAP(0, 0, y - lastMousePosY);
 				else
 					current->scaleAD(0, 0, y - lastMousePosY);
+			}
 
 			else if (internalPlaceState == 2)
 			{
@@ -338,15 +392,32 @@ void Edit::placeObject(float x, float y)
 			break;
 		case ROT:
 			if (internalPlaceState == 0)
-				//if (in->getKeyState('Q'))
-				//	current->rotateToXSNAP((y - lastMousePosY) * 0.8); //CURRENTLY NOT WORKING
-				current->rotateToX((y - lastMousePosY) * 0.8);
+			{
+				if (editMode == EditMode::LIGHT)
+				{
+					if (in->getKeyState('Q'))
+						currentLight->color(0, 0, y - lastMousePosY);
+					else
+						currentLight->color(x - lastMousePosX, y - lastMousePosY, 0);
+				}
+				else
+					current->rotateToX((y - lastMousePosY) * 0.8);
 
+			}
 			else if (internalPlaceState == 1)
-				current->rotateToY((x - lastMousePosX) * 0.8);
+			{
+				if (editMode == EditMode::LIGHT)
+				{
+					internalPlaceState = 0;
+					placeState = NONEP;
+				}
+				else
+					current->rotateToY((x - lastMousePosX) * 0.8);
+			}
 
 			else if (internalPlaceState == 2)
-				current->rotateToZ((y - lastMousePosY) * 0.8);
+				if (editMode != EditMode::LIGHT)
+					current->rotateToZ((y - lastMousePosY) * 0.8);
 
 			else if (internalPlaceState == 3)
 			{
@@ -377,6 +448,11 @@ void Edit::giveObjectToChunk()
 	case REKT:
 		break;
 	case LIGHT:
+		chunks[chunkXCam][chunkYCam].recieveLight(currentLight);
+		lastPlacedLight = currentLight;
+		discard();
+		currentLight = 0;
+		newItem = true;
 		break;
 	}
 }
@@ -385,6 +461,9 @@ void Edit::discard()
 {
 	delete current;
 	current = 0;
+
+	delete currentLight;
+	currentLight = 0;
 }
 
 Edit::EditMode Edit::getEditMode()
@@ -471,4 +550,9 @@ void Edit::invalidID()
 {
 	discard();
 	editContentID = -1;
+}
+
+Light* Edit::getLight()
+{
+	return currentLight;
 }

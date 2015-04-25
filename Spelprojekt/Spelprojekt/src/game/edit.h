@@ -6,6 +6,7 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 #include "../GUI.h"
+#include "Light.h"
 
 class Edit
 {
@@ -77,6 +78,11 @@ private:
 
 	void RektEdit();
 
+	void LightEdit();
+	Light* currentLight = 0;
+	Light* lastPlacedLight = 0;
+	Light takenCopyLight;
+
 	void EditID();
 	bool debugBackground = false;
 	bool ForceEditBG();
@@ -102,6 +108,7 @@ public:
 	void guiHandle(int bEvent);
 	EditMode getEditMode();
 	GameObject* getObject();
+	Light* getLight();
 	void invalidID();
 };
 

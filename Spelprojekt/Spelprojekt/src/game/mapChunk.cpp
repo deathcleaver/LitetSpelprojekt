@@ -512,7 +512,7 @@ void MapChunk::saveChunk()
 	{
 		out << lights[n].posX - xOffset*35 << " " << lights[n].posY + yOffset*35 << " " << lights[n].posZ;
 		out << " " << lights[n].r << " " << lights[n].g << " " << lights[n].b;
-		out << " " << lights[n].intensity << " " << lights[n].distance << " : LIGHTS" << endl;
+		out << " " << lights[n].intensity << " " << lights[n].distance << " " << lights[n].volume << " : LIGHTS" << endl;
 	}
 
 	//save collision
@@ -1025,5 +1025,24 @@ void MapChunk::removeRekt(int x, int y)
 	{
 		delete worldCollide[x][y];
 		worldCollide[x][y] = 0;
+	}
+}
+
+void MapChunk::recieveLight(Light* item)
+{
+	if (item)
+	{
+		Light* lightsTemp;
+		lightsTemp = lights;
+		lights = new Light[nrOfLights + 1];
+		
+		for (int n = 0; n < nrOfLights; n++)
+		{
+			lights[n] = lightsTemp[n];
+		}
+		delete[] lightsTemp;
+
+		lights[nrOfLights] = *item;
+		nrOfLights++;
 	}
 }

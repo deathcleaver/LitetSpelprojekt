@@ -76,13 +76,14 @@ public:
 	string getBossType();
 
 	void recieveWorld(GameObject* item);
-	GameObject* takeClosestWorldItem(glm::vec3 pos);
-	void recieveMonster(GameObject* item);
-	void recieveBackObj(GameObject* item);
-	void recieveLightObj(GameObject* item);
-	void recieveSpecial(GameObject* item);
 	void addRekt(int x, int y);
 	void removeRekt(int x, int y);
+	GameObject* takeClosestWorldItem(glm::vec3 pos);
+	void recieveLight(Light* item);
+	
+	void recieveMonster(GameObject* item);
+	void recieveBackObj(GameObject* item);
+	void recieveSpecial(GameObject* item);
 	void addVisitor(Enemy* visitor, string type);
 	void saveChunk();
 };
