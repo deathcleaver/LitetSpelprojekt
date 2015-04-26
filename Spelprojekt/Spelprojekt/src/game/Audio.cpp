@@ -44,8 +44,6 @@ bool Audio::init()
 	alcMakeContextCurrent(context);
 	if (!context) return endWithError("no sound context");
 
-	//alGenSources(1, &music[0]->source);
-
 	//Listener
 	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
 	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
@@ -151,33 +149,6 @@ bool Audio::createBuffers(char** files, ALuint* buffers, int elements)
 
 void Audio::update(float deltaTime)
 {
-	//music fade
-	//for (int i = 0; i < MUSIC_FILES; i++)
-	//{
-	//	if (music[i]->state == A_FADEIN)
-	//	{
-	//		music[i]->volume += FADEINTIME * deltaTime;
-	//		if (music[i]->volume >= MASTER_VOLUME)
-	//		{
-	//			music[i]->state = A_PLAYING;
-	//			music[i]->volume = MASTER_VOLUME;
-	//		}
-	//		alSourcef(music[i]->source, AL_GAIN, music[i]->volume);
-	//	}
-
-	//	else if (music[i]->state == A_FADEOUT)
-	//	{
-	//		music[i]->volume -= FADEOUTTIME * deltaTime;
-	//		if (music[i]->volume <= 0.0f)
-	//		{
-	//			music[i]->state = A_NOT_PLAYING;
-	//			music[i]->volume = 0.0f;
-	//			stopMusic(i);
-	//		}
-	//		alSourcef(music[i]->source, AL_GAIN, music[i]->volume);
-	//	}
-	//}
-
 	for (int i = 0; i < musicSources.size(); i++)
 	{
 		if (musicSources[i].state == A_FADEIN)

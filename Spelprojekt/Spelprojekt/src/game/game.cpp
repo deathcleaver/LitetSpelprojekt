@@ -227,7 +227,6 @@ void Game::update(float deltaTime)
 						  tempId = tempChunk[tempX][tempY].getMusicId();
 						  if (tempId != NULL)//change music track
 						  {
-							  //audio->playMusic(tempId);
 							 audio->playMusicFade(tempId, deltaTime);
 						  }
 					  }
