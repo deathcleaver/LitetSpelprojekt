@@ -28,6 +28,10 @@ public:
 	int readSizeX() const;
 	int readSizeY() const;
 	MapChunk** getChunks() const;
+	void SaveMap(int id);
+	void LoadMap(int id);
+	int playerspawnX = 0;
+	int playerspawnY = 0;
 
 	int update(float deltaTime, Player* player);
 	//data ref x = -1, y -1 = outofbounds

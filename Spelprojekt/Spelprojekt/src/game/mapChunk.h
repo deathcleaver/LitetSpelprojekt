@@ -41,8 +41,6 @@ public:
 
 	GameObject* chunkBackground = 0;
 	Shrine* shrine = 0;
-	
-	string mapnamepath = "";
 
 	vector<vector<GameObject*>> gameObjects;
 
@@ -86,7 +84,7 @@ public:
 	void recieveBackObj(GameObject* item);
 	void recieveSpecial(GameObject* item);
 	void addVisitor(Enemy* visitor, string type);
-	void saveChunk();
+	void saveChunk(string path);
 };
 
 #endif

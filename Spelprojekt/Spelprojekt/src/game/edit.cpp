@@ -8,12 +8,19 @@ Edit::~Edit()
 
 void Edit::init(Map* map, UserInput* in)
 {
+	editContentID = -1;
+	discard();
+
 	this->map = map;
 	chunks = map->getChunks();
 	this->in = in;
 	this->width = map->readSizeX();
 	this->height = map->readSizeY();
 	editMode = EditMode::NONEM;
+	editModeLast = EditMode::NONEM;
+	editState = EditState::NONES;
+	editStateLast = EditState::NONES;
+
 	lastMousePosX = 0;
 	lastMousePosY = 0;
 	current = 0;
@@ -32,6 +39,9 @@ void Edit::update(float x, float y, GUI* gui)
 	{
 		EditorMode();
 	}
+
+	//save/load map check
+	//saveloadCheck();
 
 	if (editState != editStateLast)
 	{
@@ -126,6 +136,10 @@ void Edit::RektEdit()
 	mouseToWorld(&x, &y);
 
 	map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
+	map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
+
+	if (chunkXCam != chunkXMouse || chunkYCam != chunkYMouse)
+		return;
 
 	if (chunkXCam > -1 && chunkXCam < map->readSizeX() &&
 		chunkYCam > -1 && chunkYCam < map->readSizeY())
@@ -581,4 +595,38 @@ bool Edit::isMovingLights()
 	if (editMode == EditMode::LIGHT && editState == EditState::CHANGE)
 		return true;
 	return false;
+}
+
+void Edit::saveloadCheck(bool* save, bool* load, int* nr)
+{
+	float x, y;
+	bool r, l;
+	in->getMouseState(&x, &y, &r, &l);
+	if (in->getLMBrelease())
+	{
+		if (x > 887 && x < 996 && y > 584 && y < 697)
+		{
+			int idx = x - 887;
+			idx = idx / 58;
+
+			int idy = y - 584;
+			idy = idy / 24;
+
+			*nr = idy;
+
+			if (idx == 0) //load
+			{
+				*save = false;
+				*load = true;
+			}
+			else if (idx == 1) // save
+			{
+				*save = true;
+				*load = false;
+			}
+			return;
+		}
+	}
+	*save = false;
+	*load = false;
 }
