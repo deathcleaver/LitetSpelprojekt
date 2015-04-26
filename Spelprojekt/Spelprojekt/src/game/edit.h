@@ -61,13 +61,20 @@ private:
 	PlaceState placeStateLast = PlaceState::NONEP;
 
 	int editContentID = -1;
-	int lastEditId = -2;
 
 	int internalPlaceState = 0;
 	GameObject* current = 0;
-	GameObject* lastPlaced = 0;
+	GameObject lastPlaced;
+	GameObject takenCopy;
+
+	Light* currentLight = 0;
+	Light lastPlacedLight;
+	Light takenCopyLight;
+
 	bool newItem = false;
 	bool coppyLast = false;
+	bool itemtaken = false;
+	bool itemPlaced = false;
 
 	void EditorMode();
 
@@ -77,11 +84,6 @@ private:
 	void discard();
 
 	void RektEdit();
-
-	void LightEdit();
-	Light* currentLight = 0;
-	Light* lastPlacedLight = 0;
-	Light takenCopyLight;
 
 	void EditID();
 	bool debugBackground = false;
@@ -94,9 +96,6 @@ private:
 	
 	void placeObject(float x, float y);
 	void giveObjectToChunk();
-	void takeItem();
-	GameObject takenCopy;
-	bool itemtaken = false;
 	void itemTableClick();
 public:
 
@@ -110,6 +109,7 @@ public:
 	GameObject* getObject();
 	Light* getLight();
 	void invalidID();
+	bool isMovingLights();
 };
 
 #endif

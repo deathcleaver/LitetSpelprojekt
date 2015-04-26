@@ -80,6 +80,7 @@ public:
 	void removeRekt(int x, int y);
 	GameObject* takeClosestWorldItem(glm::vec3 pos);
 	void recieveLight(Light* item);
+	Light* takeClosestLight(glm::vec3 pos);
 	
 	void recieveMonster(GameObject* item);
 	void recieveBackObj(GameObject* item);

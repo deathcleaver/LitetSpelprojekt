@@ -35,6 +35,7 @@ Audio::Audio()
 	sounds[5]->file = "../Audio/Sounds/Player/player_shield_force.wav";
 	sounds[6]->file = "../Audio/Sounds/Interface/button.wav";
 	sounds[7]->file = "../Audio/Sounds/Interface/pause.wav";
+	sounds[8]->file = "../Audio/Sounds/Bosses/boss_clear.wav";
 	//...
 }
 
