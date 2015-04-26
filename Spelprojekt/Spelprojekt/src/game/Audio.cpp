@@ -225,16 +225,23 @@ void Audio::update(float deltaTime)
 
 void Audio::playMusic(int track)
 {
-	if (music[track]->state == A_NOT_PLAYING)
+	if (track < MUSIC_FILES && track >= 0)
+	{
+		if (music[track]->state == A_NOT_PLAYING)
+		{
+			stopMusic(currTrack);
+			if (track != -1)
+			{
+				music[track]->state = A_PLAYING;
+				alSourcePlay(music[track]->source);
+			}
+			currTrack = track;
+		}
+	}
+	else
 	{
 		stopMusic(currTrack);
-		if (track != -1)
-		{
-			music[track]->state = A_PLAYING;
-			alSourcePlay(music[track]->source);
-		}
-		currTrack = track;
-	}
+	}	
 }
 
 void Audio::playMusicFade(int track, float deltaTime)
@@ -260,6 +267,16 @@ void Audio::playMusicFade(int track, float deltaTime)
 		music[currTrack]->state = A_FADEOUT;
 		music[oldTrack]->state = A_FADEOUT;
 	}
+}
+
+void Audio::stopMusic(int track)
+{
+	if (track >= 0)
+	{
+		music[track]->state = A_NOT_PLAYING;
+		alSourceStop(music[track]->source);
+	}
+
 }
 
 void Audio::playSound(int track)
@@ -299,16 +316,6 @@ void Audio::updateListener(glm::vec3 pos)
 	//non env sounds
 	for (int i = 0; i < SOUND_FILES; i++)
 		alSourcefv(sounds[i]->source, AL_POSITION, musicPos);
-}
-
-void Audio::stopMusic(int track)
-{
-	if (track >= 0)
-	{
-		music[track]->state = A_NOT_PLAYING;
-		alSourceStop(music[track]->source);
-	}
-
 }
 
 int Audio::getTrack()

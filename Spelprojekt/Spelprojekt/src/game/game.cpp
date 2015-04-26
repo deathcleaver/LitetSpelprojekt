@@ -358,6 +358,7 @@ void Game::buttonEvents(int buttonEv)
 		current = EDIT;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
+		audio->stopMusic(0); //stop menu music
 		cameraFollow = false;
 		break;
 	case(3) :
@@ -365,6 +366,7 @@ void Game::buttonEvents(int buttonEv)
 		current = MENU;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
+		audio->playMusic(0); //play menu music
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
