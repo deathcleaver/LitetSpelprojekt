@@ -168,9 +168,37 @@ void Game::mainLoop()
 		{
 			start = std::clock();
 			lastClock = 0;
-			std::string s = std::to_string(fpsCount);
+			std::stringstream ss;
+			ss << to_string(fpsCount);
+			if (map)
+			{
+				int x, y;
+				int ix = 0;
+				int iy = 0;
+				glm::vec3 campos = *in->GetPos();
+				map->getChunkIndex(campos, &x, &y);
+				if (x != -1 && y != -1)
+				{
+					ix = (int(campos.x + 17.5f) % 35);
+					if (ix < 17)
+						ix = -(17-ix);
+					else if (ix > 17)
+						ix = ix - 17;
+					else
+						ix = 0;
+					iy = (int(campos.y - 17.5f) % 35);
+					iy *= -1;
+					if (iy < 17)
+						iy = (17-iy);
+					else if (iy > 17)
+						iy = 17 -iy;
+					else
+						iy = 0;
+				}
+				ss << " :  Chunk: " << x << "_" << y << "  Index:  " << ix << "  " << iy;
+			}
 			fpsCount = 0;
-			glfwSetWindowTitle(windowRef, s.c_str());
+			glfwSetWindowTitle(windowRef, ss.str().c_str());
 		}
 	}
 }
