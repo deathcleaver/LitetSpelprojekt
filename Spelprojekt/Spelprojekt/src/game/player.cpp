@@ -439,7 +439,11 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					isAttacking = false;
 					attackTimer = 0.0f;
 					if (currentRune == MiscID::rune_shield)
+					{
 						shield -= 1;
+						audio->playSound(5); //player_shield_force
+					}
+	
 				}
 				else
 				{
@@ -458,7 +462,6 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 				runeEffect->posX = playerPos.x;
 				runeEffect->posY = playerPos.y;
 				runeEffect->posZ = playerPos.z;
-				audio->playSound(5); //player_shield_force
 			}
 			invulnTimer -= 1.0f*deltaTime;
 			if (flinchTimer > FLT_EPSILON)
