@@ -7,13 +7,6 @@ Audio::Audio()
 {
 	currTrack = -1;
 
-	////music
-	//for (int i = 0; i < MUSIC_FILES; i++)
-	//{
-	//	music[i] = new AudioObject;
-	//	music[i]->volume = 0.0;
-	//}
-
 	//load music files
 	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
 	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
@@ -65,8 +58,7 @@ bool Audio::init()
 	// create music buffers
 	alGenBuffers(MUSIC_BUFFERS, musicBuffer);
 	createBuffers(musicFiles, musicBuffer, MUSIC_BUFFERS);
-	//bindSourceToBuffer(music[0]->source, musicBuffer[0]); //remove this after playMusic works
-
+	
 	// create sound buffers
 	alGenBuffers(SOUND_BUFFERS, soundBuffer);
 	createBuffers(soundFiles, soundBuffer, SOUND_BUFFERS);
@@ -159,7 +151,7 @@ bool Audio::createBuffers(char** files, ALuint* buffers, int elements)
 
 void Audio::update(float deltaTime)
 {
-	//music
+	//music fade
 	//for (int i = 0; i < MUSIC_FILES; i++)
 	//{
 	//	if (music[i]->state == A_FADEIN)
@@ -186,17 +178,30 @@ void Audio::update(float deltaTime)
 	//	}
 	//}
 
-	////sounds
-	//for (int i = 0; i < SOUND_FILES; i++)
-	//{
-	//	if (sounds[i]->state == A_PLAYING)
-	//	{
-	//		ALint state;
-	//		alGetSourcei(sounds[i]->source, AL_SOURCE_STATE, &state);
-	//		if (state != AL_PLAYING)
-	//			sounds[i]->state = A_NOT_PLAYING;
-	//	}
-	//}
+	for (int i = 0; i < musicSources.size(); i++)
+	{
+		if (musicSources[i].state == A_FADEIN)
+		{
+			musicSources[i].volume += FADEINTIME * deltaTime;
+			if (musicSources[i].volume >= MUSIC_VOLUME)
+			{
+				musicSources[i].state = A_PLAYING;
+				musicSources[i].volume = MUSIC_VOLUME;
+			}
+			alSourcef(musicSources[i].source, AL_GAIN, musicSources[i].volume * MASTER_VOLUME);
+		}
+
+		else if (musicSources[i].state == A_FADEOUT)
+		{
+			musicSources[i].volume -= FADEOUTTIME * deltaTime;
+			if (musicSources[i].volume <= 0.0f)
+			{
+				musicSources[i].volume = 0.0f;
+				alSourceStop(musicSources[i].source);
+			}
+			alSourcef(musicSources[i].source, AL_GAIN, musicSources[i].volume * MASTER_VOLUME);
+		}
+	}
 
 	// clean and remove music sources that's finished playing
 	for (int i = 0; i < musicSources.size(); i++)
@@ -233,6 +238,8 @@ void Audio::playMusic(int file)
 			ALfloat SourcePos[] = { 0.0, 0.0, 0.0 }; 
 			ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
+
+
 			alSourcei(music.source, AL_BUFFER, musicBuffer[file]);
 			alSourcef(music.source, AL_PITCH, 1.0f);
 			alSourcef(music.source, AL_GAIN, MASTER_VOLUME * MUSIC_VOLUME);
@@ -241,6 +248,7 @@ void Audio::playMusic(int file)
 			alSourcefv(music.source, AL_VELOCITY, SourceVel);
 			alSourcei(music.source, AL_LOOPING, AL_TRUE);
 
+			music.volume = MUSIC_VOLUME;
 			music.state = A_PLAYING;
 			alSourcePlay(music.source);
 			music.track = file;
@@ -263,6 +271,7 @@ void Audio::playMusic(int file)
 			alSourcefv(music.source, AL_VELOCITY, SourceVel);
 			alSourcei(music.source, AL_LOOPING, AL_TRUE);
 
+			music.volume = MUSIC_VOLUME;
 			music.state = A_PLAYING;
 			alSourcePlay(music.source);
 			music.track = file;
@@ -316,15 +325,19 @@ void Audio::playMusicFade(int file, float deltaTime)
 
 			alSourcei(music.source, AL_BUFFER, musicBuffer[file]);
 			alSourcef(music.source, AL_PITCH, 1.0f);
-			alSourcef(music.source, AL_GAIN, MASTER_VOLUME * MUSIC_VOLUME);
+			alSourcef(music.source, AL_GAIN, 0.0f);
 			alSourcei(music.source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
 			alSourcefv(music.source, AL_POSITION, SourcePos);
 			alSourcefv(music.source, AL_VELOCITY, SourceVel);
 			alSourcei(music.source, AL_LOOPING, AL_TRUE);
 
+			//fade in new track
 			alSourcePlay(music.source);
+			music.volume = 0.0f;
+			music.state = A_FADEIN;
 			music.track = file;
-
+			
+			//add new music source to the source list
 			musicSources.push_back(music);
 		}
 		else if (musicSources.begin()->track != file) // check so that it's not the current track
@@ -337,17 +350,22 @@ void Audio::playMusicFade(int file, float deltaTime)
 
 			alSourcei(music.source, AL_BUFFER, musicBuffer[file]);
 			alSourcef(music.source, AL_PITCH, 1.0f);
-			alSourcef(music.source, AL_GAIN, MASTER_VOLUME * MUSIC_VOLUME);
+			alSourcef(music.source, AL_GAIN, 0.0f);
 			alSourcei(music.source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
 			alSourcefv(music.source, AL_POSITION, SourcePos);
 			alSourcefv(music.source, AL_VELOCITY, SourceVel);
 			alSourcei(music.source, AL_LOOPING, AL_TRUE);
 
+			//fade in new track
 			alSourcePlay(music.source);
+			music.volume = 0.0f;
+			music.state = A_FADEIN;
 			music.track = file;
 
-			alSourceStop(musicSources.begin()->source);
+			//fade out old track
+			musicSources.begin()->state = A_FADEOUT;
 
+			//add new music source to the source list
 			musicSources.insert(musicSources.begin(), music); // add new music to the start of the vector
 		}
 
@@ -355,7 +373,7 @@ void Audio::playMusicFade(int file, float deltaTime)
 	else //track is -1 stop music
 	{
 		if (musicSources.size() > 0)
-			alSourceStop(musicSources.begin()->source);
+			musicSources.begin()->state = A_FADEOUT;
 	}
 }
 

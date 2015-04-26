@@ -228,8 +228,8 @@ void Game::update(float deltaTime)
 						  tempId = tempChunk[tempX][tempY].getMusicId();
 						  if (tempId != NULL)//change music track
 						  {
-							  audio->playMusic(tempId);
-							 //audio->playMusicFade(tempId, deltaTime);
+							  //audio->playMusic(tempId);
+							 audio->playMusicFade(tempId, deltaTime);
 						  }
 					  }
 						  
@@ -266,8 +266,8 @@ void Game::update(float deltaTime)
 				if (player->isBossFighting())
 				{
 					player->dingDongTheBossIsDead("No boss at all");
-					audio->playMusic(-1);
-					//audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
+					//audio->playMusic(-1);
+					audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
 				}
 					
 			}
@@ -285,8 +285,8 @@ void Game::update(float deltaTime)
 					player->dingDongTheBossIsDead(boss);
 					audio->playSound(8);//boss_defeted
 				}
-				audio->playMusic(-1);
-				//audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
+				//audio->playMusic(-1);
+				audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
 			}
 			else if (mapMsg == 5)
 			{
@@ -389,7 +389,6 @@ void Game::buttonEvents(int buttonEv)
 		current = MENU;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
-		//audio->playMusic(0); //play menu music
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
