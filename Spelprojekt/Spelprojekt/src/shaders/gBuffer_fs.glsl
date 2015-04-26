@@ -13,10 +13,10 @@ struct Light
 {
     vec4 pos;
     vec4 color;
-    float distance;
-    float intensity;
+    int volume;
     float pad;
     float pad2;
+    float pad3;
 };
 
 uniform vec3 playerPos;
@@ -58,22 +58,25 @@ void main ()
 		for(int i = 0; i < nrLights; i++)
 		{
 			Light l = light[i]; 
-			float dist = distance(worldPos.xyz, l.pos.xyz);
-			
-			float d = l.pos.w;
-			
-			if(dist < d)
-			{
-				float attenuation = 1.0;
-				if(dist != 0)
-					attenuation = 1 - clamp((pow(dist,1.5) / d), 0, 1);
-					attenuation = max(attenuation, 0);
-				
-				vec3 s = normalize(vec3(l.pos.xyz - worldPos.xyz));
-
-				vec3 r = reflect(s, n.xyz);
-				
-				letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
+            if(l.volume != 2)
+            {
+                float dist = distance(worldPos.xyz, l.pos.xyz);
+                
+                float d = l.pos.w;
+                
+                if(dist < d)
+                {
+                    float attenuation = 1.0;
+                    if(dist != 0)
+                        attenuation = 1 - clamp((pow(dist,1.5) / d), 0, 1);
+                        attenuation = max(attenuation, 0);
+                    
+                    vec3 s = normalize(vec3(l.pos.xyz - worldPos.xyz));
+    
+                    vec3 r = reflect(s, n.xyz);
+                    
+                    letThereBeLight += vec4(l.color.rgb * l.color.w * attenuation * max(dot(n.xyz, s), 0), 1.0);
+                }
             }
 		}
 		

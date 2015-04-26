@@ -170,7 +170,7 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 	//glDrawArraysInstanced(GL_POINTS, 0, 1, nrLight);
 	for (int i = 0; i < nrLight; i++)
 	{
-		glDrawArraysInstancedBaseInstance(GL_POINTS, 0, 1, volume[i], i);
+		glDrawArraysInstancedBaseInstance(GL_POINTS, 0, 1, min(volume[i], 1), i);
 	}
 
 }
