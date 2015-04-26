@@ -144,12 +144,9 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 		nrOfLights = atoi(sub.c_str());
 
 		//--- Load Lights --- 
-		if (nrOfLights > 0 || shrine)
+		if (nrOfLights > 0)
 		{
-			if (shrine)
-				lights = new Light[nrOfLights+1];
-			else
-				lights = new Light[nrOfLights];
+			lights = new Light[nrOfLights];
 			for (int c = 0; c < nrOfLights; c++)
 			{
 				getline(in, line);
@@ -172,44 +169,6 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 				lights[c].distance = atof(sub.c_str());
 				ss >> sub;
 				lights[c].volume = atoi(sub.c_str());
-			}
-			if (shrine)
-			{
-				nrOfLights++;
-				glm::vec3 lPos = shrine->returnRune()->readPos();
-				MiscID runeType = shrine->getRune();
-				shrine->resetRune();
-				lights[nrOfLights - 1].posX = lPos.x;
-				lights[nrOfLights - 1].posY = lPos.y;
-				lights[nrOfLights - 1].posZ = lPos.z+0.5;
-
-				switch (runeType)
-				{
-				case MiscID::rune_range: //flame
-					lights[nrOfLights - 1].r = 0.5;
-					lights[nrOfLights - 1].g = 0.25;
-					lights[nrOfLights - 1].b = 0.01;
-					break;
-				case MiscID::rune_damage: //spark
-					lights[nrOfLights - 1].r = 0.0;
-					lights[nrOfLights - 1].g = 0.5;
-					lights[nrOfLights - 1].b = 0.5;
-					break;
-				case MiscID::rune_shield: //force
-					lights[nrOfLights - 1].r = 0.0;
-					lights[nrOfLights - 1].g = 0.5;
-					lights[nrOfLights - 1].b = 0.0;
-					break;
-				//case STOMP:
-				//	lights[nrOfLights - 1].r = 0.5;
-				//	lights[nrOfLights - 1].g = 0.5;
-				//	lights[nrOfLights - 1].b = 0.5;
-				//	break;
-				}
-				lights[nrOfLights - 1].intensity = 2.0f;
-				lights[nrOfLights - 1].distance = 15.0;
-				lights[nrOfLights - 1].volume = 1;
-				shrine->giveLight(&lights[nrOfLights - 1]);
 			}
 		}
 		

@@ -378,6 +378,23 @@ void Engine::bindLights(const Player* player, Edit* edit)
 						}
 						nrOfLights += lightSize;
 					}
+
+					if (chunks[upDraw[x]][upDraw[y]].shrine)
+					{
+						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
+						light[nrOfLights].posX = temp->posX;
+						light[nrOfLights].posY = temp->posY;
+						light[nrOfLights].posZ = temp->posZ;
+
+						light[nrOfLights].r = temp->r;
+						light[nrOfLights].g = temp->g;
+						light[nrOfLights].b = temp->b;
+
+						light[nrOfLights].intensity = temp->intensity;
+						light[nrOfLights].distance = temp->distance;
+						light[nrOfLights].volume = 0;
+					}
+
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
 					lightSize = 0;
 					for (int c = 0; c < flameCount; c++)
@@ -396,7 +413,7 @@ void Engine::bindLights(const Player* player, Edit* edit)
 
 							light[nrOfLights + lightSize].intensity = temp->intensity;
 							light[nrOfLights + lightSize].distance = temp->distance;
-							light[nrOfLights + c].volume = 0;
+							light[nrOfLights + lightSize].volume = 0;
 							lightSize++;
 						}
 					}
@@ -433,6 +450,24 @@ void Engine::bindLights(const Player* player, Edit* edit)
 						}
 						nrOfLights += lightSize;
 					}
+
+					if (chunks[upDraw[x]][upDraw[y]].shrine)
+					{
+						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
+						light[nrOfLights].posX = temp->posX;
+						light[nrOfLights].posY = temp->posY;
+						light[nrOfLights].posZ = temp->posZ;
+
+						light[nrOfLights].r = temp->r;
+						light[nrOfLights].g = temp->g;
+						light[nrOfLights].b = temp->b;
+
+						light[nrOfLights].intensity = temp->intensity;
+						light[nrOfLights].distance = temp->distance;
+						light[nrOfLights].volume = temp->volume;
+						nrOfLights++;
+					}
+
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
 					lightSize = 0;
 					for (int c = 0; c < flameCount; c++)
@@ -451,7 +486,7 @@ void Engine::bindLights(const Player* player, Edit* edit)
 
 							light[nrOfLights + lightSize].intensity = temp->intensity;
 							light[nrOfLights + lightSize].distance = temp->distance;
-							light[nrOfLights + c].volume = temp->volume;
+							light[nrOfLights + lightSize].volume = temp->volume;
 							lightSize++;
 						}
 					}

@@ -73,7 +73,6 @@ public:
 	RuneLights* lightForPlayer;
 	Shrine(GameObject* object, MiscID runetype);
 	~Shrine();
-	void giveLight(Light* l);
 	Rect* getRekt();
 	glm::vec2 getPos();
 	MiscID getRune();
@@ -88,7 +87,10 @@ public:
 			return runeObj;
 		return 0;
 	}
-
+	Light* getLight()
+	{
+		return myLight;
+	}
 	void update(float deltaTime);
 };
 
