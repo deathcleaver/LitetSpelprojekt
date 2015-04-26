@@ -300,3 +300,8 @@ bool Bossbat::isBlinking()
 	}
 	return false;
 }
+
+glm::vec2 Bossbat::plsGiveBossPos()
+{
+	return initPos;
+}

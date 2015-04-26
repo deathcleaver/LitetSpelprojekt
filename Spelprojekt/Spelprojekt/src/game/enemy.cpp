@@ -39,3 +39,8 @@ void Enemy::diePls()
 {
 	alive = false;
 }
+
+glm::vec2 Enemy::plsGiveBossPos()
+{
+	return glm::vec2(0, 0);
+}

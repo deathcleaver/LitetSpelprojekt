@@ -108,8 +108,8 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	//save boss  OBSERVERA!!!!! 0 boss
 	if (boss)
 	{
-		glm::vec3 bossPos = boss->readPos();
-		*out << 1 << " " << boss->getType() << " " << bossPos.x << " " << bossPos.y << endl;
+		glm::vec2 bossPos = boss->plsGiveBossPos();
+		*out << 1 << " " << boss->getType() << " " << bossPos.x - xOffset * 35 << " " << bossPos.y + yOffset * 35 << endl;
 	}
 	else
 		*out << 0 << " : ChuckTesta" << endl;

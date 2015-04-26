@@ -35,6 +35,8 @@ public:
 	void setVisitor();
 	bool isVisitor();
 	void diePls();
+
+	virtual glm::vec2 plsGiveBossPos();
 };
 
 #endif

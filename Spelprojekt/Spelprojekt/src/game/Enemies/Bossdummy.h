@@ -31,6 +31,11 @@ public:
 	{
 		return "ChuckTesta";
 	}
+
+	glm::vec2 plsGiveBossPos()
+	{
+		return initPos;
+	}
 };
 
 #endif

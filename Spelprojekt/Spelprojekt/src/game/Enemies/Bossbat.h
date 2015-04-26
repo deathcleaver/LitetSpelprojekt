@@ -35,6 +35,8 @@ public:
 	{
 		return "Bossbat";
 	}
+
+	glm::vec2 plsGiveBossPos();
 };
 
 #endif
