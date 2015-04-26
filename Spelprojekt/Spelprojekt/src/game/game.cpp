@@ -225,19 +225,12 @@ void Game::update(float deltaTime)
 					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
 					  if (tempX != -1 && tempY != -1)
 					  {
-<<<<<<< HEAD
-<<<<<<< HEAD
 						  tempId = tempChunk[tempX][tempY].getMusicId();
 						  if (tempId != NULL)//change music track
 						  {
-							  audio->playMusicFade(tempId, deltaTime);
+							  audio->playMusic(tempId);
+							 //audio->playMusicFade(tempId, deltaTime);
 						  }
-=======
-=======
-								audio->playMusic(tempId);
->>>>>>> Sound sources now work. Music stops playing in editor mode. Music fading does not work yet in the new audio system
-							  //audio->playMusicFade(tempId, deltaTime);
->>>>>>> Working buffers and sources
 					  }
 						  
 			if (cameraFollow)
