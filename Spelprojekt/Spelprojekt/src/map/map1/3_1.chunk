@@ -1,7 +1,7 @@
 0 : ChuckTesta
 0 : Enemy Count
 0 0 0 0 :  BACKGROUND!
--1 NO SHRINE
+1 -6 -4.5 0 :  SHRINE!
 0 :  Number of world objects
 -1 : Music ID
 0 : Nr of Lights 
