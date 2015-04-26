@@ -112,6 +112,7 @@ void Game::init(GLFWwindow* windowRef)
 	player = new Player();
 	player->init();
 	map = new Map();
+	map->LoadMap(1);   
 	map->init();
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
@@ -303,6 +304,22 @@ void Game::update(float deltaTime)
 		{
 			map->setUpDraw3x2(*in->GetPos());
 			edit->update(lastX, lastY, gui);
+
+			//load/save check
+			if (in->getLMBrelease())
+			{
+				bool load, save;
+				int nr;
+				edit->saveloadCheck(&save, &load, &nr);
+
+				if (load)
+				{
+					map->LoadMap(nr);
+					edit->init(map, in);
+				}
+				if (save)
+					map->SaveMap(nr);
+			}
 			if (in->getESC())
 			{
 				//save map
