@@ -126,7 +126,6 @@ void Game::init(GLFWwindow* windowRef)
 	//start audio
 	audio = new Audio();
 	audio->init();
-
 	// do not delete in this class
 	this->windowRef = windowRef;
 
@@ -212,26 +211,25 @@ void Game::update(float deltaTime)
 		case(MENU):
 		{
 
-					  engine->setFade(0.0f);
-					  audio->playMusic(0);
-					  audio->updateListener(player->readPos());
+			engine->setFade(0.0f);
+			audio->playMusic(0);
+			audio->updateListener(player->readPos());
 			break;
 		}
 		case(PLAY):
 		{
-					  // music
-					  int tempX, tempY, tempId;
-					  MapChunk** tempChunk = map->getChunks();
-					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
-					  if (tempX != -1 && tempY != -1)
-					  {
-						  tempId = tempChunk[tempX][tempY].getMusicId();
-						  if (tempId != NULL)//change music track
-						  {
-							  audio->playMusic(tempId);
-							 //audio->playMusicFade(tempId, deltaTime);
-						  }
-					  }
+			// music
+			int tempX, tempY, tempId;
+			MapChunk** tempChunk = map->getChunks();
+			map->getChunkIndex(player->readPos(), &tempX, &tempY);
+			if (tempX != -1 && tempY != -1)
+			{
+				tempId = tempChunk[tempX][tempY].getMusicId();
+				if (tempId != NULL)//change music track
+				{
+					audio->playMusicFade(tempId, deltaTime);
+				}
+			}
 						  
 			if (cameraFollow)
 			{
@@ -266,8 +264,6 @@ void Game::update(float deltaTime)
 				if (player->isBossFighting())
 				{
 					player->dingDongTheBossIsDead("No boss at all");
-					audio->playMusic(-1);
-					//audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
 				}
 					
 			}
@@ -285,8 +281,7 @@ void Game::update(float deltaTime)
 					player->dingDongTheBossIsDead(boss);
 					audio->playSound(8);//boss_defeted
 				}
-				audio->playMusic(-1);
-				//audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
+				audio->playMusicFade(-1, deltaTime);//stop music if the boss is dead
 			}
 			else if (mapMsg == 5)
 			{
@@ -389,7 +384,6 @@ void Game::buttonEvents(int buttonEv)
 		current = MENU;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
-		//audio->playMusic(0); //play menu music
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;

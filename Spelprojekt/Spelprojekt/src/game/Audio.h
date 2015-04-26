@@ -53,7 +53,6 @@ public:
 	void update(float deltaTime);
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);
-	void stopMusic(int file);
 	void playSound(int file);
 	void playSoundAtPos(int file, glm::vec2 pos, bool looping);
 	void updateListener(glm::vec3 pos);
