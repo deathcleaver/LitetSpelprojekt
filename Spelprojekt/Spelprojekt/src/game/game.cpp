@@ -213,7 +213,7 @@ void Game::update(float deltaTime)
 		{
 
 					  engine->setFade(0.0f);
-					  //audio->playMusic(0);
+					  audio->playMusic(0);
 					  audio->updateListener(player->readPos());
 			break;
 		}
@@ -226,12 +226,16 @@ void Game::update(float deltaTime)
 					  if (tempX != -1 && tempY != -1)
 					  {
 <<<<<<< HEAD
+<<<<<<< HEAD
 						  tempId = tempChunk[tempX][tempY].getMusicId();
 						  if (tempId != NULL)//change music track
 						  {
 							  audio->playMusicFade(tempId, deltaTime);
 						  }
 =======
+=======
+								audio->playMusic(tempId);
+>>>>>>> Sound sources now work. Music stops playing in editor mode. Music fading does not work yet in the new audio system
 							  //audio->playMusicFade(tempId, deltaTime);
 >>>>>>> Working buffers and sources
 					  }
@@ -269,6 +273,7 @@ void Game::update(float deltaTime)
 				if (player->isBossFighting())
 				{
 					player->dingDongTheBossIsDead("No boss at all");
+					audio->playMusic(-1);
 					//audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
 				}
 					
@@ -287,6 +292,7 @@ void Game::update(float deltaTime)
 					player->dingDongTheBossIsDead(boss);
 					audio->playSound(8);//boss_defeted
 				}
+				audio->playMusic(-1);
 				//audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
 			}
 			else if (mapMsg == 5)
@@ -373,7 +379,6 @@ void Game::buttonEvents(int buttonEv)
 	case(1) :
 		current = PLAY;
 		audio->playSound(6); //button
-		audio->playSoundAtPos(9, vec2(0, 0), true);//ambient_water_drop
 		cameraFollow = true;
 		engine->setFadeIn();
 		in->resetZoomViewDir();
@@ -383,7 +388,7 @@ void Game::buttonEvents(int buttonEv)
 		current = EDIT;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
-		//audio->stopMusic(0); //stop menu music
+		audio->playMusic(-1); //stop menu music
 		cameraFollow = false;
 		break;
 	case(3) :

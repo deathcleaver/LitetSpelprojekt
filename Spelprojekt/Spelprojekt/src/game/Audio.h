@@ -9,16 +9,17 @@
 #include <AL\alut.h>
 
 //states
-#define A_NOT_PLAYING 0
-#define A_PLAYING 1
-#define A_PAUSED 2
-#define A_FADEIN 3
-#define A_FADEOUT 4
+#define A_PLAYING 0
+#define A_PAUSED 1
+#define A_FADEIN 2
+#define A_FADEOUT 3
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
-#define VOLUME_MAX 0.5f // goes from 0.0 to 1.0
-#define MUSIC_BUFFERS 3
-#define SOUND_BUFFERS 10
+#define MUSIC_VOLUME 0.5f // goes from 0.0 to 1.0
+#define SOUND_VOLUME 1.0f // goes from 0.0 to 1.0
+#define MASTER_VOLUME 0.5f // goes from 0.0 to 1.0
+#define MUSIC_BUFFERS 3 // one buffer for each file
+#define SOUND_BUFFERS 10 // one buffer for each file
 
 using namespace std;
 
@@ -35,9 +36,10 @@ private:
 		unsigned long dataSize;
 	};
 
-	struct AudioObject
+	struct MusicStruct
 	{
 		int state;
+		int track;
 		ALuint source;
 		ALfloat volume;
 	};
@@ -49,20 +51,16 @@ public:
 	//ALboolean LoadALData();
 	bool init();
 	void update(float deltaTime);
-	void playMusic(int track);
-	void playMusicFade(int track, float deltaTime);
-	void stopMusic(int track);
-	void playSound(int track);
+	void playMusic(int file);
+	void playMusicFade(int file, float deltaTime);
+	void stopMusic(int file);
+	void playSound(int file);
 	void playSoundAtPos(int file, glm::vec2 pos, bool looping);
-	void createSoundAtPos(int track, glm::vec2 pos);
 	void updateListener(glm::vec3 pos);
-	int	getTrack();
 	void shutdown();
 
 private:
-	bool loadAudio(AudioObject* audioObj);
 	bool createBuffers(char** files, ALuint* buffers, int elements);
-	bool bindSourceToBuffer(ALuint source, ALuint buffer);
 	int endWithError(char* msg, int error = 0);
 
 private:
@@ -80,12 +78,9 @@ private:
 
 	// audio source lists
 	vector<ALuint> soundSources;
+	vector<MusicStruct> musicSources;
 
-	//object arrays
-	//AudioObject* music[MUSIC_FILES];
-	//AudioObject* sounds[SOUND_FILES];
-
-	//misc vars
+	//misc vars //remove these later
 	int currTrack, oldTrack;
 };
 
