@@ -212,7 +212,7 @@ void Game::update(float deltaTime)
 		{
 
 					  engine->setFade(0.0f);
-					  //audio->playMusic(0);
+					  audio->playMusic(0);
 					  audio->updateListener(player->readPos());
 			break;
 		}
@@ -225,6 +225,7 @@ void Game::update(float deltaTime)
 					  tempId = tempChunk[tempX][tempY].getMusicId();
 					  if (tempId != NULL)//change music track
 					  {
+								audio->playMusic(tempId);
 							  //audio->playMusicFade(tempId, deltaTime);
 					  }
 						  
@@ -261,6 +262,7 @@ void Game::update(float deltaTime)
 				if (player->isBossFighting())
 				{
 					player->dingDongTheBossIsDead("No boss at all");
+					audio->playMusic(-1);
 					//audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
 				}
 					
@@ -279,6 +281,7 @@ void Game::update(float deltaTime)
 					player->dingDongTheBossIsDead(boss);
 					audio->playSound(8);//boss_defeted
 				}
+				audio->playMusic(-1);
 				//audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
 			}
 			else if (mapMsg == 5)
@@ -349,7 +352,6 @@ void Game::buttonEvents(int buttonEv)
 	case(1) :
 		current = PLAY;
 		audio->playSound(6); //button
-		audio->playSoundAtPos(9, vec2(0, 0), true);//ambient_water_drop
 		cameraFollow = true;
 		engine->setFadeIn();
 		in->resetZoomViewDir();
@@ -359,7 +361,7 @@ void Game::buttonEvents(int buttonEv)
 		current = EDIT;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
-		//audio->stopMusic(0); //stop menu music
+		audio->playMusic(-1); //stop menu music
 		cameraFollow = false;
 		break;
 	case(3) :
