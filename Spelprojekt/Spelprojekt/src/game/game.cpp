@@ -223,10 +223,13 @@ void Game::update(float deltaTime)
 					  int tempX, tempY, tempId;
 					  MapChunk** tempChunk = map->getChunks();
 					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
-					  tempId = tempChunk[tempX][tempY].getMusicId();
-					  if (tempId != NULL)//change music track
+					  if (tempX != -1 && tempY != -1)
 					  {
+						  tempId = tempChunk[tempX][tempY].getMusicId();
+						  if (tempId != NULL)//change music track
+						  {
 							  audio->playMusicFade(tempId, deltaTime);
+						  }
 					  }
 						  
 			if (cameraFollow)
