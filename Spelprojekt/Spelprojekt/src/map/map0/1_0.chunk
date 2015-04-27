@@ -1,5 +1,5 @@
 0 : ChuckTesta
-12 : Enemy Count
+13 : Enemy Count
 Bat 2 4
 Bat 5 -13
 Flame -3 -16
@@ -12,6 +12,7 @@ Spikes 9 2
 Spikes 0 16
 Spikes -1 16
 Spikes -2 16
+Cube -10 5
 2 0 0 -2 :  BACKGROUND!
 2 10 11.5 0 :  SHRINE!
 27 :  Number of world objects

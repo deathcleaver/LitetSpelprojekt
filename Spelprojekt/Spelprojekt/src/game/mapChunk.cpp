@@ -248,11 +248,12 @@ void MapChunk::saveChunk(string path)
 	else
 		out << -1 << " NO BACKGROUND" << endl;
 
-	//save shrine
+	//save shrined
 	if (shrine)
 	{
 		glm::mat4* mat = shrine->returnThis()->getWorldMat();
 		out << shrine->getRune();
+		shrine->resetRune();
 		out << " " << (*mat)[0].w - xOffset * 35 << " " << (*mat)[1].w + yOffset * 35 << " " << (*mat)[2].w << " :  SHRINE!" << endl;;
 	}
 	else
