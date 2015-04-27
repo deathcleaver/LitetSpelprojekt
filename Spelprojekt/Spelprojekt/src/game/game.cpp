@@ -81,6 +81,9 @@ Game::~Game()
 		delete gui;
 	if (edit)
 		delete edit;
+
+	//clean audio buffers
+	Audio::getAudio().shutdown();
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -119,6 +122,7 @@ void Game::init(GLFWwindow* windowRef)
 	////start audio
 	//audio = new Audio();
 	//audio->init();
+	Audio::getAudio().init();
 	// do not delete in this class
 	this->windowRef = windowRef;
 
@@ -206,8 +210,8 @@ void Game::update(float deltaTime)
 	{
 
 				   engine->setFade(0.0f);
-				   map->getAudio()->playMusic(0);
-				   map->getAudio()->updateListener(player->readPos());
+				   Audio::getAudio().playMusic(0);
+				   Audio::getAudio().updateListener(player->readPos());
 				   break;
 	}
 	case(PLAY) :
@@ -221,7 +225,7 @@ void Game::update(float deltaTime)
 					   tempId = tempChunk[tempX][tempY].getMusicId();
 					   if (tempId != NULL)//change music track
 					   {
-						   map->getAudio()->playMusicFade(tempId, deltaTime);
+						   Audio::getAudio().playMusicFade(tempId, deltaTime);
 					   }
 				   }
 
@@ -244,7 +248,7 @@ void Game::update(float deltaTime)
 						   }
 					   }
 					   player->update(in, map, deltaTime);
-					   map->getAudio()->updateListener(player->readPos());
+					   Audio::getAudio().updateListener(player->readPos());
 				   }
 				   content->setPlayerState(player->getAnimState());
 				   map->setUpDraw3x2(*in->GetPos());
@@ -273,9 +277,9 @@ void Game::update(float deltaTime)
 					   {
 						   std::string boss = map->getBoss(pPos, false);
 						   player->dingDongTheBossIsDead(boss);
-						   map->getAudio()->playSound(8);//boss_defeted
+						   Audio::getAudio().playSound(8);//boss_defeted
 					   }
-					   map->getAudio()->playMusicFade(-1, deltaTime);//stop music if the boss is dead
+					   Audio::getAudio().playMusicFade(-1, deltaTime);//stop music if the boss is dead
 				   }
 				   else if (mapMsg == 5)
 				   {
@@ -286,7 +290,7 @@ void Game::update(float deltaTime)
 				   if (in->getESC())
 				   {
 					   //save player progression
-					   map->getAudio()->playSound(7); //pause
+					   Audio::getAudio().playSound(7); //pause
 					   current = PAUSE;
 				   }
 				   break;
@@ -346,7 +350,7 @@ void Game::update(float deltaTime)
 	lastY = ypos;
 
 	//update audio
-	map->getAudio()->update(deltaTime);
+	Audio::getAudio().update(deltaTime);
 
 	//Render const
 	engine->render(player, map, content, gui, in->GetPos(), (int)current, edit);
@@ -359,11 +363,10 @@ void Game::buttonEvents(int buttonEv)
 	case(0) : //default empty event;
 		break;
 	case(1) :
-		map->unloadAudio(); //clean up audio for current map
 		map->LoadMap(1, 0);
 		map->init();
 		current = PLAY;
-		map->getAudio()->playSound(6); //button
+		Audio::getAudio().playSound(6); //button
 		cameraFollow = true;
 		engine->setFadeIn();
 		in->resetZoomViewDir();
@@ -372,26 +375,25 @@ void Game::buttonEvents(int buttonEv)
 		engine->setFade(1.0f);
 		current = EDIT;
 		edit->refreshOnEnter();
-		map->getAudio()->playSound(6); //button
-		map->getAudio()->playMusic(-1); //stop menu music
+		Audio::getAudio().playSound(6); //button
+		Audio::getAudio().playMusic(-1); //stop menu music
 		cameraFollow = false;
 		break;
 	case(3) :
 		saveGame();
 		current = MENU;
 		edit->refreshOnEnter();
-		map->getAudio()->playSound(6); //button
+		Audio::getAudio().playSound(6); //button
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
 	case(4) :
 		glm::vec2 pPos = start->getPos();
-		map->unloadAudio(); //clean up audio for current map
 		map->LoadMap(1, savedPickups);
 		map->init();
 		start = 0;
 		current = PLAY;
-		map->getAudio()->playSound(6); //button
+		Audio::getAudio().playSound(6); //button
 		engine->setFadeIn();
 		cameraFollow = true;
 		for (int c = 0; c < savePickupNr; c++)
