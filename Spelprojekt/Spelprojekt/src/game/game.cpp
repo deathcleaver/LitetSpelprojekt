@@ -112,6 +112,7 @@ void Game::init(GLFWwindow* windowRef)
 	player = new Player();
 	player->init();
 	map = new Map();
+	map->LoadMap(1);   
 	map->init();
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
@@ -125,7 +126,6 @@ void Game::init(GLFWwindow* windowRef)
 	//start audio
 	audio = new Audio();
 	audio->init();
-
 	// do not delete in this class
 	this->windowRef = windowRef;
 
@@ -211,22 +211,25 @@ void Game::update(float deltaTime)
 		case(MENU):
 		{
 
-					  engine->setFade(0.0f);
-					  audio->playMusic(0);
-					  audio->updateListener(player->readPos());
+			engine->setFade(0.0f);
+			audio->playMusic(0);
+			audio->updateListener(player->readPos());
 			break;
 		}
 		case(PLAY):
 		{
-					  // music
-					  int tempX, tempY, tempId;
-					  MapChunk** tempChunk = map->getChunks();
-					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
-					  tempId = tempChunk[tempX][tempY].getMusicId();
-					  if (tempId != NULL)//change music track
-					  {
-							  audio->playMusicFade(tempId, deltaTime);
-					  }
+			// music
+			int tempX, tempY, tempId;
+			MapChunk** tempChunk = map->getChunks();
+			map->getChunkIndex(player->readPos(), &tempX, &tempY);
+			if (tempX != -1 && tempY != -1)
+			{
+				tempId = tempChunk[tempX][tempY].getMusicId();
+				if (tempId != NULL)//change music track
+				{
+					audio->playMusicFade(tempId, deltaTime);
+				}
+			}
 						  
 			if (cameraFollow)
 			{
@@ -261,7 +264,6 @@ void Game::update(float deltaTime)
 				if (player->isBossFighting())
 				{
 					player->dingDongTheBossIsDead("No boss at all");
-					audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
 				}
 					
 			}
@@ -277,9 +279,9 @@ void Game::update(float deltaTime)
 				{
 					std::string boss = map->getBoss(pPos, false);
 					player->dingDongTheBossIsDead(boss);
+					audio->playSound(8);//boss_defeted
 				}
-				audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
-				audio->playSound(8);
+				audio->playMusicFade(-1, deltaTime);//stop music if the boss is dead
 			}
 			else if (mapMsg == 5)
 			{
@@ -303,6 +305,22 @@ void Game::update(float deltaTime)
 		{
 			map->setUpDraw3x2(*in->GetPos());
 			edit->update(lastX, lastY, gui);
+
+			//load/save check
+			if (in->getLMBrelease())
+			{
+				bool load, save;
+				int nr;
+				edit->saveloadCheck(&save, &load, &nr);
+
+				if (load)
+				{
+					map->LoadMap(nr);
+					edit->init(map, in);
+				}
+				if (save)
+					map->SaveMap(nr);
+			}
 			if (in->getESC())
 			{
 				//save map
@@ -358,6 +376,7 @@ void Game::buttonEvents(int buttonEv)
 		current = EDIT;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
+		audio->playMusic(-1); //stop menu music
 		cameraFollow = false;
 		break;
 	case(3) :

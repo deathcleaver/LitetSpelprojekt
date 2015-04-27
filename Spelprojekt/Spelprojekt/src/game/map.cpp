@@ -17,62 +17,11 @@ Map::~Map()
 
 void Map::init()
 {
-	if (chunks)
-	{
-		for (int x = 0; x < width; x++)
-		{
-			delete[] chunks[x];
-		}
-		delete[] chunks;
-	}
-
-	bool USE_OLD_LOAD = false;
-
-	std::string fileName;
-
-	if(USE_OLD_LOAD)
-		fileName  = "../Spelprojekt/src/map/maps0";
-	else
-		fileName = "../Spelprojekt/src/map/maps1";
-
-	std::string line;
-	std::string fetch;
-	ifstream in;
-	in.open(fileName);
-
-	std::getline(in, line);
-	stringstream iss(line);
-	iss >> fetch;
-	int mapcount = atoi(fetch.c_str());
-
-	std::getline(in, line);
-	iss = stringstream(line); //reset
-	std::getline(in, line);
-	iss << line;
-	iss >> fetch;
-	fileName = fetch;
-	iss >> fetch;
-	width = atoi(fetch.c_str());
-	iss >> fetch;
-	height = atoi(fetch.c_str());
-
-	chunks = new MapChunk*[width];
-	for (int x = 0; x < width; x++)
-	{
-		chunks[x] = new MapChunk[height];
-		for (int y = 0; y < height; y++)
-		{
-			if(USE_OLD_LOAD)
-				chunks[x][y].initOld(x, y, fileName);
-			else
-				chunks[x][y].init(x, y, fileName);
-		}
-	}
 	upDraw = new int[13];
 	lastUpDraw = new int[13];
 	upDraw[0] = 0;
 	lastUpDraw[0] = 0;
-	for (int n = 1; n < 9; n++)
+	for (int n = 1; n < 13; n++)
 	{
 		upDraw[n] = -1;
 		lastUpDraw[n] = -1;
@@ -399,25 +348,29 @@ bool Map::collideMap(Rect* test, glm::vec3 pos)
 		{
 			result = chunks[idX - 1][idY].collide(test, 1);
 			if (result)
-				return result;}
+				return result;
+		}
 
 		if (indexX + sizeX > 33 && idX < width-1) //need extra check + X
 		{
 			result = chunks[idX + 1][idY].collide(test, -1);
 			if (result)
-				return result;}
+				return result;
+		}
 
 		if (indexY - sizeY < 1 && idY > 0) //need extra check - Y
 		{
 			result = chunks[idX][idY-1].collide(test, 0, 1);
 			if (result)
-				return result;}
+				return result;
+		}
 
 		if (indexY + sizeY > 33 && idY < height-1) //need extra check + Y
 		{
-			result = chunks[idX ][idY+1].collide(test, 0 -1);
+			result = chunks[idX ][idY+1].collide(test, 0, -1);
 			if (result)
-				return result;}
+				return result;
+		}
 	}
 	return result;
 }
@@ -515,5 +468,89 @@ void Map::findNewHome(Enemy* orphan)
 	if (idX != -1 && idY != -1)
 	{
 		chunks[idX][idY].addVisitor(orphan, orphan->getType());
+	}
+}
+
+void Map::SaveMap(int id)
+{
+	//mapfile
+	stringstream ss;
+	ss << "../Spelprojekt/src/map/maps" << id;
+	string filename = ss.str().c_str();
+	ofstream out;
+	out.open(filename, std::ofstream::out | std::ofstream::trunc);
+	{
+		out << width << " " << height << "  : Map size" << endl;
+		out << playerspawnX << " " << playerspawnY << " : Player spawn pos";
+	}
+
+	//chunk files
+	ss = stringstream("");
+	ss << "../Spelprojekt/src/map/map" << id;
+	filename = ss.str().c_str();
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			chunks[x][y].saveChunk(filename);
+		}
+	}
+}
+
+void Map::LoadMap(int id)
+{
+	if (chunks)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			delete[] chunks[x];
+		}
+		delete[] chunks;
+	}
+
+	stringstream ss;
+	ss << "../Spelprojekt/src/map/maps" << id;
+	string filename = ss.str().c_str();
+	ifstream in(filename);
+
+	if (in.is_open())
+	{
+		string fetch;
+		string sub;
+		getline(in, fetch);
+		ss = stringstream(fetch);
+		ss >> sub;
+		width = atoi(sub.c_str());
+		ss >> sub;
+		height = atoi(sub.c_str());
+
+		getline(in, fetch);
+		ss = stringstream(fetch);
+		ss >> sub;
+		playerspawnX = atoi(sub.c_str());
+
+		ss >> sub;
+		playerspawnY = atoi(sub.c_str());
+	}
+	else
+	{
+		width = 1;
+		height = 1;
+		int playerspawnX = 0;
+		int playerspawnY = 0;
+	}
+
+	ss = stringstream("");
+	ss << "../Spelprojekt/src/map/map" << id;
+	string path = ss.str();
+
+	chunks = new MapChunk*[width];
+	for (int x = 0; x < width; x++)
+	{
+		chunks[x] = new MapChunk[height];
+		for (int y = 0; y < height; y++)
+		{
+			chunks[x][y].init(x, y, path);
+		}
 	}
 }
