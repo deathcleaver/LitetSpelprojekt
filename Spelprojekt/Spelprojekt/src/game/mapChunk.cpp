@@ -279,6 +279,15 @@ void MapChunk::saveChunk(string path)
 	else
 		out << -1 << " NO SHRINE" << endl;
 
+
+	//save if we have HP pickup
+	if (health)
+	{
+		out << "0 " << xOffset << " " << yOffset << "\n";
+	}
+	else
+		out << "-1" << "\n";
+
 	//save nr of world objects
 	
 	int count = 0;
