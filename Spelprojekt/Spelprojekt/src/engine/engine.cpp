@@ -76,6 +76,9 @@ void Engine::init(glm::mat4* viewMat)
 
 	fadeIn = false;
 	fadeOut = false;
+
+	t.init(0, 2);
+
 }
 
 void Engine::setFadeIn()
@@ -98,6 +101,8 @@ void Engine::setFade(float fadeEffect)
 void Engine::render(const Player* player, const Map* map, const ContentManager* contentin, 
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit)
 {
+
+	t.update();
 
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
@@ -139,6 +144,12 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	bindLights(player, edit);
 	
+
+	int nr;
+	Light* l = t.getLights(nr);
+
+	gBuffer.pushLights(l, nr);
+
 	glDisable(GL_DEPTH_TEST);
 
 	if(edit->getEditMode() == 1) //editmode rekt
