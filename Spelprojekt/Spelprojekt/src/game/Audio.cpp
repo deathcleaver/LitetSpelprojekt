@@ -26,6 +26,8 @@ Audio::Audio()
 	//enemies and bosses
 	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
 	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
+	soundFiles[10] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
+	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
 	//ambient
 	//...
 }

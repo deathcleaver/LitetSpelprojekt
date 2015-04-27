@@ -19,6 +19,7 @@ protected: //private
 protected:
 	bool facingRight;
 	int contentIndex;
+	Audio* audio;
 public:
 	glm::mat4* getWorldMat();
 	GameObject(){ facingRight = true; contentIndex = -1; };
