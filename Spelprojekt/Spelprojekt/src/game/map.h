@@ -1,6 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "Audio.h"
 #include "mapChunk.h"
 #include "enemy.h"
 #include <string>
@@ -20,6 +21,8 @@ private:
 	int* upDraw;
 	int* lastUpDraw;
 	int counter = 0;
+	Audio* audio;
+
 public:
 	Map(){};
 	~Map();
@@ -28,6 +31,8 @@ public:
 	int readSizeX() const;
 	int readSizeY() const;
 	MapChunk** getChunks() const;
+	Audio* getAudio();
+	void Map::unloadAudio();
 	void SaveMap(int id);
 	void LoadMap(int id, glm::vec2* savedPickups);
 	int playerspawnX = 0;
