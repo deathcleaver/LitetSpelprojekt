@@ -2,7 +2,6 @@
 
 ContentManager::~ContentManager()
 {
-	
 	if (guiObjs)
 	{
 		for (size_t i = 0; i < guiCount; i++)
@@ -66,7 +65,13 @@ void ContentManager::loadGUIobjs()
 		guiObjs[n] = 0;
 
 	// game play reserved 25 - 49
-	for (int n = 25; n < 50; n++)
+	guiObjs[25] = new Object("", "src/textures/gui/play/skeletonHUD.bmp", guiObjs[0], true);
+	guiObjs[26] = new Object("", "src/textures/gui/play/heart1.bmp", guiObjs[0], true);
+	guiObjs[27] = new Object("", "src/textures/gui/play/heart2.bmp", guiObjs[0], true);
+	guiObjs[27] = new Object("", "src/textures/gui/play/heartFull.bmp", guiObjs[0], true);
+
+
+	for (int n = 28; n < 50; n++)
 		guiObjs[n] = 0;
 
 	// edit reserved 50 - 74
