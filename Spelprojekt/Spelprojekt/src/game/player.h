@@ -58,6 +58,8 @@ private:
 	std::string animState = "";
 
 	bool bossFighting = false;
+
+	int pickUps = 0;
 public:
 	Player(){};
 	~Player();
@@ -84,6 +86,8 @@ public:
 	bool isBossDead(std::string boss);
 	void setProgress(Progress p);
 	Progress getProgress();
+
+	void getPickup(glm::vec2 chunkIndex);
 };
 
 #endif

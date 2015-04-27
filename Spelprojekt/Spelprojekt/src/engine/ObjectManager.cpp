@@ -103,6 +103,14 @@ void ObjectManager::loadMapObjs()
 	//lantern
 	add = new AnimationObject("src/meshes/Background Objects/Lantern.v", "src/textures/Background Objects/Lantern.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//Platform rock 1x1
+	add = new AnimationObject("src/meshes/Map Blocks/Platform1x1.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform rock 1x3
+	add = new AnimationObject("src/meshes/Map Blocks/Platform1x3.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()

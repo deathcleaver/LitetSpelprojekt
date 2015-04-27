@@ -13,6 +13,8 @@
 #include "Light.h"
 #include "../legend.h"
 
+#include "HealthPickup.h"
+
 using namespace std;
 
 class Map;
@@ -35,19 +37,19 @@ private:
 	void saveObject(GameObject* object, ofstream* out);
 	void loadObjectOld(ifstream* in);
 	void loadObject(ifstream* in);
+
+	HealthPickup* health = 0;
 public:
 	MapChunk(){};
 	~MapChunk();
 
 	GameObject* chunkBackground = 0;
 	Shrine* shrine = 0;
-	
-	string mapnamepath = "";
 
 	vector<vector<GameObject*>> gameObjects;
 
 	Rect*** worldCollide = 0;
-	void init(int x, int y, std::string mapname);
+	void init(int x, int y, std::string path, bool healthTaken = false);
 	void initOld(int x, int y, std::string mapname);
 	int xOffset, yOffset;
 
@@ -86,7 +88,11 @@ public:
 	void recieveBackObj(GameObject* item);
 	void recieveSpecial(GameObject* item);
 	void addVisitor(Enemy* visitor, string type);
-	void saveChunk();
+	void saveChunk(string path);
+
+	bool takePickup(Rect* playerRect);
+
+	HealthPickup* getPickup();
 };
 
 #endif

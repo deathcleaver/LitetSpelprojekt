@@ -103,7 +103,6 @@ void Game::init(GLFWwindow* windowRef)
 	else
 		std::cout << "glDebugMessageCallback not available" << std::endl;
 #endif
-
 	viewMat = new glm::mat4(); //deleted in UserInput
 	engine = new Engine();
 	engine->init(viewMat);
@@ -112,6 +111,7 @@ void Game::init(GLFWwindow* windowRef)
 	player = new Player();
 	player->init();
 	map = new Map();
+	map->LoadMap(1, 0);
 	map->init();
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
@@ -125,12 +125,12 @@ void Game::init(GLFWwindow* windowRef)
 	//start audio
 	audio = new Audio();
 	audio->init();
-
 	// do not delete in this class
 	this->windowRef = windowRef;
 
 	start = 0;
 	checkForSave();
+
 	gui = new GUI();
 	if (start)
 		gui->init(in, player, content, false);
@@ -146,7 +146,7 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
@@ -211,22 +211,25 @@ void Game::update(float deltaTime)
 		case(MENU):
 		{
 
-					  engine->setFade(0.0f);
-					  audio->playMusic(0);
-					  audio->updateListener(player->readPos());
+			engine->setFade(0.0f);
+			audio->playMusic(0);
+			audio->updateListener(player->readPos());
 			break;
 		}
 		case(PLAY):
 		{
-					  // music
-					  int tempX, tempY, tempId;
-					  MapChunk** tempChunk = map->getChunks();
-					  map->getChunkIndex(player->readPos(), &tempX, &tempY);
-					  tempId = tempChunk[tempX][tempY].getMusicId();
-					  if (tempId != NULL)//change music track
-					  {
-							  audio->playMusicFade(tempId, deltaTime);
-					  }
+			// music
+			int tempX, tempY, tempId;
+			MapChunk** tempChunk = map->getChunks();
+			map->getChunkIndex(player->readPos(), &tempX, &tempY);
+			if (tempX != -1 && tempY != -1)
+			{
+				tempId = tempChunk[tempX][tempY].getMusicId();
+				if (tempId != NULL)//change music track
+				{
+					audio->playMusicFade(tempId, deltaTime);
+				}
+			}
 						  
 			if (cameraFollow)
 			{
@@ -261,7 +264,6 @@ void Game::update(float deltaTime)
 				if (player->isBossFighting())
 				{
 					player->dingDongTheBossIsDead("No boss at all");
-					audio->playMusicFade(-1, deltaTime); //don't play any music since the boss is dead
 				}
 					
 			}
@@ -277,9 +279,9 @@ void Game::update(float deltaTime)
 				{
 					std::string boss = map->getBoss(pPos, false);
 					player->dingDongTheBossIsDead(boss);
+					audio->playSound(8);//boss_defeted
 				}
-				audio->playMusicFade(-1, deltaTime);//stop music if the boss dead
-				audio->playSound(8);
+				audio->playMusicFade(-1, deltaTime);//stop music if the boss is dead
 			}
 			else if (mapMsg == 5)
 			{
@@ -303,6 +305,22 @@ void Game::update(float deltaTime)
 		{
 			map->setUpDraw3x2(*in->GetPos());
 			edit->update(lastX, lastY, gui);
+
+			//load/save check
+			if (in->getLMBrelease())
+			{
+				bool load, save;
+				int nr;
+				edit->saveloadCheck(&save, &load, &nr);
+
+				if (load)
+				{
+					map->LoadMap(nr, 0);
+					edit->init(map, in);
+				}
+				if (save)
+					map->SaveMap(nr);
+			}
 			if (in->getESC())
 			{
 				//save map
@@ -347,6 +365,8 @@ void Game::buttonEvents(int buttonEv)
 	case(0) : //default empty event;
 		break;
 	case(1) :
+		map->LoadMap(1, 0);
+		map->init();
 		current = PLAY;
 		audio->playSound(6); //button
 		cameraFollow = true;
@@ -358,6 +378,7 @@ void Game::buttonEvents(int buttonEv)
 		current = EDIT;
 		edit->refreshOnEnter();
 		audio->playSound(6); //button
+		audio->playMusic(-1); //stop menu music
 		cameraFollow = false;
 		break;
 	case(3) :
@@ -369,12 +390,20 @@ void Game::buttonEvents(int buttonEv)
 		engine->setFadeOut();
 		break;
 	case(4) :
+		glm::vec2 pPos = start->getPos();
+		map->LoadMap(1, savedPickups);
+		map->init();
+		start = 0;
 		current = PLAY;
 		audio->playSound(6); //button
 		engine->setFadeIn();
 		cameraFollow = true;
+		for (int c = 0; c < savePickupNr; c++)
+		{
+			player->getPickup(savedPickups[c]);
+		}
 		player->setProgress(playerProgress);
-		player->moveTo(start->returnThis()->readPos());
+		player->moveTo(pPos.x, pPos.y);
 		break;
 	}
 	//Editor buttons
@@ -491,6 +520,20 @@ void Game::checkForSave()
 				ss >> sub;
 				playerProgress.checkBossType(sub);
 			}
+			getline(in, line);
+			ss = stringstream(line);
+			ss >> sub;
+			int nrOfPickups = atoi(sub.c_str());
+			for (int c = 0; c < nrOfPickups; c++)
+			{
+				getline(in, line);
+				ss = stringstream(line);
+				ss >> sub;
+				savedPickups[c].x = atoi(sub.c_str());
+				ss >> sub;
+				savedPickups[c].y = atoi(sub.c_str());
+				savePickupNr++;
+			}
 		}
 		in.close();
 	}
@@ -513,6 +556,11 @@ void Game::saveGame()
 			for (int c = 0; c < 3; c++)
 			{
 				out << playerProgress.getBossType(c) << "\n";
+			}
+			out << playerProgress.nrOfPickups << "\n";
+			for (int c = 0; c < playerProgress.nrOfPickups; c++)
+			{
+				out << playerProgress.pickups[c].x << " " << playerProgress.pickups[c].y << "\n";
 			}
 		}
 		else

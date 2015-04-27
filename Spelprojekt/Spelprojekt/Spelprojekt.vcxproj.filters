@@ -79,6 +79,9 @@
     <ClCompile Include="src\game\edit.cpp">
       <Filter>Source\Gui / Userinput / Editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\HealthPickup.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h">
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="src\UserInput.h">
       <Filter>Header\Gui / Userinput / Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\HealthPickup.h">
+      <Filter>Header\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

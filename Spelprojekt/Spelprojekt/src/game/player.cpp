@@ -374,6 +374,8 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 		}
 	}
 
+	map->giveMeHealthPickup(this, collideRect);
+
 	vec3 playerPos = readPos();
 	if (!noclip)
 	{
@@ -439,7 +441,11 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					isAttacking = false;
 					attackTimer = 0.0f;
 					if (currentRune == MiscID::rune_shield)
+					{
 						shield -= 1;
+						audio->playSound(5); //player_shield_force
+					}
+	
 				}
 				else
 				{
@@ -458,7 +464,6 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 				runeEffect->posX = playerPos.x;
 				runeEffect->posY = playerPos.y;
 				runeEffect->posZ = playerPos.z;
-				audio->playSound(5); //player_shield_force
 			}
 			invulnTimer -= 1.0f*deltaTime;
 			if (flinchTimer > FLT_EPSILON)
@@ -515,7 +520,7 @@ void Player::respawn(Map* map)
 		delete runeEffect;
 		runeEffect = 0;
 	}
-	HP = 3;
+	HP = MAX_HP;
 	shield = 0;
 	speed = vec2(0);
 	jumping = false;
@@ -589,4 +594,19 @@ void Player::setProgress(Progress p)
 Progress Player::getProgress()
 {
 	return progressMeter;
+}
+
+void Player::getPickup(glm::vec2 chunkIndex)
+{
+	pickUps++;
+	printf("Fick en piece of heart, nu har jag %d\n", pickUps);
+	if (pickUps == 3)
+	{
+		pickUps = 0;
+		MAX_HP++;
+		printf("Hittat 3 pickups, nu är nrOfPickups %d och nya MAX_HP är %d\n", pickUps, MAX_HP);
+	}
+	HP = MAX_HP;
+	printf("HP sattes till %d\n", HP);
+	progressMeter.addHealth(chunkIndex);
 }

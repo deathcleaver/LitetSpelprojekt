@@ -73,15 +73,19 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	uniformNrLightPos = glGetUniformLocation(*shaderPtr, "nrLights");
 	
 	glGenBuffers(1, &lightBuffer);
+	glGenBuffers(1, &lightBufferGlow);
 
 	nrLight = 100;
 
-	volume = new int[nrLight];
+	//volume = new int[nrLight];
 
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), NULL, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, lightBufferGlow);
+	glBufferData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), NULL, GL_DYNAMIC_DRAW);
 
 	nrLight = 0;
+	nrLightGlow = 0;
 	
 
 	// bind textures
@@ -93,7 +97,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	}
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, lightBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
 	glGenVertexArrays(1, &LightVao);
 
 	glBindVertexArray(LightVao);
@@ -116,10 +120,11 @@ Gbuffer::~Gbuffer()
 {
 	delete[] rTexture;
 	delete[] pos;
-	delete[] volume;
+	//delete[] volume;
 	glDeleteBuffers(1, &targetId);
 
 	glDeleteBuffers(1, &lightBuffer);
+	glDeleteBuffers(1, &lightBufferGlow);
 }
 
 void Gbuffer::resize(int x, int y)
@@ -132,17 +137,35 @@ void Gbuffer::resize(int x, int y)
 
 void Gbuffer::pushLights(Light* light, int lightsAdded)
 {
-	if (nrLight + lightsAdded <= 100)
+	//if (nrLight + lightsAdded <= 100)
+	//{
+	//	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+	//	glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
+	//	for (int i = 0; i < lightsAdded; i++)
+	//	{
+	//		volume[i] = light[i].volume;
+	//	}
+	//	
+	//	nrLight += lightsAdded;
+	//}
+	
+	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
+
+	for (int  i = 0; i < lightsAdded && i < 100; i++)
 	{
-		glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
-		glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
-		for (int i = 0; i < lightsAdded; i++)
+		if (light[i].volume == 0 || light[i].volume == 1)
 		{
-			volume[i] = light[i].volume;
+			glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), 1 * sizeof(Light), &light[i]);
+			nrLight++;
 		}
-		
-		nrLight += lightsAdded;
+		if (light[i].volume == 2 || light[i].volume == 1)
+		{
+			glBufferSubData(GL_ARRAY_BUFFER, nrLightGlow * sizeof(Light), 1 * sizeof(Light), &light[i]);
+			nrLightGlow++;
+		}
 	}
+
 }
 
 void Gbuffer::bind(GLuint target)
@@ -152,6 +175,7 @@ void Gbuffer::bind(GLuint target)
 
 void Gbuffer::clearLight()
 {
+	nrLightGlow = 0;
 	nrLight = 0;
 }
 
@@ -163,15 +187,15 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 
 	glProgramUniform3f(*shaderGlowPtr, uniformCamPosGlow, campos->x, campos->y, campos->z);
 
-	glBindBuffer(GL_ARRAY_BUFFER, lightBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
 	glBindVertexArray(LightVao);
 
 	//glDrawArrays(GL_POINTS, 0, nrLight);
-	//glDrawArraysInstanced(GL_POINTS, 0, 1, nrLight);
-	for (int i = 0; i < nrLight; i++)
-	{
-		glDrawArraysInstancedBaseInstance(GL_POINTS, 0, 1, min(volume[i], 1), i);
-	}
+	glDrawArraysInstanced(GL_POINTS, 0, 1, nrLightGlow);
+	//for (int i = 0; i < nrLight; i++)
+	//{
+	//	glDrawArraysInstancedBaseInstance(GL_POINTS, 0, 1, min(volume[i], 1), i);
+	//}
 
 }
 

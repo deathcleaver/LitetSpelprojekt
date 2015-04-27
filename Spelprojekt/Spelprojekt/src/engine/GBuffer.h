@@ -33,8 +33,9 @@ public:
 	GLfloat* playerPos;
 
 	int nrLight;
+	int nrLightGlow;
 
-	int* volume;
+	//int* volume;
 
 	GLuint uniformCamPosGlow;
 
@@ -45,6 +46,7 @@ private:
 	RenderTarget* rTexture;
 
 	GLuint lightBuffer;
+	GLuint lightBufferGlow;
 
 	GLuint LightVao;
 

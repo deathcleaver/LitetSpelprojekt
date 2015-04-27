@@ -7,6 +7,8 @@
 
 struct Progress
 {
+	glm::vec2 pickups[4];
+	int nrOfPickups = 0;
 	bool batboss = false;
 	bool spiderboss = false;
 	bool ghostboss = false;
@@ -28,6 +30,12 @@ struct Progress
 		if (index == 2 && ghostboss)
 			return "Bossghost";
 		return "No";
+	}
+
+	void addHealth(glm::vec2 add)
+	{
+		pickups[nrOfPickups] = add;
+		nrOfPickups++;
 	}
 };
 

@@ -113,7 +113,7 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	}
 	else
 		*out << 0 << " : ChuckTesta" << endl;
-	*out << batCount + flameCount + spikeCount << " : Enemy Count" << endl;
+	*out << batCount + flameCount + spikeCount  + cubeCount << " : Enemy Count" << endl;
 
 	for (int n = 0; n < batCount; n++)
 		*out << "Bat " << bats[n]->readPos().x - xOffset * 35 << " " << bats[n]->readPos().y + yOffset * 35 << endl;
@@ -123,6 +123,10 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 
 	for (int n = 0; n < spikeCount; n++)
 		*out << "Spikes " << spikes[n]->readPos().x - xOffset * 35 << " " << spikes[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < cubeCount; n++)
+		*out << "Cube " << cubes[n]->readPos().x - xOffset * 35 << " " << cubes[n]->readPos().y + yOffset * 35 << endl;
+	
 }
 
 void EnemyManager::initEmpty()

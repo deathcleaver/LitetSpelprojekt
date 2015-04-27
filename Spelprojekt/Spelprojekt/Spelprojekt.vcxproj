@@ -106,6 +106,7 @@
     <ClCompile Include="src\game\enemyManager.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameObject.cpp" />
+    <ClCompile Include="src\game\HealthPickup.cpp" />
     <ClCompile Include="src\game\map.cpp" />
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\game\enemyManager.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameObject.h" />
+    <ClInclude Include="src\game\HealthPickup.h" />
     <ClInclude Include="src\game\Light.h" />
     <ClInclude Include="src\game\map.h" />
     <ClInclude Include="src\game\mapChunk.h" />

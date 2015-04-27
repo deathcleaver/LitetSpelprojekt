@@ -63,6 +63,7 @@ Shrine::~Shrine()
 	delete object;
 	delete runeObj;
 	delete lightForPlayer;
+	delete myLight;
 }
 
 
