@@ -30,6 +30,8 @@ enum WorldID
 	minestruct_small,
 	minestruct_large,
 	lantern,
+	platformRock1x1,
+	platformRock1x3,
 
 	world_count, //leave this last
 };
