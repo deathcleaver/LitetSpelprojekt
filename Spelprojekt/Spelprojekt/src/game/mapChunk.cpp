@@ -39,7 +39,7 @@ MapChunk::~MapChunk()
 	}
 }
 
-void MapChunk::init(int xIndex, int yIndex, std::string mapname, std::string path, bool healthTaken)
+void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 {
 	gameObjects = vector<vector<GameObject*>>();
 	
@@ -125,13 +125,12 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname, std::string pat
 		{
 			if (!healthTaken)
 			{
-				health = new GameObject();
+				health = new HealthPickup();
 				ss >> sub;
 				float xpos = atof(sub.c_str());
 				ss >> sub;
 				float ypos = atof(sub.c_str());
-				health->init(0);
-				health->moveTo(xpos, ypos);
+				health->init(glm::vec2(xpos + xOffset*35, ypos - yOffset*35));
 			}
 		}
 
@@ -841,4 +840,25 @@ Light* MapChunk::takeClosestLight(glm::vec3 pos)
 	}
 	else 
 		return 0;
+}
+
+bool MapChunk::takePickup(Rect* playerRect)
+{
+	if (health)
+	{
+		if (health->isTaken())
+			return false;
+		if (playerRect->intersects(health->getRekt()))
+		{
+			health->take();
+			return true;
+		}
+
+	}
+	return false;
+}
+
+HealthPickup* MapChunk::getPickup()
+{
+	return health;
 }

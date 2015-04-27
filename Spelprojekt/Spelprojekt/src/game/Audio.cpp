@@ -202,7 +202,7 @@ void Audio::update(float deltaTime)
 	}
 
 	// print # of buffers for debug purposes
-	printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
+	//printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
 
 }
 

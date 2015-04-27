@@ -497,7 +497,7 @@ void Map::SaveMap(int id)
 	}
 }
 
-void Map::LoadMap(int id)
+void Map::LoadMap(int id, glm::vec2* savedPickups)
 {
 	if (chunks)
 	{
@@ -544,13 +544,40 @@ void Map::LoadMap(int id)
 	ss << "../Spelprojekt/src/map/map" << id;
 	string path = ss.str();
 
+	bool healthTaken = false;
+
 	chunks = new MapChunk*[width];
 	for (int x = 0; x < width; x++)
 	{
 		chunks[x] = new MapChunk[height];
 		for (int y = 0; y < height; y++)
 		{
-			chunks[x][y].init(x, y, path);
+			if (savedPickups)
+			{
+				healthTaken = false;
+				for (int c = 0; c < 4 && !healthTaken; c++)
+				{
+					if (savedPickups[c].x == x && savedPickups[c].y == y)
+						healthTaken = true;
+				}
+				chunks[x][y].init(x, y, path, healthTaken);
+			}
+			else
+				chunks[x][y].init(x, y, path);
+		}
+	}
+}
+
+void Map::giveMeHealthPickup(Player* p, Rect* pRect)
+{
+	glm::vec3 pPos = p->readPos();
+	int idX, idY;
+	getChunkIndex(pPos, &idX, &idY);
+	if (idX != -1 || idY != -1)
+	{
+		if (chunks[idX][idY].takePickup(pRect))
+		{
+			p->getPickup(glm::vec2(idX, idY));
 		}
 	}
 }

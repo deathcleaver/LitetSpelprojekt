@@ -58,6 +58,9 @@ private:
 	Shrine* start;
 	void checkForSave();
 	void saveGame();
+
+	glm::vec2 savedPickups[4];
+	int savePickupNr = 0;
 public:
 	Game() {};
 	~Game();
