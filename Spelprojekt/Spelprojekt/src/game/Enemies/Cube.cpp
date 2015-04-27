@@ -97,6 +97,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		speed.y -= 20.0f;
 		jumpTimer = 0.0f;
+		Audio::getAudio().playSoundAtPos(12, glm::vec2(myPos.x, myPos.y), false); //enemy_slime_jump
 	}
 
 	if (invulnTimer > FLT_EPSILON)
@@ -111,6 +112,7 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 	if (invulnTimer < FLT_EPSILON)
 	{
 		health -= damage;
+		Audio::getAudio().playSoundAtPos(13, glm::vec2(readPos().x, readPos().y), false); //enemy_slime_hurt
 		if (playerRightOfEnemy)
 			speed.x = -16.0f;
 		else

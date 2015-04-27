@@ -38,11 +38,14 @@ bool Audio::init()
 	//interface
 	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
 	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
-	//enemies and bosses
+	//bosses
 	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
 	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
 	soundFiles[10] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
 	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
+	//enemies
+	soundFiles[12] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
+	soundFiles[13] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
 	//ambient
 	//...
 
