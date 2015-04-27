@@ -69,7 +69,7 @@ public:
 	vec2 getSpeed();
 	std::string getAnimState();
 	bool isBlinking() const;
-
+	void playerGuiInfo(int* hp, int* pieces);
 	void execute(Map* map);
 
 	void fightThatBossBro();

@@ -68,10 +68,10 @@ void ContentManager::loadGUIobjs()
 	guiObjs[25] = new Object("", "src/textures/gui/play/skeletonHUD.bmp", guiObjs[0], true);
 	guiObjs[26] = new Object("", "src/textures/gui/play/heart1.bmp", guiObjs[0], true);
 	guiObjs[27] = new Object("", "src/textures/gui/play/heart2.bmp", guiObjs[0], true);
-	guiObjs[27] = new Object("", "src/textures/gui/play/heartFull.bmp", guiObjs[0], true);
+	guiObjs[28] = new Object("", "src/textures/gui/play/heartFull.bmp", guiObjs[0], true);
 
 
-	for (int n = 28; n < 50; n++)
+	for (int n = 29; n < 50; n++)
 		guiObjs[n] = 0;
 
 	// edit reserved 50 - 74

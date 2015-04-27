@@ -610,3 +610,9 @@ void Player::getPickup(glm::vec2 chunkIndex)
 	printf("HP sattes till %d\n", HP);
 	progressMeter.addHealth(chunkIndex);
 }
+
+void Player::playerGuiInfo(int* inhp, int* pieces)
+{
+	*inhp = HP;
+	*pieces = pickUps;
+}
