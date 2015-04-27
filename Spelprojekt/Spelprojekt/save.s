@@ -1,6 +1,4 @@
-2 0
-Bossbat
+-1 -1
 No
 No
-1
-1 0
+No

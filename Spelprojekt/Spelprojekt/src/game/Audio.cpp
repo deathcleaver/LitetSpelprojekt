@@ -3,10 +3,25 @@
 
 using namespace std;
 
+Audio& Audio::getAudio()
+{
+	static Audio singleton;
+	return singleton;
+}
+
 Audio::Audio()
 {
-	currTrack = -1;
+	
+}
 
+Audio::~Audio()
+{
+
+}
+
+bool Audio::init()
+{
+	//load tracks
 	//load music files
 	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
 	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
@@ -30,15 +45,7 @@ Audio::Audio()
 	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
 	//ambient
 	//...
-}
 
-Audio::~Audio()
-{
-
-}
-
-bool Audio::init()
-{
 	//Init OpenAL
 	device = alcOpenDevice(NULL);
 	if (!device) return endWithError("no sound device");

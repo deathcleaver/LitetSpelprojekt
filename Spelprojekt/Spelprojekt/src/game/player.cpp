@@ -370,7 +370,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
-			map->getAudio()->playSound(0);//item
+			Audio::getAudio().playSound(0);//item
 		}
 	}
 
@@ -443,7 +443,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					if (currentRune == MiscID::rune_shield)
 					{
 						shield -= 1;
-						map->getAudio()->playSound(5); //player_shield_force
+						Audio::getAudio().playSound(5); //player_shield_force
 					}
 	
 				}
@@ -452,7 +452,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
-					map->getAudio()->playSound(1); //player_resurrected
+					Audio::getAudio().playSound(1); //player_resurrected
 				}
 			}
 		}
@@ -479,11 +479,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		isAttacking = true;
 		attackTimer = 1.0f;
 		if (currentRune == MiscID::rune_damage)
-			map->getAudio()->playSound(4);
+			Audio::getAudio().playSound(4);
 		else if (currentRune == MiscID::rune_range)
-			map->getAudio()->playSound(3); //player_attack_fire
+			Audio::getAudio().playSound(3); //player_attack_fire
 		else
-			map->getAudio()->playSound(2); //player_attack_miss
+			Audio::getAudio().playSound(2); //player_attack_miss
 	}
 
 	if (isAttacking)

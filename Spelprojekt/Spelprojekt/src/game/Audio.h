@@ -47,9 +47,9 @@ private:
 
 
 public:
+	static Audio& getAudio();
 	Audio();
 	~Audio();
-	//ALboolean LoadALData();
 	bool init();
 	void update(float deltaTime);
 	void playMusic(int file);
@@ -64,6 +64,7 @@ private:
 	int endWithError(char* msg, int error = 0);
 
 private:
+	
 	//OpenAL device and context
 	ALCdevice *device;                                                          //Create an OpenAL Device
 	ALCcontext *context;
@@ -79,9 +80,6 @@ private:
 	// audio source lists
 	vector<ALuint> soundSources;
 	vector<MusicStruct> musicSources;
-
-	//misc vars //remove these later
-	int currTrack, oldTrack;
 };
 
 #endif
