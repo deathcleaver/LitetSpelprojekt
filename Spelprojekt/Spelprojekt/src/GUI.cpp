@@ -116,7 +116,12 @@ void GUI::PLAY(bool init)
 {
 	if (init)
 	{
+		size = 1;
+		for (int n = 0; n < size; n++)
+			items[n] = new ScreenItem();
 
+		items[0]->init(25, 25, false);
+		items[0]->MoveAutoSize(-0.57, -0.78, content);
 	}
 }
 
