@@ -25,8 +25,8 @@ Audio::Audio()
 	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
 	//enemies and bosses
 	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
+	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
 	//ambient
-	soundFiles[9] = "../Audio/Sounds/Ambient/ambient_water_drop.wav";
 	//...
 }
 
@@ -47,8 +47,7 @@ bool Audio::init()
 	//Listener
 	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
 	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
-	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 };
-	//First direction vector, then vector pointing up)                                                                                
+	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 }; //up, lookat                                                                                
 	alListenerfv(AL_POSITION, ListenerPos); //Set position of the listener
 	alListenerfv(AL_VELOCITY, ListenerVel); //Set velocity of the listener
 	alListenerfv(AL_ORIENTATION, ListenerOri);
@@ -56,7 +55,7 @@ bool Audio::init()
 	// create music buffers
 	alGenBuffers(MUSIC_BUFFERS, musicBuffer);
 	createBuffers(musicFiles, musicBuffer, MUSIC_BUFFERS);
-	
+
 	// create sound buffers
 	alGenBuffers(SOUND_BUFFERS, soundBuffer);
 	createBuffers(soundFiles, soundBuffer, SOUND_BUFFERS);
@@ -185,7 +184,7 @@ void Audio::update(float deltaTime)
 			musicSources.erase(musicSources.begin() + i);
 			break;
 		}
-			
+
 	}
 
 	// clean and remove sound sources that's finished playing
@@ -200,10 +199,8 @@ void Audio::update(float deltaTime)
 			break;
 		}
 	}
-
 	// print # of buffers for debug purposes
 	//printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
-
 }
 
 void Audio::playMusic(int file)
@@ -215,7 +212,7 @@ void Audio::playMusic(int file)
 			MusicStruct music;
 			alGenSources(1, &music.source);
 
-			ALfloat SourcePos[] = { 0.0, 0.0, 0.0 }; 
+			ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
 			ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
 
@@ -294,7 +291,7 @@ void Audio::playMusicFade(int file, float deltaTime)
 			music.volume = 0.0f;
 			music.state = A_FADEIN;
 			music.track = file;
-			
+
 			//add new music source to the source list
 			musicSources.push_back(music);
 		}
@@ -337,7 +334,7 @@ void Audio::playMusicFade(int file, float deltaTime)
 
 void Audio::playSound(int file)
 {
-	if (file < SOUND_BUFFERS)
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
 	{
 		ALuint source;
 		alGenSources(1, &source);
@@ -347,7 +344,7 @@ void Audio::playSound(int file)
 
 		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
 		alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
-		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);  
+		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
 		alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
 		alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
 		alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
@@ -361,25 +358,26 @@ void Audio::playSound(int file)
 
 void Audio::playSoundAtPos(int file, glm::vec2 pos, bool looping)
 {
-		if (file < SOUND_BUFFERS)
-		{
-			ALuint source;
-			alGenSources(1, &source);
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
+	{
+		ALuint source;
+		alGenSources(1, &source);
 
-			ALfloat SourcePos[] = { pos.x, pos.y, 0.0 };                                    //Position of the musicSource sound
-			ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+		ALfloat SourcePos[] = { pos.x, pos.y, 0.0 };                                    //Position of the musicSource sound
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
-			alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
-			alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
-			alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
-			alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
-			alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
-			alSourcei(source, AL_LOOPING, looping);
+		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
+		alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
+		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
+		alSourcei(source, AL_REFERENCE_DISTANCE, 10.0);
+		alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
+		alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
+		alSourcei(source, AL_LOOPING, looping);
 
-			alSourcePlay(source);
+		alSourcePlay(source);
 
-			soundSources.push_back(source);
-		}
+		soundSources.push_back(source);
+	}
 }
 
 void Audio::updateListener(glm::vec3 pos)

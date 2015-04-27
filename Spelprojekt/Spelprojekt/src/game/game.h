@@ -13,7 +13,6 @@
 #include "player.h"
 #include "enemyManager.h"
 #include "map.h"
-#include "Audio.h"
 
 #include <GLFW/glfw3.h>
 
@@ -48,8 +47,6 @@ private:
 	mat4* viewMat = 0;
 
 	GLFWwindow* windowRef;
-
-	Audio* audio;
 
 	bool inBossRoom = false;
 	glm::vec3 bossRoomMiddle;

@@ -40,7 +40,7 @@ int GUI::update(int state)
 			MENU(init);
 			break;
 		case(1) :
-			PLAY(init);
+			//moved out of the switch case
 			break;
 		case(2) :
 			INTRO(init);
@@ -52,6 +52,10 @@ int GUI::update(int state)
 			PAUSE(init);
 			break;
 		}
+	}
+	if (state == 1) //if play
+	{
+		PLAY(init);
 	}
 	last = state;
 	return keyUpdate();
@@ -114,14 +118,60 @@ void GUI::MENU(bool init)
 
 void GUI::PLAY(bool init)
 {
-	if (init)
+	int hp;
+	int pickups;
+	bool refresh = false;
+
+	player->playerGuiInfo(&hp, &pickups);
+	if (hp != playerHP || pickups != playerPickups)
 	{
-		size = 1;
+		playerHP = hp;
+		playerPickups = pickups;
+		refresh = true;
+	}
+
+	if (init || refresh)
+	{
+		destroyy();
+
+		size = 1 + playerHP;
+		bool extra = false;
+		if (playerPickups > 0)
+		{
+			size++;
+			extra = true;
+		}
+
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
 
 		items[0]->init(25, 25, false);
 		items[0]->MoveAutoSize(-0.57, -0.78, content);
+
+		if (extra)
+			size--;
+
+		for (int n = 1; n < size ; n++)
+		{
+			items[n]->init(28, 28, false);
+			items[n]->MoveAutoSize(-0.68 + 0.12 * (n-1), -0.8, content);
+		}
+
+		if (extra)
+		{
+			size++;
+
+			if (playerPickups == 1)
+			{
+				items[size - 1]->init(26, 26, false);
+				items[size - 1]->MoveAutoSize(-0.68 + 0.12 * (size - 2), -0.8, content);
+			}
+			else if (playerPickups == 2)
+			{
+				items[size - 1]->init(27, 27, false);
+				items[size - 1]->MoveAutoSize(-0.68 + 0.12 * (size - 2), -0.8, content);
+			}
+		}
 	}
 }
 

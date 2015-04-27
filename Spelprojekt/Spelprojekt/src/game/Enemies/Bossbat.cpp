@@ -221,6 +221,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			charging = true;
 			chargePos = playerPos;
 			returnPos = readPos();
+			map->getAudio()->playSoundAtPos(9, glm::vec2(returnPos.x, returnPos.y), false);//boss_bat_attack
 			chargeTimer = 0.8f;
 			if (chargePos.x < returnPos.x)
 			{

@@ -13,6 +13,12 @@ Map::~Map()
 		}
 		delete[] chunks;
 	}
+
+	if (audio)
+	{
+		audio->shutdown();
+		delete audio;
+	}
 }
 
 void Map::init()
@@ -26,6 +32,10 @@ void Map::init()
 		upDraw[n] = -1;
 		lastUpDraw[n] = -1;
 	}
+
+	//start audio
+	audio = new Audio();
+	audio->init();
 }
 
 int Map::readSquareSize() const
@@ -36,6 +46,17 @@ int Map::readSquareSize() const
 MapChunk** Map::getChunks() const
 {
 	return chunks;
+}
+
+Audio* Map::getAudio()
+{
+	return audio;
+}
+
+void Map::unloadAudio()
+{
+	audio->shutdown();
+	delete audio;
 }
 
 int Map::readSizeX() const

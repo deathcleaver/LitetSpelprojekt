@@ -20,6 +20,8 @@
 
 #include "GBuffer.h"
 
+#include "../game/Torch.h"
+
 class Engine : public Align_16
 {
 private:
@@ -70,6 +72,8 @@ private:
 	int id;
 	int lastid;
 	
+	Torch t;
+
 public:
 	Engine(){};
 	~Engine();
