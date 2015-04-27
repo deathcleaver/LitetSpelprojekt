@@ -531,6 +531,7 @@ void Map::LoadMap(int id, glm::vec2* savedPickups)
 
 		ss >> sub;
 		playerspawnY = atoi(sub.c_str());
+		in.close();
 	}
 	else
 	{
@@ -573,7 +574,7 @@ void Map::giveMeHealthPickup(Player* p, Rect* pRect)
 	glm::vec3 pPos = p->readPos();
 	int idX, idY;
 	getChunkIndex(pPos, &idX, &idY);
-	if (idX != -1 || idY != -1)
+	if (idX != -1 && idY != -1)
 	{
 		if (chunks[idX][idY].takePickup(pRect))
 		{

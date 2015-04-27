@@ -4,8 +4,6 @@
 
 MapChunk::~MapChunk()
 {
-	saveChunk();
-
 	delete chunkBackground;
 	delete enemyMan;
 

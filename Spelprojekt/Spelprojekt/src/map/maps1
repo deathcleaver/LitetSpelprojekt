@@ -1,2 +1,2 @@
-1 #number of maps |  mapfolder width height
-map1 8 4
+8 4  : Map size
+140 -10 : Player spawn pos
