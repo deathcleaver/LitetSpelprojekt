@@ -7,6 +7,7 @@ Flame -14 -4
 Flame 15 -12
 2 0 0 -2 :  BACKGROUND!
 -1 NO SHRINE
+-1 NO HEALTH PICKUP
 38 :  Number of world objects
 0 23 0 0 3 0 1 0 17 0 0 2 0 0 0 0 1
 0 23 0 0 3 0 1 0 16 0 0 2 0 0 0 0 1

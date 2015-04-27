@@ -29,7 +29,7 @@ public:
 	int readSizeY() const;
 	MapChunk** getChunks() const;
 	void SaveMap(int id);
-	void LoadMap(int id);
+	void LoadMap(int id, glm::vec2* savedPickups);
 	int playerspawnX = 0;
 	int playerspawnY = 0;
 
@@ -51,6 +51,8 @@ public:
 	std::string getBoss(glm::vec3 playerpos, bool startBoss);
 
 	void findNewHome(Enemy* orphan);
+
+	void giveMeHealthPickup(Player* p, Rect* pRect);
 };
 
 #endif

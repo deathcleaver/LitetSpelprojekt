@@ -268,6 +268,19 @@ void Engine::renderMisc()
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
+
+					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
+					if (pickup)
+					{
+						if (!pickup->isTaken())
+						{
+							id = pickup->bindWorldMat(&tempshader, &uniformModel);
+							if (id != lastid)
+								facecount = content->bind(OBJ::MISC, id);
+							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+							lastid = id;
+						}
+					}
 				}
 	}
 	lastid = -1;
@@ -502,6 +515,27 @@ void Engine::bindLights(const Player* player, Edit* edit)
 						}
 					}
 					nrOfLights += lightSize;
+
+					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
+					if (pickup)
+					{
+						if (!pickup->isTaken())
+						{
+							Light* temp = pickup->getLight();
+							light[nrOfLights].posX = temp->posX;
+							light[nrOfLights].posY = temp->posY;
+							light[nrOfLights].posZ = temp->posZ;
+
+							light[nrOfLights].r = temp->r;
+							light[nrOfLights].g = temp->g;
+							light[nrOfLights].b = temp->b;
+
+							light[nrOfLights].intensity = temp->intensity;
+							light[nrOfLights].distance = temp->distance;
+							light[nrOfLights].volume = temp->volume;
+							nrOfLights++;
+						}
+					}
 				}
 		}
 	}

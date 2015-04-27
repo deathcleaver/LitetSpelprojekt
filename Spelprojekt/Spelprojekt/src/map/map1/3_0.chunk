@@ -14,6 +14,7 @@ Spikes -6 -1
 Spikes -5 -1
 2 0 0 -2 :  BACKGROUND!
 1 13 3.5 0 :  SHRINE!
+-1 NO HEALTH PICKUP
 25 :  Number of world objects
 0 35 0 0 0 0 7 0 14 0 0 2 0 0 0 0 1
 0 3 0 0 16 0 28 0 -3.5 0 0 2 0 0 0 0 1

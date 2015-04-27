@@ -2,6 +2,7 @@
 0 : Enemy Count
 1 0 0 -2 :  BACKGROUND!
 -1 NO SHRINE
+-1 NO HEALTH PICKUP
 0 :  Number of world objects
 -1 : Music ID
 0 : Nr of Lights 

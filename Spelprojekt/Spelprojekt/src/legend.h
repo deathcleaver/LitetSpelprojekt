@@ -32,6 +32,7 @@ enum WorldID
 	lantern,
 	platformRock1x1,
 	platformRock1x3,
+	platformRock1x5,
 
 	world_count, //leave this last
 };

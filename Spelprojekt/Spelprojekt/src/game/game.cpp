@@ -103,7 +103,6 @@ void Game::init(GLFWwindow* windowRef)
 	else
 		std::cout << "glDebugMessageCallback not available" << std::endl;
 #endif
-
 	viewMat = new glm::mat4(); //deleted in UserInput
 	engine = new Engine();
 	engine->init(viewMat);
@@ -112,7 +111,7 @@ void Game::init(GLFWwindow* windowRef)
 	player = new Player();
 	player->init();
 	map = new Map();
-	map->LoadMap(1);   
+	map->LoadMap(1, 0);
 	map->init();
 	in = new UserInput();
 	glfwGetCursorPos(windowRef, &lastX, &lastY);
@@ -131,6 +130,7 @@ void Game::init(GLFWwindow* windowRef)
 
 	start = 0;
 	checkForSave();
+
 	gui = new GUI();
 	if (start)
 		gui->init(in, player, content, false);
@@ -315,7 +315,7 @@ void Game::update(float deltaTime)
 
 				if (load)
 				{
-					map->LoadMap(nr);
+					map->LoadMap(nr, 0);
 					edit->init(map, in);
 				}
 				if (save)
@@ -365,6 +365,8 @@ void Game::buttonEvents(int buttonEv)
 	case(0) : //default empty event;
 		break;
 	case(1) :
+		map->LoadMap(1, 0);
+		map->init();
 		current = PLAY;
 		audio->playSound(6); //button
 		cameraFollow = true;
@@ -388,12 +390,20 @@ void Game::buttonEvents(int buttonEv)
 		engine->setFadeOut();
 		break;
 	case(4) :
+		glm::vec2 pPos = start->getPos();
+		map->LoadMap(1, savedPickups);
+		map->init();
+		start = 0;
 		current = PLAY;
 		audio->playSound(6); //button
 		engine->setFadeIn();
 		cameraFollow = true;
+		for (int c = 0; c < savePickupNr; c++)
+		{
+			player->getPickup(savedPickups[c]);
+		}
 		player->setProgress(playerProgress);
-		player->moveTo(start->returnThis()->readPos());
+		player->moveTo(pPos.x, pPos.y);
 		break;
 	}
 	//Editor buttons
@@ -510,6 +520,20 @@ void Game::checkForSave()
 				ss >> sub;
 				playerProgress.checkBossType(sub);
 			}
+			getline(in, line);
+			ss = stringstream(line);
+			ss >> sub;
+			int nrOfPickups = atoi(sub.c_str());
+			for (int c = 0; c < nrOfPickups; c++)
+			{
+				getline(in, line);
+				ss = stringstream(line);
+				ss >> sub;
+				savedPickups[c].x = atoi(sub.c_str());
+				ss >> sub;
+				savedPickups[c].y = atoi(sub.c_str());
+				savePickupNr++;
+			}
 		}
 		in.close();
 	}
@@ -532,6 +556,11 @@ void Game::saveGame()
 			for (int c = 0; c < 3; c++)
 			{
 				out << playerProgress.getBossType(c) << "\n";
+			}
+			out << playerProgress.nrOfPickups << "\n";
+			for (int c = 0; c < playerProgress.nrOfPickups; c++)
+			{
+				out << playerProgress.pickups[c].x << " " << playerProgress.pickups[c].y << "\n";
 			}
 		}
 		else

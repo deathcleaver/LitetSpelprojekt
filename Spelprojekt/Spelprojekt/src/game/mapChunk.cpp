@@ -10,6 +10,9 @@ MapChunk::~MapChunk()
 	if (shrine)
 		delete shrine;
 	
+	if (health)
+		delete health;
+
 	if (nrOfLights > 0)
 		delete[]lights;
 
@@ -36,7 +39,7 @@ MapChunk::~MapChunk()
 	}
 }
 
-void MapChunk::init(int xIndex, int yIndex, std::string path)
+void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 {
 	gameObjects = vector<vector<GameObject*>>();
 	
@@ -112,6 +115,23 @@ void MapChunk::init(int xIndex, int yIndex, std::string path)
 			temp->moveTo(pos);
 			temp->translate(xOffset * 35, yOffset * -35, 0);
 			shrine = new Shrine(temp, MiscID(id));
+		}
+
+		// --- Load health pickup ---
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		if (atoi(sub.c_str()) != -1)
+		{
+			if (!healthTaken)
+			{
+				health = new HealthPickup();
+				ss >> sub;
+				float xpos = atof(sub.c_str());
+				ss >> sub;
+				float ypos = atof(sub.c_str());
+				health->init(glm::vec2(xpos + xOffset*35, ypos - yOffset*35));
+			}
 		}
 
 		// --- Load World Count --- 
@@ -821,4 +841,25 @@ Light* MapChunk::takeClosestLight(glm::vec3 pos)
 	}
 	else 
 		return 0;
+}
+
+bool MapChunk::takePickup(Rect* playerRect)
+{
+	if (health)
+	{
+		if (health->isTaken())
+			return false;
+		if (playerRect->intersects(health->getRekt()))
+		{
+			health->take();
+			return true;
+		}
+
+	}
+	return false;
+}
+
+HealthPickup* MapChunk::getPickup()
+{
+	return health;
 }
