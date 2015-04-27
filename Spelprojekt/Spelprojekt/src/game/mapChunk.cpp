@@ -12,6 +12,9 @@ MapChunk::~MapChunk()
 	if (shrine)
 		delete shrine;
 	
+	if (health)
+		delete health;
+
 	if (nrOfLights > 0)
 		delete[]lights;
 
@@ -38,7 +41,7 @@ MapChunk::~MapChunk()
 	}
 }
 
-void MapChunk::init(int xIndex, int yIndex, std::string mapname)
+void MapChunk::init(int xIndex, int yIndex, std::string mapname, bool healthTaken)
 {
 	gameObjects = vector<vector<GameObject*>>();
 	
@@ -117,6 +120,24 @@ void MapChunk::init(int xIndex, int yIndex, std::string mapname)
 			temp->moveTo(pos);
 			temp->translate(xOffset * 35, yOffset * -35, 0);
 			shrine = new Shrine(temp, MiscID(id));
+		}
+
+		// --- Load health pickup ---
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		if (atoi(sub.c_str()) != -1)
+		{
+			if (!healthTaken)
+			{
+				health = new GameObject();
+				ss >> sub;
+				float xpos = atof(sub.c_str());
+				ss >> sub;
+				float ypos = atof(sub.c_str());
+				health->init(0);
+				health->moveTo(xpos, ypos);
+			}
 		}
 
 		// --- Load World Count --- 

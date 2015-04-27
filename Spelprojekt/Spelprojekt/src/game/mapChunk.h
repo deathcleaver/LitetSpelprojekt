@@ -35,6 +35,8 @@ private:
 	void saveObject(GameObject* object, ofstream* out);
 	void loadObjectOld(ifstream* in);
 	void loadObject(ifstream* in);
+
+	GameObject* health = 0;
 public:
 	MapChunk(){};
 	~MapChunk();
@@ -47,7 +49,7 @@ public:
 	vector<vector<GameObject*>> gameObjects;
 
 	Rect*** worldCollide = 0;
-	void init(int x, int y, std::string mapname);
+	void init(int x, int y, std::string mapname, bool healthTaken = false);
 	void initOld(int x, int y, std::string mapname);
 	int xOffset, yOffset;
 
