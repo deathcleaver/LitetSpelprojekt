@@ -14,10 +14,16 @@ class Torch
 		Torch();
 		~Torch();
 	
+		void copy(Torch* t);
+
 		void init(float x, float y, float z);
 		void update();
+		void fade();
+		void setSpawn(float x, float y, float z);
 		Light* getLights(int &nrLights);
 	
+		bool isFading();
+
 	private:
 	
 		Light* sparks;
