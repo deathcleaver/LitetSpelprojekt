@@ -79,6 +79,9 @@
     <ClCompile Include="src\game\edit.cpp">
       <Filter>Source\Gui / Userinput / Editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Torch.cpp">
+        <Filter>Header\Game</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\HealthPickup.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="src\UserInput.h">
       <Filter>Header\Gui / Userinput / Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Torch.h">
+        <Filter>Header\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\HealthPickup.h">
       <Filter>Header\Game</Filter>

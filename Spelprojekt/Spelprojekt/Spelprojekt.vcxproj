@@ -111,6 +111,7 @@
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
     <ClCompile Include="src\game\Shrine.cpp" />
+    <ClCompile Include="src\game\Torch.cpp" />
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\screenItem.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="src\game\Progress.h" />
     <ClInclude Include="src\game\rect.h" />
     <ClInclude Include="src\game\Shrine.h" />
+    <ClInclude Include="src\game\Torch.h" />
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\legend.h" />
     <ClInclude Include="src\screenItem.h" />

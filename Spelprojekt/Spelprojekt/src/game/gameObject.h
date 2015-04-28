@@ -3,9 +3,9 @@
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
+#include "Audio.h"
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
-#include "Audio.h"
 #include "../legend.h"
 #include "../Align16.h"
 

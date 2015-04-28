@@ -55,11 +55,9 @@ void Engine::init(glm::mat4* viewMat)
 	uniformFadePos = glGetUniformLocation(tempshaderGBuffer, "fade");
 	uniformFadePosGlow = glGetUniformLocation(tempshaderGBufferGlow, "fade");
 
-
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
 	uniformView = glGetUniformLocation(tempshader, "V");
-
 
 	//gBuffer gui shader
 	shaders[0] = "src/shaders/gBuffer_gui_vs.glsl";
@@ -67,7 +65,15 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(tempshaderGUI, shaders, shaderType, 2);
 	gBuffer.shaderGuiPtr = &tempshaderGUI;
 
-	
+	//gbuffer Rekt Shader
+	shaders[0] = "src/shaders/gBuffer_rekt_vs.glsl";
+	shaders[1] = "src/shaders/gBuffer_rekt_fs.glsl";
+	CreateProgram(tempshaderRekt, shaders, shaderType, 2);
+	gBuffer.shaderRektPtr = &tempshaderRekt;
+
+	uniformRektProj = glGetUniformLocation(tempshaderRekt, "P");
+	uniformRektView = glGetUniformLocation(tempshaderRekt, "V");
+
 	gBuffer.init(1080, 720, 4, true);
 	
 	light = new Light[100];
@@ -76,6 +82,9 @@ void Engine::init(glm::mat4* viewMat)
 
 	fadeIn = false;
 	fadeOut = false;
+
+	t.init(0, 2, 0);
+
 }
 
 void Engine::setFadeIn()
@@ -99,6 +108,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit)
 {
 
+	t.update();
+
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
 	// bind gbuffer FBO
@@ -116,6 +127,13 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &projMatrix[0][0]);
+
+
+	if (edit->forceRekts)
+	{
+		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &(*viewMatrix)[0][0]);
+		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &projMatrix[0][0]);
+	}
 
 	int id = 0;
 	int lastid = -1;
@@ -139,10 +157,13 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	bindLights(player, edit);
 	
-	glDisable(GL_DEPTH_TEST);
 
-	if(edit->getEditMode() == 1) //editmode rekt
-	renderRekts();
+	int nr;
+	Light* l = t.getLights(nr);
+
+	gBuffer.pushLights(l, nr);
+
+	glDisable(GL_DEPTH_TEST);
 
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -152,7 +173,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glProgramUniform1f(tempshaderGBuffer, uniformFadePos, fadeEffect);
 	glProgramUniform1f(tempshaderGBufferGlow, uniformFadePosGlow, fadeEffect);
 
-	gBuffer.render(campos, gui, content, true);
+	gBuffer.render(campos, gui, map, content, true, edit->forceRekts);
     
 	glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -569,37 +590,6 @@ void Engine::bindLights(const Player* player, Edit* edit)
 	}
 
 	gBuffer.pushLights(light, nrOfLights);
-}
-
-void Engine::renderRekts()
-{
-	// render collision rekts
-	glUseProgram(tempshader);
-	glDisable(GL_DEPTH_TEST);
-	content->bindRekt();
-	GameObject temprekt;
-	glm::vec3 pos;
-	facecount = 2;
-
-	for (int n = 0; n < upDraw[0]; n++)
-	{
-		int x = n * 2 + 1;
-		int y = x + 1;
-		if (upDraw[x] > -1 && upDraw[x] < width)
-		if (upDraw[y] > -1 && upDraw[y] < height)
-
-		for (int xIndex = 0; xIndex < 35; xIndex++)
-		for (int yIndex = 0; yIndex < 35; yIndex++)
-		if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
-		{
-			pos.x = (-17 + upDraw[x] * 35) + xIndex;
-			pos.y = (17 - upDraw[y] * 35) - yIndex;
-			pos.z = 0;
-			temprekt.moveTo(pos);
-			temprekt.bindWorldMat(&tempshader, &uniformModel);
-			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
-		}
-	}
 }
 
 void Engine::renderEditObject(Edit* edit)

@@ -64,7 +64,7 @@ void Player::moveWeapon()
 	attackRect.update();
 }
 
-int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime)
+int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
 	effectVisible = false;
 	animState = "idle";
@@ -370,7 +370,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
-			audio->playSound(0);//item
+			Audio::getAudio().playSound(0);//item
 		}
 	}
 
@@ -443,7 +443,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					if (currentRune == MiscID::rune_shield)
 					{
 						shield -= 1;
-						audio->playSound(5); //player_shield_force
+						Audio::getAudio().playSound(5); //player_shield_force
 					}
 	
 				}
@@ -452,7 +452,7 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
-					audio->playSound(1); //player_resurrected
+					Audio::getAudio().playSound(1); //player_resurrected
 				}
 			}
 		}
@@ -479,11 +479,11 @@ int Player::update(UserInput* userInput, Map* map, Audio* audio, float deltaTime
 		isAttacking = true;
 		attackTimer = 1.0f;
 		if (currentRune == MiscID::rune_damage)
-			audio->playSound(4);
+			Audio::getAudio().playSound(4);
 		else if (currentRune == MiscID::rune_range)
-			audio->playSound(3); //player_attack_fire
+			Audio::getAudio().playSound(3); //player_attack_fire
 		else
-			audio->playSound(2); //player_attack_miss
+			Audio::getAudio().playSound(2); //player_attack_miss
 	}
 
 	if (isAttacking)
@@ -604,9 +604,18 @@ void Player::getPickup(glm::vec2 chunkIndex)
 	{
 		pickUps = 0;
 		MAX_HP++;
+		Audio::getAudio().playSound(18); //item_hearth_completed
 		printf("Hittat 3 pickups, nu är nrOfPickups %d och nya MAX_HP är %d\n", pickUps, MAX_HP);
 	}
+	else
+		Audio::getAudio().playSound(17); //item_hearth_piece
 	HP = MAX_HP;
 	printf("HP sattes till %d\n", HP);
 	progressMeter.addHealth(chunkIndex);
+}
+
+void Player::playerGuiInfo(int* inhp, int* pieces)
+{
+	*inhp = HP;
+	*pieces = pickUps;
 }

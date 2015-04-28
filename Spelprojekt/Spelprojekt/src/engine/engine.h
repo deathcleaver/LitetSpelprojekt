@@ -20,6 +20,8 @@
 
 #include "GBuffer.h"
 
+#include "../game/Torch.h"
+
 class Engine : public Align_16
 {
 private:
@@ -28,6 +30,8 @@ private:
 	GLuint tempshaderGBuffer;
 	GLuint tempshaderGBufferGlow;
 	GLuint tempshaderGUI;
+	GLuint tempshaderRekt;
+
 	GLuint uniformModel;
 	GLuint uniformView;
 	GLuint uniformProj;
@@ -36,6 +40,10 @@ private:
 	GLuint uniformProjGlow;
 	GLuint uniformFadePos;
 	GLuint uniformFadePosGlow;
+
+	//rekt shader
+	GLuint uniformRektView;
+	GLuint uniformRektProj;
 
 
 	glm::mat4* viewMatrix;
@@ -70,6 +78,8 @@ private:
 	int id;
 	int lastid;
 	
+	Torch t;
+
 public:
 	Engine(){};
 	~Engine();

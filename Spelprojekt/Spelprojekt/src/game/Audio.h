@@ -16,10 +16,11 @@
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
 #define MUSIC_VOLUME 0.5f // goes from 0.0 to 1.0
-#define SOUND_VOLUME 1.0f // goes from 0.0 to 1.0
-#define MASTER_VOLUME 0.5f // goes from 0.0 to 1.0
+#define SOUND_VOLUME 0.5f // goes from 0.0 to 1.0
+#define MASTER_VOLUME 1.0f // goes from 0.0 to 1.0
 #define MUSIC_BUFFERS 3 // one buffer for each file
-#define SOUND_BUFFERS 10 // one buffer for each file
+#define SOUND_BUFFERS 19 // one buffer for each file
+#define SOUND_SOURCES 32 // maximum number of simultanious sounds
 
 using namespace std;
 
@@ -46,23 +47,25 @@ private:
 
 
 public:
+	static Audio& getAudio();
 	Audio();
 	~Audio();
-	//ALboolean LoadALData();
 	bool init();
 	void update(float deltaTime);
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);
 	void playSound(int file);
-	void playSoundAtPos(int file, glm::vec2 pos, bool looping);
+	void playSoundAtPos(int file, glm::vec3 pos, bool looping);
 	void updateListener(glm::vec3 pos);
 	void shutdown();
 
 private:
+	void loadFiles();
 	bool createBuffers(char** files, ALuint* buffers, int elements);
 	int endWithError(char* msg, int error = 0);
 
 private:
+	
 	//OpenAL device and context
 	ALCdevice *device;                                                          //Create an OpenAL Device
 	ALCcontext *context;
@@ -78,9 +81,6 @@ private:
 	// audio source lists
 	vector<ALuint> soundSources;
 	vector<MusicStruct> musicSources;
-
-	//misc vars //remove these later
-	int currTrack, oldTrack;
 };
 
 #endif

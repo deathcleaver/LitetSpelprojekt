@@ -15,6 +15,10 @@ private:
 	int current = 0;
 	int last = -1;
 	ScreenItem** items = 0;
+
+	int playerHP = 0;
+	int playerPickups = 0;
+
 	int size = 0;
 	int capacity = 0;
 	void destroyy();

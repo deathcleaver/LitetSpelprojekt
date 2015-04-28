@@ -3,31 +3,15 @@
 
 using namespace std;
 
+Audio& Audio::getAudio()
+{
+	static Audio singleton;
+	return singleton;
+}
+
 Audio::Audio()
 {
-	currTrack = -1;
-
-	//load music files
-	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
-	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
-	musicFiles[2] = "../Audio/Music/witcher_battle.wav";
-
-	//load sound files
-	//player
-	soundFiles[0] = "../Audio/Sounds/Shrine/rune_received.wav";
-	soundFiles[1] = "../Audio/Sounds/Player/player_resurrected.wav";
-	soundFiles[2] = "../Audio/Sounds/Player/player_attack_miss.wav";
-	soundFiles[3] = "../Audio/Sounds/Player/player_attack_fire.wav";
-	soundFiles[4] = "../Audio/Sounds/Player/player_attack_ice.wav";
-	soundFiles[5] = "../Audio/Sounds/Player/player_shield_force.wav";
-	//interface
-	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
-	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
-	//enemies and bosses
-	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
-	//ambient
-	soundFiles[9] = "../Audio/Sounds/Ambient/ambient_water_drop.wav";
-	//...
+	
 }
 
 Audio::~Audio()
@@ -37,6 +21,9 @@ Audio::~Audio()
 
 bool Audio::init()
 {
+	//load tracks
+	loadFiles();
+
 	//Init OpenAL
 	device = alcOpenDevice(NULL);
 	if (!device) return endWithError("no sound device");
@@ -47,8 +34,7 @@ bool Audio::init()
 	//Listener
 	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
 	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
-	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 };
-	//First direction vector, then vector pointing up)                                                                                
+	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 }; //up, lookat                                                                                
 	alListenerfv(AL_POSITION, ListenerPos); //Set position of the listener
 	alListenerfv(AL_VELOCITY, ListenerVel); //Set velocity of the listener
 	alListenerfv(AL_ORIENTATION, ListenerOri);
@@ -56,12 +42,49 @@ bool Audio::init()
 	// create music buffers
 	alGenBuffers(MUSIC_BUFFERS, musicBuffer);
 	createBuffers(musicFiles, musicBuffer, MUSIC_BUFFERS);
-	
+
 	// create sound buffers
 	alGenBuffers(SOUND_BUFFERS, soundBuffer);
 	createBuffers(soundFiles, soundBuffer, SOUND_BUFFERS);
 
 	return EXIT_SUCCESS;
+}
+
+void Audio::loadFiles()
+{
+	//load music files
+	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
+	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
+	musicFiles[2] = "../Audio/Music/witcher_battle.wav";
+
+	//load sound files
+	//Shrine
+	soundFiles[0] = "../Audio/Sounds/Shrine/rune_received.wav";
+	//player
+	soundFiles[1] = "../Audio/Sounds/Player/player_resurrected.wav";
+	soundFiles[2] = "../Audio/Sounds/Player/player_attack_miss.wav";
+	soundFiles[3] = "../Audio/Sounds/Player/player_attack_fire.wav";
+	soundFiles[4] = "../Audio/Sounds/Player/player_attack_ice.wav";
+	soundFiles[5] = "../Audio/Sounds/Player/player_shield_force.wav";
+	//interface
+	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
+	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
+	//bosses
+	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
+	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
+	soundFiles[10] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
+	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
+	//enemies
+	soundFiles[12] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
+	soundFiles[13] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
+	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_death.wav";
+	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
+	soundFiles[16] = "../Audio/Sounds/Enemies/enemy_flame_death.wav";
+	//items
+	soundFiles[17] = "../Audio/Sounds/Items/item_hearth_piece.wav";
+	soundFiles[18] = "../Audio/Sounds/Items/item_hearth_completed.wav";
+	//ambient
+	//...
 }
 
 bool Audio::createBuffers(char** files, ALuint* buffers, int elements)
@@ -185,7 +208,7 @@ void Audio::update(float deltaTime)
 			musicSources.erase(musicSources.begin() + i);
 			break;
 		}
-			
+
 	}
 
 	// clean and remove sound sources that's finished playing
@@ -200,10 +223,8 @@ void Audio::update(float deltaTime)
 			break;
 		}
 	}
-
 	// print # of buffers for debug purposes
 	//printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
-
 }
 
 void Audio::playMusic(int file)
@@ -215,7 +236,7 @@ void Audio::playMusic(int file)
 			MusicStruct music;
 			alGenSources(1, &music.source);
 
-			ALfloat SourcePos[] = { 0.0, 0.0, 0.0 }; 
+			ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
 			ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
 
@@ -294,7 +315,7 @@ void Audio::playMusicFade(int file, float deltaTime)
 			music.volume = 0.0f;
 			music.state = A_FADEIN;
 			music.track = file;
-			
+
 			//add new music source to the source list
 			musicSources.push_back(music);
 		}
@@ -337,7 +358,7 @@ void Audio::playMusicFade(int file, float deltaTime)
 
 void Audio::playSound(int file)
 {
-	if (file < SOUND_BUFFERS)
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
 	{
 		ALuint source;
 		alGenSources(1, &source);
@@ -347,7 +368,7 @@ void Audio::playSound(int file)
 
 		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
 		alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
-		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);  
+		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
 		alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
 		alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
 		alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
@@ -359,27 +380,28 @@ void Audio::playSound(int file)
 	}
 }
 
-void Audio::playSoundAtPos(int file, glm::vec2 pos, bool looping)
+void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
 {
-		if (file < SOUND_BUFFERS)
-		{
-			ALuint source;
-			alGenSources(1, &source);
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
+	{
+		ALuint source;
+		alGenSources(1, &source);
 
-			ALfloat SourcePos[] = { pos.x, pos.y, 0.0 };                                    //Position of the musicSource sound
-			ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };                                    //Position of the musicSource sound
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
-			alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
-			alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
-			alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
-			alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
-			alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
-			alSourcei(source, AL_LOOPING, looping);
+		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
+		alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
+		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
+		alSourcei(source, AL_REFERENCE_DISTANCE, 10.0);
+		alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
+		alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
+		alSourcei(source, AL_LOOPING, looping);
 
-			alSourcePlay(source);
+		alSourcePlay(source);
 
-			soundSources.push_back(source);
-		}
+		soundSources.push_back(source);
+	}
 }
 
 void Audio::updateListener(glm::vec3 pos)
@@ -401,6 +423,7 @@ void Audio::shutdown()
 	alDeleteBuffers(SOUND_BUFFERS, soundBuffer);
 
 	// device and devcon
+	alcMakeContextCurrent(NULL);
 	alcDestroyContext(context);
 	alcCloseDevice(device);
 }

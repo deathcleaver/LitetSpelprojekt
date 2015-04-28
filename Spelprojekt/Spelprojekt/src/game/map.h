@@ -20,6 +20,7 @@ private:
 	int* upDraw;
 	int* lastUpDraw;
 	int counter = 0;
+
 public:
 	Map(){};
 	~Map();
