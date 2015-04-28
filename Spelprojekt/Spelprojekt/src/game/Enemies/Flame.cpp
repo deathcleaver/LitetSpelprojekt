@@ -202,7 +202,7 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		speed.y = 15.0f;
 		flying = true;
 		health -= damage;
-		Audio::getAudio().playSoundAtPos(14, readPos(), false); //enemy_flame_hurt
+		Audio::getAudio().playSoundAtPos(15, readPos(), false); //enemy_flame_hurt
 		if (health <= 0)
 		{
 			alive = false;
