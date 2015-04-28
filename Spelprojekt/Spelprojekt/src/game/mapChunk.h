@@ -11,6 +11,7 @@
 #include "enemyManager.h"
 #include "Shrine.h"
 #include "Light.h"
+#include "AudioObject.h"
 #include "../legend.h"
 
 #include "HealthPickup.h"
@@ -27,9 +28,13 @@ private:
 	int x1, y1, sizeX, sizeY;
 	Light* lights;
 	int nrOfLights = 0;
-	int musicId = -1;
 	int countWorldObjs = 0;
 	
+	//audio
+	int musicId = -1;
+	AudioObject* sounds;
+	int nrOfSounds = 0;
+
 	//for mapmaker UNDO
 	int lastRecievedItemWorld = -1;
 	GameObject* lastRecievedWorld = 0;
