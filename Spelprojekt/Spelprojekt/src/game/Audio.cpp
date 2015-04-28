@@ -46,6 +46,7 @@ bool Audio::init()
 	//enemies
 	soundFiles[12] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
 	soundFiles[13] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
+	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
 	//ambient
 	//...
 
@@ -212,7 +213,7 @@ void Audio::update(float deltaTime)
 		}
 	}
 	// print # of buffers for debug purposes
-	//printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
+	printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
 }
 
 void Audio::playMusic(int file)
