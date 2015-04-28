@@ -77,7 +77,7 @@ void Engine::init(glm::mat4* viewMat)
 	fadeIn = false;
 	fadeOut = false;
 
-	t.init(0, 2);
+	t.init(0, 2, 0);
 
 }
 

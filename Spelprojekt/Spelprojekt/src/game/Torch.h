@@ -3,6 +3,9 @@
 
 #include <malloc.h>
 #include "Light.h"
+#include <cstdlib>
+
+#define random(min, max) ((max - min) * ((((float) rand()) / (float) RAND_MAX)) + min );
 
 class Torch
 {
@@ -11,7 +14,7 @@ class Torch
 		Torch();
 		~Torch();
 	
-		void init(float x, float y);
+		void init(float x, float y, float z);
 		void update();
 		Light* getLights(int &nrLights);
 	
@@ -19,10 +22,14 @@ class Torch
 	
 		Light* sparks;
 		float* timeLeft;
+		float* timeStart;
+		float* startDist;
 	
 		int nrLights;
 	
-		float spawnX, spawnY;
+		float spawnX, spawnY, spawnZ;
+
+		float range;
 
 };
 
