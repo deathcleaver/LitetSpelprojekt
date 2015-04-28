@@ -689,17 +689,18 @@ int MapChunk::hasBoss()
 	return 0;
 }
 
-Light* MapChunk::getFlameLight(int index)
+Light* MapChunk::getFlameLight(int index, int &nrLigts)
 {
 	Enemy** enemies = enemyMan->getEnemies("Flame");
 	if (enemies[index]->isAlive())
 	{
-		return ((Flame*)(enemies[index]))->getLight();
+		return ((Flame*)(enemies[index]))->getLight(nrLigts);
 	}
 	else if (((Flame*)(enemies[index]))->isFading())
 	{
+		nrLigts = 1;
 		((Flame*)(enemies[index]))->fade();
-		return ((Flame*)(enemies[index]))->getLight();
+		return ((Flame*)(enemies[index]))->getLight(nrLigts);
 	}
 	return 0;
 }

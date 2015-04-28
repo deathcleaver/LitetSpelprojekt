@@ -219,6 +219,8 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+	renderGlow(campos);
+
 	if (renderGui)
 	{
 		glUseProgram(*shaderGuiPtr);
