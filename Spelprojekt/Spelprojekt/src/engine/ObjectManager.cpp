@@ -80,7 +80,7 @@ void ObjectManager::loadMapObjs()
 	add = new AnimationObject("src/meshes/Background Objects/Stalactite.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
-	//stalagmite
+	//rock1x1
 	add = new AnimationObject("src/meshes/Background Objects/Rock1x1.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
@@ -114,6 +114,14 @@ void ObjectManager::loadMapObjs()
 
 	//Platform rock 1x5
 	add = new AnimationObject("src/meshes/Map Blocks/Platform1x5.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//rock5x5
+	add = new AnimationObject("src/meshes/Background Objects/Rock5x5.v", "src/textures/Background Objects/Stalactimite.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//rock5x5 cracked
+	add = new AnimationObject("src/meshes/Background Objects/Rock5x5Crack.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 

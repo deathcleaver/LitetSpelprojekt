@@ -33,6 +33,8 @@ enum WorldID
 	platformRock1x1,
 	platformRock1x3,
 	platformRock1x5,
+	Rock5x5,
+	Rock5x5Crack,
 
 	world_count, //leave this last
 };
