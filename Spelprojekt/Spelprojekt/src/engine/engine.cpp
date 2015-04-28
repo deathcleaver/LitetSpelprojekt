@@ -76,14 +76,12 @@ void Engine::init(glm::mat4* viewMat)
 
 	gBuffer.init(1080, 720, 4, true);
 	
-	light = new Light[100];
+	light = new Light[1000];
 
 	fadeEffect = 0;
 
 	fadeIn = false;
 	fadeOut = false;
-
-	t.init(0, 2, 0);
 
 }
 
@@ -107,8 +105,6 @@ void Engine::setFade(float fadeEffect)
 void Engine::render(const Player* player, const Map* map, const ContentManager* contentin, 
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit)
 {
-
-	t.update();
 
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
@@ -156,12 +152,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	renderEditObject(edit);
 
 	bindLights(player, edit);
-	
-
-	int nr;
-	Light* l = t.getLights(nr);
-
-	gBuffer.pushLights(l, nr);
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -175,10 +165,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	gBuffer.render(campos, gui, map, content, true, edit->forceRekts);
     
-	glClear(GL_DEPTH_BUFFER_BIT);
-
-	gBuffer.renderGlow(campos);
-
 	glEnable(GL_DEPTH_TEST);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -433,20 +419,20 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					lightSize = 0;
 					for (int c = 0; c < flameCount; c++)
 					{
-						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
-						if (temp)
+						int nrLight = 0;
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c, nrLight);
+						for (int i = 0; i < nrLight; i++)
 						{
+							light[nrOfLights + lightSize].posX = temp[i].posX;
+							light[nrOfLights + lightSize].posY = temp[i].posY;
+							light[nrOfLights + lightSize].posZ = temp[i].posZ;
 
-							light[nrOfLights + lightSize].posX = temp->posX;
-							light[nrOfLights + lightSize].posY = temp->posY;
-							light[nrOfLights + lightSize].posZ = temp->posZ;
+							light[nrOfLights + lightSize].r = temp[i].r;
+							light[nrOfLights + lightSize].g = temp[i].g;
+							light[nrOfLights + lightSize].b = temp[i].b;
 
-							light[nrOfLights + lightSize].r = temp->r;
-							light[nrOfLights + lightSize].g = temp->g;
-							light[nrOfLights + lightSize].b = temp->b;
-
-							light[nrOfLights + lightSize].intensity = temp->intensity;
-							light[nrOfLights + lightSize].distance = temp->distance;
+							light[nrOfLights + lightSize].intensity = temp[i].intensity;
+							light[nrOfLights + lightSize].distance = temp[i].distance;
 							light[nrOfLights + lightSize].volume = 0;
 							lightSize++;
 						}
@@ -506,21 +492,21 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					lightSize = 0;
 					for (int c = 0; c < flameCount; c++)
 					{
-						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c);
-						if (temp)
+						int nrLight = 0;
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c, nrLight);
+						for (int i = 0; i < nrLight; i++)
 						{
+							light[nrOfLights + lightSize].posX = temp[i].posX;
+							light[nrOfLights + lightSize].posY = temp[i].posY;
+							light[nrOfLights + lightSize].posZ = temp[i].posZ;
 
-							light[nrOfLights + lightSize].posX = temp->posX;
-							light[nrOfLights + lightSize].posY = temp->posY;
-							light[nrOfLights + lightSize].posZ = temp->posZ;
+							light[nrOfLights + lightSize].r = temp[i].r;
+							light[nrOfLights + lightSize].g = temp[i].g;
+							light[nrOfLights + lightSize].b = temp[i].b;
 
-							light[nrOfLights + lightSize].r = temp->r;
-							light[nrOfLights + lightSize].g = temp->g;
-							light[nrOfLights + lightSize].b = temp->b;
-
-							light[nrOfLights + lightSize].intensity = temp->intensity;
-							light[nrOfLights + lightSize].distance = temp->distance;
-							light[nrOfLights + lightSize].volume = temp->volume;
+							light[nrOfLights + lightSize].intensity = temp[i].intensity;
+							light[nrOfLights + lightSize].distance = temp[i].distance;
+							light[nrOfLights + lightSize].volume = temp[i].volume;
 							lightSize++;
 						}
 					}

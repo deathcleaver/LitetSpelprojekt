@@ -221,6 +221,9 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+
+	renderGlow(campos);
+
 	if (renderRektsEdit)
 		renderRekts(map, content);
 

@@ -4,6 +4,7 @@
 Flame::~Flame()
 {
 	delete myLight;
+	delete flameEffect;
 }
 
 Flame::Flame(glm::vec2 firstPos)
@@ -24,6 +25,9 @@ Flame::Flame(glm::vec2 firstPos)
 	myLight->posX = initPos.x; myLight->posY = initPos.y; myLight->posZ = 0.0;
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
 	myLight->volume = 1;
+
+	flameEffect = new Torch();
+	flameEffect->init(firstPos.x, firstPos.y, 0);
 
 	maxInt = 2.0f;
 	minInt = 0.5f;
@@ -57,6 +61,9 @@ Flame::Flame(Flame* copy)
 	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
 	myLight->volume = 1;
 
+	flameEffect = new Torch();
+	flameEffect->copy(copy->flameEffect);
+
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
 }
@@ -72,6 +79,7 @@ void Flame::init()
 	speed = glm::vec2(2.0f, 0.0);
 	myLight->intensity = 1.0;
 	myLight->volume = 1;
+	flameEffect->init(initPos.x, initPos.y, 0);
 	collideRect->update();
 }
 
@@ -179,6 +187,9 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		increase = -increase;
 	}
 
+	flameEffect->update();
+	flameEffect->setSpawn(myPos.x, myPos.y, 0);
+
 	return 0;
 }
 
@@ -189,9 +200,11 @@ bool Flame::isFading()
 
 void Flame::fade()
 {
-	myLight->intensity -= abs(increase);
-	if (myLight->intensity < 0.0f)
-		fading = false;
+	flameEffect->fade();
+	fading = flameEffect->isFading();
+	//myLight->intensity -= abs(increase);
+	//if (myLight->intensity < 0.0f)
+	//	fading = false;
 }
 
 void Flame::hit(int damage, bool playerRightOfEnemy)
