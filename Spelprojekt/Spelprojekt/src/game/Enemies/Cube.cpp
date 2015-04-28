@@ -118,7 +118,6 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 	if (invulnTimer < FLT_EPSILON)
 	{
 		health -= damage;
-		Audio::getAudio().playSoundAtPos(13, readPos(), false); //enemy_slime_hurt
 		if (playerRightOfEnemy)
 			speed.x = -16.0f;
 		else
@@ -126,8 +125,12 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
+			Audio::getAudio().playSoundAtPos(14, readPos(), false); //enemy_slime_death
 			//Spawna nya slimes
 		}
+		else
+			Audio::getAudio().playSoundAtPos(13, readPos(), false); //enemy_slime_hurt
+
 		invulnTimer = 0.6f;
 	}
 

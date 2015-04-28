@@ -7,6 +7,8 @@
 #include "RenderTarget.h"
 #include "ContentManager.h"
 #include "../game/Light.h"
+#include "../game/map.h"
+#include "ContentManager.h"
 
 class Gbuffer : public RenderTarget
 {
@@ -19,9 +21,11 @@ public:
 
 	void bind(GLuint index);
 
-	void render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui);
+	void render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRekts);
 
 	void renderGlow(glm::vec3* campos);
+
+	void renderRekts(const Map* map, const ContentManager* content);
 
 	void clearLight();
 	void pushLights(Light* light, int nrLight);
@@ -29,6 +33,7 @@ public:
 	GLuint* shaderPtr;
 	GLuint* shaderGlowPtr;
 	GLuint* shaderGuiPtr;
+	GLuint* shaderRektPtr;
 
 	GLfloat* playerPos;
 
@@ -62,8 +67,8 @@ private:
 	GLuint uniformGUItexture;
 	GLuint uniformGUIModel;
 
-	
-
+	//rekt
+	GLuint uniformRektModel;
 };
 
 #endif
