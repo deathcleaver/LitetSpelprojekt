@@ -33,7 +33,7 @@ void Bossbat::init()
 		worldMat = glm::mat4(1);
 		scaleFactor(4, 4, 4);
 		isInit = true;
-		moveTo(initPos.x, initPos.y, -6.0f);
+		moveTo(initPos.x-0.5f, initPos.y+0.5f, -10.0f);
 		invulnTimer = 0.0f;
 		movementScale = 0.0f;
 		facingRight = true;
