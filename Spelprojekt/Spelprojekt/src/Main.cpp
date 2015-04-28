@@ -2,10 +2,14 @@
 #include <GLFW\glfw3.h>
 #include "game\game.h"
 
+#include <ctime>
+
 //#include <vld.h>
 
 int main(int argv, char* argc[])
 {
+	srand(time(0));
+
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	GLFWwindow* wnd;

@@ -22,32 +22,7 @@ Audio::~Audio()
 bool Audio::init()
 {
 	//load tracks
-	//load music files
-	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
-	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
-	musicFiles[2] = "../Audio/Music/witcher_battle.wav";
-
-	//load sound files
-	//player
-	soundFiles[0] = "../Audio/Sounds/Shrine/rune_received.wav";
-	soundFiles[1] = "../Audio/Sounds/Player/player_resurrected.wav";
-	soundFiles[2] = "../Audio/Sounds/Player/player_attack_miss.wav";
-	soundFiles[3] = "../Audio/Sounds/Player/player_attack_fire.wav";
-	soundFiles[4] = "../Audio/Sounds/Player/player_attack_ice.wav";
-	soundFiles[5] = "../Audio/Sounds/Player/player_shield_force.wav";
-	//interface
-	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
-	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
-	//bosses
-	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
-	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
-	soundFiles[10] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
-	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
-	//enemies
-	soundFiles[12] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
-	soundFiles[13] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
-	//ambient
-	//...
+	loadFiles();
 
 	//Init OpenAL
 	device = alcOpenDevice(NULL);
@@ -73,6 +48,43 @@ bool Audio::init()
 	createBuffers(soundFiles, soundBuffer, SOUND_BUFFERS);
 
 	return EXIT_SUCCESS;
+}
+
+void Audio::loadFiles()
+{
+	//load music files
+	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
+	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
+	musicFiles[2] = "../Audio/Music/witcher_battle.wav";
+
+	//load sound files
+	//Shrine
+	soundFiles[0] = "../Audio/Sounds/Shrine/rune_received.wav";
+	//player
+	soundFiles[1] = "../Audio/Sounds/Player/player_resurrected.wav";
+	soundFiles[2] = "../Audio/Sounds/Player/player_attack_miss.wav";
+	soundFiles[3] = "../Audio/Sounds/Player/player_attack_fire.wav";
+	soundFiles[4] = "../Audio/Sounds/Player/player_attack_ice.wav";
+	soundFiles[5] = "../Audio/Sounds/Player/player_shield_force.wav";
+	//interface
+	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
+	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
+	//bosses
+	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
+	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
+	soundFiles[10] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
+	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
+	//enemies
+	soundFiles[12] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
+	soundFiles[13] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
+	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_death.wav";
+	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
+	soundFiles[16] = "../Audio/Sounds/Enemies/enemy_flame_death.wav";
+	//items
+	soundFiles[17] = "../Audio/Sounds/Items/item_hearth_piece.wav";
+	soundFiles[18] = "../Audio/Sounds/Items/item_hearth_completed.wav";
+	//ambient
+	//...
 }
 
 bool Audio::createBuffers(char** files, ALuint* buffers, int elements)
@@ -368,14 +380,14 @@ void Audio::playSound(int file)
 	}
 }
 
-void Audio::playSoundAtPos(int file, glm::vec2 pos, bool looping)
+void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
 {
 	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
 	{
 		ALuint source;
 		alGenSources(1, &source);
 
-		ALfloat SourcePos[] = { pos.x, pos.y, 0.0 };                                    //Position of the musicSource sound
+		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };                                    //Position of the musicSource sound
 		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
 		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
@@ -411,6 +423,7 @@ void Audio::shutdown()
 	alDeleteBuffers(SOUND_BUFFERS, soundBuffer);
 
 	// device and devcon
+	alcMakeContextCurrent(NULL);
 	alcDestroyContext(context);
 	alcCloseDevice(device);
 }

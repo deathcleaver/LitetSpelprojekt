@@ -3,9 +3,9 @@
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
+#include "Audio.h"
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
-#include "Audio.h"
 #include "../legend.h"
 #include "../Align16.h"
 
@@ -19,7 +19,6 @@ protected: //private
 protected:
 	bool facingRight;
 	int contentIndex;
-	Audio* audio;
 public:
 	glm::mat4* getWorldMat();
 	GameObject(){ facingRight = true; contentIndex = -1; };

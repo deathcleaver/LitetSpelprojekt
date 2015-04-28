@@ -78,7 +78,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glGenBuffers(1, &lightBuffer);
 	glGenBuffers(1, &lightBufferGlow);
 
-	nrLight = 100;
+	nrLight = 1000;
 
 	//volume = new int[nrLight];
 
@@ -155,7 +155,7 @@ void Gbuffer::pushLights(Light* light, int lightsAdded)
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
 
-	for (int  i = 0; i < lightsAdded && i < 100; i++)
+	for (int  i = 0; i < lightsAdded && i < 1000; i++)
 	{
 		if (light[i].volume == 0 || light[i].volume == 1)
 		{
