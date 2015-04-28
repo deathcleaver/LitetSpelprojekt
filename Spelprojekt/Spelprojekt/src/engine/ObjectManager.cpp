@@ -116,6 +116,14 @@ void ObjectManager::loadMapObjs()
 	add = new AnimationObject("src/meshes/Map Blocks/Platform1x5.v", "src/textures/Background/Platform.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
+	//Platform rock 3x3
+	add = new AnimationObject("src/meshes/Map Blocks/Platform3x3.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform rock 5x5
+	add = new AnimationObject("src/meshes/Map Blocks/Platform5x5.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
 	//rock5x5
 	add = new AnimationObject("src/meshes/Background Objects/Rock5x5.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
