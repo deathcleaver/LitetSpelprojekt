@@ -69,7 +69,7 @@ void ObjectManager::loadMapObjs()
 	AnimationObject* add;
 
 	//box
-	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
+	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/black.bmp");
 	objects[OBJ::WORLD].push_back(add);
 	
 	//mushroom
