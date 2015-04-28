@@ -45,6 +45,7 @@ Spikes -2 16
 0 3 0 0 -1 0 1 0 15 0 0 2 0 0 0 0 1
 0 1 0 0 -5 0 1 0 17 0 0 2 0 0 0 0 1
 1 : Music ID
+0 : Nr of Sounds
 5 : Nr of Lights 
 0 2 1 0.1 0.2 0.8 0.5 50 : LIGHTS
 0 8 1 0.3 0.4 0.8 0.5 100 : LIGHTS
