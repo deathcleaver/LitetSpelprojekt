@@ -604,11 +604,11 @@ void Player::getPickup(glm::vec2 chunkIndex)
 	{
 		pickUps = 0;
 		MAX_HP++;
-		Audio::getAudio().playSound(17); //item_hearth_completed
+		Audio::getAudio().playSound(18); //item_hearth_completed
 		printf("Hittat 3 pickups, nu är nrOfPickups %d och nya MAX_HP är %d\n", pickUps, MAX_HP);
 	}
 	else
-		Audio::getAudio().playSound(16); //item_hearth_piece
+		Audio::getAudio().playSound(17); //item_hearth_piece
 	HP = MAX_HP;
 	printf("HP sattes till %d\n", HP);
 	progressMeter.addHealth(chunkIndex);
