@@ -94,6 +94,15 @@
     <ClCompile Include="src\game\BaseEffect.cpp">
       <Filter>Source\Game\Light</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Torch.cpp">
+      <Filter>Header\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\HealthPickup.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\AudioObject.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h">
@@ -209,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="src\game\BaseEffect.h">
       <Filter>Header\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Torch.h">
+      <Filter>Header\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\HealthPickup.h">
+      <Filter>Header\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\AudioObject.h">
+      <Filter>Header\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

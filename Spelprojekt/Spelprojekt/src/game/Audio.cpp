@@ -84,6 +84,8 @@ void Audio::loadFiles()
 	soundFiles[17] = "../Audio/Sounds/Items/item_hearth_piece.wav";
 	soundFiles[18] = "../Audio/Sounds/Items/item_hearth_completed.wav";
 	//ambient
+	soundFiles[19] = "../Audio/Sounds/Ambient/ambient_moan.wav";
+	soundFiles[20] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
 	//...
 }
 
@@ -402,6 +404,34 @@ void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
 
 		soundSources.push_back(source);
 	}
+}
+
+ALuint* Audio::playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping)
+{
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
+	{
+		ALuint source;
+		alGenSources(1, &source);
+
+		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };                                    //Position of the musicSource sound
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+
+		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
+		alSourcef(source, AL_PITCH, 1.0f);                                 //Set the pitch of the musicSource
+		alSourcef(source, AL_GAIN, MASTER_VOLUME * SOUND_VOLUME);
+		alSourcei(source, AL_REFERENCE_DISTANCE, distance);
+		alSourcefv(source, AL_POSITION, SourcePos);                                 //Set the position of the musicSource
+		alSourcefv(source, AL_VELOCITY, SourceVel);                                 //Set the velocity of the musicSource
+		alSourcei(source, AL_LOOPING, looping);
+
+		alSourcePlay(source);
+
+		soundSources.push_back(source);
+
+		return &source;
+	}
+
+	return NULL;
 }
 
 void Audio::updateListener(glm::vec3 pos)

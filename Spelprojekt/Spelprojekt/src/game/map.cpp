@@ -130,10 +130,10 @@ void Map::setUpDraw(glm::vec3 pos)
 	//how far from edges the map will cull.
 	//numbers bigger than 17 will crash the game
 	int Xbounds = 17;
-	int Ybounds = 13;
+	int Ybounds = 17;
 	
-	int XboundsD = 13;
-	int YboundsD = 8;
+	int XboundsD = 17;
+	int YboundsD = 17;
 
 	int X = 0;
 	if (pos.x < Xbounds) // - X
@@ -209,11 +209,11 @@ void Map::setUpDraw3x2(glm::vec3 pos)
 
 	//how far from edges the map will cull.
 	//numbers bigger than 17 will crash the game
-	int Xbounds = 8;
-	int Ybounds = 13;
+	int Xbounds = 17;
+	int Ybounds = 17;
 
 	int XboundsD = 17;
-	int YboundsD = 13;
+	int YboundsD = 17;
 
 	int X = 0;
 	if (pos.x < Xbounds) // - X

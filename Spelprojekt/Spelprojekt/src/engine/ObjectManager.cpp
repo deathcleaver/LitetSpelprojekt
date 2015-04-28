@@ -69,7 +69,7 @@ void ObjectManager::loadMapObjs()
 	AnimationObject* add;
 
 	//box
-	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/Background/BackgroundRockWallDIRT.bmp");
+	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/black.bmp");
 	objects[OBJ::WORLD].push_back(add);
 	
 	//mushroom
@@ -116,12 +116,24 @@ void ObjectManager::loadMapObjs()
 	add = new AnimationObject("src/meshes/Map Blocks/Platform1x5.v", "src/textures/Background/Platform.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
+	//Platform rock 3x3
+	add = new AnimationObject("src/meshes/Map Blocks/Platform3x3.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform rock 5x5
+	add = new AnimationObject("src/meshes/Map Blocks/Platform5x5.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
 	//rock5x5
 	add = new AnimationObject("src/meshes/Background Objects/Rock5x5.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//rock5x5 cracked
 	add = new AnimationObject("src/meshes/Background Objects/Rock5x5Crack.v", "src/textures/Background Objects/Stalactimite.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//mushroom wall
+	add = new AnimationObject("src/meshes/Background Objects/MushroomWall.v", "src/textures/Background Objects/MushroomTexture2.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 

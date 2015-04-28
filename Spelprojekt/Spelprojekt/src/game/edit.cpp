@@ -37,6 +37,7 @@ void Edit::update(float x, float y, GUI* gui)
 {
 	if (editMode != NONEM)
 	{
+		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
 		EditorMode();
 	}
 
@@ -44,9 +45,6 @@ void Edit::update(float x, float y, GUI* gui)
 		forceRekts = true;
 	else if (in->getKeyNumberState(8))
 		forceRekts = false;
-
-	//save/load map check
-	//saveloadCheck();
 
 	if (editState != editStateLast)
 	{
@@ -305,15 +303,11 @@ void Edit::PlaceEditorState(float x, float y)
 
 		//get current chunk index edit
 		map->getChunkIndex(*in->GetPos(), &chunkXCam, &chunkYCam);
-		map->getChunkIndex(*in->GetPos(), &chunkXMouse, &chunkYMouse);
 
 		if (chunkXCam == -1 || chunkXMouse == -1)
 			return;
-
-		if (chunkXCam == chunkXMouse && chunkYCam == chunkYMouse)
-		{
-			placeObject(x, y);
-		}
+		
+		placeObject(x, y);
 	}
 }
 
@@ -469,30 +463,46 @@ void Edit::placeObject(float x, float y)
 
 void Edit::giveObjectToChunk()
 {
+
 	switch (editMode)
 	{
 	case BACK:
 		break;
 	case WORLD:
-		chunks[chunkXCam][chunkYCam].recieveWorld(current);
+	{
+		int idx, idy;
+		map->getChunkIndex(current->readPos(), &idx, &idy);
+		if (idx == -1 || idy == -1)
+			chunks[chunkXCam][chunkYCam].recieveWorld(current);
+		else
+			chunks[idx][idy].recieveWorld(current);
 		lastPlaced = *current;
 		current = 0;
 		newItem = true;
 		itemPlaced = true;
 		itemtaken = false;
+	}
 		break;
 	case MONSTER:
 		break;
 	case REKT:
 		break;
 	case LIGHT:
-		chunks[chunkXCam][chunkYCam].recieveLight(currentLight);
+	{
+		int idx, idy;
+		map->getChunkIndex(vec3(currentLight->posX, currentLight->posY, currentLight->posZ), &idx, &idy);
+		if (idx == -1 || idy == -1)
+			chunks[chunkXCam][chunkYCam].recieveLight(currentLight);
+		else
+			chunks[idx][idy].recieveLight(currentLight);
+
 		lastPlacedLight = *currentLight;
 		discard();
 		currentLight = 0;
 		newItem = true;
 		itemtaken = false;
 		itemPlaced = true;
+	}
 		break;
 	}
 }

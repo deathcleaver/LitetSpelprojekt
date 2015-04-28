@@ -16,6 +16,9 @@ MapChunk::~MapChunk()
 	if (nrOfLights > 0)
 		delete[]lights;
 
+	if (nrOfSounds > 0)
+		delete[]sounds;
+
 	for (int n = 0; n < WorldID::world_count; n++)
 	{
 		for (int k = 0; k < gameObjects[n].size(); k++)
@@ -152,6 +155,45 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		ss >> sub;
 		musicId = atoi(sub.c_str());
 
+		// --- Load Sound count ---
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		nrOfSounds = atoi(sub.c_str());
+
+		// --- Load Sounds ---
+		if (nrOfSounds > 0)
+		{
+			int id;
+			glm::vec3 soundPos;
+			float dist;
+			bool looping;
+
+			sounds = new AudioObject[nrOfSounds];
+			for (int c = 0; c < nrOfSounds; c++)
+			{
+				getline(in, line);
+				ss = stringstream(line);
+				ss >> sub;
+				id = atoi(sub.c_str());
+				ss >> sub;
+				soundPos.x = atof(sub.c_str());
+				ss >> sub;
+				soundPos.y = atof(sub.c_str());
+				ss >> sub;
+				soundPos.z = atof(sub.c_str());
+				ss >> sub;
+				dist = atof(sub.c_str());
+				ss >> sub;
+				if (atoi(sub.c_str()) == 0)
+					looping = false;
+				else
+					looping = true;
+
+				sounds[c].init(id, soundPos, dist, looping);
+			}
+		}
+
 		// --- Load Light count ---
 		getline(in, line);
 		ss = stringstream(line);
@@ -227,6 +269,8 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 
 		musicId = -1;
 		
+		nrOfSounds = 0;
+
 		enemyMan = new EnemyManager;
 		enemyMan->initEmpty();
 
@@ -436,6 +480,13 @@ int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 	}
 	if (shrine)
 		shrine->update(deltaTime);
+
+	if (nrOfSounds > 0)
+	{
+		for (int i = 0; i < nrOfSounds; i++)
+			sounds[i].update(deltaTime);
+	}
+
 	return 0;
 }
 
