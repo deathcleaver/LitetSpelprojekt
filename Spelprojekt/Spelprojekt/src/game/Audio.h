@@ -19,7 +19,7 @@
 #define SOUND_VOLUME 0.5f // goes from 0.0 to 1.0
 #define MASTER_VOLUME 1.0f // goes from 0.0 to 1.0
 #define MUSIC_BUFFERS 3 // one buffer for each file
-#define SOUND_BUFFERS 15 // one buffer for each file
+#define SOUND_BUFFERS 17 // one buffer for each file
 #define SOUND_SOURCES 32 // maximum number of simultanious sounds
 
 using namespace std;
@@ -60,6 +60,7 @@ public:
 	void shutdown();
 
 private:
+	void loadFiles();
 	bool createBuffers(char** files, ALuint* buffers, int elements);
 	int endWithError(char* msg, int error = 0);
 
