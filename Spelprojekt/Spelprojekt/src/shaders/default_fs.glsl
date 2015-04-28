@@ -12,7 +12,8 @@ out vec4 fragment_color;
 
 void main () 
 {
-    diffuseOut = vec4(texture(textureSample,vec2(UV.s, UV.t)).rgb, 1);
+	vec4 col = vec4(texture(textureSample,vec2(UV.s, UV.t)).rgb, 1);
+    diffuseOut = col;
     worldOut = vec4(worldPos, 1);
     normalOut = vec4(normal, 1);
     

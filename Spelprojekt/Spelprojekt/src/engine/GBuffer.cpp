@@ -63,6 +63,9 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	playerPos = 0;
 
+	//rekts
+	uniformRektModel = glGetUniformLocation(*shaderRektPtr, "modelMatrix");
+
 	//gui
 	uniformGUItexture = glGetUniformLocation(*shaderGuiPtr, "diffuse");
 	//defaults 0
@@ -199,9 +202,8 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 
 }
 
-void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* content, bool renderGui)
+void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRektsEdit)
 {
-	
 	// bind shader
 	glUseProgram(*shaderPtr);
 
@@ -218,6 +220,9 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 	glBindBufferBase(GL_UNIFORM_BUFFER, uniformBufferLightPos, lightBuffer);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	if (renderRektsEdit)
+		renderRekts(map, content);
 
 	if (renderGui)
 	{
@@ -243,6 +248,41 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const ContentManager* co
 		}
 	}
 
+}
+
+void Gbuffer::renderRekts(const Map* map, const ContentManager* content)
+{
+	int* upDraw = map->getUpDraw();
+
+	glUseProgram(*shaderRektPtr);
+	glDisable(GL_DEPTH_TEST);
+	content->bindRekt();
+	GameObject temprekt;
+	glm::vec3 pos;
+	int width = map->readSizeX();
+	int height = map->readSizeY();
+	MapChunk** chunks = map->getChunks();
+
+
+	for (int n = 0; n < upDraw[0]; n++)
+	{
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+
+				for (int xIndex = 0; xIndex < 35; xIndex++)
+					for (int yIndex = 0; yIndex < 35; yIndex++)
+						if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
+						{
+							pos.x = (-17 + upDraw[x] * 35) + xIndex;
+							pos.y = (17 - upDraw[y] * 35) - yIndex;
+							pos.z = 0;
+							temprekt.moveTo(pos);
+							temprekt.bindWorldMat(shaderRektPtr, &uniformRektModel);
+							glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+						}
+	}
 }
 
 void Gbuffer::generate(int x, int y)

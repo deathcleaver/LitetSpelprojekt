@@ -30,6 +30,8 @@ private:
 	GLuint tempshaderGBuffer;
 	GLuint tempshaderGBufferGlow;
 	GLuint tempshaderGUI;
+	GLuint tempshaderRekt;
+
 	GLuint uniformModel;
 	GLuint uniformView;
 	GLuint uniformProj;
@@ -38,6 +40,10 @@ private:
 	GLuint uniformProjGlow;
 	GLuint uniformFadePos;
 	GLuint uniformFadePosGlow;
+
+	//rekt shader
+	GLuint uniformRektView;
+	GLuint uniformRektProj;
 
 
 	glm::mat4* viewMatrix;

@@ -110,6 +110,7 @@ public:
 	Light* getLight();
 	void invalidID();
 	bool isMovingLights();
+	bool forceRekts = false;
 	void saveloadCheck(bool* save, bool* load, int* nr);
 };
 

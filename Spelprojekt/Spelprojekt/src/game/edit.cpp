@@ -40,6 +40,11 @@ void Edit::update(float x, float y, GUI* gui)
 		EditorMode();
 	}
 
+	if (in->getKeyNumberState(7))
+		forceRekts = true;
+	else if (in->getKeyNumberState(8))
+		forceRekts = false;
+
 	//save/load map check
 	//saveloadCheck();
 
@@ -67,6 +72,7 @@ void Edit::EditorMode()
 		discard();
 		itemtaken = false;
 		itemPlaced = false;
+		forceRekts = false;
 	}
 	
 	switch (editMode)
@@ -117,6 +123,7 @@ void Edit::itemTableClick()
 
 void Edit::RektEdit()
 {
+	forceRekts = true;
 	//only if we are holding down a key
 	int action = -1;
 	if (in->getLMBdown())
