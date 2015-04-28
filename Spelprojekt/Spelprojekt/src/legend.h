@@ -37,6 +37,7 @@ enum WorldID
 	platformRock5x5,
 	Rock5x5,
 	Rock5x5Crack,
+	MushroomWall,
 	
 
 	world_count, //leave this last

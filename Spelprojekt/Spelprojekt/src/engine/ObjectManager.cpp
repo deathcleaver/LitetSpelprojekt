@@ -131,6 +131,10 @@ void ObjectManager::loadMapObjs()
 	//rock5x5 cracked
 	add = new AnimationObject("src/meshes/Background Objects/Rock5x5Crack.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//mushroom wall
+	add = new AnimationObject("src/meshes/Background Objects/MushroomWall.v", "src/textures/Background Objects/MushroomTexture2.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
