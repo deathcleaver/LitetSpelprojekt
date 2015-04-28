@@ -55,7 +55,7 @@ public:
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);
 	void playSound(int file);
-	void playSoundAtPos(int file, glm::vec2 pos, bool looping);
+	void playSoundAtPos(int file, glm::vec3 pos, bool looping);
 	void updateListener(glm::vec3 pos);
 	void shutdown();
 

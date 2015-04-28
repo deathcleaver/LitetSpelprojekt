@@ -213,7 +213,7 @@ void Audio::update(float deltaTime)
 		}
 	}
 	// print # of buffers for debug purposes
-	printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
+	//printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());
 }
 
 void Audio::playMusic(int file)
@@ -369,14 +369,14 @@ void Audio::playSound(int file)
 	}
 }
 
-void Audio::playSoundAtPos(int file, glm::vec2 pos, bool looping)
+void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
 {
 	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES)
 	{
 		ALuint source;
 		alGenSources(1, &source);
 
-		ALfloat SourcePos[] = { pos.x, pos.y, 0.0 };                                    //Position of the musicSource sound
+		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };                                    //Position of the musicSource sound
 		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
 
 		alSourcei(source, AL_BUFFER, soundBuffer[file]);                                 //Link the musicBuffer to the musicSource
