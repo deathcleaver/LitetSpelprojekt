@@ -81,7 +81,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//stalagmite
-	add = new AnimationObject("src/meshes/Background Objects/Stalagmite.v", "src/textures/Background Objects/Stalactimite.bmp");
+	add = new AnimationObject("src/meshes/Background Objects/Rock1x1.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//minecart

@@ -24,7 +24,7 @@ enum WorldID
 	box,
 	mushroom,
 	stalactite,
-	stalagmite,
+	Rock1x1,
 	minecart,
 	minetrack,
 	minestruct_small,
