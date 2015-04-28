@@ -353,6 +353,9 @@ void MapChunk::saveChunk(string path)
 	//save music id
 	out << musicId << " : Music ID" << endl;
 
+	//Save all chunk sounds
+	out << "0" << endl;
+
 	//save nr of lights
 	out << nrOfLights << " : Nr of Lights " << endl;
 
