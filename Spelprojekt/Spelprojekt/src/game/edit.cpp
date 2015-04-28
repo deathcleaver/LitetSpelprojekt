@@ -388,7 +388,14 @@ void Edit::placeObject(float x, float y)
 				if (editMode == EditMode::LIGHT)
 				{
 					if (in->getKeyState('Q'))
-						currentLight->scale( 0 , 0 , y - lastMousePosY);
+					{
+						if (in->getKeyState('A'))
+							currentLight->scale(0, 0, 1);
+						else if (in->getKeyState('S'))
+							currentLight->scale(0, 0, 2);
+						else if (in->getKeyState('D'))
+							currentLight->scale(0, 0, 3);
+					}		
 					else
 						currentLight->scale(x - lastMousePosX, y - lastMousePosY, 0);
 				}

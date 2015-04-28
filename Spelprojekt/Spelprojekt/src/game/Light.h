@@ -56,11 +56,10 @@ struct Light : public Align_16
 		intensity += y / 2;
 		if (intensity < 0.1)
 			intensity = 0.1;
-		volume += z*2;
-		if (volume < 0)
-			volume = 0;
-		if (volume > 1)
-			volume = 1;
+		if (z > 0)
+		{
+			volume = z -1;
+		}
 	}
 
 	void color(float x, float y, float z)
