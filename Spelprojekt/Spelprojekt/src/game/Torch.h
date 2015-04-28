@@ -1,42 +1,28 @@
 #ifndef TORCH
 #define TORCH
 
-#include <malloc.h>
-#include "Light.h"
-#include <cstdlib>
+#include "BaseEffect.h"
 
-#define random(min, max) ((max - min) * ((((float) rand()) / (float) RAND_MAX)) + min );
-
-class Torch
+class Torch : public BaseEffect
 {
 	public:
 	
 		Torch();
 		~Torch();
 	
-		void copy(Torch* t);
+		virtual void copy(BaseEffect* t);
 
-		void init(float x, float y, float z);
-		void update();
+		virtual void init(float x, float y, float z);
+		virtual void update();
+		
+		virtual void setSpawn(float x, float y, float z);
+		
 		void fade();
-		void setSpawn(float x, float y, float z);
-		Light* getLights(int &nrLights);
-	
+
 		bool isFading();
 
 	private:
 	
-		Light* sparks;
-		float* timeLeft;
-		float* timeStart;
-		float* startDist;
-	
-		int nrLights;
-	
-		float spawnX, spawnY, spawnZ;
-
-		float range;
-
 };
 
 #endif

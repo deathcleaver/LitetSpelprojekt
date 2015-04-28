@@ -58,4 +58,11 @@ enum EnemyID
 	enemy_count, //leave this last
 };
 
+enum EffectType
+{
+	NONE,
+	torch,
+	spark,
+};
+
 #endif

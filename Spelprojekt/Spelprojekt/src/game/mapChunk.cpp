@@ -698,7 +698,6 @@ Light* MapChunk::getFlameLight(int index, int &nrLigts)
 	}
 	else if (((Flame*)(enemies[index]))->isFading())
 	{
-		nrLigts = 1;
 		((Flame*)(enemies[index]))->fade();
 		return ((Flame*)(enemies[index]))->getLight(nrLigts);
 	}

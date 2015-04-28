@@ -20,6 +20,7 @@
 
 #include "GBuffer.h"
 
+#include "../game/Effect.h"
 
 class Engine : public Align_16
 {
@@ -76,6 +77,8 @@ private:
 	int facecount;
 	int id;
 	int lastid;
+
+	Effect e;
 
 public:
 	Engine(){};

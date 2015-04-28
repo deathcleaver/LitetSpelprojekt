@@ -83,6 +83,8 @@ void Engine::init(glm::mat4* viewMat)
 	fadeIn = false;
 	fadeOut = false;
 
+	e.create(EffectType::spark);
+	e.getSparkEffect()->init(0, 2, 0);
 }
 
 void Engine::setFadeIn()
@@ -152,6 +154,10 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	renderEditObject(edit);
 
 	bindLights(player, edit);
+
+	int nr = 0;
+	Light* l;
+	//e.getSparkEffect()->getLights(nr);
 
 	glDisable(GL_DEPTH_TEST);
 

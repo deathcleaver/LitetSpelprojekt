@@ -3,7 +3,6 @@
 
 Flame::~Flame()
 {
-	delete myLight;
 	delete flameEffect;
 }
 
@@ -21,17 +20,10 @@ Flame::Flame(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
 
-	myLight = new Light();
-	myLight->posX = initPos.x; myLight->posY = initPos.y; myLight->posZ = 0.0;
-	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
-	myLight->volume = 1;
+	flameEffect = new Effect();
+	flameEffect->create(EffectType::torch);
+	flameEffect->getTorchEffect()->init(firstPos.x, firstPos.y, 0);
 
-	flameEffect = new Torch();
-	flameEffect->init(firstPos.x, firstPos.y, 0);
-
-	maxInt = 2.0f;
-	minInt = 0.5f;
-	increase = 0.01;
 }
 
 Flame::Flame(Flame* copy)
@@ -51,18 +43,10 @@ Flame::Flame(Flame* copy)
 	invulnTimer = copy->invulnTimer;
 	flying = copy->flying;
 
-	myLight = new Light();
-
-	maxInt = copy->maxInt;
-	minInt = copy->minInt;
-	increase = copy->increase;
-
-	myLight->posX = copy->myLight->posX; myLight->posY = copy->myLight->posY; myLight->posZ = copy->myLight->posZ;
-	myLight->r = 1.0; myLight->g = 0.0; myLight->b = 0.0f; myLight->intensity = 1.0; myLight->distance = 10.0;
-	myLight->volume = 1;
-
-	flameEffect = new Torch();
-	flameEffect->copy(copy->flameEffect);
+	
+	flameEffect = new Effect();
+	flameEffect->create(EffectType::torch);
+	flameEffect->getTorchEffect()->copy(copy->flameEffect->getTorchEffect());
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
@@ -77,9 +61,7 @@ void Flame::init()
 	health = 3;
 	invulnTimer = 0.0f;
 	speed = glm::vec2(2.0f, 0.0);
-	myLight->intensity = 1.0;
-	myLight->volume = 1;
-	flameEffect->init(initPos.x, initPos.y, 0);
+	flameEffect->getTorchEffect()->init(initPos.x, initPos.y, 0);
 	collideRect->update();
 }
 
@@ -178,17 +160,9 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	collideRect->update();
 
 	glm::vec3 myPos = readPos();
-	myLight->posX = myPos.x;
-	myLight->posY = myPos.y;
-
-	myLight->intensity += increase;
-	if (myLight->intensity > maxInt || myLight->intensity < minInt)
-	{
-		increase = -increase;
-	}
 
 	flameEffect->update();
-	flameEffect->setSpawn(myPos.x, myPos.y, 0);
+	flameEffect->getTorchEffect()->setSpawn(myPos.x, myPos.y, 0);
 
 	return 0;
 }
@@ -200,8 +174,8 @@ bool Flame::isFading()
 
 void Flame::fade()
 {
-	flameEffect->fade();
-	fading = flameEffect->isFading();
+	flameEffect->getTorchEffect()->fade();
+	fading = flameEffect->getTorchEffect()->isFading();
 	//myLight->intensity -= abs(increase);
 	//if (myLight->intensity < 0.0f)
 	//	fading = false;
