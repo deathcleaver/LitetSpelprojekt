@@ -95,11 +95,6 @@ void Engine::applySettings(bool glows)
 	gBuffer.applySettings(glows);
 }
 
-void Engine::applySettings(bool glows)
-{
-	gBuffer.applySettings(glows);
-}
-
 void Engine::setFadeIn()
 {
 	fadeIn = true;

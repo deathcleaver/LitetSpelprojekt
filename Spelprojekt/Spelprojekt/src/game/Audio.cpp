@@ -83,6 +83,7 @@ void Audio::loadFiles()
 	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
 	musicFiles[1] = "../Audio/Music/witcher_omnious.wav";
 	musicFiles[2] = "../Audio/Music/witcher_battle.wav";
+	musicFiles[3] = "../Audio/Music/mine_track.wav";
 
 	//load sound files
 	//Shrine
