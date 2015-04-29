@@ -16,8 +16,7 @@ public:
 	
 	EffectType getType();
 
-	Torch* getTorchEffect();
-	Spark* getSparkEffect();
+	BaseEffect* getEffect();
 
 	void update();
 
@@ -27,8 +26,7 @@ private:
 
 	EffectType effectType = EffectType::NONE;
 
-	Torch* torchEffect;
-	Spark* sparkEffect;
+	BaseEffect* effect;
 
 };
 

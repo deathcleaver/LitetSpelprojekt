@@ -22,7 +22,7 @@ Flame::Flame(glm::vec2 firstPos)
 
 	flameEffect = new Effect();
 	flameEffect->create(EffectType::torch);
-	flameEffect->getTorchEffect()->init(firstPos.x, firstPos.y, 0);
+	flameEffect->getEffect()->init(firstPos.x, firstPos.y, 0);
 
 }
 
@@ -45,8 +45,8 @@ Flame::Flame(Flame* copy)
 
 	
 	flameEffect = new Effect();
-	flameEffect->create(EffectType::torch);
-	flameEffect->getTorchEffect()->copy(copy->flameEffect->getTorchEffect());
+	flameEffect->reCreate(EffectType::torch);
+	flameEffect->getEffect()->copy(copy->flameEffect->getEffect());
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.8f, 0.8f);
@@ -61,7 +61,7 @@ void Flame::init()
 	health = 3;
 	invulnTimer = 0.0f;
 	speed = glm::vec2(2.0f, 0.0);
-	flameEffect->getTorchEffect()->init(initPos.x, initPos.y, 0);
+	flameEffect->getEffect()->init(initPos.x, initPos.y, 0);
 	collideRect->update();
 }
 
@@ -162,7 +162,7 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	glm::vec3 myPos = readPos();
 
 	flameEffect->update();
-	flameEffect->getTorchEffect()->setSpawn(myPos.x, myPos.y, 0);
+	flameEffect->getEffect()->setSpawn(myPos.x, myPos.y, 0);
 
 	return 0;
 }
@@ -174,8 +174,8 @@ bool Flame::isFading()
 
 void Flame::fade()
 {
-	flameEffect->getTorchEffect()->fade();
-	fading = flameEffect->getTorchEffect()->isFading();
+	((Torch*)flameEffect->getEffect())->fade();
+	fading = ((Torch*)flameEffect->getEffect())->isFading();
 	//myLight->intensity -= abs(increase);
 	//if (myLight->intensity < 0.0f)
 	//	fading = false;

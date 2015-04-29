@@ -35,7 +35,7 @@ public:
 	Light* getLight(int &nrLight)
 	{
 		nrLight = 10;
-		return flameEffect->getTorchEffect()->getLights(nrLight);
+		return flameEffect->getEffect()->getLights(nrLight);
 	}
 };
 

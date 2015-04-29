@@ -4,13 +4,15 @@
 #include "Light.h"
 #include <cstdlib>
 
-#define random(min, max) ((max - min) * ((((float) rand()) / (float) RAND_MAX)) + min );
+#define random(min, max) ((max-min)*((float)rand()/RAND_MAX))+min;
 
 
 class BaseEffect
 {
 
 public:
+
+	virtual ~BaseEffect() {};
 
 	virtual void init(float x, float y, float z);
 	virtual void setSpawn(float x, float y, float z);

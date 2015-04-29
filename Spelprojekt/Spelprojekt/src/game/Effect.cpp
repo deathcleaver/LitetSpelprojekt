@@ -2,8 +2,7 @@
 
 Effect::Effect()
 {
-	torchEffect = 0;
-	sparkEffect = 0;
+	effect = 0;
 }
 
 Effect::~Effect()
@@ -14,13 +13,10 @@ Effect::~Effect()
 
 void Effect::clear()
 {
-	if (torchEffect)
-		delete torchEffect;
-	if (sparkEffect)
-		delete sparkEffect;
+	if (effect)
+		delete effect;
 
-	torchEffect = 0;
-	sparkEffect = 0;
+	effect = 0;
 }
 
 void Effect::create(EffectType effType)
@@ -30,12 +26,12 @@ void Effect::create(EffectType effType)
 	{
 	case EffectType::torch:
 	{
-		torchEffect = new Torch();
+		effect = new Torch();
 		break;
 	}
 	case EffectType::spark:
 	{
-		sparkEffect = new Spark();
+		effect = new Spark();
 		break;
 	}
 	default:
@@ -55,20 +51,13 @@ EffectType Effect::getType()
 
 }
 
-Torch* Effect::getTorchEffect()
+BaseEffect* Effect::getEffect()
 {
-	return torchEffect;
+	return effect;
 }
 
-Spark* Effect::getSparkEffect()
-{
-	return sparkEffect;
-}
 
 void Effect::update()
 {
-	if (torchEffect)
-		torchEffect->update();
-	if (sparkEffect)
-		sparkEffect->update();
+	effect->update();
 }
