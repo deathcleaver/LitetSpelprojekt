@@ -24,7 +24,7 @@ void AudioObject::init(int file, glm::vec3 pos, float dist, float loop)
 	looping = loop;
 	state = A_WAITING;
 	tracking = false;
-
+	
 }
 
 void AudioObject::update(float deltaTime)

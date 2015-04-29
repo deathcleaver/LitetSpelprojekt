@@ -122,7 +122,7 @@ void Game::init(GLFWwindow* windowRef)
 	////start audio
 	//audio = new Audio();
 	//audio->init();
-	Audio::getAudio().init();
+	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, true);
 	// do not delete in this class
 	this->windowRef = windowRef;
 

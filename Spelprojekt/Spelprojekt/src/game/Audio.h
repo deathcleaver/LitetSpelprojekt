@@ -7,6 +7,8 @@
 
 #include <..\glm\glm.hpp>
 #include <AL\alut.h>
+#include <AL\alext.h>
+#include <AL\efx.h>
 
 //states
 #define A_PLAYING 0
@@ -15,9 +17,6 @@
 #define A_FADEOUT 3
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
-#define MUSIC_VOLUME 0.5f // goes from 0.0 to 1.0
-#define SOUND_VOLUME 0.5f // goes from 0.0 to 1.0
-#define MASTER_VOLUME 1.0f // goes from 0.0 to 1.0
 #define MUSIC_BUFFERS 3 // one buffer for each file
 #define SOUND_BUFFERS 21 // one buffer for each file
 #define SOUND_SOURCES 32 // maximum number of simultanious sounds
@@ -50,7 +49,7 @@ public:
 	static Audio& getAudio();
 	Audio();
 	~Audio();
-	bool init();
+	bool init(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE);
 	void update(float deltaTime);
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);
@@ -69,8 +68,11 @@ private:
 private:
 	
 	//OpenAL device and context
-	ALCdevice *device;                                                          //Create an OpenAL Device
+	ALCdevice *device;
 	ALCcontext *context;
+
+	//effects extention
+	
 
 	//listener
 	ALfloat listenerPos[3];
@@ -86,6 +88,10 @@ private:
 	// audio source lists
 	vector<ALuint> soundSources;
 	vector<MusicStruct> musicSources;
+
+	//settings
+	float musicVolume, soundVolume, masterVolume;
+	bool musicEnabled, soundEnabled, audioEnabled;
 };
 
 #endif
