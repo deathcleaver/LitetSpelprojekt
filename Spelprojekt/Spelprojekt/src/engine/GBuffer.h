@@ -30,6 +30,8 @@ public:
 	void clearLight();
 	void pushLights(Light* light, int nrLight);
 
+	void applySettings(bool glows);
+
 	GLuint* shaderPtr;
 	GLuint* shaderGlowPtr;
 	GLuint* shaderGuiPtr;
@@ -69,6 +71,9 @@ private:
 
 	//rekt
 	GLuint uniformRektModel;
+
+	//settings
+	bool glowsEnabled;
 };
 
 #endif

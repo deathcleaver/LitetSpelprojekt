@@ -62,6 +62,9 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		moveTo(myPos.x + speed.x*deltaTime, myPos.y);
 		if (collidesWithWorld(map))
 		{
+			if (speed.x < -2.0f)
+				Audio::getAudio().playSoundAtPos(12, myPos, false); //enemy_slime_jump
+
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
 			jumpTimer += 1.0*deltaTime;
@@ -92,7 +95,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	moveTo(myPos.x, myPos.y - speed.y*deltaTime);
 	if (collidesWithWorld(map))
 	{
-		if (speed.y > 5.0f)
+		if (speed.y > 5.0f || speed.y < -5.0f)
 			Audio::getAudio().playSoundAtPos(12, readPos(), false); //enemy_slime_jump
 
 		moveTo(myPos.x, myPos.y + speed.y*deltaTime);

@@ -90,6 +90,11 @@ void Engine::init(glm::mat4* viewMat)
 	e->getEffect()->init(0, 2, 0);
 }
 
+void Engine::applySettings(bool glows)
+{
+	gBuffer.applySettings(glows);
+}
+
 void Engine::setFadeIn()
 {
 	fadeIn = true;
@@ -594,7 +599,6 @@ void Engine::bindLights(const Player* player, Edit* edit)
 void Engine::renderEditObject(Edit* edit)
 {
 	//Render Edit Object
-
 	GameObject* holder = edit->getObject();
 	if (holder)
 	{

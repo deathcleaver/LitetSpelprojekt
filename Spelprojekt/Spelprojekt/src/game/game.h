@@ -25,6 +25,9 @@ enum gameState
 	EDIT,
 	PAUSE,
 	CONTINUE,
+	SETTINGS_MAIN,
+	SETTINGS_AUDIO,
+	SETTINGS_GRAPHICS
 };
 
 class Game : public Align_16

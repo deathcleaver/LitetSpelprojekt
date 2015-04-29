@@ -27,6 +27,7 @@ private:
 	void INTRO(bool init);
 	void EDIT(bool init);
 	void PAUSE(bool init);
+	void SETTINGS(bool init);
 	int keyUpdate();
 	float SCREENWIDTH = 1080;
 	float SCREENHEIGHT = 720;
