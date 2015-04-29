@@ -144,7 +144,11 @@ void ObjectManager::loadMapObjs()
 	add = new AnimationObject("src/meshes/Background Objects/Board.v", "src/textures/Background Objects/Minestrut.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
-	//crate
+	//crate HD
+	add = new AnimationObject("src/meshes/Background Objects/Crate.v", "src/textures/Background Objects/crate.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//crate 3D
 	add = new AnimationObject("src/meshes/Background Objects/Crate2.v", "src/textures/Background Objects/crate2.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }

@@ -40,7 +40,8 @@ enum WorldID
 	MushroomWall,
 	Pickaxe,
 	Board,
-	Crate,
+	CrateHD,
+	Crate3D,
 	
 
 	world_count, //leave this last
