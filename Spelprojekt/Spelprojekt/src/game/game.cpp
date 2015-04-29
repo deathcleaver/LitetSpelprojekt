@@ -119,10 +119,12 @@ void Game::init(GLFWwindow* windowRef)
 	//start state
 	current = MENU;
 
-	////start audio
-	//audio = new Audio();
-	//audio->init();
-	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, true);
+	//start audio
+	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, false);
+	
+	// read from settings file
+	initSettings();
+
 	// do not delete in this class
 	this->windowRef = windowRef;
 
@@ -488,6 +490,43 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->Ctrl(true) : in->Ctrl(false);
 	state = glfwGetKey(windowRef, GLFW_KEY_ESCAPE);
 	state == GLFW_PRESS ? in->ESC(true) : in->ESC(false);
+}
+
+void Game::initSettings()
+{
+	ifstream in;
+	char* settings = "settings.s";
+	in.open(settings);
+	if (in)
+	{
+		string line;
+		string sub;
+		stringstream ss;
+
+		// --- Audio ---
+		getline(in, line);
+		ss = stringstream(line);
+		float musicV, soundV, audioV;
+		ss >> sub;
+		musicV = atof(sub.c_str());
+		ss >> sub;
+		soundV = atof(sub.c_str());
+		ss >> sub;
+		audioV = atof(sub.c_str());
+
+		bool musicE, soundE, audioE;
+		ss >> sub;
+		musicE = atof(sub.c_str());
+		ss >> sub;
+		soundE = atof(sub.c_str());
+		ss >> sub;
+		audioE = atof(sub.c_str());
+
+		// apply settings
+		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
+
+		in.close();
+	}
 }
 
 void Game::checkForSave()

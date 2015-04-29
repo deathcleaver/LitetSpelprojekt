@@ -50,6 +50,7 @@ public:
 	Audio();
 	~Audio();
 	bool init(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE);
+	void applySettings(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE);
 	void update(float deltaTime);
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);

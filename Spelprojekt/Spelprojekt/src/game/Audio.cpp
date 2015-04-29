@@ -58,8 +58,18 @@ bool Audio::init(float musicV, float soundV, float masterV, bool musicE, bool so
 	alGenBuffers(SOUND_BUFFERS, soundBuffer);
 	createBuffers(soundFiles, soundBuffer, SOUND_BUFFERS);
 
-
 	return EXIT_SUCCESS;
+}
+
+void Audio::applySettings(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE)
+{
+	musicVolume = musicV;
+	soundVolume = soundV;
+	masterVolume = masterV;
+
+	musicEnabled = musicE;
+	soundEnabled = soundE;
+	audioEnabled = audioE;
 }
 
 void Audio::loadFiles()
