@@ -110,10 +110,10 @@ void Torch::update()
 			lights[i].r = 1.0f;
 			lights[i].g = 1.0f;
 			lights[i].b = 0.1f;
-			lights[i].distance = startDist[i] = 10;
+			lights[i].distance = startDist[i] = 7;
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
-			timeLeft[i] = timeStart[i] = random(0.0f, 1.2f);
+			timeLeft[i] = timeStart[i] = random(0.0f, 0.9f);
 		}
 		else
 		{

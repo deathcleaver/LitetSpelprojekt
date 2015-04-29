@@ -78,7 +78,7 @@ private:
 	int id;
 	int lastid;
 
-	Effect e;
+	Effect* e;
 
 public:
 	Engine(){};
