@@ -38,6 +38,9 @@ enum WorldID
 	Rock5x5,
 	Rock5x5Crack,
 	MushroomWall,
+	Pickaxe,
+	Board,
+	Crate,
 	
 
 	world_count, //leave this last
