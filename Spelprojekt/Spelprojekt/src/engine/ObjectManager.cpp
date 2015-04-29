@@ -133,7 +133,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//mushroom wall
-	add = new AnimationObject("src/meshes/Background Objects/MushroomWall.v", "src/textures/Background Objects/MushroomTexture2.bmp");
+	add = new AnimationObject("src/meshes/Background Objects/MushroomTicka.v", "src/textures/Background Objects/MushroomTicka.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 
