@@ -228,6 +228,9 @@
     <ClInclude Include="src\game\AudioObject.h">
       <Filter>Header\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSettings.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

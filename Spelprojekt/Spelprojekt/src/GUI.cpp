@@ -51,6 +51,9 @@ int GUI::update(int state)
 		case(4) :
 			PAUSE(init);
 			break;
+		case(5) :
+			SETTINGS(init);
+			break;
 		}
 	}
 	if (state == 1) //if play
@@ -109,6 +112,8 @@ void GUI::MENU(bool init)
 		//map maker button
 		items[4]->init(6, 7, true, 2);
 		items[4]->MoveAutoSize(0, -0.4, content);
+
+		//settings button
 
 		//credits button
 		items[5]->init(8, 9, true, 0);
@@ -260,6 +265,19 @@ void GUI::PAUSE(bool init)
 		items[1]->init(21, 22, true, 3);
 		items[1]->MoveAutoSize(0, -0.1, content);
 	}
+}
+
+void GUI::SETTINGS(bool init)
+{
+	size = 2;
+	for (int n = 0; n < size; n++)
+		items[n] = new ScreenItem();
+	// paused text
+	items[0]->init(20, 20);
+	items[0]->MoveAutoSize(0, 0.2, content);
+	// exit text
+	items[1]->init(21, 22, true, 3);
+	items[1]->MoveAutoSize(0, -0.1, content);
 }
 
 int GUI::keyUpdate()

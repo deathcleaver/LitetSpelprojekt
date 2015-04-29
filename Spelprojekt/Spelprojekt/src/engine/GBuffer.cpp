@@ -117,6 +117,14 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glVertexAttribDivisor(1, 1);
 	glVertexAttribDivisor(1, 1);
 
+	// settings
+	applySettings(true);
+
+}
+
+void Gbuffer::applySettings(bool glows)
+{
+	glowsEnabled = glows;
 }
 
 Gbuffer::~Gbuffer()
@@ -221,8 +229,8 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-
-	renderGlow(campos);
+	if (glowsEnabled == true)
+		renderGlow(campos);
 
 	if (renderRektsEdit)
 		renderRekts(map, content);
