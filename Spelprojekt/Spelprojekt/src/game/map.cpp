@@ -17,6 +17,10 @@ Map::~Map()
 
 void Map::init()
 {
+	if (upDraw)
+		delete[] upDraw;
+	if (lastUpDraw)
+		delete[] lastUpDraw;
 	upDraw = new int[13];
 	lastUpDraw = new int[13];
 	upDraw[0] = 0;

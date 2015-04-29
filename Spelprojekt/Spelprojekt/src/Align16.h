@@ -1,6 +1,8 @@
 #ifndef ALIGN16_H
 #define ALIGN16_H
 
+#include <malloc.h>
+
 class Align_16
 {
 public:

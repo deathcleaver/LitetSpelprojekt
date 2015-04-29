@@ -79,6 +79,21 @@
     <ClCompile Include="src\game\edit.cpp">
       <Filter>Source\Gui / Userinput / Editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\HealthPickup.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Torch.cpp">
+      <Filter>Source\Game\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect.cpp">
+      <Filter>Source\Game\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\spark.cpp">
+      <Filter>Source\Game\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\BaseEffect.cpp">
+      <Filter>Source\Game\Light</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\Torch.cpp">
       <Filter>Header\Game</Filter>
     </ClCompile>
@@ -121,9 +136,6 @@
       <Filter>Header\Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\GBuffer.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Light.h">
       <Filter>Header\Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\object.h">
@@ -189,6 +201,24 @@
     <ClInclude Include="src\UserInput.h">
       <Filter>Header\Gui / Userinput / Editor</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\HealthPickup.h">
+      <Filter>Header\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Light.h">
+      <Filter>Header\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Torch.h">
+      <Filter>Header\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect.h">
+      <Filter>Header\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Spark.h">
+      <Filter>Header\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\BaseEffect.h">
+      <Filter>Header\Game\Light</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\Torch.h">
       <Filter>Header\Game</Filter>
     </ClInclude>
@@ -235,6 +265,12 @@
     </Filter>
     <Filter Include="Source\Game\Map">
       <UniqueIdentifier>{51f1d357-6c25-4a4e-9a84-e974f117e6fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header\Game\Light">
+      <UniqueIdentifier>{b56b0015-04ea-4c22-b072-c30a9779978d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Light">
+      <UniqueIdentifier>{6202f928-278d-444d-84ef-e1c05f1bfc06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -96,8 +96,10 @@
     <ClCompile Include="src\engine\object.cpp" />
     <ClCompile Include="src\engine\RenderTarget.cpp" />
     <ClCompile Include="src\game\Audio.cpp" />
+    <ClCompile Include="src\game\BaseEffect.cpp" />
     <ClCompile Include="src\game\AudioObject.cpp" />
     <ClCompile Include="src\game\edit.cpp" />
+    <ClCompile Include="src\game\Effect.cpp" />
     <ClCompile Include="src\game\Enemies\Bat.cpp" />
     <ClCompile Include="src\game\Enemies\Bossbat.cpp" />
     <ClCompile Include="src\game\Enemies\Cube.cpp" />
@@ -112,6 +114,7 @@
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
     <ClCompile Include="src\game\Shrine.cpp" />
+    <ClCompile Include="src\game\spark.cpp" />
     <ClCompile Include="src\game\Torch.cpp" />
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -129,8 +132,10 @@
     <ClInclude Include="src\engine\object.h" />
     <ClInclude Include="src\engine\RenderTarget.h" />
     <ClInclude Include="src\game\Audio.h" />
+    <ClInclude Include="src\game\BaseEffect.h" />
     <ClInclude Include="src\game\AudioObject.h" />
     <ClInclude Include="src\game\edit.h" />
+    <ClInclude Include="src\game\Effect.h" />
     <ClInclude Include="src\game\Enemies\Bat.h" />
     <ClInclude Include="src\game\Enemies\Bossbat.h" />
     <ClInclude Include="src\game\Enemies\Bossdummy.h" />
@@ -150,6 +155,7 @@
     <ClInclude Include="src\game\Progress.h" />
     <ClInclude Include="src\game\rect.h" />
     <ClInclude Include="src\game\Shrine.h" />
+    <ClInclude Include="src\game\Spark.h" />
     <ClInclude Include="src\game\Torch.h" />
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\legend.h" />

@@ -2,7 +2,7 @@
 #define FLAME_H
 
 #include "../Enemy.h"
-#include "../Torch.h"
+#include "../Effect.h"
 
 class Flame : public Enemy
 {
@@ -12,10 +12,7 @@ private:
 
 	float invulnTimer;
 	bool flying;
-	Light* myLight;
-	Torch* flameEffect;
-
-	float maxInt, minInt, increase;
+	Effect* flameEffect;
 
 	bool fading;
 
@@ -38,7 +35,7 @@ public:
 	Light* getLight(int &nrLight)
 	{
 		nrLight = 10;
-		return flameEffect->getLights(nrLight);
+		return flameEffect->getEffect()->getLights(nrLight);
 	}
 };
 

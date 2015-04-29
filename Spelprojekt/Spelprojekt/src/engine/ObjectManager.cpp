@@ -131,6 +131,22 @@ void ObjectManager::loadMapObjs()
 	//rock5x5 cracked
 	add = new AnimationObject("src/meshes/Background Objects/Rock5x5Crack.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//mushroom wall
+	add = new AnimationObject("src/meshes/Background Objects/MushroomTicka.v", "src/textures/Background Objects/MushroomTicka.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//pickaxe
+	add = new AnimationObject("src/meshes/Background Objects/Pickaxe.v", "src/textures/Background Objects/pickaxe.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Board
+	add = new AnimationObject("src/meshes/Background Objects/Board.v", "src/textures/Background Objects/Minestrut.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//crate
+	add = new AnimationObject("src/meshes/Background Objects/Crate.v", "src/textures/Background Objects/Crate.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()

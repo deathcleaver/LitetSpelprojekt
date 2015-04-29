@@ -37,6 +37,10 @@ enum WorldID
 	platformRock5x5,
 	Rock5x5,
 	Rock5x5Crack,
+	MushroomWall,
+	Pickaxe,
+	Board,
+	Crate,
 	
 
 	world_count, //leave this last
@@ -59,6 +63,13 @@ enum EnemyID
 	flame,
 
 	enemy_count, //leave this last
+};
+
+enum EffectType
+{
+	NONE,
+	torch,
+	spark,
 };
 
 #endif
