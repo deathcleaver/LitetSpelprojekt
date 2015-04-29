@@ -22,13 +22,7 @@ Audio::~Audio()
 bool Audio::init(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE)
 {
 	//init options
-	musicVolume = musicV;
-	soundVolume = soundV;
-	masterVolume = masterV;
-
-	musicEnabled = musicE;
-	soundEnabled = soundE;
-	audioEnabled = audioE;
+	applySettings(musicV, soundV, masterV, musicE, soundE, audioE);
 
 	//load tracks
 	loadFiles();
@@ -63,9 +57,20 @@ bool Audio::init(float musicV, float soundV, float masterV, bool musicE, bool so
 
 void Audio::applySettings(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE)
 {
-	musicVolume = musicV;
-	soundVolume = soundV;
-	masterVolume = masterV;
+	if (musicV > 1.0f) // music
+		musicVolume = 1.0f;
+	else
+		musicVolume = musicV;
+
+	if (soundV > 1.0f) // sound
+		soundVolume = 1.0f;
+	else
+		soundVolume = soundV;
+
+	if (masterV > 1.0f) // master
+		masterVolume = 1.0f;
+	else
+		masterVolume = masterV;
 
 	musicEnabled = musicE;
 	soundEnabled = soundE;
