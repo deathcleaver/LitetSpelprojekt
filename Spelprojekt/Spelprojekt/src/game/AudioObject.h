@@ -15,6 +15,7 @@ public:
 
 	void init(int file, glm::vec3 pos, float dist, float loop);
 	void update(float deltaTime);
+	void bindToPosition(glm::vec3* pos, bool track);
 
 private:
 
@@ -25,6 +26,8 @@ private:
 	ALuint* sourcePointer;
 	int fileId, state;
 	glm::vec3 position;
+	glm::vec3* objectPosition; //used for tracking and following a gameobject
+	bool tracking;
 	float distance;
 	float looping;
 

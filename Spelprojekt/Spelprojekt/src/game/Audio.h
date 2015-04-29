@@ -58,6 +58,7 @@ public:
 	void playSoundAtPos(int file, glm::vec3 pos, bool looping);
 	ALuint* playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping);
 	void updateListener(glm::vec3 pos);
+	ALfloat* getListenerPos();
 	void shutdown();
 
 private:
@@ -70,6 +71,9 @@ private:
 	//OpenAL device and context
 	ALCdevice *device;                                                          //Create an OpenAL Device
 	ALCcontext *context;
+
+	//listener
+	ALfloat listenerPos[3];
 
 	//files
 	char* musicFiles[MUSIC_BUFFERS];

@@ -23,6 +23,7 @@ void AudioObject::init(int file, glm::vec3 pos, float dist, float loop)
 	distance = dist;
 	looping = loop;
 	state = A_WAITING;
+	tracking = false;
 
 }
 
@@ -34,4 +35,20 @@ void AudioObject::update(float deltaTime)
 			sourcePointer = Audio::getAudio().playSoundAtPosSP(fileId, position, distance, looping);
 		state == A_PLAYING;
 	}
+
+	if (tracking)
+	{
+		if (objectPosition != NULL)
+		{
+			glm::vec3 tempPos = *objectPosition;
+			ALfloat SourcePos[] = { tempPos.x, tempPos.y, tempPos.z };
+			alSourcefv(*sourcePointer, AL_POSITION, SourcePos);
+		}
+	}
+}
+
+void AudioObject::bindToPosition(glm::vec3* pos, bool track)
+{
+	bool tracking = track;
+	objectPosition = pos;
 }

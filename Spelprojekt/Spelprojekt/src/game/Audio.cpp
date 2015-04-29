@@ -32,10 +32,12 @@ bool Audio::init()
 	if (!context) return endWithError("no sound context");
 
 	//Listener
-	ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
+	listenerPos[0] = 0.0;
+	listenerPos[1] = 0.0;
+	listenerPos[2] = 0.0;
 	ALfloat ListenerVel[] = { 0.0, 0.0, 0.0 };
 	ALfloat ListenerOri[] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 }; //up, lookat                                                                                
-	alListenerfv(AL_POSITION, ListenerPos); //Set position of the listener
+	alListenerfv(AL_POSITION, listenerPos); //Set position of the listener
 	alListenerfv(AL_VELOCITY, ListenerVel); //Set velocity of the listener
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 
@@ -436,10 +438,18 @@ ALuint* Audio::playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool lo
 
 void Audio::updateListener(glm::vec3 pos)
 {
-	ALfloat listenerPos[] = { pos.x, pos.y, pos.z };
+	listenerPos[0] = pos.x;
+	listenerPos[1] = pos.y;
+	listenerPos[2] = pos.z;
+
 	ALfloat musicPos[] = { pos.x, pos.y, pos.z };
 
 	alListenerfv(AL_POSITION, listenerPos);
+}
+
+ALfloat* Audio::getListenerPos()
+{
+	return listenerPos;
 }
 
 void Audio::shutdown()
