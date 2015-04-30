@@ -18,7 +18,7 @@
 #define FADEINTIME 0.15f
 #define FADEOUTTIME 0.4f
 #define MUSIC_BUFFERS 5 // one buffer for each file
-#define SOUND_BUFFERS 25 // one buffer for each file
+#define SOUND_BUFFERS 26 // one buffer for each file
 #define SOUND_SOURCES 32 // maximum number of simultanious sounds
 
 using namespace std;
@@ -55,6 +55,7 @@ public:
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);
 	void playSound(int file, bool looping);
+	void playSoundPitched(int file, float pitch, bool looping);
 	void playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping);
 	ALuint* playSoundSP(int file, bool looping);
 	ALuint* playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping);

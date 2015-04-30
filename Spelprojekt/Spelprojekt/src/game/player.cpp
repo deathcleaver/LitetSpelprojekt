@@ -227,7 +227,9 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 		//gravity
 		if (userInput->getKeyState('W') && speed.y > 0 && !isAttacking)
+		{
 			speed.y -= (acceleration.y * 0.5f);
+		}
 		else
 			speed.y -= acceleration.y;
 
@@ -251,6 +253,14 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				}
 				else
 				{
+					if (speed.y < -5.0f)
+					{
+							float pitch;
+							pitch = (maxSpeed.y) / speed.y;
+							Audio::getAudio().playSoundPitched(25, pitch, false);
+					}
+						
+
 					speed.x *= landBreak;
 					jumping = false;
 					doubleJump = false;

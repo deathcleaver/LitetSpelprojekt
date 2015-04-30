@@ -95,6 +95,7 @@ void Audio::loadFiles()
 	soundFiles[3] = "../Audio/Sounds/Player/player_attack_fire.wav";
 	soundFiles[4] = "../Audio/Sounds/Player/player_attack_ice.wav";
 	soundFiles[5] = "../Audio/Sounds/Player/player_shield_force.wav";
+	soundFiles[25] = "../Audio/Sounds/Player/player_landing.wav";
 	//interface
 	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
 	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
@@ -417,6 +418,31 @@ void Audio::playSound(int file, bool looping)
 
 			soundSources.push_back(source);
 		}
+}
+
+void Audio::playSoundPitched(int file, float pitch, bool looping)
+{
+	if (soundEnabled && audioEnabled) //sound is enabled
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
+	{
+		ALuint source;
+		alGenSources(1, &source);
+
+		ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+
+		alSourcei(source, AL_BUFFER, soundBuffer[file]);
+		alSourcef(source, AL_PITCH, pitch);
+		alSourcef(source, AL_GAIN, masterVolume * soundVolume);
+		alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
+		alSourcefv(source, AL_POSITION, SourcePos);
+		alSourcefv(source, AL_VELOCITY, SourceVel);
+		alSourcei(source, AL_LOOPING, looping);
+
+		alSourcePlay(source);
+
+		soundSources.push_back(source);
+	}
 }
 
 void Audio::playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping)
