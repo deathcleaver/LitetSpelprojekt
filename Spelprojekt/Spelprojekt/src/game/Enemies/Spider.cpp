@@ -18,6 +18,7 @@ Spider::Spider(glm::vec2 firstPos)
 
 Spider::Spider(Spider* copy)
 {
+	visitor = copy->visitor;
 	contentIndex = 4;
 	worldMat = copy->worldMat;
 	initPos = glm::vec2(copy->readPos().x, copy->readPos().y);
