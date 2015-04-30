@@ -406,6 +406,7 @@ void Game::buttonEvents(int buttonEv)
 		edit->refreshOnEnter();
 		Audio::getAudio().playSound(6, false); //button
 		Audio::getAudio().playMusic(-1); //stop menu music
+		engine->setFadeIn();
 		cameraFollow = false;
 		break;
 	case(3) : // Exit button. Play -> Menu
