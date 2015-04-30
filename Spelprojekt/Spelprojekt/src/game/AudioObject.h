@@ -13,7 +13,7 @@ public:
 	AudioObject();
 	~AudioObject();
 
-	void init(bool is3D, int file, glm::vec3 pos, float dist, int loopType, int loopInterval);
+	void init(bool is3D, int file, glm::vec3 pos, float dist, int loopType, float minInt, float maxInt);
 	void update(float deltaTime);
 	void bindToPosition(glm::vec3* pos, bool track);
 
@@ -28,12 +28,13 @@ private:
 	glm::vec3 position;
 	glm::vec3* objectPosition; //used for tracking and following a gameobject
 	bool tracking;
-	bool play3D;
-	float distance;
+	bool play3D; //0 false, 1 true
+	float distance; //audible distance of the sound
 	bool looping;
-	bool intervalLooping;
-	float time, timeSinceLastPlayed;
-	float interval; //used for playing non looping sounds after a random interval
+	bool intervalLooping; //used for playing non looping sounds after a random interval
+	// set minInterval = maxInterval for non random interval
+	float time, nextInstance;
+	float minInterval, maxInterval;
 
 };
 

@@ -168,7 +168,8 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 			int id;
 			glm::vec3 soundPos;
 			float dist;
-			int loopType, interval;
+			int loopType;
+			float minInterval, maxInterval;
 
 			sounds = new AudioObject[nrOfSounds];
 			for (int c = 0; c < nrOfSounds; c++)
@@ -190,9 +191,11 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				ss >> sub;
 				loopType = atoi(sub.c_str());
 				ss >> sub;
-				interval = atoi(sub.c_str());
+				minInterval = atof(sub.c_str());
+				ss >> sub;
+				maxInterval = atof(sub.c_str());
 
-				sounds[c].init(soundType, id, soundPos, dist, loopType, interval);
+				sounds[c].init(soundType, id, soundPos, dist, loopType, minInterval, maxInterval);
 			}
 		}
 
