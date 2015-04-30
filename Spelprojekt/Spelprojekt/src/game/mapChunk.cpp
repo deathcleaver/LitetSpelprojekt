@@ -674,6 +674,25 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("Spider");
+	nrOfEnemies = enemyMan->size("Spider");
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->readPos().x)
+						enemies[c]->hit(damage, false);
+					else
+						enemies[c]->hit(damage, true);
+				}
+			}
+		}
+	}
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{

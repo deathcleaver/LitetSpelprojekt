@@ -377,8 +377,6 @@ void Engine::renderEnemies()
 					}
 				}
 
-				lastid = -1; //Temp fix
-
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
