@@ -11,7 +11,6 @@ private:
 	glm::vec2 maxSpeed;
 
 	float invulnTimer;
-	bool collidesWithWorld(Map* map);
 	float jumpTimer;
 public:
 	Cube(glm::vec2 firstPos);

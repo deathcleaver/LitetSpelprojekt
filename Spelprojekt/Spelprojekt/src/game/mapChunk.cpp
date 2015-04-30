@@ -566,6 +566,20 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("Spider");
+	nrOfEnemies = enemyMan->size("Spider");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->readPos();
+			}
+		}
+	}
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{

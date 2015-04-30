@@ -10,7 +10,6 @@ private:
 
 	float movementScale;
 	float speed;
-	bool collidesWithWorld(MapChunk* chunk);
 	bool slow;
 	float invulnTimer;
 	bool isInit;

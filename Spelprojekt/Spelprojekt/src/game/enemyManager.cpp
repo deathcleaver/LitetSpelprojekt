@@ -7,6 +7,7 @@
 #include "Enemies/Bossbat.h"
 #include "Enemies/Bossdummy.h"
 #include "Enemies/Cube.h"
+#include "Enemies/Spider.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -36,6 +37,11 @@ EnemyManager::~EnemyManager()
 		delete cubes[c];
 	}
 	delete[]cubes;
+	for (int c = 0; c < spiderCount; c++)
+	{
+		delete spiders[c];
+	}
+	delete[]spiders;
 
 
 	if (boss)
@@ -56,6 +62,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	flames = new Enemy*[flameMax];
 	cubeCount = 0; cubeMax = 5;
 	cubes = new Enemy*[cubeMax];
+	spiderCount = 0; spiderMax = 5;
+	spiders = new Enemy*[spiderMax];
 
 	boss = 0;
 	string line;
@@ -126,6 +134,9 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 
 	for (int n = 0; n < cubeCount; n++)
 		*out << "Cube " << cubes[n]->readPos().x - xOffset * 35 << " " << cubes[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < spiderCount; n++)
+		*out << "Spider " << spiders[n]->readPos().x - xOffset * 35 << " " << spiders[n]->readPos().y + yOffset * 35 << endl;
 	
 }
 
@@ -137,6 +148,8 @@ void EnemyManager::initEmpty()
 	spikes = 0;
 	batCount = -1;
 	bats = 0;
+	spiderCount = -1;
+	spiders = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -212,6 +225,26 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			}
 		}
 	}
+	for (int c = 0; c < spiderCount; c++)
+	{
+		if (spiders[c]->isAlive())
+		{
+			msg = spiders[c]->update(deltaTime, map, playerPos);
+			pos = spiders[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
+			{
+				Spider* visitSpider = new Spider((Spider*)spiders[c]);
+				visitSpider->setVisitor();
+				spiders[c]->diePls();
+				visitorHolder[visitorsToSendOut] = visitSpider;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
+			}
+		}
+	}
+
 	if (boss)
 	{
 		if (boss->isAlive())
@@ -232,6 +265,8 @@ int EnemyManager::size(string type)
 		return flameCount;
 	if (type == "Cube")
 		return cubeCount;
+	if (type == "Spider")
+		return spiderCount;
 	return 0;
 }
 
@@ -265,6 +300,13 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (cubeCount == cubeMax)
 			expandEnemyArray(cubes, cubeMax);
 	}
+	if (type == "Spider")
+	{
+		spiders[spiderCount] = new Spider(pos);
+		spiderCount++;
+		if (spiderCount == spiderMax)
+			expandEnemyArray(spiders, spiderMax);
+	}
 }
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
@@ -280,8 +322,11 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return flames[index]->bindWorldMat(shader, uniform);
 	else if (type == "Spikes")
 		return spikes[index]->bindWorldMat(shader, uniform);
-	else //if (type == "Cube")
+	else if (type == "Cube")
 		return cubes[index]->bindWorldMat(shader, uniform);
+	else if (type == "Spider")
+		return spiders[index]->bindWorldMat(shader, uniform);
+	return -1;
 }
 
 Enemy** EnemyManager::getEnemies(string type)
@@ -294,6 +339,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return flames;
 	if (type == "Cube")
 		return cubes;
+	if (type == "Spider")
+		return spiders;
 	return 0;
 }
 
@@ -331,6 +378,17 @@ void EnemyManager::resetEnemies()
 		}
 		else
 			cubes[n]->init();
+	}
+	for (int n = spiderCount - 1; n >= 0; n--)
+	{
+		if (spiders[n]->isVisitor())
+		{
+			delete spiders[n];
+			spiders[n] = 0;
+			spiderCount--;
+		}
+		else
+			spiders[n]->init();
 	}
 	if (boss)
 	{
@@ -397,5 +455,12 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		cubeCount++;
 		if (cubeCount == cubeMax)
 			expandEnemyArray(cubes, cubeMax);
+	}
+	if (type == "Spider")
+	{
+		spiders[spiderCount] = new Spider((Spider*)visitor);
+		spiderCount++;
+		if (spiderCount == spiderMax)
+			expandEnemyArray(spiders, spiderMax);
 	}
 }

@@ -345,6 +345,40 @@ void Engine::renderEnemies()
 					}
 				}
 
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+				glColorMask(0, 0, 1, 1);
+				glEnable(GL_CULL_FACE);
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
+				for (int i = 0; i < size; i++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Cube"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Cube");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::cube);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
+				}
+				glColorMask(1, 1, 1, 1);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDisable(GL_CULL_FACE);
+
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spider");
+				for (int i = 0; i < size; i++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Spider"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Spider");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::spider);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
+				}
+
+				lastid = -1; //Temp fix
+
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
@@ -353,26 +387,6 @@ void Engine::renderEnemies()
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
 				}
-				lastid = -1;
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-					glColorMask(0, 0, 1, 1);
-					glEnable(GL_CULL_FACE);
-					size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
-					for (int i = 0; i < size; i++)
-					{
-						if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Cube"))
-						{
-							id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Cube");
-							if (id != lastid)
-								facecount = content->bind(OBJ::WORLD, WorldID::box);
-							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-							lastid = id;
-						}
-					}
-					glColorMask(1, 1, 1, 1);
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-					glDisable(GL_CULL_FACE);
-					lastid = -1;  
 			}
 
 	}

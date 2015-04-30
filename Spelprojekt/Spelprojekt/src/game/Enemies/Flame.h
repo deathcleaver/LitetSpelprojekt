@@ -8,7 +8,6 @@ class Flame : public Enemy
 {
 private:
 	glm::vec2 speed;
-	bool collidesWithWorld(Map* map);
 
 	float invulnTimer;
 	bool flying;

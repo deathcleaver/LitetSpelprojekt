@@ -103,6 +103,9 @@
     <ClCompile Include="src\game\AudioObject.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Enemies\Spider.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h">
@@ -230,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="src\GameSettings.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Spider.h">
+      <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

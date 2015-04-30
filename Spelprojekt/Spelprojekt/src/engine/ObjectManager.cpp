@@ -172,6 +172,18 @@ void ObjectManager::loadMonsterObjs()
 	Object* FCube2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	add = new AnimationObject(FCube1, FCube2, 0.5f, 0.02f);
 	objects[OBJ::ENEMY].push_back(add);
+
+	//cube
+	Object* slimeC1 = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
+	Object* slimeC2 = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
+	add = new AnimationObject(slimeC1, slimeC2, 0.0f, 0.0f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//spider
+	Object* spider1 = new Object("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
+	Object* spider2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
+	add = new AnimationObject(spider1, spider2, 0.5f, 0.02f);
+	objects[OBJ::ENEMY].push_back(add);
 }
 
 void ObjectManager::loadMiscObjs()

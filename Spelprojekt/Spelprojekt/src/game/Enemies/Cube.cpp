@@ -8,7 +8,7 @@ Cube::Cube(glm::vec2 firstPos)
 	moveTo(firstPos.x, firstPos.y);
 	alive = true;
 	facingRight = true;
-	contentIndex = 2;
+	contentIndex = 3;
 	health = 4;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
@@ -137,10 +137,4 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 		invulnTimer = 0.6f;
 	}
 
-}
-
-bool Cube::collidesWithWorld(Map* map)
-{
-	collideRect->update();
-	return map->collideMap(collideRect, readPos());
 }
