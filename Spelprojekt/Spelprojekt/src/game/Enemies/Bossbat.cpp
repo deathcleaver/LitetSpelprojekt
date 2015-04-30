@@ -48,6 +48,7 @@ void Bossbat::init()
 		returnPos = chargePos = readPos();
 		hasTurned = false;
 		rotateTo(0, 3.1415927f / 2.0f, 0);
+		Audio::getAudio().playSoundAtPos(9, readPos(), 10.0f, false);//boss_bat_attack
 	}
 	else
 	{
