@@ -192,11 +192,11 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		
 		if (health <= 0)
 		{
-			Audio::getAudio().playSoundAtPos(16, readPos(), false); //enemy_flame_death
+			Audio::getAudio().playSoundAtPos(16, readPos(), 10.0f, false); //enemy_flame_death
 			alive = false;
 		}
 		else
-			Audio::getAudio().playSoundAtPos(15, readPos(), false); //enemy_flame_hurt
+			Audio::getAudio().playSoundAtPos(15, readPos(), 10.0f, false); //enemy_flame_hurt
 
 		invulnTimer = 0.6f;
 		if (playerRightOfEnemy)

@@ -63,7 +63,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			if (speed.x < -2.0f)
-				Audio::getAudio().playSoundAtPos(12, myPos, false); //enemy_slime_jump
+				Audio::getAudio().playSoundAtPos(12, myPos, 10.0f, false); //enemy_slime_jump
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -81,7 +81,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			if (speed.x > 2.0f)
-				Audio::getAudio().playSoundAtPos(12, myPos, false); //enemy_slime_jump
+				Audio::getAudio().playSoundAtPos(12, myPos, 10.0f, false); //enemy_slime_jump
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -96,7 +96,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	if (collidesWithWorld(map))
 	{
 		if (speed.y > 5.0f || speed.y < -5.0f)
-			Audio::getAudio().playSoundAtPos(12, readPos(), false); //enemy_slime_jump
+			Audio::getAudio().playSoundAtPos(12, readPos(), 10.0f, false); //enemy_slime_jump
 
 		moveTo(myPos.x, myPos.y + speed.y*deltaTime);
 		speed.y = 0;
@@ -106,7 +106,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		speed.y -= 20.0f;
 		jumpTimer = 0.0f;
-		Audio::getAudio().playSoundAtPos(12, readPos(), false); //enemy_slime_jump
+		Audio::getAudio().playSoundAtPos(12, readPos(), 10.0f, false); //enemy_slime_jump
 	}
 
 	if (invulnTimer > FLT_EPSILON)
@@ -128,11 +128,11 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(14, readPos(), false); //enemy_slime_death
+			Audio::getAudio().playSoundAtPos(14, readPos(), 10.0f, false); //enemy_slime_death
 			//Spawna nya slimes
 		}
 		else
-			Audio::getAudio().playSoundAtPos(13, readPos(), false); //enemy_slime_hurt
+			Audio::getAudio().playSoundAtPos(13, readPos(), 10.0f, false); //enemy_slime_hurt
 
 		invulnTimer = 0.6f;
 	}

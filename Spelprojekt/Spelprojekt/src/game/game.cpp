@@ -279,7 +279,7 @@ void Game::update(float deltaTime)
 						   {
 							   std::string boss = map->getBoss(pPos, false);
 							   player->dingDongTheBossIsDead(boss);
-							   Audio::getAudio().playSound(8);//boss_defeted
+							   Audio::getAudio().playSound(8, false);//boss_defeted
 						   }
 						   Audio::getAudio().playMusicFade(-1, deltaTime);//stop music if the boss is dead
 					   }
@@ -292,7 +292,7 @@ void Game::update(float deltaTime)
 					   if (in->getESC())
 					   {
 						   //save player progression
-						   Audio::getAudio().playSound(7); //pause
+						   Audio::getAudio().playSound(7, false); //pause
 						   current = PAUSE;
 					   }
 					   break;
@@ -395,7 +395,7 @@ void Game::buttonEvents(int buttonEv)
 		map->LoadMap(1, 0);
 		map->init();
 		current = PLAY;
-		Audio::getAudio().playSound(6); //button
+		Audio::getAudio().playSound(6, false); //button
 		cameraFollow = true;
 		engine->setFadeIn();
 		in->resetZoomViewDir();
@@ -404,7 +404,7 @@ void Game::buttonEvents(int buttonEv)
 		engine->setFade(1.0f);
 		current = EDIT;
 		edit->refreshOnEnter();
-		Audio::getAudio().playSound(6); //button
+		Audio::getAudio().playSound(6, false); //button
 		Audio::getAudio().playMusic(-1); //stop menu music
 		cameraFollow = false;
 		break;
@@ -412,7 +412,7 @@ void Game::buttonEvents(int buttonEv)
 		saveGame();
 		current = MENU;
 		edit->refreshOnEnter();
-		Audio::getAudio().playSound(6); //button
+		Audio::getAudio().playSound(6, false); //button
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
@@ -422,7 +422,7 @@ void Game::buttonEvents(int buttonEv)
 		map->init();
 		start = 0;
 		current = PLAY;
-		Audio::getAudio().playSound(6); //button
+		Audio::getAudio().playSound(6, false); //button
 		engine->setFadeIn();
 		cameraFollow = true;
 		for (int c = 0; c < savePickupNr; c++)

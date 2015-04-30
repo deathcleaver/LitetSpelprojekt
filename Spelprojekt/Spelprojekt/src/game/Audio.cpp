@@ -114,6 +114,10 @@ void Audio::loadFiles()
 	//ambient
 	soundFiles[19] = "../Audio/Sounds/Ambient/ambient_moan.wav";
 	soundFiles[20] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
+	soundFiles[21] = "../Audio/Sounds/Ambient/ambient_rain.wav";
+	soundFiles[22] = "../Audio/Sounds/Ambient/ambient_lightning.wav";
+	soundFiles[23] = "../Audio/Sounds/Ambient/ambient_thunder.wav";
+	soundFiles[24] = "../Audio/Sounds/everyone.wav";
 	//...
 }
 
@@ -389,7 +393,7 @@ void Audio::playMusicFade(int file, float deltaTime)
 	}
 }
 
-void Audio::playSound(int file)
+void Audio::playSound(int file, bool looping)
 {
 	if (soundEnabled && audioEnabled) //sound is enabled
 		if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
@@ -406,7 +410,7 @@ void Audio::playSound(int file)
 			alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
 			alSourcefv(source, AL_POSITION, SourcePos);
 			alSourcefv(source, AL_VELOCITY, SourceVel);
-			alSourcei(source, AL_LOOPING, AL_FALSE);
+			alSourcei(source, AL_LOOPING, looping);
 
 			alSourcePlay(source);
 
@@ -414,7 +418,7 @@ void Audio::playSound(int file)
 		}
 }
 
-void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
+void Audio::playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping)
 {
 	if (soundEnabled && audioEnabled) //sound is enabled
 		if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
@@ -428,7 +432,7 @@ void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
 			alSourcei(source, AL_BUFFER, soundBuffer[file]);
 			alSourcef(source, AL_PITCH, 1.0f);
 			alSourcef(source, AL_GAIN, masterVolume * soundVolume);
-			alSourcei(source, AL_REFERENCE_DISTANCE, 10.0);
+			alSourcei(source, AL_REFERENCE_DISTANCE, distance);
 			alSourcefv(source, AL_POSITION, SourcePos);
 			alSourcefv(source, AL_VELOCITY, SourceVel);
 			alSourcei(source, AL_LOOPING, looping);
@@ -437,6 +441,35 @@ void Audio::playSoundAtPos(int file, glm::vec3 pos, bool looping)
 
 			soundSources.push_back(source);
 		}
+}
+
+ALuint* Audio::playSoundSP(int file, bool looping)
+{
+	if (soundEnabled && audioEnabled) //sound is enabled
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
+	{
+		ALuint source;
+		alGenSources(1, &source);
+
+		ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+
+		alSourcei(source, AL_BUFFER, soundBuffer[file]);
+		alSourcef(source, AL_PITCH, 1.0f);
+		alSourcef(source, AL_GAIN, masterVolume * soundVolume);
+		alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE); // 2D sound
+		alSourcefv(source, AL_POSITION, SourcePos);
+		alSourcefv(source, AL_VELOCITY, SourceVel);
+		alSourcei(source, AL_LOOPING, looping);
+
+		alSourcePlay(source);
+
+		soundSources.push_back(source);
+
+		return &source;
+	}
+
+	return NULL;
 }
 
 ALuint* Audio::playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping)
