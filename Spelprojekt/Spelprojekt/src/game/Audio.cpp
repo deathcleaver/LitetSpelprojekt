@@ -115,8 +115,8 @@ void Audio::loadFiles()
 	soundFiles[19] = "../Audio/Sounds/Ambient/ambient_moan.wav";
 	soundFiles[20] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
 	soundFiles[21] = "../Audio/Sounds/Ambient/ambient_rain.wav";
-	soundFiles[22] = "../Audio/Sounds/Ambient/ambient_lightning.wav";
-	soundFiles[23] = "../Audio/Sounds/Ambient/ambient_thunder.wav";
+	soundFiles[22] = "../Audio/Sounds/Ambient/ambient_thunder2_stereo.wav";
+	soundFiles[23] = "../Audio/Sounds/Ambient/ambient_crow.wav";
 	soundFiles[24] = "../Audio/Sounds/everyone.wav";
 	//...
 }

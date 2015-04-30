@@ -15,13 +15,13 @@ AudioObject::~AudioObject()
 	}
 }
 
-void AudioObject::init(bool is3D, int file, glm::vec3 pos, float dist, int loopType, int loopInterval)
+void AudioObject::init(bool is3D, int file, glm::vec3 pos, float dist, int loopType, float minInt, float maxInt)
 {
 
 	sourcePointer = NULL;
 	looping = false;
 	intervalLooping == false;
-	interval = 0;
+	nextInstance = 0;
 	time = 0;
 
 	play3D = is3D;
@@ -33,7 +33,8 @@ void AudioObject::init(bool is3D, int file, glm::vec3 pos, float dist, int loopT
 	else if (loopType == 2)
 	{
 		intervalLooping = true;
-		interval = loopInterval;
+		minInterval = minInt;
+		maxInterval = maxInt;
 	}
 	state = A_WAITING;
 	tracking = false;
@@ -44,10 +45,10 @@ void AudioObject::update(float deltaTime)
 {
 	if (intervalLooping == true) //plays sounds after an interval (does not support source pointer yet)
 	{
-		time += 10 * deltaTime;
-		printf("Time: %f\n", time);
+		time += 1 * deltaTime;
+		//printf("Time: %f\n", time);
 
-		if (time >= interval)
+		if (time >= nextInstance)
 		{
 			if (play3D) // 3D sound
 				Audio::getAudio().playSoundAtPos(fileId, position, distance, looping);
@@ -55,9 +56,11 @@ void AudioObject::update(float deltaTime)
 				Audio::getAudio().playSound(fileId, looping);
 
 			time = 0;
+			nextInstance = minInterval + (rand() % (int)(maxInterval - minInterval + 1));
+			printf("Next source: %f\n", nextInstance);
 		}
 	}
-	else if(intervalLooping == false) // play one sound and track it's position
+	else// play one sound and track it's position
 	{
 		if (state == A_WAITING)
 		{
