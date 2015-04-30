@@ -401,7 +401,7 @@ void Game::buttonEvents(int buttonEv)
 		in->resetZoomViewDir();
 		break;
 		engine->setFade(1.0f);
-	case(2) : // Mapmaker manu button
+	case(2) : // Mapmaker main button
 		current = EDIT;
 		edit->refreshOnEnter();
 		Audio::getAudio().playSound(6, false); //button
