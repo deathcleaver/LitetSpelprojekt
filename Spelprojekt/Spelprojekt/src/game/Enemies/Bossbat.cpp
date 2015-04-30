@@ -23,7 +23,6 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	batTimer = 0.0f;
 	charging = false;
 	chargeTimer = 4.0f;
-	chunk = 0;
 }
 
 void Bossbat::init()
@@ -57,7 +56,7 @@ void Bossbat::init()
 	}
 }
 
-void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
+void Bossbat::spawnBat(Map* map, float deltaTime)
 {
 	if (batsToSpawn > 0)
 	{
@@ -68,7 +67,7 @@ void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
 			Bat* newBat = new Bat(glm::vec2(pos.x, pos.y-2.5));
 			newBat->setFacing(facingRight);
 			newBat->setVisitor();
-			chunk->addVisitor(newBat, "Bat");
+			map->findNewHome(newBat);
 			delete newBat;
 			batsToSpawn--;
 			if (batsToSpawn > 0)
@@ -96,7 +95,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			moveTo(pos.x, pos.y - speed*deltaTime);
 		}
-		spawnBat(chunk, deltaTime);
+		spawnBat(map, deltaTime);
 		if (invulnTimer < FLT_EPSILON)
 			chargePos = readPos();
 	}
