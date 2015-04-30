@@ -164,10 +164,11 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		// --- Load Sounds ---
 		if (nrOfSounds > 0)
 		{
+			int soundType; //0 = 2D, 1 = 3D
 			int id;
 			glm::vec3 soundPos;
 			float dist;
-			bool looping;
+			int loopType, interval;
 
 			sounds = new AudioObject[nrOfSounds];
 			for (int c = 0; c < nrOfSounds; c++)
@@ -175,22 +176,23 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				getline(in, line);
 				ss = stringstream(line);
 				ss >> sub;
+				soundType = atoi(sub.c_str());
+				ss >> sub;
 				id = atoi(sub.c_str());
 				ss >> sub;
-				soundPos.x = atof(sub.c_str());
+				soundPos.x = atof(sub.c_str()) + xOffset * 35;
 				ss >> sub;
-				soundPos.y = atof(sub.c_str());
+				soundPos.y = atof(sub.c_str()) - yOffset * 35;
 				ss >> sub;
 				soundPos.z = atof(sub.c_str());
 				ss >> sub;
 				dist = atof(sub.c_str());
 				ss >> sub;
-				if (atoi(sub.c_str()) == 0)
-					looping = false;
-				else
-					looping = true;
+				loopType = atoi(sub.c_str());
+				ss >> sub;
+				interval = atoi(sub.c_str());
 
-				sounds[c].init(id, soundPos, dist, looping);
+				sounds[c].init(soundType, id, soundPos, dist, loopType, interval);
 			}
 		}
 

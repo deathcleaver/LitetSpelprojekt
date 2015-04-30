@@ -10,7 +10,9 @@
 0 7 0 0 7 0 3 0 -16 0 0 3 0 0 0 0 1
 0 7 0 0 14 0 3 0 -16 0 0 3 0 0 0 0 1
 -1 : Music ID
-0
+2 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, loopinterval)
+0 21 0.0 0.0 0.0 10.0 1 0
+0 24 0.0 0.0 0.0 30.0 2 8
 0 : Nr of Lights 
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
