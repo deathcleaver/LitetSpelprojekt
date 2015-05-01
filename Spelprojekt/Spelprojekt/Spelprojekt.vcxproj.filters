@@ -1,305 +1,266 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\game\Audio.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
+    <ClCompile Include="src\game\edit.cpp" />
+    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\engine\AnimationObject.cpp">
-      <Filter>Source\Engine</Filter>
+      <Filter>Engine\GFX</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\ContentManager.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\engine.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\GBuffer.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\object.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\ObjectManager.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\RenderTarget.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Enemies\Bat.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Enemies\Bossbat.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Enemies\Cube.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\enemy.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\enemyManager.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Enemies\Flame.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Enemies\Spikes.cpp">
-      <Filter>Source\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\map.cpp">
-      <Filter>Source\Game\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\mapChunk.cpp">
-      <Filter>Source\Game\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\game.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\gameObject.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\player.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Shrine.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UserInput.cpp">
-      <Filter>Source\Gui / Userinput / Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\screenItem.cpp">
-      <Filter>Source\Gui / Userinput / Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI.cpp">
-      <Filter>Source\Gui / Userinput / Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\edit.cpp">
-      <Filter>Source\Gui / Userinput / Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\HealthPickup.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Torch.cpp">
-      <Filter>Source\Game\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Effect.cpp">
-      <Filter>Source\Game\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\spark.cpp">
-      <Filter>Source\Game\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\BaseEffect.cpp">
-      <Filter>Source\Game\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Torch.cpp">
-      <Filter>Header\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\HealthPickup.cpp">
-      <Filter>Source\Game</Filter>
+    <ClCompile Include="src\game\Audio.cpp">
+      <Filter>Engine\SFX</Filter>
     </ClCompile>
     <ClCompile Include="src\game\AudioObject.cpp">
-      <Filter>Source\Game</Filter>
+      <Filter>Engine\SFX</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Enemies\Spider.cpp">
-      <Filter>Source\Game\Enemy</Filter>
+    <ClCompile Include="src\engine\ContentManager.cpp">
+      <Filter>Engine\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\gameObject.cpp">
+      <Filter>Engine\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GBuffer.cpp">
+      <Filter>Engine\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\RenderTarget.cpp">
+      <Filter>Engine\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\Bat.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\Bossbat.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\Cube.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\enemy.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\enemyManager.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\Flame.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Enemies\Ghost.cpp">
-      <Filter>Source\Game\Enemy</Filter>
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\Spider.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\Spikes.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Web.cpp">
-      <Filter>Source\Game</Filter>
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\BaseEffect.cpp">
+      <Filter>Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect.cpp">
+      <Filter>Game\Effects</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Shiled.cpp">
-      <Filter>Source\Game\Light</Filter>
+      <Filter>Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\spark.cpp">
+      <Filter>Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Torch.cpp">
+      <Filter>Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\ObjectManager.cpp">
+      <Filter>Engine\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\object.cpp">
+      <Filter>Engine\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\mapChunk.cpp">
+      <Filter>Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\map.cpp">
+      <Filter>Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\HealthPickup.cpp">
+      <Filter>Game\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Shrine.cpp">
+      <Filter>Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\screenItem.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\player.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UserInput.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Align16.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="src\Align16.h" />
+    <ClInclude Include="src\game\edit.h" />
+    <ClInclude Include="src\legend.h" />
+    <ClInclude Include="src\engine\AnimationObject.h">
+      <Filter>Engine\GFX</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Audio.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="src\legend.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\AnimationObject.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Enemies\Bat.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Enemies\Bossdummy.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\contentItem.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Enemies\Bossbat.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\ContentManager.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\engine.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\GBuffer.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\object.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\ObjectManager.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\RenderTarget.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Enemies\Cube.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\enemy.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\enemyManager.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Enemies\Flame.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Enemies\Spikes.h">
-      <Filter>Header\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\map.h">
-      <Filter>Header\Game\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\mapChunk.h">
-      <Filter>Header\Game\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\rect.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\game.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\gameObject.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\player.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Progress.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\Shader.h">
-      <Filter>Header\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Shrine.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\screenItem.h">
-      <Filter>Header\Gui / Userinput / Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\edit.h">
-      <Filter>Header\Gui / Userinput / Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI.h">
-      <Filter>Header\Gui / Userinput / Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UserInput.h">
-      <Filter>Header\Gui / Userinput / Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\HealthPickup.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Light.h">
-      <Filter>Header\Game\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Torch.h">
-      <Filter>Header\Game\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Effect.h">
-      <Filter>Header\Game\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Spark.h">
-      <Filter>Header\Game\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\BaseEffect.h">
-      <Filter>Header\Game\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Torch.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\HealthPickup.h">
-      <Filter>Header\Game</Filter>
+      <Filter>Engine\SFX</Filter>
     </ClInclude>
     <ClInclude Include="src\game\AudioObject.h">
-      <Filter>Header\Game</Filter>
+      <Filter>Engine\SFX</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSettings.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="src\contentItem.h">
+      <Filter>Engine\GFX</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\Enemies\Spider.h">
-      <Filter>Header\Game\Enemy</Filter>
+    <ClInclude Include="src\engine\ContentManager.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\gameObject.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GBuffer.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\RenderTarget.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Shader.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Bat.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Bossbat.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Bossdummy.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Cube.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\enemy.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\enemyManager.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Flame.h">
+      <Filter>Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Enemies\Ghost.h">
-      <Filter>Header\Game\Enemy</Filter>
+      <Filter>Game\Enemy</Filter>
     </ClInclude>
-<<<<<<< HEAD
+    <ClInclude Include="src\game\Enemies\Spider.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Spikes.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\Web.h">
-      <Filter>Header\Game</Filter>
-=======
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\BaseEffect.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\Shield.h">
-      <Filter>Header\Game\Light</Filter>
->>>>>>> origin/master
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Spark.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Torch.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSettings.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\ObjectManager.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\object.h">
+      <Filter>Engine\GFX</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\mapChunk.h">
+      <Filter>Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\map.h">
+      <Filter>Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\HealthPickup.h">
+      <Filter>Game\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Shrine.h">
+      <Filter>Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Light.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\screenItem.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\rect.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\player.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Progress.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UserInput.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Header">
-      <UniqueIdentifier>{9c59888d-8939-412a-bb60-7d8ec605c1b8}</UniqueIdentifier>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{9cfa9eba-3c35-4d50-9752-03b179939f98}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{816416cd-b625-4c0e-b819-c3dafe7bdc44}</UniqueIdentifier>
+    <Filter Include="Engine\GFX">
+      <UniqueIdentifier>{722e80a6-701b-4e34-a406-047d847de052}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Game">
-      <UniqueIdentifier>{12c14539-8d19-4783-9075-1b892418a668}</UniqueIdentifier>
+    <Filter Include="Engine\SFX">
+      <UniqueIdentifier>{24fc1ccb-c1ad-4dfc-b617-d60548033158}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Engine">
-      <UniqueIdentifier>{68965476-67eb-4fac-aee4-a74507618f67}</UniqueIdentifier>
+    <Filter Include="Game">
+      <UniqueIdentifier>{30f4dabc-4faa-43ef-ba3e-e16b47cefa52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Game\Enemy">
-      <UniqueIdentifier>{64e00d2e-061e-46c7-94f7-a8ad1dc0f0aa}</UniqueIdentifier>
+    <Filter Include="Game\Enemy">
+      <UniqueIdentifier>{015835aa-ef0e-41c5-a496-6773c4e976d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Game\Map">
-      <UniqueIdentifier>{e4a97806-2999-469d-8664-c20b5ae3ae46}</UniqueIdentifier>
+    <Filter Include="Game\Effects">
+      <UniqueIdentifier>{11de5968-4dc6-4a31-b1a8-575207dd7a91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Gui / Userinput / Editor">
-      <UniqueIdentifier>{e649e42d-97bd-4df6-b6b2-82f6ae863399}</UniqueIdentifier>
+    <Filter Include="Game\Map">
+      <UniqueIdentifier>{a9af323f-f88c-40dd-bb7c-ce4cd698e7f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game">
-      <UniqueIdentifier>{0f3153b2-0079-4edb-b41a-54755b4bb76b}</UniqueIdentifier>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{8fcb091d-4c83-44b1-b80a-34c6ee94ff1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine">
-      <UniqueIdentifier>{ad809c00-efa9-4481-a640-dccbac55e90d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Gui / Userinput / Editor">
-      <UniqueIdentifier>{23eeb444-d6ab-4749-a3ff-78fe5ab276b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game\Enemy">
-      <UniqueIdentifier>{920d75e5-9874-4a13-9307-a2dab498b969}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game\Map">
-      <UniqueIdentifier>{51f1d357-6c25-4a4e-9a84-e974f117e6fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\Game\Light">
-      <UniqueIdentifier>{b56b0015-04ea-4c22-b072-c30a9779978d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game\Light">
-      <UniqueIdentifier>{6202f928-278d-444d-84ef-e1c05f1bfc06}</UniqueIdentifier>
+    <Filter Include="Game\Misc">
+      <UniqueIdentifier>{07e326aa-ec12-4b41-b125-a3540ce4cb90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
