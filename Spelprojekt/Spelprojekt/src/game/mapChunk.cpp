@@ -586,6 +586,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 {
 	Enemy** enemies = enemyMan->getEnemies("Bat");
 	int nrOfEnemies = enemyMan->size("Bat");
+
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
 		if (enemies[c]->isAlive())
