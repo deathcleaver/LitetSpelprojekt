@@ -42,7 +42,11 @@ enum WorldID
 	Board,
 	CrateHD,
 	Crate3D,
-	
+	platformMarble1x1,
+	platformMarble1x3,
+	platformMarble1x5,
+	platformMarble3x3,
+	platformMarble5x5,
 
 	world_count, //leave this last
 };

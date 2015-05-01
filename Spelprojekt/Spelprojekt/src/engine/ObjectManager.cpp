@@ -151,6 +151,26 @@ void ObjectManager::loadMapObjs()
 	//crate 3D
 	add = new AnimationObject("src/meshes/Background Objects/Crate2.v", "src/textures/Background Objects/crate2.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//Platform marble 1x1
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble1x1.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform marble 1x3
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble1x3.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform marble 1x5
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble1x5.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform marble 3x3
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble3x3.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Platform marble 5x5
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble5x5.v", "src/textures/Background/Platform.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
