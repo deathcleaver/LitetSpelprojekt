@@ -196,7 +196,10 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 			alive = false;
 		}
 		else
+		{
 			Audio::getAudio().playSoundAtPos(15, readPos(), 10.0f, false); //enemy_flame_hurt
+			flameEffect->getEffect()->setParticleColor(0.5, 0.5, 1.0);
+		}
 
 		invulnTimer = 0.6f;
 		if (playerRightOfEnemy)

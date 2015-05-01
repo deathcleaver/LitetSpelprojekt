@@ -46,13 +46,18 @@ void Torch::copy(BaseEffect* t)
 	nrLights = tOrg->nrLights;
 	range = tOrg->range;
 
+	setBaseColor(tOrg->baseR, tOrg->baseG, tOrg->baseB);
+	setParticleColor(tOrg->particleR, tOrg->particleG, tOrg->particleB);
+
 	for (int i = 0; i < nrLights; i++)
 	{
 		lights[i] = tOrg->lights[i];
 		timeLeft[i] = tOrg->timeLeft[i];
 		timeStart[i] = tOrg->timeStart[i];
 		startDist[i] = tOrg->startDist[i];
-		flameColor[i] = tOrg->flameColor[i];
+		flameColor[i].r = tOrg->flameColor[i].r;
+		flameColor[i].g = tOrg->flameColor[i].g;
+		flameColor[i].b = tOrg->flameColor[i].b;
 	}
 
 }
@@ -84,6 +89,10 @@ void Torch::init(float x, float y, float z)
 		lights[i].volume = 2;
 		timeLeft[i] = timeStart[i] = random(0.0f, 0.7f);
 	}
+
+	setBaseColor(1.0f, 1.0f, 1.0f);
+	setParticleColor(0.8f, 0.8f, 0.1f);
+	timeChangeColor(false, true, false);
 
 }
 
