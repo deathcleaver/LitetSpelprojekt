@@ -104,6 +104,7 @@
     <ClCompile Include="src\game\Enemies\Bossbat.cpp" />
     <ClCompile Include="src\game\Enemies\Cube.cpp" />
     <ClCompile Include="src\game\Enemies\Flame.cpp" />
+    <ClCompile Include="src\game\Enemies\Ghost.cpp" />
     <ClCompile Include="src\game\Enemies\Spider.cpp" />
     <ClCompile Include="src\game\Enemies\Spikes.cpp" />
     <ClCompile Include="src\game\enemy.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="src\game\Enemies\Bossdummy.h" />
     <ClInclude Include="src\game\Enemies\Cube.h" />
     <ClInclude Include="src\game\Enemies\Flame.h" />
+    <ClInclude Include="src\game\Enemies\Ghost.h" />
     <ClInclude Include="src\game\Enemies\Spider.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />
     <ClInclude Include="src\game\enemy.h" />

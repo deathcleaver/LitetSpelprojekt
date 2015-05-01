@@ -8,6 +8,7 @@
 #include "Enemies/Bossdummy.h"
 #include "Enemies/Cube.h"
 #include "Enemies/Spider.h"
+#include "Enemies/Ghost.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -42,6 +43,11 @@ EnemyManager::~EnemyManager()
 		delete spiders[c];
 	}
 	delete[]spiders;
+	for (int c = 0; c < ghostCount; c++)
+	{
+		delete ghosts[c];
+	}
+	delete[]ghosts;
 
 
 	if (boss)
@@ -64,6 +70,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	cubes = new Enemy*[cubeMax];
 	spiderCount = 0; spiderMax = 5;
 	spiders = new Enemy*[spiderMax];
+	ghostCount = 0; ghostMax = 5;
+	ghosts = new Enemy*[ghostMax];
 
 	boss = 0;
 	string line;
@@ -121,7 +129,7 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	}
 	else
 		*out << 0 << " : ChuckTesta" << endl;
-	*out << batCount + flameCount + spikeCount  + cubeCount + spiderCount << " : Enemy Count" << endl;
+	*out << batCount + flameCount + spikeCount  + cubeCount + spiderCount + ghostCount << " : Enemy Count" << endl;
 
 	for (int n = 0; n < batCount; n++)
 		*out << "Bat " << bats[n]->readPos().x - xOffset * 35 << " " << bats[n]->readPos().y + yOffset * 35 << endl;
@@ -137,6 +145,9 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 
 	for (int n = 0; n < spiderCount; n++)
 		*out << "Spider " << spiders[n]->readPos().x - xOffset * 35 << " " << spiders[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < ghostCount; n++)
+		*out << "Ghost " << ghosts[n]->readPos().x - xOffset * 35 << " " << ghosts[n]->readPos().y + yOffset * 35 << endl;
 	
 }
 
@@ -150,6 +161,8 @@ void EnemyManager::initEmpty()
 	bats = 0;
 	spiderCount = -1;
 	spiders = 0;
+	ghostCount = -1;
+	ghosts;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -244,6 +257,25 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			}
 		}
 	}
+	for (int c = 0; c < ghostCount; c++)
+	{
+		if (ghosts[c]->isAlive())
+		{
+			msg = ghosts[c]->update(deltaTime, map, playerPos);
+			pos = ghosts[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
+			{
+				Ghost* visitGhost = new Ghost((Ghost*)ghosts[c]);
+				visitGhost->setVisitor();
+				ghosts[c]->diePls();
+				visitorHolder[visitorsToSendOut] = visitGhost;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
+			}
+		}
+	}
 
 	if (boss)
 	{
@@ -267,6 +299,8 @@ int EnemyManager::size(string type)
 		return cubeCount;
 	if (type == "Spider")
 		return spiderCount;
+	if (type == "Ghost")
+		return ghostCount;
 	return 0;
 }
 
@@ -307,6 +341,13 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (spiderCount == spiderMax)
 			expandEnemyArray(spiders, spiderMax);
 	}
+	if (type == "Ghost")
+	{
+		ghosts[ghostCount] = new Ghost(pos);
+		ghostCount++;
+		if (ghostCount == ghostMax)
+			expandEnemyArray(ghosts, ghostMax);
+	}
 }
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
@@ -326,6 +367,8 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return cubes[index]->bindWorldMat(shader, uniform);
 	else if (type == "Spider")
 		return spiders[index]->bindWorldMat(shader, uniform);
+	else if (type == "Ghost")
+		return ghosts[index]->bindWorldMat(shader, uniform);
 	return -1;
 }
 
@@ -341,6 +384,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return cubes;
 	if (type == "Spider")
 		return spiders;
+	if (type == "Ghost")
+		return ghosts;
 	return 0;
 }
 
@@ -389,6 +434,17 @@ void EnemyManager::resetEnemies()
 		}
 		else
 			spiders[n]->init();
+	}
+	for (int n = ghostCount - 1; n >= 0; n--)
+	{
+		if (ghosts[n]->isVisitor())
+		{
+			delete ghosts[n];
+			ghosts[n] = 0;
+			ghostCount--;
+		}
+		else
+			ghosts[n]->init();
 	}
 	if (boss)
 	{
@@ -462,5 +518,12 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		spiderCount++;
 		if (spiderCount == spiderMax)
 			expandEnemyArray(spiders, spiderMax);
+	}
+	if (type == "Ghost")
+	{
+		ghosts[ghostCount] = new Ghost((Ghost*)visitor);
+		ghostCount++;
+		if (ghostCount == ghostMax)
+			expandEnemyArray(ghosts, ghostMax);
 	}
 }

@@ -17,6 +17,8 @@ private:
 	float jumpTimer;
 
 	glm::vec2 speed;
+
+	float invulnTimer;
 public:
 	Spider(glm::vec2 firstPos);
 	Spider(Spider* copy);
