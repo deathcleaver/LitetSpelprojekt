@@ -23,6 +23,12 @@ class Torch : public BaseEffect
 
 	private:
 	
+		struct color
+		{
+			float r, g, b;
+		};
+
+		color* flameColor;
 };
 
 #endif
