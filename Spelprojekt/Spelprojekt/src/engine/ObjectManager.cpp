@@ -171,6 +171,58 @@ void ObjectManager::loadMapObjs()
 	//Platform marble 5x5
 	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble5x5.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//candle_big
+	add = new AnimationObject("src/meshes/Crypt/CandleBig.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//candle_small
+	add = new AnimationObject("src/meshes/Crypt/CandleSmall.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//candelier
+	add = new AnimationObject("src/meshes/Crypt/Chandelier.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//coffin_bottom
+	add = new AnimationObject("src/meshes/Crypt/CoffinBottom.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//coffin_top
+	add = new AnimationObject("src/meshes/Crypt/CoffinTop.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//grave_circle
+	add = new AnimationObject("src/meshes/Crypt/GraveCircle.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//grave_classic
+	add = new AnimationObject("src/meshes/Crypt/GraveClassic.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//grave_cross
+	add = new AnimationObject("src/meshes/Crypt/GraveCross.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//pillar_bottom_broken
+	add = new AnimationObject("src/meshes/Crypt/PillarBottomBroken.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//pillar_top_broken
+	add = new AnimationObject("src/meshes/Crypt/PillarTopBroken.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//pillar
+	add = new AnimationObject("src/meshes/Crypt/PillarWhole.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//tunnel_broken
+	add = new AnimationObject("src/meshes/Crypt/TunnelBroken.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//tunnel
+	add = new AnimationObject("src/meshes/Crypt/TunnelWhole.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()

@@ -47,6 +47,20 @@ enum WorldID
 	platformMarble1x5,
 	platformMarble3x3,
 	platformMarble5x5,
+	
+	candle_big,
+	candle_small,
+	candelier,
+	coffin_bottom,
+	coffin_top,
+	grave_circle,
+	grave_classic,
+	grave_cross,
+	pillar_bottom_broken,
+	pillar_top_broken,
+	pillar,
+	tunnel_broken,
+	tunnel,
 
 	world_count, //leave this last
 };
