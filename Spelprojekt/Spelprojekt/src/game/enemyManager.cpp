@@ -9,6 +9,7 @@
 #include "Enemies/Cube.h"
 #include "Enemies/Spider.h"
 #include "Enemies/Ghost.h"
+#include "Web.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -48,6 +49,11 @@ EnemyManager::~EnemyManager()
 		delete ghosts[c];
 	}
 	delete[]ghosts;
+	for (int c = 0; c < webCount; c++)
+	{
+		delete webs[c];
+	}
+	delete[]webs;
 
 
 	if (boss)
@@ -72,6 +78,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	spiders = new Enemy*[spiderMax];
 	ghostCount = 0; ghostMax = 5;
 	ghosts = new Enemy*[ghostMax];
+	webCount = 0; webMax = 5;
+	webs = new Enemy*[webMax];
 
 	boss = 0;
 	string line;
@@ -129,7 +137,7 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	}
 	else
 		*out << 0 << " : ChuckTesta" << endl;
-	*out << batCount + flameCount + spikeCount  + cubeCount + spiderCount + ghostCount << " : Enemy Count" << endl;
+	*out << batCount + flameCount + spikeCount  + cubeCount + spiderCount + ghostCount + webCount << " : Enemy Count" << endl;
 
 	for (int n = 0; n < batCount; n++)
 		*out << "Bat " << bats[n]->readPos().x - xOffset * 35 << " " << bats[n]->readPos().y + yOffset * 35 << endl;
@@ -148,6 +156,9 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 
 	for (int n = 0; n < ghostCount; n++)
 		*out << "Ghost " << ghosts[n]->readPos().x - xOffset * 35 << " " << ghosts[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < webCount; n++)
+		*out << "Web " << webs[n]->readPos().x - xOffset * 35 << " " << webs[n]->readPos().y + yOffset * 35 << endl;
 	
 }
 
@@ -162,7 +173,9 @@ void EnemyManager::initEmpty()
 	spiderCount = -1;
 	spiders = 0;
 	ghostCount = -1;
-	ghosts;
+	ghosts = 0;
+	webCount = -1;
+	webs = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -301,6 +314,8 @@ int EnemyManager::size(string type)
 		return spiderCount;
 	if (type == "Ghost")
 		return ghostCount;
+	if (type == "Web")
+		return webCount;
 	return 0;
 }
 
@@ -348,6 +363,13 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (ghostCount == ghostMax)
 			expandEnemyArray(ghosts, ghostMax);
 	}
+	if (type == "Web")
+	{
+		webs[webCount] = new Web(pos);
+		webCount++;
+		if (webCount == webMax)
+			expandEnemyArray(webs, webMax);
+	}
 }
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
@@ -369,6 +391,8 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return spiders[index]->bindWorldMat(shader, uniform);
 	else if (type == "Ghost")
 		return ghosts[index]->bindWorldMat(shader, uniform);
+	else if (type == "Web")
+		return webs[index]->bindWorldMat(shader, uniform);
 	return -1;
 }
 
@@ -386,6 +410,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return spiders;
 	if (type == "Ghost")
 		return ghosts;
+	if (type == "Web")
+		return webs;
 	return 0;
 }
 

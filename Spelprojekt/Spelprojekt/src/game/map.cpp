@@ -586,3 +586,13 @@ void Map::giveMeHealthPickup(Player* p, Rect* pRect)
 		}
 	}
 }
+
+bool Map::webbedUp(Rect* pRect, glm::vec3 pPos)
+{
+	int idX, idY;
+	getChunkIndex(pPos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		return chunks[idX][idY].playerVsWeb(pRect);
+	}
+}

@@ -69,6 +69,7 @@ enum EnemyID
 	cube,
 	spider,
 	ghost,
+	web,
 
 	enemy_count, //leave this last
 };

@@ -118,6 +118,7 @@
     <ClCompile Include="src\game\Shrine.cpp" />
     <ClCompile Include="src\game\spark.cpp" />
     <ClCompile Include="src\game\Torch.cpp" />
+    <ClCompile Include="src\game\Web.cpp" />
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\screenItem.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="src\game\Shrine.h" />
     <ClInclude Include="src\game\Spark.h" />
     <ClInclude Include="src\game\Torch.h" />
+    <ClInclude Include="src\game\Web.h" />
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\legend.h" />
     <ClInclude Include="src\screenItem.h" />

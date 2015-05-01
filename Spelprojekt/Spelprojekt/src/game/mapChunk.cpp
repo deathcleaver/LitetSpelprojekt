@@ -999,3 +999,15 @@ HealthPickup* MapChunk::getPickup()
 {
 	return health;
 }
+
+bool MapChunk::playerVsWeb(Rect* pRect)
+{
+	Enemy** webs = enemyMan->getEnemies("Web");
+	int nrOfWebs = enemyMan->size("Web");
+	for (int c = 0; c < nrOfWebs; c++)
+	{
+		if (webs[c]->getRekt()->intersects(pRect))
+			return true;
+	}
+	return false;
+}

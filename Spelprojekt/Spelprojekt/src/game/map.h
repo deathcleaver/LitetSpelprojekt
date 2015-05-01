@@ -54,6 +54,7 @@ public:
 	void findNewHome(Enemy* orphan);
 
 	void giveMeHealthPickup(Player* p, Rect* pRect);
+	bool webbedUp(Rect* pRect, glm::vec3 pPos);
 };
 
 #endif

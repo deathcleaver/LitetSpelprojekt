@@ -109,6 +109,9 @@
     <ClCompile Include="src\game\Enemies\Ghost.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Web.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="src\game\Enemies\Ghost.h">
       <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Web.h">
+      <Filter>Header\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

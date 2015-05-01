@@ -98,6 +98,8 @@ public:
 	bool takePickup(Rect* playerRect);
 
 	HealthPickup* getPickup();
+
+	bool playerVsWeb(Rect* pRect);
 };
 
 #endif

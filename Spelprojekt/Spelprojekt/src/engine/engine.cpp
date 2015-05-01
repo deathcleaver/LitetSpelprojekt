@@ -324,7 +324,6 @@ void Engine::renderEnemies()
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spikes");
 				for (int i = 0; i < size; i++)
 				{
-
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Spikes");
 					if (id != lastid)
 						facecount = content->bind(OBJ::ENEMY, EnemyID::spikes);
@@ -389,6 +388,16 @@ void Engine::renderEnemies()
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
+				}
+
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Web");
+				for (int i = 0; i < size; i++)
+				{
+					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Web");
+					if (id != lastid)
+						facecount = content->bind(OBJ::ENEMY, EnemyID::web);
+					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+					lastid = id;
 				}
 
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))

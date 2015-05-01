@@ -66,6 +66,16 @@ void Player::moveWeapon()
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
+	if (map->webbedUp(collideRect, readPos()))
+	{
+		maxSpeed.x = 3;
+		maxSpeed.y = -5;
+	}
+	else
+	{
+		maxSpeed.x = 10;
+		maxSpeed.y = -30;
+	}
 	effectVisible = false;
 	animState = "idle";
 	timepass += deltaTime;
@@ -235,6 +245,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 		if (speed.y < maxSpeed.y)
 			speed.y = maxSpeed.y;
+		if (speed.y > -maxSpeed.y)
+			speed.y = -maxSpeed.y;
 
 		moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 

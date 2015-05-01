@@ -20,6 +20,7 @@ private:
 	Enemy** cubes; int cubeCount, cubeMax;
 	Enemy** spiders; int spiderCount, spiderMax;
 	Enemy** ghosts; int ghostCount, ghostMax;
+	Enemy** webs; int webCount, webMax;
 
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);
