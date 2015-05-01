@@ -204,6 +204,10 @@ void ObjectManager::loadMonsterObjs()
 	Object* spider2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	add = new AnimationObject(spider1, spider2, 0.5f, 0.02f);
 	objects[OBJ::ENEMY].push_back(add);
+
+	//ghost
+	add = new AnimationObject("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
+	objects[OBJ::ENEMY].push_back(add);
 }
 
 void ObjectManager::loadMiscObjs()
