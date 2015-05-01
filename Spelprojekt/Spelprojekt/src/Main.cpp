@@ -22,7 +22,7 @@ int main(int argv, char* argc[])
 
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	wnd = glfwCreateWindow(1920, 1080, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
+	wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", NULL, NULL);
 
 	glfwMakeContextCurrent(wnd);
 	glewInit();
