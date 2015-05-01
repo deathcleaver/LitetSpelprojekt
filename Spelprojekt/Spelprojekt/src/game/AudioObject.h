@@ -17,6 +17,7 @@ public:
 	void update(float deltaTime);
 	void bindToPosition(glm::vec3* pos, bool track);
 
+	void getAllValues(int &type, int &id, float &posX, float &posY, float &posZ, float &dist, int &loopType, float &minInterval, float &maxInterval);
 private:
 
 

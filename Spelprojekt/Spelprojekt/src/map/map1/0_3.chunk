@@ -52,7 +52,7 @@
 11 -0.0125407 -0.999921 0 17 0.999921 -0.0125407 0 -4 0 0 1 0 0 0 0 1
 11 -0.0125407 -0.999921 0 -4 0.999921 -0.0125407 0 9 0 0 1 0 0 0 0 1
 -1 : Music ID
-0
+0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 0 : Nr of Lights 
 OOOOOOOOOOOOOOOOOOOXOOOOOOOOOOOOXOO
 OOOOOOOOOOOOOOOOOXXXOOOOOOOOOOOOXOO

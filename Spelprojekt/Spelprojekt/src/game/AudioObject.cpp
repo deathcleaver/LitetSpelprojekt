@@ -95,3 +95,16 @@ void AudioObject::bindToPosition(glm::vec3* pos, bool track)
 	bool tracking = track;
 	objectPosition = pos;
 }
+
+void AudioObject::getAllValues(int &type, int &id, float &posX, float &posY, float &posZ, float &dist, int &loopType, float &minInterval, float &maxInterval)
+{
+	type = play3D;
+	id = fileId;
+	posX = position.x; posY = position.y; posZ = position.z;
+	dist = distance;
+	if (looping == true)
+		loopType = 1;
+	else if (intervalLooping == true)
+		loopType = 2;
+	minInterval = this->minInterval; maxInterval = this->maxInterval;
+}

@@ -5,7 +5,7 @@
 -1
 0 :  Number of world objects
 -1 : Music ID
-0
+0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 0 : Nr of Lights 
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO

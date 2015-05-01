@@ -158,7 +158,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		// --- Load Sound count ---
 		getline(in, line);
 		ss = stringstream(line);
-		ss >> sub;
+ 		ss >> sub;
 		nrOfSounds = atoi(sub.c_str());
 
 		// --- Load Sounds ---
@@ -359,7 +359,16 @@ void MapChunk::saveChunk(string path)
 	out << musicId << " : Music ID" << endl;
 
 	//Save all chunk sounds
-	out << "0" << endl;
+	out << nrOfSounds << " : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)" << endl;
+	int type, id, loopType;
+	float x, y, z, dist, minInterval, maxInterval;
+	for (int c = 0; c < nrOfSounds; c++)
+	{
+		sounds[c].getAllValues(type, id, x, y, z, dist, loopType, minInterval, maxInterval);
+		out << type << " " << id << " " << x - xOffset*35 << " " << y + yOffset*35 << " " << z << " " << dist << " " << loopType << " " << minInterval << " " << maxInterval << endl;
+	}
+	//1 : Nr of Sounds(type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+	//	1 19 0.0 0.0 0.0 20.0 2 10 50
 
 	//save nr of lights
 	out << nrOfLights << " : Nr of Lights " << endl;
