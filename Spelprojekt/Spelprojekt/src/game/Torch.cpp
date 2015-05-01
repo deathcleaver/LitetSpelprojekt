@@ -10,6 +10,8 @@ Torch::Torch()
 	timeStart = new float[nrLights];
 	startDist = new float[nrLights];
 
+	flameColor = new color[nrLights];
+
 	for (int i = 0; i < nrLights; i++)
 	{
 		timeLeft[i] = timeStart[i] = 0.0;
@@ -19,6 +21,10 @@ Torch::Torch()
 	}
 
 	range = 0.5f;
+
+	setBaseColor(1.0f, 1.0f, 1.0f);
+	setParticleColor(0.8f, 0.8f, 0.1f);
+	timeChangeColor(false, true, false);
 }
 
 Torch::~Torch()
@@ -27,6 +33,7 @@ Torch::~Torch()
 	delete[] timeLeft;
 	delete[] timeStart;
 	delete[] startDist;
+	delete[] flameColor;
 }
 
 void Torch::copy(BaseEffect* t)
@@ -39,12 +46,18 @@ void Torch::copy(BaseEffect* t)
 	nrLights = tOrg->nrLights;
 	range = tOrg->range;
 
+	setBaseColor(tOrg->baseR, tOrg->baseG, tOrg->baseB);
+	setParticleColor(tOrg->particleR, tOrg->particleG, tOrg->particleB);
+
 	for (int i = 0; i < nrLights; i++)
 	{
 		lights[i] = tOrg->lights[i];
 		timeLeft[i] = tOrg->timeLeft[i];
 		timeStart[i] = tOrg->timeStart[i];
 		startDist[i] = tOrg->startDist[i];
+		flameColor[i].r = tOrg->flameColor[i].r;
+		flameColor[i].g = tOrg->flameColor[i].g;
+		flameColor[i].b = tOrg->flameColor[i].b;
 	}
 
 }
@@ -77,6 +90,10 @@ void Torch::init(float x, float y, float z)
 		timeLeft[i] = timeStart[i] = random(0.0f, 0.7f);
 	}
 
+	setBaseColor(1.0f, 1.0f, 1.0f);
+	setParticleColor(0.8f, 0.8f, 0.1f);
+	timeChangeColor(false, true, false);
+
 }
 
 void Torch::setSpawn(float x, float y, float z)
@@ -90,7 +107,9 @@ void Torch::update()
 {
 	lights[0].init(spawnX, spawnY);
 	lights[0].posZ = spawnZ;
-	lights[0].color(1, 1, 1);
+	lights[0].r = baseR;
+	lights[0].g = baseG;
+	lights[0].b = baseB;
 	lights[0].distance = 7;
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
@@ -107,9 +126,9 @@ void Torch::update()
 			spawnZrand -= (range / 2);
 			lights[i].init(spawnX - spawnXrand, spawnY -spawnYrand );
 			lights[i].posZ = spawnZ - spawnZrand;
-			lights[i].r = 1.0f;
-			lights[i].g = 1.0f;
-			lights[i].b = 0.1f;
+			lights[i].r = flameColor[i].r = particleR;
+			lights[i].g = flameColor[i].g = particleG;
+			lights[i].b = flameColor[i].b = particleB;
 			lights[i].distance = startDist[i] = 7;
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
@@ -119,9 +138,12 @@ void Torch::update()
 		{
 			float t = (timeLeft[i] / timeStart[i]);
 			lights[i].distance = startDist[i] * t;
-			lights[i].r = 0.8f;
-			lights[i].g = 0.8 * t;
-			lights[i].b = 0.0f;
+			if (timeChangeR)
+				lights[i].r = flameColor[i].r * t;
+			if (timeChangeG)
+				lights[i].g = flameColor[i].g * t;
+			if (timeChangeB)
+				lights[i].b = flameColor[i].b * t;
 			lights[i].translate(0, 0.04, 0);
 
 		}
@@ -139,9 +161,12 @@ void Torch::fade()
 			lights[i].distance = startDist[i] * t;
 			if (i != 0)
 			{
-				lights[i].r = 0.8f;
-				lights[i].g = 0.8 * t;
-				lights[i].b = 0.0f;
+				if (timeChangeR)
+					lights[i].r = particleR * t;
+				if (timeChangeG)
+					lights[i].g = particleG * t;
+				if (timeChangeB)
+					lights[i].b = particleB * t;
 			}
 			lights[i].translate(0, 0.04, 0);
 

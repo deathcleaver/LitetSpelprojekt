@@ -79,6 +79,7 @@ enum EffectType
 	NONE,
 	torch,
 	spark,
+	shield,
 };
 
 #endif

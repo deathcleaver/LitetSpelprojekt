@@ -34,6 +34,11 @@ void Effect::create(EffectType effType)
 		effect = new Spark();
 		break;
 	}
+	case EffectType::shield:
+	{
+		effect = new Shield();
+		break;
+	}
 	default:
 		break;
 	}

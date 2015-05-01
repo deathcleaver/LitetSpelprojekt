@@ -120,6 +120,7 @@ void Audio::loadFiles()
 	soundFiles[22] = "../Audio/Sounds/Ambient/ambient_thunder2_stereo.wav";
 	soundFiles[23] = "../Audio/Sounds/Ambient/ambient_crow.wav";
 	soundFiles[24] = "../Audio/Sounds/everyone.wav";
+	soundFiles[26] = "../Audio/Sounds/Ambient/ambient_frostmourne_chant.wav";
 	//...
 }
 

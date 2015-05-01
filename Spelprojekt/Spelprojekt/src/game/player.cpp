@@ -501,7 +501,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		isAttacking = true;
 		attackTimer = 1.0f;
 		if (currentRune == MiscID::rune_damage)
-			Audio::getAudio().playSound(4, false);
+			Audio::getAudio().playSound(4, false); //player_attack_ice
 		else if (currentRune == MiscID::rune_range)
 			Audio::getAudio().playSound(3, false); //player_attack_fire
 		else

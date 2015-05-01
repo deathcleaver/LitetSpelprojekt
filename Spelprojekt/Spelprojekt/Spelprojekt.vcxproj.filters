@@ -112,6 +112,9 @@
     <ClCompile Include="src\game\Web.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Shiled.cpp">
+      <Filter>Source\Game\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h">
@@ -246,8 +249,13 @@
     <ClInclude Include="src\game\Enemies\Ghost.h">
       <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="src\game\Web.h">
       <Filter>Header\Game</Filter>
+=======
+    <ClInclude Include="src\game\Shield.h">
+      <Filter>Header\Game\Light</Filter>
+>>>>>>> origin/master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

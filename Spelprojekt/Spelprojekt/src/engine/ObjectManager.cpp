@@ -165,11 +165,11 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//Platform marble 3x3
-	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble3x3.v", "src/textures/Background/Platform.bmp");
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble3x3.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//Platform marble 5x5
-	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble5x5.v", "src/textures/Background/Platform.bmp");
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble5x5.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 
