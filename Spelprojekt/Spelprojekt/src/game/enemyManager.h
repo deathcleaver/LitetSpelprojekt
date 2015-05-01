@@ -19,6 +19,7 @@ private:
 	Enemy** spikes; int spikeCount, spikeMax;
 	Enemy** cubes; int cubeCount, cubeMax;
 	Enemy** spiders; int spiderCount, spiderMax;
+	Enemy** ghosts; int ghostCount, ghostMax;
 
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);

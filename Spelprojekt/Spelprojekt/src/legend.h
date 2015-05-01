@@ -64,6 +64,7 @@ enum EnemyID
 	flame,
 	cube,
 	spider,
+	ghost,
 
 	enemy_count, //leave this last
 };

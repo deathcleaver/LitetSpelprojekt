@@ -202,16 +202,12 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		if (playerRightOfEnemy)
 		{
 			if (facingRight)
-			{
 				facingRight = false;
-			}
 		}
 		else
 		{
 			if (!facingRight)
-			{
 				facingRight = true;
-			}
 		}
 	}
 }

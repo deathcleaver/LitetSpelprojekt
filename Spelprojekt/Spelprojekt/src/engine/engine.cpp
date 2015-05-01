@@ -360,6 +360,20 @@ void Engine::renderEnemies()
 						lastid = id;
 					}
 				}
+
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Ghost");
+				for (int i = 0; i < size; i++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Ghost") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Ghost"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Ghost");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::ghost);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
+				}
+
 				glColorMask(1, 1, 1, 1);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glDisable(GL_CULL_FACE);

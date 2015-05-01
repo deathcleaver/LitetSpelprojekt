@@ -14,6 +14,8 @@ Spider::Spider(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
 	speed = glm::vec2(1, 0.0);
+
+	invulnTimer = 0.0f;
 }
 
 Spider::Spider(Spider* copy)
@@ -32,6 +34,8 @@ Spider::Spider(Spider* copy)
 	speed = copy->speed;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
+
+	invulnTimer = copy->invulnTimer;
 }
 
 Spider::~Spider()
@@ -49,6 +53,8 @@ void Spider::init()
 	health = 2;
 	speed = glm::vec2(1, 0.0);
 	collideRect->update();
+
+	invulnTimer = 0.0f;
 }
 
 int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
@@ -203,14 +209,37 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 		}
 	}
+	if (invulnTimer > FLT_EPSILON)
+	{
+		invulnTimer -= 1.0f*deltaTime;
+	}
 	return 0;
 }
 
 void Spider::hit(int damage, bool playerRightOfEnemy)
 {
-	health -= damage;
-	if (health <= 0)
+	if (invulnTimer < FLT_EPSILON)
 	{
-		alive = false;
+		invulnTimer = 0.7f;
+		health -= damage;
+		if (health <= 0)
+		{
+			alive = false;
+		}
+		if (playerRightOfEnemy)
+		{
+			if (facingRight)
+				facingRight = false;
+		}
+		else
+		{
+			if (!facingRight)
+				facingRight = true;
+		}
+		speed.x = 12;
+		speed.y = 15;
+		jumping = true;
+		if (ceiling)
+			ceiling = false;
 	}
 }
