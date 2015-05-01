@@ -74,13 +74,29 @@ void ContentManager::loadGUIobjs()
 	for (int n = 29; n < 50; n++)
 		guiObjs[n] = 0;
 
-	// edit reserved 50 - 74
+	// edit reserved 50 - 59
 	guiObjs[50] = new Object("", "src/textures/gui/edit/editHud.bmp", guiObjs[0], true);
 	guiObjs[51] = new Object("", "src/textures/gui/edit/switch.bmp", guiObjs[0], true);
 	guiObjs[52] = new Object("", "src/textures/gui/edit/switchON.bmp", guiObjs[0], true);
 
-	for (int n = 53; n < 75; n++)
+	for (int n = 53; n < 60; n++)
 		guiObjs[n] = 0;
+
+
+	// intro reserved  60 - 75
+	guiObjs[60] = new Object("", "src/textures/gui/intro/into0.bmp", guiObjs[0], true);
+	guiObjs[61] = new Object("", "src/textures/gui/intro/into1.bmp", guiObjs[0], true);
+	guiObjs[62] = new Object("", "src/textures/gui/intro/dream1.bmp", guiObjs[0], true);
+	guiObjs[63] = new Object("", "src/textures/gui/intro/dream2.bmp", guiObjs[0], true);
+	guiObjs[64] = new Object("", "src/textures/gui/intro/dream3.bmp", guiObjs[0], true);
+	guiObjs[65] = new Object("", "src/textures/gui/intro/intro2.bmp", guiObjs[0], true);
+
+
+	for (int n = 66; n < 75; n++)
+		guiObjs[n] = 0;
+
+
+
 }
 
 void ContentManager::bindRekt() const

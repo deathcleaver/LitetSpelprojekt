@@ -39,11 +39,11 @@ int GUI::update(int state)
 		case(0) :
 			MENU(init);
 			break;
-		case(1) :
+		case(1) : // play
 			//moved out of the switch case
 			break;
-		case(2) :
-			INTRO(init);
+		case(2) : //intro
+			//moved out of the swtich case
 			break;
 		case(3) :
 			EDIT(init);
@@ -57,9 +57,15 @@ int GUI::update(int state)
 		}
 	}
 	if (state == 1) //if play
-	{
 		PLAY(init);
+	
+	if (state == 2) // if intro
+	{
+		INTRO(init);
+		if (introState == 6)
+			return 1; //playmode
 	}
+
 	last = state;
 	return keyUpdate();
 }
@@ -87,7 +93,7 @@ void GUI::MENU(bool init)
 		items[0]->MoveAutoSize(0, 0.6, content);
 
 		//new game button
-		items[1]->init(1, 2, true, 1);
+		items[1]->init(1, 2, true, 5); //puts the game in intro state
 		items[1]->MoveAutoSize(0, 0.1, content);
 
 		if (grayContinue)
@@ -182,9 +188,29 @@ void GUI::PLAY(bool init)
 
 void GUI::INTRO(bool init)
 {
+	if (init) //setup
+	{
+		introState = 0;
+		introCounter = 0;
+	}
+
+	introCounter++;
+	if (introCounter > introTime)
+	{
+		introCounter = 0;
+		introState++;
+		init = true;
+		destroyy();
+	}
 	if (init)
 	{
-
+		if (introState < 6) //intro state 6 will return into playmode outside of this function
+		{
+			size = 1;
+			items[0] = new ScreenItem();
+			items[0]->init(60 + introState, 60 + introState, true, 1);
+			items[0]->MoveAutoSize(0, 0, content);
+		}
 	}
 }
 

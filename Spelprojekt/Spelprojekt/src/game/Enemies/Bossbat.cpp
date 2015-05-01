@@ -23,7 +23,6 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	batTimer = 0.0f;
 	charging = false;
 	chargeTimer = 4.0f;
-	chunk = 0;
 }
 
 void Bossbat::init()
@@ -57,7 +56,7 @@ void Bossbat::init()
 	}
 }
 
-void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
+void Bossbat::spawnBat(Map* map, float deltaTime)
 {
 	if (batsToSpawn > 0)
 	{
@@ -68,7 +67,7 @@ void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
 			Bat* newBat = new Bat(glm::vec2(pos.x, pos.y-2.5));
 			newBat->setFacing(facingRight);
 			newBat->setVisitor();
-			chunk->addVisitor(newBat, "Bat");
+			map->findNewHome(newBat);
 			delete newBat;
 			batsToSpawn--;
 			if (batsToSpawn > 0)
@@ -79,13 +78,6 @@ void Bossbat::spawnBat(MapChunk* chunk, float deltaTime)
 
 int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	if (chunk == 0)
-	{
-		int idX, idY;
-		map->getChunkIndex(readPos(), &idX, &idY);
-		MapChunk** tempHolder = map->getChunks();
-		chunk = &tempHolder[idX][idY];
-	}
 	glm::vec3 pos = readPos();
 	if (pos.z < 0.0f)
 	{
@@ -99,11 +91,11 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		invulnTimer -= 1.0*deltaTime;
 		moveTo(pos.x, pos.y + speed*deltaTime);
-		if (collidesWithWorld(chunk))
+		if (collidesWithWorld(map))
 		{
 			moveTo(pos.x, pos.y - speed*deltaTime);
 		}
-		spawnBat(chunk, deltaTime);
+		spawnBat(map, deltaTime);
 		if (invulnTimer < FLT_EPSILON)
 			chargePos = readPos();
 	}
@@ -112,7 +104,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (pos.y < initPos.y - 0.5f)
 		{
 			moveTo(pos.x, pos.y + speed*deltaTime);
-			if (collidesWithWorld(chunk))
+			if (collidesWithWorld(map))
 			{
 				moveTo(pos.x, pos.y - speed*deltaTime);
 			}
@@ -120,7 +112,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		else if (pos.y > initPos.y + 0.5f)
 		{
 			moveTo(pos.x, pos.y - speed*deltaTime);
-			if (collidesWithWorld(chunk))
+			if (collidesWithWorld(map))
 			{
 				moveTo(pos.x, pos.y + speed*deltaTime);
 			}
@@ -144,7 +136,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				moveTo(pos.x + speed*deltaTime, pos.y);
 			movementScale += 1.0*deltaTime;
 
-			if (collidesWithWorld(chunk))
+			if (collidesWithWorld(map))
 			{
 				movementScale -= 1.0*deltaTime;
 				if (slow)
@@ -179,7 +171,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				moveTo(pos.x - speed*deltaTime, pos.y);
 			movementScale -= 1.0*deltaTime;
 
-			if (collidesWithWorld(chunk))
+			if (collidesWithWorld(map))
 			{
 				movementScale += 1.0*deltaTime;
 				if (slow)
@@ -206,7 +198,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		float distX = returnPos.x - chargePos.x;
 		float distY = returnPos.y - chargePos.y;
 		moveTo(pos.x - speed*deltaTime*distX/3, pos.y - speed*deltaTime*distY/3);
-		if (collidesWithWorld(chunk) || chargeTimer < FLT_EPSILON)
+		if (collidesWithWorld(map) || chargeTimer < FLT_EPSILON)
 		{
 			moveTo(pos.x + speed*deltaTime*distX/3, pos.y + speed*deltaTime*distY/3);
 			charging = false;
@@ -251,7 +243,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				hasTurned = false;
 				rotateTo(0, 3.1415927f, 0);
 			}
-			if (collidesWithWorld(chunk))
+			if (collidesWithWorld(map))
 			{
 				moveTo(pos.x + speed*deltaTime*distX / 5, pos.y + speed*deltaTime*distY / 5);
 				charging = false;
@@ -287,12 +279,6 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 			Audio::getAudio().playSoundAtPos(11, readPos(), 10.0f, false);//boss_bat_death
 		}
 	}
-}
-
-bool Bossbat::collidesWithWorld(MapChunk* chunk)
-{
-	collideRect->update();
-	return chunk->collide(collideRect);
 }
 
 bool Bossbat::isBlinking()

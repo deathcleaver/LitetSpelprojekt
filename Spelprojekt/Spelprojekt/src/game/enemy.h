@@ -21,6 +21,8 @@ protected:
 	glm::vec2 initPos;
 	int health;
 	Rect* collideRect;
+
+	bool collidesWithWorld(Map* map);
 public:
 	Rect* getRekt();
 	virtual void init() = 0;

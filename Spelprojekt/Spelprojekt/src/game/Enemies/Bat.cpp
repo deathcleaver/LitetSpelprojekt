@@ -137,12 +137,6 @@ void Bat::hit(int damage, bool playerRightOfEnemy)
 	}
 }
 
-bool Bat::collidesWithWorld(Map* map)
-{
-	collideRect->update();
-	return map->collideMap(collideRect, readPos());
-}
-
 void Bat::setFacing(bool faceRight)
 {
 	if (facingRight != faceRight)

@@ -16,6 +16,10 @@ private:
 	int last = -1;
 	ScreenItem** items = 0;
 
+	int introCounter = 0;
+	int introTime = 180;
+	int introState = 0;
+
 	int playerHP = 0;
 	int playerPickups = 0;
 

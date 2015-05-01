@@ -62,6 +62,8 @@ enum EnemyID
 	spikes,
 	bat,
 	flame,
+	cube,
+	spider,
 
 	enemy_count, //leave this last
 };

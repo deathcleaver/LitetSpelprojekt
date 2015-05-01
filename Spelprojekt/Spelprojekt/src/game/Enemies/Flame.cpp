@@ -20,6 +20,7 @@ Flame::Flame(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
 
+
 	flameEffect = new Effect();
 	flameEffect->create(EffectType::torch);
 	flameEffect->getEffect()->init(firstPos.x, firstPos.y, 0);
@@ -43,7 +44,6 @@ Flame::Flame(Flame* copy)
 	invulnTimer = copy->invulnTimer;
 	flying = copy->flying;
 
-	
 	flameEffect = new Effect();
 	flameEffect->reCreate(EffectType::torch);
 	flameEffect->getEffect()->copy(copy->flameEffect->getEffect());
@@ -214,10 +214,4 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 			}
 		}
 	}
-}
-
-bool Flame::collidesWithWorld(Map* map)
-{
-	collideRect->update();
-	return map->collideMap(collideRect, readPos());
 }

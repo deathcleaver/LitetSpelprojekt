@@ -8,7 +8,6 @@ class Bat : public Enemy
 private:
 	float movementScale;
 	float speed;
-	bool collidesWithWorld(Map* map);
 	bool slow;
 public:
 	Bat(glm::vec2 firstPos);

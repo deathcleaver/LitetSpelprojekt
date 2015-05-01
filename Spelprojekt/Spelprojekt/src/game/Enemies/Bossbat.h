@@ -6,18 +6,15 @@
 class Bossbat : public Enemy
 {
 private:
-	MapChunk* chunk;
-
 	float movementScale;
 	float speed;
-	bool collidesWithWorld(MapChunk* chunk);
 	bool slow;
 	float invulnTimer;
 	bool isInit;
 
 	float batTimer;
 	int batsToSpawn;
-	void spawnBat(MapChunk* chunk, float deltaTime);
+	void spawnBat(Map* map, float deltaTime);
 
 	float chargeTimer;
 	bool charging;
@@ -27,7 +24,7 @@ private:
 public:
 	Bossbat(glm::vec2 firstPos);
 	void init();
-	int update(float deltaTime, Map* chunk, glm::vec3 playerPos);
+	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
 	bool isBlinking();
 	bool isInitiated();

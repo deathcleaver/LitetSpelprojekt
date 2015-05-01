@@ -391,7 +391,7 @@ void Game::buttonEvents(int buttonEv)
 	{
 	case(0) : //default empty event;
 		break;
-	case(1) :
+	case(1) : // New game menu button
 		map->LoadMap(1, 0);
 		map->init();
 		current = PLAY;
@@ -400,15 +400,16 @@ void Game::buttonEvents(int buttonEv)
 		engine->setFadeIn();
 		in->resetZoomViewDir();
 		break;
-	case(2) :
 		engine->setFade(1.0f);
+	case(2) : // Mapmaker main button
 		current = EDIT;
 		edit->refreshOnEnter();
 		Audio::getAudio().playSound(6, false); //button
 		Audio::getAudio().playMusic(-1); //stop menu music
+		engine->setFadeIn();
 		cameraFollow = false;
 		break;
-	case(3) :
+	case(3) : // Exit button. Play -> Menu
 		saveGame();
 		current = MENU;
 		edit->refreshOnEnter();
@@ -416,7 +417,8 @@ void Game::buttonEvents(int buttonEv)
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
-	case(4) :
+	case(4) : // Continue menu button 
+	{
 		glm::vec2 pPos = start->getPos();
 		map->LoadMap(1, savedPickups);
 		map->init();
@@ -431,6 +433,11 @@ void Game::buttonEvents(int buttonEv)
 		}
 		player->setProgress(playerProgress);
 		player->moveTo(pPos.x, pPos.y);
+	}
+		break;
+
+	case(5) : //intro
+		current = INTRO;
 		break;
 	}
 	//Editor buttons

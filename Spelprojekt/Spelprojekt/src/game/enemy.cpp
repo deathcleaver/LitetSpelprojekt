@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "map.h"
 
 Rect* Enemy::getRekt()
 {
@@ -43,4 +44,10 @@ void Enemy::diePls()
 glm::vec2 Enemy::plsGiveBossPos()
 {
 	return glm::vec2(0, 0);
+}
+
+bool Enemy::collidesWithWorld(Map* map)
+{
+	collideRect->update();
+	return map->collideMap(collideRect, readPos());
 }
