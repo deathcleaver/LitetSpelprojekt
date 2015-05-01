@@ -165,11 +165,11 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//Platform marble 3x3
-	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble3x3.v", "src/textures/Background/Platform.bmp");
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble3x3.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//Platform marble 5x5
-	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble5x5.v", "src/textures/Background/Platform.bmp");
+	add = new AnimationObject("src/meshes/Map Blocks/PlatformMarble5x5.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 
@@ -203,10 +203,6 @@ void ObjectManager::loadMonsterObjs()
 	Object* spider1 = new Object("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
 	Object* spider2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	add = new AnimationObject(spider1, spider2, 0.5f, 0.02f);
-	objects[OBJ::ENEMY].push_back(add);
-
-	//ghost
-	add = new AnimationObject("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
 }
 
