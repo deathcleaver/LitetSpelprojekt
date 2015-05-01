@@ -22,6 +22,9 @@ Spark::Spark()
 		startDist[i+1] = 0;
 	}
 
+	setBaseColor(0, 1.0f, 1.0f);
+	setParticleColor(0, 1.0f, 1.0f);
+
 	range = 0.5f;
 }
 
@@ -35,7 +38,21 @@ Spark::~Spark()
 
 void Spark::copy(BaseEffect* s)
 {
+	Spark* sOrg = (Spark*)s;
 
+	spawnX = sOrg->spawnX;
+	spawnY = sOrg->spawnY;
+	spawnZ = sOrg->spawnZ;
+	nrLights = sOrg->nrLights;
+	range = sOrg->range;
+
+	for (int i = 0; i < nrLights; i++)
+	{
+		lights[i] = sOrg->lights[i];
+		timeLeft[i] = sOrg->timeLeft[i];
+		timeStart[i] = sOrg->timeStart[i];
+		startDist[i] = sOrg->startDist[i];
+	}
 }
 
 void Spark::setSpawn(float x, float y, float z)
@@ -63,10 +80,10 @@ void Spark::init(float x, float y, float z)
 
 	lights[0].init(spawnX, spawnY);
 	lights[0].posZ = spawnZ;
-	lights[0].r = 0.0f;
-	lights[0].g = 1.0f;
-	lights[0].b = 1.0f;
-	lights[0].distance = 10;
+	lights[0].r = baseR;
+	lights[0].g = baseG;
+	lights[0].b = baseB;
+	lights[0].distance = 7;
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
 
@@ -77,9 +94,9 @@ void Spark::init(float x, float y, float z)
 		float r = random(0.0f, 0.7f);
 		lights[i].init(spawnX+cos(startDist[i]) * 2.0, spawnY+sin(startDist[i]) * 2.0);
 		lights[i].posZ = 0;
-		lights[i].r = 0.0;
-		lights[i].g = 0.5;
-		lights[i].b = 0.5;
+		lights[i].r = particleR;
+		lights[i].g = particleG;
+		lights[i].b = particleB;
 		lights[i].distance = 2;
 		lights[i].intensity = 1;
 		lights[i].volume = 2;
@@ -98,9 +115,9 @@ void Spark::update()
 
 			lights[i].init(spawnX + (cos(startDist[i]) * 0), spawnY + (sin(startDist[i]) * 0));
 			lights[i].posZ = 0;
-			lights[i].r = 0.0;
-			lights[i].g = 0.5;
-			lights[i].b = 0.5;
+			lights[i].r = particleR;
+			lights[i].g = particleG;
+			lights[i].b = particleB;
 			lights[i].distance = 2;
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
@@ -112,10 +129,10 @@ void Spark::update()
 
 			lights[i].init(spawnX + (cos(startDist[i]) * t), spawnY + (sin(startDist[i]) * t));
 			lights[i].posZ = 0;
-			lights[i].r = 0.0;
-			lights[i].g = 0.5;
-			lights[i].b = 0.5;
-			lights[i].distance = 2 * (1 - t);
+			lights[i].r = particleR;
+			lights[i].g = particleG;
+			lights[i].b = particleB;
+			lights[i].distance = (1 - t);
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 
