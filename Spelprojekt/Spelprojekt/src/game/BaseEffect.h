@@ -6,6 +6,9 @@
 
 #define random(min, max) ((max-min)*((float)rand()/RAND_MAX))+min;
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 
 class BaseEffect
 {
@@ -24,6 +27,10 @@ public:
 	virtual void copy(BaseEffect* t) = 0;
 
 	virtual void update() = 0;
+
+	virtual void fade();
+	
+	virtual bool isFading();
 
 	virtual Light* getLights(int &nrLights);
 

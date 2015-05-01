@@ -40,3 +40,13 @@ void BaseEffect::timeChangeColor(bool r, bool g, bool b)
 	timeChangeG = g;
 	timeChangeB = b;
 }
+
+void BaseEffect::fade()
+{
+
+}
+
+bool BaseEffect::isFading()
+{
+	return false;
+}

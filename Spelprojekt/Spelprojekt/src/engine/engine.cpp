@@ -86,7 +86,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	e = new Effect();
 
-	e->create(EffectType::spark);
+	e->create(EffectType::shield);
 	e->getEffect()->init(0, 2, 0);
 }
 
@@ -165,6 +165,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	int nr = 0;
 	Light* l;
+
 	l = e->getEffect()->getLights(nr);
 
 	e->getEffect()->update();

@@ -1,8 +1,5 @@
 #include "Spark.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 Spark::Spark()
 {
 	spawnX = 0;
@@ -46,6 +43,9 @@ void Spark::copy(BaseEffect* s)
 	nrLights = sOrg->nrLights;
 	range = sOrg->range;
 
+	setBaseColor(sOrg->baseR, sOrg->baseG, sOrg->baseB);
+	setParticleColor(sOrg->particleR, sOrg->particleG, sOrg->particleB);
+
 	for (int i = 0; i < nrLights; i++)
 	{
 		lights[i] = sOrg->lights[i];
@@ -74,7 +74,7 @@ void Spark::init(float x, float y, float z)
 		timeLeft[i + 1] = timeStart[i + 1] = 0.0;
 		lights[i + 1].distance = 0;
 		lights[i + 1].intensity = 0;
-		startDist[i + 1] = 2.0f*M_PI * d;
+		startDist[i + 1] = 2.0f*(float)M_PI * d;
 	}
 
 
@@ -92,7 +92,7 @@ void Spark::init(float x, float y, float z)
 	for (int i = 1; i < nrLights; i++)
 	{
 		float r = random(0.0f, 0.7f);
-		lights[i].init(spawnX+cos(startDist[i]) * 2.0, spawnY+sin(startDist[i]) * 2.0);
+		lights[i].init(spawnX+cos(startDist[i]) * 0.0f, spawnY+sin(startDist[i]) * 0.0f);
 		lights[i].posZ = 0;
 		lights[i].r = particleR;
 		lights[i].g = particleG;

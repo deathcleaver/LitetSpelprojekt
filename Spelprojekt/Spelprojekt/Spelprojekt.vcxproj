@@ -115,6 +115,7 @@
     <ClCompile Include="src\game\map.cpp" />
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
+    <ClCompile Include="src\game\Shiled.cpp" />
     <ClCompile Include="src\game\Shrine.cpp" />
     <ClCompile Include="src\game\spark.cpp" />
     <ClCompile Include="src\game\Torch.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\game\player.h" />
     <ClInclude Include="src\game\Progress.h" />
     <ClInclude Include="src\game\rect.h" />
+    <ClInclude Include="src\game\Shield.h" />
     <ClInclude Include="src\game\Shrine.h" />
     <ClInclude Include="src\game\Spark.h" />
     <ClInclude Include="src\game\Torch.h" />

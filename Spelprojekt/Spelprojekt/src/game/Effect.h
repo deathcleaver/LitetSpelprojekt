@@ -4,6 +4,7 @@
 #include "../legend.h"
 #include "Torch.h"
 #include "Spark.h"
+#include "Shield.h"
 
 class Effect
 {
