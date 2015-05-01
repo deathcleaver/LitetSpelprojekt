@@ -17,7 +17,7 @@ private:
 	ScreenItem** items = 0;
 
 	int introCounter = 0;
-	int introTime = 180;
+	int introTime = 220;
 	int introState = 0;
 
 	int playerHP = 0;
