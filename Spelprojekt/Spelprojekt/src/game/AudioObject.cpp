@@ -56,7 +56,10 @@ void AudioObject::update(float deltaTime)
 				Audio::getAudio().playSound(fileId, looping);
 
 			time = 0;
-			nextInstance = minInterval + (rand() % (int)(maxInterval - minInterval + 1));
+			float value = maxInterval - minInterval + 1;
+			if (value < 1)
+				value = 1;
+			nextInstance = minInterval + (rand() % (int)(value));
 			printf("Next source: %f\n", nextInstance);
 		}
 	}
