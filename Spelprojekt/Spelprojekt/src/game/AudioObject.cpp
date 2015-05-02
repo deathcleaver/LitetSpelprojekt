@@ -11,7 +11,6 @@ AudioObject::~AudioObject()
 	if (sourcePointer)
 	{
 		sourcePointer = NULL;
-		delete sourcePointer;
 	}
 }
 
@@ -85,7 +84,27 @@ void AudioObject::setPosition(glm::vec3 pos)
 	if (sourcePointer != NULL)
 	{
 		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
-		alSourcefv(*sourcePointer, AL_POSITION, SourcePos);
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+
+		alSourcefv(sourcePointer, AL_POSITION, SourcePos);
+		alSourcefv(sourcePointer, AL_VELOCITY, SourceVel);
+	}
+}
+
+void AudioObject::setPitch(float pitch)
+{
+	if (sourcePointer != NULL)
+	{
+		alSourcef(sourcePointer, AL_PITCH, pitch);
+	}
+}
+
+void AudioObject::stopSound()
+{
+	if (sourcePointer != NULL)
+	{
+		ALuint temp = sourcePointer;
+			alSourceStop(temp);
 	}
 }
 

@@ -478,7 +478,7 @@ void Audio::playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping
 		}
 }
 
-ALuint* Audio::playSoundSP(int file, bool looping)
+ALuint Audio::playSoundSP(int file, bool looping)
 {
 	if (soundEnabled && audioEnabled) //sound is enabled
 	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
@@ -501,13 +501,13 @@ ALuint* Audio::playSoundSP(int file, bool looping)
 
 		soundSources.push_back(source);
 
-		return &source;
+		return source;
 	}
 
 	return NULL;
 }
 
-ALuint* Audio::playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping)
+ALuint Audio::playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping)
 {
 	if (soundEnabled && audioEnabled) //sound is enabled
 		if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
@@ -530,7 +530,7 @@ ALuint* Audio::playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool lo
 
 			soundSources.push_back(source);
 
-			return &source;
+			return source;
 		}
 
 	return NULL;
