@@ -239,6 +239,19 @@ void Game::update(float deltaTime)
 		}
 		case(PLAY) :
 		{
+			//debug boss kill keys
+			if (in->getKeyNumberState(1)){
+				player->dingDongTheBossIsDead("Bossbat");
+				gui->showNewUpgrade(1);
+			}
+			if (in->getKeyNumberState(2)){
+				player->dingDongTheBossIsDead("Bossspider");
+				gui->showNewUpgrade(2);
+			}
+			if (in->getKeyNumberState(3)){
+				player->dingDongTheBossIsDead("Bossghost");
+				gui->showNewUpgrade(3);
+			}
 					   // music
 					   int tempX, tempY, tempId;
 					   MapChunk** tempChunk = map->getChunks();
@@ -524,6 +537,18 @@ void Game::readInput(float deltaTime)
 		state = glfwGetKey(windowRef, GLFW_KEY_0);
 		state == GLFW_PRESS ? in->KeyNumberDown(0) : in->KeyNumberUp(0);
 	}
+	
+	//1 2 3 debug keys
+	if (current == PLAY)
+	{
+		state = glfwGetKey(windowRef, GLFW_KEY_1);
+		state == GLFW_PRESS ? in->KeyNumberDown(1) : in->KeyNumberUp(1);
+		state = glfwGetKey(windowRef, GLFW_KEY_2);
+		state == GLFW_PRESS ? in->KeyNumberDown(2) : in->KeyNumberUp(2);
+		state = glfwGetKey(windowRef, GLFW_KEY_3);
+		state == GLFW_PRESS ? in->KeyNumberDown(3) : in->KeyNumberUp(3);
+	}
+
 
 	//camera follow keys
 	state = glfwGetKey(windowRef, GLFW_KEY_C);

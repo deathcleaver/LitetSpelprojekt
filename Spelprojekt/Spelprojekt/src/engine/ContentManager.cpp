@@ -57,21 +57,29 @@ void ContentManager::loadGUIobjs()
 	for (int n = 10; n < 20; n++)
 		guiObjs[n] = 0;
 
-	//paused reserved 20 - 24
+	//paused, exit to menu
 	guiObjs[20] = new Object("", "src/textures/gui/pause/paused.bmp", guiObjs[0], true);
 	guiObjs[21] = new Object("", "src/textures/gui/pause/exit.bmp", guiObjs[0], true);
 	guiObjs[22] = new Object("", "src/textures/gui/pause/exitH.bmp", guiObjs[0], true);
-	for (int n = 23; n < 25; n++)
-		guiObjs[n] = 0;
+
+	//boss progress
+	guiObjs[23] = new Object("", "src/textures/gui/progress/bosses.bmp", guiObjs[0], true);
+	guiObjs[24] = new Object("", "src/textures/gui/progress/defeated.bmp", guiObjs[0], true);
 
 	// game play reserved 25 - 49
+	//hud
 	guiObjs[25] = new Object("", "src/textures/gui/play/skeletonHUD.bmp", guiObjs[0], true);
 	guiObjs[26] = new Object("", "src/textures/gui/play/heart1.bmp", guiObjs[0], true);
 	guiObjs[27] = new Object("", "src/textures/gui/play/heart2.bmp", guiObjs[0], true);
 	guiObjs[28] = new Object("", "src/textures/gui/play/heartFull.bmp", guiObjs[0], true);
 
+	//boss unlocks
+	guiObjs[29] = new Object("", "src/textures/gui/progress/doublejump.bmp", guiObjs[0], true);
+	guiObjs[30] = new Object("", "src/textures/gui/progress/webclimp.bmp", guiObjs[0], true);
+	guiObjs[31] = new Object("", "src/textures/gui/progress/mirrorwalk.bmp", guiObjs[0], true);
 
-	for (int n = 29; n < 50; n++)
+
+	for (int n = 32; n < 50; n++)
 		guiObjs[n] = 0;
 
 	// edit reserved 50 - 59
