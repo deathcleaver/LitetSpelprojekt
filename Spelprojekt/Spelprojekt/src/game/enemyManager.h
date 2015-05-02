@@ -21,7 +21,8 @@ private:
 	Enemy** spiders; int spiderCount, spiderMax;
 	Enemy** ghosts; int ghostCount, ghostMax;
 	Enemy** webs; int webCount, webMax;
-
+	Enemy** spellbooks; int spellbookCount, spellbookMax;
+	
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);
 

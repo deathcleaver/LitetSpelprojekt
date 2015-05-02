@@ -27,6 +27,10 @@ private:
 	int DMG;
 	int shield;
 
+	//joystick
+	bool joyStickDetected;
+	int joyStick;
+
 	//movement
 	float jumpHeight;
 	vec2 speed;
@@ -65,7 +69,8 @@ private:
 public:
 	Player(){};
 	~Player();
-	void init();
+
+	void init(int joy);
 	void setStartPos(int x, int y);
 
 	int update(UserInput* userInput, Map* map, float deltaTime);

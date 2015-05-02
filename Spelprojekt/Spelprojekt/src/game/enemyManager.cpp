@@ -10,6 +10,7 @@
 #include "Enemies/Spider.h"
 #include "Enemies/Ghost.h"
 #include "Web.h"
+#include "Enemies/Spellbook.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -54,7 +55,11 @@ EnemyManager::~EnemyManager()
 		delete webs[c];
 	}
 	delete[]webs;
-
+	for (int c = 0; c < spellbookCount; c++)
+	{
+		delete spellbooks[c];
+	}
+	delete[]spellbooks;
 
 	if (boss)
 	{
@@ -80,6 +85,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	ghosts = new Enemy*[ghostMax];
 	webCount = 0; webMax = 5;
 	webs = new Enemy*[webMax];
+	spellbookCount = 0; spellbookMax = 5;
+	spellbooks = new Enemy*[spellbookMax];
 
 	boss = 0;
 	string line;
@@ -160,6 +167,8 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	for (int n = 0; n < webCount; n++)
 		*out << "Web " << webs[n]->readPos().x - xOffset * 35 << " " << webs[n]->readPos().y + yOffset * 35 << endl;
 	
+	for (int n = 0; n < spellbookCount; n++)
+		*out << "Spellbook " << spellbooks[n]->readPos().x - xOffset * 35 << " " << spellbooks[n]->readPos().y + yOffset * 35 << endl;
 }
 
 void EnemyManager::initEmpty()
@@ -176,6 +185,9 @@ void EnemyManager::initEmpty()
 	ghosts = 0;
 	webCount = -1;
 	webs = 0;
+	ghosts;
+	spellbookCount = -1;
+	spellbooks = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -289,6 +301,25 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			}
 		}
 	}
+	for (int c = 0; c < spellbookCount; c++)
+	{
+		if (spellbooks[c]->isAlive())
+		{
+			msg = spellbooks[c]->update(deltaTime, map, playerPos);
+			pos = spellbooks[c]->readPos();
+			if (pos.x < chunkMid.x - 17.5f || pos.x > chunkMid.x + 17.5f ||
+				pos.y < chunkMid.y - 17.5f || pos.y > chunkMid.y + 17.5f)
+			{
+				Spellbook* visitBook = new Spellbook((Spellbook*)spellbooks[c]);
+				visitBook->setVisitor();
+				spellbooks[c]->diePls();
+				visitorHolder[visitorsToSendOut] = visitBook;
+				visitorsToSendOut++;
+				if (visitorsToSendOut == maxVisitors)
+					expandEnemyArray(visitorHolder, maxVisitors);
+			}
+		}
+	}
 
 	if (boss)
 	{
@@ -316,6 +347,9 @@ int EnemyManager::size(string type)
 		return ghostCount;
 	if (type == "Web")
 		return webCount;
+	if (type == "Spellbook")
+		return spellbookCount;
+
 	return 0;
 }
 
@@ -370,6 +404,13 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (webCount == webMax)
 			expandEnemyArray(webs, webMax);
 	}
+	if (type == "Spellbook")
+	{
+		spellbooks[spellbookCount] = new Spellbook(pos);
+		spellbookCount++;
+		if (spellbookCount == spellbookMax)
+			expandEnemyArray(spellbooks, spellbookMax);
+	}
 }
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
@@ -393,6 +434,9 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return ghosts[index]->bindWorldMat(shader, uniform);
 	else if (type == "Web")
 		return webs[index]->bindWorldMat(shader, uniform);
+	else if (type == "Spellbook")
+		return spellbooks[index]->bindWorldMat(shader, uniform);
+
 	return -1;
 }
 
@@ -412,6 +456,9 @@ Enemy** EnemyManager::getEnemies(string type)
 		return ghosts;
 	if (type == "Web")
 		return webs;
+	if (type == "Spellbook")
+		return spellbooks;
+	
 	return 0;
 }
 
@@ -472,6 +519,18 @@ void EnemyManager::resetEnemies()
 		else
 			ghosts[n]->init();
 	}
+	for (int n = spellbookCount - 1; n >= 0; n--)
+	{
+		if (spellbooks[n]->isVisitor())
+		{
+			delete spellbooks[n];
+			spellbooks[n] = 0;
+			spellbookCount--;
+		}
+		else
+			spellbooks[n]->init();
+	}
+	
 	if (boss)
 	{
 		if (boss->isAlive())
@@ -551,5 +610,12 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		ghostCount++;
 		if (ghostCount == ghostMax)
 			expandEnemyArray(ghosts, ghostMax);
+	}
+	if (type == "Spellbook")
+	{
+		spellbooks[spellbookCount] = new Spellbook((Spellbook*)visitor);
+		spellbookCount++;
+		if (spellbookCount == spellbookMax)
+			expandEnemyArray(spellbooks, spellbookMax);
 	}
 }

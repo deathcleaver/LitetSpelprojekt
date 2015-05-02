@@ -105,8 +105,27 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
+	//detect joystick
+	const char* joy;
+	for (int i = 0; i < 15; i++) //glfw supports 16 joystick thus i < 15
+	{
+		joy = glfwGetJoystickName(i);
+		if (joy != NULL)
+		{
+			joyStick = i;
+
+			printf("Detected %s\n", joy);
+
+			int nbuttons, naxes;
+			const unsigned char *pressed = glfwGetJoystickButtons(i, &nbuttons);
+			const float *axes = glfwGetJoystickAxes(i, &naxes);
+			printf("%d %d -- %p %p\n", nbuttons, naxes, pressed, axes);
+
+			break;
+		}
+	}
 	player = new Player();
-	player->init();
+	player->init(joyStick);
 	map = new Map();
 	map->LoadMap(1, 0);
 	map->init();
@@ -124,6 +143,8 @@ void Game::init(GLFWwindow* windowRef)
 	
 	// read from settings file
 	initSettings();
+
+	//fullscreen test
 
 	// do not delete in this class
 	this->windowRef = windowRef;
@@ -538,6 +559,20 @@ void Game::initSettings()
 		string sub;
 		stringstream ss;
 
+		// --- Graphics ---
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub; //read past fullscreen line
+
+		getline(in, line);
+		ss = stringstream(line);
+		bool glows;
+		ss >> sub;
+		glows = atoi(sub.c_str());
+
+		// apply graphic settings
+		engine->applySettings(glows);
+		
 		// --- Audio ---
 		getline(in, line);
 		ss = stringstream(line);
@@ -559,17 +594,6 @@ void Game::initSettings()
 
 		// apply audio settings
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
-
-		// --- Graphics ---
-		getline(in, line);
-		ss = stringstream(line);
-		ss >> sub;
-
-		bool glows;
-		glows = atoi(sub.c_str());
-
-		// apply graphic settings
-		engine->applySettings(glows);
 
 		in.close();
 	}

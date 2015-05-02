@@ -373,6 +373,30 @@ void Engine::renderEnemies()
 						lastid = id;
 					}
 				}
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spellbook");
+				for (int i = 0; i < size; i++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Spellbook"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Spellbook");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::spellbook);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
+				}
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Projectile");
+				for (int i = 0; i < size; i++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Projectile"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Projectile");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::spellbook);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
+				}
 
 				glColorMask(1, 1, 1, 1);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

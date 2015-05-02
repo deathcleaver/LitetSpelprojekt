@@ -177,9 +177,9 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				getline(in, line);
 				ss = stringstream(line);
 				ss >> sub;
-				soundType = atoi(sub.c_str());
+				soundType = atoi(sub.c_str());//0 = 2D, 1 = 3D
 				ss >> sub;
-				id = atoi(sub.c_str());
+				id = atoi(sub.c_str());//id of the audio file
 				ss >> sub;
 				soundPos.x = atof(sub.c_str()) + xOffset * 35;
 				ss >> sub;
@@ -187,13 +187,13 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				ss >> sub;
 				soundPos.z = atof(sub.c_str());
 				ss >> sub;
-				dist = atof(sub.c_str());
+				dist = atof(sub.c_str());// audible distance
 				ss >> sub;
-				loopType = atoi(sub.c_str());
+				loopType = atoi(sub.c_str());//0 = no loop, 1 = regular loop, 2 = interval based loop
 				ss >> sub;
-				minInterval = atof(sub.c_str());
+				minInterval = atof(sub.c_str()); //min loop interval if loopType = 2
 				ss >> sub;
-				maxInterval = atof(sub.c_str());
+				maxInterval = atof(sub.c_str()); //max loop interval if loopType = 2
 
 				sounds[c].init(soundType, id, soundPos, dist, loopType, minInterval, maxInterval);
 			}
@@ -603,7 +603,20 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			}
 		}
 	}
-
+	enemies = enemyMan->getEnemies("Spellbook");
+	nrOfEnemies = enemyMan->size("Spellbook");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->readPos();
+			}
+		}
+	}
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{
@@ -720,6 +733,25 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	}
 	enemies = enemyMan->getEnemies("Ghost");
 	nrOfEnemies = enemyMan->size("Ghost");
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->readPos().x)
+						enemies[c]->hit(damage, false);
+					else
+						enemies[c]->hit(damage, true);
+				}
+			}
+		}
+	}
+	enemies = enemyMan->getEnemies("Spellbook");
+	nrOfEnemies = enemyMan->size("Spellbook");
 	for (int c = 0; c < nrOfEnemies; c++)
 	{
 		if (enemies[c]->isAlive())

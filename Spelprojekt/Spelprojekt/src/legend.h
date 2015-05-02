@@ -84,6 +84,7 @@ enum EnemyID
 	spider,
 	ghost,
 	web,
+	spellbook,
 
 	enemy_count, //leave this last
 };

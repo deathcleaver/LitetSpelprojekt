@@ -41,6 +41,7 @@ private:
 
 	Map* map = 0;
 	UserInput* in = 0;
+	int joyStick = NULL;
 	GUI* gui = 0;
 	Edit* edit = 0;
 	double lastX = 0.0f;
@@ -63,6 +64,7 @@ private:
 
 	glm::vec2 savedPickups[4];
 	int savePickupNr = 0;
+
 public:
 	Game() {};
 	~Game();

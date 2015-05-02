@@ -1,7 +1,7 @@
 #include "player.h"
 
 
-void Player::init()
+void Player::init(int joy)
 {
 	MAX_HP = HP = 3;
 	DMG = 1;
@@ -26,6 +26,13 @@ void Player::init()
 	runeEffect = 0;
 	shield = 0;
 	effectVisible = false;
+
+	// joystick
+	if (joy != NULL)
+	{
+		joyStickDetected = true;
+		joyStick = joy;
+	}	
 }
 
 Player::~Player()

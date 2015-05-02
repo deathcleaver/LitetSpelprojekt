@@ -105,6 +105,9 @@
     <ClCompile Include="src\game\Shield.cpp">
       <Filter>Source\Game\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Enemies\Spellbook.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="src\engine\engine.h">
       <Filter>Header\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Spellbook.h">
+      <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

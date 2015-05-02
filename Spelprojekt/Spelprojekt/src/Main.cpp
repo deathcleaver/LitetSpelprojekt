@@ -22,8 +22,28 @@ int main(int argv, char* argc[])
 
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", NULL, NULL);
-	//glfwCreateWindow(1920, 1080, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
+	// init windowed or fullscreen
+	bool fullscreen;
+	ifstream in;
+	char* settings = "settings.s";
+	in.open(settings);
+	if (in)
+	{
+		string line;
+		string sub;
+		stringstream ss;
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		fullscreen = atoi(sub.c_str());
+
+		in.close();
+	}
+	
+	if (fullscreen) // fullscreen
+		wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
+	else // windowed
+		wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", NULL, NULL);
 
 	glfwMakeContextCurrent(wnd);
 	glewInit();

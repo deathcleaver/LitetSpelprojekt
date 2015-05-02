@@ -260,8 +260,12 @@ void ObjectManager::loadMonsterObjs()
 	//ghost
 	add = new AnimationObject("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
-
+	
 	//web
+	add = new AnimationObject("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
+	objects[OBJ::ENEMY].push_back(add);
+
+	//spellbook
 	add = new AnimationObject("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
 }

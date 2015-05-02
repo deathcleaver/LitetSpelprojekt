@@ -70,7 +70,12 @@ void Ghost::hit(int damage, bool playerRightOfEnemy)
 	{
 		health -= damage;
 		if (health <= 0)
+		{
 			alive = false;
+			Audio::getAudio().playSoundAtPos(29, readPos(), 2.5, false); //enemy_ghost_death
+		}
+		else
+			Audio::getAudio().playSoundAtPos(28, readPos(), 2.5, false); //enemy_ghost_hurt
 		invulnTimer = 2.0f;
 	}
 }
