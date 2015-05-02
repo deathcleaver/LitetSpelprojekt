@@ -1,12 +1,12 @@
 0 : ChuckTesta
 7 : Enemy Count
+Bat 4 4
 Flame 7 16
 Flame 12 12
 Flame 12 -6
-Bat 4 4
+Cube -9 -11
 Spider -6 2
 Web -6 2
-Cube -9 -11
 -1 NO BACKGROUND
 -1 NO SHRINE
 -1
