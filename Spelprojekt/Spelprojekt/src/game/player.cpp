@@ -1,6 +1,6 @@
 #include "player.h"
 
-void Player::init(int joy)
+void Player::init(Gamepad* pad)
 {
 	MAX_HP = HP = 3;
 	DMG = 1;
@@ -27,10 +27,10 @@ void Player::init(int joy)
 	effectVisible = false;
 
 	// joystick
-	if (joy != NULL)
+	if (pad->joyStickDetected()) // joyStick is connected
 	{
 		joyStickDetected = true;
-		joyStick = joy;
+		gamePad = pad;
 	}	
 }
 
@@ -77,137 +77,6 @@ void Player::moveWeapon()
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
-
-	int buttonCount;
-	const unsigned char* joyButtons = glfwGetJoystickButtons(joyStick, &buttonCount);
-
-	//joystick buttons test
-	if (joyButtons != NULL)
-	{
-		if (joyButtons[0] == GL_TRUE)
-		{
-			printf("Pressed button X!\n");
-		}
-
-		if (joyButtons[1] == GL_TRUE)
-		{
-			printf("Pressed button A!\n");
-		}
-
-		if (joyButtons[2] == GL_TRUE)
-		{
-			printf("Pressed button B!\n");
-		}
-
-		if (joyButtons[3] == GL_TRUE)
-		{
-			printf("Pressed button Y!\n");
-		}
-
-		if (joyButtons[4] == GL_TRUE)
-		{
-			printf("Pressed button Left Shoulder!\n");
-		}
-
-		if (joyButtons[5] == GL_TRUE)
-		{
-			printf("Pressed button Right Shoulder!\n");
-		}
-
-		if (joyButtons[6] == GL_TRUE)
-		{
-			printf("Pressed Left Trigger!\n");
-		}
-
-		if (joyButtons[7] == GL_TRUE)
-		{
-			printf("Pressed button Right Trigger!\n");
-		}
-
-		if (joyButtons[8] == GL_TRUE)
-		{
-			printf("Pressed button Select!\n");
-		}
-
-		if (joyButtons[9] == GL_TRUE)
-		{
-			printf("Pressed button Start!\n");
-		}
-
-		if (joyButtons[10] == GL_TRUE)
-		{
-			printf("Pressed L3!\n");
-		}
-
-		if (joyButtons[11] == GL_TRUE)
-		{
-			printf("Pressed R3!\n");
-		}
-
-		if (joyButtons[12] == GL_TRUE)
-		{
-			printf("Pressed Dpad UP!\n");
-		}
-
-		if (joyButtons[13] == GL_TRUE)
-		{
-			printf("Pressed Dpad RIGHT!\n");
-		}
-
-		if (joyButtons[14] == GL_TRUE)
-		{
-			printf("Pressed Dpad DOWN!\n");
-		}
-
-		if (joyButtons[15] == GL_TRUE)
-		{
-			printf("Pressed Dpad LEFT!\n");
-		}
-	}	
-
-	//joystick axes test
-	int axesCount;
-	const float* joyAxes = glfwGetJoystickAxes(joyStick, &axesCount);
-	
-	if (axesCount != NULL)
-	{
-		// left stick
-		if (joyAxes[0] > 0.1f)
-		{
-			printf("Left Stick X: %f\n", joyAxes[0]);
-		}
-		if (joyAxes[0] < -0.1f)
-		{
-			printf("Left Stick X: %f\n", joyAxes[0]);
-		}
-		if (joyAxes[1] > 0.1f)
-		{
-			printf("Left Stick Y: %f\n", joyAxes[1]);
-		}
-		if (joyAxes[1] < -0.1f)
-		{
-			printf("Left Stick Y: %f\n", joyAxes[1]);
-		}
-		// right stick
-		if (joyAxes[2] > 0.1f)
-		{
-			printf("Right Stick X: %f\n", joyAxes[2]);
-		}
-		if (joyAxes[2] < -0.1f)
-		{
-			printf("Right Stick X: %f\n", joyAxes[2]);
-		}
-		if (joyAxes[3] > 0.1f)
-		{
-			printf("Right Stick Y: %f\n", joyAxes[3]);
-		}
-		if (joyAxes[3] < -0.1f)
-		{
-			printf("Right Stick Y: %f\n", joyAxes[3]);
-		}
-	}
-	//joystick test end
-
 	bool isInWeb = false;
 	if (map->webbedUp(collideRect, readPos()))
 	{

@@ -105,27 +105,12 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
-	//detect joystick
-	const char* joy;
-	for (int i = 0; i < 15; i++) //glfw supports 16 joystick thus i < 15
-	{
-		joy = glfwGetJoystickName(i);
-		if (joy != NULL)
-		{
-			joyStick = i;
-
-			printf("Detected %s\n", joy);
-
-			int nbuttons, naxes;
-			const unsigned char *pressed = glfwGetJoystickButtons(i, &nbuttons);
-			const float *axes = glfwGetJoystickAxes(i, &naxes);
-			printf("%d %d -- %p %p\n", nbuttons, naxes, pressed, axes);
-
-			break;
-		}
-	}
+	
+	gamePad = new Gamepad();
+	gamePad->init();
+		
 	player = new Player();
-	player->init(joyStick);
+	player->init(gamePad);
 	map = new Map();
 	map->LoadMap(1, 0);
 	map->init();
@@ -227,6 +212,11 @@ void Game::mainLoop()
 void Game::update(float deltaTime)
 {
 	buttonEvents(gui->update((int)current));
+
+	// update gamepad states
+	if (gamePad->joyStickDetected())
+		gamePad->update(deltaTime);
+
 	switch (current)
 	{
 		case(MENU) :

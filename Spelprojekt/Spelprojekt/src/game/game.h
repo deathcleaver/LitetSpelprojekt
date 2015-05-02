@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "../UserInput.h"
+#include "../Gamepad.h"
 #include "../GUI.h"
 
 #include "edit.h"
@@ -10,12 +11,12 @@
 #include "../engine/object.h"
 #include "../engine/ObjectManager.h"
 
-//#include "audio"
 #include "player.h"
 #include "enemyManager.h"
 #include "map.h"
 
 #include <GLFW/glfw3.h>
+
 
 enum gameState
 {
@@ -41,7 +42,7 @@ private:
 
 	Map* map = 0;
 	UserInput* in = 0;
-	int joyStick = NULL;
+	Gamepad* gamePad = 0;
 	GUI* gui = 0;
 	Edit* edit = 0;
 	double lastX = 0.0f;

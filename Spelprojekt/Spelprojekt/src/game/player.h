@@ -11,6 +11,7 @@
 #include "map.h"
 #include "mapChunk.h"
 #include "../UserInput.h"
+#include "../Gamepad.h"
 #include "Progress.h"
 
 class Player : public GameObject
@@ -29,7 +30,7 @@ private:
 
 	//joystick
 	bool joyStickDetected;
-	int joyStick;
+	Gamepad* gamePad;
 
 	//movement
 	float jumpHeight;
@@ -70,7 +71,7 @@ public:
 	Player(){};
 	~Player();
 
-	void init(int joy);
+	void init(Gamepad* pad);
 	void setStartPos(int x, int y);
 
 	int update(UserInput* userInput, Map* map, float deltaTime);
