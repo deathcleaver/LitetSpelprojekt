@@ -1,8 +1,8 @@
 0 : ChuckTesta
 3 : Enemy Count
-Ghost 0 6
-Web -3 12
-Web -4 11
+Flame 1 6
+Flame 0 -8
+Bat 8 11
 2 0 0 -3 :  BACKGROUND!
 -1 NO SHRINE
 -1

@@ -115,7 +115,7 @@
     <ClCompile Include="src\game\map.cpp" />
     <ClCompile Include="src\game\mapChunk.cpp" />
     <ClCompile Include="src\game\player.cpp" />
-    <ClCompile Include="src\game\Shiled.cpp" />
+    <ClCompile Include="src\game\Shield.cpp" />
     <ClCompile Include="src\game\Shrine.cpp" />
     <ClCompile Include="src\game\spark.cpp" />
     <ClCompile Include="src\game\Torch.cpp" />
