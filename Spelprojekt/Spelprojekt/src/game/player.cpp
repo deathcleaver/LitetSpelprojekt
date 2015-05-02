@@ -5,7 +5,6 @@ void Player::init()
 {
 	MAX_HP = HP = 3;
 	DMG = 1;
-	moveTo(105, -8);
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
 	speed = vec2(0);
@@ -32,6 +31,12 @@ void Player::init()
 Player::~Player()
 {
 	delete collideRect;
+}
+
+void Player::setStartPos(int x, int y)
+{
+	start = glm::vec2(x, y);
+	moveTo(start.x, start.y);
 }
 
 void Player::moveWeapon()
@@ -554,7 +559,7 @@ void Player::respawn(Map* map)
 	}
 	else
 	{
-		moveTo(0, 2);
+		moveTo(start.x, start.y);
 	}
 }
 

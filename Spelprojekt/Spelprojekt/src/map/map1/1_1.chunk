@@ -1,9 +1,10 @@
 0 : ChuckTesta
-4 : Enemy Count
+5 : Enemy Count
 Bat 7 8
 Bat 12 5
 Bat 5 -8
 Flame 4 -4
+Spikes 5 0
 2 0 0 -3 :  BACKGROUND!
 2 -3 -0.5 0 :  SHRINE!
 -1

@@ -60,10 +60,13 @@ private:
 	bool bossFighting = false;
 
 	int pickUps = 0;
+
+	glm::vec2 start;
 public:
 	Player(){};
 	~Player();
 	void init();
+	void setStartPos(int x, int y);
 
 	int update(UserInput* userInput, Map* map, float deltaTime);
 	vec2 getSpeed();

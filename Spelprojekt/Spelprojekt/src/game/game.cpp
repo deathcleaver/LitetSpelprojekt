@@ -394,6 +394,7 @@ void Game::buttonEvents(int buttonEv)
 	case(1) : // New game menu button
 		map->LoadMap(1, 0);
 		map->init();
+		player->setStartPos(map->playerspawnX, map->playerspawnY);
 		current = PLAY;
 		Audio::getAudio().playSound(6, false); //button
 		cameraFollow = true;
