@@ -434,6 +434,7 @@ void Game::buttonEvents(int buttonEv)
 		cameraFollow = true;
 		engine->setFadeIn();
 		in->resetZoomViewDir();
+		gui->showNewUpgrade(0); //show boss progression
 		break;
 		engine->setFade(1.0f);
 	case(2) : // Mapmaker main button
@@ -468,6 +469,7 @@ void Game::buttonEvents(int buttonEv)
 		}
 		player->setProgress(playerProgress);
 		player->moveTo(pPos.x, pPos.y);
+		gui->showNewUpgrade(0); //show boss progression
 	}
 		break;
 

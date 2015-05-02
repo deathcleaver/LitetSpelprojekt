@@ -211,18 +211,21 @@ void GUI::newupgradeInit()
 
 	bossprogressInit();
 
-	items[size] = new ScreenItem();
+	if (progressID > 0)
+	{
+		items[size] = new ScreenItem();
 
-	if (progressID == 1) //duble jump
-		items[size]->init(29, 29);
-	else if (progressID == 2) // web climp
-		items[size]->init(30, 30);
-	else if (progressID == 3) // mirror walk
-		items[size]->init(31, 31);
+		if (progressID == 1) //duble jump
+			items[size]->init(29, 29);
+		else if (progressID == 2) // web climp
+			items[size]->init(30, 30);
+		else if (progressID == 3) // mirror walk
+			items[size]->init(31, 31);
 
-	items[size]->MoveAutoSize(0, -0.3, content);
+		items[size]->MoveAutoSize(0, -0.3, content);
 
-	size++;
+		size++;
+	}
 	
 }
 
