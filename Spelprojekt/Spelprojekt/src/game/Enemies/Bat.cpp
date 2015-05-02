@@ -11,6 +11,7 @@ Bat::Bat(glm::vec2 firstPos)
 	health = 1;
 	speed = 4.0f;
 	slow = false;
+	audibleDistance = 2.5f;
 
 	movementScale = 0.0f;
 	collideRect = new Rect();
@@ -132,7 +133,7 @@ void Bat::hit(int damage, bool playerRightOfEnemy)
 	health -= damage;
 	if (health <= 0)
 	{
-		Audio::getAudio().playSoundAtPos(11, readPos(), 10.0f, false); //boss_bat_death
+		Audio::getAudio().playSoundAtPos(11, readPos(), audibleDistance, false); //boss_bat_death
 		alive = false;
 	}
 }

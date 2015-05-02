@@ -20,6 +20,7 @@ protected:
 	bool alive;
 	glm::vec2 initPos;
 	int health;
+	float audibleDistance = 2.5f;
 	Rect* collideRect;
 
 	bool collidesWithWorld(Map* map);

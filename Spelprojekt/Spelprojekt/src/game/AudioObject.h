@@ -15,7 +15,7 @@ public:
 
 	void init(bool is3D, int file, glm::vec3 pos, float dist, int loopType, float minInt, float maxInt);
 	void update(float deltaTime);
-	void bindToPosition(glm::vec3* pos, bool track);
+	void setPosition(glm::vec3 pos);
 
 	void getAllValues(int &type, int &id, float &posX, float &posY, float &posZ, float &dist, int &loopType, float &minInterval, float &maxInterval);
 private:

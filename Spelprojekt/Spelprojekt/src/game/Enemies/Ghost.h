@@ -1,6 +1,7 @@
 #ifndef GHOST_H
 #define GHOST_H
 
+#include "../AudioObject.h"
 #include "../Enemy.h"
 
 class Ghost : public Enemy
@@ -8,6 +9,8 @@ class Ghost : public Enemy
 private:
 	float speed;
 	float invulnTimer;
+	AudioObject audioObj;
+
 public:
 	Ghost(glm::vec2 firstPos);
 	Ghost(Ghost* copy);

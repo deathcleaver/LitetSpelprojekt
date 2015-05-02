@@ -77,23 +77,16 @@ void AudioObject::update(float deltaTime)
 
 			state == A_PLAYING;
 		}
-
-		if (tracking)
-		{
-			if (objectPosition != NULL)
-			{
-				glm::vec3 tempPos = *objectPosition;
-				ALfloat SourcePos[] = { tempPos.x, tempPos.y, tempPos.z };
-				alSourcefv(*sourcePointer, AL_POSITION, SourcePos);
-			}
-		}
 	}	
 }
 
-void AudioObject::bindToPosition(glm::vec3* pos, bool track)
+void AudioObject::setPosition(glm::vec3 pos)
 {
-	bool tracking = track;
-	objectPosition = pos;
+	if (sourcePointer != NULL)
+	{
+		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
+		alSourcefv(*sourcePointer, AL_POSITION, SourcePos);
+	}
 }
 
 void AudioObject::getAllValues(int &type, int &id, float &posX, float &posY, float &posZ, float &dist, int &loopType, float &minInterval, float &maxInterval)

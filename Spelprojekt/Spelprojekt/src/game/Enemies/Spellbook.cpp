@@ -10,6 +10,7 @@ Spellbook::Spellbook(glm::vec2 firstPos)
 	contentIndex = 1;
 	health = 3;
 	speed = 1.0f;
+	audibleDistance = 2.5f;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
@@ -114,7 +115,7 @@ void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
 		map->findNewHome(newProjectile);
 		delete newProjectile;*/
 		
-		Audio::getAudio().playSoundAtPos(27, pos, 3.5, false);
+		Audio::getAudio().playSoundAtPos(27, pos, audibleDistance, false);
 
 		minionCount++;
 	}
@@ -135,7 +136,7 @@ void Spellbook::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(29, readPos(), 2.5, false); //spellbook_death (currently same as ghost)
+			Audio::getAudio().playSoundAtPos(29, readPos(), audibleDistance, false); //spellbook_death (currently same as ghost)
 		}
 		invulnTimer = 0.6f;
 	}

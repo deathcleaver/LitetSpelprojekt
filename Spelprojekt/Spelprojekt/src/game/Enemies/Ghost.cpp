@@ -38,6 +38,8 @@ void Ghost::init()
 	alive = true;
 	health = 3;
 
+	audioObj.init(true, 30, glm::vec3(initPos.x, initPos.y, 0), 3.5f, 1, 0, 0); //enemy_ghost_moan
+
 	collideRect->update();
 }
 
@@ -61,6 +63,11 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else
 		invulnTimer -= 1.0f*deltaTime;
+
+	// update ghost_moan
+	audioObj.update(deltaTime);
+	audioObj.setPosition(readPos());
+
 	return 0;
 }
 

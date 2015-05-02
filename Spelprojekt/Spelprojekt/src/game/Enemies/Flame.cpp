@@ -16,6 +16,7 @@ Flame::Flame(glm::vec2 firstPos)
 	health = 3;
 	speed = glm::vec2(2.0f, 0.0);
 	invulnTimer = 0.0f;
+	audibleDistance = 2.5f;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
@@ -192,12 +193,12 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		
 		if (health <= 0)
 		{
-			Audio::getAudio().playSoundAtPos(16, readPos(), 10.0f, false); //enemy_flame_death
+			Audio::getAudio().playSoundAtPos(16, readPos(), audibleDistance, false); //enemy_flame_death
 			alive = false;
 		}
 		else
 		{
-			Audio::getAudio().playSoundAtPos(15, readPos(), 10.0f, false); //enemy_flame_hurt
+			Audio::getAudio().playSoundAtPos(15, readPos(), audibleDistance, false); //enemy_flame_hurt
 			flameEffect->getEffect()->setParticleColor(0.5, 0.5, 1.0);
 		}
 
