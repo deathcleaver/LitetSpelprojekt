@@ -78,10 +78,12 @@ void Player::moveWeapon()
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
+	bool isInWeb = false;
 	if (map->webbedUp(collideRect, readPos()))
 	{
 		maxSpeed.x = 3;
 		maxSpeed.y = -5;
+		isInWeb = true;
 	}
 	else
 	{
@@ -250,7 +252,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		//gravity
 		if (userInput->getKeyState('W') && speed.y > 0 && !isAttacking)
 		{
-			speed.y -= (acceleration.y * 0.5f);
+			if (!progressMeter.spiderboss || !isInWeb)
+			{
+				speed.y -= (acceleration.y * 0.5f);
+			}
 		}
 		else
 			speed.y -= acceleration.y;
