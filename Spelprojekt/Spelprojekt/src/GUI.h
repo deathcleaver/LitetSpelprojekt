@@ -28,7 +28,7 @@ private:
 	//boss defeated, progress display
 	int progressID;
 	int progressCounter = 0;
-	int progressTime = 300;
+	int progressTime = 330;
 	bool showBossProgress = false;
 	bool re_setup = false;
 

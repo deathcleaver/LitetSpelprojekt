@@ -313,6 +313,12 @@ void Game::update(float deltaTime)
 						   {
 							   std::string boss = map->getBoss(pPos, false);
 							   player->dingDongTheBossIsDead(boss);
+							   if (boss == "Bossbat")
+								   gui->showNewUpgrade(1);
+							   else if (boss == "Bossspider")
+								   gui->showNewUpgrade(2);
+							   else if (boss == "Bossghost")
+								   gui->showNewUpgrade(3);
 							   Audio::getAudio().playSound(8, false);//boss_defeted
 						   }
 						   Audio::getAudio().playMusicFade(-1, deltaTime);//stop music if the boss is dead
