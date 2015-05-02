@@ -129,9 +129,24 @@ void GUI::MENU(bool init)
 
 void GUI::PLAY(bool init)
 {
+	if (showBossProgress)
+		newupgradeInit();
+
+	if (progressCounter < 0) // update playerhud normaly
+		playerhud(init);
+	else
+		progressCounter--;
+	
+}
+
+void GUI::playerhud(bool init)
+{
 	int hp;
 	int pickups;
 	bool refresh = false;
+
+	if (re_setup)
+		init = true;
 
 	player->playerGuiInfo(&hp, &pickups);
 	if (hp != playerHP || pickups != playerPickups)
@@ -162,10 +177,10 @@ void GUI::PLAY(bool init)
 		if (extra)
 			size--;
 
-		for (int n = 1; n < size ; n++)
+		for (int n = 1; n < size; n++)
 		{
 			items[n]->init(28, 28, false);
-			items[n]->MoveAutoSize(-0.68 + 0.12 * (n-1), -0.8, content);
+			items[n]->MoveAutoSize(-0.68 + 0.12 * (n - 1), -0.8, content);
 		}
 
 		if (extra)
@@ -184,6 +199,40 @@ void GUI::PLAY(bool init)
 			}
 		}
 	}
+}
+
+void GUI::newupgradeInit()
+{
+	re_setup = true;
+	progressCounter = progressTime;
+	showBossProgress = false;
+
+	destroyy();
+
+	bossprogressInit();
+
+	if (progressID > 0)
+	{
+		items[size] = new ScreenItem();
+
+		if (progressID == 1) //duble jump
+			items[size]->init(29, 29);
+		else if (progressID == 2) // web climp
+			items[size]->init(30, 30);
+		else if (progressID == 3) // mirror walk
+			items[size]->init(31, 31);
+
+		items[size]->MoveAutoSize(0, -0.3, content);
+
+		size++;
+	}
+	
+}
+
+void GUI::showNewUpgrade(int id)
+{
+	showBossProgress = true;
+	progressID = id;
 }
 
 void GUI::INTRO(bool init)
@@ -290,6 +339,9 @@ void GUI::PAUSE(bool init)
 		// exit text
 		items[1]->init(21, 22, true, 3);
 		items[1]->MoveAutoSize(0, -0.1, content);
+
+		//show boss progress
+		bossprogressInit();
 	}
 }
 
@@ -375,4 +427,46 @@ void GUI::fixEditorSwitches(bool place, bool change)
 	items[9]->setActive(place);
 	//10 change
 	items[10]->setActive(change);
+}
+
+void GUI::bossprogressInit()
+{
+	int counter = 0;
+	
+	if (player->getProgress().batboss)
+		counter++;
+	if (player->getProgress().spiderboss)
+		counter++;
+	if (player->getProgress().ghostboss)
+		counter++;
+
+	int oldsize = size;
+	size = size + 1 + counter;
+
+	for (int n = oldsize; n < size; n++)
+		items[n] = new ScreenItem();
+	
+	// boss back
+	items[oldsize]->init(23, 23);
+	items[oldsize]->MoveAutoSize(0, 0.7, content);
+	//defeated cross
+	int increment = 1;
+	if (player->getProgress().batboss)
+	{
+		items[oldsize + increment]->init(24, 24);
+		items[oldsize + increment]->MoveAutoSize(-0.33, 0.70, content);
+		increment++;
+	}
+	if (player->getProgress().spiderboss)
+	{
+		items[oldsize + increment]->init(24, 24);
+		items[oldsize + increment]->MoveAutoSize(-0.05, 0.71, content);
+		increment++;
+	}
+	if (player->getProgress().ghostboss)
+	{
+		items[oldsize + increment]->init(24, 24);
+		items[oldsize + increment]->MoveAutoSize(0.24, 0.71, content);
+		increment++;
+	}
 }

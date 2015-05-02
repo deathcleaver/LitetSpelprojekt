@@ -1,6 +1,5 @@
 #include "player.h"
 
-
 void Player::init(int joy)
 {
 	MAX_HP = HP = 3;
@@ -738,6 +737,7 @@ void Player::dingDongTheBossIsDead(std::string boss)
 {
 	bossFighting = false;
 	progressMeter.checkBossType(boss);
+	
 }
 
 Light* Player::getRuneLight() const

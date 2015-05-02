@@ -15,23 +15,35 @@ private:
 	int current = 0;
 	int last = -1;
 	ScreenItem** items = 0;
-
+	
+	//intro sync
 	int introCounter = 0;
 	int introTime = 220;
 	int introState = 0;
 
+	//hud display
 	int playerHP = 0;
 	int playerPickups = 0;
+
+	//boss defeated, progress display
+	int progressID;
+	int progressCounter = 0;
+	int progressTime = 330;
+	bool showBossProgress = false;
+	bool re_setup = false;
 
 	int size = 0;
 	int capacity = 0;
 	void destroyy();
 	void MENU(bool init);
 	void PLAY(bool init);
+	void playerhud(bool init);
+	void newupgradeInit();
 	void INTRO(bool init);
 	void EDIT(bool init);
 	void PAUSE(bool init);
 	void SETTINGS(bool init);
+	void bossprogressInit();
 	int keyUpdate();
 	float SCREENWIDTH = 1080;
 	float SCREENHEIGHT = 720;
@@ -47,6 +59,7 @@ public:
 	ScreenItem** getItems() const;
 	void MouseToScreenSpace(float* x, float* y);
 	void fixEditorSwitches(bool place, bool change);
+	void showNewUpgrade(int);
 };
 
 #endif
