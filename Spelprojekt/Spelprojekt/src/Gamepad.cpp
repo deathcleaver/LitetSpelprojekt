@@ -1,6 +1,7 @@
 #include "Gamepad.h"
 #include <GLFW/glfw3.h>
 #include <stdio.h>
+#include <string.h>
 
 Gamepad::~Gamepad()
 {
@@ -49,85 +50,11 @@ void Gamepad::update(float deltaTime)
 
 	if (joyButtons != NULL && joyAxes != NULL)
 	{
+		
 		// buttons test
-		if (joyButtons[0] == GL_TRUE)
+		for (int i = 0; i < buttonCount; i++)
 		{
-			printf("Pressed button X!\n");
-		}
-
-		if (joyButtons[1] == GL_TRUE)
-		{
-			printf("Pressed button A!\n");
-		}
-
-		if (joyButtons[2] == GL_TRUE)
-		{
-			printf("Pressed button B!\n");
-		}
-
-		if (joyButtons[3] == GL_TRUE)
-		{
-			printf("Pressed button Y!\n");
-		}
-
-		if (joyButtons[4] == GL_TRUE)
-		{
-			printf("Pressed button Left Shoulder!\n");
-		}
-
-		if (joyButtons[5] == GL_TRUE)
-		{
-			printf("Pressed button Right Shoulder!\n");
-		}
-
-		if (joyButtons[6] == GL_TRUE)
-		{
-			printf("Pressed Left Trigger!\n");
-		}
-
-		if (joyButtons[7] == GL_TRUE)
-		{
-			printf("Pressed button Right Trigger!\n");
-		}
-
-		if (joyButtons[8] == GL_TRUE)
-		{
-			printf("Pressed button Select!\n");
-		}
-
-		if (joyButtons[9] == GL_TRUE)
-		{
-			printf("Pressed button Start!\n");
-		}
-
-		if (joyButtons[10] == GL_TRUE)
-		{
-			printf("Pressed L3!\n");
-		}
-
-		if (joyButtons[11] == GL_TRUE)
-		{
-			printf("Pressed R3!\n");
-		}
-
-		if (joyButtons[12] == GL_TRUE)
-		{
-			printf("Pressed Dpad UP!\n");
-		}
-
-		if (joyButtons[13] == GL_TRUE)
-		{
-			printf("Pressed Dpad RIGHT!\n");
-		}
-
-		if (joyButtons[14] == GL_TRUE)
-		{
-			printf("Pressed Dpad DOWN!\n");
-		}
-
-		if (joyButtons[15] == GL_TRUE)
-		{
-			printf("Pressed Dpad LEFT!\n");
+			isButtonPressed(i);
 		}
 
 		// axes
@@ -174,4 +101,39 @@ bool Gamepad::joyStickDetected()
 		return false;
 	else
 		return true;
+}
+
+bool Gamepad::isButtonPressed(int button)
+{
+	if (joyButtons[Buttons(button)])
+	{
+		printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+	}
+		
+	return joyButtons[Buttons(button)];
+}
+
+char* Gamepad::getButtonSymbol(enum Buttons button)
+{
+	switch (button)
+	{
+		case 0: return "X";
+		case 1: return "A";
+		case 2: return "B";
+		case 3: return "Y";
+		case 4: return "LS";
+		case 5: return "RS";
+		case 6: return "LT";
+		case 7: return "RT";
+		case 8: return "Select";
+		case 9: return "Start";
+		case 10: return "L3";
+		case 11: return "R3";
+		case 12: return "D-pad up";
+		case 13: return "D-pad right";
+		case 14: return "D-pad down";
+		case 15: return "D-pad left";
+	}
+
+	return "null";
 }

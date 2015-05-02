@@ -1,9 +1,11 @@
 #ifndef GAMEPAD_H
 #define GAMEPAD_H
 
+using namespace std;
+
 class Gamepad
 {
-private:
+public:
 	enum Buttons
 	{
 		X = 0,
@@ -38,9 +40,13 @@ public:
 	void init();
 	void update(float deltaTime);
 	bool joyStickDetected();
+	// button checks
+	bool isButtonPressed(int button);
+	int getDpadDirection();
 
 private:
 	void detectJoystick();
+	char* getButtonSymbol(enum Buttons button);
 
 private:
 	int joyStick;
