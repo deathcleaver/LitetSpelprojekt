@@ -3,7 +3,8 @@
 0 0 0 0 :  BACKGROUND!
 -1 NO SHRINE
 -1
-0 :  Number of world objects
+1 :  Number of world objects
+23 1.0257 0.0201895 0.00207382 7.11995 -0.00179458 0.812816 -3.22281 17.3558 -0.0212001 0.908008 0.373145 -1.79445 0 0 0 1
 -1 : Music ID
 0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 0 : Nr of Lights 
