@@ -136,7 +136,7 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	//reset all enemies to their original pos
 	resetEnemies();
 
-	//save boss  OBSERVERA!!!!! 0 boss
+	//save boss 
 	if (boss)
 	{
 		glm::vec2 bossPos = boss->plsGiveBossPos();
@@ -144,7 +144,7 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	}
 	else
 		*out << 0 << " : ChuckTesta" << endl;
-	*out << batCount + flameCount + spikeCount  + cubeCount + spiderCount + ghostCount + webCount << " : Enemy Count" << endl;
+	*out << batCount + flameCount + spikeCount + cubeCount + spiderCount + ghostCount + webCount + spellbookCount << " : Enemy Count" << endl;
 
 	for (int n = 0; n < batCount; n++)
 		*out << "Bat " << bats[n]->readPos().x - xOffset * 35 << " " << bats[n]->readPos().y + yOffset * 35 << endl;
