@@ -621,6 +621,8 @@ bool Player::isBossDead(std::string boss)
 	if (boss == "Bossbat")
 		return progressMeter.batboss;
 	return false;
+	if (boss == "Bossspider")
+		return progressMeter.spiderboss;
 }
 
 void Player::setProgress(Progress p)
