@@ -63,9 +63,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	playerPos = 0;
 
-	//DoF shader uniforms
-	uniformDoFBack = glGetUniformLocation(*shaderDoFPtr, "back");
-	uniformDoFDepth = glGetUniformLocation(*shaderDoFPtr, "depth");
 
 	//rekts
 	uniformRektModel = glGetUniformLocation(*shaderRektPtr, "modelMatrix");
@@ -75,6 +72,20 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	//defaults 0
 	glProgramUniform1i(*shaderGuiPtr, uniformGUItexture, 0);
 	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
+	
+	//DoF shader uniforms
+	uniformDoFBack = glGetUniformLocation(*shaderDoFPtr, "back");
+	uniformDoFDepth = glGetUniformLocation(*shaderDoFPtr, "depth");
+
+	//bind depth
+	glActiveTexture(GL_TEXTURE0 + 6);
+	glBindTexture(GL_TEXTURE_2D, rTexture[0].getTargetId());
+	glProgramUniform1i(*shaderDoFPtr, uniformDoFDepth, 6);
+	//bind back (diffuse at the momemnt)
+	glActiveTexture(GL_TEXTURE0 + 7);
+	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+	glProgramUniform1i(*shaderDoFPtr, uniformDoFBack, 7);
+
 
 	uniformBufferLightPos = glGetUniformBlockIndex(*shaderPtr, "lightBlock");
 	uniformNrLightPos = glGetUniformLocation(*shaderPtr, "nrLights");
@@ -247,18 +258,8 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 		glUseProgram(*shaderDoFPtr);
 		content->bindGUIvert(); //screen quad
 
-		//bind depth
-		glActiveTexture(GL_TEXTURE0 + 6);
-		glBindTexture(GL_TEXTURE_2D, rTexture[0].getTargetId());
-		glProgramUniform1i(*shaderDoFPtr, uniformDoFDepth, 6);
-		//bind back (diffuse at the momemnt)
-		glActiveTexture(GL_TEXTURE0 + 7);
-		glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
-		glProgramUniform1i(*shaderDoFPtr, uniformDoFBack, 7);
-
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
-
 
 
 
