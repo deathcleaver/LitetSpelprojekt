@@ -36,6 +36,7 @@ public:
 	GLuint* shaderGlowPtr;
 	GLuint* shaderGuiPtr;
 	GLuint* shaderRektPtr;
+	GLuint* shaderDoFPtr;
 
 	GLfloat* playerPos;
 
@@ -71,6 +72,10 @@ private:
 
 	//rekt
 	GLuint uniformRektModel;
+
+	//DoF
+	GLuint uniformDoFBack;
+	GLuint uniformDoFDepth;
 
 	//settings
 	bool glowsEnabled;

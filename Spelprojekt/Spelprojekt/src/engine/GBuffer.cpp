@@ -63,6 +63,10 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	playerPos = 0;
 
+	//DoF shader uniforms
+	uniformDoFBack = glGetUniformLocation(*shaderDoFPtr, "back");
+	uniformDoFDepth = glGetUniformLocation(*shaderDoFPtr, "depth");
+
 	//rekts
 	uniformRektModel = glGetUniformLocation(*shaderRektPtr, "modelMatrix");
 
@@ -235,6 +239,28 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 
 	if (renderRektsEdit)
 		renderRekts(map, content);
+
+	//render depth of field colormap
+	bool renderDoF = false;
+	if (renderDoF)
+	{
+		glUseProgram(*shaderDoFPtr);
+		content->bindGUIvert(); //screen quad
+
+		//bind depth
+		glActiveTexture(GL_TEXTURE0 + 6);
+		glBindTexture(GL_TEXTURE_2D, rTexture[0].getTargetId());
+		glProgramUniform1i(*shaderDoFPtr, uniformDoFDepth, 6);
+		//bind back (diffuse at the momemnt)
+		glActiveTexture(GL_TEXTURE0 + 7);
+		glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+		glProgramUniform1i(*shaderDoFPtr, uniformDoFBack, 7);
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	}
+
+
+
 
 	if (renderGui)
 	{

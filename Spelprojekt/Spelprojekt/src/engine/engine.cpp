@@ -33,7 +33,6 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(tempshader, shaders, shaderType, 3);
 
 	//gBuffer shader
-
 	shaders[0] = "src/shaders/glow_vs.glsl";
 	shaders[1] = "src/shaders/glow_gs.glsl";
 	shaders[2] = "src/shaders/glow_fs.glsl";
@@ -74,6 +73,12 @@ void Engine::init(glm::mat4* viewMat)
 
 	uniformRektProj = glGetUniformLocation(tempshaderRekt, "P");
 	uniformRektView = glGetUniformLocation(tempshaderRekt, "V");
+
+	//gbuffer dof shader
+	shaders[0] = "src/shaders/gBuffer_DoF_vs.glsl";
+	shaders[1] = "src/shaders/gBuffer_DoF_fs.glsl";
+	CreateProgram(shaderDoF, shaders, shaderType, 2);
+	gBuffer.shaderDoFPtr = &shaderDoF;
 
 	gBuffer.init(1080, 720, 4, true);
 	

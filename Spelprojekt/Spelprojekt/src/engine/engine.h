@@ -25,17 +25,18 @@
 class Engine : public Align_16
 {
 private:
-	// <temp>
 	GLuint tempshader;
 	GLuint tempshaderGBuffer;
 	GLuint tempshaderGBufferGlow;
 	GLuint tempshaderGUI;
 	GLuint tempshaderRekt;
+	GLuint shaderDoF;
 
 	GLuint uniformModel;
 	GLuint uniformView;
 	GLuint uniformProj;
 
+	//glow
 	GLuint uniformViewGlow;
 	GLuint uniformProjGlow;
 	GLuint uniformFadePos;
@@ -45,12 +46,12 @@ private:
 	GLuint uniformRektView;
 	GLuint uniformRektProj;
 
+	//DoF shader
+	GLuint sampleBack;
+	GLuint sampleDepth;
 
 	glm::mat4* viewMatrix;
 	glm::mat4 projMatrix;
-	int cameraSwap = 0;
-	int cameraSwapCounter = 0;
-	// </temp>
 
 	Gbuffer gBuffer;
 
