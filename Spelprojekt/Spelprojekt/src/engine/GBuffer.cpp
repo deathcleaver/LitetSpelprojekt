@@ -2,6 +2,8 @@
 
 void Gbuffer::init(int x, int y, int nrTex, bool depth)
 {
+	renderDoF = false;
+
 	if (renderQuad == 0)
 	{
 		genQuad();
@@ -257,7 +259,10 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 
 
 	glUseProgram(*shaderPtr);
-	glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);
+	if (renderDoF)
+		glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);
+	else
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// bind buffer
 	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
 	glBindVertexArray(renderVao);
@@ -273,13 +278,12 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 
 	//render depth of field colormap
-	bool renderDoF = true;
+	
 	if (renderDoF)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glUseProgram(*shaderDoFPtr);
 		content->bindGUIvert(); //screen quad
 
