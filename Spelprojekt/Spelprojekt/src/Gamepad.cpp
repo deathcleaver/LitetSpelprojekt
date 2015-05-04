@@ -80,73 +80,82 @@ bool Gamepad::joyStickDetected()
 
 bool Gamepad::isButtonPressed(int button)
 {
-	if (joyButtons != NULL)
+	if (joyStick != NULL)
+	{
+		if (joyButtons != NULL)
 		if (joyButtons[Buttons(button)])
 		{
 			if (debugging)
 				printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
 
 			return joyButtons[Buttons(button)];
-		}	
+		}
+	}	
 		
 	return GL_FALSE;
 }
 
 bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 {
-	if (joyButtons != NULL)
+	if (joyStick != NULL)
 	{
-		if (joyButtons[Buttons(button)])
+		if (joyButtons != NULL)
 		{
-			if (debugging)
-				printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
-
-			if (buttonsStates[Buttons(button)] == false) // first time pressed
+			if (joyButtons[Buttons(button)])
 			{
-				buttonsStates[Buttons(button)] = true;
-				return true;
+				if (debugging)
+					printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+
+				if (buttonsStates[Buttons(button)] == false) // first time pressed
+				{
+					buttonsStates[Buttons(button)] = true;
+					return true;
+				}
+				else
+					return false;
 			}
 			else
-				return false;
-		}
-		else
-		{
-			buttonsStates[Buttons(button)] = false;
+			{
+				buttonsStates[Buttons(button)] = false;
+			}
 		}
 	}
-
+	
 	return GL_FALSE;
 }
 
 void Gamepad::getAxesValues(int axes, float &x, float &y)
 {
-	if (joyAxes != NULL) // gamepad detected
+	if (joyStick != NULL)
 	{
-		if (axes == 0) // left stick
+		if (joyAxes != NULL) // gamepad detected
 		{
-			if (x > DEADZONE || x < -DEADZONE)
-				x = joyAxes[0];
-			else
-				x = 0;
+			if (axes == 0) // left stick
+			{
+				if (x > DEADZONE || x < -DEADZONE)
+					x = joyAxes[0];
+				else
+					x = 0;
 
-			if (y > DEADZONE || y < -DEADZONE)
-				y = joyAxes[1];
-			else y = 0;
+				if (y > DEADZONE || y < -DEADZONE)
+					y = joyAxes[1];
+				else y = 0;
+			}
+			else if (axes == 1) // right stick
+			{
+				if (x > DEADZONE || x < -DEADZONE)
+					x = joyAxes[2];
+				else
+					x = 0;
+
+				if (y > DEADZONE || y < -DEADZONE)
+					y = joyAxes[3];
+				else y = 0;
+			}
+
+			if (debugging)
+				printf("Left Stick:(%f,%f)\n", x, y);
 		}
-		else if (axes == 1) // right stick
-		{
-			if (x > DEADZONE || x < -DEADZONE)
-				x = joyAxes[2];
-			else
-				x = 0;
-
-			if (y > DEADZONE || y < -DEADZONE)
-				y = joyAxes[3];
-			else y = 0;
-		}
-
-		if (debugging)
-			printf("Left Stick:(%f,%f)\n", x, y);
 	}
 	else // no gamepad detected
 	{

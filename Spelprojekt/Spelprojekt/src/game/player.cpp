@@ -32,7 +32,9 @@ void Player::init(Gamepad* pad)
 	{
 		joyStickDetected = true;
 		gamePad = pad;
-	}	
+	}
+	else
+		gamePad = new Gamepad();
 }
 
 Player::~Player()
@@ -83,7 +85,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
 	// gamepad axes values
 	float axesX, axesY;
-	gamePad->getAxesValues(0, axesX, axesY); // left stick
+	if (joyStickDetected)
+	{
+		gamePad->getAxesValues(0, axesX, axesY); // left stick
+	}
+	else
+	{
+		axesX = 0;
+		axesY = 0;
+	}
 
 	bool isInWeb = false;
 	if (map->webbedUp(collideRect, readPos()))
