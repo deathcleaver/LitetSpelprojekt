@@ -81,10 +81,11 @@ void Audio::loadFiles()
 {
 	//load music files
 	musicFiles[0] = "../Audio/Music/witcher_dusk.wav";
-	musicFiles[1] = "../Audio/Music/witcher_omnious.wav"; //mining area
+	musicFiles[1] = "../Audio/Music/witcher_cave.wav"; //mining area
 	musicFiles[2] = "../Audio/Music/witcher_battle.wav"; // boss battles
 	musicFiles[3] = "../Audio/Music/mine_track.wav"; //awesome room mine
 	musicFiles[4] = "../Audio/Music/witcher_dike.wav"; //mushroom area
+	musicFiles[5] = "../Audio/Music/witcher_omnious.wav"; //ghost area
 
 	//load sound files
 	//Shrine
