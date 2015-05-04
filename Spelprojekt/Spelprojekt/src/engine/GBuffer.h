@@ -49,6 +49,8 @@ public:
 
 private:
 
+	bool renderDoF;
+
 	GLuint DoFBuffer;
 	RenderTarget* DoFTexture;
 
