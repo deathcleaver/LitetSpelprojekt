@@ -15,6 +15,7 @@ enum BackID
 	rock_grey,
 	rock_dirt,
 	rock_boss,
+	crypt_wall,
 
 	back_count, //leave this last
 };

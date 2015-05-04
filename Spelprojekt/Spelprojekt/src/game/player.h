@@ -14,15 +14,20 @@
 #include "../Gamepad.h"
 #include "Progress.h"
 
+#include "Effect.h"
+
 class Player : public GameObject
 {
 private:
+	bool gamePadButtonPressed(char keyBoardButton);
+
 	Progress progressMeter;
 	float timepass = 0.0f;
 	int MAX_HP;
 	int HP;
 	int currentRune;
-	Light* runeEffect;
+	Effect* runeEffect;
+	//Light* runeEffect;
 	bool effectVisible;
 
 	int DMG;
@@ -85,7 +90,7 @@ public:
 	void dingDongTheBossIsDead(std::string boss);
 	bool isBossFighting();
 
-	Light* getRuneLight() const;
+	Light* getRuneLight(int &nrLight) const;
 
 	Shrine* getCurrentSpawn()
 	{

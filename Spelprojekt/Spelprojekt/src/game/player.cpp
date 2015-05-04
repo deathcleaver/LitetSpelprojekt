@@ -22,9 +22,10 @@ void Player::init(Gamepad* pad)
 	animState = "idle";
 	bossFighting = false;
 	currentRune = 0;
-	runeEffect = 0;
 	shield = 0;
 	effectVisible = false;
+
+	runeEffect = new Effect();
 
 	// joystick
 	if (pad->joyStickDetected()) // joyStick is connected
@@ -36,6 +37,7 @@ void Player::init(Gamepad* pad)
 
 Player::~Player()
 {
+	delete runeEffect;
 	delete collideRect;
 }
 
@@ -57,8 +59,9 @@ void Player::moveWeapon()
 		weaponMatrix[1].w = playerPos.y;
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
-			runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
-			runeEffect->posY = playerPos.y;
+			runeEffect->getEffect()->setSpawn(playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange, playerPos.y, 0);
+			//runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
+			//runeEffect->posY = playerPos.y;
 		}
 	}
 	else
@@ -68,8 +71,9 @@ void Player::moveWeapon()
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
 			effectVisible;
-			runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
-			runeEffect->posY = playerPos.y;
+			//runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
+			runeEffect->getEffect()->setSpawn(playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange, playerPos.y, 0);
+			//runeEffect->posY = playerPos.y;
 		}
 	}
 	attackRect.update();
@@ -248,7 +252,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		//MoveY
 		if (!isAttacking)
 		{
-			if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A) 
+			if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A)
 				&& noAutoJump)
 			{
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
@@ -406,26 +410,33 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			if (currentSpawn)
 			{
+				vec3 playerPos = readPos();
 				currentRune = currentSpawn->getRune();
 				if (runeEffect)
 				{
-					delete runeEffect;
-					runeEffect = 0;
+					//delete runeEffect;
+					//runeEffect = 0;
 				}
 				if (currentRune == MiscID::rune_range)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
-					runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
+					runeEffect->reCreate(EffectType::torch);
+					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
 				}
 				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG += 1;
-					runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
+					runeEffect->reCreate(EffectType::spark);
+					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
 				}
 				else if (currentRune == MiscID::rune_shield)
 				{
 					shield = 2;
-					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
+					runeEffect->reCreate(EffectType::shield);
+					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
 			Audio::getAudio().playSound(0, false);//item
@@ -435,6 +446,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	map->giveMeHealthPickup(this, collideRect);
 
 	vec3 playerPos = readPos();
+
 	if (!noclip)
 	{
 		if (invulnTimer < FLT_EPSILON && !god)
@@ -442,8 +454,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (shield == 0 && currentRune == MiscID::rune_shield)
 			{
 				currentRune = 0;
-				delete runeEffect;
-				runeEffect = 0;
+				//delete runeEffect;
+				//runeEffect = 0;
 			}
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
@@ -451,15 +463,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (currentRune == MiscID::rune_range)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
-					delete runeEffect;
-					runeEffect = 0;
+					//delete runeEffect;
+					//runeEffect = 0;
 					currentRune = 0;
 				}
 				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG -= 1;
-					delete runeEffect;
-					runeEffect = 0;
+					//delete runeEffect;
+					//runeEffect = 0;
 					currentRune = 0;
 				}
 				invulnTimer = 1.0f;
@@ -519,9 +531,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (currentRune == MiscID::rune_shield)
 			{
 				effectVisible = true;
-				runeEffect->posX = playerPos.x;
-				runeEffect->posY = playerPos.y;
-				runeEffect->posZ = playerPos.z;
+				runeEffect->getEffect()->setSpawn(playerPos.x, playerPos.y, playerPos.z);
+				//runeEffect->posX = playerPos.x;
+				//runeEffect->posY = playerPos.y;
+				//runeEffect->posZ = playerPos.z;
 			}
 			invulnTimer -= 1.0f*deltaTime;
 			if (flinchTimer > FLT_EPSILON)
@@ -533,7 +546,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//Attacking
 	if (!isAttacking 
-		&& (userInput->getSpace() || gamePad->isButtonPressed(gamePad->X)) 
+		&& (userInput->getSpace() || gamePad->isButtonPressed(gamePad->X)
 		&& flinchTimer < FLT_EPSILON)
 	{
 		isAttacking = true;
@@ -559,6 +572,18 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			isAttacking = false;
 		}
 	}
+
+	if (runeEffect->getEffect())
+		if (effectVisible)
+		{
+			runeEffect->getEffect()->update();
+		}
+		else
+		{
+			runeEffect->getEffect()->fade();
+		}
+
+
 	return 0;
 }
 
@@ -575,11 +600,6 @@ bool Player::isBossFighting()
 void Player::respawn(Map* map)
 {
 	map->playerDiedSoRespawnEnemies();
-	if (runeEffect)
-	{
-		delete runeEffect;
-		runeEffect = 0;
-	}
 	HP = MAX_HP;
 	shield = 0;
 	speed = vec2(0);
@@ -631,10 +651,10 @@ void Player::dingDongTheBossIsDead(std::string boss)
 	
 }
 
-Light* Player::getRuneLight() const
+Light* Player::getRuneLight(int &nrLight) const
 {
-	if (effectVisible)
-		return runeEffect;
+	if (runeEffect->getEffect() && runeEffect->getEffect()->isFading())
+		return runeEffect->getEffect()->getLights(nrLight);
 	return 0;
 }
 
