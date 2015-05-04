@@ -10,7 +10,7 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = 5;
+	contentIndex = 1;
 	health = 6;
 	speed = glm::vec2(8.0f, 0.0f);
 	audibleDistance = 2.5f;
@@ -53,7 +53,10 @@ void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 {
 	Webshot* pewpew = new Webshot(glm::vec2(readPos()));
 	pewpew->setVisitor();
-	glm::vec2 dir = normalize(glm::vec2(playerPos) - glm::vec2(readPos()));
+	glm::vec2 dir = glm::vec2(playerPos) - glm::vec2(readPos());
+	dir.x = dir.x+(rand()%5-2);
+	dir.y = dir.y + (rand() % 5 - 2);
+	dir = normalize(dir);
 	pewpew->setDirection(dir);
 	map->findNewHome(pewpew);
 	websToShoot--;

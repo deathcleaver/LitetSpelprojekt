@@ -19,7 +19,7 @@ Webshot::Webshot(Webshot* copy)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
 	health = 1;
-	speed = 9.0f;
+	speed = 13.0f;
 
 	direction = copy->direction;
 }

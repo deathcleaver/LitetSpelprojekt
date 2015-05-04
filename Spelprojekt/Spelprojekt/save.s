@@ -1,4 +1,5 @@
--1 -1
+4 3
+Bossbat
+Bossspider
 No
-No
-No
+0
