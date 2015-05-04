@@ -40,9 +40,9 @@ void Ghost::init()
 
 	// init audioobj that holds the moan sounds
 	audioObj.init(true, 30, glm::vec3(initPos.x, initPos.y, 0), 3.5f, 1, 0, 0); //enemy_ghost_moan
-	audioObj.update(0);
-	audioObj.setPitch(0.9f);
-	audioObj.setPosition(readPos());
+	//audioObj.update(0);
+	//audioObj.setPitch(0.9f);
+	//audioObj.setPosition(readPos());
 
 	collideRect->update();
 }

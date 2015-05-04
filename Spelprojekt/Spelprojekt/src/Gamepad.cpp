@@ -10,6 +10,7 @@ Gamepad::~Gamepad()
 
 void Gamepad::init()
 {
+	debugging = false;
 	detectJoystick();
 }
 
@@ -58,40 +59,19 @@ void Gamepad::update(float deltaTime)
 		}
 
 		// axes
+		float x, y;
+		
 		// left stick
-		if (joyAxes[0] > 0.1f)
-		{
-			printf("Left Stick X: %f\n", joyAxes[0]);
-		}
-		if (joyAxes[0] < -0.1f)
-		{
-			printf("Left Stick X: %f\n", joyAxes[0]);
-		}
-		if (joyAxes[1] > 0.1f)
-		{
-			printf("Left Stick Y: %f\n", joyAxes[1]);
-		}
-		if (joyAxes[1] < -0.1f)
-		{
-			printf("Left Stick Y: %f\n", joyAxes[1]);
-		}
+		getAxesValues(0, x, y);
+		if (x > 0.1f || x < -0.1f ||
+			y > 0.1f || y < -0.1f)
+			printf("Left Stick:(%f,%f)\n", x, y);
+		
 		// right stick
-		if (joyAxes[2] > 0.1f)
-		{
-			printf("Right Stick X: %f\n", joyAxes[2]);
-		}
-		if (joyAxes[2] < -0.1f)
-		{
-			printf("Right Stick X: %f\n", joyAxes[2]);
-		}
-		if (joyAxes[3] > 0.1f)
-		{
-			printf("Right Stick Y: %f\n", joyAxes[3]);
-		}
-		if (joyAxes[3] < -0.1f)
-		{
-			printf("Right Stick Y: %f\n", joyAxes[3]);
-		}
+		getAxesValues(1, x, y);
+		if (x > 0.1f || x < -0.1f ||
+			y > 0.1f || y < -0.1f)
+			printf("Right Stick:(%f,%f)\n", x, y);
 	}
 }
 
@@ -105,12 +85,38 @@ bool Gamepad::joyStickDetected()
 
 bool Gamepad::isButtonPressed(int button)
 {
-	if (joyButtons[Buttons(button)])
-	{
-		printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
-	}
+	if (joyButtons != NULL)
+		if (joyButtons[Buttons(button)])
+		{
+			if (debugging)
+				printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+			
+			return joyButtons[Buttons(button)];
+		}
 		
-	return joyButtons[Buttons(button)];
+		return GL_FALSE;
+}
+
+void Gamepad::getAxesValues(int axes, float &x, float &y)
+{
+	if (joyAxes != NULL)
+	{
+		if (axes == 0) // left stick
+		{
+			x = joyAxes[0];
+			y = joyAxes[1];
+		}
+		else if (axes == 1) // right stick
+		{
+			x = joyAxes[2];
+			y = joyAxes[3];
+		}
+	}
+	else
+	{
+		x = 0;
+		y = 0;
+	}
 }
 
 char* Gamepad::getButtonSymbol(enum Buttons button)
