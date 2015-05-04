@@ -1,0 +1,16 @@
+2 X
+0 A
+1 B
+3 Y
+4 LS
+5 RS
+10 LT
+11 RT
+7 Select
+6 Start
+8 L3
+9 R3
+13 DPU
+12 DPR
+14 DPD
+15 DPL

@@ -152,7 +152,7 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
@@ -583,7 +583,7 @@ void Game::readInput(float deltaTime)
 void Game::initSettings()
 {
 	ifstream in;
-	char* settings = "settings.s";
+	char* settings = "Config/settings.s";
 	in.open(settings);
 	if (in)
 	{

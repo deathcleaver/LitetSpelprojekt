@@ -1,4 +1,3 @@
-buttons
 0 X
 1 A
 2 B

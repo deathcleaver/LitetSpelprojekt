@@ -45,7 +45,7 @@ void Gamepad::detectJoystick()
 void Gamepad::loadConfig()
 {
 	ifstream in;
-	char* config = "gamepad.s";
+	char* config = "Config/Gamepad/gamepad_xinput.s";
 	in.open(config);
 	if (in)
 	{

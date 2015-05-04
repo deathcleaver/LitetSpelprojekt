@@ -25,7 +25,7 @@ int main(int argv, char* argc[])
 	// init windowed or fullscreen
 	bool fullscreen;
 	ifstream in;
-	char* settings = "settings.s";
+	char* settings = "Config/settings.s";
 	in.open(settings);
 	if (in)
 	{
