@@ -1,6 +1,10 @@
 #ifndef GAMEPAD_H
 #define GAMEPAD_H
 
+#include <sstream>
+#include <fstream>
+#include <istream>
+
 #define DEADZONE 0.1f
 
 using namespace std;
@@ -8,32 +12,32 @@ using namespace std;
 class Gamepad
 {
 public:
-	enum Buttons
+	struct Buttons
 	{
-		X = 0,
-		A = 1,
-		B = 2,
-		Y = 3,
-		LS = 4,
-		RS = 5,
-		LT = 6,
-		RT = 7,
-		Select = 8,
-		Start = 9,
-		L3 = 10,
-		R3 = 11,
-		Dpad_Up = 12,
-		Dpad_Right = 13,
-		Dpad_Down = 14,
-		Dpad_Left = 15
+		int X = 0;
+		int A = 1;
+		int B = 2;
+		int Y = 3;
+		int LS = 4;
+		int RS = 5;
+		int LT = 6;
+		int RT = 7;
+		int Select = 8;
+		int Start = 9;
+		int L3 = 10;
+		int R3 = 11;
+		int Dpad_Up = 12;
+		int Dpad_Right = 13;
+		int Dpad_Down = 14;
+		int Dpad_Left = 15;
 	};
 
-	enum Axes
+	struct Axes
 	{
-		Left_X = 0,
-		Left_Y = 1,
-		Right_X = 2,
-		Right_Y = 3
+		int Left_X	= 0;
+		int Left_Y	= 1;
+		int Right_X = 2;
+		int Right_Y = 3;
 	};
 
 public:
@@ -47,18 +51,26 @@ public:
 	bool isButtonPressedSticky(int button);
 	void getAxesValues(int axes, float &x, float &y);
 	float getDeadzone(){ return DEADZONE; };
+	Buttons getButtons(){ return buttonBinds; };
+	Axes getAxes(){ return axesBinds; };
 
 private:
 	void detectJoystick();
-	char* getButtonSymbol(Buttons button);
+	void loadConfig();
+	void saveConfig();
+	char* getButtonSymbol(int button);
 
 private:
 	bool debugging;
-	int joyStick;
+	int joyStick = -1;
 	int buttonCount = 0, axesCount = 0;
 	const unsigned char* joyButtons = 0; // array containing button states
 	const float* joyAxes = 0; // array containing axes X/Y values
 	bool* buttonsStates; // used for "sticky keys"
+
+	//keybinds
+	Buttons buttonBinds;
+	Axes axesBinds;
 };
 
 #endif

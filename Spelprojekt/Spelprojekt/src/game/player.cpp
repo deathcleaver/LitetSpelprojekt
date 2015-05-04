@@ -135,7 +135,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 
 	//Toggle noclip
-	if (userInput->getKeyState('C') || gamePad->isButtonPressed(gamePad->L3))
+	if (userInput->getKeyState('C') || gamePad->isButtonPressed(gamePad->getButtons().L3))
 	{
 		if (noclip)
 		{
@@ -144,7 +144,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			speed.x = speed.y = 0;
 		}
 	}
-	if (userInput->getKeyState('N') || gamePad->isButtonPressed(gamePad->R3))
+	if (userInput->getKeyState('N') || gamePad->isButtonPressed(gamePad->getButtons().R3))
 	{
 		if (!noclip)
 		{
@@ -159,7 +159,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		if (!isAttacking)
 		{
 			if ((userInput->getKeyState('A') && !userInput->getKeyState('D'))
-				|| gamePad->isButtonPressed(gamePad->Dpad_Left)
+				|| gamePad->isButtonPressed(gamePad->getButtons().Dpad_Left)
 				|| axesX < -gamePad->getDeadzone())
 			{
 				if (facingRight)
@@ -190,7 +190,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			}
 			//right
 			if ((userInput->getKeyState('D') && !userInput->getKeyState('A'))
-				|| gamePad->isButtonPressed(gamePad->Dpad_Right)
+				|| gamePad->isButtonPressed(gamePad->getButtons().Dpad_Right)
 				|| axesX > gamePad->getDeadzone())
 			{
 				if (!facingRight)
@@ -222,7 +222,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 			//stop
 			if (((!userInput->getKeyState('A') && !userInput->getKeyState('D')) || (userInput->getKeyState('A') && userInput->getKeyState('D')))
-				&& (!gamePad->isButtonPressed(gamePad->Dpad_Left) && !gamePad->isButtonPressed(gamePad->Dpad_Right))
+				&& (!gamePad->isButtonPressed(gamePad->getButtons().Dpad_Left) && !gamePad->isButtonPressed(gamePad->getButtons().Dpad_Right))
 				&& axesX == 0)
 			{
 				if (flinchTimer < FLT_EPSILON)
@@ -262,7 +262,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		//MoveY
 		if (!isAttacking)
 		{
-			if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A))
+			if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->getButtons().A))
 				&& noAutoJump)
 			{
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
@@ -282,7 +282,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 
 		//gravity
-		if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A))
+		if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->getButtons().A))
 			&& speed.y > 0 && !isAttacking)
 		{
 			if (!progressMeter.spiderboss || !isInWeb)
@@ -368,7 +368,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 	else //noclip is on
 	{
-		if (userInput->getKeyState('A') || gamePad->isButtonPressed(gamePad->Dpad_Left))
+		if (userInput->getKeyState('A') || gamePad->isButtonPressed(gamePad->getButtons().Dpad_Left))
 		{
 			facingRight = false;
 			if (speed.x > 0)// && !jumping)
@@ -378,7 +378,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.x = -maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
-		if (userInput->getKeyState('D') || gamePad->isButtonPressed(gamePad->Dpad_Right))
+		if (userInput->getKeyState('D') || gamePad->isButtonPressed(gamePad->getButtons().Dpad_Right))
 		{
 			facingRight = true;
 			if (speed.x < 0)// && !jumping)
@@ -388,7 +388,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.x = maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
-		if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->Dpad_Up))
+		if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->getButtons().Dpad_Up))
 		{
 			if (speed.y < 0)// && !jumping)
 				speed.y = 0;
@@ -397,7 +397,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.y = maxSpeed.x;
 			moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 		}
-		if (userInput->getKeyState('S') || gamePad->isButtonPressed(gamePad->Dpad_Down))
+		if (userInput->getKeyState('S') || gamePad->isButtonPressed(gamePad->getButtons().Dpad_Down))
 		{
 			if (speed.y > 0)// && !jumping)
 				speed.y = 0;
@@ -551,12 +551,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				flinchTimer -= 1.0f*deltaTime;
 		}
 	}
-	if (!userInput->getKeyState('W') && !gamePad->isButtonPressed(gamePad->A))
+	if (!userInput->getKeyState('W') && !gamePad->isButtonPressed(gamePad->getButtons().A))
 		noAutoJump = true;
 
 	//Attacking
 	if (!isAttacking 
-		&& (userInput->getSpace() || gamePad->isButtonPressed(gamePad->X))
+		&& (userInput->getSpace() || gamePad->isButtonPressed(gamePad->getButtons().X))
 		&& flinchTimer < FLT_EPSILON)
 	{
 		isAttacking = true;

@@ -319,7 +319,7 @@ void Game::update(float deltaTime)
 					   }
 
 					   //leave State code
-					   if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->Start))
+					   if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
 					   {
 						   //save player progression
 						   Audio::getAudio().playSound(7, false); //pause
@@ -360,7 +360,7 @@ void Game::update(float deltaTime)
 		}
 		case(PAUSE) :
 		{
-						if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->Start))
+						if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
 						{
 							//save player progression
 							current = PLAY;

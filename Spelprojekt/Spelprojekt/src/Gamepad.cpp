@@ -1,7 +1,5 @@
 #include "Gamepad.h"
 #include <GLFW/glfw3.h>
-#include <stdio.h>
-#include <string.h>
 
 Gamepad::~Gamepad()
 {
@@ -12,6 +10,9 @@ void Gamepad::init()
 {
 	debugging = false;
 	detectJoystick();
+
+	if (joyStickDetected())
+		loadConfig();
 }
 
 void Gamepad::detectJoystick()
@@ -37,8 +38,98 @@ void Gamepad::detectJoystick()
 		}
 	}
 	
-	if (joyStick == NULL)
-		printf("Could not detect gamepad!");
+	if (joyStick == -1)
+		printf("Could not detect gamepad!\n");
+}
+
+void Gamepad::loadConfig()
+{
+	ifstream in;
+	char* config = "gamepad.s";
+	in.open(config);
+	if (in)
+	{
+		string line;
+		string sub;
+		stringstream ss;
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.X = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.A = atoi(sub.c_str());
+		
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.B = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.LS = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.RS = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.LT = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.RT = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Select = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Start = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.L3 = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.L3 = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Dpad_Up = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Dpad_Right = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Dpad_Down = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Dpad_Left = atoi(sub.c_str());
+
+		in.close();
+	}
 }
 
 void Gamepad::update(float deltaTime)
@@ -72,7 +163,7 @@ void Gamepad::update(float deltaTime)
 
 bool Gamepad::joyStickDetected()
 {
-	if (joyStick == 0)
+	if (joyStick == -1)
 		return false;
 	else
 		return true;
@@ -80,15 +171,15 @@ bool Gamepad::joyStickDetected()
 
 bool Gamepad::isButtonPressed(int button)
 {
-	if (joyStick != NULL)
+	if (joyStick != -1)
 	{
 		if (joyButtons != NULL)
-		if (joyButtons[Buttons(button)])
+		if (joyButtons[button])
 		{
 			if (debugging)
-				printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+				printf("Pressed button: %s\n", getButtonSymbol(button));
 
-			return joyButtons[Buttons(button)];
+			return joyButtons[button];
 		}
 	}	
 		
@@ -97,18 +188,18 @@ bool Gamepad::isButtonPressed(int button)
 
 bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 {
-	if (joyStick != NULL)
+	if (joyStick != -1)
 	{
 		if (joyButtons != NULL)
 		{
-			if (joyButtons[Buttons(button)])
+			if (joyButtons[button])
 			{
 				if (debugging)
-					printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+					printf("Pressed button: %s\n", getButtonSymbol(button));
 
-				if (buttonsStates[Buttons(button)] == false) // first time pressed
+				if (buttonsStates[button] == false) // first time pressed
 				{
-					buttonsStates[Buttons(button)] = true;
+					buttonsStates[button] = true;
 					return true;
 				}
 				else
@@ -116,7 +207,7 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 			}
 			else
 			{
-				buttonsStates[Buttons(button)] = false;
+				buttonsStates[button] = false;
 			}
 		}
 	}
@@ -126,7 +217,7 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 
 void Gamepad::getAxesValues(int axes, float &x, float &y)
 {
-	if (joyStick != NULL)
+	if (joyStick != -1)
 	{
 		if (joyAxes != NULL) // gamepad detected
 		{
@@ -164,7 +255,7 @@ void Gamepad::getAxesValues(int axes, float &x, float &y)
 	}
 }
 
-char* Gamepad::getButtonSymbol(enum Buttons button)
+char* Gamepad::getButtonSymbol(int button)
 {
 	switch (button)
 	{
