@@ -1,6 +1,8 @@
 #ifndef GAMEPAD_H
 #define GAMEPAD_H
 
+#define DEADZONE 0.1f
+
 using namespace std;
 
 class Gamepad
@@ -42,13 +44,14 @@ public:
 	bool joyStickDetected();
 	// button checks
 	bool isButtonPressed(int button);
-	int getDpadDirection();
+	void getAxesValues(int axes, float &x, float &y);
 
 private:
 	void detectJoystick();
-	char* getButtonSymbol(enum Buttons button);
+	char* getButtonSymbol(Buttons button);
 
 private:
+	bool debugging;
 	int joyStick;
 	int buttonCount = 0, axesCount = 0;
 	const unsigned char* joyButtons = 0; // array containing button states
