@@ -80,8 +80,9 @@ private:
 	int lastid;
 
 	Effect* e;
-
 public:
+	void setDoF(bool set);
+	
 	Engine(){};
 	~Engine();
 	void init(glm::mat4* viewMatrix);

@@ -47,9 +47,11 @@ public:
 
 	GLuint uniformCamPosGlow;
 
+	void setDoF(bool);
 private:
 
 	bool renderDoF;
+	
 
 	GLuint DoFBuffer;
 	RenderTarget* DoFTexture;
