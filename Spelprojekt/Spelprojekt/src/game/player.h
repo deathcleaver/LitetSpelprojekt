@@ -19,6 +19,8 @@
 class Player : public GameObject
 {
 private:
+	bool gamePadButtonPressed(char keyBoardButton);
+
 	Progress progressMeter;
 	float timepass = 0.0f;
 	int MAX_HP;
