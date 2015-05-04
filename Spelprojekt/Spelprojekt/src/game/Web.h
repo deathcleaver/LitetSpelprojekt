@@ -15,6 +15,15 @@ public:
 		collideRect->initGameObjectRect(&worldMat, 1, 1);
 		contentIndex = 6;
 	}
+	Web(Web* copy)
+	{
+		worldMat = copy->worldMat;
+		visitor = copy->visitor;
+		initPos = glm::vec2(copy->readPos());
+		moveTo(initPos.x, initPos.y);
+		collideRect = new Rect();
+		collideRect->initGameObjectRect(&worldMat, 1, 1);
+	}
 	void init()
 	{
 		moveTo(initPos.x, initPos.y);

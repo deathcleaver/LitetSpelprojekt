@@ -6,10 +6,15 @@
 class Bossspider : public Enemy
 {
 private:
-	float speed;
+	glm::vec2 speed;
 	float invulnTimer;
 	bool isInit;
+	int currentMode; //Similar to a state machine. -1 = Spawning. 0 = Dropping from ceiling. 1 = Running on ground. 2 = Jumping back to ceiling. 3 = HDISW.
+	float modeTimer;
+	float webTimer;
+	int websToShoot;
 
+	void howDoIShotWeb(glm::vec3 playerPos, Map* map);
 public:
 	Bossspider(glm::vec2 firstPos);
 	void init();

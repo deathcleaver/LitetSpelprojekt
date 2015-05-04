@@ -110,6 +110,7 @@
     <ClCompile Include="src\game\Enemies\Spellbook.cpp" />
     <ClCompile Include="src\game\Enemies\Spider.cpp" />
     <ClCompile Include="src\game\Enemies\Spikes.cpp" />
+    <ClCompile Include="src\game\Enemies\Webshot.cpp" />
     <ClCompile Include="src\game\enemy.cpp" />
     <ClCompile Include="src\game\enemyManager.cpp" />
     <ClCompile Include="src\game\game.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="src\game\Enemies\Spellbook.h" />
     <ClInclude Include="src\game\Enemies\Spider.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />
+    <ClInclude Include="src\game\Enemies\Webshot.h" />
     <ClInclude Include="src\game\enemy.h" />
     <ClInclude Include="src\engine\Shader.h" />
     <ClInclude Include="src\game\enemyManager.h" />

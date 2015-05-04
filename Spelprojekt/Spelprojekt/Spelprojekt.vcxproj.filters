@@ -114,6 +114,9 @@
     <ClCompile Include="src\Gamepad.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Enemies\Webshot.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="src\Gamepad.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\Webshot.h">
+      <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

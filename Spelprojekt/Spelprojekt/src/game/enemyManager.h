@@ -21,6 +21,7 @@ private:
 	Enemy** spiders; int spiderCount, spiderMax;
 	Enemy** ghosts; int ghostCount, ghostMax;
 	Enemy** webs; int webCount, webMax;
+	Enemy** webShots; int shotCount, shotMax;
 	Enemy** spellbooks; int spellbookCount, spellbookMax;
 	
 	Enemy* boss;

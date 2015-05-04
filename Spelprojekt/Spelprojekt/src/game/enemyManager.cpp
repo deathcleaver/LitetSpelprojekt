@@ -10,6 +10,7 @@
 #include "Enemies/Spider.h"
 #include "Enemies/Ghost.h"
 #include "Web.h"
+#include "Enemies/Webshot.h"
 #include "Enemies/Spellbook.h"
 #include <sstream>
 
@@ -21,50 +22,35 @@ EnemyManager::EnemyManager()
 EnemyManager::~EnemyManager()
 {
 	for (int c = 0; c < batCount; c++)
-	{
 		delete bats[c];
-	}
 	delete[]bats;
 	for (int c = 0; c < flameCount; c++)
-	{
 		delete flames[c];
-	}
 	delete[]flames;
 	for (int c = 0; c < spikeCount; c++)
-	{
 		delete spikes[c];
-	}
 	delete[]spikes;
 	for (int c = 0; c < cubeCount; c++)
-	{
 		delete cubes[c];
-	}
 	delete[]cubes;
 	for (int c = 0; c < spiderCount; c++)
-	{
 		delete spiders[c];
-	}
 	delete[]spiders;
 	for (int c = 0; c < ghostCount; c++)
-	{
 		delete ghosts[c];
-	}
 	delete[]ghosts;
 	for (int c = 0; c < webCount; c++)
-	{
 		delete webs[c];
-	}
 	delete[]webs;
+	for (int c = 0; c < shotCount; c++)
+		delete webShots[c];
+	delete[]webShots;
 	for (int c = 0; c < spellbookCount; c++)
-	{
 		delete spellbooks[c];
-	}
 	delete[]spellbooks;
 
 	if (boss)
-	{
 		delete boss;
-	}
 	if (visitorHolder)
 		delete[]visitorHolder;
 }
@@ -85,6 +71,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	ghosts = new Enemy*[ghostMax];
 	webCount = 0; webMax = 5;
 	webs = new Enemy*[webMax];
+	shotCount = 0; shotMax = 5;
+	webShots = new Enemy*[shotMax];
 	spellbookCount = 0; spellbookMax = 5;
 	spellbooks = new Enemy*[spellbookMax];
 
@@ -185,6 +173,8 @@ void EnemyManager::initEmpty()
 	ghosts = 0;
 	webCount = -1;
 	webs = 0;
+	shotCount = -1;
+	webShots = 0;
 	ghosts;
 	spellbookCount = -1;
 	spellbooks = 0;
@@ -301,6 +291,22 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			}
 		}
 	}
+	for (int c = 0; c < shotCount; c++)
+	{
+		msg = webShots[c]->update(deltaTime, map, playerPos);
+		if (msg)
+		{
+			Web* visitWeb = new Web(glm::vec2(webShots[c]->readPos()));
+			visitWeb->setVisitor();
+			visitorHolder[visitorsToSendOut] = visitWeb;
+			visitorsToSendOut++;
+			if (visitorsToSendOut == maxVisitors)
+				expandEnemyArray(visitorHolder, maxVisitors);
+			delete webShots[c];
+			webShots[c] = webShots[--shotCount];
+			c--;
+		}
+	}
 	for (int c = 0; c < spellbookCount; c++)
 	{
 		if (spellbooks[c]->isAlive())
@@ -347,6 +353,8 @@ int EnemyManager::size(string type)
 		return ghostCount;
 	if (type == "Web")
 		return webCount;
+	if (type == "Webshot")
+		return shotCount;
 	if (type == "Spellbook")
 		return spellbookCount;
 
@@ -434,6 +442,8 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return ghosts[index]->bindWorldMat(shader, uniform);
 	else if (type == "Web")
 		return webs[index]->bindWorldMat(shader, uniform);
+	else if (type == "Webshot")
+		return webShots[index]->bindWorldMat(shader, uniform);
 	else if (type == "Spellbook")
 		return spellbooks[index]->bindWorldMat(shader, uniform);
 
@@ -456,6 +466,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return ghosts;
 	if (type == "Web")
 		return webs;
+	if (type == "Webshot")
+		return webShots;
 	if (type == "Spellbook")
 		return spellbooks;
 	
@@ -519,6 +531,23 @@ void EnemyManager::resetEnemies()
 		else
 			ghosts[n]->init();
 	}
+	for (int c = webCount - 1; c >= 0; c--)
+	{
+		if (webs[c]->isVisitor())
+		{
+			delete webs[c];
+			webs[c] = 0;
+			webCount--;
+		}
+		else
+			webs[c]->init();
+	}
+	for (int c = shotCount - 1; c >= 0; c--)
+	{
+		delete webShots[c];
+		webShots[c] = 0;
+		shotCount--;
+	}
 	for (int n = spellbookCount - 1; n >= 0; n--)
 	{
 		if (spellbooks[n]->isVisitor())
@@ -553,7 +582,6 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 	else if (type == "Bossbat")
 	{
 		boss = new Bossbat(pos);
-		boss->scaleFactor(2, 2, 2);
 	}
 }
 
@@ -610,6 +638,20 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		ghostCount++;
 		if (ghostCount == ghostMax)
 			expandEnemyArray(ghosts, ghostMax);
+	}
+	if (type == "Web")
+	{
+		webs[webCount] = new Web((Web*)visitor);
+		webCount++;
+		if (webCount == webMax)
+			expandEnemyArray(webs, webMax);
+	}
+	if (type == "Webshot")
+	{
+		webShots[shotCount] = new Webshot((Webshot*)visitor);
+		shotCount++;
+		if (shotCount == shotMax)
+			expandEnemyArray(webShots, shotMax);
 	}
 	if (type == "Spellbook")
 	{
