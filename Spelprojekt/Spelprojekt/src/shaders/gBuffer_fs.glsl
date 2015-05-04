@@ -62,7 +62,6 @@ void main ()
 	}
 	
 	Light l;
-	//l.pos = vec4(playerPos.xyz, 25.0);
 	l.pos = vec4(playerPos.xyz, 25.0);
 	l.color = vec4(1, 1, 1, 1.5);
 	

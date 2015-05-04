@@ -5,10 +5,12 @@
 Webshot::Webshot(glm::vec2 firstPos)
 {
 	initPos = firstPos; //This is never actually used, only copy constructor matters
+	moveTo(initPos.x, initPos.y);
 }
 
 Webshot::Webshot(Webshot* copy)
 {
+	alive = true;
 	worldMat = copy->worldMat;
 	initPos = copy->initPos;
 	moveTo(initPos.x, initPos.y);
@@ -17,7 +19,7 @@ Webshot::Webshot(Webshot* copy)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
 	health = 1;
-	speed = 5.0f;
+	speed = 9.0f;
 
 	direction = copy->direction;
 }

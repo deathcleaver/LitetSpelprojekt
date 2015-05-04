@@ -22,9 +22,10 @@ void Player::init(Gamepad* pad)
 	animState = "idle";
 	bossFighting = false;
 	currentRune = 0;
-	runeEffect = 0;
 	shield = 0;
 	effectVisible = false;
+
+	runeEffect = new Effect();
 
 	// joystick
 	if (pad->joyStickDetected()) // joyStick is connected
@@ -36,6 +37,7 @@ void Player::init(Gamepad* pad)
 
 Player::~Player()
 {
+	delete runeEffect;
 	delete collideRect;
 }
 
@@ -43,6 +45,32 @@ void Player::setStartPos(int x, int y)
 {
 	start = glm::vec2(x, y);
 	moveTo(start.x, start.y);
+}
+
+bool Player::gamePadButtonPressed(char keyBoardButton)
+{
+	if (gamePad)
+	{
+		switch (keyBoardButton)
+		{
+		case 'A':
+			return gamePad->isButtonPressed(gamePad->Dpad_Left);
+			break;
+		case 'D':
+			return gamePad->isButtonPressed(gamePad->Dpad_Right);
+			break;
+		case 'W':
+			return gamePad->isButtonPressed(gamePad->A);
+			break;
+		case 'S':
+			return gamePad->isButtonPressed(gamePad->Dpad_Down);
+			break;
+		case 'X':
+			return gamePad->isButtonPressed(gamePad->X);
+			break;
+		}
+	}
+	return false;
 }
 
 void Player::moveWeapon()
@@ -57,8 +85,9 @@ void Player::moveWeapon()
 		weaponMatrix[1].w = playerPos.y;
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
-			runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
-			runeEffect->posY = playerPos.y;
+			runeEffect->getEffect()->setSpawn(playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange, playerPos.y, 0);
+			//runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
+			//runeEffect->posY = playerPos.y;
 		}
 	}
 	else
@@ -68,8 +97,9 @@ void Player::moveWeapon()
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
 			effectVisible;
-			runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
-			runeEffect->posY = playerPos.y;
+			//runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
+			runeEffect->getEffect()->setSpawn(playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange, playerPos.y, 0);
+			//runeEffect->posY = playerPos.y;
 		}
 	}
 	attackRect.update();
@@ -140,7 +170,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		//left
 		if (!isAttacking)
 		{
-			if (userInput->getKeyState('A') && !userInput->getKeyState('D'))
+			if ((userInput->getKeyState('A') && !userInput->getKeyState('D'))
+				|| gamePadButtonPressed('A'))
 			{
 				if (facingRight)
 				{
@@ -165,7 +196,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					animState = "air";
 			}
 			//right
-			if (userInput->getKeyState('D') && !userInput->getKeyState('A'))
+			if ((userInput->getKeyState('D') && !userInput->getKeyState('A'))
+				|| gamePadButtonPressed('D'))
 			{
 				if (!facingRight)
 				{
@@ -190,8 +222,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			}
 
 			//stop
-			if (!userInput->getKeyState('A') && !userInput->getKeyState('D') ||
-				userInput->getKeyState('A') && userInput->getKeyState('D'))
+			if (((!userInput->getKeyState('A') && !userInput->getKeyState('D')) || (userInput->getKeyState('A') && userInput->getKeyState('D')))
+				&& (!gamePadButtonPressed('A') && !gamePadButtonPressed('D')))
 			{
 				if (flinchTimer < FLT_EPSILON)
 				{
@@ -230,7 +262,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		//MoveY
 		if (!isAttacking)
 		{
-			if (userInput->getKeyState('W') && noAutoJump)
+			if (userInput->getKeyState('W') || gamePadButtonPressed('W')
+				&& noAutoJump)
 			{
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
 				{
@@ -249,7 +282,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 
 		//gravity
-		if (userInput->getKeyState('W') && speed.y > 0 && !isAttacking)
+		if (userInput->getKeyState('W') || gamePadButtonPressed('W')
+			&& speed.y > 0 && !isAttacking)
 		{
 			if (!progressMeter.spiderboss || !isInWeb)
 			{
@@ -334,7 +368,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 	else //noclip is on
 	{
-		if (userInput->getKeyState('A'))
+		if (userInput->getKeyState('A') || gamePadButtonPressed('A'))
 		{
 			facingRight = false;
 			if (speed.x > 0)// && !jumping)
@@ -344,7 +378,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.x = -maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
-		if (userInput->getKeyState('D'))
+		if (userInput->getKeyState('D') || gamePadButtonPressed('D'))
 		{
 			facingRight = true;
 			if (speed.x < 0)// && !jumping)
@@ -354,7 +388,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.x = maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
-		if (userInput->getKeyState('W'))
+		if (userInput->getKeyState('W') || gamePadButtonPressed('W'))
 		{
 			if (speed.y < 0)// && !jumping)
 				speed.y = 0;
@@ -363,7 +397,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.y = maxSpeed.x;
 			moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 		}
-		if (userInput->getKeyState('S'))
+		if (userInput->getKeyState('S') || gamePadButtonPressed('S'))
 		{
 			if (speed.y > 0)// && !jumping)
 				speed.y = 0;
@@ -386,26 +420,33 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			if (currentSpawn)
 			{
+				vec3 playerPos = readPos();
 				currentRune = currentSpawn->getRune();
 				if (runeEffect)
 				{
-					delete runeEffect;
-					runeEffect = 0;
+					//delete runeEffect;
+					//runeEffect = 0;
 				}
 				if (currentRune == MiscID::rune_range)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
-					runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
+					runeEffect->reCreate(EffectType::torch);
+					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
 				}
 				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG += 1;
-					runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
+					runeEffect->reCreate(EffectType::spark);
+					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
 				}
 				else if (currentRune == MiscID::rune_shield)
 				{
 					shield = 2;
-					runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
+					runeEffect->reCreate(EffectType::shield);
+					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
 			Audio::getAudio().playSound(0, false);//item
@@ -415,6 +456,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	map->giveMeHealthPickup(this, collideRect);
 
 	vec3 playerPos = readPos();
+
 	if (!noclip)
 	{
 		if (invulnTimer < FLT_EPSILON && !god)
@@ -422,8 +464,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (shield == 0 && currentRune == MiscID::rune_shield)
 			{
 				currentRune = 0;
-				delete runeEffect;
-				runeEffect = 0;
+				//delete runeEffect;
+				//runeEffect = 0;
 			}
 			glm::vec3 result = map->collideEnemies(collideRect, playerPos);
 			if (result.z > -FLT_EPSILON)
@@ -431,15 +473,15 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (currentRune == MiscID::rune_range)
 				{
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
-					delete runeEffect;
-					runeEffect = 0;
+					//delete runeEffect;
+					//runeEffect = 0;
 					currentRune = 0;
 				}
 				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG -= 1;
-					delete runeEffect;
-					runeEffect = 0;
+					//delete runeEffect;
+					//runeEffect = 0;
 					currentRune = 0;
 				}
 				invulnTimer = 1.0f;
@@ -499,20 +541,23 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			if (currentRune == MiscID::rune_shield)
 			{
 				effectVisible = true;
-				runeEffect->posX = playerPos.x;
-				runeEffect->posY = playerPos.y;
-				runeEffect->posZ = playerPos.z;
+				runeEffect->getEffect()->setSpawn(playerPos.x, playerPos.y, playerPos.z);
+				//runeEffect->posX = playerPos.x;
+				//runeEffect->posY = playerPos.y;
+				//runeEffect->posZ = playerPos.z;
 			}
 			invulnTimer -= 1.0f*deltaTime;
 			if (flinchTimer > FLT_EPSILON)
 				flinchTimer -= 1.0f*deltaTime;
 		}
 	}
-	if (!userInput->getKeyState('W'))
+	if (!userInput->getKeyState('W') && !gamePadButtonPressed('W'))
 		noAutoJump = true;
 
 	//Attacking
-	if (!isAttacking && userInput->getSpace() && flinchTimer < FLT_EPSILON)
+	if (!isAttacking 
+		&& (userInput->getSpace() || gamePadButtonPressed('X'))
+		&& flinchTimer < FLT_EPSILON)
 	{
 		isAttacking = true;
 		attackTimer = 1.0f;
@@ -537,6 +582,18 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			isAttacking = false;
 		}
 	}
+
+	if (runeEffect->getEffect())
+		if (effectVisible)
+		{
+			runeEffect->getEffect()->update();
+		}
+		else
+		{
+			runeEffect->getEffect()->fade();
+		}
+
+
 	return 0;
 }
 
@@ -553,11 +610,6 @@ bool Player::isBossFighting()
 void Player::respawn(Map* map)
 {
 	map->playerDiedSoRespawnEnemies();
-	if (runeEffect)
-	{
-		delete runeEffect;
-		runeEffect = 0;
-	}
 	HP = MAX_HP;
 	shield = 0;
 	speed = vec2(0);
@@ -609,10 +661,10 @@ void Player::dingDongTheBossIsDead(std::string boss)
 	
 }
 
-Light* Player::getRuneLight() const
+Light* Player::getRuneLight(int &nrLight) const
 {
-	if (effectVisible)
-		return runeEffect;
+	if (runeEffect->getEffect() && runeEffect->getEffect()->isFading())
+		return runeEffect->getEffect()->getLights(nrLight);
 	return 0;
 }
 

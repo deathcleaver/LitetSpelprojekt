@@ -17,7 +17,7 @@ public:
 	void hit(int damage, bool playerRightOfEnemy);
 	std::string getType()
 	{
-		return "Bat";
+		return "Webshot";
 	}
 };
 
