@@ -54,7 +54,7 @@ void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 	Webshot* pewpew = new Webshot(glm::vec2(readPos()));
 	pewpew->setVisitor();
 	glm::vec2 dir = glm::vec2(playerPos) - glm::vec2(readPos());
-	dir.x = dir.x+(rand()%5-2);
+	dir.x = dir.x + (rand() % 5 - 2);
 	dir.y = dir.y + (rand() % 5 - 2);
 	dir = normalize(dir);
 	pewpew->setDirection(dir);
