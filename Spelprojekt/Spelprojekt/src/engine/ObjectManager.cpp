@@ -53,14 +53,15 @@ void ObjectManager::init()
 
 void ObjectManager::loadPlayer()
 {
-	Object** playerAn = new Object*[5];
+	/*Object** playerAn = new Object*[5];
 	playerAn[0] = new Object("src/meshes/Player/PlayerBaseSword2.v", "src/textures/blue.bmp");
 	playerAn[1] = new Object("src/meshes/Player/PlayerWalkLeft.v", "", playerAn[0], false, true);
 	playerAn[2] = new Object("src/meshes/Player/PlayerWalkRight.v", "", playerAn[0], false, true);
 	playerAn[3] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
 	playerAn[4] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
 
-	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerBaseSword2.v", 5, 0.5f, 0.05f);
+	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerBaseSword2.v", 5, 0.5f, 0.05f);*/
+	myPlayer = new AnimationObject("src/meshes/Player/PlayerIdle.v", "src/textures/player.bmp");
 
 }
 
@@ -362,7 +363,7 @@ void ObjectManager::bindRekt() const
 
 void ObjectManager::setPlayerState(std::string state)
 {
-	if (state == "idle")
+	/*if (state == "idle")
 	{
 		myPlayer->setAnimPoints(0, 0);
 		myPlayer->setSpeed(0.02f);
@@ -386,7 +387,7 @@ void ObjectManager::setPlayerState(std::string state)
 	{
 		myPlayer->setAnimPoints(3, 4);
 		myPlayer->setSpeed(0.08f);
-	}
+	}*/
 }
 
 int ObjectManager::nrOfWorldItems() const
