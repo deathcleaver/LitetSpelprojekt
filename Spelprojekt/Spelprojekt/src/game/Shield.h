@@ -17,6 +17,10 @@ public:
 	void update();
 
 	void setRotation(float rot);
+	
+	void fade();
+
+	bool isFading();
 
 private:
 

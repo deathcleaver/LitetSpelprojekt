@@ -22,6 +22,8 @@ Torch::Torch()
 
 	range = 0.5f;
 
+	initSize = 5.0f;
+
 	setBaseColor(1.0f, 1.0f, 1.0f);
 	setParticleColor(0.8f, 0.8f, 0.1f);
 	timeChangeColor(false, true, false);
@@ -76,7 +78,7 @@ void Torch::init(float x, float y, float z)
 	lights[0].r = baseR;
 	lights[0].g = baseG;
 	lights[0].b = baseB;
-	lights[0].distance = 7;
+	lights[0].distance = initSize;
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
 
@@ -114,7 +116,7 @@ void Torch::update()
 	lights[0].r = baseR;
 	lights[0].g = baseG;
 	lights[0].b = baseB;
-	lights[0].distance = 7;
+	lights[0].distance = initSize;
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
 	timeLeft[0] = timeStart[0] = 1.0f;
@@ -134,7 +136,7 @@ void Torch::update()
 			lights[i].r = flameColor[i].r = particleR;
 			lights[i].g = flameColor[i].g = particleG;
 			lights[i].b = flameColor[i].b = particleB;
-			lights[i].distance = startDist[i] = 7;
+			lights[i].distance = startDist[i] = initSize;
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 			timeLeft[i] = timeStart[i] = random(0.0f, 0.9f);

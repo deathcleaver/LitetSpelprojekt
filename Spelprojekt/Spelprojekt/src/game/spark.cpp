@@ -116,6 +116,8 @@ void Spark::update()
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
 
+	timeLeft[0] = timeStart[0] = 1.0f;
+
 	for (int i = 1; i < nrLights; i++)
 	{
 		if (timeLeft[i] < 0)
@@ -148,4 +150,37 @@ void Spark::update()
 
 		timeLeft[i] -= 0.01f;
 	}
+}
+
+void Spark::fade()
+{
+	for (int i = 0; i < nrLights; i++)
+	{
+		if (timeLeft[i] >= 0.0f)
+		{
+			float t = 1 - (timeLeft[i] / timeStart[i]);
+
+			lights[i].init(spawnX + (cos(startDist[i]) * t), spawnY + (sin(startDist[i]) * t));
+			lights[i].posZ = 0;
+			lights[i].r = particleR;
+			lights[i].g = particleG;
+			lights[i].b = particleB;
+			lights[i].distance = (1 - t);
+			lights[i].intensity = 1;
+			lights[i].volume = 2;
+		}
+		else
+		{
+			lights[i].distance = 0;
+		}
+
+		timeLeft[i] -= 0.01f;
+	}
+}
+
+bool Spark::isFading()
+{
+	if (timeLeft[0] > 0)
+		return true;
+	return false;
 }
