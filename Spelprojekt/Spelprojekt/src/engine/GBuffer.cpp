@@ -7,6 +7,8 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 		genQuad();
 	}
 
+	// gbuffer
+
 	glGenFramebuffers(1, &targetId);
 	this->depth = depth;
 	nrTextures = nrTex;
@@ -41,6 +43,27 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 		throw;
 	}
 
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	// dof buffer
+	glGenFramebuffers(1, &DoFBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);
+	DoFTexture = new RenderTarget();
+	DoFTexture->init(x, y, 0, false);
+
+	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, DoFTexture->getTargetId(), 0);
+	
+	GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+
+	glDrawBuffers(1, &drawBuffer);
+
+	Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (Status != GL_FRAMEBUFFER_COMPLETE) {
+		throw;
+	}
+
+	// default
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 	if (!shaderPtr)
@@ -83,7 +106,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glProgramUniform1i(*shaderDoFPtr, uniformDoFDepth, 6);
 	//bind back (diffuse at the momemnt)
 	glActiveTexture(GL_TEXTURE0 + 7);
-	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+	glBindTexture(GL_TEXTURE_2D, DoFTexture->getTargetId());
 	glProgramUniform1i(*shaderDoFPtr, uniformDoFBack, 7);
 
 
@@ -144,6 +167,7 @@ void Gbuffer::applySettings(bool glows)
 
 Gbuffer::~Gbuffer()
 {
+	delete DoFTexture;
 	delete[] rTexture;
 	delete[] pos;
 	//delete[] volume;
@@ -151,6 +175,8 @@ Gbuffer::~Gbuffer()
 
 	glDeleteBuffers(1, &lightBuffer);
 	glDeleteBuffers(1, &lightBufferGlow);
+
+	glDeleteFramebuffers(1, &DoFBuffer);
 }
 
 void Gbuffer::resize(int x, int y)
@@ -228,8 +254,10 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRektsEdit)
 {
 	// bind shader
-	glUseProgram(*shaderPtr);
 
+
+	glUseProgram(*shaderPtr);
+	glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);
 	// bind buffer
 	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
 	glBindVertexArray(renderVao);
@@ -245,14 +273,11 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	if (glowsEnabled == true)
-		renderGlow(campos);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	if (renderRektsEdit)
-		renderRekts(map, content);
 
 	//render depth of field colormap
-	bool renderDoF = false;
+	bool renderDoF = true;
 	if (renderDoF)
 	{
 		glUseProgram(*shaderDoFPtr);
@@ -261,6 +286,12 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
 
+
+	if (glowsEnabled == true)
+		renderGlow(campos);
+
+	if (renderRektsEdit)
+		renderRekts(map, content);
 
 
 	if (renderGui)

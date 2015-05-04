@@ -1,7 +1,7 @@
 #version 410
 layout(location = 0) in vec2 UV;
 
-out vec4 fragment_color;
+layout(location = 0) out vec4 fragment_color;
 
 uniform sampler2D back;
 uniform sampler2D depth;

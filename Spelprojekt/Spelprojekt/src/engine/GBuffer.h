@@ -49,6 +49,9 @@ public:
 
 private:
 
+	GLuint DoFBuffer;
+	RenderTarget* DoFTexture;
+
 	void generate(int x, int y);
 
 	RenderTarget* rTexture;
