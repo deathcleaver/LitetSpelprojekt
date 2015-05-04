@@ -14,6 +14,8 @@
 #include "../Gamepad.h"
 #include "Progress.h"
 
+#include "Effect.h"
+
 class Player : public GameObject
 {
 private:
@@ -22,7 +24,8 @@ private:
 	int MAX_HP;
 	int HP;
 	int currentRune;
-	Light* runeEffect;
+	Effect* runeEffect;
+	//Light* runeEffect;
 	bool effectVisible;
 
 	int DMG;
@@ -85,7 +88,7 @@ public:
 	void dingDongTheBossIsDead(std::string boss);
 	bool isBossFighting();
 
-	Light* getRuneLight() const;
+	Light* getRuneLight(int &nrLight) const;
 
 	Shrine* getCurrentSpawn()
 	{

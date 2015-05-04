@@ -107,12 +107,20 @@ void Spark::init(float x, float y, float z)
 
 void Spark::update()
 {
+	lights[0].init(spawnX, spawnY);
+	lights[0].posZ = spawnZ;
+	lights[0].r = baseR;
+	lights[0].g = baseG;
+	lights[0].b = baseB;
+	lights[0].distance = 7;
+	lights[0].intensity = 1;
+	lights[0].volume = 1;
+
 	for (int i = 1; i < nrLights; i++)
 	{
 		if (timeLeft[i] < 0)
 		{
 			
-
 			lights[i].init(spawnX + (cos(startDist[i]) * 0), spawnY + (sin(startDist[i]) * 0));
 			lights[i].posZ = 0;
 			lights[i].r = particleR;

@@ -68,9 +68,14 @@ void Torch::init(float x, float y, float z)
 	spawnY = y;
 	spawnZ = z;
 
+	setBaseColor(1.0f, 1.0f, 1.0f);
+	setParticleColor(0.8f, 0.8f, 0.1f);
+
 	lights[0].init(spawnX, spawnY);
 	lights[0].posZ = spawnZ;
-	lights[0].color(1, 1, 1);
+	lights[0].r = baseR;
+	lights[0].g = baseG;
+	lights[0].b = baseB;
 	lights[0].distance = 7;
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
@@ -81,17 +86,16 @@ void Torch::init(float x, float y, float z)
 	{
 		lights[i].init(spawnX, spawnY);
 		lights[i].posZ = 0;
-		lights[i].r = 1;
-		lights[i].g = 1;
-		lights[i].b = 1;
-		lights[i].distance = startDist[i] = 10;
+		lights[i].r = flameColor[i].r = particleR;
+		lights[i].g = flameColor[i].g = particleG;
+		lights[i].b = flameColor[i].b = particleB;
+		lights[i].distance = startDist[i] = 0;
 		lights[i].intensity = 1;
 		lights[i].volume = 2;
-		timeLeft[i] = timeStart[i] = random(0.0f, 0.7f);
+		timeLeft[i] = timeStart[i] = 0;
 	}
 
-	setBaseColor(1.0f, 1.0f, 1.0f);
-	setParticleColor(0.8f, 0.8f, 0.1f);
+	
 	timeChangeColor(false, true, false);
 
 }
@@ -113,6 +117,7 @@ void Torch::update()
 	lights[0].distance = 7;
 	lights[0].intensity = 1;
 	lights[0].volume = 1;
+	timeLeft[0] = timeStart[0] = 1.0f;
 
 	for (int i = 1; i < nrLights; i++)
 	{

@@ -630,23 +630,26 @@ void Engine::bindLights(const Player* player, Edit* edit)
 	}
 
 
-
-	Light* runeEffect = player->getRuneLight();
-	if (runeEffect)
+	lightSize = 0;
+		
+	int nrLight = 0;
+	Light* runeEffect = player->getRuneLight(nrLight);
+	for (int i = 0; i < nrLight; i++)
 	{
-		light[nrOfLights].posX = runeEffect->posX;
-		light[nrOfLights].posY = runeEffect->posY;
-		light[nrOfLights].posZ = runeEffect->posZ;
+		light[nrOfLights + lightSize].posX = runeEffect[i].posX;
+		light[nrOfLights + lightSize].posY = runeEffect[i].posY;
+		light[nrOfLights + lightSize].posZ = runeEffect[i].posZ;
 
-		light[nrOfLights].r = runeEffect->r;
-		light[nrOfLights].g = runeEffect->g;
-		light[nrOfLights].b = runeEffect->b;
+		light[nrOfLights + lightSize].r = runeEffect[i].r;
+		light[nrOfLights + lightSize].g = runeEffect[i].g;
+		light[nrOfLights + lightSize].b = runeEffect[i].b;
 
-		light[nrOfLights].intensity = runeEffect->intensity;
-		light[nrOfLights].distance = runeEffect->distance;
-		light[nrOfLights].volume = runeEffect->volume;
-		nrOfLights++;
+		light[nrOfLights + lightSize].intensity = runeEffect[i].intensity;
+		light[nrOfLights + lightSize].distance = runeEffect[i].distance;
+		light[nrOfLights + lightSize].volume = runeEffect[i].volume;
+		lightSize++;
 	}
+	nrOfLights += lightSize;
 
 	if (edit->getEditMode() == 2) //light editmode
 	{
