@@ -77,6 +77,10 @@ void Player::moveWeapon()
 
 int Player::update(UserInput* userInput, Map* map, float deltaTime)
 {
+	// gamepad axes values
+	float axesX, axesY;
+	gamePad->getAxesValues(0, axesX, axesY); // left stick
+
 	bool isInWeb = false;
 	if (map->webbedUp(collideRect, readPos()))
 	{
@@ -117,7 +121,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 	}
 
 	//Toggle noclip
-	if (userInput->getKeyState('C'))
+	if (userInput->getKeyState('C') || gamePad->isButtonPressed(gamePad->L3))
 	{
 		if (noclip)
 		{
@@ -126,7 +130,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			speed.x = speed.y = 0;
 		}
 	}
-	if (userInput->getKeyState('N'))
+	if (userInput->getKeyState('N') || gamePad->isButtonPressed(gamePad->R3))
 	{
 		if (!noclip)
 		{
@@ -141,7 +145,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		if (!isAttacking)
 		{
 			if ((userInput->getKeyState('A') && !userInput->getKeyState('D'))
-				|| gamePad->isButtonPressed(gamePad->Dpad_Left))
+				|| gamePad->isButtonPressed(gamePad->Dpad_Left)
+				|| axesX < -gamePad->getDeadzone())
 			{
 				if (facingRight)
 				{
@@ -159,7 +164,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (speed.x < -maxSpeed.x)
 					speed.x = -maxSpeed.x;
 
-				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+				if (axesX < -gamePad->getDeadzone()) // gamepad stick movement
+					moveTo(tempPos.x += (speed.x * -axesX) * deltaTime, tempPos.y, 0);
+				else
+					moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+
 				if (!jumping)
 					animState = "walk";
 				else
@@ -167,7 +176,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			}
 			//right
 			if ((userInput->getKeyState('D') && !userInput->getKeyState('A'))
-				|| gamePad->isButtonPressed(gamePad->Dpad_Right))
+				|| gamePad->isButtonPressed(gamePad->Dpad_Right)
+				|| axesX > gamePad->getDeadzone())
 			{
 				if (!facingRight)
 				{
@@ -184,7 +194,12 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				}
 				if (speed.x > maxSpeed.x)
 					speed.x = maxSpeed.x;
-				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+				
+				if (axesX > gamePad->getDeadzone()) // gamepad stick movement
+					moveTo(tempPos.x += (speed.x * axesX) * deltaTime, tempPos.y, 0);
+				else
+					moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+
 				if (!jumping)
 					animState = "walk";
 				else
@@ -193,7 +208,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 			//stop
 			if (((!userInput->getKeyState('A') && !userInput->getKeyState('D')) || (userInput->getKeyState('A') && userInput->getKeyState('D')))
-				&& (!gamePad->isButtonPressed(gamePad->Dpad_Left) && !gamePad->isButtonPressed(gamePad->Dpad_Right)))
+				&& (!gamePad->isButtonPressed(gamePad->Dpad_Left) && !gamePad->isButtonPressed(gamePad->Dpad_Right))
+				&& axesX == 0)
 			{
 				if (flinchTimer < FLT_EPSILON)
 				{
@@ -358,7 +374,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				speed.x = maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
-		if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A))
+		if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->Dpad_Up))
 		{
 			if (speed.y < 0)// && !jumping)
 				speed.y = 0;

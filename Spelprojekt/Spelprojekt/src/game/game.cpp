@@ -221,11 +221,10 @@ void Game::update(float deltaTime)
 	{
 		case(MENU) :
 		{
-
-					   engine->setFade(0.0f);
-					   Audio::getAudio().playMusic(0);
-					   Audio::getAudio().updateListener(player->readPos());
-					   break;
+			engine->setFade(0.0f);
+			Audio::getAudio().playMusic(0);
+			Audio::getAudio().updateListener(player->readPos());
+			break;
 		}
 		case(PLAY) :
 		{
@@ -319,7 +318,7 @@ void Game::update(float deltaTime)
 					   }
 
 					   //leave State code
-					   if (in->getESC())
+					   if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->Start))
 					   {
 						   //save player progression
 						   Audio::getAudio().playSound(7, false); //pause
@@ -360,7 +359,7 @@ void Game::update(float deltaTime)
 		}
 		case(PAUSE) :
 		{
-						if (in->getESC())
+						if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->Start))
 						{
 							//save player progression
 							current = PLAY;

@@ -44,7 +44,9 @@ public:
 	bool joyStickDetected();
 	// button checks
 	bool isButtonPressed(int button);
+	bool isButtonPressedSticky(int button);
 	void getAxesValues(int axes, float &x, float &y);
+	float getDeadzone(){ return DEADZONE; };
 
 private:
 	void detectJoystick();
@@ -56,6 +58,7 @@ private:
 	int buttonCount = 0, axesCount = 0;
 	const unsigned char* joyButtons = 0; // array containing button states
 	const float* joyAxes = 0; // array containing axes X/Y values
+	bool* buttonsStates; // used for "sticky keys"
 };
 
 #endif

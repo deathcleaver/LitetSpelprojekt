@@ -111,11 +111,11 @@
     <ClCompile Include="src\game\Enemies\Bossspider.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gamepad.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\Enemies\Webshot.cpp">
       <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gamepad.cpp">
+      <Filter>Source\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,11 +251,11 @@
     <ClInclude Include="src\game\Enemies\Bossspider.h">
       <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gamepad.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\Enemies\Webshot.h">
       <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gamepad.h">
+      <Filter>Header\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
