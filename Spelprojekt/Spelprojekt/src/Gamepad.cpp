@@ -81,37 +81,38 @@ bool Gamepad::joyStickDetected()
 bool Gamepad::isButtonPressed(int button)
 {
 	if (joyButtons != NULL)
-	if (joyButtons[Buttons(button)])
-	{
-		if (debugging)
-			printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+		if (joyButtons[Buttons(button)])
+		{
+			if (debugging)
+				printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
 
-		return joyButtons[Buttons(button)];
-	}
-
+			return joyButtons[Buttons(button)];
+		}	
 		
-		return GL_FALSE;
+	return GL_FALSE;
 }
 
 bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 {
 	if (joyButtons != NULL)
-	if (joyButtons[Buttons(button)])
 	{
-		if (debugging)
-			printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
-
-		if (buttonsStates[Buttons(button)] == false) // first time pressed
+		if (joyButtons[Buttons(button)])
 		{
-			buttonsStates[Buttons(button)] = true;
-			return true;
+			if (debugging)
+				printf("Pressed button: %s\n", getButtonSymbol(Buttons(button)));
+
+			if (buttonsStates[Buttons(button)] == false) // first time pressed
+			{
+				buttonsStates[Buttons(button)] = true;
+				return true;
+			}
+			else
+				return false;
 		}
 		else
-			return false;
-	}
-	else
-	{
-		buttonsStates[Buttons(button)] = false;
+		{
+			buttonsStates[Buttons(button)] = false;
+		}
 	}
 
 	return GL_FALSE;

@@ -252,7 +252,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		//MoveY
 		if (!isAttacking)
 		{
-			if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A)
+			if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A))
 				&& noAutoJump)
 			{
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
@@ -272,7 +272,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 
 		//gravity
-		if (userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A)
+		if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->A))
 			&& speed.y > 0 && !isAttacking)
 		{
 			if (!progressMeter.spiderboss || !isInWeb)
@@ -546,7 +546,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 	//Attacking
 	if (!isAttacking 
-		&& (userInput->getSpace() || gamePad->isButtonPressed(gamePad->X)
+		&& (userInput->getSpace() || gamePad->isButtonPressed(gamePad->X))
 		&& flinchTimer < FLT_EPSILON)
 	{
 		isAttacking = true;
