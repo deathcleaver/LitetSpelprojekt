@@ -610,11 +610,6 @@ bool Player::isBossFighting()
 void Player::respawn(Map* map)
 {
 	map->playerDiedSoRespawnEnemies();
-	if (runeEffect)
-	{
-		delete runeEffect;
-		runeEffect = 0;
-	}
 	HP = MAX_HP;
 	shield = 0;
 	speed = vec2(0);
