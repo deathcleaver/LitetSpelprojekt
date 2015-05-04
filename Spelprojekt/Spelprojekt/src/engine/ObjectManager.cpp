@@ -181,7 +181,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//candelier
-	add = new AnimationObject("src/meshes/Crypt/Chandelier.v", "src/textures/Background/marble.bmp");
+	add = new AnimationObject("src/meshes/Crypt/Chandelier.v", "src/textures/Background Objects/steel.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//coffin_bottom

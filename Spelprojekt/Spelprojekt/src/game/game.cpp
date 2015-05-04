@@ -217,6 +217,12 @@ void Game::update(float deltaTime)
 	if (gamePad->joyStickDetected())
 		gamePad->update(deltaTime);
 
+	//dept of field, on/off
+	if (in->getKeyNumberState(9))
+		engine->setDoF(true);
+	if (in->getKeyNumberState(0))
+		engine->setDoF(false);
+
 	switch (current)
 	{
 		case(MENU) :
@@ -241,6 +247,7 @@ void Game::update(float deltaTime)
 				player->dingDongTheBossIsDead("Bossghost");
 				gui->showNewUpgrade(3);
 			}
+
 					   // music
 					   int tempX, tempY, tempId;
 					   MapChunk** tempChunk = map->getChunks();
@@ -530,11 +537,13 @@ void Game::readInput(float deltaTime)
 		state == GLFW_PRESS ? in->KeyNumberDown(7) : in->KeyNumberUp(7);
 		state = glfwGetKey(windowRef, GLFW_KEY_8);
 		state == GLFW_PRESS ? in->KeyNumberDown(8) : in->KeyNumberUp(8);
-		state = glfwGetKey(windowRef, GLFW_KEY_9);
-		state == GLFW_PRESS ? in->KeyNumberDown(9) : in->KeyNumberUp(9);
-		state = glfwGetKey(windowRef, GLFW_KEY_0);
-		state == GLFW_PRESS ? in->KeyNumberDown(0) : in->KeyNumberUp(0);
 	}
+
+	//dof switches, always update
+	state = glfwGetKey(windowRef, GLFW_KEY_9);
+	state == GLFW_PRESS ? in->KeyNumberDown(9) : in->KeyNumberUp(9);
+	state = glfwGetKey(windowRef, GLFW_KEY_0);
+	state == GLFW_PRESS ? in->KeyNumberDown(0) : in->KeyNumberUp(0);
 	
 	//1 2 3 debug keys
 	if (current == PLAY)

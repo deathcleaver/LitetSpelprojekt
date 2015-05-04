@@ -17,10 +17,11 @@ public:
 	void setSpawn(float x, float y, float z);
 	void update();
 
+	void fade();
+
+	bool isFading();
 
 private:
-
-
 
 
 };

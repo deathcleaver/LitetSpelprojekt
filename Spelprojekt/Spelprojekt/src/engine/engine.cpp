@@ -701,3 +701,8 @@ void Engine::renderEditObject(Edit* edit)
 			glDrawElements(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0);
 	}
 }
+
+void Engine::setDoF(bool set)
+{
+	gBuffer.setDoF(set); 
+}

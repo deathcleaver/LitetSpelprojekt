@@ -93,6 +93,16 @@ void Shield::init(float x, float y, float z)
 
 void Shield::update()
 {
+	lights[0].init(spawnX, spawnY);
+	lights[0].posZ = spawnZ;
+	lights[0].r = baseR;
+	lights[0].g = baseG;
+	lights[0].b = baseB;
+	lights[0].distance = 5;
+	lights[0].intensity = 1;
+	lights[0].volume = 1;
+
+	timeLeft[0] = timeStart[0] = 1.0f;
 
 	for (int i = 1; i < nrLights; i++)
 	{
@@ -130,5 +140,38 @@ void Shield::update()
 		timeLeft[i] -= 0.01f;
 	}
 
+}
 
+void Shield::fade()
+{
+	for (int i = 0; i < nrLights; i++)
+	{
+		if (timeLeft[i] >= 0.0f)
+		{
+			float t = (timeLeft[i] / timeStart[i]);
+			lights[i].posZ = 0;
+			lights[i].r = particleR;
+			lights[i].g = particleG;
+			lights[i].b = particleB;
+			lights[i].distance = t;
+			lights[i].intensity = 1;
+			lights[i].volume = 2;
+			if (startDist[i] < 0.0f)
+				lights[i].translate(-0.02*cos(rotation), -0.02*sin(rotation), 0);
+			else
+				lights[i].translate(0.02*cos(rotation), 0.02*sin(rotation), 0);
+		}
+		else
+		{
+			lights[i].distance = 0;
+		}
+		timeLeft[i] -= 0.01f;
+	}
+}
+
+bool Shield::isFading()
+{
+	if (timeLeft[0] > 0)
+		return true;
+	return false;
 }

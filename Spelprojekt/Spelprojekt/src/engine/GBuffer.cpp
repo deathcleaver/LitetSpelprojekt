@@ -375,3 +375,8 @@ void Gbuffer::generate(int x, int y)
 		
 	}
 }
+
+void Gbuffer::setDoF(bool set)
+{
+	renderDoF = set;
+}

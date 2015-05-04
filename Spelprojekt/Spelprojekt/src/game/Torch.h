@@ -23,6 +23,8 @@ class Torch : public BaseEffect
 
 	private:
 	
+		float initSize;
+
 		struct color
 		{
 			float r, g, b;
