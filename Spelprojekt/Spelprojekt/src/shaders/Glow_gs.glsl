@@ -32,7 +32,7 @@ void main()
 	if(culldist < (15 + partSize * 0.2f))
 	{
 		float culldist = length(partPos.y - camPos.y);
-		if(culldist < (8 + partSize * 0.2f))
+		if(culldist < (12 + partSize * 0.2f))
 		{
 			vec3 strafe = normalize(cross(dist, upFixed));
 			vec3 up = normalize(cross(dist, strafe));
