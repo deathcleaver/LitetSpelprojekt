@@ -310,6 +310,10 @@ void ObjectManager::loadBackObjs()
 	//rock_boss
 	add = new AnimationObject("src/meshes/Background/BackgroundBat.v", "src/textures/Background/BackgroundBat.bmp");
 	objects[OBJ::BACK].push_back(add);
+
+	//crypt wall
+	add = new AnimationObject("src/meshes/Background/cryptwall.v", "src/textures/Background/cryptwalltex.bmp");
+	objects[OBJ::BACK].push_back(add);
 }
 
 void ObjectManager::update()
