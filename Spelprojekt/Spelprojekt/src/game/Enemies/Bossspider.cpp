@@ -10,18 +10,18 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = 1;
-	health = 8;
-	speed = glm::vec2(4.0f, 0.0f);
+	contentIndex = 5;
+	health = 6;
+	speed = glm::vec2(8.0f, 0.0f);
 	audibleDistance = 2.5f;
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 2, 2.5);
+	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
-	currentMode = -1;
-	modeTimer = 0.0f;
+	currentMode = 0;
 	webTimer = 0.0f;
+	jumpTimer = -1.0f;
 }
 
 void Bossspider::init()
@@ -34,13 +34,13 @@ void Bossspider::init()
 		invulnTimer = 0.0f;
 		facingRight = true;
 		alive = true;
-		health = 8;
+		health = 6;
 		collideRect->update();
 
-		currentMode = -1;
-		modeTimer = 5.0f;
+		currentMode = 0;
 		webTimer = 0.0f;
 		websToShoot = 0;
+		jumpTimer = -1.0f;
 	}
 	else
 	{
@@ -52,28 +52,31 @@ void Bossspider::init()
 void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 {
 	Webshot* pewpew = new Webshot(glm::vec2(readPos()));
-	pewpew->setDirection(normalize(glm::vec2(playerPos)));
+	pewpew->setVisitor();
+	glm::vec2 dir = normalize(glm::vec2(playerPos) - glm::vec2(readPos()));
+	pewpew->setDirection(dir);
 	map->findNewHome(pewpew);
 	websToShoot--;
 }
 
 int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	modeTimer -= 1.0f*deltaTime;
+	invulnTimer -= 1.0f*deltaTime;
 	if (currentMode == -1) //Spawning
 	{
 	}
 	if (currentMode == 0) //Dropping from ceiling
 	{
-		speed.y -= 1.0;
+		speed.y -= 4.0;
 		if (speed.y < -25)
 			speed.y = -25;
 		translate(0, speed.y*deltaTime);
 		if (collidesWithWorld(map))
 		{
-			translate(0, -speed.y*deltaTime*0.5);
+			translate(0, -speed.y*deltaTime);
 			speed.y = 0;
 			currentMode = 1;
+			printf("Mode switch to 1\n");
 
 		}
 	}
@@ -93,6 +96,16 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 			speed.x = -speed.x;
 		}
+		if (jumpTimer > 0.0f)
+		{
+			jumpTimer -= 1.0f*deltaTime;
+			if (jumpTimer < FLT_EPSILON)
+			{
+				jumpTimer = -1.0f;
+				currentMode = 2;
+				printf("Modeswitch to 2\n");
+			}
+		}
 	}
 	if (currentMode == 2) //Jumping back up
 	{
@@ -100,16 +113,31 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		translate(0, speed.y*deltaTime);
 		if (collidesWithWorld(map))
 		{
-			translate(0, -speed.y*deltaTime);
-			currentMode = 3;
-			webTimer = 1.0f;
+			if (speed.y >= 0)
+			{
+				translate(0, -speed.y*deltaTime);
+				currentMode = 3;
+				webTimer = 1.0f;
+				websToShoot = 2;
+				printf("Modeswitch to 3\n");
+			}
+			else
+			{
+				translate(0, -speed.y*deltaTime);
+				currentMode = 1;
+				printf("Landed on ground after jump. Modeswitch to 1\n");
+			}
+			speed.y = 0;
 		}
 	}
 	if (currentMode == 3) //Spiderman, spiderman, shoots whatever a spider can
 	{
 		webTimer -= 1.0*deltaTime;
 		if (webTimer < FLT_EPSILON && websToShoot == 0)
+		{
 			currentMode = 0;
+			printf("Modeswitch to 0\n");
+		}
 		else
 		{
 			if (webTimer < FLT_EPSILON)
@@ -139,7 +167,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 			Audio::getAudio().playSoundAtPos(10, readPos(), audibleDistance, false);//boss_bat_hurt
 			if (currentMode == 1)
 			{
-				currentMode = 2;
+				jumpTimer = 1.5f;
 				speed.y = 25.0f;
 			}
 		}

@@ -5,6 +5,7 @@
 #include "Enemies/Bat.h"
 #include "Enemies/Flame.h"
 #include "Enemies/Bossbat.h"
+#include "Enemies/Bossspider.h"
 #include "Enemies/Bossdummy.h"
 #include "Enemies/Cube.h"
 #include "Enemies/Spider.h"
@@ -291,17 +292,19 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			}
 		}
 	}
+	if (boss)
+	{
+		printf("");
+	}
 	for (int c = 0; c < shotCount; c++)
 	{
+		printf("Updating webshot number %d\n", c);
 		msg = webShots[c]->update(deltaTime, map, playerPos);
 		if (msg)
 		{
 			Web* visitWeb = new Web(glm::vec2(webShots[c]->readPos()));
 			visitWeb->setVisitor();
-			visitorHolder[visitorsToSendOut] = visitWeb;
-			visitorsToSendOut++;
-			if (visitorsToSendOut == maxVisitors)
-				expandEnemyArray(visitorHolder, maxVisitors);
+			addOutsider(visitWeb, "Webshot");
 			delete webShots[c];
 			webShots[c] = webShots[--shotCount];
 			c--;
@@ -583,6 +586,8 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 	{
 		boss = new Bossbat(pos);
 	}
+	else if (type == "Bossspider")
+		boss = new Bossspider(pos);
 }
 
 void EnemyManager::startBoss()
@@ -648,6 +653,7 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 	}
 	if (type == "Webshot")
 	{
+		printf("Webshot detected\n");
 		webShots[shotCount] = new Webshot((Webshot*)visitor);
 		shotCount++;
 		if (shotCount == shotMax)

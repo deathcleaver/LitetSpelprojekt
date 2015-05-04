@@ -17,6 +17,7 @@ public:
 	}
 	Web(Web* copy)
 	{
+		contentIndex = 6;
 		worldMat = copy->worldMat;
 		visitor = copy->visitor;
 		initPos = glm::vec2(copy->readPos());
