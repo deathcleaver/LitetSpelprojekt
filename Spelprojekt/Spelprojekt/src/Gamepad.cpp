@@ -45,7 +45,7 @@ void Gamepad::detectJoystick()
 void Gamepad::loadConfig()
 {
 	ifstream in;
-	char* config = "Config/Gamepad/gamepad_xinput.s";
+	char* config = "Config/Gamepad/gamepad.s";
 	in.open(config);
 	if (in)
 	{
@@ -67,6 +67,11 @@ void Gamepad::loadConfig()
 		ss = stringstream(line);
 		ss >> sub;
 		buttonBinds.B = atoi(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		buttonBinds.Y = atoi(sub.c_str());
 
 		getline(in, line);
 		ss = stringstream(line);
