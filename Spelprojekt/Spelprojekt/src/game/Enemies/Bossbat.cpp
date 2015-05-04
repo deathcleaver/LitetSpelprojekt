@@ -31,7 +31,6 @@ void Bossbat::init()
 	if (!isInit)
 	{
 		worldMat = glm::mat4(1);
-		scaleFactor(4, 4, 4);
 		isInit = true;
 		moveTo(initPos.x-0.5f, initPos.y+0.5f, -10.0f);
 		invulnTimer = 0.0f;

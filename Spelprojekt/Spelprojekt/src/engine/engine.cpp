@@ -444,7 +444,7 @@ void Engine::renderEnemies()
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 					if (id != lastid)
-						facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
+						facecount = content->bind(OBJ::ENEMY, EnemyID::batboss);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
 				}

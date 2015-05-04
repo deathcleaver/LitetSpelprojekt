@@ -85,6 +85,7 @@ enum EnemyID
 	ghost,
 	web,
 	spellbook,
+	batboss,
 
 	enemy_count, //leave this last
 };

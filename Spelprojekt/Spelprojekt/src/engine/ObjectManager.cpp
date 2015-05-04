@@ -268,6 +268,13 @@ void ObjectManager::loadMonsterObjs()
 	//spellbook
 	add = new AnimationObject("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
+
+	//Bossbat
+	Object* bossBat1 = new Object("src/meshes/Enemies/BatBossWingsBack.v", "src/textures/batBoss.bmp");
+	Object* bossBat2 = new Object("src/meshes/Enemies/BatBossWingsFront.v", "src/textures/batBoss.bmp");
+	add = new AnimationObject(bossBat1, bossBat2, 0.5f, 0.02f);
+
+	objects[OBJ::ENEMY].push_back(add);
 }
 
 void ObjectManager::loadMiscObjs()
@@ -321,7 +328,9 @@ void ObjectManager::update()
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
-		objects[ENEMY][i]->update();
+		if (i != EnemyID::batboss)
+			objects[ENEMY][i]->update();
+		
 	}
 	for (int i = 0; i < MiscID::misc_count; i++)
 	{
