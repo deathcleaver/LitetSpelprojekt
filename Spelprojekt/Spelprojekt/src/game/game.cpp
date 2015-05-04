@@ -152,7 +152,7 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
@@ -370,6 +370,7 @@ void Game::update(float deltaTime)
 						if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
 						{
 							//save player progression
+							Audio::getAudio().playSound(7, false);
 							current = PLAY;
 						}
 						break;
