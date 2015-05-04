@@ -9,12 +9,11 @@ uniform sampler2D depth;
 float blurclamp = 0.5;  // max blur amount
 float bias = 2.0;	//aperture - bigger values for shallower depth of field
 float focus = 0.990f;  // this value comes from ReadDepth script.
+float aspectratio = 1080.0f / 720.0f;
+vec2 aspectcorrect = vec2(1.0,aspectratio);
  
 void main() 
 {
-	float aspectratio = 1080.0f / 720.0f;
-	vec2 aspectcorrect = vec2(1.0,aspectratio);
-	
 	vec4 depth1   = texture2D(depth,UV );
 
 	float factor = ( depth1.x - focus );

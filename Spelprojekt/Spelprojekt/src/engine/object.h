@@ -27,12 +27,6 @@ private:
 	int SCREENWIDTH = 1080;
 	int SCREENHEIGHT = 720;
 
-	
-
-
-
-	
-
 	//temprary implementations
 	bool loadVert(std::string path);
 	bool loadBMP(std::string path); 
@@ -52,7 +46,7 @@ public:
 	std::vector<TriangleVertex> uv;
 	std::vector<GLushort> Indices;
 
-	int count = 0;
+	int	vertcount = 0;
 	int size = 0;
 	int state = 0;
 

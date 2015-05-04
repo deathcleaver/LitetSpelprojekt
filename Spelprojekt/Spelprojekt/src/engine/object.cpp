@@ -20,6 +20,7 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 		indexBuffer = obj->indexBuffer;
 		vertexAttribute = obj->vertexAttribute;
 		faceCount = obj->faceCount;
+		vertcount = obj->vertcount;
 	}
 	else
 		if (!loadVert(pathVert))
@@ -48,6 +49,7 @@ Object::Object(const Object& obj)
 	textureHost = obj.textureHost;
 	TEXTUREINDEXOFFSET = obj.TEXTUREINDEXOFFSET;
 	faceCount = obj.faceCount;
+	vertcount = obj.vertcount;
 
 	vertexData = obj.vertexData;
 	indexBuffer = obj.indexBuffer;
@@ -57,7 +59,6 @@ Object::Object(const Object& obj)
 	uv = obj.uv;
 	Indices = obj.Indices;
 
-	count = obj.count;
 	size = obj.size;
 	state = obj.state;
 }
@@ -85,6 +86,8 @@ void Object::bindTexOnly()
 
 bool Object::loadVert(std::string path)
 {
+	vertcount = 0;
+	int count = 0;
 	std::string line;
 	std::ifstream myfile(path);
 	if (myfile.is_open())
@@ -119,6 +122,7 @@ bool Object::loadVert(std::string path)
 			{
 				if (state != 1)
 				{
+					vertcount = count;
 					state = 1;
 					count = 0;
 				}
@@ -154,13 +158,18 @@ bool Object::loadVert(std::string path)
 					iss >> sub; // uv index
 					int indexVERT = std::stoi(pos) - 1;
 					int indexUV = std::stoi(sub) - 1;
-					if (vert[indexVERT].u < 0)
+					if (vert[indexVERT].u < 0) // if it doesnt exists
 					{
 						Indices[count * 3 + n] = indexVERT; // set vertex index
 						vert[indexVERT].u = uv[indexUV].u;
 						vert[indexVERT].v = uv[indexUV].v;
 					}
-					else
+					//if they are same
+					else if (vert[indexVERT].u == vert[indexVERT].u && vert[indexVERT].v == vert[indexVERT].u)
+					{
+						Indices[count * 3 + n] = indexVERT;
+					}
+					else // if they are not the same, make a new one
 					{
 						int temp = indexVERT;
 						indexVERT = vert.size();
@@ -275,7 +284,6 @@ void Object::updateVAO(std::vector<TriangleVertex> someVerts, std::vector<GLusho
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(someIndices[0]) * someIndices.size() , &someIndices[0], GL_STATIC_DRAW);
-	faceCount = count;
 	//glEnableVertexAttribArray(indexBuffer);
 
 	glBindVertexArray(vertexAttribute);
