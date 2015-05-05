@@ -21,6 +21,12 @@ class Torch : public BaseEffect
 
 		bool isFading();
 
+		Light* getLights(int &nrLights);
+		void setIntensity(int soIntense)
+		{
+			currentLights = soIntense;
+		}
+
 	private:
 	
 		float initSize;
@@ -31,6 +37,8 @@ class Torch : public BaseEffect
 		};
 
 		color* flameColor;
+
+		int currentLights;
 };
 
 #endif

@@ -6,12 +6,8 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 #include "../GUI.h"
-<<<<<<< HEAD
 #include "../GameConfig.h"
-#include "Light.h"
-=======
-#include "Effect\Light.h"
->>>>>>> 000076c905b6cff24b327e4e674e91c83e06521a
+#include "Effect/Light.h"
 
 class Edit
 {

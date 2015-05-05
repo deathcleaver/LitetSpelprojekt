@@ -4,7 +4,7 @@ Torch::Torch()
 {
 	spawnX = 0;
 	spawnY = 0;
-	nrLights = 40;
+	currentLights = nrLights = 40;
 	lights = new Light[nrLights];
 	timeLeft = new float[nrLights];
 	timeStart = new float[nrLights];
@@ -38,6 +38,12 @@ Torch::~Torch()
 	delete[] flameColor;
 }
 
+Light* Torch::getLights(int &nrLights)
+{
+	nrLights = currentLights;
+	return lights;
+}
+
 void Torch::copy(BaseEffect* t)
 {
 	Torch* tOrg = (Torch*)t;
@@ -46,6 +52,7 @@ void Torch::copy(BaseEffect* t)
 	spawnY = tOrg->spawnY;
 	spawnZ = tOrg->spawnZ;
 	nrLights = tOrg->nrLights;
+	currentLights = tOrg->currentLights;
 	range = tOrg->range;
 
 	setBaseColor(tOrg->baseR, tOrg->baseG, tOrg->baseB);
@@ -121,7 +128,7 @@ void Torch::update()
 	lights[0].volume = 1;
 	timeLeft[0] = timeStart[0] = 1.0f;
 
-	for (int i = 1; i < nrLights; i++)
+	for (int i = 1; i < currentLights; i++)
 	{
 		if (timeLeft[i] < 0)
 		{
@@ -160,7 +167,7 @@ void Torch::update()
 
 void Torch::fade()
 {
-	for (int i = 0; i < nrLights; i++)
+	for (int i = 0; i < currentLights; i++)
 	{
 		if (timeLeft[i] >= 0.0f)
 		{
