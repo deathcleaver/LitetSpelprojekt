@@ -7,9 +7,13 @@ Object::~Object()
 		glDeleteBuffers(1, &vertexData);
 		glDeleteBuffers(1, &indexBuffer);
 		glDeleteVertexArrays(1, &vertexAttribute);
+		vertexHost = false;
 	}
 	if (textureHost)
+	{
 		glDeleteTextures(1, &textureId);
+		textureHost = false;
+	}
 }
 
 Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copyVert, bool copyTex)
@@ -26,7 +30,11 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 		if (!loadVert(pathVert))
 			throw;
 		else
+		{
 			vertexHost = true;
+			printf(pathVert.c_str());
+			printf("  Vert: %d Faces: %d\n", vertcount, faceCount);
+		}
 	
 	if (copyTex)
 	{
@@ -39,7 +47,11 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 		if(!loadBMP(pathTex))
 			throw;
 		else
+		{
 			textureHost = true;
+			printf(pathTex.c_str());
+			printf("\n");
+		}
 }
 
 Object::Object(const Object& obj)

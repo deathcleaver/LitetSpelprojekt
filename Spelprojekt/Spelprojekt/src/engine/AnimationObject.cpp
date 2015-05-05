@@ -65,7 +65,7 @@ AnimationObject::AnimationObject(std::string pathVert, std::string pathTex)
 	myBaseObjects = new Object*[myNrOfBaseObjects];
 
 	myBaseObjects[0] = new Object(pathVert, pathTex);
-	myAnimObject = new Object(pathVert, pathTex);
+	myAnimObject = myBaseObjects[0];
 
 	myWeight = 0.0f;
 	mySpeed = 0.0f;
@@ -75,13 +75,15 @@ AnimationObject::AnimationObject(std::string pathVert, std::string pathTex)
 
 AnimationObject::~AnimationObject()
 {
-	delete myAnimObject;
-
 	for (int i = 0; i < myNrOfBaseObjects; i++)
 	{
 		delete myBaseObjects[i];
+		myBaseObjects[i] = 0;
 	}
 	delete[] myBaseObjects;
+
+	if (myAnimObject)
+		delete myAnimObject;
 }
 
 Object* AnimationObject::getAnimObject()
