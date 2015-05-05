@@ -7,7 +7,7 @@ ObjectManager::ObjectManager()
 	vector<AnimationObject*> myMapObjs = vector<AnimationObject*>();
 	vector<AnimationObject*> myMiscObjs = vector<AnimationObject*>();
 	vector<AnimationObject*> myMonsterObjs = vector<AnimationObject*>();
-	
+
 	objects.push_back(myBackObjs);
 	objects.push_back(myMapObjs);
 	objects.push_back(myMiscObjs);
@@ -66,17 +66,17 @@ void ObjectManager::loadPlayer()
 }
 
 void ObjectManager::loadMapObjs()
-{	
+{
 	AnimationObject* add;
 
 	//box
 	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/black.bmp");
 	objects[OBJ::WORLD].push_back(add);
-	
+
 	//mushroom
 	add = new AnimationObject("src/meshes/Background Objects/MushroomTest.v", "src/textures/Background Objects/MushroomTexture2.bmp");
 	objects[OBJ::WORLD].push_back(add);
-	
+
 	//stalactite
 	add = new AnimationObject("src/meshes/Background Objects/Stalactite.v", "src/textures/Background Objects/Stalactimite.bmp");
 	objects[OBJ::WORLD].push_back(add);
@@ -269,7 +269,7 @@ void ObjectManager::loadMonsterObjs()
 	//ghost
 	add = new AnimationObject("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
-	
+
 	//web
 	add = new AnimationObject("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
@@ -335,25 +335,24 @@ void ObjectManager::loadBackObjs()
 void ObjectManager::update(UpdateAnimCheck* animCheck)
 {
 	myPlayer->update();
-	for (int i = 0; i < WorldID::world_count ; i++)
+	for (int i = 0; i < WorldID::world_count; i++)
 	{
-		
+
 		objects[WORLD][i]->update();
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
 		if (i != EnemyID::batboss)
 		{
-		
-		if (animCheck->enemyUpdate[i])
-			objects[ENEMY][i]->update();
-	}
+			if (animCheck->enemyUpdate[i])
+				objects[ENEMY][i]->update();
+		}
 		if (i == EnemyID::batboss)
 		{
 			if (animCheck->enemyUpdate[i])
 				objects[ENEMY][i]->update();
 		}
-		
+
 	}
 	for (int i = 0; i < MiscID::misc_count; i++)
 	{
@@ -383,28 +382,28 @@ void ObjectManager::setPlayerState(std::string state)
 {
 	/*if (state == "idle")
 	{
-		myPlayer->setAnimPoints(0, 0);
-		myPlayer->setSpeed(0.02f);
+	myPlayer->setAnimPoints(0, 0);
+	myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "walk")
 	{
-		myPlayer->setAnimPoints(1, 2);
-		myPlayer->setSpeed(0.02f);
+	myPlayer->setAnimPoints(1, 2);
+	myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "air")
 	{
-		myPlayer->setAnimPoints(1, 2);
-		myPlayer->setSpeed(0.02f);
+	myPlayer->setAnimPoints(1, 2);
+	myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "flinch")
 	{
-		myPlayer->setAnimPoints(2, 2);
-		myPlayer->setSpeed(0.02f);
+	myPlayer->setAnimPoints(2, 2);
+	myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "attack")
 	{
-		myPlayer->setAnimPoints(3, 4);
-		myPlayer->setSpeed(0.08f);
+	myPlayer->setAnimPoints(3, 4);
+	myPlayer->setSpeed(0.08f);
 	}*/
 }
 

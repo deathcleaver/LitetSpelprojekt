@@ -9,6 +9,7 @@ void Player::init(Gamepad* pad)
 	speed = vec2(0);
 	maxSpeed = vec2(10, -30);
 	acceleration = vec2(0.4f, 1.35f); // y = gravity
+	
 	jumping = false;
 	doubleJump = false;
 	jumpHeight = 6.0f;
