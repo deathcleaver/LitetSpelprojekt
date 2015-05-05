@@ -332,7 +332,8 @@ void MapChunk::saveChunk(string path)
 	//save if we have HP pickup
 	if (health)
 	{
-		out << "0 " << xOffset << " " << yOffset << "\n";
+		glm::vec3 hpos = health->readPos();
+		out << "0 " << hpos.x - xOffset*35 << " " << hpos.y + yOffset*35 << "\n";
 	}
 	else
 		out << "-1" << "\n";

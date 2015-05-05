@@ -48,7 +48,6 @@ enum WorldID
 	platformMarble1x5,
 	platformMarble3x3,
 	platformMarble5x5,
-	
 	candle_big,
 	candle_small,
 	candelier,
@@ -62,6 +61,7 @@ enum WorldID
 	pillar,
 	tunnel_broken,
 	tunnel,
+	redblock,
 
 	world_count, //leave this last
 };
@@ -97,6 +97,7 @@ enum EffectType
 	torch,
 	spark,
 	shield,
+	lightning,
 };
 
 #endif

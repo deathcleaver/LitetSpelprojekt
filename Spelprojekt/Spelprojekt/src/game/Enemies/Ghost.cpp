@@ -1,6 +1,6 @@
 #include "Ghost.h"
 #include "../mapChunk.h"
-#include "../BaseEffect.h"
+#include "../Effect/BaseEffect.h"
 
 Ghost::Ghost(glm::vec2 firstPos)
 {

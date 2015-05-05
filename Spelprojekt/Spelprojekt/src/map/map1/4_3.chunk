@@ -1,7 +1,9 @@
 0 : ChuckTesta
-0 : Enemy Count
+2 : Enemy Count
+Bat 0 6
+Spider 2 9
 2 0 0 -3 :  BACKGROUND!
-3 8 -2.5 0 :  SHRINE!
+3 8 -2.5 -0.5 :  SHRINE!
 -1
 101 :  Number of world objects
 0 7.76668 0 0 14.1965 0 4.35139 0 -16.2297 0 0 1 -0.659721 0 0 0 1

@@ -1,7 +1,7 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include "../legend.h"
+#include "../../legend.h"
 #include "Torch.h"
 #include "Spark.h"
 #include "Shield.h"

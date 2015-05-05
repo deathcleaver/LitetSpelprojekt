@@ -216,6 +216,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		invulnTimer -= 1.0f*deltaTime;
 	}
+	collideRect->update();
 	return 0;
 }
 

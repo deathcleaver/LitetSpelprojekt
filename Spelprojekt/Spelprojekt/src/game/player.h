@@ -14,7 +14,7 @@
 #include "../Gamepad.h"
 #include "Progress.h"
 
-#include "Effect.h"
+#include "Effect/Effect.h"
 
 class Player : public GameObject
 {

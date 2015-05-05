@@ -6,7 +6,7 @@
 #include "../GUI.h"
 #include "RenderTarget.h"
 #include "ContentManager.h"
-#include "../game/Light.h"
+#include "../game/Effect/Light.h"
 #include "../game/map.h"
 #include "ContentManager.h"
 

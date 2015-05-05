@@ -2,7 +2,7 @@
 #define FLAME_H
 
 #include "../Enemy.h"
-#include "../Effect.h"
+#include "../Effect/Effect.h"
 
 class Flame : public Enemy
 {

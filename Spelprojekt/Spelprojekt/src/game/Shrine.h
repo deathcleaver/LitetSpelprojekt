@@ -8,7 +8,7 @@
 
 #include "gameObject.h"
 #include "rect.h"
-#include "Light.h"
+#include "Effect\Light.h"
 
 struct RuneLights
 {
