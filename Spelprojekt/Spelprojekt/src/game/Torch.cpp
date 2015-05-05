@@ -192,3 +192,4 @@ bool Torch::isFading()
 		return true;
 	return false;
 }
+z
