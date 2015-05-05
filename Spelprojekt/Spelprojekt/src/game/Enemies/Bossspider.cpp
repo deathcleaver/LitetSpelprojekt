@@ -59,6 +59,7 @@ void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 	dir = normalize(dir);
 	pewpew->setDirection(dir);
 	map->findNewHome(pewpew);
+	delete pewpew;
 	websToShoot--;
 }
 

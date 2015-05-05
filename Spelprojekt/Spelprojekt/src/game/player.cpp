@@ -592,7 +592,8 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		}
 		else
 		{
-			runeEffect->getEffect()->fade();
+			if (runeEffect->getEffect()->isFading())
+				runeEffect->getEffect()->fade();
 		}
 
 

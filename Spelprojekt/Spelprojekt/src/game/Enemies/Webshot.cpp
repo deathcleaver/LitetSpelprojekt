@@ -45,6 +45,7 @@ int Webshot::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		Web* web = new Web(glm::vec2(readPos()));
 		web->setVisitor();
 		map->findNewHome(web);
+		delete web;
 		return 1;
 	}
 	return 0;

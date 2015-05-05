@@ -306,6 +306,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			visitWeb->setVisitor();
 			addOutsider(visitWeb, "Webshot");
 			delete webShots[c];
+			delete visitWeb;
 			webShots[c] = webShots[--shotCount];
 			c--;
 		}
