@@ -215,7 +215,7 @@ void Game::mainLoop()
 			}
 
 			//enable for time quarry result
-			//cout << getQueryResult();
+			cout << getQueryResult();
 
 			fpsCount = 0;
 			glfwSetWindowTitle(windowRef, ss.str().c_str());

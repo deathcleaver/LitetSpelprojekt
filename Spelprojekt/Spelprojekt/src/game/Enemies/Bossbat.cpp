@@ -10,7 +10,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = 1;
+	contentIndex = EnemyID::batboss;
 	health = 4;
 	speed = 4.0f;
 	slow = false;
