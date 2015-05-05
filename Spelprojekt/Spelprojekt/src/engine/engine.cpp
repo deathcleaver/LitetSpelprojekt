@@ -91,7 +91,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	e = new Effect();
 
-	e->create(EffectType::lightning);
+	e->create(EffectType::spark);
 	e->getEffect()->init(0, 2, 0);
 }
 
