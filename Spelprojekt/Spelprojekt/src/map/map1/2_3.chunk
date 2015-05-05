@@ -118,7 +118,8 @@ Spider 7 4
 19 1 0 0 -4.00555 0 1 0 7.87884 0 0 1 0 0 0 0 1
 19 1.64407 0 0.582271 -2.5847 0 1.81805 0 8.40661 -0.604971 0 1.58238 -3.14027 0 0 0 1
 -1 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 : Nr of Sounds ((2D = 0 3D = 1), id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 34 -2 3 -2 5 1 10 20
 2 : Nr of Lights 
 -8.19921 -4.81432 -3.40416 1 1 0.0949997 3.51459 7.64444 1 : LIGHTS
 -0.332977 4.25948 2.79723 1 1 1 2.35419 66.7481 0 : LIGHTS

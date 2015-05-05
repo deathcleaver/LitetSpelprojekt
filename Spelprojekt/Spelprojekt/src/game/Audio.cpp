@@ -123,12 +123,14 @@ void Audio::loadFiles()
 	soundFiles[18] = "../Audio/Sounds/Items/item_hearth_completed.wav";
 	//ambient
 	soundFiles[19] = "../Audio/Sounds/Ambient/ambient_crow.wav";
-	soundFiles[20] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
+	soundFiles[20] = "../Audio/Sounds/Ambient/ambient_water_drop.wav";
 	soundFiles[21] = "../Audio/Sounds/Ambient/ambient_rain.wav";
 	soundFiles[22] = "../Audio/Sounds/Ambient/ambient_thunder2_stereo.wav";
 	soundFiles[23] = "../Audio/Sounds/Ambient/ambient_crow.wav";
 	soundFiles[24] = "../Audio/Sounds/everyone.wav";
 	soundFiles[26] = "../Audio/Sounds/Ambient/ambient_frostmourne_chant.wav";
+	soundFiles[34] = "../Audio/Sounds/Ambient/ambient_mining.wav";
+	soundFiles[35] = "../Audio/Sounds/Ambient/ambient_ironbeak_owl.wav";
 	//...
 }
 

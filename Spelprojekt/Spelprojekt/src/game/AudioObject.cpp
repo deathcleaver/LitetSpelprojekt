@@ -22,6 +22,7 @@ void AudioObject::init(bool is3D, int file, glm::vec3 pos, float dist, int loopT
 	intervalLooping == false;
 	nextInstance = 0;
 	time = 0;
+	tracking = false;
 
 	play3D = is3D;
 	fileId = file;
@@ -34,9 +35,9 @@ void AudioObject::init(bool is3D, int file, glm::vec3 pos, float dist, int loopT
 		intervalLooping = true;
 		minInterval = minInt;
 		maxInterval = maxInt;
+		nextInstance = minInt;
 	}
 	state = A_WAITING;
-	tracking = false;
 	
 }
 
