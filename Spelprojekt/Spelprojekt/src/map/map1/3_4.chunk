@@ -1,7 +1,7 @@
 0 : ChuckTesta
 0 : Enemy Count
 4 0 0 -6 :  BACKGROUND!
--1 NO SHRINE
+2 1 8.5 -0.5 :  SHRINE!
 -1
 96 :  Number of world objects
 0 16.4778 0 0 3.46686 0 0.577774 0 16.6976 0 0 8.81111 0 0 0 0 1

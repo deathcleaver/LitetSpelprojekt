@@ -7,7 +7,7 @@
 
 struct Progress
 {
-	glm::vec2 pickups[4];
+	glm::vec2 pickups[12];
 	int nrOfPickups = 0;
 	bool batboss = false;
 	bool spiderboss = false;

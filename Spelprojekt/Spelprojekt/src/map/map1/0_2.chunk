@@ -1,12 +1,13 @@
 0 : ChuckTesta
-4 : Enemy Count
+5 : Enemy Count
+Flame 8 9
 Bat 5 4
 Bat 8 1
 Ghost 14 10
 Ghost 0 5
 2 0 0 -3 :  BACKGROUND!
 -1 NO SHRINE
-0 0 2
+0 10 -3
 79 :  Number of world objects
 0 14.7741 0 0 -9.51152 0 25.5681 0 4.77972 0 0 1.82027 1.29306 0 0 0 1
 0 5.84815 0 0 -4.32594 0 16.0153 0 11.3687 0 0 2.34583 0.950001 0 0 0 1

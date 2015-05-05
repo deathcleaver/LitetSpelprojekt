@@ -63,7 +63,7 @@ private:
 	void checkForSave();
 	void saveGame();
 
-	glm::vec2 savedPickups[4];
+	glm::vec2 savedPickups[12];
 	int savePickupNr = 0;
 
 public:
