@@ -19,7 +19,7 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
-	currentMode = 0;
+	currentMode = -1;
 	webTimer = 0.0f;
 	jumpTimer = -1.0f;
 }
@@ -37,8 +37,8 @@ void Bossspider::init()
 		health = 6;
 		collideRect->update();
 
-		currentMode = 0;
-		webTimer = 0.0f;
+		currentMode = -1;
+		webTimer = 2.0f;
 		websToShoot = 0;
 		jumpTimer = -1.0f;
 	}
@@ -65,11 +65,15 @@ void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 
 int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	invulnTimer -= 1.0f*deltaTime;
+	if (invulnTimer > 0.0f)
+		invulnTimer -= 1.0f*deltaTime;
 	if (currentMode == -1) //Spawning
 	{
+		webTimer -= 1.0*deltaTime;
+		if (webTimer < FLT_EPSILON)
+			currentMode = 0;
 	}
-	if (currentMode == 0) //Dropping from ceiling
+	else if (currentMode == 0) //Dropping from ceiling
 	{
 		speed.y -= 4.0;
 		if (speed.y < -25)
@@ -80,11 +84,12 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			translate(0, -speed.y*deltaTime);
 			speed.y = 0;
 			currentMode = 1;
+			jumpTimer = 7.0f;
 			printf("Mode switch to 1\n");
 
 		}
 	}
-	if (currentMode == 1) //Rolling around at the speed of sound, got places to go, gotta follow my rainbow
+	else if (currentMode == 1) //Rolling around at the speed of sound, got places to go, gotta follow my rainbow
 	{
 		translate(speed.x*deltaTime, 0);
 		if (collidesWithWorld(map))
@@ -100,18 +105,15 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 			speed.x = -speed.x;
 		}
-		if (jumpTimer > 0.0f)
+		jumpTimer -= 1.0f*deltaTime;
+		if (jumpTimer < FLT_EPSILON)
 		{
-			jumpTimer -= 1.0f*deltaTime;
-			if (jumpTimer < FLT_EPSILON)
-			{
-				jumpTimer = -1.0f;
-				currentMode = 2;
-				printf("Modeswitch to 2\n");
-			}
+			speed.y = 25.0f;
+			currentMode = 2;
+			printf("Modeswitch to 2\n");
 		}
 	}
-	if (currentMode == 2) //Jumping back up
+	else if (currentMode == 2) //Jumping back up
 	{
 		speed.y -= 0.2;
 		translate(0, speed.y*deltaTime);
@@ -134,7 +136,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			speed.y = 0;
 		}
 	}
-	if (currentMode == 3) //Spiderman, spiderman, shoots whatever a spider can
+	else if (currentMode == 3) //Spiderman, spiderman, shoots whatever a spider can
 	{
 		webTimer -= 1.0*deltaTime;
 		if (webTimer < FLT_EPSILON && websToShoot == 0)
