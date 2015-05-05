@@ -4,7 +4,7 @@
 
 #include <ctime>
 
-#include <vld.h>
+//#include <vld.h>
 
 int main(int argv, char* argc[])
 {
