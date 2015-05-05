@@ -81,6 +81,8 @@ Game::~Game()
 		delete gui;
 	if (edit)
 		delete edit;
+	if (updateAnimCheck)
+		delete updateAnimCheck;
 
 	//clean audio buffers
 	Audio::getAudio().shutdown();
@@ -105,6 +107,8 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
+
+	updateAnimCheck = new UpdateAnimCheck();
 	
 	gamePad = new Gamepad();
 	gamePad->init();
@@ -289,7 +293,7 @@ void Game::update(float deltaTime)
 					   //Animations
 					   static int updateAnim = 1;
 					   if (updateAnim % 2 == 0)
-						content->update();
+						content->update(updateAnimCheck);
 					   updateAnim++;
 
 					   vec3 pPos = player->readPos();
@@ -425,7 +429,8 @@ void Game::update(float deltaTime)
 	Audio::getAudio().update(deltaTime);
 
 	//Render const
-	engine->render(player, map, content, gui, in->GetPos(), (int)current, edit);
+	updateAnimCheck->reset();
+	engine->render(player, map, content, gui, in->GetPos(), (int)current, edit, updateAnimCheck);
 }
 
 void Game::buttonEvents(int buttonEv)

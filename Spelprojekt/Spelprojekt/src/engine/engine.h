@@ -15,6 +15,7 @@
 #include "ObjectManager.h"
 #include "../game/map.h"
 #include "../game/edit.h"
+#include "updateAnimCheck.h"
 
 #include "../Align16.h"
 
@@ -65,7 +66,7 @@ private:
 	void renderBack();
 	void renderWorld();
 	void renderMisc();
-	void renderEnemies();
+	void renderEnemies(UpdateAnimCheck* animCheck);
 	void bindLights(const Player*, Edit* edit);
 	void renderRekts();
 	void renderEditObject(Edit*);
@@ -88,7 +89,7 @@ public:
 	void init(glm::mat4* viewMatrix);
 	void applySettings(bool glows);
 	void render(const Player* player, const Map* map, const ContentManager* content,
-		const GUI* gui, vec3* campos, int state, Edit* edit);
+		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
 	void setFadeIn();
 	void setFadeOut();

@@ -10,6 +10,7 @@
 #include "../engine/ContentManager.h"
 #include "../engine/object.h"
 #include "../engine/ObjectManager.h"
+#include "../engine/updateAnimCheck.h"
 
 #include "player.h"
 #include "enemyManager.h"
@@ -39,7 +40,7 @@ private:
 	Engine* engine = 0;
 	ContentManager* content = 0;
 	Player* player = 0;
-
+	UpdateAnimCheck* updateAnimCheck = 0;
 	Map* map = 0;
 	UserInput* in = 0;
 	Gamepad* gamePad = 0;

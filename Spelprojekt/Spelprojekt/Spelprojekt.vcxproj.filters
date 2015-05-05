@@ -263,6 +263,9 @@
     <ClInclude Include="src\game\Effect\Torch.h">
       <Filter>Header\Game\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\updateAnimCheck.h">
+      <Filter>Header\Engine\GFX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
