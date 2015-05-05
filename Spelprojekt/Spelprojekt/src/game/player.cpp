@@ -41,6 +41,8 @@ Player::~Player()
 {
 	delete runeEffect;
 	delete collideRect;
+	if (gamePad)
+		delete gamePad;
 }
 
 void Player::setStartPos(int x, int y)
