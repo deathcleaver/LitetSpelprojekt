@@ -54,6 +54,7 @@ public:
 	GUI(){};
 	~GUI();
 	void init(UserInput* in, Player* player, ContentManager* content, bool grayContinue = true);
+	void setIntroState(int i){ introState = i; };
 	int update(int state);
 	int GUI::readSize() const;
 	int GUI::bindIndex(int index) const;

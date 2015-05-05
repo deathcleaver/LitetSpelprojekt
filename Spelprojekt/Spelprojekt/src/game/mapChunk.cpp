@@ -165,6 +165,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		if (nrOfSounds > 0)
 		{
 			int soundType; //0 = 2D, 1 = 3D
+			bool is3D;
 			int id;
 			glm::vec3 soundPos;
 			float dist;
@@ -195,7 +196,12 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				ss >> sub;
 				maxInterval = atof(sub.c_str()); //max loop interval if loopType = 2
 
-				sounds[c].init(soundType, id, soundPos, dist, loopType, minInterval, maxInterval);
+				if (soundType == 0)
+					is3D = false;
+				else
+					is3D = true;
+
+				sounds[c].init(is3D, id, soundPos, dist, loopType, minInterval, maxInterval);
 			}
 		}
 

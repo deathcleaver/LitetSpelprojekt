@@ -341,6 +341,11 @@ void Game::update(float deltaTime)
 		}
 		case(INTRO) :
 		{
+						if (gamePad->isButtonPressed(gamePad->getButtons().Start))
+						{
+							gui->setIntroState(6); //skip intro
+						}
+
 						break;
 		}
 		case(EDIT) :
