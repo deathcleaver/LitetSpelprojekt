@@ -6,6 +6,7 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 #include "../GUI.h"
+#include "../GameConfig.h"
 #include "Light.h"
 
 class Edit
@@ -51,8 +52,8 @@ private:
 	int width;
 	int height;
 
-	float SCREENWIDTH = 1080;
-	float SCREENHEIGHT = 720;
+	float SCREENWIDTH = configResX;
+	float SCREENHEIGHT = configResY;
 	EditMode editMode = EditMode::NONEM;
 	EditMode editModeLast = EditMode::NONEM;
 	EditState editState = EditState::NONES;

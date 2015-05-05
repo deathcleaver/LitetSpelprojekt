@@ -1,6 +1,7 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include "game\game.h"
+#include "GameConfig.h"
 
 #include <ctime>
 
@@ -22,8 +23,8 @@ int main(int argv, char* argc[])
 
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	// init windowed or fullscreen
-	bool fullscreen;
+	// init graphics
+
 	ifstream in;
 	char* settings = "Config/settings.s";
 	in.open(settings);
@@ -32,18 +33,28 @@ int main(int argv, char* argc[])
 		string line;
 		string sub;
 		stringstream ss;
+
+		//fullscreen
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub;
-		fullscreen = atoi(sub.c_str());
+		configFullscreen = atoi(sub.c_str());
+
+		//resolution
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		configResX = atoi(sub.c_str());
+		ss >> sub;
+		configResY = atoi(sub.c_str());
 
 		in.close();
 	}
 	
-	if (fullscreen) // fullscreen
-		wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
+	if (configFullscreen) // fullscreen
+		wnd = glfwCreateWindow(configResX, configResY, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
 	else // windowed
-		wnd = glfwCreateWindow(1080, 720, "ASUM PROJECT", NULL, NULL);
+		wnd = glfwCreateWindow(configResX, configResY, "ASUM PROJECT", NULL, NULL);
 
 	glfwMakeContextCurrent(wnd);
 	glewInit();

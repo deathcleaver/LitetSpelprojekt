@@ -139,8 +139,8 @@
     <ClInclude Include="src\engine\GBuffer.h" />
     <ClInclude Include="src\engine\object.h" />
     <ClInclude Include="src\engine\RenderTarget.h" />
+    <ClInclude Include="src\GameConfig.h" />
     <ClInclude Include="src\Gamepad.h" />
-    <ClInclude Include="src\GameSettings.h" />
     <ClInclude Include="src\game\Audio.h" />
     <ClInclude Include="src\game\BaseEffect.h" />
     <ClInclude Include="src\game\AudioObject.h" />

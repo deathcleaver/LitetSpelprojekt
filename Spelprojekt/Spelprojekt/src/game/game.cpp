@@ -599,6 +599,10 @@ void Game::initSettings()
 
 		getline(in, line);
 		ss = stringstream(line);
+		ss >> sub; //read past resolution line
+
+		getline(in, line);
+		ss = stringstream(line);
 		bool glows;
 		ss >> sub;
 		glows = atoi(sub.c_str());

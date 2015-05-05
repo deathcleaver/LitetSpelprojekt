@@ -1,6 +1,8 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include "../GameConfig.h"
+
 #include <string>
 
 #include <GL\glew.h>
@@ -24,8 +26,8 @@ private:
 	int faceCount = -1;
 	float TexscaleX = 1;
 	float TexscaleY = 1;
-	int SCREENWIDTH = 1080;
-	int SCREENHEIGHT = 720;
+	int SCREENWIDTH = configResX;
+	int SCREENHEIGHT = configResY;
 
 	//temprary implementations
 	bool loadVert(std::string path);
