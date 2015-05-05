@@ -1,5 +1,11 @@
 0 : ChuckTesta
-0 : Enemy Count
+6 : Enemy Count
+Flame 4 -12
+Spider 2 -10
+Spider 7 -10
+Spider 11 -10
+Ghost 11 -4
+Ghost 4 -8
 4 0 0 -6 :  BACKGROUND!
 2 1 8.5 -0.5 :  SHRINE!
 -1

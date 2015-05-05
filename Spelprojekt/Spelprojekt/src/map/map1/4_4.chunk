@@ -1,8 +1,32 @@
 0 : ChuckTesta
-0 : Enemy Count
+24 : Enemy Count
+Bat -6 -2
+Bat -8 -5
+Spider 10 11
+Spider 14 11
+Spider -4 16
+Spider -7 16
+Spider 0 16
+Spider -4 -0.800003
+Spider -15 2
+Web -3 -10
+Web -3 -9
+Web -3 -8
+Web -3 -7
+Web -5 -10
+Web -4 -10
+Web -5 -9
+Web -4 -9
+Web -4 -8
+Web -6 -10
+Web -6 -11
+Web -6 -12
+Web -6 -13
+Web -6 -14
+Web -6 -15
 -1 NO BACKGROUND
 -1 NO SHRINE
--1
+0 15 -14
 214 :  Number of world objects
 0 16.4519 0 0 8.41516 0 4.35136 0 5.71654 0 0 0.1 -1.08195 0 0 0 1
 0 2.21852 0 0 10.9308 0 0.25834 0 -4.37553 0 0 0.94722 0.15834 0 0 0 1
