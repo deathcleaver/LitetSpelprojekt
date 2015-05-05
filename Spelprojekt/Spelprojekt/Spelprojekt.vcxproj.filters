@@ -57,18 +57,6 @@
     <ClCompile Include="src\game\Web.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\BaseEffect.cpp">
-      <Filter>Source\Game\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Effect.cpp">
-      <Filter>Source\Game\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\spark.cpp">
-      <Filter>Source\Game\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Torch.cpp">
-      <Filter>Source\Game\Effects</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\ObjectManager.cpp">
       <Filter>Source\Engine\GFX</Filter>
     </ClCompile>
@@ -102,9 +90,6 @@
     <ClCompile Include="src\UserInput.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Shield.cpp">
-      <Filter>Source\Game\Effects</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\Enemies\Spellbook.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
@@ -116,6 +101,24 @@
     </ClCompile>
     <ClCompile Include="src\Gamepad.cpp">
       <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect\BaseEffect.cpp">
+      <Filter>Source\Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect\Effect.cpp">
+      <Filter>Source\Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect\Shield.cpp">
+      <Filter>Source\Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect\spark.cpp">
+      <Filter>Source\Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect\Torch.cpp">
+      <Filter>Source\Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Effect\Lightning.cpp">
+      <Filter>Source\Game\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,24 +194,6 @@
     <ClInclude Include="src\game\Web.h">
       <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\BaseEffect.h">
-      <Filter>Header\Game\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Effect.h">
-      <Filter>Header\Game\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Shield.h">
-      <Filter>Header\Game\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Light.h">
-      <Filter>Header\Game\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Spark.h">
-      <Filter>Header\Game\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Torch.h">
-      <Filter>Header\Game\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\AudioObject.h">
       <Filter>Header\Engine\SFX</Filter>
     </ClInclude>
@@ -256,6 +241,27 @@
     </ClInclude>
     <ClInclude Include="src\Gamepad.h">
       <Filter>Header\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\BaseEffect.h">
+      <Filter>Header\Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\Effect.h">
+      <Filter>Header\Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\Light.h">
+      <Filter>Header\Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\Lightning.h">
+      <Filter>Header\Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\Shield.h">
+      <Filter>Header\Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\Spark.h">
+      <Filter>Header\Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Effect\Torch.h">
+      <Filter>Header\Game\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

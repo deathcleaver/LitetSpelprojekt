@@ -20,7 +20,7 @@
 
 #include "GBuffer.h"
 
-#include "../game/Effect.h"
+#include "../game/Effect/Effect.h"
 
 class Engine : public Align_16
 {

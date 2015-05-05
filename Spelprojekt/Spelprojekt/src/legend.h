@@ -97,6 +97,7 @@ enum EffectType
 	torch,
 	spark,
 	shield,
+	lightning,
 };
 
 #endif

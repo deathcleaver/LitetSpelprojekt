@@ -9,7 +9,7 @@
 
 #include "gameObject.h"
 #include "rect.h"
-#include "Light.h"
+#include "Effect/Light.h"
 
 class HealthPickup : public GameObject
 {

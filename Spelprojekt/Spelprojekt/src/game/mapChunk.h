@@ -10,7 +10,7 @@
 
 #include "enemyManager.h"
 #include "Shrine.h"
-#include "Light.h"
+#include "Effect/Light.h"
 #include "AudioObject.h"
 #include "../legend.h"
 

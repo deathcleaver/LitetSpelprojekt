@@ -6,7 +6,7 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 #include "../GUI.h"
-#include "Light.h"
+#include "Effect\Light.h"
 
 class Edit
 {
