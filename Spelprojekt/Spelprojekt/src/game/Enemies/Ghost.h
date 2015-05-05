@@ -3,6 +3,7 @@
 
 #include "../AudioObject.h"
 #include "../Enemy.h"
+#include <cstdlib>
 
 class Ghost : public Enemy
 {

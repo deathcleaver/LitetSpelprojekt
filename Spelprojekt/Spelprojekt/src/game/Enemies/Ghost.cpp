@@ -1,5 +1,6 @@
 #include "Ghost.h"
 #include "../mapChunk.h"
+#include "../BaseEffect.h"
 
 Ghost::Ghost(glm::vec2 firstPos)
 {
@@ -94,6 +95,9 @@ void Ghost::hit(int damage, bool playerRightOfEnemy)
 		{
 			Audio::getAudio().playSoundAtPos(28, readPos(), 2.5, false); //enemy_ghost_hurt
 			invulnTimer = 2.0f;
+			float direction = rand() % 360 * 0.0174532925f;
+			randdir.x = cos(direction);
+			randdir.y = sin(direction);
 		}
 	}
 }
