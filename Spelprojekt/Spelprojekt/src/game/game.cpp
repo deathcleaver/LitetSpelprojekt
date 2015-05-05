@@ -285,8 +285,13 @@ void Game::update(float deltaTime)
 					   }
 					   content->setPlayerState(player->getAnimState());
 					   map->setUpDraw3x2(*in->GetPos());
+					   
 					   //Animations
-					   content->update();
+					   static int updateAnim = 1;
+					   if (updateAnim % 2 == 0)
+						content->update();
+					   updateAnim++;
+
 					   vec3 pPos = player->readPos();
 					   int mapMsg = map->update(deltaTime, player);
 					   if (!mapMsg)
