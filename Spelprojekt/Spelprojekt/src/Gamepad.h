@@ -5,7 +5,7 @@
 #include <fstream>
 #include <istream>
 
-#define DEADZONE 0.1f
+#define DEADZONE 0.2f
 
 using namespace std;
 
