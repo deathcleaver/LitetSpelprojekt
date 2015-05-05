@@ -902,13 +902,13 @@ void MapChunk::recieveWorld(GameObject* item)
 	gameObjects[item->returnID()].push_back(item);
 	
 	// mirror test
-	GameObject* itemC = new GameObject();
-	*itemC = *item;
-	glm::vec3 pos = itemC->readPos();
-	itemC->moveTo(pos.x * -1, pos.y, pos.z);
-	itemC->rotateTo(0, 3.1415926 * 0.5, 0);
+	//GameObject* itemC = new GameObject();
+	//*itemC = *item;
+	//glm::vec3 pos = itemC->readPos();
+	//itemC->moveTo(pos.x * -1, pos.y, pos.z);
+	//itemC->rotateTo(0, 3.1415926 * 0.5, 0);
 
-	gameObjects[item->returnID()].push_back(itemC);
+	//gameObjects[item->returnID()].push_back(itemC);
 }
 
 GameObject* MapChunk::takeClosestWorldItem(glm::vec3 pos)
