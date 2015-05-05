@@ -10,7 +10,7 @@ private:
 	float speed;
 	float invulnTimer;
 	AudioObject audioObj;
-
+	glm::vec2 randdir;
 public:
 	Ghost(glm::vec2 firstPos);
 	Ghost(Ghost* copy);

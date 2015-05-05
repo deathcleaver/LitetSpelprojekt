@@ -1,6 +1,13 @@
 0 : ChuckTesta
-1 : Enemy Count
-Flame 12 0
+8 : Enemy Count
+Bat -7 -2.5
+Bat -4 1
+Flame 0 14
+Spikes -15 -9
+Spikes -14 -9
+Spikes -13 -9
+Cube -14 -8
+Spider 0 12
 2 0 0 -3 :  BACKGROUND!
 -1 NO SHRINE
 -1

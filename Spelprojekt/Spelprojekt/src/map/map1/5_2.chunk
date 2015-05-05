@@ -1,17 +1,17 @@
 0 : ChuckTesta
 13 : Enemy Count
-Spikes -5 -7
-Spikes -6 -7
-Spikes -7 -7
-Spikes -9 -7
-Spikes -10 -7
-Spikes -11 -7
 Bat -2 3
 Bat -1 8
 Bat 0 -6
 Bat 6 -9
 Flame -7 6
 Flame -3 2
+Spikes -5 -7
+Spikes -6 -7
+Spikes -7 -7
+Spikes -9 -7
+Spikes -10 -7
+Spikes -11 -7
 Spider 0 -13
 2 0 0 -3 :  BACKGROUND!
 -1 NO SHRINE

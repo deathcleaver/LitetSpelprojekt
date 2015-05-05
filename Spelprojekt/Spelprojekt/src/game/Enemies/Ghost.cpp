@@ -66,7 +66,10 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		collideRect->update();
 	}
 	else
+	{
+		moveTo(pos.x + randdir.x*deltaTime, pos.y + randdir.y*deltaTime);
 		invulnTimer -= 1.0f*deltaTime;
+	}
 
 
 	// update ghost_moan (wip)
@@ -88,8 +91,10 @@ void Ghost::hit(int damage, bool playerRightOfEnemy)
 			Audio::getAudio().playSoundAtPos(29, readPos(), 2.5, false); //enemy_ghost_death
 		}
 		else
+		{
 			Audio::getAudio().playSoundAtPos(28, readPos(), 2.5, false); //enemy_ghost_hurt
-		invulnTimer = 2.0f;
+			invulnTimer = 2.0f;
+		}
 	}
 }
 
