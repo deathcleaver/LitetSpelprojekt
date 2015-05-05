@@ -240,10 +240,9 @@
     <ClInclude Include="src\Gamepad.h">
       <Filter>Header\Game</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="src\GameConfig.h">
       <Filter>Header\Game</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="src\game\Effect\BaseEffect.h">
       <Filter>Header\Game\Effects</Filter>
     </ClInclude>
@@ -264,7 +263,6 @@
     </ClInclude>
     <ClInclude Include="src\game\Effect\Torch.h">
       <Filter>Header\Game\Effects</Filter>
->>>>>>> 000076c905b6cff24b327e4e674e91c83e06521a
     </ClInclude>
     <ClInclude Include="src\TimeQuery.h" />
   </ItemGroup>
