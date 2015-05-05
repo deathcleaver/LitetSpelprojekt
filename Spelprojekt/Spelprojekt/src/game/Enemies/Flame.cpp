@@ -199,6 +199,7 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		else
 		{
 			Audio::getAudio().playSoundAtPos(15, readPos(), audibleDistance, false); //enemy_flame_hurt
+			((Torch*)flameEffect->getEffect())->setIntensity(health * 10);
 		}
 
 		invulnTimer = 0.6f;
