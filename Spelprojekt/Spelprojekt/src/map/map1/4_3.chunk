@@ -1,5 +1,7 @@
 0 : ChuckTesta
-0 : Enemy Count
+2 : Enemy Count
+Bat 0 6
+Spider 2 9
 2 0 0 -3 :  BACKGROUND!
 3 8 -2.5 -0.5 :  SHRINE!
 -1
