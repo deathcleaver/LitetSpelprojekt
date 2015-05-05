@@ -1,5 +1,6 @@
 #include "game.h"
 #include <ctime>
+#include "../TimeQuery.h"
 //#include <iostream>
 //#include <Windows.h>
 
@@ -160,6 +161,8 @@ void Game::mainLoop()
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
+		resetQuery();
+		int timerID = startTimer("Frame");
 		glfwPollEvents();
 
 		deltaTime = 0.0166666f;
@@ -173,6 +176,9 @@ void Game::mainLoop()
 		clock = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		deltaTime = clock - lastClock;
 		lastClock = clock;
+
+		stopTimer(timerID);
+		terminateQuery();
 
 		if (clock > 1)
 		{
@@ -207,9 +213,14 @@ void Game::mainLoop()
 				}
 				ss << " :  Chunk: " << x << "_" << y << "  Index:  " << ix << "  " << iy;
 			}
+
+			//enable for time quarry result
+			//cout << getQueryResult();
+
 			fpsCount = 0;
 			glfwSetWindowTitle(windowRef, ss.str().c_str());
 		}
+
 	}
 }
 
@@ -606,6 +617,10 @@ void Game::initSettings()
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub; //read past fullscreen line
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub; //read past resolution line
 
 		getline(in, line);
 		ss = stringstream(line);

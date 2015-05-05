@@ -128,6 +128,7 @@
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\screenItem.cpp" />
+    <ClCompile Include="src\TimeQuery.cpp" />
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +143,6 @@
     <ClInclude Include="src\engine\RenderTarget.h" />
     <ClInclude Include="src\engine\updateAnimCheck.h" />
     <ClInclude Include="src\Gamepad.h" />
-    <ClInclude Include="src\GameSettings.h" />
     <ClInclude Include="src\game\Audio.h" />
     <ClInclude Include="src\game\AudioObject.h" />
     <ClInclude Include="src\game\edit.h" />
@@ -180,6 +180,7 @@
     <ClInclude Include="src\GUI.h" />
     <ClInclude Include="src\legend.h" />
     <ClInclude Include="src\screenItem.h" />
+    <ClInclude Include="src\TimeQuery.h" />
     <ClInclude Include="src\UserInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

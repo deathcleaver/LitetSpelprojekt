@@ -120,15 +120,13 @@
     <ClCompile Include="src\game\Effect\Lightning.cpp">
       <Filter>Source\Game\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="src\TimeQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
     <ClInclude Include="src\game\edit.h" />
     <ClInclude Include="src\legend.h" />
     <ClInclude Include="src\game\game.h">
-      <Filter>Header\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSettings.h">
       <Filter>Header\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\player.h">
@@ -242,6 +240,9 @@
     <ClInclude Include="src\Gamepad.h">
       <Filter>Header\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameConfig.h">
+      <Filter>Header\Game</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\Effect\BaseEffect.h">
       <Filter>Header\Game\Effects</Filter>
     </ClInclude>
@@ -266,6 +267,7 @@
     <ClInclude Include="src\engine\updateAnimCheck.h">
       <Filter>Header\Engine\GFX</Filter>
     </ClInclude>
+    <ClInclude Include="src\TimeQuery.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

@@ -224,6 +224,10 @@ void ObjectManager::loadMapObjs()
 	//tunnel
 	add = new AnimationObject("src/meshes/Crypt/TunnelWhole.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//tunnel
+	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/carpet.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
