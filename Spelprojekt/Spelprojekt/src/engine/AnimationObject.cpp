@@ -39,7 +39,14 @@ AnimationObject::AnimationObject(Object** someBases, std::string pathVert, int a
 	mySpeed = aSpeed;
 	myDirection = 1;
 
-	myAnimObject = new Object(pathVert,"", myBaseObjects[0], false, true);
+	if (myNrOfBaseObjects == 1)
+	{
+		myAnimObject = myBaseObjects[0];
+	}
+	else
+	{
+		myAnimObject = new Object(pathVert, "", myBaseObjects[0], false, true);
+	}
 	myAnimPoint1 = myAnimPoint2 = 0;
 }
 
@@ -49,8 +56,8 @@ AnimationObject::AnimationObject(Object* aBase)
 
 	myBaseObjects = new Object*[myNrOfBaseObjects];
 	
-	myBaseObjects[0] = new Object("", "", aBase, true, true);
-	myAnimObject = new Object("", "", aBase, true, true);
+	myBaseObjects[0] = aBase;
+	myAnimObject = aBase;
 
 	myWeight = 0.0f;
 	mySpeed = 0.0f;
@@ -82,7 +89,7 @@ AnimationObject::~AnimationObject()
 	}
 	delete[] myBaseObjects;
 
-	if (myAnimObject)
+	if (myNrOfBaseObjects > 1)
 		delete myAnimObject;
 }
 
