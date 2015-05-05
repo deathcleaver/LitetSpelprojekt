@@ -22,9 +22,9 @@ void ContentManager::init()
 
 }
 
-void ContentManager::update()
+void ContentManager::update(UpdateAnimCheck* animCheck)
 {
-	objectManager->update();
+	objectManager->update(animCheck);
 }
 
 void ContentManager::loadObjManager()

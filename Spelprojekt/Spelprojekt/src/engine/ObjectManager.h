@@ -4,6 +4,7 @@
 #include"AnimationObject.h"
 #include <vector>
 #include "../legend.h"
+#include "updateAnimCheck.h"
 
 using std::vector;
 
@@ -27,7 +28,7 @@ public:
 	~ObjectManager();
 	void init();
 
-	void update();
+	void update(UpdateAnimCheck* animCheck);
 	void setPlayerState(std::string state);
 	int bind(int type, int id) const;
 	int bindPlayer() const;

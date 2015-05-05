@@ -10,6 +10,8 @@
 #include "gameObject.h"
 #include "rect.h"
 
+#include "../legend.h"
+
 class Map;
 class MapChunk;
 

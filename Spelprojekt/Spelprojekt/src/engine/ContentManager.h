@@ -4,6 +4,7 @@
 #include <string>
 #include "object.h"
 #include "ObjectManager.h"
+#include "updateAnimCheck.h"
 
 
 class ContentManager
@@ -20,7 +21,7 @@ public:
 	ContentManager() {};
 	~ContentManager();
 	void init();
-	void update();
+	void update(UpdateAnimCheck* animCheck);
 	void bindRekt() const;
 	int bindPlayer() const;
 	int bind(int type, int id) const;

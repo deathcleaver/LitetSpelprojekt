@@ -1,6 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include"GameConfig.h"
 #include "screenItem.h"
 #include "UserInput.h"
 #include "game\player.h"
@@ -45,8 +46,8 @@ private:
 	void SETTINGS(bool init);
 	void bossprogressInit();
 	int keyUpdate();
-	float SCREENWIDTH = 1080;
-	float SCREENHEIGHT = 720;
+	float SCREENWIDTH = configResX;
+	float SCREENHEIGHT = configResY;
 	void modeSwitchesFalse();
 	bool grayContinue = true;
 public:

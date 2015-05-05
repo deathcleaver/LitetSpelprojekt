@@ -332,17 +332,27 @@ void ObjectManager::loadBackObjs()
 	objects[OBJ::BACK].push_back(add);
 }
 
-void ObjectManager::update()
+void ObjectManager::update(UpdateAnimCheck* animCheck)
 {
 	myPlayer->update();
 	for (int i = 0; i < WorldID::world_count ; i++)
 	{
+		
 		objects[WORLD][i]->update();
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
 		if (i != EnemyID::batboss)
+		{
+		
+		if (animCheck->enemyUpdate[i])
 			objects[ENEMY][i]->update();
+	}
+		if (i == EnemyID::batboss)
+		{
+			if (animCheck->enemyUpdate[i])
+				objects[ENEMY][i]->update();
+		}
 		
 	}
 	for (int i = 0; i < MiscID::misc_count; i++)

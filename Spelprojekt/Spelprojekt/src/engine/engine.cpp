@@ -1,6 +1,9 @@
 #include "engine.h"
+#include "../GameConfig.h"
 
 #include "Shader.h"
+
+#include "../TimeQuery.h"
 
 Engine::~Engine()
 {
@@ -24,7 +27,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	//temp camera
 	viewMatrix = viewMat;
-	projMatrix = glm::perspective(3.14f*0.45f, 1080 / 720.0f, 0.1f, 1000.0f);
+	projMatrix = glm::perspective(3.14f*0.45f, (float)configResX / (float)configResY, 0.1f, 1000.0f);
 
 	//Temp shader
 	std::string shaders[] = { "src/shaders/default_vs.glsl", "src/shaders/gs.glsl", "src/shaders/default_fs.glsl" };
@@ -80,7 +83,7 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(shaderDoF, shaders, shaderType, 2);
 	gBuffer.shaderDoFPtr = &shaderDoF;
 
-	gBuffer.init(1080, 720, 4, true);
+	gBuffer.init(configResX, configResY, 4, true);
 	
 	light = new Light[1000];
 
@@ -91,7 +94,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	e = new Effect();
 
-	e->create(EffectType::spark);
+	e->create(EffectType::lightning);
 	e->getEffect()->init(0, 2, 0);
 }
 
@@ -118,9 +121,10 @@ void Engine::setFade(float fadeEffect)
 }
 
 void Engine::render(const Player* player, const Map* map, const ContentManager* contentin, 
-	const GUI* gui, glm::vec3* campos, int state, Edit* edit)
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
 {
 
+	int timerID = startTimer("Render");
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
 	// bind gbuffer FBO
@@ -162,7 +166,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	renderMisc();
 
-	renderEnemies();
+	renderEnemies(updateAnimCheck);
 
 	renderEditObject(edit);
 
@@ -202,6 +206,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		fadeIn = false;
 	if (fadeEffect < 0.0)
 		fadeOut = false;
+
+	stopTimer(timerID);
 }
 
 void Engine::renderPlayer(const Player* player)
@@ -306,7 +312,7 @@ void Engine::renderMisc()
 	lastid = -1;
 }
 
-void Engine::renderEnemies()
+void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 {
 	//render chunk monsters
 	for (int n = 0; n < upDraw[0]; n++){
@@ -316,6 +322,8 @@ void Engine::renderEnemies()
 			if (upDraw[y] > -1 && upDraw[y] < height)
 			{
 				int size = chunks[upDraw[x]][upDraw[y]].countEnemies("Bat");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::bat] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Bat"))
@@ -328,6 +336,8 @@ void Engine::renderEnemies()
 					}
 				}
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spikes");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::spikes] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Spikes");
@@ -338,6 +348,8 @@ void Engine::renderEnemies()
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::flame] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Flame"))
@@ -354,6 +366,8 @@ void Engine::renderEnemies()
 				glColorMask(0, 0, 1, 1);
 				glEnable(GL_CULL_FACE);
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::cube] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Cube"))
@@ -367,6 +381,8 @@ void Engine::renderEnemies()
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Ghost");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::ghost] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Ghost") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(i, "Ghost"))
@@ -379,6 +395,8 @@ void Engine::renderEnemies()
 					}
 				}
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spellbook");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Spellbook"))
@@ -391,6 +409,8 @@ void Engine::renderEnemies()
 					}
 				}
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Projectile");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Projectile"))
@@ -408,6 +428,8 @@ void Engine::renderEnemies()
 				glDisable(GL_CULL_FACE);
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spider");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::spider] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Spider"))
@@ -421,6 +443,8 @@ void Engine::renderEnemies()
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Web");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::web] = 1;
 				for (int i = 0; i < size; i++)
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Web");
@@ -431,6 +455,8 @@ void Engine::renderEnemies()
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Webshot");
+				if (size > 1)
+					animCheck->enemyUpdate[EnemyID::web] = 1;
 				for (int c = 0; c < size; c++)
 				{
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "Webshot");
@@ -442,11 +468,13 @@ void Engine::renderEnemies()
 
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
 				{
+					
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 					if (id != lastid)
 						facecount = content->bind(OBJ::ENEMY, EnemyID::batboss);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
+					animCheck->enemyUpdate[EnemyID::batboss] = 1;
 				}
 			}
 

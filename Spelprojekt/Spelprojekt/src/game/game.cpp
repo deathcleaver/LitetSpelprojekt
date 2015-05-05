@@ -1,5 +1,6 @@
 #include "game.h"
 #include <ctime>
+#include "../TimeQuery.h"
 //#include <iostream>
 //#include <Windows.h>
 
@@ -81,6 +82,8 @@ Game::~Game()
 		delete gui;
 	if (edit)
 		delete edit;
+	if (updateAnimCheck)
+		delete updateAnimCheck;
 
 	//clean audio buffers
 	Audio::getAudio().shutdown();
@@ -105,6 +108,8 @@ void Game::init(GLFWwindow* windowRef)
 	engine->init(viewMat);
 	content = new ContentManager();
 	content->init();
+
+	updateAnimCheck = new UpdateAnimCheck();
 	
 	gamePad = new Gamepad();
 	gamePad->init();
@@ -156,6 +161,8 @@ void Game::mainLoop()
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
+		resetQuery();
+		int timerID = startTimer("Frame");
 		glfwPollEvents();
 
 		deltaTime = 0.0166666f;
@@ -169,6 +176,9 @@ void Game::mainLoop()
 		clock = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		deltaTime = clock - lastClock;
 		lastClock = clock;
+
+		stopTimer(timerID);
+		terminateQuery();
 
 		if (clock > 1)
 		{
@@ -203,9 +213,14 @@ void Game::mainLoop()
 				}
 				ss << " :  Chunk: " << x << "_" << y << "  Index:  " << ix << "  " << iy;
 			}
+
+			//enable for time quarry result
+			cout << getQueryResult();
+
 			fpsCount = 0;
 			glfwSetWindowTitle(windowRef, ss.str().c_str());
 		}
+
 	}
 }
 
@@ -289,7 +304,7 @@ void Game::update(float deltaTime)
 					   //Animations
 					   static int updateAnim = 1;
 					   if (updateAnim % 2 == 0)
-						content->update();
+						content->update(updateAnimCheck);
 					   updateAnim++;
 
 					   vec3 pPos = player->readPos();
@@ -425,7 +440,8 @@ void Game::update(float deltaTime)
 	Audio::getAudio().update(deltaTime);
 
 	//Render const
-	engine->render(player, map, content, gui, in->GetPos(), (int)current, edit);
+	updateAnimCheck->reset();
+	engine->render(player, map, content, gui, in->GetPos(), (int)current, edit, updateAnimCheck);
 }
 
 void Game::buttonEvents(int buttonEv)
@@ -601,6 +617,10 @@ void Game::initSettings()
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub; //read past fullscreen line
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub; //read past resolution line
 
 		getline(in, line);
 		ss = stringstream(line);
