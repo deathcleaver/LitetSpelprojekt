@@ -62,6 +62,7 @@ enum WorldID
 	tunnel_broken,
 	tunnel,
 	redblock,
+	marble_shrine,
 
 	world_count, //leave this last
 };

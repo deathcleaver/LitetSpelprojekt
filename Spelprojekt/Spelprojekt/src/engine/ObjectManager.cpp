@@ -174,7 +174,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//candle_big
-	add = new AnimationObject("src/meshes/Crypt/CandleBig.v", "src/textures/Background/marble.bmp");
+	add = new AnimationObject("src/meshes/Crypt/CandleBig.v", "src/textures/white.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//candle_small
@@ -225,8 +225,12 @@ void ObjectManager::loadMapObjs()
 	add = new AnimationObject("src/meshes/Crypt/TunnelWhole.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
-	//tunnel
+	//red block
 	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/carpet.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//marble shrine
+	add = new AnimationObject("src/meshes/Interactive Objects/Shrine.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 
