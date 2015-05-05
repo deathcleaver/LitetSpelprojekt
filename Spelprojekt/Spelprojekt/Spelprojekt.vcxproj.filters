@@ -120,6 +120,7 @@
     <ClCompile Include="src\game\Effect\Lightning.cpp">
       <Filter>Source\Game\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="src\TimeQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -265,6 +266,7 @@
       <Filter>Header\Game\Effects</Filter>
 >>>>>>> 000076c905b6cff24b327e4e674e91c83e06521a
     </ClInclude>
+    <ClInclude Include="src\TimeQuery.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

@@ -5,6 +5,7 @@
 #include "Torch.h"
 #include "Spark.h"
 #include "Shield.h"
+#include "Lightning.h"
 
 class Effect
 {

@@ -3,6 +3,8 @@
 
 #include "Shader.h"
 
+#include "../TimeQuery.h"
+
 Engine::~Engine()
 {
 	delete e;
@@ -92,7 +94,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	e = new Effect();
 
-	e->create(EffectType::spark);
+	e->create(EffectType::lightning);
 	e->getEffect()->init(0, 2, 0);
 }
 
@@ -122,6 +124,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit)
 {
 
+	int timerID = startTimer("Render");
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
 
 	// bind gbuffer FBO
@@ -203,6 +206,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		fadeIn = false;
 	if (fadeEffect < 0.0)
 		fadeOut = false;
+
+	stopTimer(timerID);
 }
 
 void Engine::renderPlayer(const Player* player)

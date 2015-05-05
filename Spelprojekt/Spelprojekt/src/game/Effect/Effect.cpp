@@ -39,7 +39,13 @@ void Effect::create(EffectType effType)
 		effect = new Shield();
 		break;
 	}
+	case EffectType::lightning:
+	{
+		effect = new Lightning();
+		break;
+	}
 	default:
+		
 		break;
 	}
 }
