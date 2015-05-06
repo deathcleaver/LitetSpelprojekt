@@ -493,7 +493,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				if (HP > 1)
 				{
 					if (shield == 0)
+					{
 						HP -= 1;
+						Audio::getAudio().playSound(SoundID::player_hurt, false);
+					}
+						
 					printf("Ow, I'm hit! HP remaining is %d\n", HP);
 					flinchTimer = 0.3f;
 					float recoil = 10.0f;
@@ -537,6 +541,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
+					Audio::getAudio().playSound(SoundID::player_hurt, false);
 					Audio::getAudio().playSound(SoundID::player_resurrected, false); //player_resurrected
 				}
 			}
