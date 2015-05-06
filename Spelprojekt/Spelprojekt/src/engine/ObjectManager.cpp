@@ -53,15 +53,15 @@ void ObjectManager::init()
 
 void ObjectManager::loadPlayer()
 {
-	/*Object** playerAn = new Object*[5];
-	playerAn[0] = new Object("src/meshes/Player/PlayerBaseSword2.v", "src/textures/blue.bmp");
-	playerAn[1] = new Object("src/meshes/Player/PlayerWalkLeft.v", "", playerAn[0], false, true);
-	playerAn[2] = new Object("src/meshes/Player/PlayerWalkRight.v", "", playerAn[0], false, true);
-	playerAn[3] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
-	playerAn[4] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
+	Object** playerAn = new Object*[3];
+	playerAn[0] = new Object("src/meshes/Player/PlayerIdle.v", "src/textures/Player.bmp");
+	playerAn[1] = new Object("src/meshes/Player/PlayerWalkSwordFront2.v", "", playerAn[0], false, true);
+	playerAn[2] = new Object("src/meshes/Player/PlayerWalkSwordBack2.v", "", playerAn[0], false, true);
+	//playerAn[3] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
+	//playerAn[4] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
 
-	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerBaseSword2.v", 5, 0.5f, 0.05f);*/
-	myPlayer = new AnimationObject("src/meshes/Player/PlayerIdle.v", "src/textures/player.bmp");
+	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerIdle.v", 3, 0.5f, 0.05f);
+	//myPlayer = new AnimationObject("src/meshes/Player/PlayerIdle.v", "src/textures/player.bmp");
 
 }
 
@@ -380,17 +380,19 @@ void ObjectManager::bindRekt() const
 
 void ObjectManager::setPlayerState(std::string state)
 {
-	/*if (state == "idle")
+	if (state == "idle")
 	{
 	myPlayer->setAnimPoints(0, 0);
 	myPlayer->setSpeed(0.02f);
+	myPlayer->setWeight(0.5f);
 	}
 	else if (state == "walk")
 	{
 	myPlayer->setAnimPoints(1, 2);
-	myPlayer->setSpeed(0.02f);
+	myPlayer->setSpeed(0.1f);
+	//myPlayer->setWeight(0.5f);
 	}
-	else if (state == "air")
+	/*else if (state == "air")
 	{
 	myPlayer->setAnimPoints(1, 2);
 	myPlayer->setSpeed(0.02f);
