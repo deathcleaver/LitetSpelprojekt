@@ -380,6 +380,11 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						lastid = id;
 					}
 				}
+
+				glColorMask(1, 1, 1, 1);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDisable(GL_CULL_FACE);
+
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spellbook");
 				if (size > 1)
 					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
@@ -394,24 +399,17 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						lastid = id;
 					}
 				}
-				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Projectile");
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
 				if (size > 1)
-					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
-				for (int i = 0; i < size; i++)
+					animCheck->enemyUpdate[EnemyID::bat] = 1;
+				for (int c = 0; c < size; c++)
 				{
-					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Projectile"))
-					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Projectile");
-						if (id != lastid)
-							facecount = content->bind(OBJ::ENEMY, EnemyID::spellbook);
-						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						lastid = id;
-					}
+					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "Missile");
+					if (id != lastid)
+						facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
+					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+					lastid = id;
 				}
-
-				glColorMask(1, 1, 1, 1);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glDisable(GL_CULL_FACE);
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spider");
 				if (size > 1)
@@ -457,7 +455,12 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 					if (id != lastid)
-						facecount = content->bind(OBJ::ENEMY, EnemyID::batboss);
+					{
+						if (chunks[upDraw[x]][upDraw[y]].getBossType() == "Bossbat")
+							facecount = content->bind(OBJ::ENEMY, EnemyID::batboss);
+						else if (chunks[upDraw[x]][upDraw[y]].getBossType() == "Bossspider")
+							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
+					}
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
 					animCheck->enemyUpdate[EnemyID::batboss] = 1;

@@ -1,5 +1,7 @@
 #include "Spellbook.h"
 #include "../map.h"
+#include "Ghost.h"
+#include "ArcaneMissile.h"
 
 Spellbook::Spellbook(glm::vec2 firstPos)
 {
@@ -7,7 +9,7 @@ Spellbook::Spellbook(glm::vec2 firstPos)
 	moveTo(firstPos.x, firstPos.y);
 	alive = true;
 	facingRight = true;
-	contentIndex = 1;
+	contentIndex = EnemyID::cube;
 	health = 3;
 	speed = 1.0f;
 	audibleDistance = 2.5f;
@@ -25,7 +27,7 @@ Spellbook::Spellbook(Spellbook* copy)
 	moveTo(pos.x, pos.y);
 	alive = true;
 	facingRight = copy->facingRight;
-	contentIndex = 1;
+	contentIndex = EnemyID::cube;
 	health = 3;
 	speed = 1.0f;
 
@@ -49,29 +51,24 @@ int Spellbook::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	glm::vec2 pPos = glm::vec2(playerPos.x, playerPos.y);
 
 	// movement
-	if (invulnTimer < FLT_EPSILON)
+	if (yMovement == 1)
 	{
-		if (yMovement == 1)
-		{
-			moveTo(pos.x, pos.y + speed*deltaTime);
+		moveTo(pos.x, pos.y + speed*deltaTime);
 
-			if (pos.y > initPos.y + 1.0f || collidesWithWorld(map))
-			{
-				yMovement = -1;
-			}
-		}
-		if (yMovement == -1)
+		if (pos.y > initPos.y + 1.0f || collidesWithWorld(map))
 		{
-			moveTo(pos.x, pos.y - speed*deltaTime);
-
-			if (pos.y < initPos.y - 1.0f || collidesWithWorld(map))
-			{
-				yMovement = 1;
-			}
+			yMovement = -1;
 		}
 	}
-	else
-		invulnTimer -= 1.0f*deltaTime;
+	if (yMovement == -1)
+	{
+		moveTo(pos.x, pos.y - speed*deltaTime);
+
+		if (pos.y < initPos.y - 1.0f || collidesWithWorld(map))
+		{
+			yMovement = 1;
+		}
+	}
 
 	// spells
 	if (spellCooldown <= 0)
@@ -88,6 +85,9 @@ int Spellbook::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		spellCooldown -= 1.0f*deltaTime;
 	}
+
+	if (invulnTimer > 0.0)
+		invulnTimer -= 1.0f*deltaTime;
 	return 0;
 }
 
@@ -100,7 +100,7 @@ void Spellbook::castSpell(Map* map, glm::vec3 playerPos)
 	if (spell == 1)
 		spellArcaneMissile(map, playerPos);
 	
-	spellCooldown = 5.0f;
+	spellCooldown = 3.0f;
 }
 
 void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
@@ -108,13 +108,12 @@ void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
 	//test code
 	if (minionCount < minionsMax)
 	{
-		printf("Casting spell ghost missile.\n");
+		printf("Casting spell Summon Ghost.\n");
 		glm::vec3 pos = readPos();
-		/*Projectile* newProjectile = new Projectile(glm::vec2(pos.x, pos.y));
-		newProjectile->setVisitor();
-		map->findNewHome(newProjectile);
-		delete newProjectile;*/
-		
+		Ghost* summon = new Ghost(glm::vec2(pos));
+		summon->setVisitor();
+		map->findNewHome(summon);
+		delete summon;
 		Audio::getAudio().playSoundAtPos(27, pos, audibleDistance, false);
 
 		minionCount++;
@@ -126,6 +125,13 @@ void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
 void Spellbook::spellArcaneMissile(Map* map, glm::vec3 playerPos)
 {
 	printf("Casting spell Arcane Missile.\n");
+	glm::vec3 pos = readPos();
+	ArcaneMissile* pewpew = new ArcaneMissile(glm::vec2(pos));
+	glm::vec2 dir = normalize(glm::vec2(playerPos) - glm::vec2(readPos()));
+	pewpew->setDirection(dir);
+	map->findNewHome(pewpew);
+	delete pewpew;
+	Audio::getAudio().playSoundAtPos(27, pos, audibleDistance, false);
 }
 
 void Spellbook::hit(int damage, bool playerRightOfEnemy)

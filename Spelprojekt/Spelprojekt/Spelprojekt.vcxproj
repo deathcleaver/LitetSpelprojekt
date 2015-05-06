@@ -105,6 +105,7 @@
     <ClCompile Include="src\game\Effect\Shield.cpp" />
     <ClCompile Include="src\game\Effect\spark.cpp" />
     <ClCompile Include="src\game\Effect\Torch.cpp" />
+    <ClCompile Include="src\game\Enemies\ArcaneMissile.cpp" />
     <ClCompile Include="src\game\Enemies\Bat.cpp" />
     <ClCompile Include="src\game\Enemies\Bossbat.cpp" />
     <ClCompile Include="src\game\Enemies\Bossspider.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="src\game\Effect\Shield.h" />
     <ClInclude Include="src\game\Effect\Spark.h" />
     <ClInclude Include="src\game\Effect\Torch.h" />
+    <ClInclude Include="src\game\Enemies\ArcaneMissile.h" />
     <ClInclude Include="src\game\Enemies\Bat.h" />
     <ClInclude Include="src\game\Enemies\Bossbat.h" />
     <ClInclude Include="src\game\Enemies\Bossdummy.h" />

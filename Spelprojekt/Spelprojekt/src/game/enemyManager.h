@@ -23,6 +23,7 @@ private:
 	Enemy** webs; int webCount, webMax;
 	Enemy** webShots; int shotCount, shotMax;
 	Enemy** spellbooks; int spellbookCount, spellbookMax;
+	Enemy** missiles; int missileCount, missileMax;
 	
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);
