@@ -404,11 +404,14 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					animCheck->enemyUpdate[EnemyID::bat] = 1;
 				for (int c = 0; c < size; c++)
 				{
-					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "Missile");
-					if (id != lastid)
-						facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
-					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-					lastid = id;
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(c, "Missile"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "Missile");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+					}
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spider");
