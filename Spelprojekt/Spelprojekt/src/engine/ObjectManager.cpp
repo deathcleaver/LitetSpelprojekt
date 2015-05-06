@@ -250,9 +250,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//flame
-	Object* FCube1 = new Object("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
-	Object* FCube2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
-	add = new AnimationObject(FCube1, FCube2, 0.5f, 0.02f);
+	Object* FCube1 = new Object("src/meshes/Enemies/FlameCubeUp.v", "src/textures/Red.bmp");
+	Object* FCube2 = new Object("src/meshes/Enemies/FlameCubeDown.v", "src/textures/Red.bmp");
+	add = new AnimationObject(FCube1, FCube2, 0.5f, 0.05f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//cube
