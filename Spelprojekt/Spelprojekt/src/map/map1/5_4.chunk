@@ -1,6 +1,9 @@
 0 : ChuckTesta
-16 : Enemy Count
+19 : Enemy Count
+Bat 5 -10
 Flame -15 -4
+Spikes -14 -5.5
+Spider -7 -3
 Web -15 14
 Web -15 13
 Web -14 14
