@@ -286,15 +286,14 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 
 		//gravity
 		if ((userInput->getKeyState('W') || gamePad->isButtonPressed(gamePad->getButtons().A))
-			&& speed.y > 0 && !isAttacking)
+			&& !isAttacking)
 		{
-			if (!progressMeter.spiderboss || !isInWeb)
-			{
-				speed.y -= (acceleration.y * 0.5f);
-			}
+			if (progressMeter.spiderboss && isInWeb)
+				speed.y += acceleration.y*1.2f;
+			else if (speed.y > 0.0)
+				speed.y += (acceleration.y * 0.5f);
 		}
-		else
-			speed.y -= acceleration.y;
+		speed.y -= acceleration.y;
 
 		if (speed.y < maxSpeed.y)
 			speed.y = maxSpeed.y;
