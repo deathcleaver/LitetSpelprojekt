@@ -64,7 +64,7 @@ Web -10 -1
 38 1 0 0 6.91551 0 1 0 -5.42722 0 0 1 -2.77084 0 0 0 1
 39 0.1 0 0 -7.90927 0 0.1 0 -5.41287 0 0 0.1 -3.00833 0 0 0 1
 39 0.1 0 0 -7.57593 0 0.1 0 -5.41287 0 0 0.1 -3.00833 0 0 0 1
--1 : Music ID
+6 : Music ID // spider boss
 0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 1 : Nr of Lights 
 -0.216812 -0.968979 -1.10832 0.253332 0.010556 0 2.78889 70.1889 0 : LIGHTS
