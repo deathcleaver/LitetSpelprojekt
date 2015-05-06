@@ -262,9 +262,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//spider
-	Object* spider1 = new Object("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
-	Object* spider2 = new Object("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
-	add = new AnimationObject(spider1, spider2, 0.5f, 0.02f);
+	Object* spider1 = new Object("src/meshes/Enemies/SpiderWalk1.v", "src/textures/Red.bmp");
+	Object* spider2 = new Object("src/meshes/Enemies/SpiderWalk2.v", "src/textures/Red.bmp");
+	add = new AnimationObject(spider1, spider2, 0.5f, 0.1f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//ghost
@@ -407,7 +407,7 @@ void ObjectManager::setPlayerState(std::string state)
 	else if (state == "attack")
 	{
 	myPlayer->setAnimPoints(3, 4);
-	myPlayer->setSpeed(0.2f);
+	myPlayer->setSpeed(0.12f);
 	}
 }
 
