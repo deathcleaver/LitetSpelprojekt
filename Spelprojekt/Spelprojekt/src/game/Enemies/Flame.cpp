@@ -55,6 +55,8 @@ Flame::Flame(Flame* copy)
 
 void Flame::init()
 {
+	if (!facingRight)
+		rotateTo(0, 3.14159265f, 0);
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
@@ -75,6 +77,7 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			translate(1.0f, -1.0f);
 			if (!collidesWithWorld(map))
 			{
+				rotateTo(0, 3.14159265f, 0);
 				facingRight = false;
 				translate(-1.0f, 1.0f);
 			}
@@ -86,6 +89,7 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				{
 					translate(-speed.x*deltaTime, 0.0f);
 					facingRight = false;
+					rotateTo(0, 3.14159265f, 0);
 				}
 			}
 		}
@@ -94,6 +98,7 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			translate(-1.0f, -1.0f);
 			if (!collidesWithWorld(map))
 			{
+				rotateTo(0, 3.14159265f, 0);
 				facingRight = true;
 				translate(1.0f, 1.0f);
 			}
@@ -105,6 +110,7 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				{
 					translate(speed.x*deltaTime, 0.0f);
 					facingRight = true;
+					rotateTo(0, 3.14159265f, 0);
 				}
 			}
 		}
@@ -206,12 +212,18 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		if (playerRightOfEnemy)
 		{
 			if (facingRight)
+			{
 				facingRight = false;
+				rotateTo(0, 3.14159265f, 0);
+			}
 		}
 		else
 		{
 			if (!facingRight)
+			{
 				facingRight = true;
+				rotateTo(0, 3.14159265f, 0);
+			}
 		}
 	}
 }
