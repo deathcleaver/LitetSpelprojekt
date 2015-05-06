@@ -124,6 +124,7 @@ enum SoundID
 	player_attack_ice = 5,
 	player_shield_force = 6,
 	player_landing = 7,
+	player_hurt = 26,
 	// interface
 	interface_button = 8,
 	interface_pause = 9,
@@ -146,10 +147,9 @@ enum SoundID
 	enemy_spider_hurt = 24,
 	enemy_spider_death = 25,
 	// items
-	item_hearth_piece = 26,
-	item_hearth_completed = 27,
+	item_hearth_piece = 27,
+	item_hearth_completed = 28,
 	// ambient
-	ambient_water_splash = 28,
 	ambient_water_drop = 29,
 	ambient_rain = 30,
 	ambient_thunder2 = 31,
@@ -159,6 +159,7 @@ enum SoundID
 	ambient_mining = 35,
 	ambient_owl = 36,
 	ambient_bats = 37,
+	ambient_water_splash = 38,
 };
 
 #endif

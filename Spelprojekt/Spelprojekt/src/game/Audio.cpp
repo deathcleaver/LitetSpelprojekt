@@ -99,6 +99,7 @@ void Audio::loadFiles()
 	soundFiles[5] = "../Audio/Sounds/Player/player_attack_ice.wav";
 	soundFiles[6] = "../Audio/Sounds/Player/player_shield_force.wav";
 	soundFiles[7] = "../Audio/Sounds/Player/player_landing.wav";
+	soundFiles[26] = "../Audio/Sounds/Player/player_hurt.wav";
 	//interface
 	soundFiles[8] = "../Audio/Sounds/Interface/button.wav";
 	soundFiles[9] = "../Audio/Sounds/Interface/pause.wav";
@@ -121,10 +122,9 @@ void Audio::loadFiles()
 	soundFiles[24] = "../Audio/Sounds/Enemies/enemy_spider_hurt.wav";
 	soundFiles[25] = "../Audio/Sounds/Enemies/enemy_spider_death.wav";
 	//items
-	soundFiles[26] = "../Audio/Sounds/Items/item_hearth_piece.wav";
-	soundFiles[27] = "../Audio/Sounds/Items/item_hearth_completed.wav";
+	soundFiles[27] = "../Audio/Sounds/Items/item_hearth_piece.wav";
+	soundFiles[28] = "../Audio/Sounds/Items/item_hearth_completed.wav";
 	//ambient
-	soundFiles[28] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
 	soundFiles[29] = "../Audio/Sounds/Ambient/ambient_water_drop.wav";
 	soundFiles[30] = "../Audio/Sounds/Ambient/ambient_rain.wav";
 	soundFiles[31] = "../Audio/Sounds/Ambient/ambient_thunder2_stereo.wav";
@@ -134,6 +134,7 @@ void Audio::loadFiles()
 	soundFiles[35] = "../Audio/Sounds/Ambient/ambient_mining.wav";
 	soundFiles[36] = "../Audio/Sounds/Ambient/ambient_ironbeak_owl.wav";
 	soundFiles[37] = "../Audio/Sounds/Ambient/ambient_bats.wav";
+	soundFiles[38] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
 	//...
 }
 
