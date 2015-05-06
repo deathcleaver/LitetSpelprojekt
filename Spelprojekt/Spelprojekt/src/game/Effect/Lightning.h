@@ -21,7 +21,11 @@ public:
 	void fade();
 
 	bool isFading();
+
 private:
+
+	bool direction;
+
 };
 
 #endif

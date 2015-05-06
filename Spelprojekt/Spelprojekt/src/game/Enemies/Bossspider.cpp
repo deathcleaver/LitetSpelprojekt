@@ -132,6 +132,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(0, -speed.y*deltaTime);
 				currentMode = 1;
 				printf("Landed on ground after jump. Modeswitch to 1\n");
+				jumpTimer = 5.0f;
 			}
 			speed.y = 0;
 		}

@@ -1,6 +1,7 @@
 #include "mapChunk.h"
 #include "map.h"
 #include "Enemies/Flame.h"
+#include "Enemies\ArcaneMissile.h"
 
 MapChunk::~MapChunk()
 {
@@ -624,6 +625,20 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("Missile");
+	nrOfEnemies = enemyMan->size("Missile");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->readPos();
+			}
+		}
+	}
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{
@@ -776,6 +791,25 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("Webshot");
+	nrOfEnemies = enemyMan->size("Webshot");
+	for (int c = 0; c < nrOfEnemies; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			Rect* enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(wpnRect))
+				{
+					if (playerPos.x < enemies[c]->readPos().x)
+						enemies[c]->hit(damage, false);
+					else
+						enemies[c]->hit(damage, true);
+				}
+			}
+		}
+	}
 
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
@@ -877,6 +911,22 @@ Light* MapChunk::getFlameLight(int index, int &nrLigts)
 		((Flame*)(enemies[index]))->fade();
 		return ((Flame*)(enemies[index]))->getLight(nrLigts);
 	}
+	return 0;
+}
+
+Light* MapChunk::getMissileLight(int index, int &nrLigts)
+{
+	Enemy** enemies = enemyMan->getEnemies("Missile");
+	if (enemies[index]->isAlive())
+	{
+		return ((ArcaneMissile*)(enemies[index]))->getLight(nrLigts);
+	}
+	else
+	{
+		((ArcaneMissile*)(enemies[index]))->fade();
+		return ((ArcaneMissile*)(enemies[index]))->getLight(nrLigts);
+	}
+
 	return 0;
 }
 

@@ -39,7 +39,6 @@ int Webshot::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	if (!alive)
 		return 1;
 	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
-	collideRect->update();
 	if (collidesWithWorld(map))
 	{
 		Web* web = new Web(glm::vec2(readPos()));
@@ -48,6 +47,7 @@ int Webshot::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		delete web;
 		return 1;
 	}
+	collideRect->update();
 	return 0;
 }
 

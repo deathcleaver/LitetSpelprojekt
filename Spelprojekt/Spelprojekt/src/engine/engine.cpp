@@ -7,7 +7,6 @@
 
 Engine::~Engine()
 {
-	delete e;
 	delete[]light;
 }
 
@@ -92,10 +91,6 @@ void Engine::init(glm::mat4* viewMat)
 	fadeIn = false;
 	fadeOut = false;
 
-	e = new Effect();
-
-	e->create(EffectType::lightning);
-	e->getEffect()->init(0, 2, 0);
 }
 
 void Engine::applySettings(bool glows)
@@ -171,15 +166,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	renderEditObject(edit);
 
 	bindLights(player, edit);
-
-	int nr = 0;
-	Light* l;
-
-	l = e->getEffect()->getLights(nr);
-
-	e->getEffect()->update();
-
-	gBuffer.pushLights(l, nr);
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -394,6 +380,11 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						lastid = id;
 					}
 				}
+
+				glColorMask(1, 1, 1, 1);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDisable(GL_CULL_FACE);
+
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spellbook");
 				if (size > 1)
 					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
@@ -408,24 +399,20 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						lastid = id;
 					}
 				}
-				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Projectile");
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
 				if (size > 1)
-					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
-				for (int i = 0; i < size; i++)
+					animCheck->enemyUpdate[EnemyID::bat] = 1;
+				for (int c = 0; c < size; c++)
 				{
-					if (chunks[upDraw[x]][upDraw[y]].enemyLives(i, "Projectile"))
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(c, "Missile"))
 					{
-						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(i, &tempshader, &uniformModel, "Projectile");
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "Missile");
 						if (id != lastid)
-							facecount = content->bind(OBJ::ENEMY, EnemyID::spellbook);
+							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
 				}
-
-				glColorMask(1, 1, 1, 1);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glDisable(GL_CULL_FACE);
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spider");
 				if (size > 1)
@@ -471,7 +458,12 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					
 					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 					if (id != lastid)
-						facecount = content->bind(OBJ::ENEMY, EnemyID::batboss);
+					{
+						if (chunks[upDraw[x]][upDraw[y]].getBossType() == "Bossbat")
+							facecount = content->bind(OBJ::ENEMY, EnemyID::batboss);
+						else if (chunks[upDraw[x]][upDraw[y]].getBossType() == "Bossspider")
+							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
+					}
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
 					animCheck->enemyUpdate[EnemyID::batboss] = 1;
@@ -615,6 +607,30 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					{
 						int nrLight = 0;
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c, nrLight);
+						for (int i = 0; i < nrLight; i++)
+						{
+							light[nrOfLights + lightSize].posX = temp[i].posX;
+							light[nrOfLights + lightSize].posY = temp[i].posY;
+							light[nrOfLights + lightSize].posZ = temp[i].posZ;
+
+							light[nrOfLights + lightSize].r = temp[i].r;
+							light[nrOfLights + lightSize].g = temp[i].g;
+							light[nrOfLights + lightSize].b = temp[i].b;
+
+							light[nrOfLights + lightSize].intensity = temp[i].intensity;
+							light[nrOfLights + lightSize].distance = temp[i].distance;
+							light[nrOfLights + lightSize].volume = temp[i].volume;
+							lightSize++;
+						}
+					}
+					nrOfLights += lightSize;
+
+					int missileCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
+					lightSize = 0;
+					for (int c = 0; c < missileCount; c++)
+					{
+						int nrLight = 0;
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getMissileLight(c, nrLight);
 						for (int i = 0; i < nrLight; i++)
 						{
 							light[nrOfLights + lightSize].posX = temp[i].posX;

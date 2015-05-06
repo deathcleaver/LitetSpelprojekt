@@ -21,8 +21,6 @@
 
 #include "GBuffer.h"
 
-#include "../game/Effect/Effect.h"
-
 class Engine : public Align_16
 {
 private:
@@ -80,7 +78,6 @@ private:
 	int id;
 	int lastid;
 
-	Effect* e;
 public:
 	void setDoF(bool set);
 	

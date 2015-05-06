@@ -13,6 +13,7 @@
 #include "Web.h"
 #include "Enemies/Webshot.h"
 #include "Enemies/Spellbook.h"
+#include "Enemies/ArcaneMissile.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -49,6 +50,9 @@ EnemyManager::~EnemyManager()
 	for (int c = 0; c < spellbookCount; c++)
 		delete spellbooks[c];
 	delete[]spellbooks;
+	for (int c = 0; c < missileCount; c++)
+		delete missiles[c];
+	delete[]missiles;
 
 	if (boss)
 		delete boss;
@@ -76,6 +80,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	webShots = new Enemy*[shotMax];
 	spellbookCount = 0; spellbookMax = 5;
 	spellbooks = new Enemy*[spellbookMax];
+	missileCount = 0; missileMax = 5;
+	missiles = new Enemy*[missileMax];
 
 	boss = 0;
 	string line;
@@ -179,6 +185,8 @@ void EnemyManager::initEmpty()
 	ghosts;
 	spellbookCount = -1;
 	spellbooks = 0;
+	missileCount = -1;
+	missiles = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -298,13 +306,12 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 	}
 	for (int c = 0; c < shotCount; c++)
 	{
-		printf("Updating webshot number %d\n", c);
 		msg = webShots[c]->update(deltaTime, map, playerPos);
 		if (msg)
 		{
 			Web* visitWeb = new Web(glm::vec2(webShots[c]->readPos()));
 			visitWeb->setVisitor();
-			addOutsider(visitWeb, "Webshot");
+			addOutsider(visitWeb, "Web");
 			delete webShots[c];
 			delete visitWeb;
 			webShots[c] = webShots[--shotCount];
@@ -327,6 +334,20 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 				visitorsToSendOut++;
 				if (visitorsToSendOut == maxVisitors)
 					expandEnemyArray(visitorHolder, maxVisitors);
+			}
+		}
+	}
+	for (int c = 0; c < missileCount; c++)
+	{
+		msg = missiles[c]->update(deltaTime, map, playerPos);
+		if (msg)
+		{
+			//((ArcaneMissile*)missiles[c])->fade();
+			if (!((ArcaneMissile*)missiles[c])->isFading())
+			{
+				delete missiles[c];
+				missiles[c] = missiles[--missileCount];
+				c--;
 			}
 		}
 	}
@@ -361,6 +382,8 @@ int EnemyManager::size(string type)
 		return shotCount;
 	if (type == "Spellbook")
 		return spellbookCount;
+	if (type == "Missile")
+		return missileCount;
 
 	return 0;
 }
@@ -450,6 +473,8 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return webShots[index]->bindWorldMat(shader, uniform);
 	else if (type == "Spellbook")
 		return spellbooks[index]->bindWorldMat(shader, uniform);
+	else if (type == "Missile")
+		return missiles[index]->bindWorldMat(shader, uniform);
 
 	return -1;
 }
@@ -474,7 +499,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return webShots;
 	if (type == "Spellbook")
 		return spellbooks;
-	
+	if (type == "Missile")
+		return missiles;
 	return 0;
 }
 
@@ -562,6 +588,12 @@ void EnemyManager::resetEnemies()
 		}
 		else
 			spellbooks[n]->init();
+	}
+	for (int c = missileCount - 1; c >= 0; c--)
+	{
+		delete missiles[c];
+		missiles[c] = 0;
+		missileCount--;
 	}
 	
 	if (boss)
@@ -654,7 +686,6 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 	}
 	if (type == "Webshot")
 	{
-		printf("Webshot detected\n");
 		webShots[shotCount] = new Webshot((Webshot*)visitor);
 		shotCount++;
 		if (shotCount == shotMax)
@@ -666,5 +697,12 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		spellbookCount++;
 		if (spellbookCount == spellbookMax)
 			expandEnemyArray(spellbooks, spellbookMax);
+	}
+	if (type == "Missile")
+	{
+		missiles[missileCount] = new ArcaneMissile((ArcaneMissile*)visitor);
+		missileCount++;
+		if (missileCount == missileMax)
+			expandEnemyArray(missiles, missileMax);
 	}
 }

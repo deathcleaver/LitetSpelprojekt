@@ -11,8 +11,6 @@ private:
 	int yMovement = 1;
 	float spellCooldown;
 	int minionCount = 0, minionsMax = 3;
-
-private:
 	void castSpell(Map* map, glm::vec3 playerPos);
 	void spellSummonGhost(Map* map, glm::vec3 playerPos);
 	void spellArcaneMissile(Map* map, glm::vec3 playerPos);
