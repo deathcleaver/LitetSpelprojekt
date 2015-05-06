@@ -126,6 +126,11 @@ void AnimationObject::setSpeed(float aSpeed)
 	mySpeed = aSpeed;
 }
 
+void AnimationObject::setDirection(int aDirection)
+{
+	myDirection = aDirection;
+}
+
 void AnimationObject::setAnimPoints(int aPoint1, int aPoint2)
 {
 	myAnimPoint1 = aPoint1;

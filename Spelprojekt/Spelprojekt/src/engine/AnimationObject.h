@@ -35,6 +35,7 @@ public:
 	void setAnimObject(Object* aObject);
 	void setWeight(float aWeight);
 	void setSpeed(float aSpeed);
+	void setDirection(int aDirection);
 	void setAnimPoints(int aPoint1, int aPoint2);
 
 	void update();

@@ -53,14 +53,15 @@ void ObjectManager::init()
 
 void ObjectManager::loadPlayer()
 {
-	Object** playerAn = new Object*[3];
+	Object** playerAn = new Object*[5];
 	playerAn[0] = new Object("src/meshes/Player/PlayerIdle.v", "src/textures/Player.bmp");
 	playerAn[1] = new Object("src/meshes/Player/PlayerWalkSwordFront2.v", "", playerAn[0], false, true);
 	playerAn[2] = new Object("src/meshes/Player/PlayerWalkSwordBack2.v", "", playerAn[0], false, true);
-	//playerAn[3] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
-	//playerAn[4] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
+	playerAn[3] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
+	playerAn[4] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
+	
 
-	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerIdle.v", 3, 0.5f, 0.05f);
+	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerIdle.v", 5, 0.5f, 0.05f);
 	//myPlayer = new AnimationObject("src/meshes/Player/PlayerIdle.v", "src/textures/player.bmp");
 
 }
@@ -385,6 +386,7 @@ void ObjectManager::setPlayerState(std::string state)
 	myPlayer->setAnimPoints(0, 0);
 	myPlayer->setSpeed(0.02f);
 	myPlayer->setWeight(0.5f);
+	myPlayer->setDirection(1);
 	}
 	else if (state == "walk")
 	{
@@ -401,12 +403,12 @@ void ObjectManager::setPlayerState(std::string state)
 	{
 	myPlayer->setAnimPoints(2, 2);
 	myPlayer->setSpeed(0.02f);
-	}
+	}*/
 	else if (state == "attack")
 	{
 	myPlayer->setAnimPoints(3, 4);
-	myPlayer->setSpeed(0.08f);
-	}*/
+	myPlayer->setSpeed(0.2f);
+	}
 }
 
 int ObjectManager::nrOfWorldItems() const
