@@ -135,6 +135,8 @@ void Audio::loadFiles()
 	soundFiles[36] = "../Audio/Sounds/Ambient/ambient_ironbeak_owl.wav";
 	soundFiles[37] = "../Audio/Sounds/Ambient/ambient_bats.wav";
 	soundFiles[38] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
+	soundFiles[39] = "../Audio/Sounds/Ambient/Ghost/damned_scream.wav";
+	soundFiles[40] = "../Audio/Sounds/Ambient/Ghost/ghost_moan.wav";
 	//...
 }
 
