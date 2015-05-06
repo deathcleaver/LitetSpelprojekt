@@ -389,7 +389,7 @@ void ObjectManager::setPlayerState(std::string state)
 	else if (state == "walk")
 	{
 	myPlayer->setAnimPoints(1, 2);
-	myPlayer->setSpeed(0.1f);
+	myPlayer->setSpeed(0.2f);
 	//myPlayer->setWeight(0.5f);
 	}
 	/*else if (state == "air")

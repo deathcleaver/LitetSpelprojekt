@@ -13,8 +13,8 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 {
 	alive = true;
-	scaleFactor(0.01, 0.01, 0.01);
 	worldMat = copy->worldMat;
+	scaleFactor(0.01, 0.01, 0.01);
 	initPos = copy->initPos;
 	moveTo(initPos.x, initPos.y);
 	contentIndex = EnemyID::bat; //same as Web
@@ -48,27 +48,24 @@ void ArcaneMissile::init()
 
 int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	if (!alive)
-		return 1;
-	speed += speed*0.05;
-	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
-	if (collidesWithWorld(map))
+	if (alive)
 	{
-		alive = false;
-		return 1;
+		speed += speed*0.05f;
+		translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
+		if (collidesWithWorld(map))
+		{
+			alive = false;
+			return 1;
+		}
+		glm::vec3 pos = readPos();
+		collideRect->update();
+		flameEffect->getEffect()->setSpawn(pos.x, pos.y, pos.z);
+		flameEffect->update();
+		return 0;
 	}
-	glm::vec3 pos = readPos();
-	collideRect->update();
-	flameEffect->getEffect()->setSpawn(pos.x, pos.y, pos.z);
-	flameEffect->update();
-	return 0;
 }
 
 void ArcaneMissile::hit(int damage, bool playerRightOfEnemy)
 {
-	health -= damage;
-	if (health <= 0)
-	{
-		alive = false;
-	}
+	direction.x = -direction.x;
 }
