@@ -418,6 +418,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			HP = MAX_HP;
 			printf("Max HP regained\n");
+			Audio::getAudio().playSound(36, false);// player_healed
 		}
 		if (currentRune == 0)
 		{
@@ -435,6 +436,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
 					runeEffect->reCreate(EffectType::torch);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					Audio::getAudio().playSound(0, false);// rune_recieved
 					//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
 				}
 				else if (currentRune == MiscID::rune_damage)
@@ -442,6 +444,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					DMG += 1;
 					runeEffect->reCreate(EffectType::spark);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					Audio::getAudio().playSound(0, false);// rune_recieved
 					//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
 				}
 				else if (currentRune == MiscID::rune_shield)
@@ -449,10 +452,10 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					shield = 2;
 					runeEffect->reCreate(EffectType::shield);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+					Audio::getAudio().playSound(0, false);// rune_recieved
 					//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
-			Audio::getAudio().playSound(0, false);//item
 		}
 	}
 
