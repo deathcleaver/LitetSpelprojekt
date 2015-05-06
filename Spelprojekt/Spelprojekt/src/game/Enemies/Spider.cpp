@@ -17,6 +17,8 @@ Spider::Spider(glm::vec2 firstPos)
 	audibleDistance = 2.5f;
 
 	invulnTimer = 0.0f;
+
+	rotateTo(3.14159265f, 0, 0);
 }
 
 Spider::Spider(Spider* copy)
@@ -45,6 +47,10 @@ Spider::~Spider()
 
 void Spider::init()
 {
+	if (!facingRight)
+		rotateTo(3.14159265f/2.0f, 0, 0);
+	if (!ceiling)
+		rotateTo(0, 3.14159265f, 0);
 	moveTo(initPos.x, initPos.y);
 	alive = true;
 	jumpTimer = 3.0f;
@@ -67,6 +73,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			translate(1.0f, 1.0f);
 			if (!collidesWithWorld(map))
 			{
+				rotateTo(0, 3.14159265f, 0);
 				facingRight = false;
 				translate(-1.0f, -1.0f);
 			}
@@ -78,6 +85,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				{
 					translate(-speed.x*deltaTime, 0.0f);
 					facingRight = false;
+					rotateTo(0, 3.14159265f, 0);
 				}
 			}
 		}
@@ -86,6 +94,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			translate(-1.0f, 1.0f);
 			if (!collidesWithWorld(map))
 			{
+				rotateTo(0, 3.14159265f, 0);
 				facingRight = true;
 				translate(1.0f, -1.0f);
 			}
@@ -97,6 +106,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				{
 					translate(speed.x*deltaTime, 0.0f);
 					facingRight = true;
+					rotateTo(0, 3.14159265f, 0);
 				}
 			}
 		}
@@ -104,6 +114,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		glm::vec3 pos = readPos();
 		if (playerPos.y < pos.y && playerPos.x - pos.x < 2 && playerPos.x - pos.x > -2)
 		{
+			rotateTo(3.14159265f, 0, 0);
 			printf("DROP IT!\n");
 			ceiling = false;
 			jumping = true;
@@ -129,9 +140,15 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					jumping = false;
 					speed.x = 4.0f;
 					if (playerPos.x < pos.x && facingRight)
+					{
 						facingRight = false;
+						rotateTo(0, 3.14159265f, 0);
+					}
 					if (playerPos.x > pos.x && !facingRight)
+					{
+						rotateTo(0, 3.14159265f, 0);
 						facingRight = true;
+					}
 				}
 				speed.y = 0.0f;
 			}
@@ -161,6 +178,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(1.0f, -1.0f);
 				if (!collidesWithWorld(map))
 				{
+					rotateTo(0, 3.14159265f, 0);
 					facingRight = false;
 					translate(-1.0f, 1.0f);
 				}
@@ -172,6 +190,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					{
 						translate(-speed.x*deltaTime, 0.0f);
 						facingRight = false;
+						rotateTo(0, 3.14159265f, 0);
 					}
 				}
 			}
@@ -180,6 +199,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(-1.0f, -1.0f);
 				if (!collidesWithWorld(map))
 				{
+					rotateTo(0, 3.14159265f, 0);
 					facingRight = true;
 					translate(1.0f, 1.0f);
 				}
@@ -191,6 +211,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					{
 						translate(speed.x*deltaTime, 0.0f);
 						facingRight = true;
+						rotateTo(0, 3.14159265f, 0);
 					}
 				}
 			}
@@ -199,9 +220,15 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				glm::vec3 pos = readPos();
 				if (facingRight && playerPos.x < pos.x)
+				{
 					facingRight = false;
+					rotateTo(0, 3.14159265f, 0);
+				}
 				else if (!facingRight && playerPos.x > pos.x)
+				{
 					facingRight = true;
+					rotateTo(0, 3.14159265f, 0);
+				}
 				if (playerPos.x - pos.x > 7 || playerPos.x - pos.x < -7)
 					speed.x = 14.0;
 				else
@@ -237,12 +264,18 @@ void Spider::hit(int damage, bool playerRightOfEnemy)
 		if (playerRightOfEnemy)
 		{
 			if (facingRight)
+			{
 				facingRight = false;
+				rotateTo(0, 3.14159265f, 0);
+			}
 		}
 		else
 		{
 			if (!facingRight)
+			{
 				facingRight = true;
+				rotateTo(0, 3.14159265f, 0);
+			}
 		}
 		speed.x = 12;
 		speed.y = 15;
