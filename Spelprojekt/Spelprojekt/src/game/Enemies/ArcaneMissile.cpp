@@ -8,6 +8,9 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 	moveTo(initPos.x, initPos.y);
 	flameEffect = new Effect();
 	flameEffect->create(EffectType::torch);
+	flameEffect->getEffect()->init(firstPos.x, firstPos.y, 0);
+	flameEffect->getEffect()->setParticleColor(0.5f, 0.8f, 0.8f);
+	flameEffect->getEffect()->timeChangeColor(false, false, true);
 }
 
 ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
