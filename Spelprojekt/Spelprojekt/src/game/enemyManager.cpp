@@ -342,9 +342,13 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 		msg = missiles[c]->update(deltaTime, map, playerPos);
 		if (msg)
 		{
-			delete missiles[c];
-			missiles[c] = missiles[--missileCount];
-			c--;
+			//((ArcaneMissile*)missiles[c])->fade();
+			if (!((ArcaneMissile*)missiles[c])->isFading())
+			{
+				delete missiles[c];
+				missiles[c] = missiles[--missileCount];
+				c--;
+			}
 		}
 	}
 

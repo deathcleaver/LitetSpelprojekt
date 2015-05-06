@@ -9,9 +9,15 @@ class ArcaneMissile : public Enemy
 private:
 	glm::vec2 direction;
 	float speed;
+
+	Effect* flameEffect;
+
+	bool deleteMe;
+
 public:
 	ArcaneMissile(glm::vec2 firstPos);
 	ArcaneMissile(ArcaneMissile* copy);
+	~ArcaneMissile();
 	void init();
 	void setDirection(glm::vec2 dir);
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);
@@ -19,6 +25,21 @@ public:
 	std::string getType()
 	{
 		return "Missile";
+	}
+
+	Light* getLight(int &nrLights)
+	{
+		return flameEffect->getEffect()->getLights(nrLights);
+	}
+
+	void fade()
+	{
+		flameEffect->getEffect()->fade();
+	}
+
+	bool isFading()
+	{
+		return flameEffect->getEffect()->isFading();
 	}
 };
 

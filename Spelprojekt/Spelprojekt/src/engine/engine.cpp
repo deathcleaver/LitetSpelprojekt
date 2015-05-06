@@ -622,6 +622,30 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					}
 					nrOfLights += lightSize;
 
+					int missileCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
+					lightSize = 0;
+					for (int c = 0; c < missileCount; c++)
+					{
+						int nrLight = 0;
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getMissileLight(c, nrLight);
+						for (int i = 0; i < nrLight; i++)
+						{
+							light[nrOfLights + lightSize].posX = temp[i].posX;
+							light[nrOfLights + lightSize].posY = temp[i].posY;
+							light[nrOfLights + lightSize].posZ = temp[i].posZ;
+
+							light[nrOfLights + lightSize].r = temp[i].r;
+							light[nrOfLights + lightSize].g = temp[i].g;
+							light[nrOfLights + lightSize].b = temp[i].b;
+
+							light[nrOfLights + lightSize].intensity = temp[i].intensity;
+							light[nrOfLights + lightSize].distance = temp[i].distance;
+							light[nrOfLights + lightSize].volume = temp[i].volume;
+							lightSize++;
+						}
+					}
+					nrOfLights += lightSize;
+
 					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
 					if (pickup)
 					{

@@ -6,6 +6,8 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 {
 	initPos = firstPos; //This is never actually used, only copy constructor matters
 	moveTo(initPos.x, initPos.y);
+	flameEffect = new Effect();
+	flameEffect->create(EffectType::torch);
 }
 
 ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
@@ -22,7 +24,16 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	health = 1;
 	speed = 0.1f;
 
+	flameEffect = new Effect();
+	flameEffect->reCreate(EffectType::torch);
+	flameEffect->getEffect()->copy(copy->flameEffect->getEffect());
+
 	direction = copy->direction;
+}
+
+ArcaneMissile::~ArcaneMissile()
+{
+	delete flameEffect;
 }
 
 void ArcaneMissile::setDirection(glm::vec2 dir)
@@ -43,9 +54,13 @@ int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
 	if (collidesWithWorld(map))
 	{
+		alive = false;
 		return 1;
 	}
+	glm::vec3 pos = readPos();
 	collideRect->update();
+	flameEffect->getEffect()->setSpawn(pos.x, pos.y, pos.z);
+	flameEffect->update();
 	return 0;
 }
 
