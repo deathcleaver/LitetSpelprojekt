@@ -93,11 +93,11 @@ int Spellbook::update(float deltaTime, Map* map, glm::vec3 playerPos)
 
 void Spellbook::castSpell(Map* map, glm::vec3 playerPos)
 {
-	int spell = rand() % 2;
+	int spell = rand() % 4;
 
 	if (spell == 0)
 		spellSummonGhost(map, playerPos);
-	if (spell == 1)
+	else
 		spellArcaneMissile(map, playerPos);
 	
 	spellCooldown = 3.0f;

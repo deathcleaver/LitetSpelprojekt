@@ -20,7 +20,7 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	collideRect->initGameObjectRect(&worldMat, 0.3, 0.3);
 
 	health = 1;
-	speed = 13.0f;
+	speed = 0.1f;
 
 	direction = copy->direction;
 }
@@ -39,6 +39,7 @@ int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	if (!alive)
 		return 1;
+	speed += speed*0.05;
 	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
 	if (collidesWithWorld(map))
 	{
