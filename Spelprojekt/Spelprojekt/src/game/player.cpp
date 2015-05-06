@@ -321,7 +321,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					{
 							float pitch;
 							pitch = (maxSpeed.y) / speed.y;
-							Audio::getAudio().playSoundPitched(25, pitch, false);
+							Audio::getAudio().playSoundPitched(SoundID::player_landing, pitch, false);
 					}
 						
 
@@ -417,7 +417,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		{
 			HP = MAX_HP;
 			printf("Max HP regained\n");
-			Audio::getAudio().playSound(36, false);// player_healed
+			Audio::getAudio().playSound(SoundID::player_healed, false);// player_healed
 		}
 		if (currentRune == 0)
 		{
@@ -435,7 +435,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
 					runeEffect->reCreate(EffectType::torch);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
-					Audio::getAudio().playSound(0, false);// rune_recieved
+					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
 					//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
 				}
 				else if (currentRune == MiscID::rune_damage)
@@ -443,7 +443,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					DMG += 1;
 					runeEffect->reCreate(EffectType::spark);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
-					Audio::getAudio().playSound(0, false);// rune_recieved
+					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
 					//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
 				}
 				else if (currentRune == MiscID::rune_shield)
@@ -451,7 +451,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					shield = 2;
 					runeEffect->reCreate(EffectType::shield);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
-					Audio::getAudio().playSound(0, false);// rune_recieved
+					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
 					//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
 				}
 			}
@@ -528,7 +528,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					if (currentRune == MiscID::rune_shield)
 					{
 						shield -= 1;
-						Audio::getAudio().playSound(5, false); //player_shield_force
+						Audio::getAudio().playSound(SoundID::player_shield_force, false); //player_shield_force
 					}
 	
 				}
@@ -537,7 +537,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
-					Audio::getAudio().playSound(1, false); //player_resurrected
+					Audio::getAudio().playSound(SoundID::player_resurrected, false); //player_resurrected
 				}
 			}
 		}
@@ -567,11 +567,11 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 		isAttacking = true;
 		attackTimer = 1.0f;
 		if (currentRune == MiscID::rune_damage)
-			Audio::getAudio().playSound(4, false); //player_attack_ice
+			Audio::getAudio().playSound(SoundID::player_attack_ice, false); //player_attack_ice
 		else if (currentRune == MiscID::rune_range)
-			Audio::getAudio().playSound(3, false); //player_attack_fire
+			Audio::getAudio().playSound(SoundID::player_attack_fire, false); //player_attack_fire
 		else
-			Audio::getAudio().playSound(2, false); //player_attack_miss
+			Audio::getAudio().playSound(SoundID::player_attack_miss, false); //player_attack_miss
 	}
 
 	if (isAttacking)
@@ -703,11 +703,11 @@ void Player::getPickup(glm::vec2 chunkIndex)
 	{
 		pickUps = 0;
 		MAX_HP++;
-		Audio::getAudio().playSound(18, false); //item_hearth_completed
+		Audio::getAudio().playSound(SoundID::item_hearth_completed, false); //item_hearth_completed
 		printf("Hittat 3 pickups, nu är nrOfPickups %d och nya MAX_HP är %d\n", pickUps, MAX_HP);
 	}
 	else
-		Audio::getAudio().playSound(17, false); //item_hearth_piece
+		Audio::getAudio().playSound(SoundID::item_hearth_piece, false); //item_hearth_piece
 	HP = MAX_HP;
 	printf("HP sattes till %d\n", HP);
 	progressMeter.addHealth(chunkIndex);

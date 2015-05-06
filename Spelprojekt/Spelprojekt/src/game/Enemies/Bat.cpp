@@ -133,7 +133,7 @@ void Bat::hit(int damage, bool playerRightOfEnemy)
 	health -= damage;
 	if (health <= 0)
 	{
-		Audio::getAudio().playSoundAtPos(11, readPos(), audibleDistance, false); //boss_bat_death
+		Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false); //boss_bat_death
 		alive = false;
 	}
 }

@@ -145,7 +145,8 @@ Spider 0 12
 19 1 0 0 1.48891 0 1 0 5.00034 0 0 1 -2.55972 0 0 0 1
 19 1.20741 0 0 -14.9707 0 1.26389 0 -8.75366 0 0 1 -2.19028 0 0 0 1
 4 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 37 8 3 -3 5 2 10 20 // ambient_bats
 2 : Nr of Lights 
 -5.77148 15.9406 0 1 0.5725 0.00527802 1.36389 8.81111 2 : LIGHTS
 -5.1571 14.9442 0 0.813333 0.630556 0 2.77569 16.0444 0 : LIGHTS

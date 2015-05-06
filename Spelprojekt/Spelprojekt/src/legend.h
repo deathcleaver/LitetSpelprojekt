@@ -101,4 +101,64 @@ enum EffectType
 	lightning,
 };
 
+enum MusicID
+{
+	intro = 0, // witcher_dusk
+	mine_area = 1, // witcher_cave
+	boss_battle_bat = 2, // witcher_battle_bat
+	mine_area_awesome = 3, // mine_track
+	shroom_area = 4, // witcher_dike
+	ghost_area = 5, // witcher_omnious
+	boss_battle_spider = 6, // witcher_battle_spider
+};
+
+enum SoundID
+{
+	// shrine
+	rune_recieved = 0,
+	player_healed = 1,
+	// player
+	player_resurrected = 2,
+	player_attack_miss = 3,
+	player_attack_fire = 4,
+	player_attack_ice = 5,
+	player_shield_force = 6,
+	player_landing = 7,
+	// interface
+	interface_button = 8,
+	interface_pause = 9,
+	// bosses
+	boss_clear = 10,
+	boss_bat_attack = 11,
+	boss_bat_hurt = 12,
+	boss_bat_death = 13,
+	// enemies
+	enemy_slime_jump = 14,
+	enemy_slime_hurt = 15,
+	enemy_slime_death = 16,
+	enemy_flame_hurt = 17,
+	enemy_flame_death = 18,
+	enemy_tome_spellcast = 19,
+	enemy_ghost_hurt = 20,
+	enemy_ghost_death = 21,
+	enemy_ghost_moan = 22,
+	enemy_spider_jump = 23,
+	enemy_spider_hurt = 24,
+	enemy_spider_death = 25,
+	// items
+	item_hearth_piece = 26,
+	item_hearth_completed = 27,
+	// ambient
+	ambient_water_splash = 28,
+	ambient_water_drop = 29,
+	ambient_rain = 30,
+	ambient_thunder2 = 31,
+	ambient_crow = 32,
+	ambient_everyone = 33,
+	ambient_frostmournce_chant = 34,
+	ambient_mining = 35,
+	ambient_owl = 36,
+	ambient_bats = 37,
+};
+
 #endif

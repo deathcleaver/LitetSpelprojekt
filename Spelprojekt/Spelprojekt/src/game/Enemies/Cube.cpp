@@ -64,7 +64,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			if (speed.x < -2.0f)
-				Audio::getAudio().playSoundAtPos(12, myPos, audibleDistance, false); //enemy_slime_jump
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -82,7 +82,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			if (speed.x > 2.0f)
-				Audio::getAudio().playSoundAtPos(12, myPos, audibleDistance, false); //enemy_slime_jump
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -97,7 +97,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	if (collidesWithWorld(map))
 	{
 		if (speed.y > 5.0f || speed.y < -5.0f)
-			Audio::getAudio().playSoundAtPos(12, readPos(), audibleDistance, false); //enemy_slime_jump
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, readPos(), audibleDistance, false); //enemy_slime_jump
 
 		moveTo(myPos.x, myPos.y + speed.y*deltaTime);
 		speed.y = 0;
@@ -107,7 +107,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		speed.y -= 20.0f;
 		jumpTimer = 0.0f;
-		Audio::getAudio().playSoundAtPos(12, readPos(), audibleDistance, false); //enemy_slime_jump
+		Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, readPos(), audibleDistance, false); //enemy_slime_jump
 	}
 
 	if (invulnTimer > FLT_EPSILON)
@@ -129,11 +129,11 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(14, readPos(), audibleDistance, false); //enemy_slime_death
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_death, readPos(), audibleDistance, false); //enemy_slime_death
 			//Spawna nya slimes
 		}
 		else
-			Audio::getAudio().playSoundAtPos(13, readPos(), audibleDistance, false); //enemy_slime_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_hurt, readPos(), audibleDistance, false); //enemy_slime_hurt
 
 		invulnTimer = 0.6f;
 	}
