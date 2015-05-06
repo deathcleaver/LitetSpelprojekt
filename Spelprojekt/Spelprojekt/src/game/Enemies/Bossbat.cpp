@@ -47,7 +47,7 @@ void Bossbat::init()
 		returnPos = chargePos = readPos();
 		hasTurned = false;
 		rotateTo(0, 3.1415927f / 2.0f, 0);
-		Audio::getAudio().playSoundAtPos(9, readPos(), audibleDistance + 2, false);//boss_bat_attack
+		Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
 	}
 	else
 	{
@@ -214,7 +214,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			charging = true;
 			chargePos = playerPos;
 			returnPos = readPos();
-			Audio::getAudio().playSoundAtPos(9, readPos(), audibleDistance + 2, false);//boss_bat_attack
+			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
 			chargeTimer = 0.8f;
 			if (chargePos.x < returnPos.x)
 			{
@@ -270,13 +270,13 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			printf("Boss took damage \n");
-			Audio::getAudio().playSoundAtPos(10, readPos(), audibleDistance, false);//boss_bat_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 		}
 		else if (alive == true)
 		{
 			alive = false;
 			printf("Boss is dead \n");
-			Audio::getAudio().playSoundAtPos(11, readPos(), audibleDistance, false);//boss_bat_death
+			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false);//boss_bat_death
 		}
 	}
 }

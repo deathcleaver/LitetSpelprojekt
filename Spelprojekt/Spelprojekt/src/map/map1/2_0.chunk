@@ -15,7 +15,7 @@
 0 8.23333 0 0 -14.1497 0 7.59722 0 -17.2258 0 0 1 -0.184721 0 0 0 1
 -1 : Music ID
 1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
-1 35 0 0 -3 6 2 10 15
+1 36 0 0 -3 6 2 10 15
 0 : Nr of Lights 
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO

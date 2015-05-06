@@ -89,11 +89,11 @@ void Ghost::hit(int damage, bool playerRightOfEnemy)
 		{
 			alive = false;
 			audioObj.stopSound();
-			Audio::getAudio().playSoundAtPos(29, readPos(), 2.5, false); //enemy_ghost_death
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_ghost_death, readPos(), 2.5, false); //enemy_ghost_death
 		}
 		else
 		{
-			Audio::getAudio().playSoundAtPos(28, readPos(), 2.5, false); //enemy_ghost_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_ghost_hurt, readPos(), 2.5, false); //enemy_ghost_hurt
 			invulnTimer = 2.0f;
 			float direction = rand() % 360 * 0.0174532925f;
 			randdir.x = cos(direction);

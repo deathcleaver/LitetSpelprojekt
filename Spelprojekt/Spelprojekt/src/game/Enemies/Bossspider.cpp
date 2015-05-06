@@ -171,7 +171,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			printf("Boss took damage \n");
-			Audio::getAudio().playSoundAtPos(10, readPos(), audibleDistance, false);//boss_bat_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 			if (currentMode == 1)
 			{
 				jumpTimer = 1.5f;
@@ -182,7 +182,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		{
 			alive = false;
 			printf("Boss is dead \n");
-			Audio::getAudio().playSoundAtPos(11, readPos(), audibleDistance, false);//boss_bat_death
+			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false);//boss_bat_death
 		}
 	}
 }

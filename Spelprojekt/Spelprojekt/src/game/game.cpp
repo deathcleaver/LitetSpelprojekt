@@ -243,7 +243,7 @@ void Game::update(float deltaTime)
 		case(MENU) :
 		{
 			engine->setFade(0.0f);
-			Audio::getAudio().playMusic(0);
+			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
 			break;
 		}
@@ -336,7 +336,7 @@ void Game::update(float deltaTime)
 								   gui->showNewUpgrade(2);
 							   else if (boss == "Bossghost")
 								   gui->showNewUpgrade(3);
-							   Audio::getAudio().playSound(8, false);//boss_defeted
+							   Audio::getAudio().playSound(SoundID::boss_clear, false);//boss_defeted
 						   }
 						   Audio::getAudio().playMusicFade(-1, deltaTime);//stop music if the boss is dead
 					   }
@@ -349,7 +349,7 @@ void Game::update(float deltaTime)
 					   if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
 					   {
 						   //save player progression
-						   Audio::getAudio().playSound(7, false); //pause
+						   Audio::getAudio().playSound(SoundID::interface_pause, false); //pause
 						   current = PAUSE;
 					   }
 					   break;
@@ -395,7 +395,7 @@ void Game::update(float deltaTime)
 						if (in->getESC() || gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
 						{
 							//save player progression
-							Audio::getAudio().playSound(7, false);
+							Audio::getAudio().playSound(SoundID::interface_pause, false);
 							current = PLAY;
 						}
 						break;
@@ -460,7 +460,7 @@ void Game::buttonEvents(int buttonEv)
 		map->init();
 		player->setStartPos(map->playerspawnX, map->playerspawnY);
 		current = PLAY;
-		Audio::getAudio().playSound(6, false); //button
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		cameraFollow = true;
 		engine->setFadeIn();
 		in->resetZoomViewDir();
@@ -470,7 +470,7 @@ void Game::buttonEvents(int buttonEv)
 	case(2) : // Mapmaker main button
 		current = EDIT;
 		edit->refreshOnEnter();
-		Audio::getAudio().playSound(6, false); //button
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		Audio::getAudio().playMusic(-1); //stop menu music
 		engine->setFadeIn();
 		cameraFollow = false;
@@ -479,7 +479,7 @@ void Game::buttonEvents(int buttonEv)
 		saveGame();
 		current = MENU;
 		edit->refreshOnEnter();
-		Audio::getAudio().playSound(6, false); //button
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		engine->setFade(0.0f);
 		engine->setFadeOut();
 		break;
@@ -490,7 +490,7 @@ void Game::buttonEvents(int buttonEv)
 		map->init();
 		start = 0;
 		current = PLAY;
-		Audio::getAudio().playSound(6, false); //button
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		engine->setFadeIn();
 		cameraFollow = true;
 		for (int c = 0; c < savePickupNr; c++)

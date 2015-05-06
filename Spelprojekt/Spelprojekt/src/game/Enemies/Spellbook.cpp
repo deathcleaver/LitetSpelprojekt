@@ -114,7 +114,7 @@ void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
 		summon->setVisitor();
 		map->findNewHome(summon);
 		delete summon;
-		Audio::getAudio().playSoundAtPos(27, pos, audibleDistance, false);
+		Audio::getAudio().playSoundAtPos(SoundID::enemy_tome_spellcast, pos, audibleDistance, false);
 
 		minionCount++;
 	}
@@ -131,7 +131,7 @@ void Spellbook::spellArcaneMissile(Map* map, glm::vec3 playerPos)
 	pewpew->setDirection(dir);
 	map->findNewHome(pewpew);
 	delete pewpew;
-	Audio::getAudio().playSoundAtPos(27, pos, audibleDistance, false);
+	Audio::getAudio().playSoundAtPos(SoundID::enemy_tome_spellcast, pos, audibleDistance, false);
 }
 
 void Spellbook::hit(int damage, bool playerRightOfEnemy)
@@ -142,7 +142,7 @@ void Spellbook::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(29, readPos(), audibleDistance, false); //spellbook_death (currently same as ghost)
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_ghost_death, readPos(), audibleDistance, false); //spellbook_death (currently same as ghost)
 		}
 		invulnTimer = 0.6f;
 	}

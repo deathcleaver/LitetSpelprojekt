@@ -108,7 +108,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			ceiling = false;
 			jumping = true;
 			speed.x = 0.0f;
-			Audio::getAudio().playSoundAtPos(31, readPos(), audibleDistance, false); //enemy_spider_jump
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_spider_jump, readPos(), audibleDistance, false); //enemy_spider_jump
 		}
 	}
 	else
@@ -208,7 +208,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					speed.x = 8.0;
 				speed.y = 14.0;
 				jumping = true;
-				Audio::getAudio().playSoundAtPos(31, readPos(), audibleDistance, false); //enemy_spider_jump
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_spider_jump, readPos(), audibleDistance, false); //enemy_spider_jump
 			}
 		}
 	}
@@ -229,10 +229,10 @@ void Spider::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(33, readPos(), audibleDistance, false); //enemy_spider_death
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_spider_death, readPos(), audibleDistance, false); //enemy_spider_death
 		}
 		else
-			Audio::getAudio().playSoundAtPos(32, readPos(), audibleDistance, false); //enemy_spider_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_spider_hurt, readPos(), audibleDistance, false); //enemy_spider_hurt
 
 		if (playerRightOfEnemy)
 		{

@@ -193,12 +193,12 @@ void Flame::hit(int damage, bool playerRightOfEnemy)
 		
 		if (health <= 0)
 		{
-			Audio::getAudio().playSoundAtPos(16, readPos(), audibleDistance, false); //enemy_flame_death
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_flame_death, readPos(), audibleDistance, false); //enemy_flame_death
 			alive = false;
 		}
 		else
 		{
-			Audio::getAudio().playSoundAtPos(15, readPos(), audibleDistance, false); //enemy_flame_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_flame_hurt, readPos(), audibleDistance, false); //enemy_flame_hurt
 			((Torch*)flameEffect->getEffect())->setIntensity(health * 10);
 		}
 

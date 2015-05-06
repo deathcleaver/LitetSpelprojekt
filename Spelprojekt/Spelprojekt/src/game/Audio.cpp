@@ -91,48 +91,49 @@ void Audio::loadFiles()
 	//load sound files
 	//Shrine
 	soundFiles[0] = "../Audio/Sounds/Shrine/rune_received.wav";
-	soundFiles[36] = "../Audio/Sounds/Shrine/player_healed.wav";
+	soundFiles[1] = "../Audio/Sounds/Shrine/player_healed.wav";
 	//player
-	soundFiles[1] = "../Audio/Sounds/Player/player_resurrected.wav";
-	soundFiles[2] = "../Audio/Sounds/Player/player_attack_miss.wav";
-	soundFiles[3] = "../Audio/Sounds/Player/player_attack_fire.wav";
-	soundFiles[4] = "../Audio/Sounds/Player/player_attack_ice.wav";
-	soundFiles[5] = "../Audio/Sounds/Player/player_shield_force.wav";
-	soundFiles[25] = "../Audio/Sounds/Player/player_landing.wav";
+	soundFiles[2] = "../Audio/Sounds/Player/player_resurrected.wav";
+	soundFiles[3] = "../Audio/Sounds/Player/player_attack_miss.wav";
+	soundFiles[4] = "../Audio/Sounds/Player/player_attack_fire.wav";
+	soundFiles[5] = "../Audio/Sounds/Player/player_attack_ice.wav";
+	soundFiles[6] = "../Audio/Sounds/Player/player_shield_force.wav";
+	soundFiles[7] = "../Audio/Sounds/Player/player_landing.wav";
 	//interface
-	soundFiles[6] = "../Audio/Sounds/Interface/button.wav";
-	soundFiles[7] = "../Audio/Sounds/Interface/pause.wav";
+	soundFiles[8] = "../Audio/Sounds/Interface/button.wav";
+	soundFiles[9] = "../Audio/Sounds/Interface/pause.wav";
 	//bosses
-	soundFiles[8] = "../Audio/Sounds/Bosses/boss_clear.wav";
-	soundFiles[9] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
-	soundFiles[10] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
-	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
+	soundFiles[10] = "../Audio/Sounds/Bosses/boss_clear.wav";
+	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
+	soundFiles[12] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
+	soundFiles[13] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
 	//enemies
-	soundFiles[12] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
-	soundFiles[13] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
-	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_death.wav";
-	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
-	soundFiles[16] = "../Audio/Sounds/Enemies/enemy_flame_death.wav";
-	soundFiles[27] = "../Audio/Sounds/Enemies/enemy_tome_spellcast.wav";
-	soundFiles[28] = "../Audio/Sounds/Enemies/enemy_ghost_hurt.wav";
-	soundFiles[29] = "../Audio/Sounds/Enemies/enemy_ghost_death.wav";
-	soundFiles[30] = "../Audio/Sounds/Enemies/enemy_ghost_moan.wav";
-	soundFiles[31] = "../Audio/Sounds/Enemies/enemy_spider_jump.wav";
-	soundFiles[32] = "../Audio/Sounds/Enemies/enemy_spider_hurt.wav";
-	soundFiles[33] = "../Audio/Sounds/Enemies/enemy_spider_death.wav";
+	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
+	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
+	soundFiles[16] = "../Audio/Sounds/Enemies/enemy_slime_death.wav";
+	soundFiles[17] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
+	soundFiles[18] = "../Audio/Sounds/Enemies/enemy_flame_death.wav";
+	soundFiles[19] = "../Audio/Sounds/Enemies/enemy_tome_spellcast.wav";
+	soundFiles[20] = "../Audio/Sounds/Enemies/enemy_ghost_hurt.wav";
+	soundFiles[21] = "../Audio/Sounds/Enemies/enemy_ghost_death.wav";
+	soundFiles[22] = "../Audio/Sounds/Enemies/enemy_ghost_moan.wav";
+	soundFiles[23] = "../Audio/Sounds/Enemies/enemy_spider_jump.wav";
+	soundFiles[24] = "../Audio/Sounds/Enemies/enemy_spider_hurt.wav";
+	soundFiles[25] = "../Audio/Sounds/Enemies/enemy_spider_death.wav";
 	//items
-	soundFiles[17] = "../Audio/Sounds/Items/item_hearth_piece.wav";
-	soundFiles[18] = "../Audio/Sounds/Items/item_hearth_completed.wav";
+	soundFiles[26] = "../Audio/Sounds/Items/item_hearth_piece.wav";
+	soundFiles[27] = "../Audio/Sounds/Items/item_hearth_completed.wav";
 	//ambient
-	soundFiles[19] = "../Audio/Sounds/Ambient/ambient_crow.wav";
-	soundFiles[20] = "../Audio/Sounds/Ambient/ambient_water_drop.wav";
-	soundFiles[21] = "../Audio/Sounds/Ambient/ambient_rain.wav";
-	soundFiles[22] = "../Audio/Sounds/Ambient/ambient_thunder2_stereo.wav";
-	soundFiles[23] = "../Audio/Sounds/Ambient/ambient_crow.wav";
-	soundFiles[24] = "../Audio/Sounds/everyone.wav";
-	soundFiles[26] = "../Audio/Sounds/Ambient/ambient_frostmourne_chant.wav";
-	soundFiles[34] = "../Audio/Sounds/Ambient/ambient_mining.wav";
-	soundFiles[35] = "../Audio/Sounds/Ambient/ambient_ironbeak_owl.wav";
+	soundFiles[28] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
+	soundFiles[29] = "../Audio/Sounds/Ambient/ambient_water_drop.wav";
+	soundFiles[30] = "../Audio/Sounds/Ambient/ambient_rain.wav";
+	soundFiles[31] = "../Audio/Sounds/Ambient/ambient_thunder2_stereo.wav";
+	soundFiles[32] = "../Audio/Sounds/Ambient/ambient_crow.wav";
+	soundFiles[33] = "../Audio/Sounds/everyone.wav";
+	soundFiles[34] = "../Audio/Sounds/Ambient/ambient_frostmourne_chant.wav";
+	soundFiles[35] = "../Audio/Sounds/Ambient/ambient_mining.wav";
+	soundFiles[36] = "../Audio/Sounds/Ambient/ambient_ironbeak_owl.wav";
+	soundFiles[37] = "../Audio/Sounds/Ambient/ambient_bats.wav";
 	//...
 }
 
