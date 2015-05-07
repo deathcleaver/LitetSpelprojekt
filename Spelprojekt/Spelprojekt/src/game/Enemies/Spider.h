@@ -14,6 +14,7 @@ private:
 	bool ceiling;
 	bool jumping;
 	bool facingRight;
+	bool lastFacing;
 	float jumpTimer;
 
 	glm::vec2 speed;

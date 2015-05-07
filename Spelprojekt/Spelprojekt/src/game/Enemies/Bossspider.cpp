@@ -5,19 +5,20 @@
 
 Bossspider::Bossspider(glm::vec2 firstPos)
 {
+	scaleFactor(4, 4, 4);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = 1;
+	contentIndex = EnemyID::spider;
 	health = 6;
 	speed = glm::vec2(8.0f, 0.0f);
 	audibleDistance = 2.5f;
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1, 1);
+	collideRect->initGameObjectRect(&worldMat, 3.8, 3.8);
 
 	currentMode = -1;
 	webTimer = 0.0f;
@@ -32,6 +33,8 @@ void Bossspider::init()
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
+		if (!facingRight)
+			rotateTo(0, 3.14159265f, 0);
 		facingRight = true;
 		alive = true;
 		health = 6;
@@ -98,10 +101,12 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			if (facingRight)
 			{
 				facingRight = false;
+				rotateTo(0, 3.14159265f, 0);
 			}
 			else
 			{
 				facingRight = true;
+				rotateTo(0, 3.14159265f, 0);
 			}
 			speed.x = -speed.x;
 		}

@@ -308,7 +308,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 			if (upDraw[y] > -1 && upDraw[y] < height)
 			{
 				int size = chunks[upDraw[x]][upDraw[y]].countEnemies("Bat");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::bat] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -322,7 +322,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					}
 				}
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spikes");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::spikes] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -334,7 +334,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::flame] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -352,7 +352,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				glColorMask(0, 0, 1, 1);
 				glEnable(GL_CULL_FACE);
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::cube] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -367,7 +367,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Ghost");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::ghost] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -386,7 +386,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				glDisable(GL_CULL_FACE);
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spellbook");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::spellbook] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -400,7 +400,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					}
 				}
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::bat] = 1;
 				for (int c = 0; c < size; c++)
 				{
@@ -415,7 +415,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Spider");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::spider] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -430,7 +430,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Web");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::web] = 1;
 				for (int i = 0; i < size; i++)
 				{
@@ -442,7 +442,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 				}
 
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Webshot");
-				if (size > 1)
+				if (size >= 1)
 					animCheck->enemyUpdate[EnemyID::web] = 1;
 				for (int c = 0; c < size; c++)
 				{
