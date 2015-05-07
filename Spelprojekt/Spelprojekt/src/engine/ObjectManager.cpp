@@ -256,9 +256,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//cube
-	Object* slimeC1 = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
-	Object* slimeC2 = new Object("src/meshes/BaseCube.v", "src/textures/black.bmp");
-	add = new AnimationObject(slimeC1, slimeC2, 0.0f, 0.0f);
+	Object* slimeC1 = new Object("src/meshes/Enemies/SlimeCubeWobble4.v", "src/textures/black.bmp");
+	Object* slimeC2 = new Object("src/meshes/Enemies/SlimeCubeWobble.v", "src/textures/black.bmp");
+	add = new AnimationObject(slimeC1, slimeC2, 0.5f, 0.05f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//spider

@@ -8,7 +8,7 @@ Cube::Cube(glm::vec2 firstPos)
 	moveTo(firstPos.x, firstPos.y);
 	alive = true;
 	facingRight = true;
-	contentIndex = 3;
+	contentIndex = EnemyID::cube;
 	health = 4;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
@@ -30,7 +30,7 @@ Cube::Cube(Cube* copy)
 	moveTo(initPos.x, initPos.y);
 	alive = true;
 	facingRight = copy->facingRight;
-	contentIndex = 2;
+	contentIndex = EnemyID::cube;
 	health = copy->health;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
