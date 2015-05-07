@@ -13,7 +13,7 @@ Ghost::Ghost(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
-	speed = 3.0f;
+	speed = 2.0f;
 }
 
 Ghost::Ghost(Ghost* copy)

@@ -9,7 +9,7 @@ Cube::Cube(glm::vec2 firstPos)
 	alive = true;
 	facingRight = true;
 	contentIndex = EnemyID::cube;
-	health = 4;
+	health = 2;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
 	audibleDistance = 3.0f;
@@ -46,7 +46,7 @@ void Cube::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
-	health = 4;
+	health = 2;
 	collideRect->update();
 }
 

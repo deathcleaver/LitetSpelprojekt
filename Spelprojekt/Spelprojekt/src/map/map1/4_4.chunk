@@ -1,9 +1,8 @@
 0 : ChuckTesta
-32 : Enemy Count
+31 : Enemy Count
 Bat -6 -2
 Bat -8 -5
 Spider 10 11
-Spider 14 11
 Spider -4 16
 Spider -7 16
 Spider 0 16
