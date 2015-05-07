@@ -51,7 +51,7 @@ int GUI::update(int state)
 		case(4) :
 			PAUSE(init);
 			break;
-		case(5) :
+		case(6) :
 			SETTINGS(init);
 			break;
 		}
@@ -84,7 +84,7 @@ void GUI::MENU(bool init)
 {
 	if (init)
 	{
-		size = 6;
+		size = 7;
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
 
@@ -119,11 +119,13 @@ void GUI::MENU(bool init)
 		items[4]->init(6, 7, true, 2);
 		items[4]->MoveAutoSize(0, -0.4, content);
 
-		//settings button
-
 		//credits button
 		items[5]->init(8, 9, true, 0);
 		items[5]->MoveAutoSize(0, -0.6, content);
+		
+		//settings button
+		items[6]->init(10, 11, true, 6);
+		items[6]->MoveAutoSize(0, -0.8, content);
 	}
 }
 
@@ -347,15 +349,32 @@ void GUI::PAUSE(bool init)
 
 void GUI::SETTINGS(bool init)
 {
-	size = 2;
-	for (int n = 0; n < size; n++)
-		items[n] = new ScreenItem();
-	// paused text
-	items[0]->init(20, 20);
-	items[0]->MoveAutoSize(0, 0.2, content);
-	// exit text
-	items[1]->init(21, 22, true, 3);
-	items[1]->MoveAutoSize(0, -0.1, content);
+	if (init)
+	{
+		size = 5;
+		for (int n = 0; n < size; n++)
+			items[n] = new ScreenItem();
+		// audio
+		items[0]->init(12, 12);
+		items[0]->MoveAutoSize(0, 0.6, content);
+		
+		// music enabled
+		items[1]->init(14, 14);
+		items[1]->MoveAutoSize(0, 0.2, content);
+
+		// sound enabled
+		items[2]->init(15, 15);
+		items[2]->MoveAutoSize(0, -0.2, content);
+		
+		// graphics
+		items[3]->init(13, 13);
+		items[3]->MoveAutoSize(0, -0.6, content);
+
+		// enable test
+		items[4]->init(16, 17, true, 5);
+		items[4]->MoveAutoSize(0.4, 0.2, content);
+		items[4]->initSwitch();
+	}
 }
 
 int GUI::keyUpdate()

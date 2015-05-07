@@ -248,7 +248,7 @@ bool Object::loadBMP(std::string imagepath)
 	height = *(int*)&(header[0x16]);
 
 	TexscaleX = float(width) / SCREENWIDTH;
-	TexscaleY =	float(height) / SCREENHEIGHT;
+	TexscaleY = float(height) / SCREENHEIGHT;
 
 	// Some BMP files are misformatted, guess missing information
 	if (imageSize == 0)
