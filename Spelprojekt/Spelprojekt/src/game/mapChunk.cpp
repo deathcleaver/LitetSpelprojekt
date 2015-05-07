@@ -833,7 +833,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{
-		Rect* bossRect = boss->getRekt();
+		Rect* bossRect = boss->getHurtRekt();
 		if (bossRect)
 		{
 			if (bossRect->intersects(wpnRect))

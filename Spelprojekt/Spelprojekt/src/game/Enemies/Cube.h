@@ -6,6 +6,7 @@
 class Cube : public Enemy
 {
 private:
+	Rect* hurtRect;
 	float acc;
 	glm::vec2 speed;
 	glm::vec2 maxSpeed;
@@ -21,6 +22,10 @@ public:
 	std::string getType()
 	{
 		return "Cube";
+	}
+	Rect* getHurtRekt()
+	{
+		return hurtRect;
 	}
 };
 

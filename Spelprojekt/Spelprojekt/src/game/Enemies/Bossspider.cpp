@@ -31,12 +31,10 @@ void Bossspider::init()
 	if (!isInit)
 	{
 		worldMat = glm::mat4(1);
-		scaleFactor(3, 3, 2.5);
+		scaleFactor(3, 3, 2);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
-		if (!facingRight)
-			rotateTo(0, 3.14159265f, 0);
 		facingRight = true;
 		alive = true;
 		health = 6;
@@ -136,7 +134,12 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(0, -speed.y*deltaTime);
 				currentMode = 3;
 				webTimer = 1.0f;
-				websToShoot = 3;
+				if (health > 4)
+					websToShoot = 1;
+				else if (health > 2)
+					websToShoot = 2;
+				else
+					websToShoot = 3;
 				printf("Modeswitch to 3\n");
 			}
 			else
@@ -182,12 +185,12 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		health -= damage;
 		if (health > 0)
 		{
-			invulnTimer = 1.0f;
+			invulnTimer = 1.2f;
 			printf("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 			if (currentMode == 1)
 			{
-				jumpTimer = 1.5f;
+				jumpTimer = 1.0f;
 				speed.y = 25.0f;
 			}
 		}

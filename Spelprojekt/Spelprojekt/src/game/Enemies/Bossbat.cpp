@@ -20,6 +20,9 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	movementScale = 0.0f;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 2, 2.5);
+	hurtRect = new Rect();
+	hurtRect->initGameObjectRect(&worldMat, 2.5, 2.8);
+
 	batsToSpawn = 0;
 	batTimer = 0.0f;
 	charging = false;
@@ -251,6 +254,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 		}
 	}
+	hurtRect->update();
 	return 0;
 }
 

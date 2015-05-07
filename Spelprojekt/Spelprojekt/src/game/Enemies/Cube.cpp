@@ -12,6 +12,9 @@ Cube::Cube(glm::vec2 firstPos)
 	health = 2;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
+	hurtRect = new Rect();
+	hurtRect->initGameObjectRect(&worldMat, 2.1, 2.1);
+
 	audibleDistance = 3.0f;
 
 	speed = glm::vec2(0,0);
@@ -114,6 +117,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		invulnTimer -= 1.0f*deltaTime;
 	}
+	hurtRect->update();
 	return 0;
 }
 

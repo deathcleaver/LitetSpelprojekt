@@ -6,6 +6,8 @@
 class Bossbat : public Enemy
 {
 private:
+	Rect* hurtRect;
+
 	float movementScale;
 	float speed;
 	bool slow;
@@ -34,6 +36,13 @@ public:
 	}
 
 	glm::vec2 plsGiveBossPos();
+
+	Rect* getHurtRekt()
+	{
+		if (!charging)
+			return hurtRect;
+		return collideRect;
+	}
 };
 
 #endif

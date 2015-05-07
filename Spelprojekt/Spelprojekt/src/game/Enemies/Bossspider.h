@@ -29,6 +29,11 @@ public:
 	}
 
 	glm::vec2 plsGiveBossPos();
+
+	Rect* getHurtRekt()
+	{
+		return hurtRect;
+	}
 };
 
 #endif
