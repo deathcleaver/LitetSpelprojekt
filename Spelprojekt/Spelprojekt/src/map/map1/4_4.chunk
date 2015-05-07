@@ -1,5 +1,5 @@
 0 : ChuckTesta
-24 : Enemy Count
+28 : Enemy Count
 Bat -6 -2
 Bat -8 -5
 Spider 10 11
@@ -24,6 +24,10 @@ Web -6 -12
 Web -6 -13
 Web -6 -14
 Web -6 -15
+Web -7 -15
+Web -8 -15
+Web -7 -14
+Web -9 -15
 -1 NO BACKGROUND
 -1 NO SHRINE
 0 11 -12
