@@ -54,7 +54,23 @@ void ContentManager::loadGUIobjs()
 	guiObjs[7] = new Object("", "src/textures/gui/main/mapmakerH.bmp", guiObjs[0], true);
 	guiObjs[8] = new Object("", "src/textures/gui/main/credits.bmp", guiObjs[0], true);
 	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.bmp", guiObjs[0], true);
-	for (int n = 10; n < 20; n++)
+	guiObjs[10] = new Object("", "src/textures/gui/main/settings.bmp", guiObjs[0], true);
+	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.bmp", guiObjs[0], true);
+	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audio.bmp", guiObjs[0], true);
+<<<<<<< HEAD
+	guiObjs[13] = new Object("", "src/textures/gui/main/settings/graphics.bmp", guiObjs[0], true);
+	guiObjs[14] = new Object("", "src/textures/gui/main/settings/musicE.bmp", guiObjs[0], true);
+	guiObjs[15] = new Object("", "src/textures/gui/main/settings/soundE.bmp", guiObjs[0], true);
+	guiObjs[16] = new Object("", "src/textures/gui/main/settings/enabled.bmp", guiObjs[0], true);
+	guiObjs[17] = new Object("", "src/textures/gui/main/settings/disabled.bmp", guiObjs[0], true);
+=======
+	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioH.bmp", guiObjs[0], true);
+	guiObjs[14] = new Object("", "src/textures/gui/main/settings/graphics.bmp", guiObjs[0], true);
+	guiObjs[15] = new Object("", "src/textures/gui/main/settings/graphicsH.bmp", guiObjs[0], true);
+	guiObjs[16] = new Object("", "src/textures/gui/main/settings/checkbox_no.bmp", guiObjs[0], true);
+	guiObjs[17] = new Object("", "src/textures/gui/main/settings/checkbox_yes.bmp", guiObjs[0], true);
+>>>>>>> 623489e734fbdac021c8408d4177c3b961910eff
+	for (int n = 18; n < 20; n++)
 		guiObjs[n] = 0;
 
 	//paused, exit to menu
