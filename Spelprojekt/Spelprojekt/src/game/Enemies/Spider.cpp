@@ -260,6 +260,9 @@ void Spider::hit(int damage, bool playerRightOfEnemy)
 		speed.y = 15;
 		jumping = true;
 		if (ceiling)
+		{
 			ceiling = false;
+			rotateTo(3.14159265f, 0, 0);
+		}
 	}
 }

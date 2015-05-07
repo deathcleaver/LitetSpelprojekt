@@ -136,7 +136,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(0, -speed.y*deltaTime);
 				currentMode = 3;
 				webTimer = 1.0f;
-				websToShoot = 2;
+				websToShoot = 3;
 				printf("Modeswitch to 3\n");
 			}
 			else
