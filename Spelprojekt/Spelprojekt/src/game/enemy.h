@@ -42,6 +42,11 @@ public:
 	void diePls();
 
 	virtual glm::vec2 plsGiveBossPos();
+
+	virtual Rect* getHurtRekt()
+	{
+		return collideRect;
+	}
 };
 
 #endif

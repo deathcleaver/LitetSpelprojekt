@@ -6,6 +6,7 @@
 class Bossspider : public Enemy
 {
 private:
+	Rect* hurtRect;
 	glm::vec2 speed;
 	float invulnTimer;
 	bool isInit;

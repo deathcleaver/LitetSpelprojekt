@@ -5,7 +5,6 @@
 
 Bossspider::Bossspider(glm::vec2 firstPos)
 {
-	scaleFactor(4, 4, 4);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
 	alive = false;
@@ -18,7 +17,9 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 3.8, 3.8);
+	collideRect->initGameObjectRect(&worldMat, 3.1, 2.8);
+	hurtRect = new Rect();
+	hurtRect->initGameObjectRect(&worldMat, 3.3, 3.2);
 
 	currentMode = -1;
 	webTimer = 0.0f;
@@ -30,6 +31,7 @@ void Bossspider::init()
 	if (!isInit)
 	{
 		worldMat = glm::mat4(1);
+		scaleFactor(3, 3, 2.5);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
@@ -39,6 +41,7 @@ void Bossspider::init()
 		alive = true;
 		health = 6;
 		collideRect->update();
+		hurtRect->update();
 
 		currentMode = -1;
 		webTimer = 2.0f;
@@ -159,6 +162,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 		}
 	}
+	hurtRect->update();
 	return 0;
 }
 

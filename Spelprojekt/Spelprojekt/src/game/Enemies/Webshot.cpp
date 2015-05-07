@@ -37,7 +37,7 @@ void Webshot::init()
 int Webshot::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	if (!alive)
-		return 1;
+ 		return 1;
 	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
 	if (collidesWithWorld(map))
 	{
