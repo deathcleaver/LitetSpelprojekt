@@ -129,16 +129,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	nrLight = 0;
 	nrLightGlow = 0;
-	
-
-	// bind textures
-	for (size_t i = 1; i < nrTextures; i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
-		glProgramUniform1i(*shaderPtr, pos[i], i);
-	}
-
 
 	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
 	glGenVertexArrays(1, &LightVao);
@@ -253,11 +243,30 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 
 }
 
+void Gbuffer::renderTexture()
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+
+	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
+	glBindVertexArray(renderVao);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+}
+
 void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRektsEdit)
 {
+
+	// bind textures
+	for (size_t i = 1; i < nrTextures; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
+		glProgramUniform1i(*shaderPtr, pos[i], i);
+	}
+
 	// bind shader
-
-
 	glUseProgram(*shaderPtr);
 	if (renderDoF)
 		glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);

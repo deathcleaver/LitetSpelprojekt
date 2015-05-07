@@ -6,7 +6,7 @@
 
 #include <gl/glew.h>
 
-std::string readShader(const char *filePath)
+inline std::string readShader(const char *filePath)
 {
 	std::string content;
 	std::ifstream fileStream(filePath, std::ios::in);
@@ -26,7 +26,7 @@ std::string readShader(const char *filePath)
 	return content;
 }
 
-bool CreateProgram(GLuint &programID, std::string shadernames[], GLenum shaderType[], int numberOfShaders)
+inline bool CreateProgram(GLuint &programID, std::string shadernames[], GLenum shaderType[], int numberOfShaders)
 {
 	programID = glCreateProgram();
 

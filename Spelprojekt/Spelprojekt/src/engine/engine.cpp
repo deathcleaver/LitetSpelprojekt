@@ -91,6 +91,8 @@ void Engine::init(glm::mat4* viewMat)
 	fadeIn = false;
 	fadeOut = false;
 
+	testMirror.rotateToY(3.1415923565f);
+
 }
 
 void Engine::applySettings(bool glows)
@@ -120,18 +122,49 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 {
 
 	int timerID = startTimer("Render");
+
+	if (!testMirror.isInitialized())
+	{
+		testMirror.initGBuffer(gBuffer);
+	}
+
 	gBuffer.playerPos = (GLfloat*)&player->readPos();
+
+	testMirror.mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
+
+	// mirror renderPass
+	testMirror.mirrorBuffer.bind(GL_FRAMEBUFFER);
+	glUseProgram(tempshader);
+	glViewport(0, 0, 400, 400);
+
+	testMirror.viewMat = glm::lookAt(glm::vec3(41.0f, -27.0f, -3.0f), glm::vec3(41.0f, -27.0f, 1.0f), glm::vec3(0, 1, 0));
+	testMirror.projMat = glm::perspective(3.14f*0.45f, (float)400 / (float)400, 0.1f, 1000.0f);
+	testMirror.moveTo(41.0f, -27.0f, -3.0f);
+
+	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &testMirror.viewMat[0][0]);
+	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &testMirror.projMat[0][0]);
+
+	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &testMirror.viewMat[0][0]);
+	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &testMirror.projMat[0][0]);
+
+
+	if (edit->forceRekts)
+	{
+		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &testMirror.viewMat[0][0]);
+		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &testMirror.projMat[0][0]);
+	}
+
+	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+
+	// default FBO renderpass
 
 	// bind gbuffer FBO
 	gBuffer.clearLight();
 	gBuffer.bind(GL_FRAMEBUFFER);
-
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+	glViewport(0, 0, configResX, configResY);
 	glUseProgram(tempshader);
+	// default renderpass
 
-	glm::mat4 VP = projMatrix * *viewMatrix;
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &projMatrix[0][0]);
 
@@ -145,29 +178,18 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &projMatrix[0][0]);
 	}
 
-	int id = 0;
-	int lastid = -1;
-	width = map->readSizeX();
-	height = map->readSizeY();
-	chunks = map->getChunks();
-	upDraw = map->getUpDraw();
-	content = contentin;
-
-	renderPlayer(player);
-	
-	renderBack();
-
-	renderWorld();
-
-	renderMisc();
-
-	renderEnemies(updateAnimCheck);
-
-	renderEditObject(edit);
+	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+	//
 
 	bindLights(player, edit);
 
+	//renderMirror
+	testMirror.bindWorldMat(&tempshader, &uniformModel);
+	testMirror.render();
+
 	glDisable(GL_DEPTH_TEST);
+
+	// renderPasses done, combine pass
 
 	// bind default FBO and render gbuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -194,6 +216,37 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		fadeOut = false;
 
 	stopTimer(timerID);
+}
+
+void Engine::renderPass(const Player* player, const Map* map, const ContentManager* contentin,
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
+{
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glm::mat4 VP = projMatrix * *viewMatrix;
+	
+
+	int id = 0;
+	int lastid = -1;
+	width = map->readSizeX();
+	height = map->readSizeY();
+	chunks = map->getChunks();
+	upDraw = map->getUpDraw();
+	content = contentin;
+
+	renderPlayer(player);
+
+	renderBack();
+
+	renderWorld();
+
+	renderMisc();
+
+	renderEnemies(updateAnimCheck);
+
+	renderEditObject(edit);
+
 }
 
 void Engine::renderPlayer(const Player* player)
@@ -463,7 +516,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						facecount = content->bind(OBJ::ENEMY, id);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
-					//animCheck->enemyUpdate[EnemyID::batboss] = 1;
+					animCheck->enemyUpdate[EnemyID::batboss] = 1;
 				}
 			}
 

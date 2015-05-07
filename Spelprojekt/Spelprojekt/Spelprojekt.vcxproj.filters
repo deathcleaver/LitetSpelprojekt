@@ -124,6 +124,9 @@
     <ClCompile Include="src\game\Enemies\ArcaneMissile.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Mirror.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -270,6 +273,9 @@
     <ClInclude Include="src\TimeQuery.h" />
     <ClInclude Include="src\game\Enemies\ArcaneMissile.h">
       <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Mirror.h">
+      <Filter>Header\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
