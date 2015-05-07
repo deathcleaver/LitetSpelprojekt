@@ -21,6 +21,8 @@
 
 #include "GBuffer.h"
 
+#include "../game/Mirror.h"
+
 class Engine : public Align_16
 {
 private:
@@ -77,6 +79,11 @@ private:
 	int facecount;
 	int id;
 	int lastid;
+
+	void renderPass(const Player* player, const Map* map, const ContentManager* content,
+		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
+
+	Mirror testMirror;
 
 public:
 	void setDoF(bool set);

@@ -21,6 +21,8 @@ public:
 
 	void bind(GLuint index);
 
+	void renderTexture();
+
 	void render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRekts);
 
 	void renderGlow(glm::vec3* campos);
