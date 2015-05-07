@@ -59,7 +59,7 @@ void ObjectManager::loadPlayer()
 	playerAn[2] = new Object("src/meshes/Player/PlayerWalkSwordBack2.v", "", playerAn[0], false, true);
 	playerAn[3] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
 	playerAn[4] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
-	
+
 
 	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerIdle.v", 5, 0.5f, 0.05f);
 	//myPlayer = new AnimationObject("src/meshes/Player/PlayerIdle.v", "src/textures/player.bmp");
@@ -296,9 +296,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Bossbat
-	Object* bossBat1 = new Object("src/meshes/Enemies/BatBossWingsBack.v", "src/textures/batBoss.bmp");
-	Object* bossBat2 = new Object("src/meshes/Enemies/BatBossWingsFront.v", "src/textures/batBoss.bmp");
-	add = new AnimationObject(bossBat1, bossBat2, 0.5f, 0.02f);
+	Object* bossBat1 = new Object("src/meshes/Enemies/BatBossBack.v", "src/textures/bossBat.bmp");
+	Object* bossBat2 = new Object("src/meshes/Enemies/BatBossFront.v", "src/textures/bossBat.bmp");
+	add = new AnimationObject(bossBat1, bossBat2, 0.5f, 0.24f);
 
 	objects[OBJ::ENEMY].push_back(add);
 }
@@ -359,17 +359,8 @@ void ObjectManager::update(UpdateAnimCheck* animCheck)
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
-		if (i != EnemyID::batboss)
-		{
-			if (animCheck->enemyUpdate[i])
-				objects[ENEMY][i]->update();
-		}
-		if (i == EnemyID::batboss)
-		{
-			if (animCheck->enemyUpdate[i])
-				objects[ENEMY][i]->update();
-		}
-
+		if (animCheck->enemyUpdate[i])
+			objects[ENEMY][i]->update();
 	}
 	for (int i = 0; i < MiscID::misc_count; i++)
 	{
@@ -399,16 +390,16 @@ void ObjectManager::setPlayerState(std::string state)
 {
 	if (state == "idle")
 	{
-	myPlayer->setAnimPoints(0, 0);
-	myPlayer->setSpeed(0.02f);
-	myPlayer->setWeight(0.5f);
-	myPlayer->setDirection(1);
+		myPlayer->setAnimPoints(0, 0);
+		myPlayer->setSpeed(0.02f);
+		myPlayer->setWeight(0.5f);
+		myPlayer->setDirection(1);
 	}
 	else if (state == "walk")
 	{
-	myPlayer->setAnimPoints(1, 2);
-	myPlayer->setSpeed(0.2f);
-	//myPlayer->setWeight(0.5f);
+		myPlayer->setAnimPoints(1, 2);
+		myPlayer->setSpeed(0.2f);
+		//myPlayer->setWeight(0.5f);
 	}
 	/*else if (state == "air")
 	{
@@ -422,8 +413,8 @@ void ObjectManager::setPlayerState(std::string state)
 	}*/
 	else if (state == "attack")
 	{
-	myPlayer->setAnimPoints(3, 4);
-	myPlayer->setSpeed(0.12f);
+		myPlayer->setAnimPoints(3, 4);
+		myPlayer->setSpeed(0.12f);
 	}
 }
 
