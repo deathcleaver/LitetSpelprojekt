@@ -83,7 +83,8 @@
 39 7.09261 0 0 0.265427 0 1.52779 0 -6.45575 0 0 16.118 -12.5875 0 0 0 1
 40 4.75926 0 0 0.295914 0 4.37776 0 -1.29951 0 0 5.27221 -13.1153 0 0 0 1
 5 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 43 0 0 -2 7.5 2 5 15
 7 : Nr of Lights 
 0.236572 -0.338211 -10.3708 1 1 1 0.862503 46.0667 1 : LIGHTS
 -4.62395 -2.82713 -9.31531 0.948148 0.105554 0.0263885 4.12152 22.4741 2 : LIGHTS

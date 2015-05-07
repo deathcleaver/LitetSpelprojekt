@@ -105,7 +105,9 @@ Ghost 4 -8
 38 0.403702 0 0 1.62821 0 0.0439699 -0.336428 11.4041 0 0.549635 0.0269138 0.738899 0 0 0 1
 38 -0.40274 0.0179055 -0.0205513 1.65414 0.0255397 0.0429228 -0.3358 11.4569 -0.0111298 -0.549427 -0.0269036 -0.343048 0 0 0 1
 5 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+2 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 45 3 -8 -1 3.5 2 5 15
+1 45 11 -8 -1 3.5 2 10 20
 4 : Nr of Lights 
 11.8938 8.13094 -3.48332 0.403705 0.142499 0 6.72083 3.72963 2 : LIGHTS
 10.9604 8.15729 -3.61525 0.403705 0.142499 0 6.77361 3.75555 2 : LIGHTS

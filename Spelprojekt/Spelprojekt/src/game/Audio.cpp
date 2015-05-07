@@ -137,6 +137,11 @@ void Audio::loadFiles()
 	soundFiles[38] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
 	soundFiles[39] = "../Audio/Sounds/Ambient/Ghost/damned_scream.wav";
 	soundFiles[40] = "../Audio/Sounds/Ambient/Ghost/ghost_moan.wav";
+	soundFiles[41] = "../Audio/Sounds/Ambient/Ghost/damned_moan.wav";
+	soundFiles[42] = "../Audio/Sounds/Ambient/Ghost/undead_moan.wav";
+	soundFiles[43] = "../Audio/Sounds/Ambient/Ghost/undead_dissipate.wav";
+	soundFiles[44] = "../Audio/Sounds/Ambient/rat_gnawing.wav";
+	soundFiles[45] = "../Audio/Sounds/Ambient/rat_squeak.wav";
 	//...
 }
 
