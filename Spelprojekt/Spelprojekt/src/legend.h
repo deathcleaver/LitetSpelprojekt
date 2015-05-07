@@ -63,6 +63,10 @@ enum WorldID
 	tunnel,
 	redblock,
 	marble_shrine,
+	dead_tree,
+	fence,
+	gate,
+	mirror,
 
 	world_count, //leave this last
 };

@@ -233,6 +233,22 @@ void ObjectManager::loadMapObjs()
 	//marble shrine
 	add = new AnimationObject("src/meshes/Interactive Objects/Shrine.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//dead_tree
+	add = new AnimationObject("src/meshes/overworld/DeadTree.v", "src/textures/Background Objects/deadtree.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//fence
+	add = new AnimationObject("src/meshes/overworld/Fence.v", "src/textures/Background Objects/fenceTex.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//gate
+	add = new AnimationObject("src/meshes/overworld/Gate.v", "src/textures/Background Objects/gate.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//mirror
+	add = new AnimationObject("src/meshes/overworld/Mirror.v", "src/textures/Background/marble.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
