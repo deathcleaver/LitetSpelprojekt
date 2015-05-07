@@ -260,9 +260,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//bats
-	Object* bat1 = new Object("src/meshes/Enemies/BatWingsBackFix.v", "src/textures/Red.bmp");
-	Object* bat2 = new Object("src/meshes/Enemies/BatWingsForwardFix.v", "src/textures/Red.bmp");
-	add = new AnimationObject(bat1, bat2, 0.5f, 0.08f);
+	Object* bat1 = new Object("src/meshes/Enemies/BatAngle.v", "src/textures/Bat.bmp");
+	Object* bat2 = new Object("src/meshes/Enemies/BatAngle2.v", "src/textures/Bat.bmp");
+	add = new AnimationObject(bat1, bat2, 0.5f, 0.24f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//flame
