@@ -14,6 +14,7 @@ private:
 	float invulnTimer;
 	float jumpTimer;
 public:
+	~Cube();
 	Cube(glm::vec2 firstPos);
 	Cube(Cube* copy);
 	void init();

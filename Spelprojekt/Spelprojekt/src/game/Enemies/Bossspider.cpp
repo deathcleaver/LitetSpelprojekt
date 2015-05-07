@@ -26,6 +26,11 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	jumpTimer = -1.0f;
 }
 
+Bossspider::~Bossspider()
+{
+	delete hurtRect;
+}
+
 void Bossspider::init()
 {
 	if (!isInit)

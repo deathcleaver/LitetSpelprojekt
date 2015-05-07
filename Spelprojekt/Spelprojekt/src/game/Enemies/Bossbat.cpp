@@ -29,6 +29,11 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	chargeTimer = 4.0f;
 }
 
+Bossbat::~Bossbat()
+{
+	delete hurtRect;
+}
+
 void Bossbat::init()
 {
 	if (!isInit)

@@ -24,6 +24,7 @@ private:
 	glm::vec3 returnPos;
 	bool hasTurned;
 public:
+	~Bossbat();
 	Bossbat(glm::vec2 firstPos);
 	void init();
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);

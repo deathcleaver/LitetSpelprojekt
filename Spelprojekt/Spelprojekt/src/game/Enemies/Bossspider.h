@@ -17,6 +17,7 @@ private:
 
 	void howDoIShotWeb(glm::vec3 playerPos, Map* map);
 public:
+	~Bossspider();
 	Bossspider(glm::vec2 firstPos);
 	void init();
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);

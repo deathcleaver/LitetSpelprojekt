@@ -24,6 +24,11 @@ Cube::Cube(glm::vec2 firstPos)
 	jumpTimer = 0.0f;
 }
 
+Cube::~Cube()
+{
+	delete hurtRect;
+}
+
 Cube::Cube(Cube* copy)
 {
 	visitor = copy->visitor;
