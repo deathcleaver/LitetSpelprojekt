@@ -11,6 +11,7 @@ Webshot::Webshot(glm::vec2 firstPos)
 Webshot::Webshot(Webshot* copy)
 {
 	alive = true;
+	audibleDistance = 6.5f;
 	worldMat = copy->worldMat;
 	initPos = copy->initPos;
 	moveTo(initPos.x, initPos.y);
@@ -37,10 +38,11 @@ void Webshot::init()
 int Webshot::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	if (!alive)
-		return 1;
+ 		return 1;
 	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
 	if (collidesWithWorld(map))
 	{
+		Audio::getAudio().playSoundAtPos(SoundID::boss_spider_webshot, readPos(), audibleDistance, false);
 		Web* web = new Web(glm::vec2(readPos()));
 		web->setVisitor();
 		map->findNewHome(web);

@@ -105,9 +105,14 @@ void Audio::loadFiles()
 	soundFiles[9] = "../Audio/Sounds/Interface/pause.wav";
 	//bosses
 	soundFiles[10] = "../Audio/Sounds/Bosses/boss_clear.wav";
-	soundFiles[11] = "../Audio/Sounds/Bosses/boss_bat_attack.wav";
-	soundFiles[12] = "../Audio/Sounds/Bosses/boss_bat_hurt.wav";
-	soundFiles[13] = "../Audio/Sounds/Bosses/boss_bat_death.wav";
+	soundFiles[11] = "../Audio/Sounds/Bosses/Bat/boss_bat_attack.wav";
+	soundFiles[12] = "../Audio/Sounds/Bosses/Bat/boss_bat_hurt.wav";
+	soundFiles[13] = "../Audio/Sounds/Bosses/Bat/boss_bat_death.wav";
+	soundFiles[46] = "../Audio/Sounds/Bosses/Spider/boss_spider_spawn.wav";
+	soundFiles[47] = "../Audio/Sounds/Bosses/Spider/boss_spider_attack.wav";
+	soundFiles[48] = "../Audio/Sounds/Bosses/Spider/boss_spider_hurt.wav";
+	soundFiles[49] = "../Audio/Sounds/Bosses/Spider/boss_spider_death.wav";
+	soundFiles[50] = "../Audio/Sounds/Bosses/Spider/boss_spider_webshot.wav";
 	//enemies
 	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
 	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
@@ -137,6 +142,11 @@ void Audio::loadFiles()
 	soundFiles[38] = "../Audio/Sounds/Ambient/ambient_water_splash.wav";
 	soundFiles[39] = "../Audio/Sounds/Ambient/Ghost/damned_scream.wav";
 	soundFiles[40] = "../Audio/Sounds/Ambient/Ghost/ghost_moan.wav";
+	soundFiles[41] = "../Audio/Sounds/Ambient/Ghost/damned_moan.wav";
+	soundFiles[42] = "../Audio/Sounds/Ambient/Ghost/undead_moan.wav";
+	soundFiles[43] = "../Audio/Sounds/Ambient/Ghost/undead_dissipate.wav";
+	soundFiles[44] = "../Audio/Sounds/Ambient/rat_gnawing.wav";
+	soundFiles[45] = "../Audio/Sounds/Ambient/rat_squeak.wav";
 	//...
 }
 

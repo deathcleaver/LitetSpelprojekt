@@ -1,5 +1,5 @@
 0 : ChuckTesta
-24 : Enemy Count
+28 : Enemy Count
 Bat -6 -2
 Bat -8 -5
 Spider 10 11
@@ -24,6 +24,10 @@ Web -6 -12
 Web -6 -13
 Web -6 -14
 Web -6 -15
+Web -7 -15
+Web -8 -15
+Web -7 -14
+Web -9 -15
 -1 NO BACKGROUND
 -1 NO SHRINE
 0 11 -12
@@ -245,7 +249,8 @@ Web -6 -15
 36 2.16666 0 0 -17.1631 0 3.375 0 11.71 0 0 1 -2.41943 0 0 0 1
 39 9.47778 0 0 11.343 0 0.551376 0 -14.9745 0 0 2.82083 0 0 0 0 1
 5 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 42 11 -11 -2 5 2 10 15
 5 : Nr of Lights 
 10.1127 9.47328 -12.8514 1 0.23222 0 1.39027 48.8148 0 : LIGHTS
 1.15477 -0.767395 -6.30695 0.357776 0.216388 0 3.21111 12.6482 2 : LIGHTS

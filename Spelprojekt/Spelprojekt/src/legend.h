@@ -133,6 +133,11 @@ enum SoundID
 	boss_bat_attack = 11,
 	boss_bat_hurt = 12,
 	boss_bat_death = 13,
+	boss_spider_spawn = 46,
+	boss_spider_attack = 47,
+	boss_spider_hurt = 48,
+	boss_spider_death = 49,
+	boss_spider_webshot = 50,
 	// enemies
 	enemy_slime_jump = 14,
 	enemy_slime_hurt = 15,

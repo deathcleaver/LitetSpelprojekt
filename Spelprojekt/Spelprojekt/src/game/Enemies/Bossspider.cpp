@@ -10,14 +10,16 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = 1;
+	contentIndex = EnemyID::spider;
 	health = 6;
 	speed = glm::vec2(8.0f, 0.0f);
-	audibleDistance = 2.5f;
+	audibleDistance = 10.0f;
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1, 1);
+	collideRect->initGameObjectRect(&worldMat, 3.1, 2.8);
+	hurtRect = new Rect();
+	hurtRect->initGameObjectRect(&worldMat, 3.3, 3.2);
 
 	currentMode = -1;
 	webTimer = 0.0f;
@@ -29,13 +31,17 @@ void Bossspider::init()
 	if (!isInit)
 	{
 		worldMat = glm::mat4(1);
+		scaleFactor(3, 3, 2.5);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
+		if (!facingRight)
+			rotateTo(0, 3.14159265f, 0);
 		facingRight = true;
 		alive = true;
 		health = 6;
 		collideRect->update();
+		hurtRect->update();
 
 		currentMode = -1;
 		webTimer = 2.0f;
@@ -51,6 +57,7 @@ void Bossspider::init()
 
 void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 {
+	Audio::getAudio().playSoundAtPos(SoundID::boss_spider_attack, readPos(), audibleDistance, false);
 	Webshot* pewpew = new Webshot(glm::vec2(readPos()));
 	pewpew->setVisitor();
 	glm::vec2 dir = glm::vec2(playerPos) - glm::vec2(readPos());
@@ -71,7 +78,10 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		webTimer -= 1.0*deltaTime;
 		if (webTimer < FLT_EPSILON)
+		{
+			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_spawn, readPos(), audibleDistance, false);
 			currentMode = 0;
+		}
 	}
 	else if (currentMode == 0) //Dropping from ceiling
 	{
@@ -98,10 +108,12 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			if (facingRight)
 			{
 				facingRight = false;
+				rotateTo(0, 3.14159265f, 0);
 			}
 			else
 			{
 				facingRight = true;
+				rotateTo(0, 3.14159265f, 0);
 			}
 			speed.x = -speed.x;
 		}
@@ -154,6 +166,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 		}
 	}
+	hurtRect->update();
 	return 0;
 }
 
@@ -171,7 +184,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			printf("Boss took damage \n");
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 			if (currentMode == 1)
 			{
 				jumpTimer = 1.5f;
@@ -182,7 +195,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		{
 			alive = false;
 			printf("Boss is dead \n");
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false);//boss_bat_death
+			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_death, readPos(), audibleDistance, false);//boss_bat_death
 		}
 	}
 }
