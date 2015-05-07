@@ -196,7 +196,8 @@ Web -12 2
 39 6.75557 0 0 16.9104 0 0.84166 0 -2.80612 0 0 2.4514 0 0 0 0 1
 39 17.0704 0 -0.00207261 17.4289 0 13.0333 0 -1.48676 0.35388 0 0.0999785 -5.54164 0 0 0 1
 5 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 43 4 -6 -2 3.5 2 5 10
 2 : Nr of Lights 
 -13.888 -4.1958 -4.14307 0.59111 0.242776 0 3 5 2 : LIGHTS
 6.17274 -15.3368 -3.61528 0.741483 0.21889 0 1.66735 10.937 1 : LIGHTS
