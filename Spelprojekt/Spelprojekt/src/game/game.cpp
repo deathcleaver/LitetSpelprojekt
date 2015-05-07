@@ -1,8 +1,8 @@
 #include "game.h"
 #include <ctime>
 #include "../TimeQuery.h"
-//#include <iostream>
-//#include <Windows.h>
+
+#include "../DebugLog.h"
 
 // opengl debug callback
 
@@ -103,6 +103,9 @@ void Game::init(GLFWwindow* windowRef)
 	else
 		std::cout << "glDebugMessageCallback not available" << std::endl;
 #endif
+
+	frame = 0;
+
 	viewMat = new glm::mat4(); //deleted in UserInput
 	engine = new Engine();
 	engine->init(viewMat);
@@ -214,10 +217,17 @@ void Game::mainLoop()
 
 			//enable for time quarry result
 			cout << getQueryResult();
+			
+			Debug::DebugOutput("----\n%sFor frame %d\n----\n", getQueryResult().c_str(), frame);
 
 			fpsCount = 0;
 			glfwSetWindowTitle(windowRef, ss.str().c_str());
 		}
+
+		// will spam debugLog, large files are a risk
+		//Debug::DebugOutput("----\n%sFor frame %d\n----\n", getQueryResult().c_str(), frame);
+
+		frame++;
 
 	}
 }

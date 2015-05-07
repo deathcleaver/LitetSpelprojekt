@@ -5,10 +5,18 @@
 
 #include <ctime>
 
+#include "DebugLog.h"
+
 //#include <vld.h>
 
 int main(int argv, char* argc[])
 {
+
+	// flags are append existing file, print to console, print to file
+#ifdef _DEBUG
+	Debug::OpenDebugStream(false, false, true);
+#endif
+
 	srand(time(0));
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -66,5 +74,10 @@ int main(int argv, char* argc[])
 
 	glfwDestroyWindow(wnd);
 	glfwTerminate();
+
+#ifdef _DEBUG
+	Debug::CloseDebugStream();
+#endif
+
 	return 0;
 }

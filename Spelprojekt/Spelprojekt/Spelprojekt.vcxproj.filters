@@ -127,6 +127,7 @@
     <ClCompile Include="src\game\Mirror.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\DebugLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -277,6 +278,7 @@
     <ClInclude Include="src\game\Mirror.h">
       <Filter>Header\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\DebugLog.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

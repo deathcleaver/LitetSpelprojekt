@@ -1,11 +1,16 @@
 #include "TimeQuery.h"
 
+#include <Windows.h>
+
+#define PREC 1000000.0
+
 struct TimeQuery
 {
 	bool terminated;
 	std::string name;
-	std::chrono::high_resolution_clock::time_point startTime;
-	std::chrono::high_resolution_clock::time_point stopTime;
+	double PCFreq = 0.0;
+	__int64 startTime;
+	__int64 stopTime;
 };
 
 std::vector<TimeQuery> querry;
@@ -21,7 +26,17 @@ int startTimer(std::string name)
 	TimeQuery t;
 	t.terminated = false;
 	t.name = name;
-	t.startTime = std::chrono::high_resolution_clock::now();
+	//t.startTime = std::chrono::high_resolution_clock::now();
+
+	LARGE_INTEGER li;
+	if (!QueryPerformanceFrequency(&li))
+		printf("QueryPerformanceFrequency failed!\n");
+
+	t.PCFreq = double(li.QuadPart) / PREC;
+
+	QueryPerformanceCounter(&li);
+	t.startTime= li.QuadPart;
+
 	
 	int index = querry.size();
 	
@@ -32,7 +47,12 @@ int startTimer(std::string name)
 
 void stopTimer(int index)
 {
-	querry[index].stopTime = std::chrono::high_resolution_clock::now();
+	
+	LARGE_INTEGER li;
+	QueryPerformanceCounter(&li);
+
+	querry[index].stopTime = li.QuadPart;
+
 	querry[index].terminated = true;
 }
 
@@ -43,7 +63,10 @@ std::string getQueryResult()
 	for (int i = 0; i < querry.size(); i++)
 	{
 		TimeQuery t = querry[i];
-		result += t.name + ": " + std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(t.stopTime - t.startTime).count()) + " microsecond\n";
+		
+		double time = (t.stopTime - t.startTime) / t.PCFreq;
+
+		result += t.name + ": " + std::to_string(time) + " microsecond\n";
 	}
 
 	return result;
@@ -55,7 +78,10 @@ void terminateQuery()
 	{
 		if (!querry[i].terminated)
 		{
-			querry[i].stopTime = std::chrono::high_resolution_clock::now();
+			LARGE_INTEGER li;
+			QueryPerformanceCounter(&li);
+
+			querry[i].stopTime = li.QuadPart;
 			querry[i].terminated = true;
 		}
 	}

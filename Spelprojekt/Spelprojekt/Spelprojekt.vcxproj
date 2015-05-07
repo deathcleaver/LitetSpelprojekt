@@ -46,8 +46,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\glm\glm;..\glew-1.11.0\include;..\GLFW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\glew-1.11.0\lib\Release\Win32;..\GLFW\lib-vc2013;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\OpenAL\include;..\glm\glm;..\glew-1.11.0\include;..\GLFW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\OpenAL\lib\win32;..\glew-1.11.0\lib\Release\Win32;..\GLFW\lib-vc2013;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,10 +84,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;openal32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DebugLog.cpp" />
     <ClCompile Include="src\engine\ObjectManager.cpp" />
     <ClCompile Include="src\engine\AnimationObject.cpp" />
     <ClCompile Include="src\engine\ContentManager.cpp" />
@@ -136,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
     <ClInclude Include="src\contentItem.h" />
+    <ClInclude Include="src\DebugLog.h" />
     <ClInclude Include="src\engine\ObjectManager.h" />
     <ClInclude Include="src\engine\AnimationObject.h" />
     <ClInclude Include="src\engine\ContentManager.h" />

@@ -67,6 +67,8 @@ private:
 	glm::vec2 savedPickups[12];
 	int savePickupNr = 0;
 
+	unsigned __int64 frame;
+
 public:
 	Game() {};
 	~Game();
