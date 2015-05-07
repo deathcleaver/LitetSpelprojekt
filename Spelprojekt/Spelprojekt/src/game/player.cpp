@@ -1,4 +1,5 @@
 #include "player.h"
+#include "../GUI.h"
 
 void Player::init(Gamepad* pad)
 {
@@ -84,7 +85,7 @@ void Player::moveWeapon()
 	attackRect.update();
 }
 
-int Player::update(UserInput* userInput, Map* map, float deltaTime)
+int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 {
 	// gamepad axes values
 	float axesX, axesY;
@@ -539,6 +540,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 				}
 				else
 				{
+					gui->showNewUpgrade(0);
 					printf("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);

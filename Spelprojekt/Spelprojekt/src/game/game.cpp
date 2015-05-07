@@ -293,7 +293,7 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
-						   player->update(in, map, deltaTime);
+						   player->update(in, map, gui, deltaTime);
 						   Audio::getAudio().updateListener(player->readPos());
 					   }
 					   content->setPlayerState(player->getAnimState());

@@ -13,8 +13,9 @@
 #include "../UserInput.h"
 #include "../Gamepad.h"
 #include "Progress.h"
-
 #include "Effect/Effect.h"
+
+class GUI;
 
 class Player : public GameObject
 {
@@ -78,8 +79,7 @@ public:
 
 	void init(Gamepad* pad);
 	void setStartPos(int x, int y);
-
-	int update(UserInput* userInput, Map* map, float deltaTime);
+	int update(UserInput* userInput, Map* map, GUI* gui, float deltaTime);
 	vec2 getSpeed();
 	std::string getAnimState();
 	bool isBlinking() const;
