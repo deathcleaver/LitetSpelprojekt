@@ -161,8 +161,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	// bind gbuffer FBO
 	gBuffer.clearLight();
 	gBuffer.bind(GL_FRAMEBUFFER);
-	glViewport(0, 0, configResX, configResY);
 	glUseProgram(tempshader);
+	glViewport(0, 0, configResX, configResY);
 	// default renderpass
 
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);

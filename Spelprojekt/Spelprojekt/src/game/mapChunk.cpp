@@ -857,6 +857,7 @@ bool MapChunk::playerVsShrine(Rect* playerRect, Shrine*& currentSpawn)
 			if (currentSpawn != shrine && shrine != 0)
 			{
 				printf("Hittade en respawnpunkt!\n");
+				Audio::getAudio().playSound(SoundID::player_saved, false);
 				currentSpawn = shrine;
 			}
 			return true;

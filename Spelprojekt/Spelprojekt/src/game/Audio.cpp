@@ -92,6 +92,7 @@ void Audio::loadFiles()
 	//Shrine
 	soundFiles[0] = "../Audio/Sounds/Shrine/rune_received.wav";
 	soundFiles[1] = "../Audio/Sounds/Shrine/player_healed.wav";
+	soundFiles[51] = "../Audio/Sounds/Shrine/player_saved.wav";
 	//player
 	soundFiles[2] = "../Audio/Sounds/Player/player_resurrected.wav";
 	soundFiles[3] = "../Audio/Sounds/Player/player_attack_miss.wav";

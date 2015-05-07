@@ -121,6 +121,7 @@ enum SoundID
 	// shrine
 	rune_recieved = 0,
 	player_healed = 1,
+	player_saved = 51,
 	// player
 	player_resurrected = 2,
 	player_attack_miss = 3,

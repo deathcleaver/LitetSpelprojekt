@@ -419,6 +419,7 @@ int Player::update(UserInput* userInput, Map* map, float deltaTime)
 			printf("Max HP regained\n");
 			Audio::getAudio().playSound(SoundID::player_healed, false);// player_healed
 		}
+
 		if (currentRune == 0)
 		{
 			if (currentSpawn)
