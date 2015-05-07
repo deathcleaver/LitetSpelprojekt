@@ -54,7 +54,15 @@ void ContentManager::loadGUIobjs()
 	guiObjs[7] = new Object("", "src/textures/gui/main/mapmakerH.bmp", guiObjs[0], true);
 	guiObjs[8] = new Object("", "src/textures/gui/main/credits.bmp", guiObjs[0], true);
 	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.bmp", guiObjs[0], true);
-	for (int n = 10; n < 20; n++)
+	guiObjs[10] = new Object("", "src/textures/gui/main/settings.bmp", guiObjs[0], true);
+	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.bmp", guiObjs[0], true);
+	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audio.bmp", guiObjs[0], true);
+	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioH.bmp", guiObjs[0], true);
+	guiObjs[14] = new Object("", "src/textures/gui/main/settings/graphics.bmp", guiObjs[0], true);
+	guiObjs[15] = new Object("", "src/textures/gui/main/settings/graphicsH.bmp", guiObjs[0], true);
+	guiObjs[16] = new Object("", "src/textures/gui/main/settings/checkbox_no.bmp", guiObjs[0], true);
+	guiObjs[17] = new Object("", "src/textures/gui/main/settings/checkbox_yes.bmp", guiObjs[0], true);
+	for (int n = 18; n < 20; n++)
 		guiObjs[n] = 0;
 
 	//paused, exit to menu

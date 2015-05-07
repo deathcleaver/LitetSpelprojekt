@@ -134,8 +134,6 @@ void Game::init(GLFWwindow* windowRef)
 	// read from settings file
 	initSettings();
 
-	//fullscreen test
-
 	// do not delete in this class
 	this->windowRef = windowRef;
 
@@ -405,6 +403,7 @@ void Game::update(float deltaTime)
 						if (in->getESC())
 						{
 							//save player progression
+							engine->setFade(0.0f);
 							current = MENU;
 						}
 						break;
@@ -505,6 +504,24 @@ void Game::buttonEvents(int buttonEv)
 
 	case(5) : //intro
 		current = INTRO;
+		break;
+
+	case(6) : // settings
+		current = SETTINGS_MAIN;
+		edit->refreshOnEnter();
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+
+	case(7) : // settings audio
+		current = SETTINGS_AUDIO;
+		edit->refreshOnEnter();
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+
+	case(8) : // settings graphics
+		current = SETTINGS_GRAPHICS;
+		edit->refreshOnEnter();
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	}
 	//Editor buttons
