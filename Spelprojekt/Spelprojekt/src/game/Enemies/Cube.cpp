@@ -37,6 +37,8 @@ Cube::Cube(Cube* copy)
 	health = copy->health;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
+	hurtRect = new Rect();
+	hurtRect->initGameObjectRect(&worldMat, 2.1, 2.1);
 
 	speed = copy->speed;
 	maxSpeed = glm::vec2(12, 30);
