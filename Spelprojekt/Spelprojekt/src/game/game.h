@@ -71,6 +71,7 @@ private:
 	void cameraUpdate();
 	vec3 lastpos;
 	float speed = 0.03f;
+	bool playerintrorun = true;
 
 
 	unsigned __int64 frame;

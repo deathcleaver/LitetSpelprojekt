@@ -282,6 +282,13 @@ void Game::update(float deltaTime)
 				gui->showNewUpgrade(3);
 			}
 
+			if (playerintrorun)
+			{
+				if (player->readPos().x > 105.0f)
+					playerintrorun = false;
+				in->KeyDown('D');
+			}
+
 					   // music
 					   int tempX, tempY, tempId;
 					   MapChunk** tempChunk = map->getChunks();
@@ -485,6 +492,8 @@ void Game::buttonEvents(int buttonEv)
 		delete player;
 		player = new Player();
 		player->init();
+		in->setpos(vec3(60, -2, -13), vec3(0, 0, -1));
+		in->resetZoomViewDir();
 		gui->newPlayerRef(player);
 		player->setStartPos(map->playerspawnX, map->playerspawnY);
 		current = PLAY;
@@ -522,6 +531,8 @@ void Game::buttonEvents(int buttonEv)
 		delete player;
 		player = new Player();
 		player->init();
+		in->setpos(player->readPos(), vec3(0,0,-1));
+		in->resetZoomViewDir();
 		gui->newPlayerRef(player);
 		glm::vec2 pPos = savedStartPos;
 		map->LoadMap(1, savedPickups);

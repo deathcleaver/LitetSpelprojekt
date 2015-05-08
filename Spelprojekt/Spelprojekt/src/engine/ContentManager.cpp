@@ -49,7 +49,7 @@ void ContentManager::loadGUIobjs()
 	guiObjs[2] = new Object("", "src/textures/gui/main/newgameH.png", guiObjs[0], true);
 	guiObjs[3] = new Object("", "src/textures/gui/main/continue.png", guiObjs[0], true);
 	guiObjs[4] = new Object("", "src/textures/gui/main/continueH.png", guiObjs[0], true);
-	guiObjs[5] = new Object("", "src/textures/gui/main/continue.png", guiObjs[0], true);
+	guiObjs[5] = new Object("", "src/textures/gui/main/continueG.png", guiObjs[0], true);
 	guiObjs[6] = new Object("", "src/textures/gui/main/mapmaker.png", guiObjs[0], true);
 	guiObjs[7] = new Object("", "src/textures/gui/main/mapmakerH.png", guiObjs[0], true);
 	guiObjs[8] = new Object("", "src/textures/gui/main/credits.png", guiObjs[0], true);
@@ -66,9 +66,9 @@ void ContentManager::loadGUIobjs()
 		guiObjs[n] = 0;
 
 	//paused, exit to menu
-	guiObjs[20] = new Object("", "src/textures/gui/pause/paused.bmp", guiObjs[0], true);
-	guiObjs[21] = new Object("", "src/textures/gui/pause/exit.bmp", guiObjs[0], true);
-	guiObjs[22] = new Object("", "src/textures/gui/pause/exitH.bmp", guiObjs[0], true);
+	guiObjs[20] = new Object("", "src/textures/gui/pause/paused.png", guiObjs[0], true);
+	guiObjs[21] = new Object("", "src/textures/gui/pause/exit.png", guiObjs[0], true);
+	guiObjs[22] = new Object("", "src/textures/gui/pause/exitH.png", guiObjs[0], true);
 
 	//boss progress
 	guiObjs[23] = new Object("", "src/textures/gui/progress/bosses.png", guiObjs[0], true);
@@ -100,12 +100,12 @@ void ContentManager::loadGUIobjs()
 
 
 	// intro reserved  60 - 75
-	guiObjs[60] = new Object("", "src/textures/gui/intro/into0.bmp", guiObjs[0], true);
-	guiObjs[61] = new Object("", "src/textures/gui/intro/into1.bmp", guiObjs[0], true);
-	guiObjs[62] = new Object("", "src/textures/gui/intro/dream1.bmp", guiObjs[0], true);
-	guiObjs[63] = new Object("", "src/textures/gui/intro/dream2.bmp", guiObjs[0], true);
-	guiObjs[64] = new Object("", "src/textures/gui/intro/dream3.bmp", guiObjs[0], true);
-	guiObjs[65] = new Object("", "src/textures/gui/intro/intro2.bmp", guiObjs[0], true);
+	guiObjs[60] = new Object("", "src/textures/gui/intro/into0.png", guiObjs[0], true);
+	guiObjs[61] = new Object("", "src/textures/gui/intro/into1.png", guiObjs[0], true);
+	guiObjs[62] = new Object("", "src/textures/gui/intro/dream1.png", guiObjs[0], true);
+	guiObjs[63] = new Object("", "src/textures/gui/intro/dream2.png", guiObjs[0], true);
+	guiObjs[64] = new Object("", "src/textures/gui/intro/dream3.png", guiObjs[0], true);
+	guiObjs[65] = new Object("", "src/textures/gui/intro/intro2.png", guiObjs[0], true);
 
 
 	for (int n = 66; n < 75; n++)
