@@ -67,7 +67,6 @@ extern "C"
 
 Game::~Game()
 {
-	saveGame();
 	if (engine)
 		delete engine;
 	if (content)
@@ -140,11 +139,11 @@ void Game::init(GLFWwindow* windowRef)
 	// do not delete in this class
 	this->windowRef = windowRef;
 
-	start = 0;
+	savedStartPos = glm::vec2(-20, -20);
 	checkForSave();
 
 	gui = new GUI();
-	if (start)
+	if (savedStartPos.x != -20 && savedStartPos.y != -20)
 		gui->init(in, player, content, false);
 	else
 		gui->init(in, player, content);
@@ -158,7 +157,7 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
@@ -468,6 +467,10 @@ void Game::buttonEvents(int buttonEv)
 	case(1) : // New game menu button
 		map->LoadMap(1, 0);
 		map->init();
+		delete player;
+		player = new Player();
+		player->init(gamePad);
+		gui->newPlayerRef(player);
 		player->setStartPos(map->playerspawnX, map->playerspawnY);
 		current = PLAY;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
@@ -487,6 +490,12 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(3) : // Exit button. Play -> Menu
 		saveGame();
+		savedStartPos = glm::vec2(-20, -20);
+		checkForSave();
+		if (savedStartPos.x != -20 && savedStartPos.y != -20)
+			gui->setGrayContinue(false);
+		else
+			gui->setGrayContinue(true);
 		current = MENU;
 		edit->refreshOnEnter();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
@@ -495,10 +504,13 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(4) : // Continue menu button 
 	{
-		glm::vec2 pPos = start->getPos();
+		delete player;
+		player = new Player();
+		player->init(gamePad);
+		gui->newPlayerRef(player);
+		glm::vec2 pPos = savedStartPos;
 		map->LoadMap(1, savedPickups);
 		map->init();
-		start = 0;
 		current = PLAY;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		engine->setFadeIn();
@@ -538,6 +550,8 @@ void Game::buttonEvents(int buttonEv)
 	//Editor buttons
 	if (buttonEv > 99)
 		edit->guiHandle(buttonEv);
+
+
 }
 
 void Game::readInput(float deltaTime)
@@ -710,7 +724,7 @@ void Game::checkForSave()
 		if (xIndex != -1 && yIndex != -1)
 		{
 			MapChunk** chunks = map->getChunks();
-			start = chunks[xIndex][yIndex].shrine;
+			savedStartPos = chunks[xIndex][yIndex].shrine->getPos();
 			for (int c = 0; c < 3; c++)
 			{
 				getline(in, line);

@@ -59,7 +59,7 @@ private:
 	glm::vec3 bossRoomMiddle;
 
 	Progress playerProgress;
-	Shrine* start;
+	glm::vec2 savedStartPos;
 	void initSettings();
 	void checkForSave();
 	void saveGame();

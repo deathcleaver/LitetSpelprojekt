@@ -62,6 +62,13 @@ public:
 	void MouseToScreenSpace(float* x, float* y);
 	void fixEditorSwitches(bool place, bool change);
 	void showNewUpgrade(int);
+
+	void newPlayerRef(Player* p)
+	{
+		player = p;
+	}
+
+	void setGrayContinue(bool isGray);
 };
 
 #endif
