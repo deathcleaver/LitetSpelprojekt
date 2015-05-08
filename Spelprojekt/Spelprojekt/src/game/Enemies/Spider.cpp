@@ -48,10 +48,8 @@ Spider::~Spider()
 
 void Spider::init()
 {
-	if (!facingRight)
-		rotateTo(0, 3.14159265f, 0);
-	if (!ceiling)
-		rotateTo(3.14159265f, 0, 0);
+	worldMat = glm::mat4(1);
+	rotateTo(3.14159265f, 0, 0);
 	moveTo(initPos.x, initPos.y);
 	alive = true;
 	jumpTimer = 3.0f;
