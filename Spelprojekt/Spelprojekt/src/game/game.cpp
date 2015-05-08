@@ -83,7 +83,8 @@ Game::~Game()
 		delete edit;
 	if (updateAnimCheck)
 		delete updateAnimCheck;
-
+	if (gamePad)
+		delete gamePad;
 	//clean audio buffers
 	Audio::getAudio().shutdown();
 }
