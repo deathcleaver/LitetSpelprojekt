@@ -6,7 +6,7 @@ void Player::init()
 	MAX_HP = HP = 3;
 	DMG = 1;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 0.7, 1.9);
+	collideRect->initGameObjectRect(&worldMat, 0.6, 1.8);
 	speed = vec2(0);
 	maxSpeed = vec2(10, -30);
 	acceleration = vec2(0.4f, 1.35f); // y = gravity
