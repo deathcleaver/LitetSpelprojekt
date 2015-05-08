@@ -37,7 +37,7 @@ public:
 
 	Light* getLight(int &nrLight)
 	{
-		return effect->getEffect()->getLights(nrLight);
+		return ((Spark*)(effect->getEffect()))->getLights(nrLight);
 	}
 };
 

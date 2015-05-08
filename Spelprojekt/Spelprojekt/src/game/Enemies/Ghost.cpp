@@ -18,6 +18,7 @@ Ghost::Ghost(glm::vec2 firstPos)
 	effect = new Effect();
 	effect->create(EffectType::spark);
 	effect->getEffect()->init(firstPos.x, firstPos.y, 0);
+	((Spark*)(effect))->setIntensity(2);
 }
 
 Ghost::Ghost(Ghost* copy)
@@ -36,7 +37,7 @@ Ghost::Ghost(Ghost* copy)
 	speed = 3.0f;
 
 	effect = new Effect();
-	effect->reCreate(EffectType::torch);
+	effect->reCreate(EffectType::spark);
 	effect->getEffect()->copy(copy->effect->getEffect());
 }
 
@@ -56,7 +57,7 @@ void Ghost::init()
 	collideRect->update();
 
 	effect->getEffect()->init(initPos.x, initPos.y, 0);
-	((Spark*)(effect))->setIntensity(10);
+
 }
 
 int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
@@ -79,7 +80,7 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else
 	{
-		moveTo(pos.x + randdir.x*deltaTime, pos.y + randdir.y*deltaTime);
+		moveTo(pos.x + randdir.x*deltaTime*2.0f, pos.y + randdir.y*deltaTime*2.0f);
 		invulnTimer -= 1.0f*deltaTime;
 	}
 
@@ -112,6 +113,7 @@ void Ghost::hit(int damage, bool playerRightOfEnemy)
 			float direction = rand() % 360 * 0.0174532925f;
 			randdir.x = cos(direction);
 			randdir.y = sin(direction);
+			randdir = normalize(randdir);
 		}
 	}
 }

@@ -155,7 +155,7 @@ void Spark::update()
 
 void Spark::fade()
 {
-	for (int i = 0; i < nrLights; i++)
+	for (int i = 0; i < currentLights; i++)
 	{
 		if (timeLeft[i] >= 0.0f)
 		{
