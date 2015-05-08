@@ -489,3 +489,11 @@ void GUI::bossprogressInit()
 		increment++;
 	}
 }
+
+void GUI::setGrayContinue(bool isGray)
+{
+	grayContinue = isGray;
+	destroyy();
+	last = 0;
+	MENU(true);
+}

@@ -67,7 +67,6 @@ extern "C"
 
 Game::~Game()
 {
-	saveGame();
 	if (engine)
 		delete engine;
 	if (content)
@@ -491,6 +490,12 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(3) : // Exit button. Play -> Menu
 		saveGame();
+		savedStartPos = glm::vec2(-20, -20);
+		checkForSave();
+		if (savedStartPos.x != -20 && savedStartPos.y != -20)
+			gui->setGrayContinue(false);
+		else
+			gui->setGrayContinue(true);
 		current = MENU;
 		edit->refreshOnEnter();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
@@ -545,6 +550,8 @@ void Game::buttonEvents(int buttonEv)
 	//Editor buttons
 	if (buttonEv > 99)
 		edit->guiHandle(buttonEv);
+
+
 }
 
 void Game::readInput(float deltaTime)

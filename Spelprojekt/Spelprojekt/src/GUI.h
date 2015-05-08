@@ -63,10 +63,12 @@ public:
 	void fixEditorSwitches(bool place, bool change);
 	void showNewUpgrade(int);
 
-	void newPlayerRef(Player* &p)
+	void newPlayerRef(Player* p)
 	{
 		player = p;
 	}
+
+	void setGrayContinue(bool isGray);
 };
 
 #endif

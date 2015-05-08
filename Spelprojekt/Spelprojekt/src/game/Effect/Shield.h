@@ -8,19 +8,19 @@ class Shield : public BaseEffect
 public:
 
 	Shield();
-	~Shield();
+	virtual ~Shield();
 
-	void copy(BaseEffect* s);
+	virtual void copy(BaseEffect* s);
 
-	void init(float x, float y, float z);
+	virtual void init(float x, float y, float z);
 	
-	void update();
+	virtual void update();
 
-	void setRotation(float rot);
+	virtual void setRotation(float rot);
 	
-	void fade();
+	virtual void fade();
 
-	bool isFading();
+	virtual bool isFading();
 
 private:
 

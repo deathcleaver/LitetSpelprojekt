@@ -2,6 +2,7 @@
 #define CUBE_H
 
 #include "../Enemy.h"
+#include "../Effect/Light.h"
 
 class Cube : public Enemy
 {
@@ -13,6 +14,9 @@ private:
 
 	float invulnTimer;
 	float jumpTimer;
+
+	Light* glow;
+	void setupGlow();
 public:
 	~Cube();
 	Cube(glm::vec2 firstPos);
@@ -27,6 +31,10 @@ public:
 	Rect* getHurtRekt()
 	{
 		return hurtRect;
+	}
+	Light* getGlow()
+	{
+		return glow;
 	}
 };
 
