@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include "GameConfig.h"
 
 void GUI::init(UserInput* in, Player* player, ContentManager* content, bool grayContinue)
 {
@@ -53,6 +54,18 @@ int GUI::update(int state)
 			break;
 		case(6) :
 			SETTINGS(init);
+			break;
+			// settings
+		case(7) : // toggle audio
+			SETTINGS(init);
+			break;
+		case(8) : // toggle music
+			SETTINGS(init);
+			break;
+		case(9) : // toggle sound	
+			SETTINGS(init);
+			break;
+		case(10) :
 			break;
 		}
 	}
@@ -351,29 +364,53 @@ void GUI::SETTINGS(bool init)
 {
 	if (init)
 	{
-		size = 5;
+		size = 3;
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
-		// audio
-		items[0]->init(12, 12);
-		items[0]->MoveAutoSize(0, 0.6, content);
+
+		// audio enabled
+		if (Audio::getAudio().getAudioEnabled())
+		{
+			items[0]->init(12, 12, true, 7);
+			items[0]->MoveAutoSize(0, 0.6, content);
+		}
+		else
+		{
+			items[0]->init(13, 13, true, 7);
+			items[0]->MoveAutoSize(0, 0.6, content);
+		}
 		
 		// music enabled
-		items[1]->init(14, 14);
-		items[1]->MoveAutoSize(0, 0.2, content);
+		if (Audio::getAudio().getMusicEnabled())
+		{
+			items[1]->init(14, 14, true, 8);
+			items[1]->MoveAutoSize(0, 0.2, content);
+		}
+		else
+		{
+			items[1]->init(15, 15, true, 8);
+			items[1]->MoveAutoSize(0, 0.2, content);
+		}
 
 		// sound enabled
-		items[2]->init(15, 15);
-		items[2]->MoveAutoSize(0, -0.2, content);
+		if (Audio::getAudio().getSoundEnabled())
+		{
+			items[2]->init(16, 16, true, 9);
+			items[2]->MoveAutoSize(0, -0.2, content);
+		}
+		else
+		{
+			items[2]->init(17, 17, true, 9);
+			items[2]->MoveAutoSize(0, -0.2, content);
+		}
 		
-		// graphics
-		items[3]->init(13, 13);
-		items[3]->MoveAutoSize(0, -0.6, content);
+		//// audio enabled
+		//items[3]->init(15, 15, true, 9);
+		//items[3]->MoveAutoSize(0, -0.6, content);
 
-		// enable test
-		items[4]->init(16, 17, true, 5);
-		items[4]->MoveAutoSize(0.4, 0.2, content);
-		items[4]->initSwitch();
+		//// graphics
+		//items[4]->init(13, 13);
+		//items[4]->MoveAutoSize(0, -1.0, content);
 	}
 }
 

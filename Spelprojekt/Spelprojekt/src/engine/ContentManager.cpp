@@ -56,12 +56,12 @@ void ContentManager::loadGUIobjs()
 	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.bmp", guiObjs[0], true);
 	guiObjs[10] = new Object("", "src/textures/gui/main/settings.bmp", guiObjs[0], true);
 	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.bmp", guiObjs[0], true);
-	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audio.bmp", guiObjs[0], true);
-	guiObjs[13] = new Object("", "src/textures/gui/main/settings/graphics.bmp", guiObjs[0], true);
+	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audioE.bmp", guiObjs[0], true);
+	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioD.bmp", guiObjs[0], true);
 	guiObjs[14] = new Object("", "src/textures/gui/main/settings/musicE.bmp", guiObjs[0], true);
-	guiObjs[15] = new Object("", "src/textures/gui/main/settings/soundE.bmp", guiObjs[0], true);
-	guiObjs[16] = new Object("", "src/textures/gui/main/settings/enabled.bmp", guiObjs[0], true);
-	guiObjs[17] = new Object("", "src/textures/gui/main/settings/disabled.bmp", guiObjs[0], true);
+	guiObjs[15] = new Object("", "src/textures/gui/main/settings/musicD.bmp", guiObjs[0], true);
+	guiObjs[16] = new Object("", "src/textures/gui/main/settings/soundE.bmp", guiObjs[0], true);
+	guiObjs[17] = new Object("", "src/textures/gui/main/settings/soundD.bmp", guiObjs[0], true);
 	for (int n = 18; n < 20; n++)
 		guiObjs[n] = 0;
 

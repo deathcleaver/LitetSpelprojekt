@@ -79,6 +79,30 @@ void Audio::applySettings(float musicV, float soundV, float masterV, bool musicE
 	audioEnabled = audioE;
 }
 
+void Audio::toggleAudio()
+{
+	if (audioEnabled)
+		audioEnabled = false;
+	else
+		audioEnabled = true;
+}
+
+void Audio::toggleMusic()
+{
+	if (musicEnabled)
+		musicEnabled = false;
+	else
+		musicEnabled = true;
+}
+
+void Audio::toggleSound()
+{
+	if (soundEnabled)
+		soundEnabled = false;
+	else
+		soundEnabled = true;
+}
+
 void Audio::loadFiles()
 {
 	//load music files
