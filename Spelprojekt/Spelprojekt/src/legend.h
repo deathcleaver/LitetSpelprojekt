@@ -90,6 +90,7 @@ enum MiscID
 	rune_range,
 	rune_damage,
 	rune_shield,
+	heart,
 
 	misc_count, //leave this last
 };

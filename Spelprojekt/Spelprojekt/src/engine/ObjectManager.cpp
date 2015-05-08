@@ -374,6 +374,10 @@ void ObjectManager::loadMiscObjs()
 	//rune_shield
 	add = new AnimationObject("src/meshes/Interactive Objects/RuneShield.v", "src/textures/Interactive Objects/Rune-Shield.bmp");
 	objects[OBJ::MISC].push_back(add);
+
+	//Heart piece
+	add = new AnimationObject("src/meshes/Interactive Objects/Heart.v", "src/textures/red.bmp");
+	objects[OBJ::MISC].push_back(add);
 }
 
 void ObjectManager::loadBackObjs()
