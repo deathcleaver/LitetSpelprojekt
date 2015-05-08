@@ -4,7 +4,7 @@ Spark::Spark()
 {
 	spawnX = 0;
 	spawnY = 0;
-	nrLights = 20;
+	currentLights = nrLights = 20;
 	lights = new Light[nrLights];
 	timeLeft = new float[nrLights];
 	timeStart = new float[nrLights];
@@ -41,6 +41,7 @@ void Spark::copy(BaseEffect* s)
 	spawnY = sOrg->spawnY;
 	spawnZ = sOrg->spawnZ;
 	nrLights = sOrg->nrLights;
+	currentLights = sOrg->currentLights;
 	range = sOrg->range;
 
 	setBaseColor(sOrg->baseR, sOrg->baseG, sOrg->baseB);
@@ -118,7 +119,7 @@ void Spark::update()
 
 	timeLeft[0] = timeStart[0] = 1.0f;
 
-	for (int i = 1; i < nrLights; i++)
+	for (int i = 1; i < currentLights; i++)
 	{
 		if (timeLeft[i] < 0)
 		{
@@ -142,7 +143,7 @@ void Spark::update()
 			lights[i].r = particleR;
 			lights[i].g = particleG;
 			lights[i].b = particleB;
-			lights[i].distance = (1 - t);
+			lights[i].distance = 2*(1 - t);
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 
@@ -154,7 +155,7 @@ void Spark::update()
 
 void Spark::fade()
 {
-	for (int i = 0; i < nrLights; i++)
+	for (int i = 0; i < currentLights; i++)
 	{
 		if (timeLeft[i] >= 0.0f)
 		{
@@ -165,7 +166,10 @@ void Spark::fade()
 			lights[i].r = particleR;
 			lights[i].g = particleG;
 			lights[i].b = particleB;
-			lights[i].distance = (1 - t);
+			if (i == 0)
+				lights[i].distance = 7*(1 - t);
+			else
+				lights[i].distance = 2*(1 - t);
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 		}

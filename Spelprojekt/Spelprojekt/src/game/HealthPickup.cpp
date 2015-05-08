@@ -2,7 +2,7 @@
 
 void HealthPickup::init(glm::vec2 pos)
 {
-	contentIndex = 2;
+	contentIndex = MiscID::heart;
 	moveTo(pos.x, pos.y);
 
 	myLight = new Light();

@@ -9,20 +9,28 @@ class Spark : public BaseEffect
 public:
 
 	Spark();
-	~Spark();
+	virtual ~Spark();
 
-	void copy(BaseEffect* s);
+	virtual void copy(BaseEffect* s);
 
-	void init(float x, float y, float z);
-	void setSpawn(float x, float y, float z);
-	void update();
+	virtual void init(float x, float y, float z);
+	virtual void setSpawn(float x, float y, float z);
+	virtual void update();
 
-	void fade();
+	virtual void fade();
 
-	bool isFading();
-
+	virtual bool isFading();
+	virtual Light* getLights(int &nrLights)
+	{
+		nrLights = currentLights;
+		return lights;
+	}
+	void setIntensity(int soIntense)
+	{
+		currentLights = soIntense;
+	}
 private:
-
+	int currentLights;
 
 };
 

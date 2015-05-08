@@ -75,6 +75,11 @@ enum WorldID
 	book_blue,
 	book_green,
 	bookpile,
+	brickwall,
+	mansionwall,
+	tornwall,
+	mansionfloor,
+	mansionflooredge,
 
 	world_count, //leave this last
 };
@@ -85,6 +90,7 @@ enum MiscID
 	rune_range,
 	rune_damage,
 	rune_shield,
+	heart,
 
 	misc_count, //leave this last
 };

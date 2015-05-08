@@ -117,7 +117,7 @@ void Game::init(GLFWwindow* windowRef)
 	gamePad->init();
 		
 	player = new Player();
-	player->init(gamePad);
+	player->init();
 	map = new Map();
 	map->LoadMap(1, 0);
 	map->init();
@@ -131,10 +131,9 @@ void Game::init(GLFWwindow* windowRef)
 	cameraUpdate();
 	current = MENU;
 
-
 	//start audio
 	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, false);
-	
+
 	// read from settings file
 	initSettings();
 
@@ -248,6 +247,9 @@ void Game::update(float deltaTime)
 	if (in->getKeyNumberState(0))
 		engine->setDoF(false);
 
+	if (configFullscreen && (current != PLAY && current != INTRO))
+		glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
 	switch (current)
 	{
 		case(MENU) :
@@ -263,6 +265,9 @@ void Game::update(float deltaTime)
 		}
 		case(PLAY) :
 		{
+			if (configFullscreen == true)
+				glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			
 			//debug boss kill keys
 			if (in->getKeyNumberState(1)){
 				player->dingDongTheBossIsDead("Bossbat");
@@ -309,7 +314,7 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
-						   player->update(in, map, gui, deltaTime);
+						   player->update(in, gamePad, map, gui, deltaTime);
 						   Audio::getAudio().updateListener(player->readPos());
 					   }
 					   content->setPlayerState(player->getAnimState());
@@ -370,6 +375,9 @@ void Game::update(float deltaTime)
 		}
 		case(INTRO) :
 		{
+						if (configFullscreen == true)
+							glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
 						if (gamePad->isButtonPressed(gamePad->getButtons().Start))
 						{
 							gui->setIntroState(6); //skip intro
@@ -419,6 +427,7 @@ void Game::update(float deltaTime)
 						if (in->getESC())
 						{
 							//save player progression
+							saveSettings();
 							engine->setFade(0.0f);
 							current = MENU;
 						}
@@ -475,7 +484,7 @@ void Game::buttonEvents(int buttonEv)
 		map->init();
 		delete player;
 		player = new Player();
-		player->init(gamePad);
+		player->init();
 		gui->newPlayerRef(player);
 		player->setStartPos(map->playerspawnX, map->playerspawnY);
 		current = PLAY;
@@ -512,7 +521,7 @@ void Game::buttonEvents(int buttonEv)
 	{
 		delete player;
 		player = new Player();
-		player->init(gamePad);
+		player->init();
 		gui->newPlayerRef(player);
 		glm::vec2 pPos = savedStartPos;
 		map->LoadMap(1, savedPickups);
@@ -537,19 +546,28 @@ void Game::buttonEvents(int buttonEv)
 
 	case(6) : // settings
 		current = SETTINGS_MAIN;
-		edit->refreshOnEnter();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 
-	case(7) : // settings audio
-		current = SETTINGS_AUDIO;
-		edit->refreshOnEnter();
+	case(7) : // toggle audio
+		current = SETTINGS_MAIN;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		Audio::getAudio().toggleAudio();
+		if (Audio::getAudio().getAudioEnabled())
+			Audio::getAudio().playMusic(MusicID::intro);
 		break;
 
-	case(8) : // settings graphics
-		current = SETTINGS_GRAPHICS;
-		edit->refreshOnEnter();
+	case(8) : // toggle music
+		current = SETTINGS_MAIN;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		Audio::getAudio().toggleMusic();
+		if (Audio::getAudio().getMusicEnabled())
+			Audio::getAudio().playMusic(MusicID::intro);
+		break;
+
+	case(9) : // toggle sound
+		current = SETTINGS_MAIN;
+		Audio::getAudio().toggleSound();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	}
@@ -667,22 +685,26 @@ void Game::initSettings()
 		stringstream ss;
 
 		// --- Graphics ---
-		getline(in, line);
+		getline(in, line); // fullscreen
 		ss = stringstream(line);
-		ss >> sub; //read past fullscreen line
+		ss >> sub;
+		configFullscreen = atoi(sub.c_str());
 
-		getline(in, line);
+		getline(in, line); // resolution
 		ss = stringstream(line);
-		ss >> sub; //read past resolution line
+		ss >> sub;
+		configResX = atoi(sub.c_str());
+		ss >> sub;
+		configResY = atoi(sub.c_str());
 
-		getline(in, line);
+		getline(in, line); // glows enabled
 		ss = stringstream(line);
 		bool glows;
 		ss >> sub;
-		glows = atoi(sub.c_str());
+		configRenderGlow = atoi(sub.c_str());
 
 		// apply graphic settings
-		engine->applySettings(glows);
+		engine->applySettings(configRenderGlow);
 		
 		// --- Audio ---
 		getline(in, line);
@@ -707,6 +729,33 @@ void Game::initSettings()
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
 
 		in.close();
+	}
+}
+
+void Game::saveSettings()
+{
+	ofstream out;
+	char* settings = "Config/settings.s";
+	out.open(settings, ios::trunc);
+	if (out)
+	{
+		float mV = 1.0f, sV = 1.0f, aV = 1.0f;
+		bool mE = true, sE = true, aE = true;
+
+		mV = Audio::getAudio().getMusicVolume();
+		sV = Audio::getAudio().getSoundVolume();
+		aV = Audio::getAudio().getMasterVolume();
+
+		mE = Audio::getAudio().getMusicEnabled();
+		sE = Audio::getAudio().getSoundEnabled();
+		aE = Audio::getAudio().getAudioEnabled();
+
+		out << configFullscreen << " // fullscreen\n";
+		out << configResX << " " << configResY << " // resolution\n";
+		out << configRenderGlow << " // render glow\n";
+		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio";
+
+		out.close();
 	}
 }
 

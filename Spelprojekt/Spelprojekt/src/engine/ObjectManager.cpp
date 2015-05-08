@@ -279,7 +279,27 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//Bookpile
-	add = new AnimationObject("src/meshes/Ghost/BookPile.v", "src/textures/Ghost/chair.bmp");
+	add = new AnimationObject("src/meshes/Ghost/BookPile.v", "src/textures/Ghost/books.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//BrickWall
+	add = new AnimationObject("src/meshes/Ghost/brickwall.v", "src/textures/Ghost/brickwall.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//MansionWall
+	add = new AnimationObject("src/meshes/Ghost/mansionwall.v", "src/textures/Ghost/mansionwall.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//TornWall
+	add = new AnimationObject("src/meshes/Ghost/tornwall.v", "src/textures/Ghost/ripped_wall.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//MansionFloor
+	add = new AnimationObject("src/meshes/Ghost/mansionfloor.v", "src/textures/Ghost/floor.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//MansionFlooredge
+	add = new AnimationObject("src/meshes/Ghost/mansionflooredge.v", "src/textures/Ghost/floor.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 
@@ -353,6 +373,10 @@ void ObjectManager::loadMiscObjs()
 
 	//rune_shield
 	add = new AnimationObject("src/meshes/Interactive Objects/RuneShield.v", "src/textures/Interactive Objects/Rune-Shield.bmp");
+	objects[OBJ::MISC].push_back(add);
+
+	//Heart piece
+	add = new AnimationObject("src/meshes/Interactive Objects/Heart.v", "src/textures/red.bmp");
 	objects[OBJ::MISC].push_back(add);
 }
 

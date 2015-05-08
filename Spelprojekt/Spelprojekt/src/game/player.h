@@ -34,10 +34,6 @@ private:
 	int DMG;
 	int shield;
 
-	//joystick
-	bool joyStickDetected;
-	Gamepad* gamePad;
-
 	//movement
 	float jumpHeight;
 	vec2 speed;
@@ -77,9 +73,9 @@ public:
 	Player(){};
 	~Player();
 
-	void init(Gamepad* pad);
+	void init();
 	void setStartPos(int x, int y);
-	int update(UserInput* userInput, Map* map, GUI* gui, float deltaTime);
+	int update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float deltaTime);
 	vec2 getSpeed();
 	std::string getAnimState();
 	bool isBlinking() const;

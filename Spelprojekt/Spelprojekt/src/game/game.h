@@ -61,6 +61,7 @@ private:
 	Progress playerProgress;
 	glm::vec2 savedStartPos;
 	void initSettings();
+	void saveSettings();
 	void checkForSave();
 	void saveGame();
 

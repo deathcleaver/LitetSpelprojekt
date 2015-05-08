@@ -142,28 +142,31 @@ void Gamepad::update(float deltaTime)
 {
 	// test code
 	// get buttons
-	joyButtons = glfwGetJoystickButtons(joyStick, &buttonCount);
-
-	// get axes
-	joyAxes = glfwGetJoystickAxes(joyStick, &axesCount);
-
-	if (joyButtons != NULL && joyAxes != NULL)
+	if (joyStick > -1)
 	{
-		
-		// buttons test
-		for (int i = 0; i < buttonCount; i++)
-		{
-			isButtonPressed(i);
-		}
+		joyButtons = glfwGetJoystickButtons(joyStick, &buttonCount);
 
-		// axes
-		float x, y;
-		
-		// left stick
-		getAxesValues(0, x, y);
-		
-		// right stick
-		getAxesValues(1, x, y);
+		// get axes
+		joyAxes = glfwGetJoystickAxes(joyStick, &axesCount);
+
+		if (joyButtons != NULL && joyAxes != NULL)
+		{
+
+			// buttons test
+			for (int i = 0; i < buttonCount; i++)
+			{
+				isButtonPressed(i);
+			}
+
+			// axes
+			float x, y;
+
+			// left stick
+			getAxesValues(0, x, y);
+
+			// right stick
+			getAxesValues(1, x, y);
+		}
 	}
 }
 
@@ -177,15 +180,17 @@ bool Gamepad::joyStickDetected()
 
 bool Gamepad::isButtonPressed(int button)
 {
-	if (joyStick != -1)
+	if (joyStick > -1)
 	{
 		if (joyButtons != NULL)
-		if (joyButtons[button])
 		{
-			if (debugging)
-				Debug::DebugOutput("Pressed button: %s\n", getButtonSymbol(button));
+			if (joyButtons[button])
+			{
+				if (debugging)
+					Debug::DebugOutput("Pressed button: %s\n", getButtonSymbol(button));
 
-			return joyButtons[button];
+				return joyButtons[button];
+			}
 		}
 	}	
 		
@@ -194,7 +199,7 @@ bool Gamepad::isButtonPressed(int button)
 
 bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 {
-	if (joyStick != -1)
+	if (joyStick > -1)
 	{
 		if (joyButtons != NULL)
 		{
@@ -249,9 +254,19 @@ void Gamepad::getAxesValues(int axes, float &x, float &y)
 					y = joyAxes[3];
 				else y = 0;
 			}
+			else // no gamepad detected
+			{
+				x = 0;
+				y = 0;
+			}
 
 			if (debugging)
 				Debug::DebugOutput("Left Stick:(%f,%f)\n", x, y);
+		}
+		else
+		{
+			x = 0;
+			y = 0;
 		}
 	}
 	else // no gamepad detected
