@@ -143,7 +143,7 @@ void Spark::update()
 			lights[i].r = particleR;
 			lights[i].g = particleG;
 			lights[i].b = particleB;
-			lights[i].distance = (1 - t);
+			lights[i].distance = 2*(1 - t);
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 
@@ -166,7 +166,10 @@ void Spark::fade()
 			lights[i].r = particleR;
 			lights[i].g = particleG;
 			lights[i].b = particleB;
-			lights[i].distance = (1 - t);
+			if (i == 0)
+				lights[i].distance = 7*(1 - t);
+			else
+				lights[i].distance = 2*(1 - t);
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 		}

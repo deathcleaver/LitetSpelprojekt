@@ -128,7 +128,7 @@ void Shield::update()
 			lights[i].r = particleR;
 			lights[i].g = particleG;
 			lights[i].b = particleB;
-			lights[i].distance = t;
+			lights[i].distance = 2*t;
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 			if (startDist[i] < 0.0f)
@@ -153,7 +153,10 @@ void Shield::fade()
 			lights[i].r = particleR;
 			lights[i].g = particleG;
 			lights[i].b = particleB;
-			lights[i].distance = t;
+			if (i == 0)
+				lights[i].distance = 5 * t;
+			else
+				lights[i].distance = 2 * t;
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 			if (startDist[i] < 0.0f)
