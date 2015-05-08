@@ -71,27 +71,27 @@ void ContentManager::loadGUIobjs()
 	guiObjs[22] = new Object("", "src/textures/gui/pause/exitH.bmp", guiObjs[0], true);
 
 	//boss progress
-	guiObjs[23] = new Object("", "src/textures/gui/progress/bosses.bmp", guiObjs[0], true);
-	guiObjs[24] = new Object("", "src/textures/gui/progress/defeated.bmp", guiObjs[0], true);
+	guiObjs[23] = new Object("", "src/textures/gui/progress/bosses.png", guiObjs[0], true);
+	guiObjs[24] = new Object("", "src/textures/gui/progress/defeated.png", guiObjs[0], true);
 
 	// game play reserved 25 - 49
 	//hud
-	guiObjs[25] = new Object("", "src/textures/gui/play/skeletonHUD.bmp", guiObjs[0], true);
-	guiObjs[26] = new Object("", "src/textures/gui/play/heart1.bmp", guiObjs[0], true);
-	guiObjs[27] = new Object("", "src/textures/gui/play/heart2.bmp", guiObjs[0], true);
-	guiObjs[28] = new Object("", "src/textures/gui/play/heartFull.bmp", guiObjs[0], true);
+	guiObjs[25] = new Object("", "src/textures/gui/play/skeletonHUD.png", guiObjs[0], true);
+	guiObjs[26] = new Object("", "src/textures/gui/play/heart1.png", guiObjs[0], true);
+	guiObjs[27] = new Object("", "src/textures/gui/play/heart2.png", guiObjs[0], true);
+	guiObjs[28] = new Object("", "src/textures/gui/play/heartFull.png", guiObjs[0], true);
 
 	//boss unlocks
-	guiObjs[29] = new Object("", "src/textures/gui/progress/doublejump.bmp", guiObjs[0], true);
-	guiObjs[30] = new Object("", "src/textures/gui/progress/webclimp.bmp", guiObjs[0], true);
-	guiObjs[31] = new Object("", "src/textures/gui/progress/mirrorwalk.bmp", guiObjs[0], true);
+	guiObjs[29] = new Object("", "src/textures/gui/progress/doublejump.png", guiObjs[0], true);
+	guiObjs[30] = new Object("", "src/textures/gui/progress/webclimp.png", guiObjs[0], true);
+	guiObjs[31] = new Object("", "src/textures/gui/progress/mirrorwalk.png", guiObjs[0], true);
 
 
 	for (int n = 32; n < 50; n++)
 		guiObjs[n] = 0;
 
 	// edit reserved 50 - 59
-	guiObjs[50] = new Object("", "src/textures/gui/edit/editHud.bmp", guiObjs[0], true);
+	guiObjs[50] = new Object("", "src/textures/gui/edit/editHud.png", guiObjs[0], true);
 	guiObjs[51] = new Object("", "src/textures/gui/edit/switch.bmp", guiObjs[0], true);
 	guiObjs[52] = new Object("", "src/textures/gui/edit/switchON.bmp", guiObjs[0], true);
 
