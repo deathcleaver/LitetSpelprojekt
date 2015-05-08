@@ -955,7 +955,9 @@ Light* MapChunk::getMissileLight(int index, int &nrLights)
 Light* MapChunk::getGhostLight(int index, int &nrLights)
 {
 	Enemy** enemies = enemyMan->getEnemies("Ghost");
-	if (enemies[index]->isAlive() && !enemies[index]->isBlinking())
+	bool isAlive = enemies[index]->isAlive();
+	bool isBlink = enemies[index]->isBlinking();
+	if (!isBlink && isAlive)
 	{
 		return ((Ghost*)(enemies[index]))->getLight(nrLights);
 	}
