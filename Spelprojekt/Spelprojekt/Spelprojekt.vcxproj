@@ -132,6 +132,7 @@
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\screenItem.cpp" />
+    <ClCompile Include="src\stbImage\stb_image.c" />
     <ClCompile Include="src\TimeQuery.cpp" />
     <ClCompile Include="src\UserInput.cpp" />
   </ItemGroup>

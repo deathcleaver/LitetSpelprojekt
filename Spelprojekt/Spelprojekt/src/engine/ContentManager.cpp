@@ -44,16 +44,16 @@ void ContentManager::loadGUIobjs()
 	guiObjs = new Object*[guiCount]();
 
 	//main menu reserved 0 - 19
-	guiObjs[0] = new Object("src/meshes/BaseBlit.v", "src/textures/gui/main/logo.bmp");
-	guiObjs[1] = new Object("", "src/textures/gui/main/newgame.bmp", guiObjs[0], true);
-	guiObjs[2] = new Object("", "src/textures/gui/main/newgameH.bmp", guiObjs[0], true);
-	guiObjs[3] = new Object("", "src/textures/gui/main/continue.bmp", guiObjs[0], true);
-	guiObjs[4] = new Object("", "src/textures/gui/main/continueH.bmp", guiObjs[0], true);
-	guiObjs[5] = new Object("", "src/textures/gui/main/continueG.bmp", guiObjs[0], true);
-	guiObjs[6] = new Object("", "src/textures/gui/main/mapmaker.bmp", guiObjs[0], true);
-	guiObjs[7] = new Object("", "src/textures/gui/main/mapmakerH.bmp", guiObjs[0], true);
-	guiObjs[8] = new Object("", "src/textures/gui/main/credits.bmp", guiObjs[0], true);
-	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.bmp", guiObjs[0], true);
+	guiObjs[0] = new Object("src/meshes/BaseBlit.v", "src/textures/gui/main/logo.png");
+	guiObjs[1] = new Object("", "src/textures/gui/main/newgame.png", guiObjs[0], true);
+	guiObjs[2] = new Object("", "src/textures/gui/main/newgameH.png", guiObjs[0], true);
+	guiObjs[3] = new Object("", "src/textures/gui/main/continue.png", guiObjs[0], true);
+	guiObjs[4] = new Object("", "src/textures/gui/main/continueH.png", guiObjs[0], true);
+	guiObjs[5] = new Object("", "src/textures/gui/main/continue.png", guiObjs[0], true);
+	guiObjs[6] = new Object("", "src/textures/gui/main/mapmaker.png", guiObjs[0], true);
+	guiObjs[7] = new Object("", "src/textures/gui/main/mapmakerH.png", guiObjs[0], true);
+	guiObjs[8] = new Object("", "src/textures/gui/main/credits.png", guiObjs[0], true);
+	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.png", guiObjs[0], true);
 	guiObjs[10] = new Object("", "src/textures/gui/main/settings.bmp", guiObjs[0], true);
 	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.bmp", guiObjs[0], true);
 	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audioE.bmp", guiObjs[0], true);

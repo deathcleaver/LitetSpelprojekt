@@ -1,4 +1,5 @@
 #include "object.h"
+#include "../stbImage/stb_image.h"
 
 Object::~Object()
 {
@@ -44,14 +45,25 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 		TEXTUREINDEXOFFSET = obj->TEXTUREINDEXOFFSET;
 	}
 	else
-		if(!loadBMP(pathTex))
-			throw;
+	{
+		//check if texture is a .bmp
+		if (pathTex[pathTex.size() - 3] == 'B' || pathTex[pathTex.size() - 3] == 'b' &&
+			pathTex[pathTex.size() - 2] == 'M' || pathTex[pathTex.size() - 2] == 'm' &&
+			pathTex[pathTex.size() - 1] == 'P' || pathTex[pathTex.size() - 1] == 'p')
+		{
+			if (!loadBMP(pathTex))
+				throw;
+		}
 		else
 		{
-			textureHost = true;
-			Debug::DebugOutput(pathTex.c_str());
-			Debug::DebugOutput("\n");
+			if (!loadPNG(pathTex))
+				throw;
 		}
+
+		textureHost = true;
+		Debug::DebugOutput(pathTex.c_str());
+		Debug::DebugOutput("\n");
+	}
 }
 
 Object::Object(const Object& obj)
@@ -286,29 +298,30 @@ bool Object::loadBMP(std::string imagepath)
 
 bool Object::loadPNG(std::string imagepath)
 {
-	//GLubyte* image = stbi_load(filename, &texWidth, &texHeight, &comp, 1); //change the last 0 to 1
-	//
-	//if (image == nullptr)
-	//	throw(std::string("Failed to load texture"));
-	//
-	//createTexture(image);
-	//
-	//stbi_image_free(image);
-	//
-	//
-	//glGenTextures(1, &textureId);
+	int x, y, compress;
+	GLubyte* image = stbi_load(imagepath.c_str(), &x, &y, &compress, 0); //change the last 0 to 1
+	
+	if (image == nullptr)
+		throw(std::string("Failed to load texture"));
 
-	//glActiveTexture(GL_TEXTURE0 + TEXTUREINDEXOFFSET);
-	//
-	//// "Bind" the newly created texture : all future texture functions will modify this texture
-	//glBindTexture(GL_TEXTURE_2D, textureId);
-	//
-	//// Give the image to OpenGL
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-	//
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	return false;
+	TexscaleX = float(x) / SCREENWIDTH;
+	TexscaleY = float(y) / SCREENHEIGHT;
+
+	glGenTextures(1, &textureId);
+
+	glActiveTexture(GL_TEXTURE0 + TEXTUREINDEXOFFSET);
+	
+	// "Bind" the newly created texture : all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	
+	// Give the image to OpenGL
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	stbi_image_free(image);
+	return true;
 }
 
 int Object::getFaces()
