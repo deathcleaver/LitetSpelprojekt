@@ -398,6 +398,10 @@ void Map::attackEnemies(Rect* wpnRect, glm::vec3 playerpos, int damage)
 	if (idX != -1 && idY != -1)
 	{
 		chunks[idX][idY].attackEnemies(wpnRect, playerpos, damage);
+		if (playerpos.x - idX * 35 > 15 && idX < width-1)
+			chunks[idX + 1][idY].attackEnemies(wpnRect, playerpos, damage);
+		else if (playerpos.x - idX * 35 < -15 && idX > 0)
+			chunks[idX - 1][idY].attackEnemies(wpnRect, playerpos, damage);
 	}
 }
 
