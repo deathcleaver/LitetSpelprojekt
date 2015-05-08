@@ -13,7 +13,6 @@ Engine::~Engine()
 void Engine::init(glm::mat4* viewMat)
 {
 	// init static variable
-
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(GL_TRUE);
