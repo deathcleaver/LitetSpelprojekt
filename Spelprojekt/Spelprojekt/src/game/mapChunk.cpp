@@ -2,6 +2,7 @@
 #include "map.h"
 #include "Enemies/Flame.h"
 #include "Enemies\ArcaneMissile.h"
+#include "Enemies/Cube.h"
 
 MapChunk::~MapChunk()
 {
@@ -947,6 +948,14 @@ Light* MapChunk::getMissileLight(int index, int &nrLigts)
 		return ((ArcaneMissile*)(enemies[index]))->getLight(nrLigts);
 	}
 
+	return 0;
+}
+
+Light* MapChunk::getCubeGlows(int index)
+{
+	Enemy** enemies = enemyMan->getEnemies("Cube");
+	if (enemies[index]->isAlive())
+		return ((Cube*)(enemies[index]))->getGlow();
 	return 0;
 }
 

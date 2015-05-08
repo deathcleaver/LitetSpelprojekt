@@ -22,11 +22,31 @@ Cube::Cube(glm::vec2 firstPos)
 	acc = 0.3f;
 	invulnTimer = 0.0f;
 	jumpTimer = 0.0f;
+
+	glow = new Light();
+	setupGlow();
 }
 
 Cube::~Cube()
 {
 	delete hurtRect;
+	delete glow;
+}
+
+void Cube::setupGlow()
+{
+	glm::vec3 cubePos = readPos();
+	glow->posX = cubePos.x; glow->posY = cubePos.y; glow->posZ = cubePos.z;
+
+	for (int c = 0; c < 4; c++)
+	{
+		glow->r = 0.02f;
+		glow->g = 0.8f;
+		glow->b = 0.2f;
+		glow->distance = 8.0f;
+		glow->intensity = 1.5f;
+		glow->volume = 0;
+	}
 }
 
 Cube::Cube(Cube* copy)
@@ -49,6 +69,9 @@ Cube::Cube(Cube* copy)
 	maxSpeed = glm::vec2(12, 30);
 	acc = 0.3f;
 	invulnTimer = copy->invulnTimer;
+
+	glow = new Light();
+	setupGlow();
 }
 
 void Cube::init()
@@ -125,6 +148,11 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		invulnTimer -= 1.0f*deltaTime;
 	}
 	hurtRect->update();
+
+	glm::vec3 cubePos = readPos();
+	glow->posX = cubePos.x;
+	glow->posY = cubePos.y;
+	glow->posZ = cubePos.z;
 	return 0;
 }
 

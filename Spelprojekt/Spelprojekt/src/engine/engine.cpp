@@ -700,6 +700,32 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					}
 					nrOfLights += lightSize;
 
+					int cubeCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
+					lightSize = 0;
+					for (int c = 0; c < cubeCount; c++)
+					{
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getCubeGlows(c);
+						if (temp)
+						{
+							for (int i = 0; i < 4; i++)
+							{
+								light[nrOfLights + lightSize].posX = temp[i].posX;
+								light[nrOfLights + lightSize].posY = temp[i].posY;
+								light[nrOfLights + lightSize].posZ = temp[i].posZ;
+
+								light[nrOfLights + lightSize].r = temp[i].r;
+								light[nrOfLights + lightSize].g = temp[i].g;
+								light[nrOfLights + lightSize].b = temp[i].b;
+
+								light[nrOfLights + lightSize].intensity = temp[i].intensity;
+								light[nrOfLights + lightSize].distance = temp[i].distance;
+								light[nrOfLights + lightSize].volume = temp[i].volume;
+								lightSize++;
+							}
+						}
+					}
+					nrOfLights += lightSize;
+
 					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
 					if (pickup)
 					{

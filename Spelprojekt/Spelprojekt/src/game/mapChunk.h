@@ -75,6 +75,7 @@ public:
 
 	int hasBoss();
 
+	Light* MapChunk::getCubeGlows(int index);
 	Light* getFlameLight(int index, int &nrLights);
 	Light* getMissileLight(int index, int &nrLights);
 	Light* getLights(int &lightNr);
