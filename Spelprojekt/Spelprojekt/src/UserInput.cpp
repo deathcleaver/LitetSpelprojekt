@@ -6,6 +6,17 @@ UserInput::~UserInput()
 {
 	delete viewMatrix;
 }
+void UserInput::setMenuCamDir()
+{
+	target = pos + vec3(1, 0, 0);
+}
+
+void UserInput::setpos(vec3 inpos, vec3 viewdir)
+{
+	pos = inpos;
+	target = pos + viewdir;
+	*viewMatrix = lookAt(pos, target, up);
+}
 
 void UserInput::KeyDown(char c)
 {

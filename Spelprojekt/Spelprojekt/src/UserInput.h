@@ -97,6 +97,8 @@ public:
 	void resetZoomViewDir();
 	bool updateMouse();
 	void cameraPan(vec3 moveTo, float delay, float deltaTime, bool playerPeak = false);
+	void setMenuCamDir();
+	void setpos(vec3 inpos, vec3 viewdir);
 };
 
 #endif

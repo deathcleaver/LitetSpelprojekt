@@ -35,7 +35,7 @@ enum gameState
 class Game : public Align_16
 {
 private:
-	gameState current = MENU;
+	gameState current = gameState(-1);
 	gameState last = MENU;
 	Engine* engine = 0;
 	ContentManager* content = 0;
@@ -67,6 +67,11 @@ private:
 	glm::vec2 savedPickups[12];
 	int savePickupNr = 0;
 
+	void cameraUpdate();
+	vec3 lastpos;
+	float speed = 0.1f;
+
+
 	unsigned __int64 frame;
 
 public:
@@ -77,6 +82,8 @@ public:
 	void update(float deltaTime);
 	void readInput(float deltaTime);
 	void buttonEvents(int buttonEv);
+	
+
 };
 
 #endif

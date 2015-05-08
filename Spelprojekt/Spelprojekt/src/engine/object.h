@@ -14,6 +14,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include "../stbImage/stb_image.h"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 class Object
@@ -33,6 +34,7 @@ private:
 	//temprary implementations
 	bool loadVert(std::string path);
 	bool loadBMP(std::string path); 
+	bool loadPNG(std::string path);
 
 public:
 	GLuint vertexData = 0;

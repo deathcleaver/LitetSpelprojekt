@@ -284,6 +284,32 @@ bool Object::loadBMP(std::string imagepath)
 	return true;
 }
 
+bool Object::loadPNG(std::string imagepath)
+{
+	//GLubyte* image = stbi_load(filename, &texWidth, &texHeight, &comp, 1); //change the last 0 to 1
+	//
+	//if (image == nullptr)
+	//	throw(std::string("Failed to load texture"));
+	//
+	//createTexture(image);
+	//
+	//stbi_image_free(image);
+	//
+	//
+	//glGenTextures(1, &textureId);
+
+	//glActiveTexture(GL_TEXTURE0 + TEXTUREINDEXOFFSET);
+	//
+	//// "Bind" the newly created texture : all future texture functions will modify this texture
+	//glBindTexture(GL_TEXTURE_2D, textureId);
+	//
+	//// Give the image to OpenGL
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+	//
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
+
 int Object::getFaces()
 {
 	return faceCount;

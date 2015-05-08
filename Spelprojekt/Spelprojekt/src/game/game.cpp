@@ -128,7 +128,9 @@ void Game::init(GLFWwindow* windowRef)
 	edit = new Edit();
 	edit->init(map, in);
 	//start state
+	cameraUpdate();
 	current = MENU;
+
 
 	//start audio
 	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, false);
@@ -250,7 +252,11 @@ void Game::update(float deltaTime)
 	{
 		case(MENU) :
 		{
-			engine->setFade(0.0f);
+			cameraUpdate();
+			in->Act(deltaTime);
+			map->update(deltaTime, player);
+			map->setUpDraw3x2(*in->GetPos());
+			engine->setFade(1.0f);
 			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
 			break;
@@ -781,4 +787,15 @@ void Game::saveGame()
 		}
 		out.close();
 	}
+}
+
+void Game::cameraUpdate()
+{
+	if (last != current || lastpos.x > (35 * 4) + 17.0f) // reset
+	{
+		lastpos = vec3(-20.0f, -35.0f * 6 + 2, 0);
+	}
+
+	lastpos.x += speed;
+	in->setpos(lastpos, vec3(1,0,0));
 }
