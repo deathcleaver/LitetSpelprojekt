@@ -246,6 +246,9 @@ void Game::update(float deltaTime)
 	if (in->getKeyNumberState(0))
 		engine->setDoF(false);
 
+	if (configFullscreen && (current != PLAY && current != INTRO))
+		glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
 	switch (current)
 	{
 		case(MENU) :
@@ -257,6 +260,9 @@ void Game::update(float deltaTime)
 		}
 		case(PLAY) :
 		{
+			if (configFullscreen == true)
+				glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			
 			//debug boss kill keys
 			if (in->getKeyNumberState(1)){
 				player->dingDongTheBossIsDead("Bossbat");
@@ -364,6 +370,9 @@ void Game::update(float deltaTime)
 		}
 		case(INTRO) :
 		{
+						if (configFullscreen == true)
+							glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
 						if (gamePad->isButtonPressed(gamePad->getButtons().Start))
 						{
 							gui->setIntroState(6); //skip intro
@@ -671,22 +680,26 @@ void Game::initSettings()
 		stringstream ss;
 
 		// --- Graphics ---
-		getline(in, line);
+		getline(in, line); // fullscreen
 		ss = stringstream(line);
-		ss >> sub; //read past fullscreen line
+		ss >> sub;
+		configFullscreen = atoi(sub.c_str());
 
-		getline(in, line);
+		getline(in, line); // resolution
 		ss = stringstream(line);
-		ss >> sub; //read past resolution line
+		ss >> sub;
+		configResX = atoi(sub.c_str());
+		ss >> sub;
+		configResY = atoi(sub.c_str());
 
-		getline(in, line);
+		getline(in, line); // glows enabled
 		ss = stringstream(line);
 		bool glows;
 		ss >> sub;
-		glows = atoi(sub.c_str());
+		configRenderGlow = atoi(sub.c_str());
 
 		// apply graphic settings
-		engine->applySettings(glows);
+		engine->applySettings(configRenderGlow);
 		
 		// --- Audio ---
 		getline(in, line);
