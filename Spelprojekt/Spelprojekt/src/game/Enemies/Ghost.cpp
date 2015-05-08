@@ -14,6 +14,17 @@ Ghost::Ghost(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
 	speed = 2.0f;
+
+	effect = new Effect();
+	effect->create(EffectType::spark);
+	effect->getEffect()->init(firstPos.x, firstPos.y, 0);
+	BaseEffect* eff = effect->getEffect();
+	((Spark*)eff)->setIntensity(5);
+}
+
+Ghost::~Ghost()
+{
+	delete effect;
 }
 
 Ghost::Ghost(Ghost* copy)
@@ -28,8 +39,14 @@ Ghost::Ghost(Ghost* copy)
 	health = copy->health;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
+	randdir = copy->randdir;
 
-	speed = 3.0f;
+	speed = 2.0f;
+	invulnTimer = copy->invulnTimer;
+
+	effect = new Effect();
+	effect->reCreate(EffectType::spark);
+	effect->getEffect()->copy(copy->effect->getEffect());
 }
 
 void Ghost::init()
@@ -46,6 +63,11 @@ void Ghost::init()
 	//audioObj.setPosition(readPos());
 
 	collideRect->update();
+
+	effect->getEffect()->init(initPos.x, initPos.y, 0);
+
+	((Spark*)effect->getEffect())->setIntensity(5);
+	invulnTimer = 0.0f;
 }
 
 int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
@@ -54,10 +76,11 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	glm::vec2 pPos = glm::vec2(playerPos.x, playerPos.y);
 	if (invulnTimer < FLT_EPSILON)
 	{
+		fading = false;
 		glm::vec2 dist = pos - pPos;
 		float distance = sqrt(dist.x*dist.x + dist.y*dist.y);
 
-		if (distance < 10.0f)
+		if (distance < 8.0f)
 		{
 			glm::vec2 normDist = normalize(dist);
 			float xSpeed = -normDist.x*speed;
@@ -68,14 +91,16 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else
 	{
-		moveTo(pos.x + randdir.x*deltaTime, pos.y + randdir.y*deltaTime);
+		moveTo(pos.x + randdir.x*deltaTime*2.0f, pos.y + randdir.y*deltaTime*2.0f);
 		invulnTimer -= 1.0f*deltaTime;
 	}
-
 
 	// update ghost_moan (wip)
 	//audioObj.update(deltaTime);
 	//audioObj.setPosition(glm::vec3(pos.x, pos.y, 0.0f));
+
+	effect->update();
+	effect->getEffect()->setSpawn(pos.x, pos.y, 0);
 
 	return 0;
 }
@@ -98,13 +123,22 @@ void Ghost::hit(int damage, bool playerRightOfEnemy)
 			float direction = rand() % 360 * 0.0174532925f;
 			randdir.x = cos(direction);
 			randdir.y = sin(direction);
+			randdir = normalize(randdir);
+			
+			fade();
 		}
 	}
 }
 
 bool Ghost::isBlinking()
 {
-	if (invulnTimer > FLT_EPSILON)
-		return true;
-	return false;
+	if (invulnTimer < FLT_EPSILON)
+		return false;
+	return true;
+}
+
+void Ghost::fade()
+{
+	((Spark*)effect->getEffect())->fade();
+	fading = ((Spark*)effect->getEffect())->isFading();
 }

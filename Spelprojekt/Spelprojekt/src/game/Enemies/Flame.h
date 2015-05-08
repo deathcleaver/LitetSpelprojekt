@@ -14,7 +14,6 @@ private:
 	Effect* flameEffect;
 
 	bool fading;
-
 public:
 	~Flame();
 	Flame(Flame* copy);
@@ -33,7 +32,6 @@ public:
 
 	Light* getLight(int &nrLight)
 	{
-		nrLight = 10;
 		return flameEffect->getEffect()->getLights(nrLight);
 	}
 };

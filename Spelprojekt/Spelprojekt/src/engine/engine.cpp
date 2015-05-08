@@ -91,10 +91,6 @@ void Engine::init(glm::mat4* viewMat)
 	fadeIn = false;
 	fadeOut = false;
 
-	testMirror.rotateToY(3.1415923565f);
-	testMirror.scaleFactor(0.75f, 1.0f, 1.0f);
-	testMirror.moveTo(103.2f, -12.97f, -0.55f);
-
 }
 
 void Engine::applySettings(bool glows)
@@ -127,6 +123,13 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	if (!testMirror.isInitialized())
 	{
+		testMirror.rotateToY(3.1415923565f);
+		testMirror.scaleFactor(0.75f, 1.0f, 1.0f);
+		testMirror.moveTo(103.2f, -12.97f, -0.55f);
+
+		testMirror.calculateNormal();
+		testMirror.calcView();
+
 		testMirror.initGBuffer(gBuffer);
 	}
 
@@ -134,13 +137,11 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	testMirror.mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
 
+	
 	// mirror renderPass
 	testMirror.mirrorBuffer.bind(GL_FRAMEBUFFER);
 	glUseProgram(tempshader);
 	glViewport(0, 0, 400, 400);
-
-	testMirror.viewMat = glm::lookAt(glm::vec3(103.2f, -12.97f, -0.55f), glm::vec3(103.2f, -12.97f, 1.0f), glm::vec3(0, 1, 0));
-	testMirror.projMat = glm::ortho<float>(-0.8f, 0.8f, -1.0f, 1.0f, 0.01f, 1000.0f);//glm::perspective(3.14f*0.2f, (float)400 / (float)400, 0.1f, 1000.0f);
 
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &testMirror.viewMat[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &testMirror.projMat[0][0]);
@@ -676,6 +677,30 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					}
 					nrOfLights += lightSize;
 
+					int ghostCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Ghost");
+					lightSize = 0;
+					for (int c = 0; c < ghostCount; c++)
+					{
+						int nrLight = 0;
+						Light* temp = chunks[upDraw[x]][upDraw[y]].getGhostLight(c, nrLight);
+						for (int i = 0; i < nrLight; i++)
+						{
+							light[nrOfLights + lightSize].posX = temp[i].posX;
+							light[nrOfLights + lightSize].posY = temp[i].posY;
+							light[nrOfLights + lightSize].posZ = temp[i].posZ;
+
+							light[nrOfLights + lightSize].r = temp[i].r;
+							light[nrOfLights + lightSize].g = temp[i].g;
+							light[nrOfLights + lightSize].b = temp[i].b;
+
+							light[nrOfLights + lightSize].intensity = temp[i].intensity;
+							light[nrOfLights + lightSize].distance = temp[i].distance;
+							light[nrOfLights + lightSize].volume = temp[i].volume;
+							lightSize++;
+						}
+					}
+					nrOfLights += lightSize;
+
 					int missileCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
 					lightSize = 0;
 					for (int c = 0; c < missileCount; c++)
@@ -701,30 +726,25 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					nrOfLights += lightSize;
 
 					int cubeCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
-					lightSize = 0;
 					for (int c = 0; c < cubeCount; c++)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getCubeGlows(c);
 						if (temp)
 						{
-							for (int i = 0; i < 4; i++)
-							{
-								light[nrOfLights + lightSize].posX = temp[i].posX;
-								light[nrOfLights + lightSize].posY = temp[i].posY;
-								light[nrOfLights + lightSize].posZ = temp[i].posZ;
+							light[nrOfLights].posX = temp->posX;
+							light[nrOfLights].posY = temp->posY;
+							light[nrOfLights].posZ = temp->posZ;
 
-								light[nrOfLights + lightSize].r = temp[i].r;
-								light[nrOfLights + lightSize].g = temp[i].g;
-								light[nrOfLights + lightSize].b = temp[i].b;
+							light[nrOfLights].r = temp->r;
+							light[nrOfLights].g = temp->g;
+							light[nrOfLights].b = temp->b;
 
-								light[nrOfLights + lightSize].intensity = temp[i].intensity;
-								light[nrOfLights + lightSize].distance = temp[i].distance;
-								light[nrOfLights + lightSize].volume = temp[i].volume;
-								lightSize++;
-							}
+							light[nrOfLights].intensity = temp->intensity;
+							light[nrOfLights].distance = temp->distance;
+							light[nrOfLights].volume = temp->volume;
+							nrOfLights++;
 						}
 					}
-					nrOfLights += lightSize;
 
 					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
 					if (pickup)
