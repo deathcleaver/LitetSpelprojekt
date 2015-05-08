@@ -108,15 +108,21 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			translate(-speed.x*deltaTime, 0);
+			glm::vec3 pos = readPos();
 			if (facingRight)
 			{
 				facingRight = false;
+				worldMat = glm::mat4(1);
+				scaleFactor(3, 3, 2);
+				moveTo(pos.x, pos.y);
 				rotateTo(0, 3.14159265f, 0);
 			}
 			else
 			{
 				facingRight = true;
-				rotateTo(0, 3.14159265f, 0);
+				worldMat = glm::mat4(1);
+				scaleFactor(3, 3, 2);
+				moveTo(pos.x, pos.y);
 			}
 			speed.x = -speed.x;
 		}

@@ -267,8 +267,8 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 	glBindVertexArray(renderVao);
 
 	glProgramUniform3f(*shaderPtr, uniformCamPos, campos->x, campos->y, 1.0f);
-	glProgramUniform3f(*shaderPtr, uniformPlayerPos, campos->x, campos->y, 1.0f);
-	//glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f); //<--- DETTA MÅSTE FIXAS
+	//glProgramUniform3f(*shaderPtr, uniformPlayerPos, campos->x, campos->y, 1.0f);
+	glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f); //<--- DETTA MÅSTE FIXAS
 	
 	glProgramUniform1ui(*shaderPtr, uniformNrLightPos, nrLight);
 
