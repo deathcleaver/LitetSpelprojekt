@@ -249,6 +249,38 @@ void ObjectManager::loadMapObjs()
 	//mirror
 	add = new AnimationObject("src/meshes/overworld/Mirror.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//Chair
+	add = new AnimationObject("src/meshes/Ghost/Chair.v", "src/textures/Ghost/chair.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Table
+	add = new AnimationObject("src/meshes/Ghost/Table.v", "src/textures/Ghost/chair.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Bookshelf Empty
+	add = new AnimationObject("src/meshes/Ghost/BookshelfEmpty.v", "src/textures/Ghost/Hylla.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Bookshelf Full
+	add = new AnimationObject("src/meshes/Ghost/BookshelfFull.v", "src/textures/Ghost/Hylla.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Book Red
+	add = new AnimationObject("src/meshes/Ghost/Book.v", "src/textures/Ghost/red_book.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Book Blue
+	add = new AnimationObject("src/meshes/Ghost/Book.v", "src/textures/Ghost/Blue_book.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Book Green
+	add = new AnimationObject("src/meshes/Ghost/Book.v", "src/textures/Ghost/Green_book.bmp");
+	objects[OBJ::WORLD].push_back(add);
+
+	//Bookpile
+	add = new AnimationObject("src/meshes/Ghost/BookPile.v", "src/textures/Ghost/chair.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()

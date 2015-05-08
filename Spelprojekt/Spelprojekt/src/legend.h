@@ -67,6 +67,14 @@ enum WorldID
 	fence,
 	gate,
 	mirror,
+	chair,
+	table,
+	bookshelf_empty,
+	bookshef_full,
+	book_red,
+	book_blue,
+	book_green,
+	bookpile,
 
 	world_count, //leave this last
 };
