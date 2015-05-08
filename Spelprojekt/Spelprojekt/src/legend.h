@@ -75,6 +75,11 @@ enum WorldID
 	book_blue,
 	book_green,
 	bookpile,
+	brickwall,
+	mansionwall,
+	tornwall,
+	mansionfloor,
+	mansionflooredge,
 
 	world_count, //leave this last
 };
