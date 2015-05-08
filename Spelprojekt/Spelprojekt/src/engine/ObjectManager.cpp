@@ -288,7 +288,7 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//web
-	add = new AnimationObject("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
+	add = new AnimationObject("src/meshes/Interactive Objects/Web.v", "src/textures/Grey.bmp");
 	objects[OBJ::ENEMY].push_back(add);
 
 	//spellbook
