@@ -51,6 +51,17 @@ public:
 	~Audio();
 	bool init(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE);
 	void applySettings(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE);
+	float getMusicVolume() { return musicVolume; };
+	float getSoundVolume(){ return soundVolume; };
+	float getMasterVolume() { return masterVolume; };
+	bool getAudioEnabled() { return audioEnabled; };
+	bool getMusicEnabled() { return musicEnabled; };
+	bool getSoundEnabled() { return soundEnabled; };
+
+	void toggleAudio();
+	void toggleMusic();
+	void toggleSound();
+
 	void update(float deltaTime);
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);

@@ -61,6 +61,7 @@ private:
 	Progress playerProgress;
 	Shrine* start;
 	void initSettings();
+	void saveSettings();
 	void checkForSave();
 	void saveGame();
 

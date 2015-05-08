@@ -143,7 +143,8 @@ Flame 6 -11
 19 2.01111 0 0 -10.552 0 1.95 0 -3.71891 0 0 1 0 0 0 0 1
 20 1.10037 0 -0.226163 -10.9597 0 1.2375 0 -2.20026 0.255483 0 0.97409 -0.263889 0 0 0 1
 1 : Music ID
-0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
+1 37 -11 -3 0 5 2 10 40
 3 : Nr of Lights 
 -3.04301 6.16145 0 0.808148 0.720278 0.451112 1.95764 51.6407 0 : LIGHTS
 -2.86415 5.96316 0 1 0.292779 0 3.06597 8.55185 2 : LIGHTS
