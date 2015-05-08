@@ -129,10 +129,10 @@ void Game::init(GLFWwindow* windowRef)
 	edit->init(map, in);
 	//start state
 	current = MENU;
-
+	
 	//start audio
 	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, false);
-	
+
 	// read from settings file
 	initSettings();
 
@@ -413,6 +413,7 @@ void Game::update(float deltaTime)
 						if (in->getESC())
 						{
 							//save player progression
+							saveSettings();
 							engine->setFade(0.0f);
 							current = MENU;
 						}
@@ -531,19 +532,28 @@ void Game::buttonEvents(int buttonEv)
 
 	case(6) : // settings
 		current = SETTINGS_MAIN;
-		edit->refreshOnEnter();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 
-	case(7) : // settings audio
-		current = SETTINGS_AUDIO;
-		edit->refreshOnEnter();
+	case(7) : // toggle audio
+		current = SETTINGS_MAIN;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		Audio::getAudio().toggleAudio();
+		if (Audio::getAudio().getAudioEnabled())
+			Audio::getAudio().playMusic(MusicID::intro);
 		break;
 
-	case(8) : // settings graphics
-		current = SETTINGS_GRAPHICS;
-		edit->refreshOnEnter();
+	case(8) : // toggle music
+		current = SETTINGS_MAIN;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		Audio::getAudio().toggleMusic();
+		if (Audio::getAudio().getMusicEnabled())
+			Audio::getAudio().playMusic(MusicID::intro);
+		break;
+
+	case(9) : // toggle sound
+		current = SETTINGS_MAIN;
+		Audio::getAudio().toggleSound();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	}
@@ -701,6 +711,33 @@ void Game::initSettings()
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
 
 		in.close();
+	}
+}
+
+void Game::saveSettings()
+{
+	ofstream out;
+	char* settings = "Config/settings.s";
+	out.open(settings, ios::trunc);
+	if (out)
+	{
+		float mV = 1.0f, sV = 1.0f, aV = 1.0f;
+		bool mE = true, sE = true, aE = true;
+
+		mV = Audio::getAudio().getMusicVolume();
+		sV = Audio::getAudio().getSoundVolume();
+		aV = Audio::getAudio().getMasterVolume();
+
+		mE = Audio::getAudio().getMusicEnabled();
+		sE = Audio::getAudio().getSoundEnabled();
+		aE = Audio::getAudio().getAudioEnabled();
+
+		out << configFullscreen << " // fullscreen\n";
+		out << configResX << " " << configResY << " // resolution\n";
+		out << configRenderGlow << " // render glow\n";
+		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio";
+
+		out.close();
 	}
 }
 
