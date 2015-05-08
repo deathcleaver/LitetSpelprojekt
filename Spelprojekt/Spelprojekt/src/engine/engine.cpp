@@ -136,7 +136,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	testMirror.mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
 
-	
+
 	// mirror renderPass
 	testMirror.mirrorBuffer.bind(GL_FRAMEBUFFER);
 	glUseProgram(tempshader);

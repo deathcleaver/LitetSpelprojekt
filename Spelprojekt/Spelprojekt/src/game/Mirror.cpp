@@ -25,7 +25,8 @@ void Mirror::calculateNormal()
 	glm::vec4 d1 = p2 - p1;
 	glm::vec4 d2 = p3 - p1;
 
-	normal = glm::cross(glm::vec3(d1.x, d1.y, d1.z), glm::vec3(d2.x, d2.y, d2.z));
+	normal = glm::normalize(glm::cross(glm::vec3(d1.x, d1.y, d1.z), glm::vec3(d2.x, d2.y, d2.z)));
+	normal.x = -normal.x;
 
 }
 
@@ -38,7 +39,7 @@ void Mirror::calcView()
 	pos.y = worldMat[1].w;
 	pos.z = worldMat[2].w;
 
-	viewMat = glm::lookAt(pos - glm::vec3(0, 0, 1), pos + normal, glm::vec3(0, 1, 0));
+	viewMat = glm::lookAt(pos - normal, pos + normal, glm::vec3(0, 1, 0));
 }
 
 void Mirror::render()
