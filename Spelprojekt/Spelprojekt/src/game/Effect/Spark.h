@@ -20,9 +20,17 @@ public:
 	void fade();
 
 	bool isFading();
-
+	Light* getLights(int &nrLights)
+	{
+		nrLights = currentLights;
+		return lights;
+	}
+	void setIntensity(int soIntense)
+	{
+		currentLights = soIntense;
+	}
 private:
-
+	int currentLights;
 
 };
 

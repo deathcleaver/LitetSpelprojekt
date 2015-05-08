@@ -14,6 +14,10 @@ Ghost::Ghost(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
 	speed = 2.0f;
+
+	effect = new Effect();
+	effect->create(EffectType::spark);
+	effect->getEffect()->init(firstPos.x, firstPos.y, 0);
 }
 
 Ghost::Ghost(Ghost* copy)
@@ -30,6 +34,10 @@ Ghost::Ghost(Ghost* copy)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
 	speed = 3.0f;
+
+	effect = new Effect();
+	effect->reCreate(EffectType::torch);
+	effect->getEffect()->copy(copy->effect->getEffect());
 }
 
 void Ghost::init()
@@ -46,6 +54,9 @@ void Ghost::init()
 	//audioObj.setPosition(readPos());
 
 	collideRect->update();
+
+	effect->getEffect()->init(initPos.x, initPos.y, 0);
+	((Spark*)(effect))->setIntensity(10);
 }
 
 int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
@@ -77,6 +88,9 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	//audioObj.update(deltaTime);
 	//audioObj.setPosition(glm::vec3(pos.x, pos.y, 0.0f));
 
+	effect->update();
+	effect->getEffect()->setSpawn(pos.x, pos.y, 0);
+
 	return 0;
 }
 
@@ -107,4 +121,10 @@ bool Ghost::isBlinking()
 	if (invulnTimer > FLT_EPSILON)
 		return true;
 	return false;
+}
+
+void Ghost::fade()
+{
+	((Spark*)effect->getEffect())->fade();
+	fading = ((Spark*)effect->getEffect())->isFading();
 }

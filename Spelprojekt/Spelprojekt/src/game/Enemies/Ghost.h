@@ -1,6 +1,7 @@
 #ifndef GHOST_H
 #define GHOST_H
 
+#include "../Effect/Effect.h"
 #include "../AudioObject.h"
 #include "../Enemy.h"
 #include <cstdlib>
@@ -12,6 +13,10 @@ private:
 	float invulnTimer;
 	AudioObject audioObj;
 	glm::vec2 randdir;
+
+	Effect* effect;
+
+	bool fading;
 public:
 	Ghost(glm::vec2 firstPos);
 	Ghost(Ghost* copy);
@@ -23,6 +28,17 @@ public:
 		return "Ghost";
 	}
 	bool isBlinking();
+
+	bool isFading()
+	{
+		return fading;
+	}
+	void fade();
+
+	Light* getLight(int &nrLight)
+	{
+		return effect->getEffect()->getLights(nrLight);
+	}
 };
 
 #endif
