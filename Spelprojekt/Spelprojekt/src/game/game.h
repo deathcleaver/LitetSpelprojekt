@@ -70,7 +70,7 @@ private:
 
 	void cameraUpdate();
 	vec3 lastpos;
-	float speed = 0.1f;
+	float speed = 0.03f;
 
 
 	unsigned __int64 frame;

@@ -43,6 +43,7 @@ public:
 	void attackEnemies(Rect* wpnRect, glm::vec3 playerpos, int damage);
 	void setUpDraw(glm::vec3 pos);
 	void setUpDraw3x2(glm::vec3 pos);
+	void setUpDrawMainMenuCamera(glm::vec3 pos);
 	int* getUpDraw() const;
 	void respawnCheck();
 	void playerDiedSoRespawnEnemies();

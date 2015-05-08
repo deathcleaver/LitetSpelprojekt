@@ -194,6 +194,42 @@ void Map::setUpDraw(glm::vec3 pos)
 	}
 }
 
+void Map::setUpDrawMainMenuCamera(glm::vec3 pos)
+{
+	upDraw[0] = 0;
+	//add middle
+	getChunkIndex(pos, &upDraw[1], &upDraw[2]);
+	if (upDraw[1] == -1 || upDraw[2] == -1)
+		return;
+
+	upDraw[0]++;
+
+	pos.x = int(pos.x + 17.5f) % 35;
+	pos.y = int(pos.y - 17.5f) % 35;
+	
+	int count = 3;
+	//add last if just left it
+	if (upDraw[1] > 0 && pos.x < 10)
+	{
+		upDraw[0]++;
+		upDraw[count] = upDraw[1] - 1;
+		count++;
+		upDraw[count] = upDraw[2];
+		count++;
+	}
+
+	//add next if close
+	if ( pos.x > 25)
+	{
+		upDraw[0]++;
+		upDraw[count] = upDraw[1] + 1;
+		count++;
+		upDraw[count] = upDraw[2];
+		count++;
+	}
+
+}
+
 void Map::setUpDraw3x2(glm::vec3 pos)
 {
 	upDraw[0] = 0;

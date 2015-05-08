@@ -257,7 +257,7 @@ void Game::update(float deltaTime)
 			cameraUpdate();
 			in->Act(deltaTime);
 			map->update(deltaTime, player);
-			map->setUpDraw3x2(*in->GetPos());
+			map->setUpDrawMainMenuCamera(*in->GetPos());
 			engine->setFade(1.0f);
 			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
@@ -840,9 +840,9 @@ void Game::saveGame()
 
 void Game::cameraUpdate()
 {
-	if (last != current || lastpos.x > (35 * 4) + 17.0f) // reset
+	if (last != current || lastpos.x > (35 * 3) + 17.0f) // reset
 	{
-		lastpos = vec3(-20.0f, -35.0f * 6 + 2, 0);
+		lastpos = vec3(-25.0f, -35.0f * 6 + 1.75f, 0);
 	}
 
 	lastpos.x += speed;
