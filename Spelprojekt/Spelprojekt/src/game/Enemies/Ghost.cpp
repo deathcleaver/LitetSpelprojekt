@@ -98,8 +98,8 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	// update ghost_moan (wip)
 	//audioObj.update(deltaTime);
 	//audioObj.setPosition(glm::vec3(pos.x, pos.y, 0.0f));
-
-	effect->update();
+	if (!isBlinking())
+		effect->update();
 	effect->getEffect()->setSpawn(pos.x, pos.y, 0);
 
 	return 0;
