@@ -20,6 +20,7 @@ private:
 public:
 	Ghost(glm::vec2 firstPos);
 	Ghost(Ghost* copy);
+	~Ghost();
 	void init();
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);

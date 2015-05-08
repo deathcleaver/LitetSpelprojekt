@@ -18,7 +18,13 @@ Ghost::Ghost(glm::vec2 firstPos)
 	effect = new Effect();
 	effect->create(EffectType::spark);
 	effect->getEffect()->init(firstPos.x, firstPos.y, 0);
-	((Spark*)(effect))->setIntensity(2);
+	BaseEffect* eff = effect->getEffect();
+	((Spark*)eff)->setIntensity(5);
+}
+
+Ghost::~Ghost()
+{
+	delete effect;
 }
 
 Ghost::Ghost(Ghost* copy)
@@ -57,6 +63,8 @@ void Ghost::init()
 	collideRect->update();
 
 	effect->getEffect()->init(initPos.x, initPos.y, 0);
+
+	((Spark*)effect->getEffect())->setIntensity(5);
 
 }
 
