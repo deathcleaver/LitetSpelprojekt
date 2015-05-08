@@ -263,6 +263,11 @@ void Gamepad::getAxesValues(int axes, float &x, float &y)
 			if (debugging)
 				Debug::DebugOutput("Left Stick:(%f,%f)\n", x, y);
 		}
+		else
+		{
+			x = 0;
+			y = 0;
+		}
 	}
 	else // no gamepad detected
 	{
