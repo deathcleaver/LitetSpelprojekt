@@ -17,6 +17,9 @@ public:
 
 	bool isInitialized();
 
+	void calculateNormal();
+	void calcView();
+
 	void render();
 
 	Gbuffer mirrorBuffer;
@@ -29,6 +32,8 @@ private:
 	int sizeX, sizeY;
 
 	bool initialized;
+
+	glm::vec3 normal;
 
 };
 
