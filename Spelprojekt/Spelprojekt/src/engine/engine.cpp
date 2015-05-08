@@ -92,6 +92,8 @@ void Engine::init(glm::mat4* viewMat)
 	fadeOut = false;
 
 	testMirror.rotateToY(3.1415923565f);
+	testMirror.scaleFactor(0.75f, 1.0f, 1.0f);
+	testMirror.moveTo(103.2f, -12.97f, -0.55f);
 
 }
 
@@ -137,9 +139,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glUseProgram(tempshader);
 	glViewport(0, 0, 400, 400);
 
-	testMirror.viewMat = glm::lookAt(glm::vec3(41.0f, -27.0f, -3.0f), glm::vec3(41.0f, -27.0f, 1.0f), glm::vec3(0, 1, 0));
-	testMirror.projMat = glm::perspective(3.14f*0.45f, (float)400 / (float)400, 0.1f, 1000.0f);
-	testMirror.moveTo(41.0f, -27.0f, -3.0f);
+	testMirror.viewMat = glm::lookAt(glm::vec3(103.2f, -12.97f, -0.55f), glm::vec3(103.2f, -12.97f, 1.0f), glm::vec3(0, 1, 0));
+	testMirror.projMat = glm::ortho<float>(-0.8f, 0.8f, -1.0f, 1.0f, 0.01f, 1000.0f);//glm::perspective(3.14f*0.2f, (float)400 / (float)400, 0.1f, 1000.0f);
 
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &testMirror.viewMat[0][0]);
 	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &testMirror.projMat[0][0]);
