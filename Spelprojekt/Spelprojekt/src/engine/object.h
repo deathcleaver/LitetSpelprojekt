@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include "../GameConfig.h"
+#include "../DebugLog.h"
 
 #include <string>
 

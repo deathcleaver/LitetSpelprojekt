@@ -302,7 +302,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 	}
 	if (boss)
 	{
-		printf("");
+		Debug::DebugOutput("");
 	}
 	for (int c = 0; c < shotCount; c++)
 	{

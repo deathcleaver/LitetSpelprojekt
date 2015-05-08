@@ -1,5 +1,6 @@
 #include "Gamepad.h"
 #include <GLFW/glfw3.h>
+#include "DebugLog.h"
 
 Gamepad::~Gamepad()
 {
@@ -32,14 +33,14 @@ void Gamepad::detectJoystick()
 			// get axes
 			joyAxes = glfwGetJoystickAxes(joyStick, &axesCount);
 
-			printf("Detected gamepad of type (%s) with %i buttons and %i axes.\n", joystickName, buttonCount, axesCount);
+			Debug::DebugOutput("Detected gamepad of type (%s) with %i buttons and %i axes.\n", joystickName, buttonCount, axesCount);
 
 			break;
 		}
 	}
 	
 	if (joyStick == -1)
-		printf("Could not detect gamepad!\n");
+		Debug::DebugOutput("Could not detect gamepad!\n");
 }
 
 void Gamepad::loadConfig()
@@ -182,7 +183,7 @@ bool Gamepad::isButtonPressed(int button)
 		if (joyButtons[button])
 		{
 			if (debugging)
-				printf("Pressed button: %s\n", getButtonSymbol(button));
+				Debug::DebugOutput("Pressed button: %s\n", getButtonSymbol(button));
 
 			return joyButtons[button];
 		}
@@ -200,7 +201,7 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 			if (joyButtons[button])
 			{
 				if (debugging)
-					printf("Pressed button: %s\n", getButtonSymbol(button));
+					Debug::DebugOutput("Pressed button: %s\n", getButtonSymbol(button));
 
 				if (buttonsStates[button] == false) // first time pressed
 				{
@@ -250,7 +251,7 @@ void Gamepad::getAxesValues(int axes, float &x, float &y)
 			}
 
 			if (debugging)
-				printf("Left Stick:(%f,%f)\n", x, y);
+				Debug::DebugOutput("Left Stick:(%f,%f)\n", x, y);
 		}
 	}
 	else // no gamepad detected

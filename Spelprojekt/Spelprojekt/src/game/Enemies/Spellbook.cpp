@@ -108,7 +108,7 @@ void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
 	//test code
 	if (minionCount < minionsMax)
 	{
-		printf("Casting spell Summon Ghost.\n");
+		Debug::DebugOutput("Casting spell Summon Ghost.\n");
 		glm::vec3 pos = readPos();
 		Ghost* summon = new Ghost(glm::vec2(pos));
 		summon->setVisitor();
@@ -119,12 +119,12 @@ void Spellbook::spellSummonGhost(Map* map, glm::vec3 playerPos)
 		minionCount++;
 	}
 	else
-		printf("Failed to cast spell Summon Ghost.\n");
+		Debug::DebugOutput("Failed to cast spell Summon Ghost.\n");
 }
 
 void Spellbook::spellArcaneMissile(Map* map, glm::vec3 playerPos)
 {
-	printf("Casting spell Arcane Missile.\n");
+	Debug::DebugOutput("Casting spell Arcane Missile.\n");
 	glm::vec3 pos = readPos();
 	ArcaneMissile* pewpew = new ArcaneMissile(glm::vec2(pos));
 	glm::vec2 dir = normalize(glm::vec2(playerPos) - glm::vec2(readPos()));

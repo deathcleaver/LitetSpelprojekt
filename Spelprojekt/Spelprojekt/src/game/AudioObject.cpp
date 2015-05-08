@@ -1,5 +1,5 @@
 #include "AudioObject.h"
-
+#include "../DebugLog.h"
 
 AudioObject::AudioObject()
 {
@@ -46,7 +46,7 @@ void AudioObject::update(float deltaTime)
 	if (intervalLooping == true) //plays sounds after an interval (does not support source pointer yet)
 	{
 		time += 1 * deltaTime;
-		//printf("Time: %f\n", time);
+		//Debug::DebugOutput("Time: %f\n", time);
 
 		if (time >= nextInstance)
 		{
@@ -60,7 +60,7 @@ void AudioObject::update(float deltaTime)
 			if (value < 1)
 				value = 1;
 			nextInstance = minInterval + (rand() % (int)(value));
-			printf("Next source: %f\n", nextInstance);
+			Debug::DebugOutput("Next source: %f\n", nextInstance);
 		}
 	}
 	else// play one sound and track it's position

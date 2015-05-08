@@ -6,13 +6,15 @@
 
 #include <gl/glew.h>
 
+#include "../DebugLog.h"
+
 inline std::string readShader(const char *filePath)
 {
 	std::string content;
 	std::ifstream fileStream(filePath, std::ios::in);
 
 	if (!fileStream.is_open()) {
-		fprintf(stderr, "Could not open file %s", filePath);
+		Debug::DebugOutput("Could not open file %s", filePath);
 		return "";
 	}
 
@@ -45,12 +47,12 @@ inline bool CreateProgram(GLuint &programID, std::string shadernames[], GLenum s
 		if (isCompiled == GL_FALSE)
 		{
 			success = false;
-			fprintf(stderr, "Failed to compile shader %s\n", shadernames[i].c_str());
+			Debug::DebugOutput("Failed to compile shader %s\n", shadernames[i].c_str());
 
 			GLchar log[10240];
 			GLsizei length;
 			glGetShaderInfoLog(shader, 10239, &length, log);
-			fprintf(stderr, "Compiler log:\n%s\n", log);
+			Debug::DebugOutput("Compiler log:\n%s\n", log);
 		}
 		glAttachShader(programID, shader);
 		glDeleteShader(shader);
@@ -65,7 +67,7 @@ inline bool CreateProgram(GLuint &programID, std::string shadernames[], GLenum s
 	if (linked != GL_TRUE)
 	{
 		success = false;
-		fprintf(stderr, "Failed to link shader program %d\n", programID);
+		Debug::DebugOutput("Failed to link shader program %d\n", programID);
 	}
 
 	if (success)

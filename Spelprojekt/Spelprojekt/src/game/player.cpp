@@ -126,7 +126,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 		if (!god)
 		{
 			god = true;
-			printf("I AM BECOME GOD\n");
+			Debug::DebugOutput("I AM BECOME GOD\n");
 		}
 	}
 	if (userInput->getKeyState('M'))
@@ -134,7 +134,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 		if (god)
 		{
 			god = false;
-			printf("I GAVE UP IMMORTALITY FOR THIS?!\n");
+			Debug::DebugOutput("I GAVE UP IMMORTALITY FOR THIS?!\n");
 		}
 	}
 
@@ -144,7 +144,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 		if (noclip)
 		{
 			noclip = false;
-			printf("Return to the physical realm\n");
+			Debug::DebugOutput("Return to the physical realm\n");
 			speed.x = speed.y = 0;
 		}
 	}
@@ -153,7 +153,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 		if (!noclip)
 		{
 			noclip = true;
-			printf("Ascend this world, child\n");
+			Debug::DebugOutput("Ascend this world, child\n");
 		}
 	}
 	if (!noclip)
@@ -417,7 +417,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 		if (HP != MAX_HP)
 		{
 			HP = MAX_HP;
-			printf("Max HP regained\n");
+			Debug::DebugOutput("Max HP regained\n");
 			Audio::getAudio().playSound(SoundID::player_healed, false);// player_healed
 		}
 
@@ -500,7 +500,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 						Audio::getAudio().playSound(SoundID::player_hurt, false);
 					}
 						
-					printf("Ow, I'm hit! HP remaining is %d\n", HP);
+					Debug::DebugOutput("Ow, I'm hit! HP remaining is %d\n", HP);
 					flinchTimer = 0.3f;
 					float recoil = 10.0f;
 					if (currentRune == MiscID::rune_shield)
@@ -541,7 +541,7 @@ int Player::update(UserInput* userInput, Map* map, GUI* gui, float deltaTime)
 				else
 				{
 					gui->showNewUpgrade(0);
-					printf("I'm fucking dead!\n");
+					Debug::DebugOutput("I'm fucking dead!\n");
 					map->getBoss(playerPos, true);
 					respawn(map);
 					Audio::getAudio().playSound(SoundID::player_hurt, false);
@@ -632,7 +632,7 @@ void Player::respawn(Map* map)
 	if (currentSpawn != 0)
 	{
 		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
-		printf("Jag hade en respawnpunkt\n");
+		Debug::DebugOutput("Jag hade en respawnpunkt\n");
 	}
 	else
 	{
@@ -706,18 +706,18 @@ Progress Player::getProgress()
 void Player::getPickup(glm::vec2 chunkIndex)
 {
 	pickUps++;
-	printf("Fick en piece of heart, nu har jag %d\n", pickUps);
+	Debug::DebugOutput("Fick en piece of heart, nu har jag %d\n", pickUps);
 	if (pickUps == 3)
 	{
 		pickUps = 0;
 		MAX_HP++;
 		Audio::getAudio().playSound(SoundID::item_hearth_completed, false); //item_hearth_completed
-		printf("Hittat 3 pickups, nu är nrOfPickups %d och nya MAX_HP är %d\n", pickUps, MAX_HP);
+		Debug::DebugOutput("Hittat 3 pickups, nu är nrOfPickups %d och nya MAX_HP är %d\n", pickUps, MAX_HP);
 	}
 	else
 		Audio::getAudio().playSound(SoundID::item_hearth_piece, false); //item_hearth_piece
 	HP = MAX_HP;
-	printf("HP sattes till %d\n", HP);
+	Debug::DebugOutput("HP sattes till %d\n", HP);
 	progressMeter.addHealth(chunkIndex);
 }
 

@@ -8,6 +8,7 @@
 #include <..\glm\gtc\matrix_transform.hpp>
 #include "../legend.h"
 #include "../Align16.h"
+#include "../DebugLog.h"
 
 class GameObject : public Align_16
 {

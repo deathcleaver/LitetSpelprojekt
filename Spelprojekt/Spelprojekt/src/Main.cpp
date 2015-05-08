@@ -14,7 +14,7 @@ int main(int argv, char* argc[])
 
 	// flags are append existing file, print to console, print to file
 #ifdef _DEBUG
-	Debug::OpenDebugStream(false, false, true);
+	Debug::OpenDebugStream(false, true, true);
 #endif
 
 	srand(time(0));

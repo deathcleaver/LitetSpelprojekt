@@ -1,6 +1,7 @@
 #include "TimeQuery.h"
 
 #include <Windows.h>
+#include "DebugLog.h"
 
 #define PREC 1000000.0
 
@@ -30,7 +31,7 @@ int startTimer(std::string name)
 
 	LARGE_INTEGER li;
 	if (!QueryPerformanceFrequency(&li))
-		printf("QueryPerformanceFrequency failed!\n");
+		Debug::DebugOutput("QueryPerformanceFrequency failed!\n");
 
 	t.PCFreq = double(li.QuadPart) / PREC;
 

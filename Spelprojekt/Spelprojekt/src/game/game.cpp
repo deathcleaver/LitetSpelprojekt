@@ -19,46 +19,46 @@ extern "C"
 	{
 		if (severity == GL_DEBUG_SEVERITY_LOW || severity == GL_DEBUG_SEVERITY_MEDIUM || severity == GL_DEBUG_SEVERITY_HIGH)
 		{
-			std::cout << "---------------------opengl-callback-start------------" << std::endl;
-			std::cout << "message: " << message << std::endl;
-			std::cout << "type: ";
+			Debug::DebugOutput("---------------------opengl-callback-start------------\n");
+			Debug::DebugOutput("message: %s\n", message);
+			Debug::DebugOutput("type: ");
 			switch (type) {
 			case GL_DEBUG_TYPE_ERROR:
-				std::cout << "ERROR";
+				Debug::DebugOutput("ERROR");
 				break;
 			case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-				std::cout << "DEPRECATED_BEHAVIOR";
+				Debug::DebugOutput("DEPRECATED_BEHAVIOR");
 				break;
 			case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-				std::cout << "UNDEFINED_BEHAVIOR";
+				Debug::DebugOutput("UNDEFINED_BEHAVIOR");
 				break;
 			case GL_DEBUG_TYPE_PORTABILITY:
-				std::cout << "PORTABILITY";
+				Debug::DebugOutput("PORTABILITY");
 				break;
 			case GL_DEBUG_TYPE_PERFORMANCE:
-				std::cout << "PERFORMANCE";
+				Debug::DebugOutput("PERFORMANCE");
 				break;
 			case GL_DEBUG_TYPE_OTHER:
-				std::cout << "OTHER";
+				Debug::DebugOutput("OTHER");
 				break;
 			}
-			std::cout << std::endl;
+			Debug::DebugOutput("\n");
 
-			std::cout << "id: " << id << std::endl;
-			std::cout << "severity: ";
+			Debug::DebugOutput("id: %d\n", id);
+			Debug::DebugOutput("severity: ");
 			switch (severity){
 			case GL_DEBUG_SEVERITY_LOW:
-				std::cout << "LOW";
+				Debug::DebugOutput("LOW");
 				break;
 			case GL_DEBUG_SEVERITY_MEDIUM:
-				std::cout << "MEDIUM";
+				Debug::DebugOutput("MEDIUM");
 				break;
 			case GL_DEBUG_SEVERITY_HIGH:
-				std::cout << "HIGH";
+				Debug::DebugOutput("HIGH");
 				break;
 			}
-			std::cout << std::endl;
-			std::cout << "---------------------opengl-callback-end--------------" << std::endl;
+			Debug::DebugOutput("\n");
+			Debug::DebugOutput("---------------------opengl-callback-end--------------\n");
 		}
 	}
 
@@ -94,14 +94,14 @@ void Game::init(GLFWwindow* windowRef)
 	// register callback
 #ifdef _DEBUG
 	if (glDebugMessageCallback){
-		std::cout << "Register OpenGL debug callback " << std::endl;
+		Debug::DebugOutput("Register OpenGL debug callback\n");
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback((GLDEBUGPROC)openglCallbackFunction, nullptr);
 		GLuint unusedIds = 0;
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, true);
 	}
 	else
-		std::cout << "glDebugMessageCallback not available" << std::endl;
+		Debug::DebugOutput("glDebugMessageCallback not available\n");
 #endif
 
 	frame = 0;
@@ -158,7 +158,7 @@ void Game::mainLoop()
 	float clock;
 	float lastClock = 0.0f;
 	int fpsCount = 0;
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 
 	while (!glfwWindowShouldClose(windowRef))
 	{
@@ -171,7 +171,9 @@ void Game::mainLoop()
 
 		update(deltaTime);
 
+		int swapTimer = startTimer("Swap");
 		glfwSwapBuffers(windowRef);
+		stopTimer(swapTimer);
 
 		fpsCount++;
 		clock = (std::clock() - start) / (double)CLOCKS_PER_SEC;
@@ -216,8 +218,7 @@ void Game::mainLoop()
 			}
 
 			//enable for time quarry result
-			cout << getQueryResult();
-			
+			//cout << getQueryResult();
 			Debug::DebugOutput("----\n%sFor frame %d\n----\n", getQueryResult().c_str(), frame);
 
 			fpsCount = 0;

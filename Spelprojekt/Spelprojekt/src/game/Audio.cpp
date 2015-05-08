@@ -1,6 +1,8 @@
 #include "Audio.h"
 #include <iostream>
 
+#include "../DebugLog.h"
+
 using namespace std;
 
 Audio& Audio::getAudio()
@@ -196,7 +198,7 @@ bool Audio::createBuffers(char** files, ALuint* buffers, int elements)
 		fread(&waveFileHeader.dataSize, sizeof(unsigned long), 1, fp);
 
 		unsigned char* buf = new unsigned char[waveFileHeader.dataSize];                            //Allocate memory for the sound data
-		cout << fread(buf, sizeof(char), waveFileHeader.dataSize, fp) << " bytes loaded\n";           //Read the sound data and display the 
+		Debug::DebugOutput("%d bytes loaded\n", fread(buf, sizeof(char), waveFileHeader.dataSize, fp) );           //Read the sound data and display the 
 		//number of bytes loaded.
 		//Should be the same as the Data Size if OK
 
@@ -293,8 +295,8 @@ void Audio::update(float deltaTime)
 		}
 	}
 	/* print # of buffers for debug purposes
-	printf("Audio sources %i\n", soundSources.size());
-	printf("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());*/
+	Debug::DebugOutput("Audio sources %i\n", soundSources.size());
+	Debug::DebugOutput("sBuffers: %i, mBuffers: %i\n", soundSources.size(), musicSources.size());*/
 }
 
 void Audio::playMusic(int file)

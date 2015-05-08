@@ -116,7 +116,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (playerPos.y < pos.y && playerPos.x - pos.x < 2 && playerPos.x - pos.x > -2)
 		{
 			rotateTo(3.14159265f, 0, 0);
-			printf("DROP IT!\n");
+			Debug::DebugOutput("DROP IT!\n");
 			ceiling = false;
 			jumping = true;
 			speed.x = 0.0f;

@@ -98,7 +98,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			speed.y = 0;
 			currentMode = 1;
 			jumpTimer = 7.0f;
-			printf("Mode switch to 1\n");
+			Debug::DebugOutput("Mode switch to 1\n");
 
 		}
 	}
@@ -125,7 +125,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			speed.y = 25.0f;
 			currentMode = 2;
-			printf("Modeswitch to 2\n");
+			Debug::DebugOutput("Modeswitch to 2\n");
 		}
 	}
 	else if (currentMode == 2) //Jumping back up
@@ -145,13 +145,13 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					websToShoot = 2;
 				else
 					websToShoot = 3;
-				printf("Modeswitch to 3\n");
+				Debug::DebugOutput("Modeswitch to 3\n");
 			}
 			else
 			{
 				translate(0, -speed.y*deltaTime);
 				currentMode = 1;
-				printf("Landed on ground after jump. Modeswitch to 1\n");
+				Debug::DebugOutput("Landed on ground after jump. Modeswitch to 1\n");
 				jumpTimer = 5.0f;
 			}
 			speed.y = 0;
@@ -163,7 +163,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (webTimer < FLT_EPSILON && websToShoot == 0)
 		{
 			currentMode = 0;
-			printf("Modeswitch to 0\n");
+			Debug::DebugOutput("Modeswitch to 0\n");
 		}
 		else
 		{
@@ -191,7 +191,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		if (health > 0)
 		{
 			invulnTimer = 1.2f;
-			printf("Boss took damage \n");
+			Debug::DebugOutput("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 			if (currentMode == 1)
 			{
@@ -202,7 +202,7 @@ void Bossspider::hit(int damage, bool playerRightOfEnemy)
 		else if (alive == true)
 		{
 			alive = false;
-			printf("Boss is dead \n");
+			Debug::DebugOutput("Boss is dead \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_death, readPos(), audibleDistance, false);//boss_bat_death
 		}
 	}

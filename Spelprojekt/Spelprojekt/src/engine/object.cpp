@@ -32,8 +32,8 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 		else
 		{
 			vertexHost = true;
-			printf(pathVert.c_str());
-			printf("  Vert: %d Faces: %d\n", vertcount, faceCount);
+			Debug::DebugOutput(pathVert.c_str());
+			Debug::DebugOutput("  Vert: %d Faces: %d\n", vertcount, faceCount);
 		}
 	
 	if (copyTex)
@@ -49,8 +49,8 @@ Object::Object(std::string pathVert, std::string pathTex, Object* obj, bool copy
 		else
 		{
 			textureHost = true;
-			printf(pathTex.c_str());
-			printf("\n");
+			Debug::DebugOutput(pathTex.c_str());
+			Debug::DebugOutput("\n");
 		}
 }
 

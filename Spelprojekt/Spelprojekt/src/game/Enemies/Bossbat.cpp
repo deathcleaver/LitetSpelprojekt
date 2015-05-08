@@ -278,13 +278,13 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 		if (health > 0)
 		{
 			invulnTimer = 1.0f;
-			printf("Boss took damage \n");
+			Debug::DebugOutput("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 		}
 		else if (alive == true)
 		{
 			alive = false;
-			printf("Boss is dead \n");
+			Debug::DebugOutput("Boss is dead \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false);//boss_bat_death
 		}
 	}
