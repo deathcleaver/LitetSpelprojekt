@@ -4,7 +4,7 @@ Spider 0 -2
 Spider -5 -7
 2 0 0 -3 :  BACKGROUND!
 1 -6 -4.5 -0.5 :  SHRINE!
--1
+-1 NO HEALTH PICKUP
 52 :  Number of world objects
 0 6.26296 0 0 -16.8801 0 9.99861 0 10.7978 0 0 1 -0.237501 0 0 0 1
 0 1 0 0 -16.8629 0 6 0 -3.55138 0 0 6 2.00555 0 0 0 1

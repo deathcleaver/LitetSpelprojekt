@@ -7,7 +7,7 @@ Flame 4 -4
 Spikes 5 0
 2 0 0 -3 :  BACKGROUND!
 2 -3 -0.5 -0.5 :  SHRINE!
--1
+-1 NO HEALTH PICKUP
 93 :  Number of world objects
 0 5.71852 0 0 10.1793 0 4.0875 0 -12.4355 0 0 1 0 0 0 0 1
 0 1 0 0 10.7907 0 1 0 -16.5045 0 0 1 0 0 0 0 1
