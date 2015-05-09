@@ -287,6 +287,10 @@ void Audio::update(float deltaTime)
 				}
 				alSourcef(musicSources[i].source, AL_GAIN, musicSources[i].volume * masterVolume);
 			}
+			else // audio re-enabled
+			{
+				alSourcef(musicSources[i].source, AL_GAIN, musicSources[i].volume * masterVolume);
+			}
 		}
 		else // music is disabled
 			alSourcef(musicSources[i].source, AL_GAIN, 0.0f);

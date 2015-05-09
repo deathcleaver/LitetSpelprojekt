@@ -431,6 +431,8 @@ void Game::update(float deltaTime)
 		}
 		case(SETTINGS_MAIN) :
 		{
+						cameraUpdate();
+
 						if (in->getESC())
 						{
 							//save player progression
