@@ -140,6 +140,9 @@ void Audio::loadFiles()
 	soundFiles[48] = "../Audio/Sounds/Bosses/Spider/boss_spider_hurt.wav";
 	soundFiles[49] = "../Audio/Sounds/Bosses/Spider/boss_spider_death.wav";
 	soundFiles[50] = "../Audio/Sounds/Bosses/Spider/boss_spider_webshot.wav";
+	soundFiles[52] = "../Audio/Sounds/Bosses/Ghost/boss_ghost_laugh.wav";
+	soundFiles[53] = "../Audio/Sounds/Bosses/Ghost/boss_ghost_hurt.wav";
+	soundFiles[54] = "../Audio/Sounds/Bosses/Ghost/boss_ghost_death.wav";
 	//enemies
 	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
 	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
