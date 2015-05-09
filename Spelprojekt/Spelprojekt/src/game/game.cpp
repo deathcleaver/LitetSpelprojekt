@@ -260,6 +260,8 @@ void Game::update(float deltaTime)
 			engine->setFade(1.0f);
 			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
+			if (gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
+				buttonEvents(5); // new game with intro
 			break;
 		}
 		case(PLAY) :
@@ -385,7 +387,7 @@ void Game::update(float deltaTime)
 						if (configFullscreen == true)
 							glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-						if (gamePad->isButtonPressed(gamePad->getButtons().Start))
+						if (gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
 						{
 							gui->setIntroState(6); //skip intro
 						}
