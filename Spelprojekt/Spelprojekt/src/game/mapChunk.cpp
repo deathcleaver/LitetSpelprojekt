@@ -342,10 +342,10 @@ void MapChunk::saveChunk(string path)
 	if (health)
 	{
 		glm::vec3 hpos = health->readPos();
-		out << "0 " << hpos.x - xOffset*35 << " " << hpos.y + yOffset*35 << "\n";
+		out << "0 " << hpos.x - xOffset * 35 << " " << hpos.y + yOffset * 35 << "\n";
 	}
 	else
-		out << "-1" << "\n";
+		out << "-1 NO HEALTH PICKUP\n";
 
 	//save nr of world objects
 	
@@ -507,6 +507,9 @@ int MapChunk::update(float deltaTime, glm::vec3 playerPos, Map* map)
 	}
 	if (shrine)
 		shrine->update(deltaTime);
+
+	if (health)
+		health->update(deltaTime);
 
 	if (nrOfSounds > 0)
 	{

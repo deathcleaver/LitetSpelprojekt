@@ -317,6 +317,7 @@ void Engine::renderMisc()
 		int y = x + 1;
 		if (upDraw[x] > -1 && upDraw[x] < width)
 			if (upDraw[y] > -1 && upDraw[y] < height)
+			{
 				//render shrines
 				if (chunks[upDraw[x]][upDraw[y]].shrine)
 				{
@@ -334,20 +335,21 @@ void Engine::renderMisc()
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
+				}
 
-					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
-					if (pickup)
+				HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
+				if (pickup)
+				{
+					if (!pickup->isTaken())
 					{
-						if (!pickup->isTaken())
-						{
-							id = pickup->bindWorldMat(&tempshader, &uniformModel);
-							if (id != lastid)
-								facecount = content->bind(OBJ::MISC, id);
-							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-							lastid = id;
-						}
+						id = pickup->bindWorldMat(&tempshader, &uniformModel);
+						if (id != lastid)
+							facecount = content->bind(OBJ::MISC, MiscID::heart);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
 					}
 				}
+			}
 	}
 	lastid = -1;
 }

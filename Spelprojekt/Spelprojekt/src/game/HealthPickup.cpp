@@ -28,5 +28,6 @@ HealthPickup::~HealthPickup()
 
 int HealthPickup::update(float deltaTime)
 {
+	rotateTo(0, 3.141592654f*deltaTime, 0);
 	return 0;
 }

@@ -275,8 +275,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 
 
 		//gravity
-		if ((userInput->getKeyState('W') || pad->isButtonPressed(pad->getButtons().A))
-			&& !isAttacking)
+		if (userInput->getKeyState('W') || pad->isButtonPressed(pad->getButtons().A))
 		{
 			if (progressMeter.spiderboss && isInWeb)
 				speed.y += acceleration.y*1.2f;
