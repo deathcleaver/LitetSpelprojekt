@@ -1,15 +1,22 @@
 #include "Bossghost.h"
 #include "../mapChunk.h"
 #include "../map.h"
+#include "ArcaneMissile.h"
+#include "Ghost.h"
 
 Bossghost::Bossghost(glm::vec2 firstPos)
 {
 	initPos = firstPos;
+	topMidBot[0] = initPos.y + 4.0f;
+	topMidBot[1] = initPos.y;
+	topMidBot[2] = initPos.y - 4.0f;
+	leftRight[0] = initPos.x - 8.0f;
+	leftRight[1] = initPos.x + 8.0f;
 	moveTo(firstPos.x, firstPos.y);
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = EnemyID::batboss;
+	contentIndex = EnemyID::bat;
 	health = 6;
 	speed = 4.0f;
 	audibleDistance = 2.5f;
@@ -25,6 +32,33 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 Bossghost::~Bossghost()
 {
 	delete hurtRect;
+}
+
+void Bossghost::shootMissile(glm::vec3 playerPos, Map* map, bool followPlayer)
+{
+	glm::vec3 pos = readPos();
+	ArcaneMissile* pewpew = new ArcaneMissile(glm::vec2(readPos()));
+	pewpew->setVisitor();
+	glm::vec2 dir;
+	if (followPlayer)
+		dir = glm::vec2(playerPos) - glm::vec2(readPos());
+	else
+		dir = glm::vec2(initPos.x, pos.y) - glm::vec2(readPos());
+	dir.x = dir.x + (rand() % 3 - 1);
+	dir.y = dir.y + (rand() % 3 - 1);
+	dir = normalize(dir);
+	pewpew->setDirection(dir);
+	map->findNewHome(pewpew);
+	delete pewpew;
+}
+
+void Bossghost::getSpooky(Map* map)
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	Ghost* spooky = new Ghost(pos);
+	spooky->setVisitor();
+	map->findNewHome(spooky);
+	delete spooky;
 }
 
 void Bossghost::init()
@@ -68,42 +102,119 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (stateTimer < FLT_EPSILON)
 		{
 			state = 0;
-			pos = readPos();
-			dirToMid = initPos - glm::vec2(pos);
-			dirToMid = normalize(dirToMid);
+			calcDir(-1);
 		}
 	}
 	else if (state == 0) //Jumping out of mirror state
 	{
-		pos = readPos();
-		if (pos.x - initPos.x < FLT_EPSILON && initPos.x - pos.x > -FLT_EPSILON &&
-			pos.y - initPos.y < FLT_EPSILON && initPos.y - pos.y > -FLT_EPSILON)
+		if (reachedDestination())
 		{
-			if (pos.z > -2.0f && inMirror)
-				translate(0, 0, -2.0f*deltaTime);
-			else
+			if (inMirror)
 			{
-				translate(0, 0, 2.0f*deltaTime);
-				inMirror = false;
+				translate(0, 0, -2.0f*deltaTime);
+				pos = readPos();
+				if (pos.z < -2.0f)
+					inMirror = false;
 			}
+			else
+				translate(0, 0, 2.0f*deltaTime);
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
 				state = 1;
+				int posOutOfMirror = rand() % 6;
+				calcDir(posOutOfMirror);
+				ghostTimer = 3.0f;
+				ghostSpawns = 3;
 			}
 		}
 		else
-			translate(dirToMid.x*speed*2.0f*deltaTime, dirToMid.y*speed*2.0f*deltaTime);
+			translate(dirToFly.x*speed*2.0f*deltaTime, dirToFly.y*speed*2.0f*deltaTime);
 	}
 	else if (state == 1) //Flying outside of mirror state
 	{
-
+		translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
+		if (reachedDestination())
+		{
+			state = 2;
+			stateTimer = 1.0f;
+			missilesLeft = 4;
+		}
+		ghostTimer -= 1.0f*deltaTime;
+		if (ghostTimer < FLT_EPSILON && ghostSpawns > 0)
+		{
+			getSpooky(map);
+			ghostTimer = 3.0f;
+			ghostSpawns--;
+		}
+		else if (ghostSpawns == 0)
+		{
+			state = 3;
+			calcDir(-1);
+		}
 	}
-	else if (state == 2) //Jumping into mirror state
+	else if (state == 2) //Missile barrage state
 	{
+		stateTimer -= 1.0f;
+		if (stateTimer < FLT_EPSILON && missilesLeft != 0)
+		{
+			shootMissile(playerPos, map, false);
+			missilesLeft--;
+			stateTimer = 0.3f;
+		}
+		else if (missilesLeft == 0)
+		{
+			state = 1;
+			int posOutOfMirror = rand() % 6;
+			calcDir(posOutOfMirror);
+		}
 	}
-	else if (state == 3) //Flying inside mirror state
+	else if (state == 3) //Jumping into mirror state
 	{
+		if (reachedDestination())
+		{
+			if (!inMirror)
+			{
+				translate(0, 0, -2.0f*deltaTime);
+				pos = readPos();
+				if (pos.z < -2.0f)
+					inMirror = true;
+			}
+			else
+				translate(0, 0, 2.0f*deltaTime);
+			pos = readPos();
+			if (pos.z > -FLT_EPSILON)
+			{
+				state = 4;
+				stateTimer = 1.0f;
+				missilesLeft = 5;
+				int posInMirror = rand() % 6;
+				calcDir(posInMirror);
+			}
+		}
+		else
+			translate(dirToFly.x*speed*2.0f*deltaTime, dirToFly.y*speed*2.0f*deltaTime);
+	}
+	else if (state == 4) //Flying inside mirror state
+	{
+		stateTimer -= 1.0f*deltaTime;
+		if (stateTimer < FLT_EPSILON && missilesLeft > 0)
+		{
+			shootMissile(playerPos, map, true);
+			shootMissile(playerPos, map, true);
+			missilesLeft--;
+			stateTimer = 1.0f;
+		}
+		else if (missilesLeft == 0)
+		{
+			state = 0;
+			calcDir(-1);
+		}
+		if (reachedDestination())
+		{
+			int posInMirror = rand() % 6;
+			calcDir(posInMirror);
+		}
 	}
 	hurtRect->update();
 	return 0;
@@ -150,4 +261,51 @@ bool Bossghost::isBlinking()
 glm::vec2 Bossghost::plsGiveBossPos()
 {
 	return initPos;
+}
+
+void Bossghost::calcDir(int posOutOfMirror) //0 = top left, 1 = mid left, 2 = bot left, 3 = top right, 4 = mid right, 5 = bot right,  -1 = mid
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	switch (posOutOfMirror)
+	{
+	case -1:
+		currentGoal = initPos;
+		break;
+	case 0:
+		currentGoal.x = leftRight[0];
+		currentGoal.y = topMidBot[0];
+		break;
+	case 1:
+		currentGoal.x = leftRight[0];
+		currentGoal.y = topMidBot[1];
+		break;
+	case 2:
+		currentGoal.x = leftRight[0];
+		currentGoal.y = topMidBot[2];
+		break;
+	case 3:
+		currentGoal.x = leftRight[1];
+		currentGoal.y = topMidBot[0];
+		break;
+	case 4:
+		currentGoal.x = leftRight[1];
+		currentGoal.y = topMidBot[1];
+		break;
+	case 5:
+		currentGoal.x = leftRight[1];
+		currentGoal.y = topMidBot[2];
+		break;
+	}
+
+	dirToFly = currentGoal - pos;
+	dirToFly = normalize(dirToFly);
+}
+
+bool Bossghost::reachedDestination()
+{
+	glm::vec3 pos = readPos();
+	if (pos.x < currentGoal.x + 1.0f && pos.x > currentGoal.x - 1.0f &&
+		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
+		return true;
+	return false;
 }

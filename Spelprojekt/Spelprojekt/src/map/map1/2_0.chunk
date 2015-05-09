@@ -2,7 +2,7 @@
 0 : Enemy Count
 -1 NO BACKGROUND
 -1 NO SHRINE
--1
+-1 NO HEALTH PICKUP
 1 :  Number of world objects
 14 1 0 0 -15.8169 0 1 0 -12.898 0 0 1 -0.422222 0 0 0 1
 -1 : Music ID
