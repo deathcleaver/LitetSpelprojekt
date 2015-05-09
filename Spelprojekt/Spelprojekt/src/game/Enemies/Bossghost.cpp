@@ -124,7 +124,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				state = 1;
 				int posOutOfMirror = rand() % 6;
 				calcDir(posOutOfMirror);
-				ghostTimer = 3.0f;
+				ghostTimer = 1.0f;
 				ghostSpawns = 3;
 			}
 		}
@@ -144,7 +144,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (ghostTimer < FLT_EPSILON && ghostSpawns > 0)
 		{
 			getSpooky(map);
-			ghostTimer = 3.0f;
+			ghostTimer = 1.0f;
 			ghostSpawns--;
 		}
 		else if (ghostSpawns == 0)
@@ -215,8 +215,12 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			int posInMirror = rand() % 6;
 			calcDir(posInMirror);
 		}
+		else
+			translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
 	}
 	hurtRect->update();
+	if (invulnTimer > FLT_EPSILON)
+		invulnTimer -= 1.0f*deltaTime;
 	return 0;
 }
 
@@ -227,7 +231,7 @@ bool Bossghost::isInitiated()
 
 void Bossghost::hit(int damage, bool playerRightOfEnemy)
 {
-	if (invulnTimer < FLT_EPSILON)
+	if (invulnTimer < FLT_EPSILON && !inMirror)
 	{
 		health -= damage;
 		if (health > 0)
@@ -235,6 +239,7 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
+			state = 3;
 		}
 		else if (alive == true)
 		{
