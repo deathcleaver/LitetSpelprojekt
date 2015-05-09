@@ -6,6 +6,7 @@
 #include "Enemies/Flame.h"
 #include "Enemies/Bossbat.h"
 #include "Enemies/Bossspider.h"
+#include "Enemies/Bossghost.h"
 #include "Enemies/Bossdummy.h"
 #include "Enemies/Cube.h"
 #include "Enemies/Spider.h"
@@ -617,6 +618,8 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 	}
 	else if (type == "Bossspider")
 		boss = new Bossspider(pos);
+	else if (type == "Bossghost")
+		boss = new Bossghost(pos);
 }
 
 void EnemyManager::startBoss()

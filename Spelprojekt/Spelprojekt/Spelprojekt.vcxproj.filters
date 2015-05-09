@@ -129,6 +129,9 @@
     </ClCompile>
     <ClCompile Include="src\DebugLog.cpp" />
     <ClCompile Include="src\stbImage\stb_image.c" />
+    <ClCompile Include="src\game\Enemies\Bossghost.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -280,6 +283,9 @@
       <Filter>Header\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\DebugLog.h" />
+    <ClInclude Include="src\game\Enemies\Bossghost.h">
+      <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
