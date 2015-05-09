@@ -27,7 +27,7 @@ protected:
 
 	bool collidesWithWorld(Map* map);
 public:
-	virtual Rect* getRekt();
+	Rect* getRekt();
 	virtual void init() = 0;
 	virtual ~Enemy();
 	virtual int update(float deltaTime, Map* map, glm::vec3 playerPos) = 0;

@@ -33,7 +33,7 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	flameEffect = new Effect();
 	flameEffect->reCreate(EffectType::torch);
 	flameEffect->getEffect()->copy(copy->flameEffect->getEffect());
-
+	
 	direction = copy->direction;
 }
 
