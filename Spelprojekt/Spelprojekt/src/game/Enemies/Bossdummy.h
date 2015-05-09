@@ -11,7 +11,7 @@ public:
 	{
 		initPos = firstPos;
 		collideRect = new Rect();
-		collideRect->initGameObjectRect(&worldMat, 0.001, 0.001);
+		collideRect->initGameObjectRect(&worldMat, 0.001f, 0.001f);
 	}
 	void init()
 	{

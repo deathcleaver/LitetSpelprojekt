@@ -24,8 +24,8 @@ private:
 	mat3 rotV;
 
 	float speed = 10.0f;
-	double lastX = 0;
-	double lastY = 0;
+	float lastX = 0;
+	float lastY = 0;
 
 	bool lmb = false;
 	bool rmb = false;

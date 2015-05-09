@@ -14,7 +14,7 @@ Flame::Flame(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 2;
 	health = 3;
-	speed = glm::vec2(2.0f, 0.0);
+	speed = glm::vec2(2.0f, 0.0f);
 	invulnTimer = 0.0f;
 	audibleDistance = 2.5f;
 
@@ -63,7 +63,7 @@ void Flame::init()
 	fading = true;
 	health = 3;
 	invulnTimer = 0.0f;
-	speed = glm::vec2(2.0f, 0.0);
+	speed = glm::vec2(2.0f, 0.0f);
 	flameEffect->getEffect()->init(initPos.x, initPos.y, 0);
 	collideRect->update();
 }
@@ -146,13 +146,13 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			else
 			{
 				translate(0, -speed.y*deltaTime);
-				translate(0, speed.y*deltaTime*0.5);
+				translate(0, speed.y*deltaTime*0.5f);
 				if (collidesWithWorld(map))
 				{
-					translate(0, -speed.y*deltaTime*0.5);
-					translate(0, speed.y*deltaTime*0.25);
+					translate(0, -speed.y*deltaTime*0.5f);
+					translate(0, speed.y*deltaTime*0.25f);
 					if (collidesWithWorld(map))
-						translate(0, -speed.y*deltaTime*0.25);
+						translate(0, -speed.y*deltaTime*0.25f);
 				}
 				speed.x = 2.0f;
 				speed.y = 0.0f;

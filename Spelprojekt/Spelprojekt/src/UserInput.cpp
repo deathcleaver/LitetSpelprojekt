@@ -420,6 +420,7 @@ bool UserInput::getKeyState(char c)
 		return E;
 		break;
 	}
+	return false;
 }
 
 bool UserInput::getKeyNumberState(int n)

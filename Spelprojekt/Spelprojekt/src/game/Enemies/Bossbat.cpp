@@ -19,9 +19,9 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 2, 2.5);
+	collideRect->initGameObjectRect(&worldMat, 2, 2.5f);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.5, 2.8);
+	hurtRect->initGameObjectRect(&worldMat, 2.5f, 2.8f);
 
 	batsToSpawn = 0;
 	batTimer = 0.0f;
@@ -68,7 +68,7 @@ void Bossbat::spawnBat(Map* map, float deltaTime)
 {
 	if (batsToSpawn > 0)
 	{
-		batTimer -= 1.0*deltaTime;
+		batTimer -= 1.0f*deltaTime;
 		if (batTimer < FLT_EPSILON)
 		{
 			glm::vec3 pos = readPos();
@@ -89,7 +89,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	glm::vec3 pos = readPos();
 	if (pos.z < 0.0f)
 	{
-		moveTo(pos.x, pos.y, pos.z + 10.0*deltaTime);
+		moveTo(pos.x, pos.y, pos.z + 10.0f*deltaTime);
 		if (pos.z >= -1.0f)
 		{
 			rotateTo(0, -(3.1415927f/2.0f)*deltaTime*10.0f, 0);
@@ -97,7 +97,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	if (invulnTimer > FLT_EPSILON)
 	{
-		invulnTimer -= 1.0*deltaTime;
+		invulnTimer -= 1.0f*deltaTime;
 		moveTo(pos.x, pos.y + speed*deltaTime);
 		if (collidesWithWorld(map))
 		{
@@ -142,14 +142,14 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
 			if (!slow)
 				moveTo(pos.x + speed*deltaTime, pos.y);
-			movementScale += 1.0*deltaTime;
+			movementScale += 1.0f*deltaTime;
 
 			if (collidesWithWorld(map))
 			{
-				movementScale -= 1.0*deltaTime;
+				movementScale -= 1.0f*deltaTime;
 				if (slow)
 				{
-					moveTo(pos.x - speed*deltaTime * 0.5, pos.y);
+					moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
 					facingRight = false;
 				}
 				else
@@ -177,14 +177,14 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
 			if (!slow)
 				moveTo(pos.x - speed*deltaTime, pos.y);
-			movementScale -= 1.0*deltaTime;
+			movementScale -= 1.0f*deltaTime;
 
 			if (collidesWithWorld(map))
 			{
-				movementScale += 1.0*deltaTime;
+				movementScale += 1.0f*deltaTime;
 				if (slow)
 				{
-					moveTo(pos.x + speed*deltaTime * 0.5, pos.y);
+					moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
 					facingRight = true;
 				}
 				else

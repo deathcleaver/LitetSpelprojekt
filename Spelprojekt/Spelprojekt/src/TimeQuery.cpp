@@ -61,7 +61,7 @@ std::string getQueryResult()
 {
 	std::string result = "TimeQuerry\n";
 
-	for (int i = 0; i < querry.size(); i++)
+	for (unsigned int i = 0; i < querry.size(); i++)
 	{
 		TimeQuery t = querry[i];
 		
@@ -75,7 +75,7 @@ std::string getQueryResult()
 
 void terminateQuery()
 {
-	for (int i = 0; i < querry.size(); i++)
+	for (unsigned int i = 0; i < querry.size(); i++)
 	{
 		if (!querry[i].terminated)
 		{

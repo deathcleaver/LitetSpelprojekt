@@ -175,7 +175,7 @@ void Game::mainLoop()
 		stopTimer(swapTimer);
 
 		fpsCount++;
-		clock = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		clock = float((std::clock() - start) / (double)CLOCKS_PER_SEC);
 		deltaTime = clock - lastClock;
 		lastClock = clock;
 
@@ -397,7 +397,7 @@ void Game::update(float deltaTime)
 		case(EDIT) :
 		{
 					   map->setUpDraw3x2(*in->GetPos());
-					   edit->update(lastX, lastY, gui);
+					   edit->update((float)lastX, (float)lastY, gui);
 
 					   //load/save check
 					   if (in->getLMBrelease())
@@ -471,7 +471,7 @@ void Game::update(float deltaTime)
 		in->Act(deltaTime); //moves sideways
 
 		if (in->updateMouse())
-			in->Mouse(xpos - lastX, ypos - lastY); //moves mouse
+			in->Mouse((float)(xpos - lastX), (float)(ypos - lastY)); //moves mouse
 	}
 	lastX = xpos;
 	lastY = ypos;
@@ -604,7 +604,7 @@ void Game::readInput(float deltaTime)
 	state = glfwGetMouseButton(windowRef, GLFW_MOUSE_BUTTON_LEFT);
 	state == GLFW_PRESS ? in->LMB(true) : in->LMB(false);
 	glfwGetCursorPos(windowRef, &xpos, &ypos);
-	in->setMousePos(xpos, ypos);
+	in->setMousePos((float)xpos, (float)ypos);
 
 	//Character Keys
 	state = glfwGetKey(windowRef, GLFW_KEY_W);
@@ -705,7 +705,7 @@ void Game::initSettings()
 		getline(in, line); // fullscreen
 		ss = stringstream(line);
 		ss >> sub;
-		configFullscreen = atoi(sub.c_str());
+		configFullscreen = atoi(sub.c_str()) ? 1 : 0;
 
 		getline(in, line); // resolution
 		ss = stringstream(line);
@@ -716,9 +716,8 @@ void Game::initSettings()
 
 		getline(in, line); // glows enabled
 		ss = stringstream(line);
-		bool glows;
 		ss >> sub;
-		configRenderGlow = atoi(sub.c_str());
+		configRenderGlow = atoi(sub.c_str()) ? 1 : 0;
 
 		// apply graphic settings
 		engine->applySettings(configRenderGlow);
@@ -728,19 +727,19 @@ void Game::initSettings()
 		ss = stringstream(line);
 		float musicV, soundV, audioV;
 		ss >> sub;
-		musicV = atof(sub.c_str());
+		musicV = (float)atof(sub.c_str());
 		ss >> sub;
-		soundV = atof(sub.c_str());
+		soundV = (float)atof(sub.c_str());
 		ss >> sub;
-		audioV = atof(sub.c_str());
+		audioV = (float)atof(sub.c_str());
 
 		bool musicE, soundE, audioE;
 		ss >> sub;
-		musicE = atoi(sub.c_str());
+		musicE = atoi(sub.c_str()) ? 1 : 0;
 		ss >> sub;
-		soundE = atoi(sub.c_str());
+		soundE = atoi(sub.c_str()) ? 1 : 0;
 		ss >> sub;
-		audioE = atoi(sub.c_str());
+		audioE = atoi(sub.c_str()) ? 1 : 0;
 
 		// apply audio settings
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
@@ -842,9 +841,9 @@ void Game::checkForSave()
 				getline(in, line);
 				ss = stringstream(line);
 				ss >> sub;
-				savedPickups[c].x = atoi(sub.c_str());
+				savedPickups[c].x = (float)atoi(sub.c_str());
 				ss >> sub;
-				savedPickups[c].y = atoi(sub.c_str());
+				savedPickups[c].y = (float)atoi(sub.c_str());
 				savePickupNr++;
 			}
 		}

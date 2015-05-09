@@ -1,7 +1,7 @@
 #ifndef SPELLBOOK_H
 #define SPELLBOOK_H
 
-#include "../Enemy.h";
+#include "../Enemy.h"
 
 class Spellbook : public Enemy
 {

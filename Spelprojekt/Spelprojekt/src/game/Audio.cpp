@@ -262,7 +262,7 @@ bool Audio::createBuffers(char** files, ALuint* buffers, int elements)
 
 void Audio::update(float deltaTime)
 {
-	for (int i = 0; i < musicSources.size(); i++) // check the state of all music sources
+	for (unsigned int i = 0; i < musicSources.size(); i++) // check the state of all music sources
 	{
 		if (musicEnabled && audioEnabled)// music is enabled
 		{
@@ -297,7 +297,7 @@ void Audio::update(float deltaTime)
 	}
 
 	// clean and remove music sources that's finished playing
-	for (int i = 0; i < musicSources.size(); i++)
+	for (unsigned int i = 0; i < musicSources.size(); i++)
 	{
 		ALint state;
 		alGetSourcei(musicSources[i].source, AL_SOURCE_STATE, &state);
@@ -311,7 +311,7 @@ void Audio::update(float deltaTime)
 	}
 
 	// clean and remove sound sources that's finished playing
-	for (int i = 0; i < soundSources.size(); i++)
+	for (unsigned int i = 0; i < soundSources.size(); i++)
 	{
 		ALint state;
 		alGetSourcei(soundSources[i], AL_SOURCE_STATE, &state);

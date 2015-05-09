@@ -158,10 +158,10 @@ void Torch::update()
 				lights[i].g = flameColor[i].g * t;
 			if (timeChangeB)
 				lights[i].b = flameColor[i].b * t;
-			lights[i].translate(0, 0.04, 0);
+			lights[i].translate(0, 0.04f, 0);
 
 		}
-		timeLeft[i] -= 0.01;
+		timeLeft[i] -= 0.01f;
 	}
 }
 
@@ -182,14 +182,14 @@ void Torch::fade()
 				if (timeChangeB)
 					lights[i].b = particleB * t;
 			}
-			lights[i].translate(0, 0.04, 0);
+			lights[i].translate(0, 0.04f, 0);
 
 		}
 		else
 		{
 			lights[i].distance = 0;
 		}
-		timeLeft[i] -= 0.01;
+		timeLeft[i] -= 0.01f;
 	}
 }
 

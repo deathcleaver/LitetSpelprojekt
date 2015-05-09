@@ -52,13 +52,13 @@ struct Light : public Align_16
 	{
 		distance += x;
 		if (distance < 0.1)
-			distance = 0.1;
+			distance = 0.1f;
 		intensity += y / 2;
 		if (intensity < 0.1)
-			intensity = 0.1;
+			intensity = 0.1f;
 		if (z > 0)
 		{
-			volume = z -1;
+			volume = (int)(z - 1);
 		}
 	}
 

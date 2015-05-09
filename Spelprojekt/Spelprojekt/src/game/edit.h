@@ -9,7 +9,7 @@
 #include "../GameConfig.h"
 #include "Effect/Light.h"
 
-class Edit
+class Edit : public Align_16
 {
 private:
 	enum EditMode
@@ -52,8 +52,8 @@ private:
 	int width;
 	int height;
 
-	float SCREENWIDTH = configResX;
-	float SCREENHEIGHT = configResY;
+	float SCREENWIDTH = (float)configResX;
+	float SCREENHEIGHT = (float)configResY;
 	EditMode editMode = EditMode::NONEM;
 	EditMode editModeLast = EditMode::NONEM;
 	EditState editState = EditState::NONES;

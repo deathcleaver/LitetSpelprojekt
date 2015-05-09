@@ -17,7 +17,7 @@ int main(int argv, char* argc[])
 	Debug::OpenDebugStream(false, true, true);
 #endif
 
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
@@ -46,7 +46,7 @@ int main(int argv, char* argc[])
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub;
-		configFullscreen = atoi(sub.c_str());
+		configFullscreen = atoi(sub.c_str()) ? 1 : 0;
 
 		//resolution
 		getline(in, line);

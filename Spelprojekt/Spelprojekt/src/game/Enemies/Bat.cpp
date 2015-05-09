@@ -68,14 +68,14 @@ int Bat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
 		if (!slow)
 			moveTo(pos.x + speed*deltaTime, pos.y);
-		movementScale += 1.0*deltaTime;
+		movementScale += 1.0f*deltaTime;
 
 		if (collidesWithWorld(map))
 		{
-			movementScale -= 1.0*deltaTime;
+			movementScale -= 1.0f*deltaTime;
 			if (slow)
 			{
-				moveTo(pos.x - speed*deltaTime * 0.5, pos.y);
+				moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
 				facingRight = false;
 			}
 			else
@@ -103,14 +103,14 @@ int Bat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
 		if (!slow)
 			moveTo(pos.x - speed*deltaTime, pos.y);
-		movementScale -= 1.0*deltaTime;
+		movementScale -= 1.0f*deltaTime;
 
 		if (collidesWithWorld(map))
 		{
-			movementScale += 1.0*deltaTime;
+			movementScale += 1.0f*deltaTime;
 			if (slow)
 			{
-				moveTo(pos.x + speed*deltaTime * 0.5, pos.y);
+				moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
 				facingRight = true;
 			}
 			else

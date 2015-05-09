@@ -75,7 +75,7 @@ void Lightning::update()
 		lights[0].r = baseR;
 		lights[0].g = baseG;
 		lights[0].b = baseB;
-		lights[0].distance = 100000.0f * abs(sin((M_PI / 2.0f) * t));
+		lights[0].distance = 100000.0f * abs(sin(((float)M_PI / 2.0f) * t));
 		lights[0].intensity = 1;
 		lights[0].volume = 0;
 	}

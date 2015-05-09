@@ -24,7 +24,7 @@ Shield::Shield()
 	setParticleColor(0, 1.0f, 0.0f);
 
 	range = 0.5f;
-	rotation = 3.141596 / 2.0f;
+	rotation = 3.141596f / 2.0f;
 }
 
 Shield::~Shield()
@@ -132,9 +132,9 @@ void Shield::update()
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 			if (startDist[i] < 0.0f)
-				lights[i].translate(-0.02*cos(rotation), -0.02*sin(rotation), 0);
+				lights[i].translate(-0.02f*cos(rotation), -0.02f*sin(rotation), 0);
 			else
-				lights[i].translate(0.02*cos(rotation), 0.02*sin(rotation), 0);
+				lights[i].translate(0.02f*cos(rotation), 0.02f*sin(rotation), 0);
 		}
 
 		timeLeft[i] -= 0.01f;
@@ -160,9 +160,9 @@ void Shield::fade()
 			lights[i].intensity = 1;
 			lights[i].volume = 2;
 			if (startDist[i] < 0.0f)
-				lights[i].translate(-0.02*cos(rotation), -0.02*sin(rotation), 0);
+				lights[i].translate(-0.02f*cos(rotation), -0.02f*sin(rotation), 0);
 			else
-				lights[i].translate(0.02*cos(rotation), 0.02*sin(rotation), 0);
+				lights[i].translate(0.02f*cos(rotation), 0.02f*sin(rotation), 0);
 		}
 		else
 		{

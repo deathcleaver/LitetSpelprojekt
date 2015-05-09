@@ -17,9 +17,9 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 3.1, 2.8);
+	collideRect->initGameObjectRect(&worldMat, 3.1f, 2.8f);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 3.3, 3.2);
+	hurtRect->initGameObjectRect(&worldMat, 3.3f, 3.2f);
 
 	currentMode = -1;
 	webTimer = 0.0f;
@@ -80,7 +80,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		invulnTimer -= 1.0f*deltaTime;
 	if (currentMode == -1) //Spawning
 	{
-		webTimer -= 1.0*deltaTime;
+		webTimer -= 1.0f*deltaTime;
 		if (webTimer < FLT_EPSILON)
 		{
 			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_spawn, readPos(), audibleDistance, false);
@@ -136,7 +136,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else if (currentMode == 2) //Jumping back up
 	{
-		speed.y -= 0.2;
+		speed.y -= 0.2f;
 		translate(0, speed.y*deltaTime);
 		if (collidesWithWorld(map))
 		{
@@ -166,7 +166,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else if (currentMode == 3) //Spiderman, spiderman, shoots whatever a spider can
 	{
-		webTimer -= 1.0*deltaTime;
+		webTimer -= 1.0f*deltaTime;
 		if (webTimer < FLT_EPSILON && websToShoot == 0)
 		{
 			rotateTo(-3.14159265f, 0, 0);

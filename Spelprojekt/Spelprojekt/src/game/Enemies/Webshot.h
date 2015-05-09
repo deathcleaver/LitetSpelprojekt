@@ -1,7 +1,7 @@
 #ifndef WEBSHOT_H
 #define WEBSHOT_H
 
-#include "../Enemy.h";
+#include "../Enemy.h"
 
 class Webshot : public Enemy
 {

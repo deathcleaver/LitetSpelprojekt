@@ -92,7 +92,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	glm::vec3 pos;
 	if (state == -1) //Spawn state
 	{
-		stateTimer -= 1.0*deltaTime;
+		stateTimer -= 1.0f*deltaTime;
 		if (stateTimer < 2.0f)
 		{
 			scaleAD(1.0f*deltaTime, 1.0f*deltaTime, 1.0f*deltaTime);

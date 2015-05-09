@@ -103,42 +103,42 @@ void GUI::MENU(bool init)
 
 		//logo
 		items[0]->init(0, 0);
-		items[0]->MoveAutoSize(0, 0.6, content);
+		items[0]->MoveAutoSize(0, 0.6f, content);
 
 		//new game button
 		items[1]->init(1, 2, true, 5); //puts the game in intro state
-		items[1]->MoveAutoSize(0, 0.1, content);
+		items[1]->MoveAutoSize(0, 0.1f, content);
 
 		if (grayContinue)
 		{
 			//continue button
 			items[2]->init(3, 4, true, 4, false);
-			items[2]->MoveAutoSize(0, -0.15, content);
+			items[2]->MoveAutoSize(0, -0.15f, content);
 			//grayed out
 			items[3]->init(5, 5, false, 0);
-			items[3]->MoveAutoSize(0, -0.15, content);
+			items[3]->MoveAutoSize(0, -0.15f, content);
 		}
 		else
 		{
 			//continue button
 			items[2]->init(3, 4, true, 4);
-			items[2]->MoveAutoSize(0, -0.15, content);
+			items[2]->MoveAutoSize(0, -0.15f, content);
 			//NOT grayed out
 			items[3]->init(5, 5, false, 0, false);
-			items[3]->MoveAutoSize(0, -0.15, content);
+			items[3]->MoveAutoSize(0, -0.15f, content);
 		}
 
 		//map maker button
 		items[4]->init(6, 7, true, 2);
-		items[4]->MoveAutoSize(0, -0.4, content);
+		items[4]->MoveAutoSize(0, -0.4f, content);
 
 		//credits button
 		items[5]->init(8, 9, true, 0);
-		items[5]->MoveAutoSize(0, -0.6, content);
+		items[5]->MoveAutoSize(0, -0.6f, content);
 		
 		//settings button
 		items[6]->init(10, 11, true, 6);
-		items[6]->MoveAutoSize(0, -0.8, content);
+		items[6]->MoveAutoSize(0, -0.8f, content);
 	}
 }
 
@@ -187,7 +187,7 @@ void GUI::playerhud(bool init)
 			items[n] = new ScreenItem();
 
 		items[0]->init(25, 25, false);
-		items[0]->MoveAutoSize(-0.57, -0.78, content);
+		items[0]->MoveAutoSize(-0.57f, -0.78f, content);
 
 		if (extra)
 			size--;
@@ -195,7 +195,7 @@ void GUI::playerhud(bool init)
 		for (int n = 1; n < size; n++)
 		{
 			items[n]->init(28, 28, false);
-			items[n]->MoveAutoSize(-0.68 + 0.12 * (n - 1), -0.8, content);
+			items[n]->MoveAutoSize(-0.68f + 0.12f * (n - 1.0f), -0.8f, content);
 		}
 
 		if (extra)
@@ -205,12 +205,12 @@ void GUI::playerhud(bool init)
 			if (playerPickups == 1)
 			{
 				items[size - 1]->init(26, 26, false);
-				items[size - 1]->MoveAutoSize(-0.68 + 0.12 * (size - 2), -0.8, content);
+				items[size - 1]->MoveAutoSize(-0.68f + 0.12f * (size - 2.0f), -0.8f, content);
 			}
 			else if (playerPickups == 2)
 			{
 				items[size - 1]->init(27, 27, false);
-				items[size - 1]->MoveAutoSize(-0.68 + 0.12 * (size - 2), -0.8, content);
+				items[size - 1]->MoveAutoSize(-0.68f + 0.12f * (size - 2.0f), -0.8f, content);
 			}
 		}
 	}
@@ -237,7 +237,7 @@ void GUI::newupgradeInit()
 		else if (progressID == 3) // mirror walk
 			items[size]->init(31, 31);
 
-		items[size]->MoveAutoSize(0, -0.3, content);
+		items[size]->MoveAutoSize(0, -0.3f, content);
 
 		size++;
 	}
@@ -287,56 +287,56 @@ void GUI::EDIT(bool init)
 			items[n] = new ScreenItem();
 		//Hud
 		items[0]->init(50, 50);
-		items[0]->MoveAutoSize(0, -0.8, content);
+		items[0]->MoveAutoSize(0, -0.8f, content);
 
 		//World Switch
 		items[1]->init(51, 52, true, 100);
-		items[1]->MoveAutoSize(-0.97, -0.7, content);
+		items[1]->MoveAutoSize(-0.97f, -0.7f, content);
 		items[1]->initSwitch();
 
 		//Rekt Switch
 		items[2]->init(51, 52, true, 101);
-		items[2]->MoveAutoSize(-0.97, -0.789, content);
+		items[2]->MoveAutoSize(-0.97f, -0.789f, content);
 		items[2]->initSwitch();
 
 		//Light Switch
 		items[3]->init(51, 52, true, 102);
-		items[3]->MoveAutoSize(-0.97, -0.878, content);
+		items[3]->MoveAutoSize(-0.97f, -0.878f, content);
 		items[3]->initSwitch();
 
 		//Enemy Switch
 		items[4]->init(51, 52, true, 103);
-		items[4]->MoveAutoSize(-0.97, -0.967, content);
+		items[4]->MoveAutoSize(-0.97f, -0.967f, content);
 		items[4]->initSwitch();
 
 		//Back Switch
 		items[5]->init(51, 52, true, 104);
-		items[5]->MoveAutoSize(-0.73, -0.7, content);
+		items[5]->MoveAutoSize(-0.73f, -0.7f, content);
 		items[5]->initSwitch();
 
 		//Shrine Switch
 		items[6]->init(51, 52, true, 105);
-		items[6]->MoveAutoSize(-0.73, -0.789, content);
+		items[6]->MoveAutoSize(-0.73f, -0.789f, content);
 		items[6]->initSwitch();
 
 		//Boss Switch
 		items[7]->init(51, 52, true, 106);
-		items[7]->MoveAutoSize(-0.73, -0.878, content);
+		items[7]->MoveAutoSize(-0.73f, -0.878f, content);
 		items[7]->initSwitch();
 
 		//Audio Switch
 		items[8]->init(51, 52, true, 107);
-		items[8]->MoveAutoSize(-0.73, -0.967, content);
+		items[8]->MoveAutoSize(-0.73f, -0.967f, content);
 		items[8]->initSwitch();
 
 		//Place Switch
 		items[9]->init(51, 52, true, 110);
-		items[9]->MoveAutoSize(0.04, -0.785, content);
+		items[9]->MoveAutoSize(0.04f, -0.785f, content);
 		items[9]->initSwitch();
 
 		//Change Switch
 		items[10]->init(51, 52, true, 111);
-		items[10]->MoveAutoSize(0.04, -0.875, content);
+		items[10]->MoveAutoSize(0.04f, -0.875f, content);
 		items[10]->initSwitch();
 	}
 }
@@ -350,10 +350,10 @@ void GUI::PAUSE(bool init)
 			items[n] = new ScreenItem();
 		// paused text
 		items[0]->init(20, 20);
-		items[0]->MoveAutoSize(0, 0.2, content);
+		items[0]->MoveAutoSize(0, 0.2f, content);
 		// exit text
 		items[1]->init(21, 22, true, 3);
-		items[1]->MoveAutoSize(0, -0.1, content);
+		items[1]->MoveAutoSize(0, -0.1f, content);
 
 		//show boss progress
 		bossprogressInit();
@@ -372,36 +372,36 @@ void GUI::SETTINGS(bool init)
 		if (Audio::getAudio().getAudioEnabled())
 		{
 			items[0]->init(12, 12, true, 7);
-			items[0]->MoveAutoSize(0, 0.6, content);
+			items[0]->MoveAutoSize(0, 0.6f, content);
 		}
 		else
 		{
 			items[0]->init(13, 13, true, 7);
-			items[0]->MoveAutoSize(0, 0.6, content);
+			items[0]->MoveAutoSize(0, 0.6f, content);
 		}
 		
 		// music enabled
 		if (Audio::getAudio().getMusicEnabled())
 		{
 			items[1]->init(14, 14, true, 8);
-			items[1]->MoveAutoSize(0, 0.2, content);
+			items[1]->MoveAutoSize(0, 0.2f, content);
 		}
 		else
 		{
 			items[1]->init(15, 15, true, 8);
-			items[1]->MoveAutoSize(0, 0.2, content);
+			items[1]->MoveAutoSize(0, 0.2f, content);
 		}
 
 		// sound enabled
 		if (Audio::getAudio().getSoundEnabled())
 		{
 			items[2]->init(16, 16, true, 9);
-			items[2]->MoveAutoSize(0, -0.2, content);
+			items[2]->MoveAutoSize(0, -0.2f, content);
 		}
 		else
 		{
 			items[2]->init(17, 17, true, 9);
-			items[2]->MoveAutoSize(0, -0.2, content);
+			items[2]->MoveAutoSize(0, -0.2f, content);
 		}
 		
 		//// audio enabled
@@ -465,8 +465,8 @@ ScreenItem** GUI::getItems() const
 
 void GUI::MouseToScreenSpace(float* x, float* y)
 {
-	*x = (*x / (SCREENWIDTH * 0.5)) -1;
-	*y = ((*y / (SCREENHEIGHT * 0.5)) -1) * -1;
+	*x = (*x / (SCREENWIDTH * 0.5f)) -1.0f;
+	*y = ((*y / (SCREENHEIGHT * 0.5f)) -1.0f) * -1.0f;
 }
 
 void GUI::modeSwitchesFalse()
@@ -504,25 +504,25 @@ void GUI::bossprogressInit()
 	
 	// boss back
 	items[oldsize]->init(23, 23);
-	items[oldsize]->MoveAutoSize(0, 0.7, content);
+	items[oldsize]->MoveAutoSize(0, 0.7f, content);
 	//defeated cross
 	int increment = 1;
 	if (player->getProgress().batboss)
 	{
 		items[oldsize + increment]->init(24, 24);
-		items[oldsize + increment]->MoveAutoSize(-0.33, 0.70, content);
+		items[oldsize + increment]->MoveAutoSize(-0.33f, 0.70f, content);
 		increment++;
 	}
 	if (player->getProgress().spiderboss)
 	{
 		items[oldsize + increment]->init(24, 24);
-		items[oldsize + increment]->MoveAutoSize(-0.05, 0.71, content);
+		items[oldsize + increment]->MoveAutoSize(-0.05f, 0.71f, content);
 		increment++;
 	}
 	if (player->getProgress().ghostboss)
 	{
 		items[oldsize + increment]->init(24, 24);
-		items[oldsize + increment]->MoveAutoSize(0.24, 0.71, content);
+		items[oldsize + increment]->MoveAutoSize(0.24f, 0.71f, content);
 		increment++;
 	}
 }

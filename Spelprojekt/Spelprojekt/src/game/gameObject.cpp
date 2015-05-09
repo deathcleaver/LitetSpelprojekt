@@ -87,8 +87,8 @@ void GameObject::rotateToXSNAP(float xin)
 	worldMat[2].z *= (1.0f / scale.z);
 
 	rotXfloatsaveTEMP += xin;
-	int Octs = rotXfloatsaveTEMP / (3.141592653 * 0.5);
-	float x = float(Octs) * 3.141592653 * 0.5;
+	int Octs = (int)(rotXfloatsaveTEMP / (3.141592653f * 0.5f));
+	float x = float(Octs) * 3.141592653f * 0.5f;
 
 	rotXfloatsave = x;
 	
@@ -326,12 +326,12 @@ void GameObject::scaleAD(float x, float y, float z)
 	worldMat[1].y += y;
 	worldMat[2].z += z;
 
-	if (worldMat[0].x < 0.1)
-		worldMat[0].x = 0.1;
-	if (worldMat[1].y < 0.1)
-		worldMat[1].y = 0.1;
-	if (worldMat[2].z < 0.1)
-		worldMat[2].z = 0.1;
+	if (worldMat[0].x < 0.1f)
+		worldMat[0].x = 0.1f;
+	if (worldMat[1].y < 0.1f)
+		worldMat[1].y = 0.1f;
+	if (worldMat[2].z < 0.1f)
+		worldMat[2].z = 0.1f;
 }
 
 void GameObject::scaleSNAP(float x, float y, float z)
@@ -351,12 +351,12 @@ void GameObject::scaleSNAP(float x, float y, float z)
 	worldMat[1].y = (int)scaleYfloatsave;
 	worldMat[2].z = (int)scaleZfloatsave;
 
-	if (worldMat[0].x < 1.0)
-		worldMat[0].x = 1.0;
-	if (worldMat[1].y < 1.0)
-		worldMat[1].y = 1.0;
-	if (worldMat[2].z < 1.0)
-		worldMat[2].z = 1.0;
+	if (worldMat[0].x < 1.0f)
+		worldMat[0].x = 1.0f;
+	if (worldMat[1].y < 1.0f)
+		worldMat[1].y = 1.0f;
+	if (worldMat[2].z < 1.0f)
+		worldMat[2].z = 1.0f;
 }
 
 int GameObject::update(float deltaTime)

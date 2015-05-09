@@ -108,8 +108,8 @@ void Edit::itemTableClick()
 		{
 			itemtaken = false;
 
-			int indexX = (x - 247) / 24;
-			int indexY = (y - 596) / 24;
+			int indexX = ((int)x - 247) / 24;
+			int indexY = ((int)y - 596) / 24;
 
 			editContentID = 12 * indexY + indexX;
 
@@ -438,7 +438,7 @@ void Edit::placeObject(float x, float y)
 						currentLight->color(x - lastMousePosX, y - lastMousePosY, 0);
 				}
 				else
-					current->rotateToX((y - lastMousePosY) * 0.8);
+					current->rotateToX((y - lastMousePosY) * 0.8f);
 
 			}
 			else if (internalPlaceState == 1)
@@ -449,12 +449,12 @@ void Edit::placeObject(float x, float y)
 					placeState = NONEP;
 				}
 				else
-					current->rotateToY((x - lastMousePosX) * 0.8);
+					current->rotateToY((x - lastMousePosX) * 0.8f);
 			}
 
 			else if (internalPlaceState == 2)
 				if (editMode != EditMode::LIGHT)
-					current->rotateToZ((y - lastMousePosY) * 0.8);
+					current->rotateToZ((y - lastMousePosY) * 0.8f);
 
 			else if (internalPlaceState == 3)
 			{
@@ -532,14 +532,14 @@ void Edit::mouseToWorld(float* x, float* y)
 {
 	mouseToScreenSpace(x, y);
 	glm::vec3* temp = in->GetPos();
-	*x = temp->x + (*x * 14);
-	*y = temp->y + (*y * 9.5);
+	*x = temp->x + (*x * 14.0f);
+	*y = temp->y + (*y * 9.5f);
 }
 
 void Edit::mouseToScreenSpace(float* x, float* y)
 {
-	*x = (*x / (SCREENWIDTH * 0.5)) - 1;
-	*y = ((*y / (SCREENHEIGHT * 0.5)) - 1) * -1;
+	*x = (*x / (SCREENWIDTH * 0.5f)) - 1.0f;
+	*y = ((*y / (SCREENHEIGHT * 0.5f)) - 1.0f) * -1.0f;
 }
 
 void Edit::guiHandle(int bEvent)
@@ -630,10 +630,10 @@ void Edit::saveloadCheck(bool* save, bool* load, int* nr)
 	{
 		if (x > 887 && x < 996 && y > 584 && y < 697)
 		{
-			int idx = x - 887;
+			int idx = (int)(x - 887);
 			idx = idx / 58;
 
-			int idy = y - 584;
+			int idy = (int)(y - 584);
 			idy = idy / 24;
 
 			*nr = idy;

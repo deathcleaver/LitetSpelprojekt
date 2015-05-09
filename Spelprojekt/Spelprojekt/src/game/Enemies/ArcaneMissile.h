@@ -1,7 +1,7 @@
 #ifndef ARCANEMISSILE_H
 #define ARCANEMISSILE_H
 
-#include "../Enemy.h";
+#include "../Enemy.h"
 #include "../Effect/Effect.h"
 
 class ArcaneMissile : public Enemy

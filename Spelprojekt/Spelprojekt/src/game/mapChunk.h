@@ -1,7 +1,7 @@
 #ifndef MAP_CHUNK_H
 #define MAP_CHUNK_H
 
-#include "gameObject.h";
+#include "gameObject.h"
 #include "rect.h"
 #include <string>
 #include <sstream>

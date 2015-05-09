@@ -2,7 +2,7 @@
 #define SCREEN_ITEM_H
 
 #include "game\gameObject.h"
-#include "game\rect.h";
+#include "game\rect.h"
 #include "engine\ContentManager.h"
 
 class ScreenItem : public GameObject

@@ -106,10 +106,10 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 		iss >> sub;
 		type = sub; //Läs bosstyp
 		iss >> sub;
-		pos.x = atof(sub.c_str());
+		pos.x = (float)atof(sub.c_str());
 		pos.x = pos.x + xOffset * 35;
 		iss >> sub;
-		pos.y = atof(sub.c_str());
+		pos.y = (float)atof(sub.c_str());
 		pos.y = pos.y - yOffset * 35;
 		addBoss(type, pos);
 	}
@@ -124,10 +124,10 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 		iss >> sub;
 		type = sub; //Läs fiendetyp
 		iss >> sub;
-		pos.x = atof(sub.c_str());
+		pos.x = (float)atof(sub.c_str());
 		pos.x = pos.x + xOffset * 35;
 		iss >> sub;
-		pos.y = atof(sub.c_str());
+		pos.y = (float)atof(sub.c_str());
 		pos.y = pos.y - yOffset * 35;
 		addEnemy(type, pos);
 	}
@@ -634,7 +634,7 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 	if (type == "ChuckTesta")
 	{
 		boss = new Dummy(pos);
-		boss->scaleFactor(0.01, 0.01, 0.01);
+		boss->scaleFactor(0.01f, 0.01f, 0.01f);
 	}
 	else if (type == "Bossbat")
 	{

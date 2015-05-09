@@ -158,7 +158,7 @@ void AnimationObject::update()
 
 		Object::TriangleVertex temp;
 		Object::TriangleVertex temp2;
-		for (int i = 0; i < myBaseObjects[myAnimPoint1]->vert.size() ; i++)
+		for (unsigned int i = 0; i < myBaseObjects[myAnimPoint1]->vert.size() ; i++)
 		{
 			combVert.push_back(Object::TriangleVertex());
 

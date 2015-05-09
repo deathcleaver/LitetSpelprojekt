@@ -4,7 +4,7 @@ ContentManager::~ContentManager()
 {
 	if (guiObjs)
 	{
-		for (size_t i = 0; i < guiCount; i++)
+		for (int i = 0; i < guiCount; i++)
 		{
 			delete guiObjs[i];
 		}

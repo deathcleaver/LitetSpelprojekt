@@ -35,8 +35,8 @@ public:
 	void initGameObjectRect(glm::mat4* mat, float sizeX, float sizeY)
 	{
 		worldMat = mat;
-		xHalfSize = sizeX * 0.5;
-		yHalfSize = sizeY * 0.5;
+		xHalfSize = sizeX * 0.5f;
+		yHalfSize = sizeY * 0.5f;
 		update();
 	}
 
@@ -45,10 +45,10 @@ public:
 		this->type = type;
 		float midX = (ChunkOffsetX * 35) - 17 + x;
 		float midY = -(ChunkOffsetY * 35) + 17 - y;
-		x1 = midX - 0.5;
-		y1 = midY + 0.5;
-		x2 = midX + 0.5;
-		y2 = midY - 0.5;
+		x1 = midX - 0.5f;
+		y1 = midY + 0.5f;
+		x2 = midX + 0.5f;
+		y2 = midY - 0.5f;
 	}
 	
 	bool intersects(Rect* test)
@@ -75,6 +75,7 @@ public:
 			return false; //outside right
 		if (y1 < testy1)
 			return false; //outside botom
+		return true;
 	}
 	
 	//mapchunk collide usage

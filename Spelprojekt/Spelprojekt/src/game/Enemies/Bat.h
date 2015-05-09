@@ -1,7 +1,7 @@
 #ifndef BAT_H
 #define BAT_H
 
-#include "../Enemy.h";
+#include "../Enemy.h"
 
 class Bat : public Enemy
 {

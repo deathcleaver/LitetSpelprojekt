@@ -6,7 +6,7 @@ void Player::init()
 	MAX_HP = HP = 3;
 	DMG = 1;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 0.6, 1.8);
+	collideRect->initGameObjectRect(&worldMat, 0.6f, 1.8f);
 	speed = vec2(0);
 	maxSpeed = vec2(10, -30);
 	acceleration = vec2(0.4f, 1.35f); // y = gravity
@@ -19,7 +19,7 @@ void Player::init()
 	facingRight = true;
 	isAttacking = false;
 	attackTimer = 0.0f;
-	attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
+	attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 0.9f);
 	weaponMatrix = mat4(1);
 	animState = "idle";
 	bossFighting = false;
@@ -50,24 +50,24 @@ void Player::moveWeapon()
 		bonusRange = 3;
 	if (facingRight)
 	{
-		weaponMatrix[0].w = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
+		weaponMatrix[0].w = playerPos.x + 0.1f + sin(3.14f*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
-			runeEffect->getEffect()->setSpawn(playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange, playerPos.y, 0);
+			runeEffect->getEffect()->setSpawn(playerPos.x + 0.1f + sin(3.14f*attackTimer)*bonusRange, playerPos.y, 0);
 			//runeEffect->posX = playerPos.x + 0.1f + sin(3.14*attackTimer)*bonusRange;
 			//runeEffect->posY = playerPos.y;
 		}
 	}
 	else
 	{
-		weaponMatrix[0].w = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
+		weaponMatrix[0].w = playerPos.x - 0.1f - sin(3.14f*attackTimer)*bonusRange;
 		weaponMatrix[1].w = playerPos.y;
 		if (currentRune == MiscID::rune_range || currentRune == MiscID::rune_damage)
 		{
 			effectVisible;
 			//runeEffect->posX = playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange;
-			runeEffect->getEffect()->setSpawn(playerPos.x - 0.1f - sin(3.14*attackTimer)*bonusRange, playerPos.y, 0);
+			runeEffect->getEffect()->setSpawn(playerPos.x - 0.1f - sin(3.14f*attackTimer)*bonusRange, playerPos.y, 0);
 			//runeEffect->posY = playerPos.y;
 		}
 	}
@@ -261,13 +261,13 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
 				{
 					noAutoJump = false;
-					speed.y = jumpHeight * 2.5;
+					speed.y = jumpHeight * 2.5f;
 					doubleJump = true;
 				}
 				if (!jumping && flinchTimer < FLT_EPSILON)
 				{
 					noAutoJump = false;
-					speed.y = jumpHeight * 3;
+					speed.y = jumpHeight * 3.0f;
 					jumping = true;
 				}
 			}
@@ -337,22 +337,22 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			vec3 chunkMid = map->getChunkMiddle(lastPos);
 			if (pos.x < chunkMid.x - 17.5f)
 			{
-				moveTo(pos.x + 0.4, pos.y);
+				moveTo(pos.x + 0.4f, pos.y);
 				speed.x = -speed.x;
 			}
 			else if (pos.x > chunkMid.x + 17.5f)
 			{
-				moveTo(pos.x - 0.4, pos.y);
+				moveTo(pos.x - 0.4f, pos.y);
 				speed.x = -speed.x;
 			}
 			if (pos.y < chunkMid.y - 17.5f)
 			{
-				moveTo(pos.x, pos.y + 0.4);
+				moveTo(pos.x, pos.y + 0.4f);
 				speed.y = -speed.y;
 			}
 			else if (pos.y > chunkMid.y + 17.5f)
 			{
-				moveTo(pos.x, pos.y - 0.4);
+				moveTo(pos.x, pos.y - 0.4f);
 				speed.y = -speed.y;
 			}
 		}
@@ -422,7 +422,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				}
 				if (currentRune == MiscID::rune_range)
 				{
-					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 1.5);
+					attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 1.5f);
 					runeEffect->reCreate(EffectType::torch);
 					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
 					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
@@ -467,7 +467,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			{
 				if (currentRune == MiscID::rune_range)
 				{
-					attackRect.initGameObjectRect(&weaponMatrix, 0.8, 0.9);
+					attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 0.9f);
 					//delete runeEffect;
 					//runeEffect = 0;
 					currentRune = 0;
@@ -581,7 +581,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		animState = "attack";
 		moveWeapon();
 		map->attackEnemies(&attackRect, playerPos, DMG);
-		attackTimer -= 2.0*deltaTime;
+		attackTimer -= 2.0f*deltaTime;
 		if (attackTimer < FLT_EPSILON)
 		{
 			isAttacking = false;

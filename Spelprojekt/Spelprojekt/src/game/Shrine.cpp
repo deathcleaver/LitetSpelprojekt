@@ -12,7 +12,7 @@ Shrine::Shrine(GameObject* object, MiscID runetype)
 	myLight = new Light();
 	myLight->posX = pos.x;
 	myLight->posY = pos.y;
-	myLight->posZ = pos.z + 0.5;
+	myLight->posZ = pos.z + 0.5f;
 
 	switch (runetype)
 	{
@@ -24,33 +24,33 @@ Shrine::Shrine(GameObject* object, MiscID runetype)
 		rune = MiscID::rune_range;
 		runeObj = new GameObject();
 		runeObj->init(MiscID::rune_range);
-		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
-		myLight->r = 0.5;
-		myLight->g = 0.25;
-		myLight->b = 0.01;
+		runeObj->moveTo(pos.x, pos.y + 0.1f, pos.z + 0.5f);
+		myLight->r = 0.5f;
+		myLight->g = 0.25f;
+		myLight->b = 0.01f;
 		break;
 	case MiscID::rune_damage:
 		rune = MiscID::rune_damage;
 		runeObj = new GameObject();
 		runeObj->init(MiscID::rune_damage);
-		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
-		myLight->r = 0.0;
-		myLight->g = 0.5;
-		myLight->b = 0.5;
+		runeObj->moveTo(pos.x, pos.y + 0.1f, pos.z + 0.5f);
+		myLight->r = 0.0f;
+		myLight->g = 0.5f;
+		myLight->b = 0.5f;
 		break;
 	case MiscID::rune_shield:
 		rune = MiscID::rune_shield;
 		runeObj = new GameObject();
 		runeObj->init(MiscID::rune_shield);
-		runeObj->moveTo(pos.x, pos.y + 0.1, pos.z + 0.5);
-		myLight->r = 0.0;
-		myLight->g = 0.5;
-		myLight->b = 0.0;
+		runeObj->moveTo(pos.x, pos.y + 0.1f, pos.z + 0.5f);
+		myLight->r = 0.0f;
+		myLight->g = 0.5f;
+		myLight->b = 0.0f;
 		break;
 	}
 
 	myLight->intensity = 2.0f;
-	myLight->distance = 15.0;
+	myLight->distance = 15.0f;
 	myLight->volume = 1;
 
 	collision = new Rect();
@@ -107,17 +107,17 @@ void Shrine::update(float deltaTime)
 	glm::vec3 runePos = runeObj->readPos();
 	if (runeMove > 0.5f)
 		runeUp = false;
-	if (runeMove < -0.5)
+	if (runeMove < -0.5f)
 		runeUp = true;
 	if (runeUp)
 	{
-		runeObj->moveTo(runePos.x, runePos.y + 0.1*deltaTime);
-		runeMove += 1.0*deltaTime;
+		runeObj->moveTo(runePos.x, runePos.y + 0.1f*deltaTime);
+		runeMove += 1.0f*deltaTime;
 	}
 	else
 	{
-		runeObj->moveTo(runePos.x, runePos.y - 0.1*deltaTime);
-		runeMove -= 1.0*deltaTime;
+		runeObj->moveTo(runePos.x, runePos.y - 0.1f*deltaTime);
+		runeMove -= 1.0f*deltaTime;
 	}
-	runeObj->rotateTo(0, 1.0*deltaTime, 0);
+	runeObj->rotateTo(0, 1.0f*deltaTime, 0);
 }

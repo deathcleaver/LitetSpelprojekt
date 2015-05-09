@@ -24,7 +24,7 @@ MapChunk::~MapChunk()
 
 	for (int n = 0; n < WorldID::world_count; n++)
 	{
-		for (int k = 0; k < gameObjects[n].size(); k++)
+		for (unsigned int k = 0; k < gameObjects[n].size(); k++)
 		{
 			delete  gameObjects[n][k];
 		}
@@ -90,15 +90,15 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		{
 			glm::vec3 pos;
 			ss >> sub;
-			pos.x = atof(sub.c_str());
+			pos.x = (float)atof(sub.c_str());
 			ss >> sub;
-			pos.y = atof(sub.c_str());
+			pos.y = (float)atof(sub.c_str());
 			ss >> sub;
-			pos.z = atof(sub.c_str());
+			pos.z = (float)atof(sub.c_str());
 			chunkBackground = new GameObject();
 			chunkBackground->init(id);
 			chunkBackground->moveTo(pos);
-			chunkBackground->translate(xOffset * 35, yOffset * -35, 0);
+			chunkBackground->translate((float)(xOffset * 35), (float)(yOffset * -35), 0);
 		}
 
 		// --- Load Shrine ---
@@ -111,15 +111,15 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		{
 			glm::vec3 pos;
 			ss >> sub;
-			pos.x = atof(sub.c_str());
+			pos.x = (float)atof(sub.c_str());
 			ss >> sub;
-			pos.y = atof(sub.c_str());
+			pos.y = (float)atof(sub.c_str());
 			ss >> sub;
-			pos.z = atof(sub.c_str());
+			pos.z = (float)atof(sub.c_str());
 			GameObject* temp = new GameObject();
 			temp->init(MiscID::shrine);
 			temp->moveTo(pos);
-			temp->translate(xOffset * 35, yOffset * -35, 0);
+			temp->translate((float)(xOffset * 35), (float)(yOffset * -35), 0);
 			shrine = new Shrine(temp, MiscID(id));
 		}
 
@@ -133,9 +133,9 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 			{
 				health = new HealthPickup();
 				ss >> sub;
-				float xpos = atof(sub.c_str());
+				float xpos = (float)atof(sub.c_str());
 				ss >> sub;
-				float ypos = atof(sub.c_str());
+				float ypos = (float)atof(sub.c_str());
 				health->init(glm::vec2(xpos + xOffset*35, ypos - yOffset*35));
 			}
 		}
@@ -185,19 +185,19 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				ss >> sub;
 				id = atoi(sub.c_str());//id of the audio file
 				ss >> sub;
-				soundPos.x = atof(sub.c_str()) + xOffset * 35;
+				soundPos.x = (float)(atof(sub.c_str()) + xOffset * 35);
 				ss >> sub;
-				soundPos.y = atof(sub.c_str()) - yOffset * 35;
+				soundPos.y = (float)(atof(sub.c_str()) - yOffset * 35);
 				ss >> sub;
-				soundPos.z = atof(sub.c_str());
+				soundPos.z = (float)atof(sub.c_str());
 				ss >> sub;
-				dist = atof(sub.c_str());// audible distance
+				dist = (float)atof(sub.c_str());// audible distance
 				ss >> sub;
 				loopType = atoi(sub.c_str());//0 = no loop, 1 = regular loop, 2 = interval based loop
 				ss >> sub;
-				minInterval = atof(sub.c_str()); //min loop interval if loopType = 2
+				minInterval = (float)atof(sub.c_str()); //min loop interval if loopType = 2
 				ss >> sub;
-				maxInterval = atof(sub.c_str()); //max loop interval if loopType = 2
+				maxInterval = (float)atof(sub.c_str()); //max loop interval if loopType = 2
 
 				if (soundType == 0)
 					is3D = false;
@@ -223,21 +223,21 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				getline(in, line);
 				ss = stringstream(line);
 				ss >> sub;
-				lights[c].posX = atof(sub.c_str()) + xOffset*35;
+				lights[c].posX = (float)(atof(sub.c_str()) + xOffset * 35);
 				ss >> sub;
-				lights[c].posY = atof(sub.c_str()) - yOffset*35;
+				lights[c].posY = (float)(atof(sub.c_str()) - yOffset * 35);
 				ss >> sub;
-				lights[c].posZ = atof(sub.c_str());
+				lights[c].posZ = (float)atof(sub.c_str());
 				ss >> sub;
-				lights[c].r = atof(sub.c_str());
+				lights[c].r = (float)atof(sub.c_str());
 				ss >> sub;
-				lights[c].g = atof(sub.c_str());
+				lights[c].g = (float)atof(sub.c_str());
 				ss >> sub;
-				lights[c].b = atof(sub.c_str());
+				lights[c].b = (float)atof(sub.c_str());
 				ss >> sub;
-				lights[c].intensity = atof(sub.c_str());
+				lights[c].intensity = (float)atof(sub.c_str());
 				ss >> sub;
-				lights[c].distance = atof(sub.c_str());
+				lights[c].distance = (float)atof(sub.c_str());
 				ss >> sub;
 				lights[c].volume = atoi(sub.c_str());
 			}
@@ -257,7 +257,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 				if (lineAt == 'X')
 				{
 					worldCollide[x][y] = new Rect();
-					worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+					worldCollide[x][y]->initMapRect((float)xOffset, (float)yOffset, x, y, 0);
 				}
 				else
 					worldCollide[x][y] = 0;
@@ -269,7 +269,7 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		//default background
 		chunkBackground = new GameObject();
 		chunkBackground->init(0);
-		chunkBackground->moveTo(xOffset * 35, yOffset * -35);
+		chunkBackground->moveTo((float)(xOffset * 35), (float)(yOffset * -35));
 		
 		//if (xOffset == 0 && yOffset == 0)
 		//{
@@ -358,7 +358,7 @@ void MapChunk::saveChunk(string path)
 	//save map objects
 	for (int n = 0; n < WorldID::world_count; n++)
 	{
-		for (int k = 0; k < gameObjects[n].size(); k++)
+		for (unsigned int k = 0; k < gameObjects[n].size(); k++)
 		{
 			out << gameObjects[n][k]->returnID() << " ";
 			saveObject(gameObjects[n][k], &out);
@@ -435,18 +435,18 @@ void MapChunk::loadObject(ifstream* in)
 	for (int n = 0; n < 4; n++)
 	{
 		iss >> sub;
-		(*mat)[n].x = atof(sub.c_str());
+		(*mat)[n].x = (float)atof(sub.c_str());
 		iss >> sub;
-		(*mat)[n].y = atof(sub.c_str());
+		(*mat)[n].y = (float)atof(sub.c_str());
 		iss >> sub;
-		(*mat)[n].z = atof(sub.c_str());
+		(*mat)[n].z = (float)atof(sub.c_str());
 		iss >> sub;
-		(*mat)[n].w = atof(sub.c_str());
+		(*mat)[n].w = (float)atof(sub.c_str());
 	}
 	//create temp object
 	GameObject* temp = new GameObject();
 	temp->setWorldMat(mat);
-	temp->translate(xOffset * 35, yOffset * -35);
+	temp->translate((float)(xOffset * 35), (float)(yOffset * -35));
 	delete mat;
 
 	temp->init(type);
@@ -922,6 +922,7 @@ bool MapChunk::enemyBlinking(int index, string type)
 		Enemy** enemies = enemyMan->getEnemies(type);
 		return enemies[index]->isBlinking();
 	}
+	return false;
 }
 
 int MapChunk::hasBoss()
@@ -1041,7 +1042,7 @@ GameObject* MapChunk::takeClosestWorldItem(glm::vec3 pos)
 	int index = 0;
 	for (int n = 0; n < WorldID::world_count; n++)
 	{
-		for (int k = 0; k < gameObjects[n].size(); k++)
+		for (unsigned int k = 0; k < gameObjects[n].size(); k++)
 		{
 			//compare
 			float len = glm::length(gameObjects[n][k]->readPos() - pos);
@@ -1075,7 +1076,7 @@ void MapChunk::addRekt(int x, int y)
 	else
 	{
 		worldCollide[x][y] = new Rect();
-		worldCollide[x][y]->initMapRect(xOffset, yOffset, x, y, 0);
+		worldCollide[x][y]->initMapRect((float)xOffset, (float)yOffset, x, y, 0);
 	}
 }
 

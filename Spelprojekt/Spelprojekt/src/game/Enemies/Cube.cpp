@@ -3,7 +3,7 @@
 
 Cube::Cube(glm::vec2 firstPos)
 {
-	scaleFactor(1.8, 1.8, 1.8);
+	scaleFactor(1.8f, 1.8f, 1.8f);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
 	alive = true;
@@ -11,9 +11,9 @@ Cube::Cube(glm::vec2 firstPos)
 	contentIndex = EnemyID::cube;
 	health = 2;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
+	collideRect->initGameObjectRect(&worldMat, 1.8f, 1.8f);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.1, 2.1);
+	hurtRect->initGameObjectRect(&worldMat, 2.1f, 2.1f);
 
 	audibleDistance = 3.0f;
 
@@ -61,9 +61,9 @@ Cube::Cube(Cube* copy)
 	contentIndex = EnemyID::cube;
 	health = copy->health;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1.8, 1.8);
+	collideRect->initGameObjectRect(&worldMat, 1.8f, 1.8f);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.1, 2.1);
+	hurtRect->initGameObjectRect(&worldMat, 2.1f, 2.1f);
 
 	speed = copy->speed;
 	maxSpeed = glm::vec2(12, 30);
@@ -101,7 +101,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
-			jumpTimer += 1.0*deltaTime;
+			jumpTimer += 1.0f*deltaTime;
 		}
 	}
 	else if (playerPos.x > myPos.x)
@@ -119,7 +119,7 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
-			jumpTimer += 1.0*deltaTime;
+			jumpTimer += 1.0f*deltaTime;
 		}
 	}
 	myPos = readPos();

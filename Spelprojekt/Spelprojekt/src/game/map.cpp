@@ -99,8 +99,8 @@ glm::vec3 Map::getChunkMiddle(glm::vec3 playerpos)
 	int idX, idY;
 	getChunkIndex(playerpos, &idX, &idY);
 	float x = 0, y = 0;
-	x = idX * 35;
-	y = -idY * 35;
+	x = idX * 35.0f;
+	y = -idY * 35.0f;
 	return glm::vec3(x, y, 0.0f);
 }
 
@@ -125,8 +125,8 @@ void Map::setUpDraw(glm::vec3 pos)
 
 	upDraw[0]++;
 
-	pos.x = int(pos.x + 17.5f) % 35;
-	pos.y = int(pos.y - 17.5f) % 35;
+	pos.x = (float)(int(pos.x + 17.5f) % 35);
+	pos.y = (float)(int(pos.y - 17.5f) % 35);
 	//how far from edges the map will cull.
 	//numbers bigger than 17 will crash the game
 	int Xbounds = 17;
@@ -204,8 +204,8 @@ void Map::setUpDrawMainMenuCamera(glm::vec3 pos)
 
 	upDraw[0]++;
 
-	pos.x = int(pos.x + 17.5f) % 35;
-	pos.y = int(pos.y - 17.5f) % 35;
+	pos.x = (float)(int(pos.x + 17.5f) % 35);
+	pos.y = (float)(int(pos.y - 17.5f) % 35);
 	
 	int count = 3;
 	//add last if just left it
@@ -240,8 +240,8 @@ void Map::setUpDraw3x2(glm::vec3 pos)
 
 	upDraw[0]++;
 
-	pos.x = int(pos.x + 17.5f) % 35;
-	pos.y = int(pos.y - 17.5f) % 35;
+	pos.x = (float)(int(pos.x + 17.5f) % 35);
+	pos.y = (float)(int(pos.y - 17.5f) % 35);
 
 	//how far from edges the map will cull.
 	//numbers bigger than 17 will crash the game
@@ -449,6 +449,7 @@ bool Map::collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn)
 	{
 		return chunks[idX][idY].playerVsShrine(test, currentSpawn);
 	}
+	return false;
 }
 
 void Map::respawnCheck()
@@ -635,4 +636,5 @@ bool Map::webbedUp(Rect* pRect, glm::vec3 pPos)
 	{
 		return chunks[idX][idY].playerVsWeb(pRect);
 	}
+	return false;
 }

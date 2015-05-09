@@ -19,7 +19,7 @@ void AudioObject::init(bool is3D, int file, glm::vec3 pos, float dist, int loopT
 
 	sourcePointer = NULL;
 	looping = false;
-	intervalLooping == false;
+	intervalLooping = false;
 	nextInstance = 0;
 	time = 0;
 	tracking = false;
@@ -75,7 +75,7 @@ void AudioObject::update(float deltaTime)
 					sourcePointer = Audio::getAudio().playSoundSP(fileId, looping);
 			}
 
-			state == A_PLAYING;
+			state = A_PLAYING;
 		}
 	}	
 }

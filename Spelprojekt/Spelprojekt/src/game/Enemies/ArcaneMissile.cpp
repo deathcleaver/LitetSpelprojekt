@@ -17,12 +17,12 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 {
 	alive = true;
 	worldMat = copy->worldMat;
-	scaleFactor(0.01, 0.01, 0.01);
+	scaleFactor(0.01f, 0.01f, 0.01f);
 	initPos = copy->initPos;
 	moveTo(initPos.x, initPos.y);
 	contentIndex = EnemyID::bat; //same as Web
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 0.3, 0.3);
+	collideRect->initGameObjectRect(&worldMat, 0.3f, 0.3f);
 
 	health = 1;
 	speed = 0.1f;
@@ -66,6 +66,7 @@ int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		flameEffect->update();
 		return 0;
 	}
+	return 0;
 }
 
 void ArcaneMissile::hit(int damage, bool playerRightOfEnemy)

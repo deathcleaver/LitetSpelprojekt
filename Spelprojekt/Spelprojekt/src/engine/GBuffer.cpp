@@ -21,7 +21,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	GLenum* DrawBuffers = new GLenum[nrTextures];
 	
-	for (size_t i = 0; i < nrTextures; i++)
+	for (int i = 0; i < nrTextures; i++)
 	{
 		if (i == 0 && depth)
 		{
@@ -163,7 +163,7 @@ Gbuffer::~Gbuffer()
 
 void Gbuffer::resize(int x, int y)
 {
-	for (size_t i = 0; i < nrTextures; i++)
+	for (int i = 0; i < nrTextures; i++)
 	{
 		rTexture[i].resize(x, y);
 	}
@@ -249,7 +249,7 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 {
 
 	// bind textures
-	for (size_t i = 1; i < nrTextures; i++)
+	for (int i = 1; i < nrTextures; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, rTexture[i].getTargetId());
@@ -360,8 +360,8 @@ void Gbuffer::renderRekts(const Map* map, const ContentManager* content)
 					for (int yIndex = 0; yIndex < 35; yIndex++)
 						if (chunks[upDraw[x]][upDraw[y]].worldCollide[xIndex][yIndex] != NULL)
 						{
-							pos.x = (-17 + upDraw[x] * 35) + xIndex;
-							pos.y = (17 - upDraw[y] * 35) - yIndex;
+							pos.x = (float)((-17 + upDraw[x] * 35) + xIndex);
+							pos.y = (float)((17 - upDraw[y] * 35) - yIndex);
 							pos.z = 0;
 							temprekt.moveTo(pos);
 							temprekt.bindWorldMat(shaderRektPtr, &uniformRektModel);
@@ -373,7 +373,7 @@ void Gbuffer::renderRekts(const Map* map, const ContentManager* content)
 void Gbuffer::generate(int x, int y)
 {
 	rTexture = new RenderTarget[nrTextures];
-	for (size_t i = 0; i < nrTextures; i++)
+	for (int i = 0; i < nrTextures; i++)
 	{
 		if (i == 0 && depth)
 		{
