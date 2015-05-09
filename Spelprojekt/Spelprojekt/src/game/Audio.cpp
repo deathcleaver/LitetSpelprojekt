@@ -18,7 +18,7 @@ Audio::Audio()
 
 Audio::~Audio()
 {
-
+	shutdown();
 }
 
 bool Audio::init(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE)

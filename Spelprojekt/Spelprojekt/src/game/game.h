@@ -60,7 +60,9 @@ private:
 
 	Progress playerProgress;
 	glm::vec2 savedStartPos;
+	
 	void initSettings();
+	void toggleFullscreen();
 	void saveSettings();
 	void checkForSave();
 	void saveGame();
@@ -84,8 +86,6 @@ public:
 	void update(float deltaTime);
 	void readInput(float deltaTime);
 	void buttonEvents(int buttonEv);
-	
-
 };
 
 #endif
