@@ -18,15 +18,15 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = EnemyID::bat;
 	health = 6;
-	speed = 4.0f;
+	speed = 6.0f;
 	audibleDistance = 2.5f;
 
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 2, 2.5);
+	collideRect->initGameObjectRect(&worldMat, 2, 2);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.5, 2.8);
+	hurtRect->initGameObjectRect(&worldMat, 2.5, 2.5);
 }
 
 Bossghost::~Bossghost()
@@ -124,7 +124,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				state = 1;
 				int posOutOfMirror = rand() % 6;
 				calcDir(posOutOfMirror);
-				ghostTimer = 1.0f;
+				ghostTimer = 6.0f;
 				ghostSpawns = 3;
 			}
 		}
@@ -144,7 +144,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (ghostTimer < FLT_EPSILON && ghostSpawns > 0)
 		{
 			getSpooky(map);
-			ghostTimer = 1.0f;
+			ghostTimer = 6.0f;
 			ghostSpawns--;
 		}
 		else if (ghostSpawns == 0)
@@ -219,6 +219,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
 	}
 	hurtRect->update();
+	collideRect->update();
 	if (invulnTimer > FLT_EPSILON)
 		invulnTimer -= 1.0f*deltaTime;
 	return 0;
@@ -240,6 +241,7 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 			Debug::DebugOutput("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 			state = 3;
+			calcDir(-1);
 		}
 		else if (alive == true)
 		{

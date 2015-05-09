@@ -47,11 +47,19 @@ public:
 	{
 		if (!inMirror)
 			return hurtRect;
+		return 0;
 	}
 
 	int getState()
 	{
 		return state;
+	}
+
+	Rect* getRekt()
+	{
+		if (!inMirror && invulnTimer < FLT_EPSILON)
+			return collideRect;
+		return 0;
 	}
 };
 

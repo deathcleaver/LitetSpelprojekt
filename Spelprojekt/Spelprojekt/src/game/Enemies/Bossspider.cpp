@@ -36,6 +36,7 @@ void Bossspider::init()
 	if (!isInit)
 	{
 		worldMat = glm::mat4(1);
+		rotateTo(3.14159265f, 0, 0);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
@@ -45,6 +46,7 @@ void Bossspider::init()
 		collideRect->update();
 		hurtRect->update();
 
+		speed = glm::vec2(8.0f, 0.0f);
 		currentMode = -1;
 		webTimer = 2.0f;
 		websToShoot = 0;
@@ -83,6 +85,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_spawn, readPos(), audibleDistance, false);
 			currentMode = 0;
+			rotateTo(-3.14159265f, 0, 0);
 		}
 	}
 	else if (currentMode == 0) //Dropping from ceiling
@@ -139,6 +142,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			if (speed.y >= 0)
 			{
+				rotateTo(3.14159265f, 0, 0);
 				translate(0, -speed.y*deltaTime);
 				currentMode = 3;
 				webTimer = 1.0f;
@@ -165,6 +169,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		webTimer -= 1.0*deltaTime;
 		if (webTimer < FLT_EPSILON && websToShoot == 0)
 		{
+			rotateTo(-3.14159265f, 0, 0);
 			currentMode = 0;
 			Debug::DebugOutput("Modeswitch to 0\n");
 		}
