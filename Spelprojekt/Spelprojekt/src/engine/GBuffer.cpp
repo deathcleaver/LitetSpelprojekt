@@ -188,12 +188,12 @@ void Gbuffer::pushLights(Light* light, int lightsAdded)
 
 	for (int  i = 0; i < lightsAdded && i < 1000; i++)
 	{
-		if (light[i].volume == 0 || light[i].volume == 1)
+		if ((light[i].volume == 0 || light[i].volume == 1) && nrLight < 1000)
 		{
 			glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), 1 * sizeof(Light), &light[i]);
 			nrLight++;
 		}
-		if (light[i].volume == 2 || light[i].volume == 1)
+		if ((light[i].volume == 2 || light[i].volume == 1) && nrLightGlow < 1000)
 		{
 			glBufferSubData(GL_ARRAY_BUFFER, nrLightGlow * sizeof(Light), 1 * sizeof(Light), &light[i]);
 			nrLightGlow++;
