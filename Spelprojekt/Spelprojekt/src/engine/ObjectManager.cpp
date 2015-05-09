@@ -351,8 +351,14 @@ void ObjectManager::loadMonsterObjs()
 	Object* bossBat1 = new Object("src/meshes/Enemies/BatBossBack.v", "src/textures/bossBat.bmp");
 	Object* bossBat2 = new Object("src/meshes/Enemies/BatBossFront.v", "src/textures/bossBat.bmp");
 	add = new AnimationObject(bossBat1, bossBat2, 0.5f, 0.24f);
-
 	objects[OBJ::ENEMY].push_back(add);
+
+	//Maexxna
+	Object* Maexxna1 = new Object("src/meshes/Enemies/MaexxnaWalking.v", "src/textures/Maexxna.bmp");
+	Object* Maexxna2 = new Object("src/meshes/Enemies/MaexxnaWalking2.v", "src/textures/Maexxna.bmp");
+	add = new AnimationObject(Maexxna1, Maexxna2, 0.5f, 0.18f);
+	objects[OBJ::ENEMY].push_back(add);
+
 }
 
 void ObjectManager::loadMiscObjs()

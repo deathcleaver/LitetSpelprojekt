@@ -519,7 +519,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						facecount = content->bind(OBJ::ENEMY, id);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 					lastid = id;
-					animCheck->enemyUpdate[EnemyID::batboss] = 1;
+					animCheck->enemyUpdate[id] = 1;
 				}
 			}
 

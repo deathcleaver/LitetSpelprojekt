@@ -10,7 +10,7 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = EnemyID::spider;
+	contentIndex = EnemyID::maexxna;
 	health = 6;
 	speed = glm::vec2(8.0f, 0.0f);
 	audibleDistance = 10.0f;
@@ -36,7 +36,6 @@ void Bossspider::init()
 	if (!isInit)
 	{
 		worldMat = glm::mat4(1);
-		scaleFactor(3, 3, 2);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
@@ -113,7 +112,6 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				facingRight = false;
 				worldMat = glm::mat4(1);
-				scaleFactor(3, 3, 2);
 				moveTo(pos.x, pos.y);
 				rotateTo(0, 3.14159265f, 0);
 			}
@@ -121,7 +119,6 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				facingRight = true;
 				worldMat = glm::mat4(1);
-				scaleFactor(3, 3, 2);
 				moveTo(pos.x, pos.y);
 			}
 			speed.x = -speed.x;
