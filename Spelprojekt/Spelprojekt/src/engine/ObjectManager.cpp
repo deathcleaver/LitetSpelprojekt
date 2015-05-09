@@ -330,8 +330,8 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//spider
-	Object* spider1 = new Object("src/meshes/Enemies/SpiderWalk1.v", "src/textures/Red.bmp");
-	Object* spider2 = new Object("src/meshes/Enemies/SpiderWalk2.v", "src/textures/Red.bmp");
+	Object* spider1 = new Object("src/meshes/Enemies/SpiderWalk3.v", "src/textures/Red.bmp");
+	Object* spider2 = new Object("src/meshes/Enemies/SpiderWalk4.v", "src/textures/Red.bmp");
 	add = new AnimationObject(spider1, spider2, 0.5f, 0.1f);
 	objects[OBJ::ENEMY].push_back(add);
 
