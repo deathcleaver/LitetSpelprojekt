@@ -8,16 +8,26 @@ class Bossghost : public Enemy
 private:
 	Rect* hurtRect;
 
-	int posOutOfMirror; //0 = top left, 1 = mid left, 2 = bot left, 3 = top right, 4 = mid right, 5 = bot right
-	glm::vec2 dirToMid;
+	float topMidBot[3];
+	float leftRight[2];
+	glm::vec2 dirToFly;
+	glm::vec2 currentGoal;
 	float movementScale;
 	float speed;
 	float invulnTimer;
 	bool isInit;
 
 	bool inMirror;
-	int state; //-1 = spawning. 0 = Jumping out of mirror. 2 = Flying outside of mirror. 3 = Flying into mirror. 4 = Flying inside mirror.
+	int state; //-1 = spawning. 0 = Jumping out of mirror. 2 = Flying outside of mirror. 3 = Missile Barrage. 4 = Flying into mirror. 5 = Flying inside mirror.
 	float stateTimer;
+	float ghostTimer;
+	int ghostSpawns;
+
+	void calcDir(int posOutOfMirror);
+	bool reachedDestination();
+	void shootMissile(glm::vec3 playerPos, Map* map, bool followPlayer);
+	void getSpooky(Map* map);
+	int missilesLeft;
 public:
 	~Bossghost();
 	Bossghost(glm::vec2 firstPos);
