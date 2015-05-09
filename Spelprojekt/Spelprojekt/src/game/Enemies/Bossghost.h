@@ -22,6 +22,7 @@ private:
 	float stateTimer;
 	float ghostTimer;
 	int ghostSpawns;
+	int lastPos;
 
 	void calcDir(int posOutOfMirror);
 	bool reachedDestination();

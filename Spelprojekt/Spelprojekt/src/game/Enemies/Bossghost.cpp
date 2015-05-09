@@ -79,6 +79,7 @@ void Bossghost::init()
 
 		state = -1;
 		stateTimer = 5.0f;
+		lastPos = -1;
 	}
 	else
 	{
@@ -123,6 +124,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				state = 1;
 				int posOutOfMirror = rand() % 6;
+				while (posOutOfMirror == lastPos)
+				{
+					posOutOfMirror = rand() % 6;
+				}
+				lastPos = posOutOfMirror;
 				calcDir(posOutOfMirror);
 				ghostTimer = 6.0f;
 				ghostSpawns = 3;
@@ -166,6 +172,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			state = 1;
 			int posOutOfMirror = rand() % 6;
+			while (posOutOfMirror == lastPos)
+			{
+				posOutOfMirror = rand() % 6;
+			}
+			lastPos = posOutOfMirror;
 			calcDir(posOutOfMirror);
 		}
 	}
@@ -216,6 +227,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (reachedDestination())
 		{
 			int posInMirror = rand() % 6;
+			while (posInMirror == lastPos)
+			{
+				posInMirror = rand() % 6;
+			}
+			lastPos = posInMirror;
 			calcDir(posInMirror);
 		}
 		else
