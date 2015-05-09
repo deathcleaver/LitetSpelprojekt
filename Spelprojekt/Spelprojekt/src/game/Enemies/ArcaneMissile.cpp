@@ -20,7 +20,7 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	scaleFactor(0.01f, 0.01f, 0.01f);
 	initPos = copy->initPos;
 	moveTo(initPos.x, initPos.y);
-	contentIndex = EnemyID::bat; //same as Web
+	contentIndex = EnemyID::spikes; //same as Web
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.3f, 0.3f);
 
