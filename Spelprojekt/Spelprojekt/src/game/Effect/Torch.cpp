@@ -128,7 +128,7 @@ void Torch::update()
 	lights[0].volume = 1;
 	timeLeft[0] = timeStart[0] = 1.0f;
 
-	for (int i = 1; i < currentLights; i++)
+	for (int i = 1; i < nrLights; i++)
 	{
 		if (timeLeft[i] < 0)
 		{
@@ -167,7 +167,7 @@ void Torch::update()
 
 void Torch::fade()
 {
-	for (int i = 0; i < currentLights; i++)
+	for (int i = 0; i < nrLights; i++)
 	{
 		if (timeLeft[i] >= 0.0f)
 		{

@@ -12,6 +12,7 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 	flameEffect->getEffect()->init(firstPos.x, firstPos.y, 0);
 	flameEffect->getEffect()->setParticleColor(0.5f, 0.8f, 0.8f);
 	flameEffect->getEffect()->timeChangeColor(false, false, true);
+	((Torch*)flameEffect->getEffect())->setIntensity(15);
 	deathTimer = 3.0f;
 }
 
@@ -33,6 +34,7 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	flameEffect = new Effect();
 	flameEffect->reCreate(EffectType::torch);
 	flameEffect->getEffect()->copy(copy->flameEffect->getEffect());
+	((Torch*)flameEffect->getEffect())->setIntensity(15);
 	
 	direction = copy->direction;
 }
