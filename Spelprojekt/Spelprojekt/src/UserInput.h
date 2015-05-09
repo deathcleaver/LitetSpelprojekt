@@ -4,6 +4,7 @@
 #include <..\glm\glm.hpp>
 #include <..\glm\gtc\matrix_transform.hpp>
 #include <..\glm\gtc\quaternion.hpp>
+#include "Gamepad.h"
 
 using namespace glm;
 
@@ -96,7 +97,7 @@ public:
 	bool getKeyNumberState(int n);
 	void resetZoomViewDir();
 	bool updateMouse();
-	void cameraPan(vec3 moveTo, float delay, float deltaTime, bool playerPeak = false);
+	void cameraPan(vec3 moveTo, float delay, float deltaTime, Gamepad* pad, bool playerPeak = false);
 	void setMenuCamDir();
 	void setpos(vec3 inpos, vec3 viewdir);
 };
