@@ -8,6 +8,7 @@ class Bossghost : public Enemy
 private:
 	Rect* hurtRect;
 
+	int posOutOfMirror; //0 = top left, 1 = mid left, 2 = bot left, 3 = top right, 4 = mid right, 5 = bot right
 	glm::vec2 dirToMid;
 	float movementScale;
 	float speed;
