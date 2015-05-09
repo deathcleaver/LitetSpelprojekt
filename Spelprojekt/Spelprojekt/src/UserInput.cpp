@@ -460,7 +460,7 @@ bool UserInput::getKeyNumberState(int n)
 	return false;
 }
 
-void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, bool playerpeek)
+void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, Gamepad* pad, bool playerpeek)
 {
 	glm::vec3 oldPos = pos;
 	float keepZ = pos.z;
@@ -479,6 +479,22 @@ void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, bool playe
 		A = false;
 		W = false;
 		S = false;
+	}
+	else
+	{
+		float axesX, axesY;
+		if (pad->joyStickDetected())
+		{
+			pad->getAxesValues(1, axesX, axesY); // right stick
+		}
+		else
+		{
+			axesX = 0;
+			axesY = 0;
+		}
+
+		toTarget.x += (7 * axesX);
+		toTarget.y -= (7 * axesY);
 	}
 	pos = pos + (toTarget * deltaTime * factor);
 	pos.z = keepZ;

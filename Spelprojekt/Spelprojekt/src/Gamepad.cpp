@@ -151,21 +151,11 @@ void Gamepad::update(float deltaTime)
 
 		if (joyButtons != NULL && joyAxes != NULL)
 		{
-
 			// buttons test
 			for (int i = 0; i < buttonCount; i++)
 			{
 				isButtonPressed(i);
 			}
-
-			// axes
-			float x, y;
-
-			// left stick
-			getAxesValues(0, x, y);
-
-			// right stick
-			getAxesValues(1, x, y);
 		}
 	}
 }
@@ -203,7 +193,7 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 	{
 		if (joyButtons != NULL)
 		{
-			if (joyButtons[button])
+			if (joyButtons[button]) // buttons is pressed
 			{
 				if (debugging)
 					Debug::DebugOutput("Pressed button: %s\n", getButtonSymbol(button));
@@ -213,10 +203,10 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 					buttonsStates[button] = true;
 					return true;
 				}
-				else
+				else // button is held down
 					return false;
 			}
-			else
+			else // button is not pressed
 			{
 				buttonsStates[button] = false;
 			}
@@ -228,37 +218,29 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 
 void Gamepad::getAxesValues(int axes, float &x, float &y)
 {
-	if (joyStick != -1)
+	if (joyStick > -1)
 	{
 		if (joyAxes != NULL) // gamepad detected
 		{
 			if (axes == 0) // left stick
 			{
-				if (x > DEADZONE || x < -DEADZONE)
-					x = joyAxes[0];
-				else
-					x = 0;
-
-				if (y > DEADZONE || y < -DEADZONE)
-					y = joyAxes[1];
-				else y = 0;
+				x = joyAxes[0];
+				y = joyAxes[1];
 			}
 			else if (axes == 1) // right stick
-			{
-				if (x > DEADZONE || x < -DEADZONE)
-					x = joyAxes[2];
+			{			
+				if (axesCount > 4) // 2 stores the trigger "axis" in xinput mode
+					x = joyAxes[4];
 				else
-					x = 0;
+					x = joyAxes[2];
+				y = joyAxes[3];
+			}
 
-				if (y > DEADZONE || y < -DEADZONE)
-					y = joyAxes[3];
-				else y = 0;
-			}
-			else // no gamepad detected
-			{
+			if (!(x > DEADZONE || x < -DEADZONE))
 				x = 0;
+
+			if (!(y > DEADZONE || y < -DEADZONE))
 				y = 0;
-			}
 
 			if (debugging)
 				Debug::DebugOutput("Left Stick:(%f,%f)\n", x, y);
