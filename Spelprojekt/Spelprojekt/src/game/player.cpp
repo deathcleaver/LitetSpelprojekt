@@ -365,7 +365,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			if (speed.x > 0)// && !jumping)
 				speed.x = 0;
 			speed.x -= acceleration.x;
-			if (speed.x < -maxSpeed.x)
+			if (speed.x < -maxSpeed.x*3)
 				speed.x = -maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
@@ -375,7 +375,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			if (speed.x < 0)// && !jumping)
 				speed.x = 0;
 			speed.x += acceleration.x;
-			if (speed.x > maxSpeed.x)
+			if (speed.x > maxSpeed.x*3)
 				speed.x = maxSpeed.x;
 			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
@@ -384,7 +384,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			if (speed.y < 0)// && !jumping)
 				speed.y = 0;
 			speed.y += acceleration.x;
-			if (speed.y > maxSpeed.x)
+			if (speed.y > maxSpeed.x*3)
 				speed.y = maxSpeed.x;
 			moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 		}
@@ -393,7 +393,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			if (speed.y > 0)// && !jumping)
 				speed.y = 0;
 			speed.y -= acceleration.x;
-			if (speed.y < -maxSpeed.x)
+			if (speed.y < -maxSpeed.x*3)
 				speed.y = -maxSpeed.x;
 			moveTo(tempPos.x, tempPos.y += speed.y * deltaTime, 0);
 		}
