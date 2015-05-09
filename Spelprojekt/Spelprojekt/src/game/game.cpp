@@ -533,6 +533,7 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(4) : // Continue menu button 
 	{
+		playerintrorun = false;
 		delete player;
 		player = new Player();
 		player->init();

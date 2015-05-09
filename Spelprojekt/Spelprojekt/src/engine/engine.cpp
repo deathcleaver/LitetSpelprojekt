@@ -287,6 +287,13 @@ void Engine::renderWorld()
 	//render chunk world objects
 	for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
 	{
+		if (WoID == WorldID::ghost_platform)
+		{
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);
+			glColorMask(0, 0, 1, 1);
+			glEnable(GL_CULL_FACE);
+		}
+
 		for (int n = 0; n < upDraw[0]; n++) // all chunks
 		{
 			int x = n * 2 + 1;
@@ -304,6 +311,13 @@ void Engine::renderWorld()
 						lastid = id;
 					}
 				}
+		}
+
+		if (WoID == WorldID::ghost_platform)
+		{
+			glColorMask(1, 1, 1, 1);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glDisable(GL_CULL_FACE);
 		}
 	}
 	lastid = -1;

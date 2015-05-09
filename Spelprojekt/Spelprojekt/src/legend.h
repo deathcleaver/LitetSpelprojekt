@@ -80,7 +80,7 @@ enum WorldID
 	tornwall,
 	mansionfloor,
 	mansionflooredge,
-
+	ghost_platform,
 	world_count, //leave this last
 };
 

@@ -301,6 +301,10 @@ void ObjectManager::loadMapObjs()
 	//MansionFlooredge
 	add = new AnimationObject("src/meshes/Ghost/mansionflooredge.v", "src/textures/Ghost/floor.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//ghost block
+	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/white.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
