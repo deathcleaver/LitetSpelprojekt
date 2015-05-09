@@ -24,6 +24,7 @@ private:
 	Enemy** webShots; int shotCount, shotMax;
 	Enemy** spellbooks; int spellbookCount, spellbookMax;
 	Enemy** missiles; int missileCount, missileMax;
+	Enemy** deathboxes; int deathCount, deathMax;
 	
 	Enemy* boss;
 	void addBoss(string type, glm::vec2 pos);

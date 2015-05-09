@@ -535,6 +535,10 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 					Audio::getAudio().playSound(SoundID::player_hurt, false);
 					Audio::getAudio().playSound(SoundID::player_resurrected, false); //player_resurrected
 				}
+				if (result.z > 5.0f)
+				{
+					execute(map);
+				}
 			}
 		}
 		else

@@ -574,6 +574,21 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("Deathbox");
+	nrOfEnemies = enemyMan->size("Deathbox");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		Rect* enemyRect = enemies[c]->getRekt();
+		if (enemyRect)
+		{
+			if (enemyRect->intersects(playerRect))
+			{
+				hit = enemies[c]->readPos();
+				hit.z = 10.0f;
+				return hit;
+			}
+		}
+	}
 	enemies = enemyMan->getEnemies("Cube");
 	nrOfEnemies = enemyMan->size("Cube");
 	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)

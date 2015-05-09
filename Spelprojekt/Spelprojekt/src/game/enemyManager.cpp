@@ -15,6 +15,7 @@
 #include "Enemies/Webshot.h"
 #include "Enemies/Spellbook.h"
 #include "Enemies/ArcaneMissile.h"
+#include "Enemies/Deathbox.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -54,6 +55,9 @@ EnemyManager::~EnemyManager()
 	for (int c = 0; c < missileCount; c++)
 		delete missiles[c];
 	delete[]missiles;
+	for (int c = 0; c < deathCount; c++)
+		delete deathboxes[c];
+	delete[]deathboxes;
 
 	if (boss)
 		delete boss;
@@ -83,6 +87,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	spellbooks = new Enemy*[spellbookMax];
 	missileCount = 0; missileMax = 5;
 	missiles = new Enemy*[missileMax];
+	deathCount = 0; deathMax = 5;
+	deathboxes = new Enemy*[deathMax];
 
 	boss = 0;
 	string line;
@@ -165,6 +171,9 @@ void EnemyManager::save(ofstream* out, int xOffset, int yOffset)
 	
 	for (int n = 0; n < spellbookCount; n++)
 		*out << "Spellbook " << spellbooks[n]->readPos().x - xOffset * 35 << " " << spellbooks[n]->readPos().y + yOffset * 35 << endl;
+
+	for (int n = 0; n < spellbookCount; n++)
+		*out << "Deathbox " << deathboxes[n]->readPos().x - xOffset * 35 << " " << deathboxes[n]->readPos().y + yOffset * 35 << endl;
 }
 
 void EnemyManager::initEmpty()
@@ -188,6 +197,8 @@ void EnemyManager::initEmpty()
 	spellbooks = 0;
 	missileCount = -1;
 	missiles = 0;
+	deathCount = -1;
+	deathboxes = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -381,6 +392,8 @@ int EnemyManager::size(string type)
 		return spellbookCount;
 	if (type == "Missile")
 		return missileCount;
+	if (type == "Deathbox")
+		return deathCount;
 
 	return 0;
 }
@@ -393,6 +406,13 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		spikeCount++;
 		if (spikeCount == spikeMax)
 			expandEnemyArray(spikes, spikeMax);
+	}
+	if (type == "Deathbox")
+	{
+		deathboxes[deathCount] = new Deathbox(pos);
+		deathCount++;
+		if (deathCount == deathMax)
+			expandEnemyArray(deathboxes, deathMax);
 	}
 	if (type == "Bat")
 	{
@@ -472,6 +492,8 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return spellbooks[index]->bindWorldMat(shader, uniform);
 	else if (type == "Missile")
 		return missiles[index]->bindWorldMat(shader, uniform);
+	else if (type == "Deathbox")
+		return deathboxes[index]->bindWorldMat(shader, uniform);
 
 	return -1;
 }
@@ -498,6 +520,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return spellbooks;
 	if (type == "Missile")
 		return missiles;
+	if (type == "Deathbox")
+		return deathboxes;
 	return 0;
 }
 
