@@ -158,6 +158,9 @@ enum SoundID
 	boss_spider_hurt = 48,
 	boss_spider_death = 49,
 	boss_spider_webshot = 50,
+	boss_ghost_laugh = 52,
+	boss_ghost_hurt = 53,
+	boss_ghost_death = 54,
 	// enemies
 	enemy_slime_jump = 14,
 	enemy_slime_hurt = 15,

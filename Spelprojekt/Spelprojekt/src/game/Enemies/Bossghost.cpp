@@ -19,7 +19,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	contentIndex = EnemyID::bat;
 	health = 6;
 	speed = 6.0f;
-	audibleDistance = 2.5f;
+	audibleDistance = 5.0f;
 
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
@@ -75,7 +75,7 @@ void Bossghost::init()
 		alive = true;
 		health = 6;
 		collideRect->update();
-		Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
+		Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 
 		state = -1;
 		stateTimer = 5.0f;
@@ -178,7 +178,10 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(0, 0, -2.0f*deltaTime);
 				pos = readPos();
 				if (pos.z < -2.0f)
+				{
 					inMirror = true;
+					Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
+				}
 			}
 			else
 				translate(0, 0, 2.0f*deltaTime);
@@ -239,7 +242,7 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
+			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
 			state = 3;
 			calcDir(-1);
 		}
@@ -247,7 +250,7 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 		{
 			alive = false;
 			Debug::DebugOutput("Boss is dead \n");
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false);//boss_bat_death
+			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_death, readPos(), audibleDistance, false);//boss_bat_death
 		}
 	}
 }
