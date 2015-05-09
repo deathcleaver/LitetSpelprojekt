@@ -9,11 +9,9 @@ class ArcaneMissile : public Enemy
 private:
 	glm::vec2 direction;
 	float speed;
+	float deathTimer;
 
 	Effect* flameEffect;
-
-	bool deleteMe;
-
 public:
 	ArcaneMissile(glm::vec2 firstPos);
 	ArcaneMissile(ArcaneMissile* copy);

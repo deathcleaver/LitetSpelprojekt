@@ -1,6 +1,7 @@
 #include "ArcaneMissile.h"
 #include "../Web.h"
 #include "../map.h"
+#include "../Effect/Torch.h"
 
 ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 {
@@ -11,16 +12,18 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 	flameEffect->getEffect()->init(firstPos.x, firstPos.y, 0);
 	flameEffect->getEffect()->setParticleColor(0.5f, 0.8f, 0.8f);
 	flameEffect->getEffect()->timeChangeColor(false, false, true);
+	deathTimer = 3.0f;
 }
 
 ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 {
 	alive = true;
 	worldMat = copy->worldMat;
+	deathTimer = copy->deathTimer;
 	scaleFactor(0.01f, 0.01f, 0.01f);
 	initPos = copy->initPos;
 	moveTo(initPos.x, initPos.y);
-	contentIndex = EnemyID::bat; //same as Web
+	contentIndex = EnemyID::spikes;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.3f, 0.3f);
 
@@ -51,6 +54,12 @@ void ArcaneMissile::init()
 
 int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
+	deathTimer -= 1.0*deltaTime;
+	if (deathTimer < FLT_EPSILON)
+	{
+		alive = false;
+		return 1;
+	}
 	if (alive)
 	{
 		speed += speed*0.05f;
@@ -66,7 +75,6 @@ int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		flameEffect->update();
 		return 0;
 	}
-	return 0;
 }
 
 void ArcaneMissile::hit(int damage, bool playerRightOfEnemy)
