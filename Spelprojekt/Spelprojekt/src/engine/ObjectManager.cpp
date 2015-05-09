@@ -420,20 +420,15 @@ void ObjectManager::update(UpdateAnimCheck* animCheck)
 	myPlayer->update();
 	for (int i = 0; i < WorldID::world_count; i++)
 	{
-		if (objects[WORLD][i])
 			objects[WORLD][i]->update();
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
-		if (objects[ENEMY][i])
-		{
 		if (animCheck->enemyUpdate[i])
 			objects[ENEMY][i]->update();
 	}
-	}
 	for (int i = 0; i < MiscID::misc_count; i++)
 	{
-		if (objects[MISC][i])
 		objects[MISC][i]->update();
 	}
 }
