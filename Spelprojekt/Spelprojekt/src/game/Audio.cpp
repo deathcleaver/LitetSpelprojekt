@@ -18,7 +18,7 @@ Audio::Audio()
 
 Audio::~Audio()
 {
-
+	shutdown();
 }
 
 bool Audio::init(float musicV, float soundV, float masterV, bool musicE, bool soundE, bool audioE)
@@ -285,6 +285,10 @@ void Audio::update(float deltaTime)
 					musicSources[i].volume = 0.0f;
 					alSourceStop(musicSources[i].source);
 				}
+				alSourcef(musicSources[i].source, AL_GAIN, musicSources[i].volume * masterVolume);
+			}
+			else // audio re-enabled
+			{
 				alSourcef(musicSources[i].source, AL_GAIN, musicSources[i].volume * masterVolume);
 			}
 		}

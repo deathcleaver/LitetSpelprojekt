@@ -85,8 +85,6 @@ Game::~Game()
 		delete updateAnimCheck;
 	if (gamePad)
 		delete gamePad;
-	//clean audio buffers
-	Audio::getAudio().shutdown();
 }
 
 void Game::init(GLFWwindow* windowRef)
@@ -135,11 +133,11 @@ void Game::init(GLFWwindow* windowRef)
 	//start audio
 	Audio::getAudio().init(.5f, .5f, 1.0f, true, true, false);
 
-	// read from settings file
-	initSettings();
-
 	// do not delete in this class
 	this->windowRef = windowRef;
+
+	// read from settings file
+	initSettings();
 
 	savedStartPos = glm::vec2(-20, -20);
 	checkForSave();
@@ -239,7 +237,7 @@ void Game::update(float deltaTime)
 	buttonEvents(gui->update((int)current));
 
 	// update gamepad states
-	if (gamePad->joyStickDetected())
+	if (gamePad->joyStickDetected() && !(playerintrorun && current == PLAY))
 		gamePad->update(deltaTime);
 
 	//dept of field, on/off
@@ -433,6 +431,8 @@ void Game::update(float deltaTime)
 		}
 		case(SETTINGS_MAIN) :
 		{
+						cameraUpdate();
+
 						if (in->getESC())
 						{
 							//save player progression
@@ -742,7 +742,36 @@ void Game::initSettings()
 		// apply audio settings
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
 
+		// toggle fullscreen WIP
+		//toggleFullscreen();
+
 		in.close();
+	}
+}
+
+void Game::toggleFullscreen()
+{
+	if (windowRef != NULL)
+	{
+		GLFWwindow* newWindow;
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, false);
+
+		if (configFullscreen) // fullscreen
+			newWindow = glfwCreateWindow(configResX, configResY, "ASUM PROJECT 2", glfwGetPrimaryMonitor(), windowRef);
+		else
+			newWindow = glfwCreateWindow(configResX, configResY, "ASUM PROJECT 2", NULL, windowRef);
+
+		//glfwMakeContextCurrent(newWindow);
+		//glewInit();
+
+		//windowRef = newWindow;
+
+		//glfwDestroyWindow(windowRef);
 	}
 }
 
