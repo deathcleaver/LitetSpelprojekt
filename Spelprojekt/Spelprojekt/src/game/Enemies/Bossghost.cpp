@@ -75,6 +75,7 @@ void Bossghost::init()
 		alive = true;
 		health = 6;
 		collideRect->update();
+		hurtRect->update();
 		Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 
 		state = -1;
