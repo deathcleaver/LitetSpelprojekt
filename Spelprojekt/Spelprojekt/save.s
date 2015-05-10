@@ -1,5 +1,6 @@
-3 1
+0 4
+Bossbat
 No
-No
-No
-0
+Bossghost
+1
+0 4
