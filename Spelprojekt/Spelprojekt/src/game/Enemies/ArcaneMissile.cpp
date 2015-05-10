@@ -14,6 +14,7 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 	flameEffect->getEffect()->timeChangeColor(false, false, true);
 	((Torch*)flameEffect->getEffect())->setIntensity(15);
 	deathTimer = 3.0f;
+	audibleDistance = 10.0f;
 }
 
 ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
@@ -68,6 +69,7 @@ int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
 		if (collidesWithWorld(map))
 		{
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_missile_death, readPos(), audibleDistance, false);
 			alive = false;
 			return 1;
 		}

@@ -178,6 +178,7 @@ enum SoundID
 	enemy_tome_spellcast = 19,
 	enemy_tome_hurt = 55,
 	enemy_tome_death = 56,
+	enemy_missile_death = 57,
 	// items
 	item_hearth_piece = 27,
 	item_hearth_completed = 28,
