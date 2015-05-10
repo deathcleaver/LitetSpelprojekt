@@ -6,8 +6,8 @@ layout(location = 0) out vec4 fragment_color;
 uniform sampler2D back;
 uniform sampler2D depth;
 
-float blurclamp = 0.5;  // max blur amount
-float bias = 2.0;	//aperture - bigger values for shallower depth of field
+float blurclamp = 0.5f;  // max blur amount
+float bias = 1.1f;	//aperture - bigger values for shallower depth of field
 float focus = 0.990f;  // this value comes from ReadDepth script.
 float aspectratio = 1080.0f / 720.0f;
 vec2 aspectcorrect = vec2(1.0,aspectratio);
