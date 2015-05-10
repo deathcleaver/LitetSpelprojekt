@@ -12,7 +12,7 @@ Spellbook::Spellbook(glm::vec2 firstPos)
 	contentIndex = EnemyID::cube;
 	health = 3;
 	speed = 1.0f;
-	audibleDistance = 2.5f;
+	audibleDistance = 4.5f;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
@@ -142,8 +142,11 @@ void Spellbook::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(SoundID::enemy_ghost_death, readPos(), audibleDistance, false); //spellbook_death (currently same as ghost)
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_tome_death, readPos(), audibleDistance, false);
 		}
+		else
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_tome_hurt, readPos(), audibleDistance, false); //spellbook_death (currently same as ghost)
+
 		invulnTimer = 0.6f;
 	}
 	//	//else
