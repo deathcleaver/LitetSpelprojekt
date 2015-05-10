@@ -12,7 +12,8 @@ void Gamepad::init()
 	debugging = false;
 	detectJoystick();
 
-	dpadJump = false;
+	deadZone = 0.1f;
+	dpadJump = true;
 
 	if (joyStickDetected())
 		loadConfig();
@@ -136,6 +137,17 @@ void Gamepad::loadConfig()
 		ss >> sub;
 		buttonBinds.Dpad_Left = atoi(sub.c_str());
 
+		// configs
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		deadZone = atof(sub.c_str());
+
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		dpadJump = atoi(sub.c_str());
+
 		in.close();
 	}
 }
@@ -218,7 +230,7 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 	return GL_FALSE;
 }
 
-bool Gamepad::jump()
+bool Gamepad::jump(int y)
 {
 	if (joyStick > -1)
 	{
@@ -240,7 +252,7 @@ bool Gamepad::climb(int y)
 	{
 		if (joyButtons != NULL && joyAxes != NULL)
 		{
-			if (isButtonPressed(buttonBinds.A) || isButtonPressed(buttonBinds.Dpad_Up) || (y < -DEADZONE))
+			if (isButtonPressed(buttonBinds.A) || isButtonPressed(buttonBinds.Dpad_Up) || (y < -deadZone))
 				return true;
 			else
 				return false;
@@ -270,10 +282,10 @@ void Gamepad::getAxesValues(int axes, float &x, float &y)
 				y = joyAxes[3];
 			}
 
-			if (!(x > DEADZONE || x < -DEADZONE))
+			if (!(x > deadZone || x < -deadZone))
 				x = 0;
 
-			if (!(y > DEADZONE || y < -DEADZONE))
+			if (!(y > deadZone || y < -deadZone))
 				y = 0;
 
 			if (debugging)

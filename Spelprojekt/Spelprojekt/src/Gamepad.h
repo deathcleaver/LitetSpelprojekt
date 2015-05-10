@@ -5,8 +5,6 @@
 #include <fstream>
 #include <istream>
 
-#define DEADZONE 0.2f
-
 using namespace std;
 
 class Gamepad
@@ -50,11 +48,11 @@ public:
 	bool isButtonPressed(int button);
 	bool isButtonPressedSticky(int button);
 	void getAxesValues(int axes, float &x, float &y);
-	float getDeadzone(){ return DEADZONE; };
+	float getDeadzone(){ return deadZone; };
 	Buttons getButtons(){ return buttonBinds; };
 	Axes getAxes(){ return axesBinds; };
 	// game related checks
-	bool jump();
+	bool jump(int y);
 	bool climb(int y);
 
 private:
@@ -65,15 +63,17 @@ private:
 
 private:
 	bool debugging;
-	bool dpadJump;
 	int joyStick = -1;
 	int buttonCount = 0, axesCount = 0;
 	const unsigned char* joyButtons = 0; // array containing button states
 	const float* joyAxes = 0; // array containing axes X/Y values
 	bool* buttonsStates; // used for "sticky keys"
-	//keybinds
+	// keybinds
 	Buttons buttonBinds;
 	Axes axesBinds;
+	// config
+	bool dpadJump;
+	float deadZone;
 };
 
 #endif
