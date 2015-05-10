@@ -1,5 +1,10 @@
 0 : ChuckTesta
-0 : Enemy Count
+5 : Enemy Count
+Web -2 16
+Web -1 16
+Web 0 16
+Web 1 16
+Web 2 16
 -1 NO BACKGROUND
 -1 NO SHRINE
 -1 NO HEALTH PICKUP
