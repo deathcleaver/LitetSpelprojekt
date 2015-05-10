@@ -273,6 +273,8 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 
 bool Bossghost::isBlinking()
 {
+	if (inMirror)
+		return true;
 	if (invulnTimer > 0.0f)
 	{
 		int check = int(invulnTimer * 10);

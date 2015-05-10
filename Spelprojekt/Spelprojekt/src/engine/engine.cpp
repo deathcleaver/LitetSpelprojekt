@@ -192,7 +192,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &bossMirror.projMat[0][0]);
 	}
 
+	bossMirrorPass = true;
 	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+	bossMirrorPass = false;
 
 	// default FBO renderpass
 
@@ -566,14 +568,26 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					}
 				}
 
-				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss") && !chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
+				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss"))
 				{
-					id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
-					if (id != lastid)
-						facecount = content->bind(OBJ::ENEMY, id);
-					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-					lastid = id;
-					animCheck->enemyUpdate[id] = 1;
+					if (bossMirrorPass && chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, id);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+						animCheck->enemyUpdate[id] = 1;
+					}
+					else if (!chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, id);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+						lastid = id;
+						animCheck->enemyUpdate[id] = 1;
+					}
 				}
 			}
 
