@@ -255,7 +255,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		//MoveY
 		if (!isAttacking)
 		{
-			if ((userInput->getKeyState('W') || pad->jump())
+			if ((userInput->getKeyState('W') || pad->jump(axesY))
 				&& noAutoJump)
 			{
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
@@ -556,7 +556,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				flinchTimer -= 1.0f*deltaTime;
 		}
 	}
-	if (!userInput->getKeyState('W') && !pad->jump())
+	if (!userInput->getKeyState('W') && !pad->jump(axesY))
 		noAutoJump = true;
 
 	//Attacking

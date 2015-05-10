@@ -14,3 +14,5 @@
 11 DPR
 12 DPD
 13 DPL
+0.1 // deadzone
+1 //dpad jump
