@@ -565,7 +565,8 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					if (chunks[upDraw[x]][upDraw[y]].shrine)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
-						gBuffer.pushLights(temp, 1);
+						if (temp)
+							gBuffer.pushLights(temp, 1);
 					}
 
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
@@ -598,7 +599,8 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					if (chunks[upDraw[x]][upDraw[y]].shrine)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
-						gBuffer.pushLights(temp, 1);
+						if (temp)
+							gBuffer.pushLights(temp, 1);
 					}
 
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
@@ -629,7 +631,8 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					for (int c = 0; c < cubeCount; c++)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getCubeGlows(c);
-						gBuffer.pushLights(temp, 1);
+						if (temp)
+							gBuffer.pushLights(temp, 1);
 					}
 
 					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
@@ -638,7 +641,8 @@ void Engine::bindLights(const Player* player, Edit* edit)
 						if (!pickup->isTaken())
 						{
 							Light* temp = pickup->getLight();
-							gBuffer.pushLights(temp, 1);
+							if (temp)
+								gBuffer.pushLights(temp, 1);
 						}
 					}
 				}
