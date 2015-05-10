@@ -544,9 +544,6 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 void Engine::bindLights(const Player* player, Edit* edit)
 {
 	// bind chunk lights
-	Light* chunkLights = 0;
-	int lightSize = 0;
-	int nrOfLights = 0;
 	
 	//If moving lights in the editor, force glow
 	if (edit->isMovingLights())
@@ -558,43 +555,17 @@ void Engine::bindLights(const Player* player, Edit* edit)
 			if (upDraw[x] > -1 && upDraw[x] < width)
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
-					chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
+					int lightSize = 0;
+					Light* chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
 					if (lightSize > 0)
 					{
 						gBuffer.pushLights(chunkLights, lightSize);
-						//for (int c = 0; c < lightSize; c++)
-						//{
-						//	light[nrOfLights + c].posX = chunkLights[c].posX;
-						//	light[nrOfLights + c].posY = chunkLights[c].posY;
-						//	light[nrOfLights + c].posZ = chunkLights[c].posZ;
-						//
-						//
-						//	light[nrOfLights + c].r = chunkLights[c].r;
-						//	light[nrOfLights + c].g = chunkLights[c].g;
-						//	light[nrOfLights + c].b = chunkLights[c].b;
-						//
-						//	light[nrOfLights + c].intensity = chunkLights[c].intensity;
-						//	light[nrOfLights + c].distance = chunkLights[c].distance;
-						//	light[nrOfLights + c].volume = 1;
-						//}
-						nrOfLights += lightSize;
 					}
 
 					if (chunks[upDraw[x]][upDraw[y]].shrine)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
 						gBuffer.pushLights(temp, 1);
-						//light[nrOfLights].posX = temp->posX;
-						//light[nrOfLights].posY = temp->posY;
-						//light[nrOfLights].posZ = temp->posZ;
-						//
-						//light[nrOfLights].r = temp->r;
-						//light[nrOfLights].g = temp->g;
-						//light[nrOfLights].b = temp->b;
-						//
-						//light[nrOfLights].intensity = temp->intensity;
-						//light[nrOfLights].distance = temp->distance;
-						//light[nrOfLights].volume = 0;
 					}
 
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
@@ -604,23 +575,7 @@ void Engine::bindLights(const Player* player, Edit* edit)
 						int nrLight = 0;
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c, nrLight);
 						gBuffer.pushLights(temp, nrLight);
-						//for (int i = 0; i < nrLight; i++)
-						//{
-						//	light[nrOfLights + lightSize].posX = temp[i].posX;
-						//	light[nrOfLights + lightSize].posY = temp[i].posY;
-						//	light[nrOfLights + lightSize].posZ = temp[i].posZ;
-						//
-						//	light[nrOfLights + lightSize].r = temp[i].r;
-						//	light[nrOfLights + lightSize].g = temp[i].g;
-						//	light[nrOfLights + lightSize].b = temp[i].b;
-						//
-						//	light[nrOfLights + lightSize].intensity = temp[i].intensity;
-						//	light[nrOfLights + lightSize].distance = temp[i].distance;
-						//	light[nrOfLights + lightSize].volume = 0;
-						//	lightSize++;
-						//}
 					}
-					nrOfLights += lightSize;
 				}
 		}
 	}
@@ -633,141 +588,48 @@ void Engine::bindLights(const Player* player, Edit* edit)
 			if (upDraw[x] > -1 && upDraw[x] < width)
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
-					chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
+					int lightSize = 0;
+					Light* chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
 					if (lightSize > 0)
 					{
 						gBuffer.pushLights(chunkLights, lightSize);
-						//for (int c = 0; c < lightSize; c++)
-						//{
-						//	light[nrOfLights + c].posX = chunkLights[c].posX;
-						//	light[nrOfLights + c].posY = chunkLights[c].posY;
-						//	light[nrOfLights + c].posZ = chunkLights[c].posZ;
-						//
-						//
-						//	light[nrOfLights + c].r = chunkLights[c].r;
-						//	light[nrOfLights + c].g = chunkLights[c].g;
-						//	light[nrOfLights + c].b = chunkLights[c].b;
-						//
-						//	light[nrOfLights + c].intensity = chunkLights[c].intensity;
-						//	light[nrOfLights + c].distance = chunkLights[c].distance;
-						//	light[nrOfLights + c].volume = chunkLights[c].volume;
-						//}
-						nrOfLights += lightSize;
 					}
 
 					if (chunks[upDraw[x]][upDraw[y]].shrine)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
 						gBuffer.pushLights(temp, 1);
-						//light[nrOfLights].posX = temp->posX;
-						//light[nrOfLights].posY = temp->posY;
-						//light[nrOfLights].posZ = temp->posZ;
-						//
-						//light[nrOfLights].r = temp->r;
-						//light[nrOfLights].g = temp->g;
-						//light[nrOfLights].b = temp->b;
-						//
-						//light[nrOfLights].intensity = temp->intensity;
-						//light[nrOfLights].distance = temp->distance;
-						//light[nrOfLights].volume = temp->volume;
-						nrOfLights++;
 					}
 
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
-					lightSize = 0;
 					for (int c = 0; c < flameCount; c++)
 					{
 						int nrLight = 0;
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c, nrLight);
 						gBuffer.pushLights(temp, nrLight);
-						//for (int i = 0; i < nrLight; i++)
-						//{
-						//	light[nrOfLights + lightSize].posX = temp[i].posX;
-						//	light[nrOfLights + lightSize].posY = temp[i].posY;
-						//	light[nrOfLights + lightSize].posZ = temp[i].posZ;
-						//
-						//	light[nrOfLights + lightSize].r = temp[i].r;
-						//	light[nrOfLights + lightSize].g = temp[i].g;
-						//	light[nrOfLights + lightSize].b = temp[i].b;
-						//
-						//	light[nrOfLights + lightSize].intensity = temp[i].intensity;
-						//	light[nrOfLights + lightSize].distance = temp[i].distance;
-						//	light[nrOfLights + lightSize].volume = temp[i].volume;
-						//	lightSize++;
-						//}
 					}
-					//nrOfLights += lightSize;
 
 					int ghostCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Ghost");
-					lightSize = 0;
 					for (int c = 0; c < ghostCount; c++)
 					{
 						int nrLight = 0;
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getGhostLight(c, nrLight);
 						gBuffer.pushLights(temp, nrLight);
-						//for (int i = 0; i < nrLight; i++)
-						//{
-						//	light[nrOfLights + lightSize].posX = temp[i].posX;
-						//	light[nrOfLights + lightSize].posY = temp[i].posY;
-						//	light[nrOfLights + lightSize].posZ = temp[i].posZ;
-						//
-						//	light[nrOfLights + lightSize].r = temp[i].r;
-						//	light[nrOfLights + lightSize].g = temp[i].g;
-						//	light[nrOfLights + lightSize].b = temp[i].b;
-						//
-						//	light[nrOfLights + lightSize].intensity = temp[i].intensity;
-						//	light[nrOfLights + lightSize].distance = temp[i].distance;
-						//	light[nrOfLights + lightSize].volume = temp[i].volume;
-						//	lightSize++;
-						//}
 					}
-					//nrOfLights += lightSize;
 
 					int missileCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
-					lightSize = 0;
 					for (int c = 0; c < missileCount; c++)
 					{
 						int nrLight = 0;
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getMissileLight(c, nrLight);
 						gBuffer.pushLights(temp, nrLight);
-						//for (int i = 0; i < nrLight; i++)
-						//{
-						//	light[nrOfLights + lightSize].posX = temp[i].posX;
-						//	light[nrOfLights + lightSize].posY = temp[i].posY;
-						//	light[nrOfLights + lightSize].posZ = temp[i].posZ;
-						//
-						//	light[nrOfLights + lightSize].r = temp[i].r;
-						//	light[nrOfLights + lightSize].g = temp[i].g;
-						//	light[nrOfLights + lightSize].b = temp[i].b;
-						//
-						//	light[nrOfLights + lightSize].intensity = temp[i].intensity;
-						//	light[nrOfLights + lightSize].distance = temp[i].distance;
-						//	light[nrOfLights + lightSize].volume = temp[i].volume;
-						//	lightSize++;
-						//}
 					}
-					//nrOfLights += lightSize;
 
 					int cubeCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Cube");
 					for (int c = 0; c < cubeCount; c++)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getCubeGlows(c);
 						gBuffer.pushLights(temp, 1);
-						//if (temp)
-						//{
-						//	light[nrOfLights].posX = temp->posX;
-						//	light[nrOfLights].posY = temp->posY;
-						//	light[nrOfLights].posZ = temp->posZ;
-						//
-						//	light[nrOfLights].r = temp->r;
-						//	light[nrOfLights].g = temp->g;
-						//	light[nrOfLights].b = temp->b;
-						//
-						//	light[nrOfLights].intensity = temp->intensity;
-						//	light[nrOfLights].distance = temp->distance;
-						//	light[nrOfLights].volume = temp->volume;
-						//	nrOfLights++;
-						//}
 					}
 
 					HealthPickup* pickup = chunks[upDraw[x]][upDraw[y]].getPickup();
@@ -777,71 +639,25 @@ void Engine::bindLights(const Player* player, Edit* edit)
 						{
 							Light* temp = pickup->getLight();
 							gBuffer.pushLights(temp, 1);
-							//light[nrOfLights].posX = temp->posX;
-							//light[nrOfLights].posY = temp->posY;
-							//light[nrOfLights].posZ = temp->posZ;
-							//
-							//light[nrOfLights].r = temp->r;
-							//light[nrOfLights].g = temp->g;
-							//light[nrOfLights].b = temp->b;
-							//
-							//light[nrOfLights].intensity = temp->intensity;
-							//light[nrOfLights].distance = temp->distance;
-							//light[nrOfLights].volume = temp->volume;
-							//nrOfLights++;
 						}
 					}
 				}
 		}
 	}
 
-	//gBuffer.pushLights(light, nrOfLights);
-
 		
 	int nrLight = 0;
 	Light* runeEffect = player->getRuneLight(nrLight);
-	//for (int i = 0; i < nrLight; i++)
-	//{
-	//	light[nrOfLights + lightSize].posX = runeEffect[i].posX;
-	//	light[nrOfLights + lightSize].posY = runeEffect[i].posY;
-	//	light[nrOfLights + lightSize].posZ = runeEffect[i].posZ;
-	//
-	//	light[nrOfLights + lightSize].r = runeEffect[i].r;
-	//	light[nrOfLights + lightSize].g = runeEffect[i].g;
-	//	light[nrOfLights + lightSize].b = runeEffect[i].b;
-	//
-	//	light[nrOfLights + lightSize].intensity = runeEffect[i].intensity;
-	//	light[nrOfLights + lightSize].distance = runeEffect[i].distance;
-	//	light[nrOfLights + lightSize].volume = runeEffect[i].volume;
-	//	lightSize++;
-	//}
-	//nrOfLights += lightSize;
-
 	gBuffer.pushLights(runeEffect, nrLight);
 
 
 	if (edit->getEditMode() == 2) //light editmode
 	{
 		Light* temp = edit->getLight();
-		gBuffer.pushLights(temp, 1);
-		//if (temp)
-		//{
-		//	light[nrOfLights].posX = temp->posX;
-		//	light[nrOfLights].posY = temp->posY;
-		//	light[nrOfLights].posZ = temp->posZ;
-		//
-		//	light[nrOfLights].r = temp->r;
-		//	light[nrOfLights].g = temp->g;
-		//	light[nrOfLights].b = temp->b;
-		//
-		//	light[nrOfLights].intensity = temp->intensity;
-		//	light[nrOfLights].distance = temp->distance;
-		//	light[nrOfLights].volume = temp->volume;
-		//	nrOfLights++;
-		//}
+		if (temp)
+			gBuffer.pushLights(temp, 1);
 	}
 
-	//gBuffer.pushLights(light, nrOfLights);
 }
 
 void Engine::renderEditObject(Edit* edit)
