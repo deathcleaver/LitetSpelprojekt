@@ -127,8 +127,10 @@ enum MusicID
 	boss_battle_bat = 2, // witcher_battle_bat
 	mine_area_awesome = 3, // mine_track
 	shroom_area = 4, // witcher_dike
-	ghost_area = 5, // witcher_omnious
+	crypt_area = 5, // witcher_omnious
 	boss_battle_spider = 6, // witcher_battle_spider
+	ghost_area = 7, // witcher_dead_city
+	boss_battle_ghost = 8 // witcher_battle_ghost
 };
 
 enum SoundID
@@ -187,7 +189,7 @@ enum SoundID
 	ambient_mining = 35,
 	ambient_owl = 36,
 	ambient_bats = 37,
-	ambient_water_splash = 38,
+	ambient_water_splash = 38
 };
 
 #endif

@@ -47,7 +47,7 @@ Spellbook -11 3
 58 2.9963 0 0 6.97307 0 1 0 -3.91336 0 0 1.97639 0 0 0 0 1
 58 10.0741 0 0 -2.2392 0 5.69722 0 -3.93221 0 0 1 9.2097 0 0 0 1
 58 2.55555 0 0 -3.0485 0 1.02638 0 8.03181 0 0 2.13474 -0.316666 0 0 0 1
--1 : Music ID
+7 : Music ID
 0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 2 : Nr of Lights 
 -3.88574 5.90184 27.2598 1 1 1 1.43262 236.093 1 : LIGHTS
