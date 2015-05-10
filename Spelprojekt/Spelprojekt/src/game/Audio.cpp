@@ -151,13 +151,15 @@ void Audio::loadFiles()
 	soundFiles[16] = "../Audio/Sounds/Enemies/enemy_slime_death.wav";
 	soundFiles[17] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
 	soundFiles[18] = "../Audio/Sounds/Enemies/enemy_flame_death.wav";
-	soundFiles[19] = "../Audio/Sounds/Enemies/enemy_tome_spellcast.wav";
 	soundFiles[20] = "../Audio/Sounds/Enemies/enemy_ghost_hurt.wav";
 	soundFiles[21] = "../Audio/Sounds/Enemies/enemy_ghost_death.wav";
 	soundFiles[22] = "../Audio/Sounds/Enemies/enemy_ghost_moan.wav";
 	soundFiles[23] = "../Audio/Sounds/Enemies/enemy_spider_jump.wav";
 	soundFiles[24] = "../Audio/Sounds/Enemies/enemy_spider_hurt.wav";
 	soundFiles[25] = "../Audio/Sounds/Enemies/enemy_spider_death.wav";
+	soundFiles[19] = "../Audio/Sounds/Enemies/enemy_tome_spellcast.wav";
+	soundFiles[55] = "../Audio/Sounds/Enemies/enemy_tome_hurt.wav";
+	soundFiles[56] = "../Audio/Sounds/Enemies/enemy_tome_death.wav";
 	//items
 	soundFiles[27] = "../Audio/Sounds/Items/item_hearth_piece.wav";
 	soundFiles[28] = "../Audio/Sounds/Items/item_hearth_completed.wav";
