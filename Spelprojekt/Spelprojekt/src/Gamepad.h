@@ -53,6 +53,9 @@ public:
 	float getDeadzone(){ return DEADZONE; };
 	Buttons getButtons(){ return buttonBinds; };
 	Axes getAxes(){ return axesBinds; };
+	// game related checks
+	bool jump();
+	bool climb(int y);
 
 private:
 	void detectJoystick();
@@ -62,12 +65,12 @@ private:
 
 private:
 	bool debugging;
+	bool dpadJump;
 	int joyStick = -1;
 	int buttonCount = 0, axesCount = 0;
 	const unsigned char* joyButtons = 0; // array containing button states
 	const float* joyAxes = 0; // array containing axes X/Y values
 	bool* buttonsStates; // used for "sticky keys"
-
 	//keybinds
 	Buttons buttonBinds;
 	Axes axesBinds;

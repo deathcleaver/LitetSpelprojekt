@@ -12,6 +12,8 @@ void Gamepad::init()
 	debugging = false;
 	detectJoystick();
 
+	dpadJump = false;
+
 	if (joyStickDetected())
 		loadConfig();
 }
@@ -214,6 +216,38 @@ bool Gamepad::isButtonPressedSticky(int button) // "sticky keys for the gamepad"
 	}
 	
 	return GL_FALSE;
+}
+
+bool Gamepad::jump()
+{
+	if (joyStick > -1)
+	{
+		if (joyButtons != NULL && joyAxes != NULL)
+		{
+			if (isButtonPressed(buttonBinds.A) || (isButtonPressed(buttonBinds.Dpad_Up) && dpadJump))
+				return true;
+			else
+				return false;
+		}
+	}
+
+	return false;
+}
+
+bool Gamepad::climb(int y)
+{
+	if (joyStick > -1)
+	{
+		if (joyButtons != NULL && joyAxes != NULL)
+		{
+			if (isButtonPressed(buttonBinds.A) || isButtonPressed(buttonBinds.Dpad_Up) || (y < -DEADZONE))
+				return true;
+			else
+				return false;
+		}
+	}
+
+	return false;
 }
 
 void Gamepad::getAxesValues(int axes, float &x, float &y)

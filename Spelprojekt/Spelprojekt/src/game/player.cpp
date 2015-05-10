@@ -255,7 +255,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		//MoveY
 		if (!isAttacking)
 		{
-			if ((userInput->getKeyState('W') || pad->isButtonPressed(pad->getButtons().A))
+			if ((userInput->getKeyState('W') || pad->jump())
 				&& noAutoJump)
 			{
 				if (jumping && !doubleJump && progressMeter.batboss && flinchTimer < FLT_EPSILON)
@@ -275,7 +275,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 
 
 		//gravity
-		if (userInput->getKeyState('W') || pad->isButtonPressed(pad->getButtons().A))
+		if (userInput->getKeyState('W') || pad->climb(axesY))
 		{
 			if (progressMeter.spiderboss && isInWeb)
 				speed.y += acceleration.y*1.2f;
@@ -556,7 +556,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				flinchTimer -= 1.0f*deltaTime;
 		}
 	}
-	if (!userInput->getKeyState('W') && !pad->isButtonPressed(pad->getButtons().A))
+	if (!userInput->getKeyState('W') && !pad->jump())
 		noAutoJump = true;
 
 	//Attacking
