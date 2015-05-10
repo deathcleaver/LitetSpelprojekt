@@ -75,6 +75,7 @@ void Bossghost::init()
 		alive = true;
 		health = 6;
 		collideRect->update();
+		hurtRect->update();
 		Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 
 		state = -1;
@@ -273,6 +274,8 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 
 bool Bossghost::isBlinking()
 {
+	if (inMirror)
+		return true;
 	if (invulnTimer > 0.0f)
 	{
 		int check = int(invulnTimer * 10);

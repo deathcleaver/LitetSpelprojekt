@@ -85,6 +85,7 @@ private:
 
 	Mirror testMirror;
 	Mirror bossMirror;
+	bool bossMirrorPass = false;
 
 public:
 	void setDoF(bool set);
