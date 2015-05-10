@@ -171,18 +171,7 @@ void Gbuffer::resize(int x, int y)
 
 void Gbuffer::pushLights(Light* light, int lightsAdded)
 {
-	//if (nrLight + lightsAdded <= 100)
-	//{
-	//	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
-	//	glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), lightsAdded * sizeof(Light), light);
-	//	for (int i = 0; i < lightsAdded; i++)
-	//	{
-	//		volume[i] = light[i].volume;
-	//	}
-	//	
-	//	nrLight += lightsAdded;
-	//}
-	
+
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
 
@@ -201,6 +190,29 @@ void Gbuffer::pushLights(Light* light, int lightsAdded)
 	}
 
 }
+
+void Gbuffer::forceGlow(Light* light, int lightsAdded)
+{
+
+	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, lightBufferGlow);
+
+	for (int i = 0; i < lightsAdded && i < 1000; i++)
+	{
+		if ((light[i].volume == 0 || light[i].volume == 1) && nrLight < 1000)
+		{
+			glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), 1 * sizeof(Light), &light[i]);
+			nrLight++;
+		}
+		if (nrLightGlow < 1000)
+		{
+			glBufferSubData(GL_ARRAY_BUFFER, nrLightGlow * sizeof(Light), 1 * sizeof(Light), &light[i]);
+			nrLightGlow++;
+		}
+	}
+
+}
+
 
 void Gbuffer::bind(GLuint target)
 {

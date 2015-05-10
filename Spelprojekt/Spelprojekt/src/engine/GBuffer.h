@@ -31,6 +31,7 @@ public:
 
 	void clearLight();
 	void pushLights(Light* light, int nrLight);
+	void forceGlow(Light* light, int nrLight);
 
 	void applySettings(bool glows);
 

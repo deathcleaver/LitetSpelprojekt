@@ -84,6 +84,7 @@ private:
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
 	Mirror testMirror;
+	Mirror bossMirror;
 
 public:
 	void setDoF(bool set);

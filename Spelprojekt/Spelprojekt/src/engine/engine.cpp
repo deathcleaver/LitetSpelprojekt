@@ -157,6 +157,43 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
 
+	// boss mirror
+
+	if (!bossMirror.isInitialized())
+	{
+		bossMirror.rotateToY(3.1415923565f);
+		bossMirror.scaleFactor(10.04445f, 8.99583f, 1.0f);
+		bossMirror.moveTo(34.09f, -171.0844f, -4.32777f);
+
+		bossMirror.calculateNormal();
+		bossMirror.calcView();
+
+		bossMirror.initGBuffer(gBuffer);
+	}
+
+	bossMirror.mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
+
+
+	// mirror renderPass
+	bossMirror.mirrorBuffer.bind(GL_FRAMEBUFFER);
+	glUseProgram(tempshader);
+	glViewport(0, 0, 400, 400);
+
+	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &bossMirror.viewMat[0][0]);
+	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &bossMirror.projMat[0][0]);
+
+	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &bossMirror.viewMat[0][0]);
+	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &bossMirror.projMat[0][0]);
+
+
+	if (edit->forceRekts)
+	{
+		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &bossMirror.viewMat[0][0]);
+		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &bossMirror.projMat[0][0]);
+	}
+
+	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+
 	// default FBO renderpass
 
 	// bind gbuffer FBO
@@ -187,6 +224,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	//renderMirror
 	testMirror.bindWorldMat(&tempshader, &uniformModel);
 	testMirror.render();
+
+	bossMirror.bindWorldMat(&tempshader, &uniformModel);
+	bossMirror.render();
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -559,14 +599,14 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					Light* chunkLights = chunks[upDraw[x]][upDraw[y]].getLights(lightSize);
 					if (lightSize > 0)
 					{
-						gBuffer.pushLights(chunkLights, lightSize);
+						gBuffer.forceGlow(chunkLights, lightSize);
 					}
 
 					if (chunks[upDraw[x]][upDraw[y]].shrine)
 					{
 						Light* temp = chunks[upDraw[x]][upDraw[y]].shrine->getLight();
 						if (temp)
-							gBuffer.pushLights(temp, 1);
+							gBuffer.forceGlow(temp, 1);
 					}
 
 					int flameCount = chunks[upDraw[x]][upDraw[y]].countEnemies("Flame");
@@ -575,7 +615,7 @@ void Engine::bindLights(const Player* player, Edit* edit)
 					{
 						int nrLight = 0;
 						Light* temp = chunks[upDraw[x]][upDraw[y]].getFlameLight(c, nrLight);
-						gBuffer.pushLights(temp, nrLight);
+						gBuffer.forceGlow(temp, nrLight);
 					}
 				}
 		}

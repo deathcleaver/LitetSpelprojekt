@@ -167,7 +167,7 @@ Cube 1 1
 57 1 0 0 -12.9556 0 1 0 2.01116 0 0 1 1.31944 0 0 0 1
 57 1 0 0 -8.41333 0 1 0 1.96478 0 0 1 -0.501389 0 0 0 1
 57 1.7 0 0 -5.18825 0 1.02638 0 1.95094 0 0 1 -0.580551 0 0 0 1
--1 : Music ID
+7 : Music ID
 0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 2 : Nr of Lights 
 0.69302 12.8471 -1.05556 1 0.258612 0 3.39584 29.7852 1 : LIGHTS
