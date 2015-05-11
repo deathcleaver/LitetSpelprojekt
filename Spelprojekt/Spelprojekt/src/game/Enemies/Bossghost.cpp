@@ -69,6 +69,8 @@ void Bossghost::init()
 		speed = 5.0f;
 		inMirror = true;
 		worldMat = glm::mat4(1);
+		scaleFactor(0.01f, 0.01f, 0.01f);
+		rotateTo(0, 3.141592654f, 0);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
@@ -99,7 +101,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		stateTimer -= 1.0f*deltaTime;
 		if (stateTimer < 2.0f)
 		{
-			scaleAD(1.0f*deltaTime, 1.0f*deltaTime, 1.0f*deltaTime);
+			worldMat = glm::mat4(1);
+			moveTo(pos.x, pos.y);
+			float scaleF = 2.0 - stateTimer;
+			scaleFactor(scaleF, scaleF, scaleF);
+			rotateTo(0, 3.141592654f, 0);
 		}
 		else
 			moveTo(playerPos.x, playerPos.y);
@@ -118,7 +124,10 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				translate(0, 0, -2.0f*deltaTime);
 				pos = readPos();
 				if (pos.z < -2.0f)
+				{
 					inMirror = false;
+					rotateTo(0, 3.141592654f, 0);
+				}
 			}
 			else
 				translate(0, 0, 2.0f*deltaTime);
@@ -190,6 +199,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				pos = readPos();
 				if (pos.z < -2.0f)
 				{
+					rotateTo(0, 3.141592654f, 0);
 					inMirror = true;
 					Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 				}
