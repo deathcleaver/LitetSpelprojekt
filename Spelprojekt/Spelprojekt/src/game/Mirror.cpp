@@ -5,6 +5,8 @@ Mirror::Mirror()
 	initialized = false;
 	sizeX = 400;
 	sizeY = 400;
+
+	teleportLocation = glm::vec2(0, 0);
 }
 
 Mirror::~Mirror()

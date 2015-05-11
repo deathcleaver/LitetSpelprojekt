@@ -27,6 +27,15 @@ public:
 	glm::mat4 viewMat;
 	glm::mat4 projMat;
 
+	void setTeleportLocation(glm::vec2 loc)
+	{
+		teleportLocation = loc;
+	}
+	glm::vec2 getTeleportLocation()
+	{
+		return teleportLocation;
+	}
+
 private:
 
 	int sizeX, sizeY;
@@ -35,7 +44,7 @@ private:
 
 	glm::vec3 normal;
 
-
+	glm::vec2 teleportLocation;
 };
 
 #endif
