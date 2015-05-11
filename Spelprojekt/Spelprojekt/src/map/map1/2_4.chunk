@@ -1,5 +1,14 @@
 0 : ChuckTesta
-0 : Enemy Count
+9 : Enemy Count
+Bat 10 -16
+Flame 2 -5
+Flame 3 -15
+Spider -8 5
+Ghost 4 2
+Ghost 4 -1
+Ghost 5 -10
+Spellbook 7 9
+Spellbook 15 2
 2 0 0 -12 :  BACKGROUND!
 1 -15 3.5 -1 :  SHRINE!
 -1 NO HEALTH PICKUP

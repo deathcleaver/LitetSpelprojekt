@@ -1,8 +1,10 @@
 0 : ChuckTesta
-0 : Enemy Count
+2 : Enemy Count
+Bat -2 1
+Flame -1 -2
 2 0 0 -3 :  BACKGROUND!
 -1 NO SHRINE
--1 NO HEALTH PICKUP
+0 -14 10
 135 :  Number of world objects
 0 2.42593 0 0 16.2616 0 8.54722 0 16.3458 0 0 1 -0.105553 0 0 0 1
 0 2.5037 0 0 13.6036 0 4.66806 0 -0.953476 0 0 0.1 -4.96111 0 0 0 1
