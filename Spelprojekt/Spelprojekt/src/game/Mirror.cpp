@@ -7,6 +7,7 @@ Mirror::Mirror()
 	sizeY = 400;
 
 	teleportLocation = glm::vec2(0, 0);
+	chunkLocation = glm::vec2(0, 0);
 }
 
 Mirror::~Mirror()
