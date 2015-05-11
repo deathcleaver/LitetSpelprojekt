@@ -1,6 +1,8 @@
 #ifndef GAMECONFIG_H
 #define GAMECONFIG_H
 
+#include <vector>
+
 class GameConfig
 {
 public:
