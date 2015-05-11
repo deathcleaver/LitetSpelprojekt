@@ -6,9 +6,6 @@
     <ClCompile Include="src\engine\AnimationObject.cpp">
       <Filter>Source\Engine\GFX</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Audio.cpp">
-      <Filter>Source\Engine\SFX</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\AudioObject.cpp">
       <Filter>Source\Engine\SFX</Filter>
     </ClCompile>
@@ -135,6 +132,9 @@
     <ClCompile Include="src\game\Enemies\Deathbox.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Audio.cpp">
+      <Filter>Source\Engine\SFX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -207,9 +207,6 @@
       <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="src\game\AudioObject.h">
-      <Filter>Header\Engine\SFX</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Audio.h">
       <Filter>Header\Engine\SFX</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\AnimationObject.h">
@@ -291,6 +288,9 @@
     </ClInclude>
     <ClInclude Include="src\game\Enemies\Deathbox.h">
       <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Audio.h">
+      <Filter>Header\Engine\SFX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
