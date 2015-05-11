@@ -292,6 +292,7 @@
     <ClInclude Include="src\game\Audio.h">
       <Filter>Header\Engine\SFX</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

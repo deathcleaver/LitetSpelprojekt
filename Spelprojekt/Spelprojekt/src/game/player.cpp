@@ -475,16 +475,26 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				else if (currentRune == MiscID::rune_damage)
 				{
 					DMG -= 1;
+					
 					//delete runeEffect;
 					//runeEffect = 0;
 					currentRune = 0;
 				}
 				invulnTimer = 1.0f;
-				if (HP > 1)
+				if (HP > 1 && GameConfig::get().configDifficulty != GameConfig::DmonInHell)
 				{
 					if (shield == 0)
 					{
-						HP -= 1;
+						switch (GameConfig::get().configDifficulty)
+						{
+						case GameConfig::Casual:
+							HP -= 1;
+							break;
+
+						case GameConfig::Hardcore:
+							HP -= 2;
+							break;
+						}
 						Audio::getAudio().playSound(SoundID::player_hurt, false);
 					}
 						
@@ -521,7 +531,21 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 					attackTimer = 0.0f;
 					if (currentRune == MiscID::rune_shield)
 					{
-						shield -= 1;
+						switch (GameConfig::get().configDifficulty)
+						{
+						case GameConfig::Casual:
+							shield -= 1;
+							break;
+
+						case GameConfig::Hardcore:
+							shield -= 2;
+							break;
+
+						case GameConfig::DmonInHell:
+							shield = 0;
+							break;
+						}
+
 						Audio::getAudio().playSound(SoundID::player_shield_force, false); //player_shield_force
 					}
 	

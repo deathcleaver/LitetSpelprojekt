@@ -46,8 +46,8 @@ private:
 	void SETTINGS(bool init);
 	void bossprogressInit();
 	int keyUpdate();
-	float SCREENWIDTH = (float)configResX;
-	float SCREENHEIGHT = (float)configResY;
+	float SCREENWIDTH = (float)GameConfig::get().configResX;
+	float SCREENHEIGHT = (float)GameConfig::get().configResY;
 	void modeSwitchesFalse();
 	bool grayContinue = true;
 public:
