@@ -44,7 +44,7 @@ void Bossghost::shootMissile(glm::vec3 playerPos, Map* map, bool followPlayer)
 	if (followPlayer)
 		dir = glm::vec2(playerPos) - glm::vec2(readPos());
 	else
-		dir = glm::vec2(initPos.x, pos.y) - glm::vec2(readPos());
+		dir = glm::vec2(initPos) - glm::vec2(readPos());
 	dir.x = dir.x + (rand() % 3 - 1);
 	dir.y = dir.y + (rand() % 3 - 1);
 	dir = normalize(dir);
@@ -124,7 +124,9 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
-				invulnTimer = 0.5f;
+				if (health <= 3)
+					getSpooky(map);
+				invulnTimer = 1.0f;
 				state = 1;
 				int posOutOfMirror = rand() % 6;
 				if (posOutOfMirror == lastPos)
