@@ -131,7 +131,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	int timerID = startTimer("Render");
 
+	bossMirrorPass = true;
 	renderMirrorPerspective(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+	bossMirrorPass = false;
 
 	// default FBO renderpass
 
@@ -223,6 +225,8 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 				if (!obj->isInitialized())
 				{
 					obj->calculateNormal();
+					if (upDraw[x] == 1 && upDraw[y] == 5)
+						obj->initBoss();
 					obj->calcView();
 
 					obj->initGBuffer(gBuffer);

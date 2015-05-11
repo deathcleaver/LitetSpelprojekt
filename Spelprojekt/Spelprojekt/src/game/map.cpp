@@ -638,3 +638,13 @@ bool Map::webbedUp(Rect* pRect, glm::vec3 pPos)
 	}
 	return false;
 }
+
+glm::vec3 Map::mirrorWalk(Rect* pRect, glm::vec3 pPos)
+{
+	int idX, idY;
+	getChunkIndex(pPos, &idX, &idY);
+	if (idX != -1 && idY != -1)
+	{
+		return chunks[idX][idY].teleportTo(pRect);
+	}
+}

@@ -41,6 +41,7 @@ public:
 	glm::vec3 collideEnemies(Rect* test, glm::vec3 pos);
 	bool collideShrine(Rect* test, glm::vec3 pos, Shrine*& currentSpawn);
 	void attackEnemies(Rect* wpnRect, glm::vec3 playerpos, int damage);
+	glm::vec3 mirrorWalk(Rect* pRect, glm::vec3 pPos);
 	void setUpDraw(glm::vec3 pos);
 	void setUpDraw3x2(glm::vec3 pos);
 	void setUpDrawMainMenuCamera(glm::vec3 pos);

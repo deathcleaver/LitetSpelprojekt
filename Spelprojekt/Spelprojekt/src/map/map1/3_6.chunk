@@ -4,7 +4,7 @@
 -1 NO SHRINE
 -1 NO HEALTH PICKUP
 1 :  Number of world objects
-11 8.7 0 0 1.23701 0 3.19029 0 -6.81619 0 0 6.54166 0 0 0 0 1
+11 8.7 0 0 1.23701 0 3.19029 0 -6.81619 0 0 6.54166 0 0 0 0 1 
 -1 : Music ID
 0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 1 : Nr of Lights 
