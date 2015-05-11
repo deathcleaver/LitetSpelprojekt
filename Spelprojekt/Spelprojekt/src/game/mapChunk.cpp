@@ -418,7 +418,7 @@ void MapChunk::saveObject(GameObject* object, ofstream* out)
 	*out << ((*mat)[2].x) << " " << ((*mat)[2].y) << " " << ((*mat)[2].z) << " " << ((*mat)[2].w) << " ";
 	*out << ((*mat)[3].x) << " " << ((*mat)[3].y) << " " << ((*mat)[3].z) << " " << ((*mat)[3].w) << " ";
 
-	if (object->returnID == WorldID::mirror)
+	if (object->returnID() == WorldID::mirror)
 	{
 		glm::vec2 tp = ((Mirror*)object)->getTeleportLocation();
 		glm::vec2 ch = ((Mirror*)object)->getChunkTeleport();
