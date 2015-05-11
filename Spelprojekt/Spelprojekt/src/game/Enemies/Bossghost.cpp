@@ -104,7 +104,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			worldMat = glm::mat4(1);
 			moveTo(pos.x, pos.y);
 			float scaleF = 2.0 - stateTimer;
-			scaleFactor(scaleF, scaleF, scaleF);
+			scaleFactor(scaleF*1.5f, scaleF*1.5f, scaleF*1.5f);
 			rotateTo(0, 3.141592654f, 0);
 		}
 		else
