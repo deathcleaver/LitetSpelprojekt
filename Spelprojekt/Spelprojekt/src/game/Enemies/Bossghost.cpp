@@ -18,7 +18,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = EnemyID::bat;
 	health = 6;
-	speed = 7.0f;
+	speed = 5.0f;
 	mirrorSpeed = 1.5f;
 	audibleDistance = 5.0f;
 
@@ -66,6 +66,7 @@ void Bossghost::init()
 {
 	if (!isInit)
 	{
+		speed = 5.0f;
 		inMirror = true;
 		worldMat = glm::mat4(1);
 		isInit = true;
@@ -124,8 +125,6 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
-				if (health <= 3)
-					getSpooky(map);
 				invulnTimer = 1.0f;
 				state = 1;
 				int posOutOfMirror = rand() % 6;
@@ -246,6 +245,10 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 		health -= damage;
 		if (health > 0)
 		{
+			if (health <= 4)
+				speed = 7.0f;
+			if (health <= 2)
+				speed = 9.0f;
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
