@@ -20,7 +20,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	health = 6;
 	speed = 5.0f;
 	mirrorSpeed = 1.5f;
-	audibleDistance = 5.0f;
+	audibleDistance = 10.0f;
 
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
@@ -127,6 +127,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				{
 					inMirror = false;
 					rotateTo(0, 3.141592654f, 0);
+					Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 				}
 			}
 			else
@@ -163,6 +164,8 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			getSpooky(map);
 			ghostTimer = 4.0f;
 			ghostSpawns--;
+
+			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 		}
 		else if (ghostSpawns == 0)
 		{
