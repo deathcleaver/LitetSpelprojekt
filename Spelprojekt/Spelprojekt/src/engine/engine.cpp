@@ -25,7 +25,7 @@ void Engine::init(glm::mat4* viewMat)
 
 	//temp camera
 	viewMatrix = viewMat;
-	projMatrix = glm::perspective(3.14f*0.45f, (float)configResX / (float)configResY, 0.1f, 1000.0f);
+	projMatrix = glm::perspective(3.14f*0.45f, (float)GameConfig::get().configResX / (float)GameConfig::get().configResY, 0.1f, 1000.0f);
 
 	//Temp shader
 	std::string shaders[] = { "src/shaders/default_vs.glsl", "src/shaders/gs.glsl", "src/shaders/default_fs.glsl" };
@@ -92,7 +92,7 @@ void Engine::init(glm::mat4* viewMat)
 	CreateProgram(shaderDoF, shaders, shaderType, 2);
 	gBuffer.shaderDoFPtr = &shaderDoF;
 
-	gBuffer.init(configResX, configResY, 4, true);
+	gBuffer.init(GameConfig::get().configResX, GameConfig::get().configResY, 4, true);
 	
 	light = new Light[1000];
 
@@ -141,7 +141,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	gBuffer.clearLight();
 	gBuffer.bind(GL_FRAMEBUFFER);
 	glUseProgram(tempshader);
-	glViewport(0, 0, configResX, configResY);
+	glViewport(0, 0, GameConfig::get().configResX, GameConfig::get().configResY);
 	// default renderpass
 
 	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &(*viewMatrix)[0][0]);

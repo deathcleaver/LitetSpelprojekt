@@ -6,7 +6,6 @@
 #include "mapChunk.h"
 #include "../UserInput.h"
 #include "../GUI.h"
-#include "../GameConfig.h"
 #include "Effect/Light.h"
 
 class Edit : public Align_16
@@ -52,8 +51,8 @@ private:
 	int width;
 	int height;
 
-	float SCREENWIDTH = (float)configResX;
-	float SCREENHEIGHT = (float)configResY;
+	float SCREENWIDTH = (float)GameConfig::get().configResX;
+	float SCREENHEIGHT = (float)GameConfig::get().configResY;
 	EditMode editMode = EditMode::NONEM;
 	EditMode editModeLast = EditMode::NONEM;
 	EditState editState = EditState::NONES;

@@ -1,7 +1,6 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include "game\game.h"
-#include "GameConfig.h"
 
 #include <ctime>
 
@@ -38,6 +37,12 @@ int main(int argv, char* argc[])
 	in.open(settings);
 	if (in)
 	{
+		// default config settings
+		GameConfig::get().configDifficulty = 0;
+		GameConfig::get().configRenderGlow = true;
+		GameConfig::get().configFullscreen = false;
+		GameConfig::get().configResX = 1080, GameConfig::get().configResY = 720;
+
 		string line;
 		string sub;
 		stringstream ss;
@@ -46,23 +51,23 @@ int main(int argv, char* argc[])
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub;
-		configFullscreen = atoi(sub.c_str()) ? 1 : 0;
+		GameConfig::get().configFullscreen = atoi(sub.c_str()) ? 1 : 0;
 
 		//resolution
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub;
-		configResX = atoi(sub.c_str());
+		GameConfig::get().configResX = atoi(sub.c_str());
 		ss >> sub;
-		configResY = atoi(sub.c_str());
+		GameConfig::get().configResY = atoi(sub.c_str());
 
 		in.close();
 	}
 	
-	if (configFullscreen) // fullscreen
-		wnd = glfwCreateWindow(configResX, configResY, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
+	if (GameConfig::get().configFullscreen) // fullscreen
+		wnd = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT", glfwGetPrimaryMonitor(), NULL);
 	else // windowed
-		wnd = glfwCreateWindow(configResX, configResY, "ASUM PROJECT", NULL, NULL);
+		wnd = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT", NULL, NULL);
 
 	glfwMakeContextCurrent(wnd);
 	glewInit();

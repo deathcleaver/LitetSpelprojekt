@@ -1,8 +1,28 @@
 #ifndef GAMECONFIG_H
 #define GAMECONFIG_H
 
-	static bool configRenderGlow = true;
-	static bool configFullscreen = false;
-	static int	configResX = 1080, configResY = 720;
+class GameConfig
+{
+public:
+	static GameConfig& get()
+	{
+		static GameConfig singleton;
+		return singleton;
+	}
+
+
+public:
+	enum Difficulty
+	{
+		Casual = 0,
+		Hardcore = 1,
+		DmonInHell = 2
+	};
+
+	int configDifficulty;
+	bool configRenderGlow;
+	bool configFullscreen;
+	int configResX, configResY;
+};
 
 #endif

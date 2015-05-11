@@ -28,8 +28,8 @@ private:
 	int faceCount = -1;
 	float TexscaleX = 1;
 	float TexscaleY = 1;
-	int SCREENWIDTH = configResX;
-	int SCREENHEIGHT = configResY;
+	int SCREENWIDTH = GameConfig::get().configResX;
+	int SCREENHEIGHT = GameConfig::get().configResX;
 
 	//temprary implementations
 	bool loadVert(std::string path);

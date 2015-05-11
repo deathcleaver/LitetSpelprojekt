@@ -246,7 +246,7 @@ void Game::update(float deltaTime)
 	if (in->getKeyNumberState(0))
 		engine->setDoF(false);
 
-	if (configFullscreen && (current != PLAY && current != INTRO))
+	if (GameConfig::get().configFullscreen && (current != PLAY && current != INTRO))
 		glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	switch (current)
@@ -266,7 +266,7 @@ void Game::update(float deltaTime)
 		}
 		case(PLAY) :
 		{
-			if (configFullscreen == true)
+			if (GameConfig::get().configFullscreen == true)
 				glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 			
 			//debug boss kill keys
@@ -384,7 +384,7 @@ void Game::update(float deltaTime)
 		}
 		case(INTRO) :
 		{
-						if (configFullscreen == true)
+						if (GameConfig::get().configFullscreen == true)
 							glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 						if (gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
@@ -705,22 +705,22 @@ void Game::initSettings()
 		getline(in, line); // fullscreen
 		ss = stringstream(line);
 		ss >> sub;
-		configFullscreen = atoi(sub.c_str()) ? 1 : 0;
+		GameConfig::get().configFullscreen = atoi(sub.c_str()) ? 1 : 0;
 
 		getline(in, line); // resolution
 		ss = stringstream(line);
 		ss >> sub;
-		configResX = atoi(sub.c_str());
+		GameConfig::get().configResX = atoi(sub.c_str());
 		ss >> sub;
-		configResY = atoi(sub.c_str());
+		GameConfig::get().configResY = atoi(sub.c_str());
 
 		getline(in, line); // glows enabled
 		ss = stringstream(line);
 		ss >> sub;
-		configRenderGlow = atoi(sub.c_str()) ? 1 : 0;
+		GameConfig::get().configRenderGlow = atoi(sub.c_str()) ? 1 : 0;
 
 		// apply graphic settings
-		engine->applySettings(configRenderGlow);
+		engine->applySettings(GameConfig::get().configRenderGlow);
 		
 		// --- Audio ---
 		getline(in, line);
@@ -744,6 +744,12 @@ void Game::initSettings()
 		// apply audio settings
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
 
+		// --- Difficulty ---
+		getline(in, line); // difficulty
+		ss = stringstream(line);
+		ss >> sub;
+		GameConfig::get().configDifficulty = atoi(sub.c_str());
+
 		// toggle fullscreen WIP
 		//toggleFullscreen();
 
@@ -763,10 +769,10 @@ void Game::toggleFullscreen()
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 		glfwWindowHint(GLFW_RESIZABLE, false);
 
-		if (configFullscreen) // fullscreen
-			newWindow = glfwCreateWindow(configResX, configResY, "ASUM PROJECT 2", glfwGetPrimaryMonitor(), windowRef);
+		if (GameConfig::get().configFullscreen) // fullscreen
+			newWindow = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT 2", glfwGetPrimaryMonitor(), windowRef);
 		else
-			newWindow = glfwCreateWindow(configResX, configResY, "ASUM PROJECT 2", NULL, windowRef);
+			newWindow = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT 2", NULL, windowRef);
 
 		//glfwMakeContextCurrent(newWindow);
 		//glewInit();
@@ -795,10 +801,11 @@ void Game::saveSettings()
 		sE = Audio::getAudio().getSoundEnabled();
 		aE = Audio::getAudio().getAudioEnabled();
 
-		out << configFullscreen << " // fullscreen\n";
-		out << configResX << " " << configResY << " // resolution\n";
-		out << configRenderGlow << " // render glow\n";
-		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio";
+		out << GameConfig::get().configFullscreen << " // fullscreen\n";
+		out << GameConfig::get().configResX << " " << GameConfig::get().configResY << " // resolution\n";
+		out << GameConfig::get().configRenderGlow << " // render glow\n";
+		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio\n";
+		out << GameConfig::get().configDifficulty << " // difficulty (0->2)\n";
 
 		out.close();
 	}

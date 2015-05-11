@@ -4,6 +4,7 @@
 #include "../UserInput.h"
 #include "../Gamepad.h"
 #include "../GUI.h"
+#include "../GameConfig.h"
 
 #include "edit.h"
 #include "../engine/engine.h"
