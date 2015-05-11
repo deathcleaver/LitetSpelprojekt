@@ -16,7 +16,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = EnemyID::bat;
+	contentIndex = EnemyID::demon;
 	health = 6;
 	speed = 5.0f;
 	mirrorSpeed = 1.5f;

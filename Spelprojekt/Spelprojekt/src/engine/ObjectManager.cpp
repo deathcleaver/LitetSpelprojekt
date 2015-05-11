@@ -365,6 +365,12 @@ void ObjectManager::loadMonsterObjs()
 	add = new AnimationObject(Maexxna1, Maexxna2, 0.5f, 0.18f);
 	objects[OBJ::ENEMY].push_back(add);
 
+	//Demon Dmon
+	Object* Demon1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* Demon2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(Demon1, Demon2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
 }
 
 void ObjectManager::loadMiscObjs()
