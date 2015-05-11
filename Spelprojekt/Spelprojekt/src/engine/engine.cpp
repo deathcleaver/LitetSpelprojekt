@@ -131,7 +131,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	int timerID = startTimer("Render");
 
+	bossMirrorPass = true;
 	renderMirrorPerspective(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+	bossMirrorPass = false;
 
 	// default FBO renderpass
 
@@ -588,7 +590,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss"))
 				{
-					if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
+					if (bossMirrorPass && chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
 					{
 						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 						if (id != lastid)
