@@ -41,7 +41,6 @@ void Spellbook::init()
 	facingRight = true;
 	alive = true;
 	health = 3;
-
 	collideRect->update();
 }
 

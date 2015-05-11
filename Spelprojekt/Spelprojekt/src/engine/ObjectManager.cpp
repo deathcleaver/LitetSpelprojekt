@@ -348,7 +348,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//spellbook
-	add = new AnimationObject("src/meshes/Enemies/FlameCubeExtruded.v", "src/textures/Red.bmp");
+	Object* spellbook1 = new Object("src/meshes/Enemies/Spellbook3.v", "src/textures/spellbook.bmp");
+	Object* spellbook2 = new Object("src/meshes/Enemies/Spellbook4.v", "src/textures/spellbook.bmp");
+	add = new AnimationObject(spellbook1, spellbook2, 0.5f, 0.1f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Bossbat
