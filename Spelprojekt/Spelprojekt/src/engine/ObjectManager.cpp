@@ -215,7 +215,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//pillar
-	add = new AnimationObject("src/meshes/Crypt/PillarWhole.v", "src/textures/Background/marble.bmp");
+	add = new AnimationObject("src/meshes/Crypt/PillarNew.v", "src/textures/Background/marble.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//tunnel_broken
