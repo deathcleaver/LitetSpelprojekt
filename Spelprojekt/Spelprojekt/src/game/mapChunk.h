@@ -103,6 +103,7 @@ public:
 	HealthPickup* getPickup();
 
 	bool playerVsWeb(Rect* pRect);
+	glm::vec3 teleportTo(Rect* pRect);
 };
 
 #endif

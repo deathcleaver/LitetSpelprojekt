@@ -599,7 +599,17 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				runeEffect->getEffect()->fade();
 		}
 
-
+	if (userInput->getKeyState('W') || pad->climb(axesY)) //MIRRORWALKING MÅSTE SKE SIST
+	{
+		if (progressMeter.ghostboss)
+		{
+			glm::vec3 val = map->mirrorWalk(collideRect, readPos());
+			if (val.z > -FLT_EPSILON)
+			{
+				moveTo(val.x, val.y);
+			}
+		}
+	}
 	return 0;
 }
 

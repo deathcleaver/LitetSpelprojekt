@@ -472,6 +472,7 @@ void MapChunk::loadObject(ifstream* in)
 		temp->setWorldMat(mat);
 		((Mirror*)temp)->setTeleportLocation(teleport, chunk);
 		temp->translate((float)(xOffset * 35), (float)(yOffset * -35));
+		((Mirror*)temp)->setRect();
 		delete mat;
 
 		temp->init(type);
@@ -1223,4 +1224,22 @@ bool MapChunk::playerVsWeb(Rect* pRect)
 			return true;
 	}
 	return false;
+}
+
+glm::vec3 MapChunk::teleportTo(Rect* pRect)
+{
+	glm::vec3 hit = glm::vec3(0, 0, -1);
+	int size = gameObjects[WorldID::mirror].size();
+	bool found = false;
+	for (int c = 0; c < size && !found; c++)
+	{
+		Rect* temp = ((Mirror*)gameObjects[WorldID::mirror][c])->getRekt();
+		if (pRect->intersects(temp))
+		{
+			glm::vec2 tpLoc = ((Mirror*)gameObjects[WorldID::mirror][c])->getTeleportLocation();
+			hit = glm::vec3(tpLoc, 0);
+			found = true;
+		}
+	}
+	return hit;
 }
