@@ -175,7 +175,7 @@ void UserInput::Act(float deltaTime)
 {
 	float speedorig = speed;
 	if (shift)
-		speed *= 3;
+		speed *= 9;
 	speed *= deltaTime;
 
 	if (W)
