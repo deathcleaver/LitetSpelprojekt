@@ -14,6 +14,7 @@ private:
 	glm::vec2 currentGoal;
 	float movementScale;
 	float speed;
+	float mirrorSpeed;
 	float invulnTimer;
 	bool isInit;
 

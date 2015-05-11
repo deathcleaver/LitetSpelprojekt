@@ -108,6 +108,7 @@ enum EnemyID
 	spellbook,
 	batboss,
 	maexxna,
+	demon,
 
 	enemy_count, //leave this last
 };
