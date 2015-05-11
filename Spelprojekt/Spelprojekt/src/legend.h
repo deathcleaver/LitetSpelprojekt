@@ -16,6 +16,7 @@ enum BackID
 	rock_dirt,
 	rock_boss,
 	crypt_wall,
+	overworld_mansion,
 
 	back_count, //leave this last
 };

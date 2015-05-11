@@ -123,7 +123,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//Platform rock 5x5
-	add = new AnimationObject("src/meshes/Map Blocks/Platform5x5.v", "src/textures/Background/Platform.bmp");
+	add = new AnimationObject("src/meshes/Map Blocks/Platform5x5.v", "src/textures/Background Objects/grass.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//rock5x5
@@ -414,6 +414,10 @@ void ObjectManager::loadBackObjs()
 
 	//crypt wall
 	add = new AnimationObject("src/meshes/Background/cryptwall.v", "src/textures/Background/cryptwalltex.bmp");
+	objects[OBJ::BACK].push_back(add);
+
+	//overworld mansion
+	add = new AnimationObject("src/meshes/planeVerticalF.v", "src/textures/Background/mansionback.bmp");
 	objects[OBJ::BACK].push_back(add);
 }
 
