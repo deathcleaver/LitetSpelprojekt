@@ -27,13 +27,19 @@ public:
 	glm::mat4 viewMat;
 	glm::mat4 projMat;
 
-	void setTeleportLocation(glm::vec2 loc)
+	void setTeleportLocation(glm::vec2 loc, glm::vec2 chunk)
 	{
 		teleportLocation = loc;
+		chunkLocation = chunk;
 	}
 	glm::vec2 getTeleportLocation()
 	{
-		return teleportLocation;
+		return glm::vec2(teleportLocation.x+chunkLocation.x*35, teleportLocation.y-chunkLocation.y*35);
+	}
+
+	glm::vec2 getChunkTeleport()
+	{
+		return chunkLocation;
 	}
 
 private:
@@ -45,6 +51,7 @@ private:
 	glm::vec3 normal;
 
 	glm::vec2 teleportLocation;
+	glm::vec2 chunkLocation;
 };
 
 #endif

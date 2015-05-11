@@ -421,7 +421,8 @@ void MapChunk::saveObject(GameObject* object, ofstream* out)
 	if (object->returnID == WorldID::mirror)
 	{
 		glm::vec2 tp = ((Mirror*)object)->getTeleportLocation();
-		*out << tp.x << " " << tp.y;
+		glm::vec2 ch = ((Mirror*)object)->getChunkTeleport();
+		*out << ch.x << " " << ch.y << " " << tp.x << " " << tp.y;
 	}
 
 	*out << endl;
@@ -457,6 +458,11 @@ void MapChunk::loadObject(ifstream* in)
 	//create temp object
 	if (type == WorldID::mirror)
 	{
+		glm::vec2 chunk;
+		iss >> sub;
+		chunk.x = atof(sub.c_str());
+		iss >> sub;
+		chunk.y = atof(sub.c_str());
 		glm::vec2 teleport;
 		iss >> sub;
 		teleport.x = atof(sub.c_str());
@@ -464,7 +470,7 @@ void MapChunk::loadObject(ifstream* in)
 		teleport.y = atof(sub.c_str());
 		GameObject* temp = new Mirror();
 		temp->setWorldMat(mat);
-		((Mirror*)temp)->setTeleportLocation(teleport);
+		((Mirror*)temp)->setTeleportLocation(teleport, chunk);
 		temp->translate((float)(xOffset * 35), (float)(yOffset * -35));
 		delete mat;
 
