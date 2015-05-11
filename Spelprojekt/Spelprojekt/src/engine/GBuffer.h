@@ -17,6 +17,8 @@ public:
 	~Gbuffer();
 
 	void init(int x, int y, int nrTex, bool depth);
+	void initLight();
+	void initDoF(int x, int y, int nrTex, bool depth);
 	void resize(int x, int y);
 
 	void bind(GLuint index);
@@ -59,6 +61,9 @@ public:
 
 	void setDoF(bool);
 private:
+
+	bool lightInitialized;
+	bool dofInitialize;
 
 	bool renderDoF;
 	

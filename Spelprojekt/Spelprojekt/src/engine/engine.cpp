@@ -93,7 +93,10 @@ void Engine::init(glm::mat4* viewMat)
 	gBuffer.shaderDoFPtr = &shaderDoF;
 
 	gBuffer.init(configResX, configResY, 4, true);
+	gBuffer.initDoF(configResX, configResY, 4, true);
 	
+	gBuffer.initLight();
+
 	light = new Light[1000];
 
 	fadeEffect = 0;
@@ -199,6 +202,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	stopTimer(timerID);
 
 }
+
 
 void Engine::renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* contentin,
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)

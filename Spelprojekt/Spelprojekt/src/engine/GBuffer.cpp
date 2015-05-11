@@ -47,27 +47,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
-	// dof buffer
-	glGenFramebuffers(1, &DoFBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);
-	DoFTexture = new RenderTarget();
-	DoFTexture->init(x, y, 0, false);
-
-	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, DoFTexture->getTargetId(), 0);
 	
-	GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-
-	glDrawBuffers(1, &drawBuffer);
-
-	Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-	if (Status != GL_FRAMEBUFFER_COMPLETE) {
-		throw;
-	}
-
-	// default
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
 	if (!shaderPtr)
 	{
 		throw;
@@ -88,7 +68,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	playerPos = 0;
 
-
 	//rekts
 	uniformRektModel = glGetUniformLocation(*shaderRektPtr, "modelMatrix");
 
@@ -98,10 +77,6 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glProgramUniform1i(*shaderGuiPtr, uniformGUItexture, 0);
 	uniformGUIModel = glGetUniformLocation(*shaderGuiPtr, "modelMatrix");
 	
-	//DoF shader uniforms
-	uniformDoFBack = glGetUniformLocation(*shaderDoFPtr, "back");
-	uniformDoFDepth = glGetUniformLocation(*shaderDoFPtr, "depth");
-
 	uniformBufferLightPos = glGetUniformBlockIndex(*shaderPtr, "lightBlock");
 	uniformNrLightPos = glGetUniformLocation(*shaderPtr, "nrLights");
 	
@@ -109,7 +84,46 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	unifromNormal = glGetUniformLocation(*shaderMirrorPtr, "normalIn");
 	unifromWorld = glGetUniformLocation(*shaderMirrorPtr, "worldIn");
 
+	lightInitialized = false;
+	dofInitialize = false;
+}
 
+void Gbuffer::initDoF(int x, int y, int nrTex, bool depth)
+{
+	if (targetId == 0)
+		throw;
+	// dof buffer
+	glGenFramebuffers(1, &DoFBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, DoFBuffer);
+	DoFTexture = new RenderTarget();
+	DoFTexture->init(x, y, 0, false);
+
+	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, DoFTexture->getTargetId(), 0);
+
+	GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+
+	glDrawBuffers(1, &drawBuffer);
+
+	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (Status != GL_FRAMEBUFFER_COMPLETE) {
+		throw;
+	}
+
+	// default
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	//DoF shader uniforms
+	uniformDoFBack = glGetUniformLocation(*shaderDoFPtr, "back");
+	uniformDoFDepth = glGetUniformLocation(*shaderDoFPtr, "depth");
+
+	dofInitialize = true;
+}
+
+void Gbuffer::initLight()
+{
+	if (targetId == 0)
+		throw;
 	glGenBuffers(1, &lightBuffer);
 	glGenBuffers(1, &lightBufferGlow);
 
@@ -134,9 +148,9 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	glVertexAttribPointer(0, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 0));
-	glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 4));
-	glVertexAttribPointer(2, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat)* 8));
+	glVertexAttribPointer(0, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat) * 0));
+	glVertexAttribPointer(1, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat) * 4));
+	glVertexAttribPointer(2, 4, GL_FLOAT, false, sizeof(Light), (void*)(sizeof(GLfloat) * 8));
 
 	glVertexAttribDivisor(0, 1);
 	glVertexAttribDivisor(1, 1);
@@ -145,6 +159,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	// settings
 	applySettings(true);
 
+	lightInitialized = true;
 }
 
 void Gbuffer::applySettings(bool glows)
@@ -158,12 +173,26 @@ Gbuffer::~Gbuffer()
 	delete[] rTexture;
 	delete[] pos;
 	//delete[] volume;
-	glDeleteBuffers(1, &targetId);
+	glDeleteFramebuffers(1, &targetId);
+	Debug::DebugOutput("Deleting gbuffer target\n");
+	//
 
-	glDeleteBuffers(1, &lightBuffer);
-	glDeleteBuffers(1, &lightBufferGlow);
+	if (dofInitialize)
+	{
+		glDeleteFramebuffers(1, &DoFBuffer);
+		Debug::DebugOutput("Deleting gbuffer Dof buffer\n");
+	}
 
-	glDeleteFramebuffers(1, &DoFBuffer);
+
+	if (lightInitialized)
+	{
+		Debug::DebugOutput("Deleting gbuffer light buffers\n");
+		glDeleteVertexArrays(1, &LightVao);
+		//
+		glDeleteBuffers(1, &lightBuffer);
+		glDeleteBuffers(1, &lightBufferGlow);
+	}
+
 }
 
 void Gbuffer::resize(int x, int y)
