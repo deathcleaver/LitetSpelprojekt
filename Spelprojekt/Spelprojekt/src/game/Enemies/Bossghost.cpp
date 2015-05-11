@@ -123,7 +123,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				translate(0, 0, -2.0f*deltaTime);
 				pos = readPos();
-				if (pos.z < -2.5f)
+				if (pos.z < -2.0f)
 				{
 					inMirror = false;
 					rotateTo(0, 3.141592654f, 0);
@@ -200,7 +200,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				translate(0, 0, -2.0f*deltaTime);
 				pos = readPos();
-				if (pos.z < -2.5f)
+				if (pos.z < -2.0f)
 				{
 					rotateTo(0, 3.141592654f, 0);
 					inMirror = true;
