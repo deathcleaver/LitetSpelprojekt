@@ -340,7 +340,7 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//ghost
-	add = new AnimationObject("src/meshes/Enemies/FlameCubeContracted.v", "src/textures/Red.bmp");
+	add = new AnimationObject("src/meshes/Player/PlayerBase.v", "src/textures/Red.bmp");
 	objects[OBJ::ENEMY].push_back(add);
 
 	//web
