@@ -33,6 +33,12 @@ void Engine::init(glm::mat4* viewMat)
 	
 	CreateProgram(tempshader, shaders, shaderType, 3);
 
+	// mirror shader
+	shaders[0] = "src/shaders/gBuffer_copy_vs.glsl";
+	shaders[2] = "src/shaders/gBuffer_copy_fs.glsl";
+	CreateProgram(mirrorShader, shaders, shaderType, 3);
+	gBuffer.shaderMirrorPtr = &mirrorShader;
+
 	//gBuffer shader
 	shaders[0] = "src/shaders/glow_vs.glsl";
 	shaders[1] = "src/shaders/glow_gs.glsl";
@@ -59,6 +65,11 @@ void Engine::init(glm::mat4* viewMat)
 	uniformModel = glGetUniformLocation(tempshader, "modelMatrix");
 	uniformProj = glGetUniformLocation(tempshader, "P");
 	uniformView = glGetUniformLocation(tempshader, "V");
+
+	// mirror
+	mirrorModelMatrix  = glGetUniformLocation(mirrorShader, "modelMatrix");
+	mirrorP = glGetUniformLocation(mirrorShader, "P");
+	mirrorV = glGetUniformLocation(mirrorShader, "V");
 
 	//gBuffer gui shader
 	shaders[0] = "src/shaders/gBuffer_gui_vs.glsl";
@@ -120,81 +131,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	int timerID = startTimer("Render");
 
-	if (!testMirror.isInitialized())
-	{
-		testMirror.rotateToY(3.1415923565f);
-		testMirror.scaleFactor(0.75f, 1.0f, 1.0f);
-		testMirror.moveTo(103.2f, -12.97f, -0.55f);
-
-		testMirror.calculateNormal();
-		testMirror.calcView();
-
-		testMirror.initGBuffer(gBuffer);
-	}
-
-	gBuffer.playerPos = (GLfloat*)&player->readPos();
-
-	testMirror.mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
-
-
-	// mirror renderPass
-	testMirror.mirrorBuffer.bind(GL_FRAMEBUFFER);
-	glUseProgram(tempshader);
-	glViewport(0, 0, 400, 400);
-
-	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &testMirror.viewMat[0][0]);
-	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &testMirror.projMat[0][0]);
-
-	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &testMirror.viewMat[0][0]);
-	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &testMirror.projMat[0][0]);
-
-
-	if (edit->forceRekts)
-	{
-		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &testMirror.viewMat[0][0]);
-		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &testMirror.projMat[0][0]);
-	}
-
-	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
-
-	// boss mirror
-
-	if (!bossMirror.isInitialized())
-	{
-		bossMirror.rotateToY(3.1415923565f);
-		bossMirror.scaleFactor(10.04445f, 8.99583f, 1.0f);
-		bossMirror.moveTo(34.09f, -171.0844f, -4.32777f);
-
-		bossMirror.calculateNormal();
-		bossMirror.calcView();
-
-		bossMirror.initGBuffer(gBuffer);
-	}
-
-	bossMirror.mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
-
-
-	// mirror renderPass
-	bossMirror.mirrorBuffer.bind(GL_FRAMEBUFFER);
-	glUseProgram(tempshader);
-	glViewport(0, 0, 400, 400);
-
-	glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &bossMirror.viewMat[0][0]);
-	glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &bossMirror.projMat[0][0]);
-
-	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &bossMirror.viewMat[0][0]);
-	glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &bossMirror.projMat[0][0]);
-
-
-	if (edit->forceRekts)
-	{
-		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &bossMirror.viewMat[0][0]);
-		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &bossMirror.projMat[0][0]);
-	}
-
-	bossMirrorPass = true;
-	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
-	bossMirrorPass = false;
+	renderMirrorPerspective(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
 
 	// default FBO renderpass
 
@@ -223,12 +160,11 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	bindLights(player, edit);
 
-	//renderMirror
-	testMirror.bindWorldMat(&tempshader, &uniformModel);
-	testMirror.render();
 
-	bossMirror.bindWorldMat(&tempshader, &uniformModel);
-	bossMirror.render();
+	glProgramUniformMatrix4fv(mirrorShader, mirrorV, 1, false, &(*viewMatrix)[0][0]);
+	glProgramUniformMatrix4fv(mirrorShader, mirrorP, 1, false, &projMatrix[0][0]);
+
+	renderMirror();
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -259,7 +195,86 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		fadeOut = false;
 
 	stopTimer(timerID);
+
 }
+
+void Engine::renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* contentin,
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
+{
+
+	width = map->readSizeX();
+	height = map->readSizeY();
+	chunks = map->getChunks();
+	upDraw = map->getUpDraw();
+	content = contentin;
+
+	for (int n = 0; n < upDraw[0]; n++) // all chunks
+	{
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+		if (upDraw[y] > -1 && upDraw[y] < height)
+		{
+			int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WorldID::mirror].size(); //number of that ID this chunk has
+			for (int k = 0; k < size; k++)
+			{
+				Mirror* obj = (Mirror*)chunks[upDraw[x]][upDraw[y]].gameObjects[WorldID::mirror][k];
+
+				if (!obj->isInitialized())
+				{
+					obj->calculateNormal();
+					obj->calcView();
+
+					obj->initGBuffer(gBuffer);
+				}
+
+				obj->mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
+
+				// mirror renderPass
+				obj->mirrorBuffer.bind(GL_FRAMEBUFFER);
+				glUseProgram(tempshader);
+				glViewport(0, 0, 400, 400);
+
+				glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &obj->viewMat[0][0]);
+				glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &obj->projMat[0][0]);
+
+				glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformViewGlow, 1, false, &obj->viewMat[0][0]);
+				glProgramUniformMatrix4fv(tempshaderGBufferGlow, uniformProjGlow, 1, false, &obj->projMat[0][0]);
+
+
+				if (edit->forceRekts)
+				{
+					glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &obj->viewMat[0][0]);
+					glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &obj->projMat[0][0]);
+				}
+
+				renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+
+			}
+		}
+	}
+}
+
+void Engine::renderMirror()
+{
+	for (int n = 0; n < upDraw[0]; n++) // all chunks
+	{
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+		if (upDraw[y] > -1 && upDraw[y] < height)
+		{
+			int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WorldID::mirror].size(); //number of that ID this chunk has
+			for (int k = 0; k < size; k++)
+			{
+				Mirror* obj = (Mirror*)chunks[upDraw[x]][upDraw[y]].gameObjects[WorldID::mirror][k];
+				obj->bindWorldMat(&mirrorShader, &mirrorModelMatrix);
+				obj->render();
+			}
+		}
+	}
+}
+
 
 void Engine::renderPass(const Player* player, const Map* map, const ContentManager* contentin,
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
@@ -344,6 +359,7 @@ void Engine::renderWorld()
 				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
 					int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
+
 					for (int k = 0; k < size; k++)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k]->bindWorldMat(&tempshader, &uniformModel);

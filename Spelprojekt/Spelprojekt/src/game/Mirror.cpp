@@ -15,8 +15,8 @@ Mirror::~Mirror()
 void Mirror::calculateNormal()
 {
 	glm::vec4 p1 = glm::vec4(1, 1, 0, 1);
-	glm::vec4 p2 = glm::vec4(1, -1, 0, 1);
-	glm::vec4 p3 = glm::vec4(-1, 1, 0, 1);
+	glm::vec4 p2 = glm::vec4(-1, 1, 0, 1);
+	glm::vec4 p3 = glm::vec4(1, -1, 0, 1);
 
 	p1 = worldMat * p1;
 	p2 = worldMat * p2;
@@ -56,6 +56,11 @@ void Mirror::initGBuffer(Gbuffer &screenBuffer)
 	mirrorBuffer.shaderPtr = screenBuffer.shaderPtr;
 	mirrorBuffer.shaderRektPtr = screenBuffer.shaderRektPtr;
 	mirrorBuffer.uniformCamPosGlow = screenBuffer.uniformCamPosGlow;
+
+	mirrorBuffer.shaderMirrorPtr = screenBuffer.shaderMirrorPtr;
+
+	mirrorBuffer.unifromNormal = screenBuffer.unifromNormal;
+	mirrorBuffer.unifromWorld = screenBuffer.unifromWorld;
 
 	mirrorBuffer.init(sizeX, sizeY, 4, true);
 	initialized = true;

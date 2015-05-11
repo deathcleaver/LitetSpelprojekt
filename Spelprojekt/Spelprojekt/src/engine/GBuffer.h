@@ -36,10 +36,17 @@ public:
 	void applySettings(bool glows);
 
 	GLuint* shaderPtr;
+
+	GLuint* shaderMirrorPtr;
+
 	GLuint* shaderGlowPtr;
 	GLuint* shaderGuiPtr;
 	GLuint* shaderRektPtr;
 	GLuint* shaderDoFPtr;
+
+	// mirror
+	GLuint unifromNormal;
+	GLuint unifromWorld;
 
 	GLfloat* playerPos;
 
@@ -86,6 +93,7 @@ private:
 	//DoF
 	GLuint uniformDoFBack;
 	GLuint uniformDoFDepth;
+
 
 	//settings
 	bool glowsEnabled;

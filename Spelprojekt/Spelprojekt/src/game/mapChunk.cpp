@@ -5,6 +5,8 @@
 #include "Enemies/Cube.h"
 #include "Enemies\Ghost.h"
 
+#include "Mirror.h"
+
 MapChunk::~MapChunk()
 {
 	delete chunkBackground;
@@ -26,7 +28,8 @@ MapChunk::~MapChunk()
 	{
 		for (unsigned int k = 0; k < gameObjects[n].size(); k++)
 		{
-			delete  gameObjects[n][k];
+			delete gameObjects[n][k];
+			
 		}
 	}
 
@@ -444,13 +447,28 @@ void MapChunk::loadObject(ifstream* in)
 		(*mat)[n].w = (float)atof(sub.c_str());
 	}
 	//create temp object
-	GameObject* temp = new GameObject();
-	temp->setWorldMat(mat);
-	temp->translate((float)(xOffset * 35), (float)(yOffset * -35));
-	delete mat;
+	if (type == WorldID::mirror)
+	{
 
-	temp->init(type);
-	gameObjects[type].push_back(temp);
+		GameObject* temp = new Mirror();
+		temp->setWorldMat(mat);
+		temp->translate((float)(xOffset * 35), (float)(yOffset * -35));
+		delete mat;
+
+		temp->init(type);
+		gameObjects[type].push_back(temp);
+	}
+	else
+	{
+		GameObject* temp = new GameObject();
+		temp->setWorldMat(mat);
+		temp->translate((float)(xOffset * 35), (float)(yOffset * -35));
+		delete mat;
+
+		temp->init(type);
+		gameObjects[type].push_back(temp);
+	}
+	
 }
 
 bool MapChunk::collide(Rect* test, int overFlowX, int overFlowY)
@@ -1022,16 +1040,18 @@ string MapChunk::getBossType()
 
 void MapChunk::recieveWorld(GameObject* item)
 {
-	gameObjects[item->returnID()].push_back(item);
+	if (item->returnID() == WorldID::mirror)
+	{
+		GameObject* temp = new Mirror();
+		temp->coppyMat(item);
+		temp->init(item->returnID());
+		gameObjects[item->returnID()].push_back(temp);
+	}
+	else
+	{
+		gameObjects[item->returnID()].push_back(item);
+	}
 	
-	// mirror test
-	//GameObject* itemC = new GameObject();
-	//*itemC = *item;
-	//glm::vec3 pos = itemC->readPos();
-	//itemC->moveTo(pos.x * -1, pos.y, pos.z);
-	//itemC->rotateTo(0, 3.1415926 * 0.5, 0);
-
-	//gameObjects[item->returnID()].push_back(itemC);
 }
 
 GameObject* MapChunk::takeClosestWorldItem(glm::vec3 pos)

@@ -51,6 +51,12 @@ private:
 	GLuint sampleBack;
 	GLuint sampleDepth;
 
+	//Mirror copy shader
+	GLuint mirrorShader;
+	GLuint mirrorModelMatrix;
+	GLuint mirrorV;
+	GLuint mirrorP;
+
 	glm::mat4* viewMatrix;
 	glm::mat4 projMatrix;
 
@@ -61,6 +67,11 @@ private:
 	float fadeEffect;
 	bool fadeIn;
 	bool fadeOut;
+
+	void renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* content,
+		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
+
+	void renderMirror();
 
 	void renderPlayer(const Player*);
 	void renderBack();

@@ -23,6 +23,7 @@ protected:
 public:
 	glm::mat4* getWorldMat();
 	GameObject(){ facingRight = true; contentIndex = -1; };
+	virtual ~GameObject() {};
 	void init(int idi);
 	int bindWorldMat(GLuint* shaderProgram, GLuint* shaderuniform) const;
 	void coppyMat(GameObject* obj);

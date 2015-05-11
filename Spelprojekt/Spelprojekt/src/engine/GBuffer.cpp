@@ -105,6 +105,11 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	uniformBufferLightPos = glGetUniformBlockIndex(*shaderPtr, "lightBlock");
 	uniformNrLightPos = glGetUniformLocation(*shaderPtr, "nrLights");
 	
+	// mirror shader uniforms
+	unifromNormal = glGetUniformLocation(*shaderMirrorPtr, "normalIn");
+	unifromWorld = glGetUniformLocation(*shaderMirrorPtr, "worldIn");
+
+
 	glGenBuffers(1, &lightBuffer);
 	glGenBuffers(1, &lightBufferGlow);
 
@@ -247,13 +252,25 @@ void Gbuffer::renderGlow(glm::vec3* campos)
 
 void Gbuffer::renderTexture()
 {
+
+	glUseProgram(*shaderMirrorPtr);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, rTexture[2].getTargetId());
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, rTexture[3].getTargetId());
+
+	glProgramUniform1i(*shaderMirrorPtr, unifromNormal, 1);
+	glProgramUniform1i(*shaderMirrorPtr, unifromWorld, 2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
 	glBindVertexArray(renderVao);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
 
 }
 
