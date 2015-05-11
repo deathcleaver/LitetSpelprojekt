@@ -182,6 +182,9 @@ void Audio::loadFiles()
 	soundFiles[43] = "../Audio/Sounds/Ambient/Ghost/undead_dissipate.wav";
 	soundFiles[44] = "../Audio/Sounds/Ambient/rat_gnawing.wav";
 	soundFiles[45] = "../Audio/Sounds/Ambient/rat_squeak.wav";
+	soundFiles[58] = "../Audio/Sounds/Ambient/Ghost/creak_door.wav";
+	soundFiles[59] = "../Audio/Sounds/Ambient/Ghost/creak_stair.wav";
+	soundFiles[60] = "../Audio/Sounds/Ambient/Ghost/ghost_laugh.wav"; // same as ghost boss
 	//...
 }
 
