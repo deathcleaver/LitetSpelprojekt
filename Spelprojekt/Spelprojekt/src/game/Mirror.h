@@ -50,6 +50,8 @@ public:
 		return enterRect;
 	}
 
+	glm::mat4 wMat;
+
 private:
 
 	int sizeX, sizeY;

@@ -29,13 +29,32 @@ void Mirror::calculateNormal()
 	glm::vec4 p2 = glm::vec4(-1, 1, 0, 1);
 	glm::vec4 p3 = glm::vec4(1, -1, 0, 1);
 
-	glm::vec4 c = glm::vec4(0, 0, 0, 1);
+	glm::vec3 pos;
 
-	p1 = worldMat * p1;
-	p2 = worldMat * p2;
-	p3 = worldMat * p3;
+	pos.x = worldMat[0].w;
+	pos.y = worldMat[1].w;
+	pos.z = worldMat[2].w;
 
-	c = worldMat * c;
+	worldMat[0].w = 0;
+	worldMat[1].w = 0;
+	worldMat[2].w = 0;
+
+	wMat = worldMat * glm::mat4(0.75f, 0.0f, 0.0f, 0.0f,
+								0.0f, 1.05f, 0.0f, 0.0f,
+								0.0f, 0.0f, 1.0f, 0.0f,
+								0.0f ,0.0f, 0.0f, 1.0f);
+	
+	worldMat[0].w = pos.x;
+	worldMat[1].w = pos.y;
+	worldMat[2].w = pos.z;
+
+	wMat[0].w = pos.x + 0.05f;
+	wMat[1].w = pos.y + 0.03f;
+	wMat[2].w = pos.z - 0.05f;
+
+	p1 = wMat * p1;
+	p2 = wMat * p2;
+	p3 = wMat * p3;
 
 	glm::vec4 d1 = p2 - p1;
 	glm::vec4 d2 = p3 - p1;
@@ -50,6 +69,9 @@ void Mirror::calculateNormal()
 
 void Mirror::initBoss()
 {
+	wMat[0].w += 0.5f;
+	wMat[1].w += 0.25f;
+	wMat[2].w -= 0.1f;
 	distance = 8.5;
 	projMat = glm::perspective(3.14f * 0.45f, 1.0f / 1.0f, distance * 1.2f, 1000.0f);
 }
@@ -59,9 +81,9 @@ void Mirror::calcView()
 
 	glm::vec3 pos;
 
-	pos.x = worldMat[0].w;
-	pos.y = worldMat[1].w;
-	pos.z = worldMat[2].w;
+	pos.x = wMat[0].w;
+	pos.y = wMat[1].w;
+	pos.z = wMat[2].w;
 
 	viewMat = glm::lookAt(pos - (distance * normal), pos + (distance * normal), glm::vec3(0, 1, 0));
 }
