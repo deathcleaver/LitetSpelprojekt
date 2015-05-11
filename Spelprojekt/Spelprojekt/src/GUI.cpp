@@ -65,7 +65,8 @@ int GUI::update(int state)
 		case(9) : // toggle sound	
 			SETTINGS(init);
 			break;
-		case(10) :
+		case(10) : // toggle resolution
+			SETTINGS(init);
 			break;
 		}
 	}
@@ -364,7 +365,7 @@ void GUI::SETTINGS(bool init)
 {
 	if (init)
 	{
-		size = 3;
+		size = 4;
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
 
@@ -404,13 +405,9 @@ void GUI::SETTINGS(bool init)
 			items[2]->MoveAutoSize(0, -0.2f, content);
 		}
 		
-		//// audio enabled
-		//items[3]->init(15, 15, true, 9);
-		//items[3]->MoveAutoSize(0, -0.6, content);
-
-		//// graphics
-		//items[4]->init(13, 13);
-		//items[4]->MoveAutoSize(0, -1.0, content);
+		// toggle fullscreen
+		items[3]->init(13, 13, true, 10);
+		items[3]->MoveAutoSize(0, -0.6, content);
 	}
 }
 

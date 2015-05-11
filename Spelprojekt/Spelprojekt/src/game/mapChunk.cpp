@@ -460,14 +460,14 @@ void MapChunk::loadObject(ifstream* in)
 	{
 		glm::vec2 chunk;
 		iss >> sub;
-		chunk.x = atof(sub.c_str());
+		chunk.x = (float)atof(sub.c_str());
 		iss >> sub;
-		chunk.y = atof(sub.c_str());
+		chunk.y = (float)atof(sub.c_str());
 		glm::vec2 teleport;
 		iss >> sub;
-		teleport.x = atof(sub.c_str());
+		teleport.x = (float)atof(sub.c_str());
 		iss >> sub;
-		teleport.y = atof(sub.c_str());
+		teleport.y = (float)atof(sub.c_str());
 		GameObject* temp = new Mirror();
 		temp->setWorldMat(mat);
 		((Mirror*)temp)->setTeleportLocation(teleport, chunk);

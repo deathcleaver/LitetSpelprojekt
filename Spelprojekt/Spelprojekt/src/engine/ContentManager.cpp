@@ -54,8 +54,8 @@ void ContentManager::loadGUIobjs()
 	guiObjs[7] = new Object("", "src/textures/gui/main/mapmakerH.png", guiObjs[0], true);
 	guiObjs[8] = new Object("", "src/textures/gui/main/credits.png", guiObjs[0], true);
 	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.png", guiObjs[0], true);
-	guiObjs[10] = new Object("", "src/textures/gui/main/settings.bmp", guiObjs[0], true);
-	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.bmp", guiObjs[0], true);
+	guiObjs[10] = new Object("", "src/textures/gui/main/settings.png", guiObjs[0], true);
+	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.png", guiObjs[0], true);
 	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audioE.bmp", guiObjs[0], true);
 	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioD.bmp", guiObjs[0], true);
 	guiObjs[14] = new Object("", "src/textures/gui/main/settings/musicE.bmp", guiObjs[0], true);

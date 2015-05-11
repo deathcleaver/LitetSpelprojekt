@@ -587,6 +587,11 @@ void Game::buttonEvents(int buttonEv)
 		Audio::getAudio().toggleSound();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
+	case(10) : // toggle resolution
+		current = SETTINGS_MAIN;
+		toggleFullscreen();
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
 	}
 	//Editor buttons
 	if (buttonEv > 99)
@@ -759,28 +764,36 @@ void Game::initSettings()
 
 void Game::toggleFullscreen()
 {
-	if (windowRef != NULL)
-	{
-		GLFWwindow* newWindow;
+	if (GameConfig::get().configFullscreen)
+		GameConfig::get().configFullscreen = false;
+	else
+		GameConfig::get().configFullscreen = true;
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-		glfwWindowHint(GLFW_RESIZABLE, false);
+	//if (windowRef != NULL)
+	//{
+	//	glfwInit();
+	//	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	//	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	//	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+	//	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
-		if (GameConfig::get().configFullscreen) // fullscreen
-			newWindow = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT 2", glfwGetPrimaryMonitor(), windowRef);
-		else
-			newWindow = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT 2", NULL, windowRef);
+	//	glfwWindowHint(GLFW_RESIZABLE, false);
 
-		//glfwMakeContextCurrent(newWindow);
-		//glewInit();
+	//	GLFWwindow* newWindow = glfwCreateWindow(GameConfig::get().configResX, GameConfig::get().configResY, "ASUM PROJECT 2", NULL, windowRef);
+	//	glfwDestroyWindow(windowRef);
 
-		//windowRef = newWindow;
+	//	windowRef = newWindow;
+	//	
+	//	glfwMakeContextCurrent(windowRef);
+	//	glfwSwapInterval(0);
 
-		//glfwDestroyWindow(windowRef);
-	}
+	//	//glfwMakeContextCurrent(newWindow);
+	//	//glewInit();
+
+	//	//windowRef = newWindow;
+
+	//	//glfwDestroyWindow(windowRef);
+	//}
 }
 
 void Game::saveSettings()
