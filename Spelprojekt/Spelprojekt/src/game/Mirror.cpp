@@ -8,11 +8,19 @@ Mirror::Mirror()
 
 	teleportLocation = glm::vec2(0, 0);
 	chunkLocation = glm::vec2(0, 0);
+	enterRect = 0;
 }
 
 Mirror::~Mirror()
 {
+	if (enterRect)
+		delete enterRect;
+}
 
+void Mirror::setRect()
+{
+	enterRect = new Rect();
+	enterRect->initGameObjectRect(&worldMat, 2, 2);
 }
 
 void Mirror::calculateNormal()

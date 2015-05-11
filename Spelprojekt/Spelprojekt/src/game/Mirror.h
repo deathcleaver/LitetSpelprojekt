@@ -27,6 +27,7 @@ public:
 	glm::mat4 viewMat;
 	glm::mat4 projMat;
 
+
 	void setTeleportLocation(glm::vec2 loc, glm::vec2 chunk)
 	{
 		teleportLocation = loc;
@@ -42,6 +43,12 @@ public:
 		return chunkLocation;
 	}
 
+	void setRect();
+	Rect* getRekt()
+	{
+		return enterRect;
+	}
+
 private:
 
 	int sizeX, sizeY;
@@ -52,6 +59,8 @@ private:
 
 	glm::vec2 teleportLocation;
 	glm::vec2 chunkLocation;
+
+	Rect* enterRect;
 };
 
 #endif
