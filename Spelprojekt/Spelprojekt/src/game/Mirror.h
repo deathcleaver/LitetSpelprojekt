@@ -18,6 +18,7 @@ public:
 	bool isInitialized();
 
 	void calculateNormal();
+	void initBoss();
 	void calcView();
 
 	void render();
@@ -52,6 +53,8 @@ public:
 private:
 
 	int sizeX, sizeY;
+
+	float distance;
 
 	bool initialized;
 

@@ -94,10 +94,6 @@ private:
 	void renderPass(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
-	Mirror testMirror;
-	Mirror bossMirror;
-	bool bossMirrorPass = false;
-
 public:
 	void setDoF(bool set);
 	

@@ -223,6 +223,8 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 				if (!obj->isInitialized())
 				{
 					obj->calculateNormal();
+					if (upDraw[x] == 1 && upDraw[y] == 5)
+						obj->initBoss();
 					obj->calcView();
 
 					obj->initGBuffer(gBuffer);
@@ -586,7 +588,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 
 				if (chunks[upDraw[x]][upDraw[y]].enemyLives(-1, "Boss"))
 				{
-					if (bossMirrorPass && chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
+					if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(-1, "Boss"))
 					{
 						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(-1, &tempshader, &uniformModel, "Boss");
 						if (id != lastid)
