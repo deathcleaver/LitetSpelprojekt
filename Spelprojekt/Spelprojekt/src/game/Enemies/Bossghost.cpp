@@ -18,7 +18,8 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = EnemyID::bat;
 	health = 6;
-	speed = 6.0f;
+	speed = 7.0f;
+	mirrorSpeed = 1.5f;
 	audibleDistance = 5.0f;
 
 	invulnTimer = 0.0f;
@@ -91,7 +92,7 @@ void Bossghost::init()
 
 int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	glm::vec3 pos;
+	glm::vec3 pos = readPos();
 	if (state == -1) //Spawn state
 	{
 		stateTimer -= 1.0f*deltaTime;
@@ -123,20 +124,19 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
+				invulnTimer = 0.5f;
 				state = 1;
 				int posOutOfMirror = rand() % 6;
-				while (posOutOfMirror == lastPos)
-				{
-					posOutOfMirror = rand() % 6;
-				}
+				if (posOutOfMirror == lastPos)
+					posOutOfMirror = (posOutOfMirror + 1) % 6;
 				lastPos = posOutOfMirror;
 				calcDir(posOutOfMirror);
-				ghostTimer = 6.0f;
+				ghostTimer = 4.0f;
 				ghostSpawns = 3;
 			}
 		}
 		else
-			translate(dirToFly.x*speed*2.0f*deltaTime, dirToFly.y*speed*2.0f*deltaTime);
+			translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
 	}
 	else if (state == 1) //Flying outside of mirror state
 	{
@@ -151,7 +151,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (ghostTimer < FLT_EPSILON && ghostSpawns > 0)
 		{
 			getSpooky(map);
-			ghostTimer = 6.0f;
+			ghostTimer = 4.0f;
 			ghostSpawns--;
 		}
 		else if (ghostSpawns == 0)
@@ -173,10 +173,8 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			state = 1;
 			int posOutOfMirror = rand() % 6;
-			while (posOutOfMirror == lastPos)
-			{
-				posOutOfMirror = rand() % 6;
-			}
+			if (posOutOfMirror == lastPos)
+				posOutOfMirror = (posOutOfMirror + 1) % 6;
 			lastPos = posOutOfMirror;
 			calcDir(posOutOfMirror);
 		}
@@ -202,13 +200,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				state = 4;
 				stateTimer = 1.0f;
-				missilesLeft = 5;
-				int posInMirror = rand() % 6;
-				calcDir(posInMirror);
+				missilesLeft = 10;
 			}
 		}
 		else
-			translate(dirToFly.x*speed*2.0f*deltaTime, dirToFly.y*speed*2.0f*deltaTime);
+			translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
 	}
 	else if (state == 4) //Flying inside mirror state
 	{
@@ -225,18 +221,9 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			state = 0;
 			calcDir(-1);
 		}
-		if (reachedDestination())
-		{
-			int posInMirror = rand() % 6;
-			while (posInMirror == lastPos)
-			{
-				posInMirror = rand() % 6;
-			}
-			lastPos = posInMirror;
-			calcDir(posInMirror);
-		}
-		else
-			translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
+		glm::vec2 dist = glm::vec2(playerPos) - glm::vec2(pos);
+		glm::vec2 normDist = normalize(dist);
+		translate(normDist.x*mirrorSpeed*deltaTime, normDist.y*mirrorSpeed*deltaTime);
 	}
 	hurtRect->update();
 	collideRect->update();
@@ -252,7 +239,7 @@ bool Bossghost::isInitiated()
 
 void Bossghost::hit(int damage, bool playerRightOfEnemy)
 {
-	if (invulnTimer < FLT_EPSILON && !inMirror)
+	if (invulnTimer < FLT_EPSILON && !inMirror && state != 0 && state != 3)
 	{
 		health -= damage;
 		if (health > 0)

@@ -37,6 +37,7 @@ Spellbook::Spellbook(Spellbook* copy)
 
 void Spellbook::init()
 {
+	worldMat = glm::mat4(1);
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
@@ -48,6 +49,17 @@ int Spellbook::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	glm::vec2 pos = glm::vec2(readPos().x, readPos().y);
 	glm::vec2 pPos = glm::vec2(playerPos.x, playerPos.y);
+
+	if (pos.x < pPos.x && !facingRight)
+	{
+		rotateTo(0, 3.141592654f, 0);
+		facingRight = true;
+	}
+	else if (pPos.x < pos.x && facingRight)
+	{
+		rotateTo(0, 3.141592654f, 0);
+		facingRight = false;
+	}
 
 	// movement
 	if (yMovement == 1)
@@ -70,23 +82,38 @@ int Spellbook::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 
 	// spells
-	if (spellCooldown <= 0)
+	if (invulnTimer < FLT_EPSILON)
 	{
-		glm::vec2 dist = pos - pPos;
-		float distance = sqrt(dist.x*dist.x + dist.y*dist.y);
-
-		if (distance < 10.0f)
+		if (spellCooldown <= 0)
 		{
-			castSpell(map, playerPos);
+			glm::vec2 dist = pos - pPos;
+			float distance = sqrt(dist.x*dist.x + dist.y*dist.y);
+
+			if (distance < 10.0f)
+			{
+				castSpell(map, playerPos);
+			}
+		}
+		else
+		{
+			spellCooldown -= 1.0f*deltaTime;
 		}
 	}
 	else
 	{
-		spellCooldown -= 1.0f*deltaTime;
-	}
-
-	if (invulnTimer > 0.0)
+		pos = glm::vec2(readPos());
 		invulnTimer -= 1.0f*deltaTime;
+		rotateTo(0, 4*3.141592654f*deltaTime, 0);
+		if (invulnTimer < FLT_EPSILON)
+		{
+			worldMat = glm::mat4(1);
+			moveTo(pos.x, pos.y);
+			if (!facingRight)
+				rotateTo(0, 3.141592654f, 0);
+			spellArcaneMissile(map, playerPos);
+			spellCooldown = 2.0f;
+		}
+	}
 	return 0;
 }
 
@@ -146,7 +173,7 @@ void Spellbook::hit(int damage, bool playerRightOfEnemy)
 		else
 			Audio::getAudio().playSoundAtPos(SoundID::enemy_tome_hurt, readPos(), audibleDistance, false); //spellbook_death (currently same as ghost)
 
-		invulnTimer = 0.6f;
+		invulnTimer = 1.0f;
 	}
 	//	//else
 	//		//audio(bookhurt)
