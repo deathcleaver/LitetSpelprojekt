@@ -13,7 +13,7 @@
 class Gbuffer : public RenderTarget
 {
 public:
-
+	Gbuffer();
 	~Gbuffer();
 
 	void init(int x, int y, int nrTex, bool depth);
@@ -62,6 +62,7 @@ public:
 	void setDoF(bool);
 private:
 
+	bool initialized;
 	bool lightInitialized;
 	bool dofInitialize;
 

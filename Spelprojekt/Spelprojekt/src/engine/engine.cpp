@@ -201,6 +201,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	stopTimer(timerID);
 
+	glUseProgram(0);
+
 }
 
 
@@ -239,7 +241,8 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 				obj->mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
 
 				// mirror renderPass
-				obj->mirrorBuffer.bind(GL_FRAMEBUFFER);
+				//obj->mirrorBuffer.bind(GL_FRAMEBUFFER);
+				glBindFramebuffer(GL_FRAMEBUFFER, obj->targetId);
 				glUseProgram(tempshader);
 				glViewport(0, 0, 400, 400);
 

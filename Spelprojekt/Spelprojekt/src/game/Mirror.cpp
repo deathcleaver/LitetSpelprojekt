@@ -1,4 +1,6 @@
 #include "Mirror.h"
+#include "../engine/Shader.h"
+
 
 Mirror::Mirror()
 {
@@ -15,6 +17,10 @@ Mirror::~Mirror()
 {
 	if (enterRect)
 		delete enterRect;
+
+	glDeleteFramebuffers(1, &targetId);
+	//glDeleteProgram(mirrorShader);
+
 }
 
 void Mirror::setRect()
@@ -90,7 +96,26 @@ void Mirror::calcView()
 
 void Mirror::render()
 {
-	mirrorBuffer.renderTexture();
+	//mirrorBuffer.renderTexture();
+	glUseProgram(mirrorShader);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, rTexture[1].getTargetId());
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, rTexture[2].getTargetId());
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, rTexture[3].getTargetId());
+
+	glProgramUniform1i(mirrorShader, unifromNormal, 1);
+	glProgramUniform1i(mirrorShader, unifromWorld, 2);
+
+	glBindBuffer(GL_ARRAY_BUFFER, RenderTarget::renderQuad);
+	glBindVertexArray(RenderTarget::renderVao);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+
 }
 
 void Mirror::initGBuffer(Gbuffer &screenBuffer)
@@ -108,7 +133,67 @@ void Mirror::initGBuffer(Gbuffer &screenBuffer)
 	mirrorBuffer.unifromNormal = screenBuffer.unifromNormal;
 	mirrorBuffer.unifromWorld = screenBuffer.unifromWorld;
 
-	mirrorBuffer.init(sizeX, sizeY, 4, true);
+	//mirrorBuffer.init(sizeX, sizeY, 4, true);
+
+	mirrorShader = *screenBuffer.shaderMirrorPtr;
+
+	glGenFramebuffers(1, &targetId);
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, targetId);
+
+	int nrTextures = 4;
+	bool depth = true;
+
+	GLenum* DrawBuffers = new GLenum[nrTextures];
+
+	for (int i = 0; i < nrTextures; i++)
+	{
+		if (i == 0 && depth)
+		{
+			rTexture[i].init(400, 400, 0, true);
+			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rTexture[i].getTargetId(), 0);
+			DrawBuffers[i] = GL_NONE;
+		}
+		else
+		{
+			rTexture[i].init(400, 400, 0, false);
+			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, rTexture[i].getTargetId(), 0);
+			DrawBuffers[i] = (GL_COLOR_ATTACHMENT0 + i);
+		}
+	}
+
+	glDrawBuffers(nrTextures, DrawBuffers);
+
+	delete[] DrawBuffers;
+
+	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (Status != GL_FRAMEBUFFER_COMPLETE) {
+		throw;
+	}
+
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	
+	std::string shaders[] = { "", "src/shaders/gs.glsl", "" };
+	GLenum shaderType[] = { GL_VERTEX_SHADER, GL_GEOMETRY_SHADER, GL_FRAGMENT_SHADER };
+
+	// mirror shader
+	shaders[0] = "src/shaders/gBuffer_copy_vs.glsl";
+	shaders[2] = "src/shaders/gBuffer_copy_fs.glsl";
+	
+	//CreateProgram(mirrorShader, shaders, shaderType, 3);
+	
+	mirrorModelMatrix = glGetUniformLocation(mirrorShader, "modelMatrix");
+	mirrorP = glGetUniformLocation(mirrorShader, "P");
+	mirrorV = glGetUniformLocation(mirrorShader, "V");
+
+	// mirror
+	unifromNormal = glGetUniformLocation(mirrorShader, "normalIn");
+	unifromWorld = glGetUniformLocation(mirrorShader, "worldIn");
+
+
+
 	initialized = true;
 
 

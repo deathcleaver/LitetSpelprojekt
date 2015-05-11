@@ -1,5 +1,17 @@
 #include "GBuffer.h"
 
+Gbuffer::Gbuffer()
+{
+	targetId = 0;
+	DoFBuffer = 0;
+	lightBuffer = 0;
+	lightBufferGlow = 0;
+
+	initialized = false;
+	lightInitialized = false;
+	dofInitialize = false;
+}
+
 void Gbuffer::init(int x, int y, int nrTex, bool depth)
 {
 	renderDoF = false;
@@ -12,12 +24,13 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 	// gbuffer
 
 	glGenFramebuffers(1, &targetId);
+	bind(GL_FRAMEBUFFER);
 	this->depth = depth;
 	nrTextures = nrTex;
 
 	generate(x, y);
 
-	bind(GL_DRAW_FRAMEBUFFER);
+	
 
 	GLenum* DrawBuffers = new GLenum[nrTextures];
 	
@@ -86,6 +99,7 @@ void Gbuffer::init(int x, int y, int nrTex, bool depth)
 
 	lightInitialized = false;
 	dofInitialize = false;
+	initialized = true;
 }
 
 void Gbuffer::initDoF(int x, int y, int nrTex, bool depth)
@@ -173,8 +187,11 @@ Gbuffer::~Gbuffer()
 	delete[] rTexture;
 	delete[] pos;
 	//delete[] volume;
-	glDeleteFramebuffers(1, &targetId);
-	Debug::DebugOutput("Deleting gbuffer target\n");
+	if (initialized)
+	{
+		glDeleteFramebuffers(1, &targetId);
+		Debug::DebugOutput("Deleting gbuffer target\n");
+	}
 	//
 
 	if (dofInitialize)

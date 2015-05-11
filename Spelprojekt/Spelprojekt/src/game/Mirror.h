@@ -52,6 +52,8 @@ public:
 
 	glm::mat4 wMat;
 
+	GLuint targetId;
+
 private:
 
 	int sizeX, sizeY;
@@ -66,6 +68,19 @@ private:
 	glm::vec2 chunkLocation;
 
 	Rect* enterRect;
+
+
+	// buffer stuff
+	
+	RenderTarget rTexture[4];
+	GLuint mirrorShader;
+
+	GLuint mirrorModelMatrix;
+	GLuint mirrorP;
+	GLuint mirrorV;
+
+	GLuint unifromNormal;
+	GLuint unifromWorld;
 };
 
 #endif
