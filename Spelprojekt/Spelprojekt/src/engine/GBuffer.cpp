@@ -184,6 +184,7 @@ void Gbuffer::pushLights(Light* light, int lightsAdded)
 	{
 		if ((light[i].volume == 0 || light[i].volume == 1) && nrLight < 1000)
 		{
+			glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);
 			glBufferSubData(GL_UNIFORM_BUFFER, nrLight * sizeof(Light), 1 * sizeof(Light), &light[i]);
 			nrLight++;
 		}

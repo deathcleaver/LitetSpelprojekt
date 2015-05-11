@@ -20,7 +20,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	health = 6;
 	speed = 5.0f;
 	mirrorSpeed = 1.5f;
-	audibleDistance = 5.0f;
+	audibleDistance = 10.0f;
 
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
@@ -69,6 +69,8 @@ void Bossghost::init()
 		speed = 5.0f;
 		inMirror = true;
 		worldMat = glm::mat4(1);
+		scaleFactor(0.01f, 0.01f, 0.01f);
+		rotateTo(0, 3.141592654f, 0);
 		isInit = true;
 		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
@@ -99,7 +101,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		stateTimer -= 1.0f*deltaTime;
 		if (stateTimer < 2.0f)
 		{
-			scaleAD(1.0f*deltaTime, 1.0f*deltaTime, 1.0f*deltaTime);
+			worldMat = glm::mat4(1);
+			moveTo(pos.x, pos.y);
+			float scaleF = 2.0 - stateTimer;
+			scaleFactor(scaleF*1.5f, scaleF*1.5f, scaleF*1.5f);
+			rotateTo(0, 3.141592654f, 0);
 		}
 		else
 			moveTo(playerPos.x, playerPos.y);
@@ -117,8 +123,12 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				translate(0, 0, -2.0f*deltaTime);
 				pos = readPos();
-				if (pos.z < -2.0f)
+				if (pos.z < -2.5f)
+				{
 					inMirror = false;
+					rotateTo(0, 3.141592654f, 0);
+					Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
+				}
 			}
 			else
 				translate(0, 0, 2.0f*deltaTime);
@@ -154,6 +164,8 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			getSpooky(map);
 			ghostTimer = 4.0f;
 			ghostSpawns--;
+
+			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 		}
 		else if (ghostSpawns == 0)
 		{
@@ -188,8 +200,9 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				translate(0, 0, -2.0f*deltaTime);
 				pos = readPos();
-				if (pos.z < -2.0f)
+				if (pos.z < -2.5f)
 				{
+					rotateTo(0, 3.141592654f, 0);
 					inMirror = true;
 					Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 				}

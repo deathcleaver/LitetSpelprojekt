@@ -272,7 +272,8 @@ void Engine::renderMirror()
 			for (int k = 0; k < size; k++)
 			{
 				Mirror* obj = (Mirror*)chunks[upDraw[x]][upDraw[y]].gameObjects[WorldID::mirror][k];
-				obj->bindWorldMat(&mirrorShader, &mirrorModelMatrix);
+				//obj->bindWorldMat(&mirrorShader, &mirrorModelMatrix);
+				glProgramUniformMatrix4fv(mirrorShader, mirrorModelMatrix, 1, false, &obj->wMat[0][0]);
 				obj->render();
 			}
 		}

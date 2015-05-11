@@ -51,6 +51,7 @@ Ghost::Ghost(Ghost* copy)
 
 void Ghost::init()
 {
+	worldMat = glm::mat4(1);
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
@@ -72,6 +73,16 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	glm::vec2 pos = glm::vec2(readPos().x, readPos().y);
 	glm::vec2 pPos = glm::vec2(playerPos.x, playerPos.y);
+	if (pos.x < pPos.x && !facingRight)
+	{
+		facingRight = true;
+		rotateTo(0, 3.141592654f, 0);
+	}
+	else if (pos.x > pPos.x && facingRight)
+	{
+		facingRight = false;
+		rotateTo(0, 3.141592654f, 0);
+	}
 	if (invulnTimer < FLT_EPSILON)
 	{
 		fading = false;

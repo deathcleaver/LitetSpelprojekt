@@ -422,7 +422,7 @@ void MapChunk::saveObject(GameObject* object, ofstream* out)
 	{
 		glm::vec2 tp = ((Mirror*)object)->getTeleportLocation();
 		glm::vec2 ch = ((Mirror*)object)->getChunkTeleport();
-		*out << ch.x << " " << ch.y << " " << tp.x << " " << tp.y;
+		*out << ch.x << " " << ch.y << " " << tp.x - ch.x*35 << " " << tp.y + ch.y*35;
 	}
 
 	*out << endl;

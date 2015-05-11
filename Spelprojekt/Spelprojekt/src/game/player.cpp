@@ -552,8 +552,6 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				//runeEffect->posZ = playerPos.z;
 			}
 			invulnTimer -= 1.0f*deltaTime;
-			if (flinchTimer > FLT_EPSILON)
-				flinchTimer -= 1.0f*deltaTime;
 		}
 	}
 	if (!userInput->getKeyState('W') && !pad->jump(axesY))
@@ -607,9 +605,13 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			if (val.z > -FLT_EPSILON)
 			{
 				moveTo(val.x, val.y);
+				speed.x = 0.0f;
+				speed.y = 0.0f;
 			}
 		}
 	}
+	if (flinchTimer > FLT_EPSILON)
+		flinchTimer -= 1.0f*deltaTime;
 	return 0;
 }
 
