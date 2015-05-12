@@ -45,7 +45,7 @@ void Grim::init()
 		isInit = false;
 		alive = false;
 	}
-}}
+}
 
 int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {	
@@ -96,7 +96,7 @@ glm::vec2 Grim::plsGiveBossPos()
 	return initPos;
 }
 
-glm::vec2 getHandPos()
+glm::vec2 Grim::getHandPos()
 {
 	return glm::vec2(-8, -5);
 }
