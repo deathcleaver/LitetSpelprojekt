@@ -540,6 +540,31 @@ if (soundEnabled && audioEnabled) //sound is enabled
 	}
 }
 
+void Audio::playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping, float pitch)
+{
+	if (soundEnabled && audioEnabled) //sound is enabled
+	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers
+	{
+		ALuint source;
+		alGenSources(1, &source);
+
+		ALfloat SourcePos[] = { pos.x, pos.y, pos.z };
+		ALfloat SourceVel[] = { 0.0, 0.0, 0.0 };
+
+		alSourcei(source, AL_BUFFER, soundBuffer[file]);
+		alSourcef(source, AL_PITCH, pitch);
+		alSourcef(source, AL_GAIN, masterVolume * soundVolume);
+		alSourcei(source, AL_REFERENCE_DISTANCE, distance);
+		alSourcefv(source, AL_POSITION, SourcePos);
+		alSourcefv(source, AL_VELOCITY, SourceVel);
+		alSourcei(source, AL_LOOPING, looping);
+
+		alSourcePlay(source);
+
+		soundSources.push_back(source);
+	}
+}
+
 ALuint Audio::playSoundSP(int file, bool looping)
 {
 	if (soundEnabled && audioEnabled) //sound is enabled

@@ -3,17 +3,28 @@
 
 Cube::Cube(glm::vec2 firstPos)
 {
-	scaleFactor(1.8f, 1.8f, 1.8f);
+	float tempScale = 1.8f;
+	float tempCollide = 1.8f;
+	float tempHurt = 2.1f;
+	health = 2;
+	if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+	{
+		tempCollide *= 1.2f;
+		tempScale *= 1.6f;
+		tempHurt *= 1.6f;
+		health = 4;
+	}
+
+	scaleFactor(tempScale, tempScale, tempScale);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
 	alive = true;
 	facingRight = true;
 	contentIndex = EnemyID::cube;
-	health = 2;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1.8f, 1.8f);
+	collideRect->initGameObjectRect(&worldMat, tempCollide, tempCollide);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.1f, 2.1f);
+	hurtRect->initGameObjectRect(&worldMat, tempHurt, tempHurt);
 
 	audibleDistance = 3.0f;
 
@@ -81,7 +92,11 @@ void Cube::init()
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
-	health = 2;
+	if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+		health = 4;
+	else
+		health = 2;
+
 	collideRect->update();
 }
 
@@ -99,7 +114,14 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			if (speed.x < -2.0f)
-				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
+			{
+				if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+					Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false, 0.6f); //enemy_slime_jump
+				else
+					Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
+				
+			}
+				
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -117,7 +139,12 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (collidesWithWorld(map))
 		{
 			if (speed.x > 2.0f)
-				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
+			{
+				if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+					Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false, 0.6f); //enemy_slime_jump
+				else
+					Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
+			}
 
 			moveTo(myPos.x - speed.x*deltaTime, myPos.y);
 			speed.x = 0;
@@ -132,7 +159,12 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	if (collidesWithWorld(map))
 	{
 		if (speed.y > 5.0f || speed.y < -5.0f)
-			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, readPos(), audibleDistance, false); //enemy_slime_jump
+		{
+			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false, 0.6f); //enemy_slime_jump
+			else
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
+		}
 
 		moveTo(myPos.x, myPos.y + speed.y*deltaTime);
 		speed.y = 0;
@@ -142,7 +174,10 @@ int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		speed.y -= 20.0f;
 		jumpTimer = 0.0f;
-		Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, readPos(), audibleDistance, false); //enemy_slime_jump
+		if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false, 0.6f); //enemy_slime_jump
+		else
+			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_jump, myPos, audibleDistance, false); //enemy_slime_jump
 	}
 
 	if (invulnTimer > FLT_EPSILON)
@@ -170,11 +205,18 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 		if (health <= 0)
 		{
 			alive = false;
-			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_death, readPos(), audibleDistance, false); //enemy_slime_death
-			//Spawna nya slimes
+			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_death, readPos(), audibleDistance, false, 0.6f); //enemy_slime_death
+			else
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_death, readPos(), audibleDistance, false); //enemy_slime_death
 		}
 		else
-			Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_hurt, readPos(), audibleDistance, false); //enemy_slime_hurt
+		{
+			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_hurt, readPos(), audibleDistance, false, 0.6f); //enemy_slime_death
+			else
+				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_hurt, readPos(), audibleDistance, false); //enemy_slime_death
+		}
 
 		invulnTimer = 0.6f;
 	}

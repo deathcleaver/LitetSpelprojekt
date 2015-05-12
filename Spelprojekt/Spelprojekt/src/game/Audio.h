@@ -68,6 +68,7 @@ public:
 	void playSound(int file, bool looping);
 	void playSoundPitched(int file, float pitch, bool looping);
 	void playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping);
+	void playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping, float pitch);
 	ALuint playSoundSP(int file, bool looping);
 	ALuint playSoundAtPosSP(int file, glm::vec3 pos, float distance, bool looping);
 	void updateListener(glm::vec3 pos);
