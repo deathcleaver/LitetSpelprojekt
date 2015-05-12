@@ -7,6 +7,7 @@
 #include <..\glm\gtc\matrix_transform.hpp>
 #include <string>
 
+#include "../GameConfig.h"
 #include "gameObject.h"
 #include "rect.h"
 

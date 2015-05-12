@@ -9,7 +9,7 @@ Bat::Bat(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 1;
 	health = 1;
-	speed = 4.0f;
+	speed = 4.0f + GameConfig::get().configDifficulty * 2; // + (0->2);
 	slow = false;
 	audibleDistance = 2.5f;
 
@@ -29,7 +29,7 @@ Bat::Bat(Bat* copy)
 	facingRight = copy->facingRight;
 	contentIndex = 1;
 	health = 1;
-	speed = 4.0f;
+	speed = 4.0f + GameConfig::get().configDifficulty * 2; // + (0->2);
 	slow = copy->slow;
 
 	movementScale = copy->movementScale;
