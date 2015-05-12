@@ -29,7 +29,7 @@ private:
 	float TexscaleX = 1;
 	float TexscaleY = 1;
 	int SCREENWIDTH = GameConfig::get().configResX;
-	int SCREENHEIGHT = GameConfig::get().configResX;
+	int SCREENHEIGHT = GameConfig::get().configResY;
 
 	//temprary implementations
 	bool loadVert(std::string path);
