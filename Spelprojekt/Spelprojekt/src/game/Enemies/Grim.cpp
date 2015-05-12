@@ -99,5 +99,5 @@ glm::vec2 Grim::plsGiveBossPos()
 
 glm::vec2 Grim::getHandPos()
 {
-	return glm::vec2(-8, -5);
+	return glm::vec2(-2, 7);
 }
