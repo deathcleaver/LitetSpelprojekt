@@ -68,6 +68,9 @@ private:
 	bool fadeIn;
 	bool fadeOut;
 
+	Object* creditsObject = 0;
+	GameObject* creditsBase = 0;
+
 	void renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
@@ -75,7 +78,7 @@ private:
 
 	void renderPlayer(const Player*);
 	void renderBack();
-	void renderWorld();
+	void renderWorld(GameObject* exclude);
 	void renderMisc();
 	void renderEnemies(UpdateAnimCheck* animCheck);
 	void bindLights(const Player*, Edit* edit);
@@ -92,7 +95,7 @@ private:
 	int lastid;
 
 	void renderPass(const Player* player, const Map* map, const ContentManager* content,
-		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
+		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck, GameObject* exclude);
 
 	bool bossMirrorPass = false;
 

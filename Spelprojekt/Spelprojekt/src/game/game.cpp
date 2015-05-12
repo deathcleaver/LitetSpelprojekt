@@ -273,6 +273,9 @@ void Game::update(float deltaTime)
 			engine->setFade(1.0f);
 			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
+
+			if (in->getESC())
+				current = MENU;
 			break;
 		}
 		case(PLAY) :
@@ -938,7 +941,7 @@ void Game::cameraUpdate()
 void Game::cameraUpdateCredits()
 {
 	if (last != current) 
-		lastposCredits = vec3( 35 * 7, -35 * 3 + 5.0f, 10);
+		lastposCredits = vec3( 35 * 7, -35 * 3 + 17.5f, 10);
 
 	if (lastposCredits.y > (35 * 6) + 17.0f)
 	{

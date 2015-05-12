@@ -9,6 +9,10 @@ Engine::~Engine()
 {
 	delete eff;
 	delete[]light;
+	if (creditsBase)
+		delete creditsBase;
+	if (creditsObject)
+		delete creditsObject;
 }
 
 void Engine::init(glm::mat4* viewMat)
@@ -108,6 +112,13 @@ void Engine::init(glm::mat4* viewMat)
 	eff = new Effect();
 	eff->create(EffectType::lightning);
 	eff->getEffect()->init(0, 0, 0);
+
+	//credits object
+	creditsObject = new Object("src/meshes/BaseBlit.v", "src/textures/credits.bmp");
+	creditsBase = new GameObject();
+	creditsBase->scaleAD(15.0f / 2, 130.0f / 2, 0.0f);
+	creditsBase->moveTo(35 * 7, -5 * 35 + 17.5f, -1);
+
 }
 
 void Engine::applySettings(bool glows)
@@ -164,11 +175,10 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &projMatrix[0][0]);
 	}
 
-	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, 0);
 	//
 
 	bindLights(player, edit);
-
 
 	// temp lightning
 	int cx, cy;
@@ -268,7 +278,8 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 					obj->initGBuffer(gBuffer);
 				}
 
-				obj->mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
+				obj->reflect(*campos);
+				obj->calcView();
 
 				// mirror renderPass
 				//obj->mirrorBuffer.bind(GL_FRAMEBUFFER);
@@ -289,7 +300,7 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 					glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &obj->projMat[0][0]);
 				}
 
-				renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+				renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, obj);
 
 			}
 		}
@@ -319,7 +330,7 @@ void Engine::renderMirror()
 
 
 void Engine::renderPass(const Player* player, const Map* map, const ContentManager* contentin,
-	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck, GameObject* exclude)
 {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -335,17 +346,26 @@ void Engine::renderPass(const Player* player, const Map* map, const ContentManag
 	upDraw = map->getUpDraw();
 	content = contentin;
 
+
 	renderPlayer(player);
+
+	if (state == 11 || state == 3) //if credits or editor
+	{
+		creditsObject->bind();
+		creditsBase->bindWorldMat(&tempshader, &uniformModel);
+		glDrawElementsInstanced(GL_TRIANGLES, 2 * 3, GL_UNSIGNED_SHORT, 0, 1);
+	}
 
 	renderBack();
 
-	renderWorld();
+	renderWorld(exclude);
 
 	renderMisc();
 
 	renderEnemies(updateAnimCheck);
 
 	renderEditObject(edit);
+	
 
 }
 
@@ -381,7 +401,7 @@ void Engine::renderBack()
 		lastid = -1;
 }
 
-void Engine::renderWorld()
+void Engine::renderWorld(GameObject* exclude)
 {
 	//render chunk world objects
 	for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
@@ -398,11 +418,13 @@ void Engine::renderWorld()
 			int x = n * 2 + 1;
 			int y = x + 1;
 			if (upDraw[x] > -1 && upDraw[x] < width)
-				if (upDraw[y] > -1 && upDraw[y] < height)
-				{
-					int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
+			if (upDraw[y] > -1 && upDraw[y] < height)
+			{
+				int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
 
-					for (int k = 0; k < size; k++)
+				for (int k = 0; k < size; k++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k] != exclude)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k]->bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
@@ -411,6 +433,7 @@ void Engine::renderWorld()
 						lastid = id;
 					}
 				}
+			}
 		}
 
 		if (WoID == WorldID::ghost_platform)
