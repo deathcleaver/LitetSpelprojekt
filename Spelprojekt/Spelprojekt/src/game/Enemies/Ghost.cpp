@@ -13,7 +13,7 @@ Ghost::Ghost(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
-	speed = 2.0f + GameConfig::get().configDifficulty * 2;
+	speed = 2.0f + GameConfig::get().configDifficulty;
 
 	effect = new Effect();
 	effect->create(EffectType::spark);
