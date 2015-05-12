@@ -19,6 +19,7 @@ Cube::Cube(glm::vec2 firstPos)
 
 	speed = glm::vec2(0,0);
 	maxSpeed = glm::vec2(12, 30);
+	maxSpeed.x += GameConfig::get().configDifficulty * 2; // + (0->2);
 	acc = 0.3f;
 	invulnTimer = 0.0f;
 	jumpTimer = 0.0f;
