@@ -13,7 +13,7 @@ Ghost::Ghost(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 
-	speed = 2.0f;
+	speed = 2.0f + GameConfig::get().configDifficulty * 2;
 
 	effect = new Effect();
 	effect->create(EffectType::spark);
@@ -41,7 +41,7 @@ Ghost::Ghost(Ghost* copy)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 	randdir = copy->randdir;
 
-	speed = 2.0f;
+	speed = 2.0f + GameConfig::get().configDifficulty * 2;
 	invulnTimer = copy->invulnTimer;
 
 	effect = new Effect();

@@ -13,6 +13,7 @@ Bossspider::Bossspider(glm::vec2 firstPos)
 	contentIndex = EnemyID::maexxna;
 	health = 6;
 	speed = glm::vec2(8.0f, 0.0f);
+	speed.x += GameConfig::get().configDifficulty * 2; // + (0->2)
 	audibleDistance = 10.0f;
 
 	invulnTimer = 0.0f;
@@ -147,11 +148,11 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				currentMode = 3;
 				webTimer = 1.0f;
 				if (health > 4)
-					websToShoot = 1;
+					websToShoot = 1 + GameConfig::get().configDifficulty * 2;
 				else if (health > 2)
-					websToShoot = 2;
+					websToShoot = 2 + GameConfig::get().configDifficulty * 2;
 				else
-					websToShoot = 3;
+					websToShoot = 3 + GameConfig::get().configDifficulty * 2;
 				Debug::DebugOutput("Modeswitch to 3\n");
 			}
 			else

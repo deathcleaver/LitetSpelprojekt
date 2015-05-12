@@ -6,7 +6,12 @@ Spider::Spider(glm::vec2 firstPos)
 	moveTo(firstPos.x, firstPos.y);
 	contentIndex = 4;
 	alive = true;
-	jumpTimer = 3.0f;
+	if (GameConfig::get().configDifficulty == GameConfig::Casual)
+		jumpTimer = 3.0f;
+	else if (GameConfig::get().configDifficulty == GameConfig::Hardcore)
+		jumpTimer = 2.0f;
+	else if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+		jumpTimer = 1.0f;
 	ceiling = true;
 	jumping = false;
 	lastFacing = facingRight = true;
@@ -14,6 +19,7 @@ Spider::Spider(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
 	speed = glm::vec2(1, 0.0);
+	speed.x += GameConfig::get().configDifficulty * 2;
 	audibleDistance = 2.5f;
 
 	invulnTimer = 0.0f;
@@ -52,7 +58,12 @@ void Spider::init()
 	rotateTo(3.14159265f, 0, 0);
 	moveTo(initPos.x, initPos.y);
 	alive = true;
-	jumpTimer = 3.0f;
+	if (GameConfig::get().configDifficulty == GameConfig::Casual)
+		jumpTimer = 3.0f;
+	else if (GameConfig::get().configDifficulty == GameConfig::Hardcore)
+		jumpTimer = 2.0f;
+	else if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+		jumpTimer = 1.0f;
 	ceiling = true;
 	jumping = false;
 	lastFacing = facingRight = true;
@@ -135,7 +146,12 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				glm::vec3 pos = readPos();
 				if (speed.y < 0.0f)
 				{
-					jumpTimer = 3.0f;
+					if (GameConfig::get().configDifficulty == GameConfig::Casual)
+						jumpTimer = 3.0f;
+					else if (GameConfig::get().configDifficulty == GameConfig::Hardcore)
+						jumpTimer = 2.0f;
+					else if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+						jumpTimer = 1.0f;
 					jumping = false;
 					speed.x = 4.0f;
 					if (playerPos.x < pos.x)

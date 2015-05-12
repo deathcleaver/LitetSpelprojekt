@@ -12,7 +12,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = EnemyID::batboss;
 	health = 4;
-	speed = 4.0f;
+	speed = 4.0f + GameConfig::get().configDifficulty * 2; // + (0->2)
 	slow = false;
 	audibleDistance = 2.5f;
 
@@ -272,7 +272,7 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 {
 	if (invulnTimer < FLT_EPSILON)
 	{
-		batsToSpawn = 3;
+		batsToSpawn = 3 + GameConfig::get().configDifficulty;
 		batTimer = 0.6f;
 		health -= damage;
 		if (health > 0)

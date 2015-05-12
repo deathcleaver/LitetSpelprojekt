@@ -15,6 +15,7 @@ Flame::Flame(glm::vec2 firstPos)
 	contentIndex = 2;
 	health = 3;
 	speed = glm::vec2(2.0f, 0.0f);
+	speed.x += GameConfig::get().configDifficulty * 2; // + (0->2);
 	invulnTimer = 0.0f;
 	audibleDistance = 2.5f;
 

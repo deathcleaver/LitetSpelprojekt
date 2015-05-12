@@ -18,7 +18,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = EnemyID::demon;
 	health = 5;
-	speed = 5.0f;
+	speed = 5.0f + GameConfig::get().configDifficulty * 2; // + (0->2)
 	mirrorSpeed = 1.5f;
 	audibleDistance = 10.0f;
 
@@ -66,7 +66,7 @@ void Bossghost::init()
 {
 	if (!isInit)
 	{
-		speed = 5.0f;
+		speed = 5.0f + GameConfig::get().configDifficulty * 2;
 		inMirror = true;
 		worldMat = glm::mat4(1);
 		scaleFactor(0.01f, 0.01f, 0.01f);
@@ -143,7 +143,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				lastPos = posOutOfMirror;
 				calcDir(posOutOfMirror);
 				ghostTimer = 4.0f;
-				ghostSpawns = 3;
+				ghostSpawns = 3 + GameConfig::get().configDifficulty * 2;
 			}
 		}
 		else
