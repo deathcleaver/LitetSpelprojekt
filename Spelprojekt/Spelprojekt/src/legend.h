@@ -195,8 +195,8 @@ enum SoundID
 	item_hearth_piece = 27,
 	item_hearth_completed = 28,
 	// ambient
-	ambient_water_drop = 29,
-	ambient_rain = 30,
+	ambient_rain = 29,
+	ambient_lightning = 30,
 	ambient_thunder2 = 31,
 	ambient_crow = 32,
 	ambient_everyone = 33,

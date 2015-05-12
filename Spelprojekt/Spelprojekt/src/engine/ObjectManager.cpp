@@ -372,8 +372,8 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Demon Dmon
-	Object* Demon1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
-	Object* Demon2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	Object* Demon1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/player.bmp");
+	Object* Demon2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/player.bmp");
 	add = new AnimationObject(Demon1, Demon2, 0.5f, 0.05f);
 	objects[OBJ::ENEMY].push_back(add);
 
@@ -413,8 +413,8 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Grim REAPER
-	Object* reaper1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
-	Object* reaper2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	Object* reaper1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/grim_reaper.bmp");
+	Object* reaper2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/grim_reaper.bmp");
 	add = new AnimationObject(reaper1, reaper2, 0.5f, 0.05f);
 	objects[OBJ::ENEMY].push_back(add);
 

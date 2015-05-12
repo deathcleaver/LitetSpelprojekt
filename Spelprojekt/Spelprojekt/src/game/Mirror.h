@@ -44,6 +44,8 @@ public:
 		return chunkLocation;
 	}
 
+	void reflect(glm::vec3 campos);
+
 	void setRect();
 	Rect* getRekt()
 	{
@@ -63,6 +65,7 @@ private:
 	bool initialized;
 
 	glm::vec3 normal;
+	glm::vec3 finalNormal;
 
 	glm::vec2 teleportLocation;
 	glm::vec2 chunkLocation;

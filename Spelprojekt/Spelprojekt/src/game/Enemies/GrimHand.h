@@ -6,6 +6,9 @@
 class GrimHand : public Enemy
 {
 private:
+	int state;
+	float invulnTimer;
+	float stateTimer;
 public:
 	GrimHand(glm::vec2 firstPos);
 	GrimHand(GrimHand* copy);
@@ -16,6 +19,7 @@ public:
 	{
 		return "GrimHand";
 	}
+	bool isBlinking();
 };
 
 #endif

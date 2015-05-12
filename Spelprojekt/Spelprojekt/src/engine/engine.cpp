@@ -175,10 +175,10 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &projMatrix[0][0]);
 	}
 
-	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, 0);
+	//
 
 	bindLights(player, edit);
-
 
 	// temp lightning
 	int cx, cy;
@@ -278,7 +278,8 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 					obj->initGBuffer(gBuffer);
 				}
 
-				obj->mirrorBuffer.playerPos = (GLfloat*)&player->readPos();
+				obj->reflect(*campos);
+				obj->calcView();
 
 				// mirror renderPass
 				//obj->mirrorBuffer.bind(GL_FRAMEBUFFER);
@@ -299,7 +300,7 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 					glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &obj->projMat[0][0]);
 				}
 
-				renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
+				renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, obj);
 
 			}
 		}
@@ -329,7 +330,7 @@ void Engine::renderMirror()
 
 
 void Engine::renderPass(const Player* player, const Map* map, const ContentManager* contentin,
-	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck, GameObject* exclude)
 {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -357,8 +358,7 @@ void Engine::renderPass(const Player* player, const Map* map, const ContentManag
 
 	renderBack();
 
-
-	renderWorld();
+	renderWorld(exclude);
 
 	renderMisc();
 
@@ -401,7 +401,7 @@ void Engine::renderBack()
 		lastid = -1;
 }
 
-void Engine::renderWorld()
+void Engine::renderWorld(GameObject* exclude)
 {
 	//render chunk world objects
 	for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
@@ -418,11 +418,13 @@ void Engine::renderWorld()
 			int x = n * 2 + 1;
 			int y = x + 1;
 			if (upDraw[x] > -1 && upDraw[x] < width)
-				if (upDraw[y] > -1 && upDraw[y] < height)
-				{
-					int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
+			if (upDraw[y] > -1 && upDraw[y] < height)
+			{
+				int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
 
-					for (int k = 0; k < size; k++)
+				for (int k = 0; k < size; k++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k] != exclude)
 					{
 						id = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k]->bindWorldMat(&tempshader, &uniformModel);
 						if (id != lastid)
@@ -431,6 +433,7 @@ void Engine::renderWorld()
 						lastid = id;
 					}
 				}
+			}
 		}
 
 		if (WoID == WorldID::ghost_platform)
@@ -669,12 +672,24 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						{
 							for (int c = 0; c < 2; c++)
 							{
+								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(c, "GrimHand"))
+								{
+									glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+									glColorMask(0, 0, 1, 1);
+									glEnable(GL_CULL_FACE);
+								}
 								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "GrimHand");
 								if (id != lastid)
 									facecount = content->bind(OBJ::ENEMY, id);
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 								lastid = id;
 								animCheck->enemyUpdate[id] = 1;
+								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(c, "GrimHand"))
+								{
+									glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+									glColorMask(1, 1, 1, 1);
+									glDisable(GL_CULL_FACE);
+								}
 							}
 						}
 					}
