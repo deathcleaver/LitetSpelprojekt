@@ -16,6 +16,9 @@
 #include "Enemies/Spellbook.h"
 #include "Enemies/ArcaneMissile.h"
 #include "Enemies/Deathbox.h"
+
+#include "Enemies/Grim.h"
+#include "Enemies/GrimHand.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -61,6 +64,12 @@ EnemyManager::~EnemyManager()
 
 	if (boss)
 		delete boss;
+	for (int c = 0; c < 2; c++)
+	{
+		if (grimHands[c])
+			delete grimHands[c];
+	}
+
 	if (visitorHolder)
 		delete[]visitorHolder;
 }
@@ -91,6 +100,7 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	deathboxes = new Enemy*[deathMax];
 
 	boss = 0;
+	grimHands[0] = grimHands[1] = 0;
 	string line;
 	string type; //To store type
 	glm::vec2 pos; //To store pos
@@ -199,6 +209,9 @@ void EnemyManager::initEmpty()
 	missiles = 0;
 	deathCount = -1;
 	deathboxes = 0;
+
+	boss = 0;
+	grimHands[0] = grimHands[1] = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -365,6 +378,21 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 		if (boss->isAlive())
 		{
 			msg = boss->update(deltaTime, map, playerPos);
+			if (boss->getType() == "Grim" && msg != 4)
+			{
+				for (int c = 0; c < 2; c++)
+				{
+					if (grimHands[c])
+					{
+						msg = grimHands[c]->update(deltaTime, map, playerPos);
+					}
+				}
+				//Kod för att ändra på grimHand-states
+			}
+			if (msg == 4)
+			{
+				//Kod för att avrätta grimHands
+			}
 		}
 	}
 	return visitorsToSendOut;
@@ -395,6 +423,13 @@ int EnemyManager::size(string type)
 	if (type == "Deathbox")
 		return deathCount;
 
+	if (type == "GrimHand")
+	{
+		if (grimHands[0])
+			return 2;
+		return 0;
+	}
+
 	return 0;
 }
 
@@ -407,61 +442,72 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (spikeCount == spikeMax)
 			expandEnemyArray(spikes, spikeMax);
 	}
-	if (type == "Deathbox")
+	else if (type == "Deathbox")
 	{
 		deathboxes[deathCount] = new Deathbox(pos);
 		deathCount++;
 		if (deathCount == deathMax)
 			expandEnemyArray(deathboxes, deathMax);
 	}
-	if (type == "Bat")
+	else if (type == "Bat")
 	{
 		bats[batCount] = new Bat(pos);
 		batCount++;
 		if (batCount == batMax)
 			expandEnemyArray(bats, batMax);
 	}
-	if (type == "Flame")
+	else if (type == "Flame")
 	{
 		flames[flameCount] = new Flame(pos);
 		flameCount++;
 		if (flameCount == flameMax)
 			expandEnemyArray(flames, flameMax);
 	}
-	if (type == "Cube")
+	else if (type == "Cube")
 	{
 		cubes[cubeCount] = new Cube(pos);
 		cubeCount++;
 		if (cubeCount == cubeMax)
 			expandEnemyArray(cubes, cubeMax);
 	}
-	if (type == "Spider")
+	else if (type == "Spider")
 	{
 		spiders[spiderCount] = new Spider(pos);
 		spiderCount++;
 		if (spiderCount == spiderMax)
 			expandEnemyArray(spiders, spiderMax);
 	}
-	if (type == "Ghost")
+	else if (type == "Ghost")
 	{
 		ghosts[ghostCount] = new Ghost(pos);
 		ghostCount++;
 		if (ghostCount == ghostMax)
 			expandEnemyArray(ghosts, ghostMax);
 	}
-	if (type == "Web")
+	else if (type == "Web")
 	{
 		webs[webCount] = new Web(pos);
 		webCount++;
 		if (webCount == webMax)
 			expandEnemyArray(webs, webMax);
 	}
-	if (type == "Spellbook")
+	else if (type == "Spellbook")
 	{
 		spellbooks[spellbookCount] = new Spellbook(pos);
 		spellbookCount++;
 		if (spellbookCount == spellbookMax)
 			expandEnemyArray(spellbooks, spellbookMax);
+	}
+	else if (type == "GrimHand")
+	{
+		if (grimHands[0])
+		{
+			grimHands[1] = new GrimHand(pos);
+		}
+		else
+		{
+			grimHands[0] = new GrimHand(pos);
+		}
 	}
 }
 
@@ -495,6 +541,9 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 	else if (type == "Deathbox")
 		return deathboxes[index]->bindWorldMat(shader, uniform);
 
+	else if (type == "GrimHand")
+		return grimHands[index]->bindWorldMat(shader, uniform);
+
 	return -1;
 }
 
@@ -522,6 +571,9 @@ Enemy** EnemyManager::getEnemies(string type)
 		return missiles;
 	if (type == "Deathbox")
 		return deathboxes;
+
+	if (type == "GrimHand")
+		return grimHands;
 	return 0;
 }
 
@@ -620,7 +672,18 @@ void EnemyManager::resetEnemies()
 	if (boss)
 	{
 		if (boss->isAlive())
+		{
 			boss->init();
+			if (boss->getType() == "Grim")
+			{
+				for (int c = 0; c < 2; c++)
+				{
+					if (grimHands[c])
+						delete grimHands[c];
+				}
+				addEnemy("GrimHand",
+			}
+		}
 	}
 }
 

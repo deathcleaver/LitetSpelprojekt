@@ -27,6 +27,7 @@ private:
 	Enemy** deathboxes; int deathCount, deathMax;
 	
 	Enemy* boss;
+	Enemy* grimHands[2];
 	void addBoss(string type, glm::vec2 pos);
 
 	void addEnemy(string type, glm::vec2 pos);
