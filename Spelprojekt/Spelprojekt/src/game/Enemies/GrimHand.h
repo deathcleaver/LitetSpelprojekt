@@ -6,12 +6,26 @@
 class GrimHand : public Enemy
 {
 private:
+	int grimMode;
+
 	int state;
 	float invulnTimer;
 	float stateTimer;
+
+	float clapTimer;
+
+	glm::vec2 speed;
+
+	void leftHandState(int state, float deltaTime, Map* map, glm::vec3 playerPos);
+
+	void rightHandState(int state, float deltaTime, Map* map, glm::vec3 playerPos);
+
+	void GrimHand::calcDir(glm::vec2 destination);
+	bool GrimHand::reachedDestination();
+	glm::vec2 dirToFly;
+	glm::vec2 currentGoal;
 public:
 	GrimHand(glm::vec2 firstPos);
-	GrimHand(GrimHand* copy);
 	void init();
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);

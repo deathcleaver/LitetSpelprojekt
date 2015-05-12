@@ -107,7 +107,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	bool isInWeb = false;
 	if (map->webbedUp(collideRect, readPos()))
 	{
-		maxSpeed.x = 3;
+		maxSpeed.x = 6;
 		maxSpeed.y = -5;
 		isInWeb = true;
 	}
@@ -115,6 +115,15 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	{
 		maxSpeed.x = 10;
 		maxSpeed.y = -30;
+	}
+
+	if (isAttacking && !jumping)
+	{
+		maxSpeed.x = 4;
+	}
+	else
+	{
+		maxSpeed.x = 10;
 	}
 	effectVisible = false;
 	if (!jumping)
@@ -168,91 +177,81 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	{
 		//MoveX
 		//left
-		if (!isAttacking)
+		if ((userInput->getKeyState('A') && !userInput->getKeyState('D'))
+			|| pad->isButtonPressed(pad->getButtons().Dpad_Left)
+			|| axesX < -pad->getDeadzone())
 		{
-			if ((userInput->getKeyState('A') && !userInput->getKeyState('D'))
-				|| pad->isButtonPressed(pad->getButtons().Dpad_Left)
-				|| axesX < -pad->getDeadzone())
+			if (facingRight && !isAttacking)
 			{
-				if (facingRight)
-				{
-					facingRight = false;
-					rotateTo(0, 3.1415927f, 0);
-				}
-				if (flinchTimer < FLT_EPSILON)
-				{
-					if (speed.x > 0)// && !jumping)
-					{
-						speed.x = 0;
-					}
-					speed.x -= acceleration.x;
-				}
-				if (speed.x < -maxSpeed.x)
-					speed.x = -maxSpeed.x;
-
-				if (axesX < -pad->getDeadzone()) // pad stick movement
-					moveTo(tempPos.x += (speed.x * -axesX) * deltaTime, tempPos.y, 0);
-				else
-					moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
-
-				if (!jumping)
-					animState = "walk";
-				else
-					animState = "air";
+				facingRight = false;
+				rotateTo(0, 3.1415927f, 0);
 			}
-			//right
-			if ((userInput->getKeyState('D') && !userInput->getKeyState('A'))
-				|| pad->isButtonPressed(pad->getButtons().Dpad_Right)
-				|| axesX > pad->getDeadzone())
+			if (flinchTimer < FLT_EPSILON)
 			{
-				if (!facingRight)
+				if (speed.x > 0)// && !jumping)
 				{
-					facingRight = true;
-					rotateTo(0, 3.1415927f, 0);
+					speed.x = 0;
 				}
-				if (flinchTimer < FLT_EPSILON)
-				{
-					if (speed.x < 0)// && !jumping)
-					{
-						speed.x = 0;
-					}
-					speed.x += acceleration.x;
-				}
-				if (speed.x > maxSpeed.x)
-					speed.x = maxSpeed.x;
-				
-				if (axesX > pad->getDeadzone()) // pad stick movement
-					moveTo(tempPos.x += (speed.x * axesX) * deltaTime, tempPos.y, 0);
-				else
-					moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
-
-				if (!jumping)
-					animState = "walk";
-				else
-					animState = "air";
+				speed.x -= acceleration.x;
 			}
+			if (speed.x < -maxSpeed.x)
+				speed.x = -maxSpeed.x;
 
-			//stop
-			if (((!userInput->getKeyState('A') && !userInput->getKeyState('D')) || (userInput->getKeyState('A') && userInput->getKeyState('D')))
-				&& (!pad->isButtonPressed(pad->getButtons().Dpad_Left) && !pad->isButtonPressed(pad->getButtons().Dpad_Right))
-				&& axesX == 0)
-			{
-				if (flinchTimer < FLT_EPSILON)
-				{
-					if (!jumping)
-					{
-						speed.x = 0;
-					}
-				}
+			if (axesX < -pad->getDeadzone()) // pad stick movement
+				moveTo(tempPos.x += (speed.x * -axesX) * deltaTime, tempPos.y, 0);
+			else
 				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
-			}
+
+			if (!jumping)
+				animState = "walk";
+			else
+				animState = "air";
 		}
-		else  //is attacking, but movement continues in air
+		//right
+		if ((userInput->getKeyState('D') && !userInput->getKeyState('A'))
+			|| pad->isButtonPressed(pad->getButtons().Dpad_Right)
+			|| axesX > pad->getDeadzone())
 		{
-			if (jumping)
+			if (!facingRight && !isAttacking)
 			{
-				moveTo(tempPos.x += speed.x*deltaTime, tempPos.y, 0);
+				facingRight = true;
+				rotateTo(0, 3.1415927f, 0);
 			}
+			if (flinchTimer < FLT_EPSILON)
+			{
+				if (speed.x < 0)// && !jumping)
+				{
+					speed.x = 0;
+				}
+				speed.x += acceleration.x;
+			}
+			if (speed.x > maxSpeed.x)
+				speed.x = maxSpeed.x;
+				
+			if (axesX > pad->getDeadzone()) // pad stick movement
+				moveTo(tempPos.x += (speed.x * axesX) * deltaTime, tempPos.y, 0);
+			else
+				moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
+
+			if (!jumping)
+				animState = "walk";
+			else
+				animState = "air";
+		}
+
+		//stop
+		if (((!userInput->getKeyState('A') && !userInput->getKeyState('D')) || (userInput->getKeyState('A') && userInput->getKeyState('D')))
+			&& (!pad->isButtonPressed(pad->getButtons().Dpad_Left) && !pad->isButtonPressed(pad->getButtons().Dpad_Right))
+			&& axesX == 0)
+		{
+			if (flinchTimer < FLT_EPSILON)
+			{
+				if (!jumping)
+				{
+					speed.x = 0;
+				}
+			}
+			moveTo(tempPos.x += speed.x * deltaTime, tempPos.y, 0);
 		}
 
 		//update collide rect
@@ -299,7 +298,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			if (progressMeter.spiderboss && isInWeb)
 				speed.y += acceleration.y*1.2f;
 			else if (speed.y > 0.0)
-				speed.y += (acceleration.y * 0.5f);
+				speed.y += acceleration.y * 0.5f;
 		}
 		speed.y -= acceleration.y;
 

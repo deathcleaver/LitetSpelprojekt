@@ -15,30 +15,19 @@ GrimHand::GrimHand(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 }
 
-GrimHand::GrimHand(GrimHand* copy)
-{
-	visitor = copy->visitor;
-	worldMat = copy->worldMat;
-	initPos = copy->initPos;
-	glm::vec3 pos = copy->readPos();
-	moveTo(pos.x, pos.y);
-	alive = true;
-	facingRight = copy->facingRight;
-	health = 1;
-
-	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1, 1);
-}
-
 void GrimHand::init()
 {
-	invulnTimer = 1.0f;
-	stateTimer = 4.0f;
 	moveTo(initPos.x, initPos.y);
 	facingRight = true;
 	alive = true;
-	health = 1;
+	health = 2;
+
+	speed.x = speed.y = 0;
+	invulnTimer = 1.0f;
+	stateTimer = 4.0f;
 	state = -1;
+	grimMode = 0;
+	clapTimer = 10.0f;
 
 	collideRect->update();
 }
@@ -56,6 +45,22 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (stateTimer < FLT_EPSILON)
 		{
 			state = 0;
+			glm::vec2 pos = glm::vec2(readPos());
+			if (contentIndex == EnemyID::grimhand_left)
+				calcDir(glm::vec2(pos.x + 6.0f, pos.y - 2.0f));
+			else
+				calcDir(glm::vec2(pos.x - 6.0f, pos.y - 2.0f));
+		}
+	}
+	else
+	{
+		if (contentIndex == EnemyID::grimhand_left)
+		{
+			leftHandState(state, deltaTime, map, playerPos);
+		}
+		else
+		{
+			rightHandState(state, deltaTime, map, playerPos);
 		}
 	}
 	return 0;
@@ -81,5 +86,65 @@ bool GrimHand::isBlinking()
 			return true;
 		}
 	}
+	return false;
+}
+
+void GrimHand::leftHandState(int state, float deltaTime, Map* map, glm::vec3 playerPos)
+{
+	if (state == 0) //Fly out to right side of screen
+	{
+		if (!reachedDestination())
+		{
+			speed.x += 0.1f;
+			speed.y += 0.1f;
+			if (speed.x > 6.0f)
+				speed.x = 6.0f;
+			if (speed.y > 6.0f)
+				speed.y = 6.0f;
+			translate(speed.x*dirToFly.x*deltaTime, speed.y*dirToFly.y*deltaTime);
+		}
+		else
+		{
+			state = 1;
+		}
+	}
+}
+
+void GrimHand::rightHandState(int state, float deltaTime, Map* map, glm::vec3 playerPos)
+{
+	if (state == 0) //Fly out to left side of screen
+	{
+		if (!reachedDestination())
+		{
+			speed.x += 0.1f;
+			speed.y += 0.1f;
+			if (speed.x > 6.0f)
+				speed.x = 6.0f;
+			if (speed.y > 6.0f)
+				speed.y = 6.0f;
+			translate(speed.x*dirToFly.x*deltaTime, speed.y*dirToFly.y*deltaTime);
+		}
+		else
+		{
+			state = 1;
+		}
+	}
+}
+
+void GrimHand::calcDir(glm::vec2 destination)
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	
+	currentGoal = destination;
+	dirToFly = currentGoal - pos;
+	dirToFly = normalize(dirToFly);
+}
+
+bool GrimHand::reachedDestination()
+{
+	glm::vec3 pos = readPos();
+	if (pos.x < currentGoal.x + 1.0f && pos.x > currentGoal.x - 1.0f &&
+		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
+		return true;
 	return false;
 }
