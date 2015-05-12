@@ -20,6 +20,8 @@ class GUI;
 class Player : public GameObject
 {
 private:
+	int panningToMirror = -1;
+
 	bool gamePadButtonPressed(char keyBoardButton);
 
 	Progress progressMeter;

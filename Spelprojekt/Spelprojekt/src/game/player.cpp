@@ -76,6 +76,22 @@ void Player::moveWeapon()
 
 int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float deltaTime)
 {
+	if (panningToMirror == 1)
+	{
+		flinchTimer -= 1.0*deltaTime;
+		if (flinchTimer < FLT_EPSILON)
+			panningToMirror = -1;
+		return 1;
+	}
+	else if (panningToMirror == 0 && flinchTimer > FLT_EPSILON)
+	{
+		flinchTimer -= 1.0*deltaTime;
+		if (flinchTimer < FLT_EPSILON)
+		{
+			flinchTimer = 4.0f;
+			panningToMirror = 1;
+		}
+	}
 	// pad axes values
 	float axesX, axesY;
 	if (pad->joyStickDetected())
@@ -703,6 +719,11 @@ void Player::dingDongTheBossIsDead(std::string boss)
 {
 	bossFighting = false;
 	progressMeter.checkBossType(boss);
+	if (progressMeter.batboss && progressMeter.spiderboss && progressMeter.ghostboss)
+	{
+		flinchTimer = 4.0f;
+		panningToMirror = 0;
+	}
 	
 }
 
@@ -717,9 +738,11 @@ bool Player::isBossDead(std::string boss)
 {
 	if (boss == "Bossbat")
 		return progressMeter.batboss;
-	return false;
 	if (boss == "Bossspider")
 		return progressMeter.spiderboss;
+	if (boss == "Bossghost")
+		return progressMeter.ghostboss;
+	return false;
 }
 
 void Player::setProgress(Progress p)

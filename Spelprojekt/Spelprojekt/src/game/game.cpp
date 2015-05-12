@@ -306,8 +306,14 @@ void Game::update(float deltaTime)
 
 					   if (cameraFollow)
 					   {
+						   int msg = player->update(in, gamePad, map, gui, deltaTime);
+						   Audio::getAudio().updateListener(player->readPos());
 						   glm::vec3 playerPos = player->readPos();
-						   if (!inBossRoom)
+						   if (msg == 1)
+						   {
+							   in->cameraPan(glm::vec3(103, -13, 0), 5, deltaTime, gamePad, true);
+						   }
+						   else if (!inBossRoom)
 						   {
 							   in->cameraPan(playerPos, 5, deltaTime, gamePad, true);
 						   }
@@ -323,8 +329,6 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
-						   player->update(in, gamePad, map, gui, deltaTime);
-						   Audio::getAudio().updateListener(player->readPos());
 					   }
 					   content->setPlayerState(player->getAnimState());
 					   map->setUpDraw3x2(*in->GetPos());
