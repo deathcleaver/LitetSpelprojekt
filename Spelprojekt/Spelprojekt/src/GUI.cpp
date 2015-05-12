@@ -237,7 +237,7 @@ void GUI::playerhud(bool init)
 			items[size]->MoveAutoSize(-0.68f + 0.12f * (size - 1.0f), -0.8f, content);
 			size++;
 		}
-		if (rune == 3)
+		if (shield > 0)
 		{
 			
 			items[size] = new ScreenItem();
