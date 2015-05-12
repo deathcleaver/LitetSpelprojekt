@@ -82,6 +82,8 @@ enum WorldID
 	mansionfloor,
 	mansionflooredge,
 	ghost_platform,
+	grim_statue,
+
 	world_count, //leave this last
 };
 

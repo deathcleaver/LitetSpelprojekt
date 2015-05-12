@@ -307,6 +307,10 @@ void ObjectManager::loadMapObjs()
 	//ghost block
 	add = new AnimationObject("src/meshes/BaseCube.v", "src/textures/white.bmp");
 	objects[OBJ::WORLD].push_back(add);
+
+	//grim statue
+	add = new AnimationObject("src/meshes/Enemies/grimStatue.v", "src/textures/Interactive Objects/Shrine2.bmp");
+	objects[OBJ::WORLD].push_back(add);
 }
 
 void ObjectManager::loadMonsterObjs()
@@ -434,7 +438,7 @@ void ObjectManager::update(UpdateAnimCheck* animCheck)
 	myPlayer->update();
 	for (int i = 0; i < WorldID::world_count; i++)
 	{
-			objects[WORLD][i]->update();
+		objects[WORLD][i]->update();
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
@@ -488,8 +492,8 @@ void ObjectManager::setPlayerState(std::string state)
 	}
 	else if (state == "flinch")
 	{
-	myPlayer->setAnimPoints(7, 7);
-	myPlayer->setSpeed(0.02f);
+		myPlayer->setAnimPoints(7, 7);
+		myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "attack")
 	{
