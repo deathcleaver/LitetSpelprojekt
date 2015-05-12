@@ -255,7 +255,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//Table
-	add = new AnimationObject("src/meshes/Ghost/Table.v", "src/textures/Ghost/chair.bmp");
+	add = new AnimationObject("src/meshes/Ghost/Table.v", "src/textures/Ghost/table.bmp");
 	objects[OBJ::WORLD].push_back(add);
 
 	//Bookshelf Empty
