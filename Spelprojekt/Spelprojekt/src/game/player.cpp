@@ -484,7 +484,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 					currentRune = 0;
 				}
 				invulnTimer = 1.0f;
-				if (HP > 1 && GameConfig::get().configDifficulty != GameConfig::DmonInHell)
+				if (HP > 1)
 				{
 					if (shield == 0)
 					{
@@ -493,8 +493,10 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 						case GameConfig::Casual:
 							HP -= 1;
 							break;
-
 						case GameConfig::Hardcore:
+							HP -= 2;
+							break;
+						case GameConfig::DmonInHell:
 							HP -= 2;
 							break;
 						}
@@ -541,11 +543,11 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 							break;
 
 						case GameConfig::Hardcore:
-							shield -= 2;
+							shield -= 1;
 							break;
 
 						case GameConfig::DmonInHell:
-							shield = 0;
+							shield -= 2;
 							break;
 						}
 
@@ -660,7 +662,7 @@ void Player::respawn(Map* map)
 	speed = vec2(0);
 	jumping = false;
 	doubleJump = false;
-	if (currentSpawn != 0)
+	if (currentSpawn != 0 && GameConfig::get().configDifficulty != GameConfig::DmonInHell)
 	{
 		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
 		Debug::DebugOutput("Jag hade en respawnpunkt\n");
