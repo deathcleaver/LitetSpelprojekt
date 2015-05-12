@@ -183,6 +183,8 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glProgramUniform1f(tempshaderGBuffer, uniformFadePos, fadeEffect);
 	glProgramUniform1f(tempshaderGBufferGlow, uniformFadePosGlow, fadeEffect);
 
+	gBuffer.playerPos = &player->readPos()[0];
+
 	gBuffer.render(campos, gui, map, content, true, edit->forceRekts);
     
 	glEnable(GL_DEPTH_TEST);
