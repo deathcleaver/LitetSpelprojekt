@@ -496,6 +496,11 @@ void UserInput::cameraPan(vec3 moveTo, float factor, float deltaTime, Gamepad* p
 
 		toTarget.x += (7 * axesX);
 		toTarget.y -= (7 * axesY);
+
+		D = false;
+		A = false;
+		W = false;
+		S = false;
 	}
 	pos = pos + (toTarget * deltaTime * factor);
 	pos.z = keepZ;

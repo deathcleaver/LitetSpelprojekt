@@ -321,7 +321,7 @@ void Gbuffer::renderTexture()
 
 }
 
-void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRektsEdit)
+void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRektsEdit, bool lightonplayer)
 {
 
 	// bind textures
@@ -345,10 +345,11 @@ void Gbuffer::render(glm::vec3* campos, const GUI* gui, const Map* map, const Co
 	//campos
 	glProgramUniform3f(*shaderPtr, uniformCamPos, campos->x, campos->y, 1.0f);
 	
-	//playerpos
-	glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f);
-	//glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f); //<--- DETTA MÅSTE FIXAS
-	
+	if (lightonplayer)
+		glProgramUniform3f(*shaderPtr, uniformPlayerPos, playerPos[0], playerPos[1], 1.0f);
+	else
+		glProgramUniform3f(*shaderPtr, uniformPlayerPos, campos->x, campos->y, 1.0f);
+		
 	glProgramUniform1ui(*shaderPtr, uniformNrLightPos, nrLight);
 
 	glBindBuffer(GL_UNIFORM_BUFFER, lightBuffer);

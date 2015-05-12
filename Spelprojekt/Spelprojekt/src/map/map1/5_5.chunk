@@ -10,7 +10,7 @@ Web 9 -6
 Web 7 -7
 4 0 0 -6 :  BACKGROUND!
 1 11 5.5 -0.5 :  SHRINE!
--1 : No health
+-1 NO HEALTH PICKUP
 108 :  Number of world objects
 0 4.03334 0 0 16.1448 0 10.0778 0 8.21445 0 0 1 0.166672 0 0 0 1 
 0 5.40741 0 0 13.9263 0 5.09029 0 14.7883 0 0 1 0 0 0 0 1 
