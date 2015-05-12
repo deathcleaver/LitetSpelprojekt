@@ -53,16 +53,17 @@ void ObjectManager::init()
 
 void ObjectManager::loadPlayer()
 {
-	Object** playerAn = new Object*[7];
+	Object** playerAn = new Object*[8];
 	playerAn[0] = new Object("src/meshes/Player/PlayerIdle.v", "src/textures/Player.bmp");
-	playerAn[1] = new Object("src/meshes/Player/PlayerWalkSwordFront2.v", "", playerAn[0], false, true);
-	playerAn[2] = new Object("src/meshes/Player/PlayerWalkSwordBack2.v", "", playerAn[0], false, true);
+	playerAn[1] = new Object("src/meshes/Player/PlayerWalk4.v", "", playerAn[0], false, true);
+	playerAn[2] = new Object("src/meshes/Player/PlayerWalk5.v", "", playerAn[0], false, true);
 	playerAn[3] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
 	playerAn[4] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
 	playerAn[5] = new Object("src/meshes/Player/PlayerJump3.v", "", playerAn[0], false, true);
 	playerAn[6] = new Object("src/meshes/Player/PlayerJump4.v", "", playerAn[0], false, true);
+	playerAn[7] = new Object("src/meshes/Player/PlayerFlinch.v", "", playerAn[0], false, true);
 
-	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerIdle.v", 7, 0.5f, 0.05f);
+	myPlayer = new AnimationObject(playerAn, "src/meshes/Player/PlayerIdle.v", 8, 0.5f, 0.05f);
 	//myPlayer = new AnimationObject("src/meshes/Player/PlayerIdle.v", "src/textures/player.bmp");
 
 }
@@ -485,11 +486,11 @@ void ObjectManager::setPlayerState(std::string state)
 		myPlayer->setSpeed(0.2f);
 		//myPlayer->setDirection(1);
 	}
-	/*else if (state == "flinch")
+	else if (state == "flinch")
 	{
-	myPlayer->setAnimPoints(2, 2);
+	myPlayer->setAnimPoints(7, 7);
 	myPlayer->setSpeed(0.02f);
-	}*/
+	}
 	else if (state == "attack")
 	{
 		myPlayer->setAnimPoints(3, 4);
