@@ -1,11 +1,10 @@
 0 : ChuckTesta
-6 : Enemy Count
+5 : Enemy Count
 Bat -2 3
 Bat -3 -3
 Bat 8 15
 Flame 8 -11
 Flame 14 -11
-Spider 7 4
 2 0 0 -3 :  BACKGROUND!
 -1 NO SHRINE
 -1 NO HEALTH PICKUP
