@@ -649,12 +649,24 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						{
 							for (int c = 0; c < 2; c++)
 							{
+								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(c, "GrimHand"))
+								{
+									glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+									glColorMask(0, 0, 1, 1);
+									glEnable(GL_CULL_FACE);
+								}
 								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "GrimHand");
 								if (id != lastid)
 									facecount = content->bind(OBJ::ENEMY, id);
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 								lastid = id;
 								animCheck->enemyUpdate[id] = 1;
+								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(c, "GrimHand"))
+								{
+									glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+									glColorMask(1, 1, 1, 1);
+									glDisable(GL_CULL_FACE);
+								}
 							}
 						}
 					}

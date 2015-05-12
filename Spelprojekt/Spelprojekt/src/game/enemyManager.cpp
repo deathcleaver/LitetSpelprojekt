@@ -506,12 +506,12 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (grimHands[0])
 		{
 			grimHands[1] = new GrimHand(pos);
-			grimHands[1]->setContentIndex(EnemyID::grimhand_right);
+			grimHands[1]->setContentIndex(EnemyID::grimhand_left);
 		}
 		else
 		{
 			grimHands[0] = new GrimHand(pos);
-			grimHands[0]->setContentIndex(EnemyID::grimhand_left);
+			grimHands[0]->setContentIndex(EnemyID::grimhand_right);
 		}
 	}
 }
@@ -734,6 +734,8 @@ void EnemyManager::startBoss()
 		glm::vec2 handPos = ((Grim*)boss)->getHandPos();
 		addEnemy("GrimHand", glm::vec2(handPos.x + 35, handPos.y));
 		addEnemy("GrimHand", glm::vec2(-handPos.x + 35, handPos.y));
+		grimHands[0]->init();
+		grimHands[1]->init();
 	}
 }
 
