@@ -199,9 +199,9 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 	{
 		health -= damage;
 		if (playerRightOfEnemy)
-			speed.x = -16.0f;
+			speed.x = -16.0f + GameConfig::get().configDifficulty * 4;
 		else
-			speed.x = 16.0f;
+			speed.x = 16.0f - GameConfig::get().configDifficulty * 4;
 		if (health <= 0)
 		{
 			alive = false;

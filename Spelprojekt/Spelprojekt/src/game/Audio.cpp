@@ -489,8 +489,7 @@ if (soundEnabled && audioEnabled) //sound is enabled
 		soundSources.push_back(source);
 	}
 }
-
-void Audio::playSoundPitched(int file, float pitch, bool looping)
+void Audio::playSound(int file, bool looping, float pitch)
 {
 	if (soundEnabled && audioEnabled) //sound is enabled
 	if (file < SOUND_BUFFERS && soundSources.size() < SOUND_SOURCES) //check to see that there are available sound buffers

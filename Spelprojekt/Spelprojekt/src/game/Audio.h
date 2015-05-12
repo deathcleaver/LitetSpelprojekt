@@ -66,7 +66,7 @@ public:
 	void playMusic(int file);
 	void playMusicFade(int file, float deltaTime);
 	void playSound(int file, bool looping);
-	void playSoundPitched(int file, float pitch, bool looping);
+	void playSound(int file, bool looping, float pitch);
 	void playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping);
 	void playSoundAtPos(int file, glm::vec3 pos, float distance, bool looping, float pitch);
 	ALuint playSoundSP(int file, bool looping);

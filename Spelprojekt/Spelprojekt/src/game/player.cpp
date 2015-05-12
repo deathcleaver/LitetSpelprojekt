@@ -328,7 +328,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 					{
 							float pitch;
 							pitch = (maxSpeed.y) / speed.y;
-							Audio::getAudio().playSoundPitched(SoundID::player_landing, pitch, false);
+							Audio::getAudio().playSound(SoundID::player_landing, false, pitch);
 					}
 						
 
