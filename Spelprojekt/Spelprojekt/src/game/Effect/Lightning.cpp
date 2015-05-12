@@ -1,4 +1,5 @@
 #include "Lightning.h"
+#include "../Audio.h"
 
 Lightning::Lightning()
 {
@@ -92,7 +93,6 @@ void Lightning::init(float x, float y, float z)
 	lights[0].volume = 1;
 
 	timeStart[0] = 1.0f;
-
 }
 
 void Lightning::update()
@@ -134,6 +134,11 @@ void Lightning::fade()
 		lights[0].volume = 0;
 
 		timeLeft[0] -= 0.1f;
+
+		if (currState == 0 && timeLeft[0] <= 0.0f)
+			Audio::getAudio().playSound(30, false); // lightning
+		if (currState == 13 && timeLeft[13] <= 0.0f)
+			Audio::getAudio().playSound(31, false); // thunder
 	}
 	else if (currState != 14)
 	{
