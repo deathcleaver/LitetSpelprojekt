@@ -9,6 +9,10 @@ Engine::~Engine()
 {
 	delete eff;
 	delete[]light;
+	if (creditsBase)
+		delete creditsBase;
+	if (creditsObject)
+		delete creditsObject;
 }
 
 void Engine::init(glm::mat4* viewMat)
@@ -108,6 +112,13 @@ void Engine::init(glm::mat4* viewMat)
 	eff = new Effect();
 	eff->create(EffectType::lightning);
 	eff->getEffect()->init(0, 0, 0);
+
+	//credits object
+	creditsObject = new Object("src/meshes/BaseBlit.v", "src/textures/credits.bmp");
+	creditsBase = new GameObject();
+	creditsBase->scaleAD(15.0f / 2, 130.0f / 2, 0.0f);
+	creditsBase->moveTo(35 * 7, -5 * 35 + 17.5f, -1);
+
 }
 
 void Engine::applySettings(bool glows)
@@ -165,7 +176,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	}
 
 	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck);
-	//
 
 	bindLights(player, edit);
 
@@ -335,9 +345,18 @@ void Engine::renderPass(const Player* player, const Map* map, const ContentManag
 	upDraw = map->getUpDraw();
 	content = contentin;
 
+
 	renderPlayer(player);
 
+	if (state == 11 || state == 3) //if credits or editor
+	{
+		creditsObject->bind();
+		creditsBase->bindWorldMat(&tempshader, &uniformModel);
+		glDrawElementsInstanced(GL_TRIANGLES, 2 * 3, GL_UNSIGNED_SHORT, 0, 1);
+	}
+
 	renderBack();
+
 
 	renderWorld();
 
@@ -346,6 +365,7 @@ void Engine::renderPass(const Player* player, const Map* map, const ContentManag
 	renderEnemies(updateAnimCheck);
 
 	renderEditObject(edit);
+	
 
 }
 

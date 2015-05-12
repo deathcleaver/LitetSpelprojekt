@@ -68,6 +68,9 @@ private:
 	bool fadeIn;
 	bool fadeOut;
 
+	Object* creditsObject = 0;
+	GameObject* creditsBase = 0;
+
 	void renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
