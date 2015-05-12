@@ -392,8 +392,8 @@ void Audio::playMusic(int file)
 		}
 
 	}
-	else //track is -1 stop music
-	{
+	else if (file != -2) // -2 keeps the current music
+	{ //track is -1 stop music
 		if (musicSources.size() > 0)
 			alSourceStop(musicSources.begin()->source);
 	}
@@ -458,8 +458,8 @@ void Audio::playMusicFade(int file, float deltaTime)
 		}
 
 	}
-	else //track is -1 stop music
-	{
+	else if (file != -2) // -2 keeps the current music
+	{ //track is -1 stop music
 		if (musicSources.size() > 0)
 			musicSources.begin()->state = A_FADEOUT;
 	}

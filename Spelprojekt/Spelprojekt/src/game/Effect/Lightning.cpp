@@ -137,8 +137,6 @@ void Lightning::fade()
 
 		if (currState == 0 && timeLeft[0] <= 0.0f)
 			Audio::getAudio().playSound(30, false); // lightning
-		if (currState == 13 && timeLeft[13] <= 0.0f)
-			Audio::getAudio().playSound(31, false); // thunder
 	}
 	else if (currState != 14)
 	{
