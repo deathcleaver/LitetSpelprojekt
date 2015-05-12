@@ -30,7 +30,8 @@ enum gameState
 	CONTINUE,
 	SETTINGS_MAIN,
 	SETTINGS_AUDIO,
-	SETTINGS_GRAPHICS
+	SETTINGS_GRAPHICS,
+	CREDITS
 };
 
 class Game : public Align_16
