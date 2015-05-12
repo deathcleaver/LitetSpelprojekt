@@ -25,6 +25,8 @@ private:
 	//hud display
 	int playerHP = 0;
 	int playerPickups = 0;
+	int playerRune = 0;
+	int playerShield = 0;
 
 	//boss defeated, progress display
 	int progressID;

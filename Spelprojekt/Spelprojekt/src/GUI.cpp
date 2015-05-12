@@ -161,16 +161,22 @@ void GUI::playerhud(bool init)
 {
 	int hp;
 	int pickups;
+	int rune;
+	int shield;
 	bool refresh = false;
 
 	if (re_setup)
 		init = true;
 
-	player->playerGuiInfo(&hp, &pickups);
-	if (hp != playerHP || pickups != playerPickups)
+	player->playerGuiInfo(&hp, &pickups, &rune, &shield);
+	if (hp != playerHP || pickups != playerPickups ||
+		rune != playerRune || shield != playerShield)
 	{
 		playerHP = hp;
 		playerPickups = pickups;
+		playerRune = rune;
+		playerShield = shield;
+		
 		refresh = true;
 	}
 
@@ -214,6 +220,36 @@ void GUI::playerhud(bool init)
 			{
 				items[size - 1]->init(27, 27, false);
 				items[size - 1]->MoveAutoSize(-0.68f + 0.12f * (size - 2.0f), -0.8f, content);
+			}
+		}
+
+		if (rune == 1)
+		{
+			items[size] = new ScreenItem();
+			items[size]->init(32, 32, false);
+			items[size]->MoveAutoSize(-0.68f + 0.12f * (size - 1.0f), -0.8f, content);
+			size++;
+		}
+		if (rune == 2)
+		{
+			items[size] = new ScreenItem();
+			items[size]->init(33, 33, false);
+			items[size]->MoveAutoSize(-0.68f + 0.12f * (size - 1.0f), -0.8f, content);
+			size++;
+		}
+		if (rune == 3)
+		{
+			
+			items[size] = new ScreenItem();
+			items[size]->init(34, 34, false);
+			items[size]->MoveAutoSize(-0.68f + 0.12f * (size - 1.0f), -0.8f, content);
+			size++;
+			if (shield > 1)
+			{
+				items[size] = new ScreenItem();
+				items[size]->init(34, 34, false);
+				items[size]->MoveAutoSize(-0.68f + 0.12f * (size - 1.0f), -0.8f, content);
+				size++;
 			}
 		}
 	}

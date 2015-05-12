@@ -86,8 +86,12 @@ void ContentManager::loadGUIobjs()
 	guiObjs[30] = new Object("", "src/textures/gui/progress/webclimp.png", guiObjs[0], true);
 	guiObjs[31] = new Object("", "src/textures/gui/progress/mirrorwalk.png", guiObjs[0], true);
 
+	//rune displays
+	guiObjs[32] = new Object("", "src/textures/gui/play/flameRune.png", guiObjs[0], true);
+	guiObjs[33] = new Object("", "src/textures/gui/play/sparkRune.png", guiObjs[0], true);
+	guiObjs[34] = new Object("", "src/textures/gui/play/forceHeart.png", guiObjs[0], true);
 
-	for (int n = 32; n < 50; n++)
+	for (int n = 35; n < 50; n++)
 		guiObjs[n] = 0;
 
 	// edit reserved 50 - 59

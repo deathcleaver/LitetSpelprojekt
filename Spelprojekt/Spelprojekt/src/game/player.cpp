@@ -787,8 +787,10 @@ void Player::getPickup(glm::vec2 chunkIndex)
 	progressMeter.addHealth(chunkIndex);
 }
 
-void Player::playerGuiInfo(int* inhp, int* pieces)
+void Player::playerGuiInfo(int* inhp, int* pieces, int* inrune, int* inshield)
 {
 	*inhp = HP;
 	*pieces = pickUps;
+	*inrune = currentRune;
+	*inshield = shield;
 }
