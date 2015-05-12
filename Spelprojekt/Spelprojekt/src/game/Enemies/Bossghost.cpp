@@ -3,6 +3,7 @@
 #include "../map.h"
 #include "ArcaneMissile.h"
 #include "Ghost.h"
+#include "Spellbook.h"
 
 Bossghost::Bossghost(glm::vec2 firstPos)
 {
@@ -60,6 +61,15 @@ void Bossghost::getSpooky(Map* map)
 	spooky->setVisitor();
 	map->findNewHome(spooky);
 	delete spooky;
+}
+
+void Bossghost::getNerdy(Map* map)
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	Spellbook* book = new Spellbook(pos);
+	book->setVisitor();
+	map->findNewHome(book);
+	delete book;
 }
 
 void Bossghost::init()
@@ -161,8 +171,16 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		ghostTimer -= 1.0f*deltaTime;
 		if (ghostTimer < FLT_EPSILON && ghostSpawns > 0)
 		{
-			getSpooky(map);
-			ghostTimer = 4.0f;
+			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+			{
+				getNerdy(map);
+				ghostTimer = 6.0f;
+			}		
+			else
+			{
+				getSpooky(map);
+				ghostTimer = 4.0f;
+			}
 			ghostSpawns--;
 
 			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);

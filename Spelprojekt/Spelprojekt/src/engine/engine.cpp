@@ -7,6 +7,7 @@
 
 Engine::~Engine()
 {
+	delete eff;
 	delete[]light;
 }
 
@@ -104,6 +105,9 @@ void Engine::init(glm::mat4* viewMat)
 	fadeIn = false;
 	fadeOut = false;
 
+	eff = new Effect();
+	eff->create(EffectType::lightning);
+	eff->getEffect()->init(0, 0, 0);
 }
 
 void Engine::applySettings(bool glows)
@@ -166,6 +170,26 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	bindLights(player, edit);
 
 
+	// temp lightning
+	int cx, cy;
+
+
+	((Map*)map)->getChunkIndex(player->readPos(), &cx, &cy);
+
+	if (cy == 0 && (cx == 2 || cx == 3 || cx == 4) && state == 1)
+	{
+		eff->update();
+	}
+	else
+	{
+		eff->getEffect()->fade();
+	}
+
+	int nr;
+	Light* l = eff->getEffect()->getLights(nr);
+	gBuffer.pushLights(l, nr);
+
+
 	glProgramUniformMatrix4fv(mirrorShader, mirrorV, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(mirrorShader, mirrorP, 1, false, &projMatrix[0][0]);
 
@@ -207,6 +231,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	stopTimer(timerID);
 
 	glUseProgram(0);
+	
 
 }
 
@@ -620,6 +645,18 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 						animCheck->enemyUpdate[id] = 1;
+						if (id >= EnemyID::grim_white && id <= EnemyID::grim_black)
+						{
+							for (int c = 0; c < 2; c++)
+							{
+								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "GrimHand");
+								if (id != lastid)
+									facecount = content->bind(OBJ::ENEMY, id);
+								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+								lastid = id;
+								animCheck->enemyUpdate[id] = 1;
+							}
+						}
 					}
 				}
 			}

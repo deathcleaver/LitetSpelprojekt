@@ -9,7 +9,7 @@ Grim::Grim(glm::vec2 firstPos)
 	alive = false;
 	isInit = false;
 	facingRight = true;
-	contentIndex = EnemyID::batboss;
+	contentIndex = EnemyID::grim_white;
 	health = 4;
 	audibleDistance = 2.5f;
 
@@ -29,9 +29,10 @@ void Grim::init()
 {
 	if (!isInit)
 	{
+		contentIndex = EnemyID::grim_white;
 		worldMat = glm::mat4(1);
 		isInit = true;
-		moveTo(initPos.x-0.5f, initPos.y+0.5f, -10.0f);
+		moveTo(initPos.x, initPos.y);
 		invulnTimer = 0.0f;
 		facingRight = true;
 		alive = true;
@@ -98,5 +99,5 @@ glm::vec2 Grim::plsGiveBossPos()
 
 glm::vec2 Grim::getHandPos()
 {
-	return glm::vec2(-8, -5);
+	return glm::vec2(-2, 7);
 }

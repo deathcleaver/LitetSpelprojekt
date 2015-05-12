@@ -30,7 +30,7 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	collideRect->initGameObjectRect(&worldMat, 0.3f, 0.3f);
 
 	health = 1;
-	speed = 0.1f + GameConfig::get().configDifficulty;
+	speed = 0.1f + 0.1f * GameConfig::get().configDifficulty;
 
 	flameEffect = new Effect();
 	flameEffect->reCreate(EffectType::torch);

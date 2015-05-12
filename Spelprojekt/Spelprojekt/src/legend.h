@@ -82,6 +82,8 @@ enum WorldID
 	mansionfloor,
 	mansionflooredge,
 	ghost_platform,
+	grim_statue,
+
 	world_count, //leave this last
 };
 
@@ -109,6 +111,14 @@ enum EnemyID
 	batboss,
 	maexxna,
 	demon,
+	grim_white,
+	grim_force,
+	grim_range,
+	grim_spark,
+	grim_black,
+	grim,
+	grimhand_left,
+	grimhand_right,
 
 	enemy_count, //leave this last
 };

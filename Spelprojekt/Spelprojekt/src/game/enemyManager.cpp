@@ -67,7 +67,10 @@ EnemyManager::~EnemyManager()
 	for (int c = 0; c < 2; c++)
 	{
 		if (grimHands[c])
+		{
 			delete grimHands[c];
+			grimHands[c] = 0;
+		}
 	}
 
 	if (visitorHolder)
@@ -503,10 +506,12 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 		if (grimHands[0])
 		{
 			grimHands[1] = new GrimHand(pos);
+			grimHands[1]->setContentIndex(EnemyID::grimhand_right);
 		}
 		else
 		{
 			grimHands[0] = new GrimHand(pos);
+			grimHands[0]->setContentIndex(EnemyID::grimhand_left);
 		}
 	}
 }
@@ -679,11 +684,11 @@ void EnemyManager::resetEnemies()
 				for (int c = 0; c < 2; c++)
 				{
 					if (grimHands[c])
+					{
 						delete grimHands[c];
+						grimHands[c] = 0;
+					}
 				}
-				glm::vec2 handPos = ((Grim*)boss)->getHandPos();
-				addEnemy("GrimHand", handPos);
-				addEnemy("GrimHand", glm::vec2(-handPos.x, handPos.y));
 			}
 		}
 	}
@@ -709,11 +714,27 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 		boss = new Bossspider(pos);
 	else if (type == "Bossghost")
 		boss = new Bossghost(pos);
+	else if (type == "Grim")
+		boss = new Grim(pos);
 }
 
 void EnemyManager::startBoss()
 {
 	boss->init();
+	if (boss->getType() == "Grim")
+	{
+		for (int c = 0; c < 2; c++)
+		{
+			if (grimHands[c])
+			{
+				delete grimHands[c];
+				grimHands[c] = 0;
+			}
+		}
+		glm::vec2 handPos = ((Grim*)boss)->getHandPos();
+		addEnemy("GrimHand", glm::vec2(handPos.x + 35, handPos.y));
+		addEnemy("GrimHand", glm::vec2(-handPos.x + 35, handPos.y));
+	}
 }
 
 void EnemyManager::expandEnemyArray(Enemy**& arr, int &oldMax)

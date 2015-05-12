@@ -683,7 +683,6 @@ bool Player::isBossFighting()
 
 void Player::respawn(Map* map)
 {
-	map->playerDiedSoRespawnEnemies();
 	HP = MAX_HP;
 	shield = 0;
 	speed = vec2(0);
@@ -698,6 +697,7 @@ void Player::respawn(Map* map)
 	{
 		moveTo(start.x, start.y);
 	}
+	map->playerDiedSoRespawnEnemies();
 }
 
 bool Player::isBlinking() const

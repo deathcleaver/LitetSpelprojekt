@@ -569,6 +569,8 @@ void MapChunk::respawnEnemies()
 
 glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 {
+	Rect* enemyRect = 0;
+
 	Enemy** enemies = enemyMan->getEnemies("Flame");
 	int nrOfEnemies = enemyMan->size("Flame");
 	glm::vec3 hit = glm::vec3(0,0,-1);
@@ -576,7 +578,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -590,7 +592,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -604,7 +606,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -616,7 +618,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	nrOfEnemies = enemyMan->size("Deathbox");
 	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
 	{
-		Rect* enemyRect = enemies[c]->getRekt();
+		enemyRect = enemies[c]->getRekt();
 		if (enemyRect)
 		{
 			if (enemyRect->intersects(playerRect))
@@ -633,7 +635,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -647,7 +649,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -661,7 +663,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive() && !enemies[c]->isBlinking())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -675,7 +677,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -689,7 +691,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(playerRect))
@@ -702,11 +704,27 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 	{
 		if (boss->isAlive())
 		{
-			Rect* bossRect = boss->getRekt();
-			if (bossRect)
+			enemyRect = boss->getRekt();
+			if (enemyRect)
 			{
-				if (bossRect->intersects(playerRect))
+				if (enemyRect->intersects(playerRect))
 					return hit = boss->readPos();
+			}
+			if (boss->getType() == "Grim")
+			{
+				enemies = enemyMan->getEnemies("GrimHand");
+				for (int c = 0; c < 2; c++)
+				{
+					if (enemies[c])
+					{
+						enemyRect = enemies[c]->getRekt();
+						if (enemyRect)
+						{
+							if (enemyRect->intersects(playerRect))
+								return hit = boss->readPos();
+						}
+					}
+				}
 			}
 		}
 	}
@@ -715,6 +733,7 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 
 void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 {
+	Rect* enemyRect = 0;
 	Enemy** enemies = enemyMan->getEnemies("Bat");
 	int nrOfEnemies = enemyMan->size("Bat");
 
@@ -722,7 +741,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -741,7 +760,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -760,7 +779,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -779,7 +798,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -798,7 +817,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -817,7 +836,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -836,7 +855,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -855,7 +874,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -874,7 +893,7 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	{
 		if (enemies[c]->isAlive())
 		{
-			Rect* enemyRect = enemies[c]->getRekt();
+			enemyRect = enemies[c]->getRekt();
 			if (enemyRect)
 			{
 				if (enemyRect->intersects(wpnRect))
@@ -891,15 +910,36 @@ void MapChunk::attackEnemies(Rect* wpnRect, glm::vec3 playerPos, int damage)
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{
-		Rect* bossRect = boss->getHurtRekt();
-		if (bossRect)
+		enemyRect = boss->getHurtRekt();
+		if (enemyRect)
 		{
-			if (bossRect->intersects(wpnRect))
+			if (enemyRect->intersects(wpnRect))
 			{
 				if (playerPos.x < boss->readPos().x)
 					boss->hit(damage, false);
 				else
 					boss->hit(damage, true);
+			}
+		}
+		if (boss->getType() == "Grim")
+		{
+			enemies = enemyMan->getEnemies("GrimHand");
+			for (int c = 0; c < 2; c++)
+			{
+				if (enemies[c])
+				{
+					enemyRect = enemies[c]->getHurtRekt();
+					if (enemyRect)
+					{
+						if (enemyRect->intersects(wpnRect))
+						{
+							if (playerPos.x < enemies[c]->readPos().x)
+								enemies[c]->hit(damage, false);
+							else
+								enemies[c]->hit(damage, true);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -958,7 +998,8 @@ bool MapChunk::enemyBlinking(int index, string type)
 	else
 	{
 		Enemy** enemies = enemyMan->getEnemies(type);
-		return enemies[index]->isBlinking();
+		if (enemies[index])
+			return enemies[index]->isBlinking();
 	}
 	return false;
 }
