@@ -25,6 +25,13 @@ public:
 	{
 		return "Spellbook";
 	}
+
+	Rect* getRekt()
+	{
+		if (invulnTimer < FLT_EPSILON)
+			return collideRect;
+		return 0;
+	}
 };
 
 #endif

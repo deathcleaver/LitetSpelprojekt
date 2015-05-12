@@ -34,7 +34,7 @@ Ghost::Ghost(Ghost* copy)
 	initPos = glm::vec2(readPos());
 	moveTo(initPos.x, initPos.y);
 	alive = true;
-	facingRight = true;
+	facingRight = copy->facingRight;
 	contentIndex = 5;
 	health = copy->health;
 	collideRect = new Rect();

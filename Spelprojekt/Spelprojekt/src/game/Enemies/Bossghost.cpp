@@ -17,7 +17,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	isInit = false;
 	facingRight = true;
 	contentIndex = EnemyID::demon;
-	health = 6;
+	health = 5;
 	speed = 5.0f;
 	mirrorSpeed = 1.5f;
 	audibleDistance = 10.0f;
@@ -27,7 +27,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 2, 2);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.5, 2.5);
+	hurtRect->initGameObjectRect(&worldMat, 2.5, 3);
 }
 
 Bossghost::~Bossghost()
