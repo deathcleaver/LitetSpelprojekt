@@ -16,6 +16,7 @@ private:
 	int websToShoot;
 
 	void howDoIShotWeb(glm::vec3 playerPos, Map* map);
+	void spawnBroodling(Map* map);
 public:
 	~Bossspider();
 	Bossspider(glm::vec2 firstPos);

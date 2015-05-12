@@ -1,6 +1,7 @@
 #include "Bossspider.h"
 #include "../mapChunk.h"
 #include "../map.h"
+#include "Spider.h"
 #include "Webshot.h"
 
 Bossspider::Bossspider(glm::vec2 firstPos)
@@ -73,6 +74,15 @@ void Bossspider::howDoIShotWeb(glm::vec3 playerPos, Map* map)
 	map->findNewHome(pewpew);
 	delete pewpew;
 	websToShoot--;
+}
+
+void Bossspider::spawnBroodling(Map* map)
+{
+	Audio::getAudio().playSoundAtPos(SoundID::boss_spider_attack, readPos(), audibleDistance, false);
+	Spider* broodling = new Spider(glm::vec2(readPos()));
+	broodling->setVisitor();
+	map->findNewHome(broodling);
+	delete broodling;
 }
 
 int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
@@ -170,6 +180,9 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		webTimer -= 1.0f*deltaTime;
 		if (webTimer < FLT_EPSILON && websToShoot == 0)
 		{
+			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+				spawnBroodling(map);
+
 			rotateTo(-3.14159265f, 0, 0);
 			currentMode = 0;
 			Debug::DebugOutput("Modeswitch to 0\n");

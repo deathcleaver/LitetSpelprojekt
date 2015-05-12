@@ -19,7 +19,7 @@ Spider::Spider(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 0.9f, 0.9f);
 	speed = glm::vec2(1, 0.0);
-	speed.x += GameConfig::get().configDifficulty * 2;
+	speed.x += GameConfig::get().configDifficulty;
 	audibleDistance = 2.5f;
 
 	invulnTimer = 0.0f;
@@ -153,7 +153,7 @@ int Spider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					else if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
 						jumpTimer = 1.0f;
 					jumping = false;
-					speed.x = 4.0f;
+					speed.x = 4.0f + GameConfig::get().configDifficulty;
 					if (playerPos.x < pos.x)
 						facingRight = false;
 					else if (playerPos.x > pos.x)
