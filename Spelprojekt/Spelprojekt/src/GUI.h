@@ -44,6 +44,7 @@ private:
 	void EDIT(bool init);
 	void PAUSE(bool init);
 	void SETTINGS(bool init);
+	void CREDITS(bool init);
 	void bossprogressInit();
 	int keyUpdate();
 	float SCREENWIDTH = (float)GameConfig::get().configResX;

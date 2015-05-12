@@ -68,6 +68,8 @@ int GUI::update(int state)
 		case(10) : // toggle resolution
 			SETTINGS(init);
 			break;
+		case(11): // credits gui (empty)
+			CREDITS(init);
 		}
 	}
 	if (state == 1) //if play
@@ -134,7 +136,7 @@ void GUI::MENU(bool init)
 		items[4]->MoveAutoSize(0, -0.4f, content);
 
 		//credits button
-		items[5]->init(8, 9, true, 0);
+		items[5]->init(8, 9, true, 11);
 		items[5]->MoveAutoSize(0, -0.6f, content);
 		
 		//settings button
@@ -409,6 +411,12 @@ void GUI::SETTINGS(bool init)
 		items[3]->init(13, 13, true, 10);
 		items[3]->MoveAutoSize(0, -0.6, content);
 	}
+}
+
+void GUI::CREDITS(bool init)
+{
+	if (init)
+		size = 0;
 }
 
 int GUI::keyUpdate()

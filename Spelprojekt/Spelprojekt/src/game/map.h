@@ -45,6 +45,7 @@ public:
 	void setUpDraw(glm::vec3 pos);
 	void setUpDraw3x2(glm::vec3 pos);
 	void setUpDrawMainMenuCamera(glm::vec3 pos);
+	void setUpDrawCredits(glm::vec3 pos);
 	int* getUpDraw() const;
 	void respawnCheck();
 	void playerDiedSoRespawnEnemies();

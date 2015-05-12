@@ -31,6 +31,8 @@ enum gameState
 	SETTINGS_MAIN,
 	SETTINGS_AUDIO,
 	SETTINGS_GRAPHICS,
+	SETTINGS_TOGGLE_SOUND,
+	SETTINGS_TOGGLE_RES,
 	CREDITS
 };
 
@@ -73,7 +75,9 @@ private:
 	int savePickupNr = 0;
 
 	void cameraUpdate();
+	void cameraUpdateCredits();
 	vec3 lastpos;
+	vec3 lastposCredits;
 	float speed = 0.03f;
 	bool playerintrorun = false;
 

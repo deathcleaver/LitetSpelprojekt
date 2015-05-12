@@ -264,6 +264,17 @@ void Game::update(float deltaTime)
 				buttonEvents(5); // new game with intro
 			break;
 		}
+		case(CREDITS) :
+		{
+			cameraUpdateCredits();
+			in->Act(deltaTime);
+			map->update(deltaTime, player);
+			map->setUpDrawCredits(*in->GetPos());
+			engine->setFade(1.0f);
+			Audio::getAudio().playMusic(MusicID::intro);
+			Audio::getAudio().updateListener(player->readPos());
+			break;
+		}
 		case(PLAY) :
 		{
 			if (GameConfig::get().configFullscreen == true)
@@ -596,6 +607,10 @@ void Game::buttonEvents(int buttonEv)
 		toggleFullscreen();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
+	case(11) : // Credits
+		current = CREDITS;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
 	}
 	//Editor buttons
 	if (buttonEv > 99)
@@ -917,4 +932,18 @@ void Game::cameraUpdate()
 
 	lastpos.x += speed;
 	in->setpos(lastpos, vec3(1,0,0));
+}
+
+void Game::cameraUpdateCredits()
+{
+	if (last != current) 
+		lastposCredits = vec3( 35 * 7, -35 * 3 + 5.0f, 10);
+
+	if (lastposCredits.y > (35 * 6) + 17.0f)
+	{
+		//leave credits
+	}
+
+	lastposCredits.y -= speed;
+	in->setpos(lastposCredits, vec3(0, 0, -1));
 }
