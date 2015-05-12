@@ -41,7 +41,7 @@ Ghost::Ghost(Ghost* copy)
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
 	randdir = copy->randdir;
 
-	speed = 2.0f + GameConfig::get().configDifficulty * 2;
+	speed = copy->speed;
 	invulnTimer = copy->invulnTimer;
 
 	effect = new Effect();

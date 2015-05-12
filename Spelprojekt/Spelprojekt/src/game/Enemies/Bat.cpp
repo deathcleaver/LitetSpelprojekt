@@ -29,7 +29,7 @@ Bat::Bat(Bat* copy)
 	facingRight = copy->facingRight;
 	contentIndex = 1;
 	health = 1;
-	speed = 4.0f + GameConfig::get().configDifficulty * 2; // + (0->2);
+	speed = copy->speed;
 	slow = copy->slow;
 
 	movementScale = copy->movementScale;

@@ -68,6 +68,7 @@ Cube::Cube(Cube* copy)
 
 	speed = copy->speed;
 	maxSpeed = glm::vec2(12, 30);
+	maxSpeed.x = copy->maxSpeed.x;
 	acc = 0.3f;
 	invulnTimer = copy->invulnTimer;
 
