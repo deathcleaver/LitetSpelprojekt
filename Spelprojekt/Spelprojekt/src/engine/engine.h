@@ -96,6 +96,8 @@ private:
 
 	bool bossMirrorPass = false;
 
+	Effect* eff;
+
 public:
 	void setDoF(bool set);
 	
