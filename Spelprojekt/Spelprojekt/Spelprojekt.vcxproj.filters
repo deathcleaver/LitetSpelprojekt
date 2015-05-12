@@ -135,6 +135,12 @@
     <ClCompile Include="src\game\Audio.cpp">
       <Filter>Source\Engine\SFX</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Enemies\Grim.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\GrimHand.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -293,6 +299,12 @@
       <Filter>Header\Engine\SFX</Filter>
     </ClInclude>
     <ClInclude Include="src\GameConfig.h" />
+    <ClInclude Include="src\game\Enemies\Grim.h">
+      <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\GrimHand.h">
+      <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

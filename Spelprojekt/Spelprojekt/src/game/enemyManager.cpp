@@ -681,7 +681,9 @@ void EnemyManager::resetEnemies()
 					if (grimHands[c])
 						delete grimHands[c];
 				}
-				addEnemy("GrimHand",
+				glm::vec2 handPos = ((Grim*)boss)->getHandPos();
+				addEnemy("GrimHand", handPos);
+				addEnemy("GrimHand", glm::vec2(-handPos.x, handPos.y));
 			}
 		}
 	}

@@ -116,6 +116,8 @@
     <ClCompile Include="src\game\Enemies\Deathbox.cpp" />
     <ClCompile Include="src\game\Enemies\Flame.cpp" />
     <ClCompile Include="src\game\Enemies\Ghost.cpp" />
+    <ClCompile Include="src\game\Enemies\Grim.cpp" />
+    <ClCompile Include="src\game\Enemies\GrimHand.cpp" />
     <ClCompile Include="src\game\Enemies\Spellbook.cpp" />
     <ClCompile Include="src\game\Enemies\Spider.cpp" />
     <ClCompile Include="src\game\Enemies\Spikes.cpp" />
@@ -172,6 +174,8 @@
     <ClInclude Include="src\game\Enemies\Deathbox.h" />
     <ClInclude Include="src\game\Enemies\Flame.h" />
     <ClInclude Include="src\game\Enemies\Ghost.h" />
+    <ClInclude Include="src\game\Enemies\Grim.h" />
+    <ClInclude Include="src\game\Enemies\GrimHand.h" />
     <ClInclude Include="src\game\Enemies\Spellbook.h" />
     <ClInclude Include="src\game\Enemies\Spider.h" />
     <ClInclude Include="src\game\Enemies\Spikes.h" />
