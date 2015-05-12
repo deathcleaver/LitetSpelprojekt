@@ -66,7 +66,9 @@ void Mirror::calculateNormal()
 	glm::vec4 d2 = p3 - p1;
 
 	normal = glm::normalize(glm::cross(glm::vec3(d1.x, d1.y, d1.z), glm::vec3(d2.x, d2.y, d2.z)));
-	normal.x = -normal.x;
+	//normal.x = -normal.x;
+
+	finalNormal = normal;
 
 	distance = 1;
 	projMat = glm::perspective(3.14f * 0.45f, 1.0f / 1.5f, distance * 1.2f, 1000.0f);
@@ -91,7 +93,22 @@ void Mirror::calcView()
 	pos.y = wMat[1].w;
 	pos.z = wMat[2].w;
 
-	viewMat = glm::lookAt(pos - (distance * normal), pos + (distance * normal), glm::vec3(0, 1, 0));
+	viewMat = glm::lookAt(pos - (distance * finalNormal), pos + (distance * finalNormal), glm::vec3(0, 1, 0));
+}
+
+void Mirror::reflect(glm::vec3 camForward)
+{
+	glm::vec3 pos;
+
+	pos.x = wMat[0].w;
+	pos.y = wMat[1].w;
+	pos.z = wMat[2].w;
+
+
+	glm::vec3 d = glm::vec3(pos - camForward);
+
+	finalNormal = glm::normalize(glm::reflect(d, normal));
+
 }
 
 void Mirror::render()
