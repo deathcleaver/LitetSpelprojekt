@@ -71,6 +71,7 @@ void Ghost::init()
 
 int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
+	collideRect->update();
 	glm::vec2 pos = glm::vec2(readPos().x, readPos().y);
 	glm::vec2 pPos = glm::vec2(playerPos.x, playerPos.y);
 	if (pos.x < pPos.x && !facingRight)
@@ -96,7 +97,7 @@ int Ghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			float ySpeed = -normDist.y*speed;
 			moveTo(pos.x + xSpeed*deltaTime, pos.y + ySpeed*deltaTime);
 		}
-		collideRect->update();
+		
 	}
 	else
 	{
