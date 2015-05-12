@@ -48,6 +48,11 @@ public:
 	{
 		return collideRect;
 	}
+
+	void setContentIndex(int id)
+	{
+		contentIndex = id;
+	}
 };
 
 #endif

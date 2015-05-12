@@ -373,6 +373,53 @@ void ObjectManager::loadMonsterObjs()
 	add = new AnimationObject(Demon1, Demon2, 0.5f, 0.05f);
 	objects[OBJ::ENEMY].push_back(add);
 
+	//Grim WHITE gem + eyes
+	Object* whiteGem1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* whiteGem2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(whiteGem1, whiteGem2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim FORCE gem + eyes
+	Object* forceGem1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* forceGem2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(forceGem1, forceGem2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim RANGE gem + eyes
+	Object* rangeGem1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* rangeGem2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(rangeGem1, rangeGem2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim SPARK gem + eyes
+	Object* sparkGem1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* sparkGem2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(sparkGem1, sparkGem2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim BLACK gem + eyes
+	Object* blackGem1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* blackGem2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(blackGem1, blackGem2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim REAPER
+	Object* reaper1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* reaper2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(reaper1, reaper2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim Hand Left
+	Object* handL1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* handL2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(handL1, handL2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim Hand Right
+	Object* handR1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/Player.bmp");
+	Object* handR2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/Player.bmp");
+	add = new AnimationObject(handR1, handR2, 0.5f, 0.05f);
+	objects[OBJ::ENEMY].push_back(add);
 }
 
 void ObjectManager::loadMiscObjs()

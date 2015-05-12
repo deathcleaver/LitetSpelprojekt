@@ -617,6 +617,18 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 						animCheck->enemyUpdate[id] = 1;
+						if (id >= EnemyID::grim_white && id <= EnemyID::grim_black)
+						{
+							for (int c = 0; c < 2; c++)
+							{
+								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "GrimHand");
+								if (id != lastid)
+									facecount = content->bind(OBJ::ENEMY, id);
+								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+								lastid = id;
+								animCheck->enemyUpdate[id] = 1;
+							}
+						}
 					}
 				}
 			}

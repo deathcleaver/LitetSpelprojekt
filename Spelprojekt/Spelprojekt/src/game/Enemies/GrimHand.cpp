@@ -24,7 +24,6 @@ GrimHand::GrimHand(GrimHand* copy)
 	moveTo(pos.x, pos.y);
 	alive = true;
 	facingRight = copy->facingRight;
-	contentIndex = 1;
 	health = 1;
 
 	collideRect = new Rect();

@@ -109,6 +109,14 @@ enum EnemyID
 	batboss,
 	maexxna,
 	demon,
+	grim_white,
+	grim_force,
+	grim_range,
+	grim_spark,
+	grim_black,
+	grim,
+	grimhand_left,
+	grimhand_right,
 
 	enemy_count, //leave this last
 };
