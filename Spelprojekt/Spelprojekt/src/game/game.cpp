@@ -852,6 +852,7 @@ void Game::checkForSave()
 				ss >> sub;
 				playerProgress.checkBossType(sub);
 			}
+			savePickupNr = 0;
 			getline(in, line);
 			ss = stringstream(line);
 			ss >> sub;
