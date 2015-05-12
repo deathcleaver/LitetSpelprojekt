@@ -101,7 +101,10 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		maxSpeed.y = -30;
 	}
 	effectVisible = false;
-	animState = "idle";
+	if (!jumping)
+		animState = "idle";
+	else
+		animState = "air";
 	timepass += deltaTime;
 
 	// update pos & camera using user input
