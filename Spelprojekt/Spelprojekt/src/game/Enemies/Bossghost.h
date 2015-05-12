@@ -29,6 +29,7 @@ private:
 	bool reachedDestination();
 	void shootMissile(glm::vec3 playerPos, Map* map, bool followPlayer);
 	void getSpooky(Map* map);
+	void getNerdy(Map* map);
 	int missilesLeft;
 public:
 	~Bossghost();
