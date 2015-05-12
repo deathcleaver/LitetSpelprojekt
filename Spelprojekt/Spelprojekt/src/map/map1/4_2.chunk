@@ -144,7 +144,7 @@ Spider 0 12
 18 -0.0128006 0.0942671 0.226866 0.319077 -0.0149227 0.0288907 -0.696106 4.09204 -0.0980482 -0.0167041 0.0763271 0.158325 0 0 0 1 
 19 1 0 0 1.48891 0 1 0 5.00034 0 0 1 -2.55972 0 0 0 1 
 19 1.20741 0 0 -14.9707 0 1.26389 0 -8.75366 0 0 1 -2.19028 0 0 0 1 
-4 : Music ID
+-2 : Music ID //continue to play whatever music is currently playing
 1 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 1 37 8 3 -3 5 2 10 20
 2 : Nr of Lights 
