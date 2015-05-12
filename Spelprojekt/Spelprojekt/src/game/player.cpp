@@ -516,6 +516,17 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 							HP -= 2;
 							break;
 						}
+
+						// check required if diff is higher than Casual
+						if (HP <= 0)
+						{
+							gui->showNewUpgrade(0);
+							Debug::DebugOutput("I'm fucking dead!\n");
+							map->getBoss(playerPos, true);
+							respawn(map);
+							Audio::getAudio().playSound(SoundID::player_hurt, false);
+							Audio::getAudio().playSound(SoundID::player_resurrected, false); //player_resurrected
+						}
 						Audio::getAudio().playSound(SoundID::player_hurt, false);
 					}
 						

@@ -26,7 +26,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	batsToSpawn = 0;
 	batTimer = 0.0f;
 	charging = false;
-	chargeTimer = 4.0f;
+	chargeTimer = 4.0f - GameConfig::get().configDifficulty;
 }
 
 Bossbat::~Bossbat()
@@ -50,7 +50,7 @@ void Bossbat::init()
 		collideRect->update();
 		batsToSpawn = 0;
 		batTimer = 0.0f;
-		chargeTimer = 4.0f;
+		chargeTimer = 4.0f - GameConfig::get().configDifficulty;
 		charging = false;
 		returnPos = chargePos = readPos();
 		hasTurned = false;
