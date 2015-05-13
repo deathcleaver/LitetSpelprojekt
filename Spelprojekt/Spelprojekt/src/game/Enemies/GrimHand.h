@@ -13,12 +13,14 @@ private:
 	float stateTimer;
 
 	float clapTimer;
+	int leftHandSwingCounter;
 
 	glm::vec2 speed;
 
-	void leftHandState(int state, float deltaTime, Map* map, glm::vec3 playerPos);
+	glm::vec2 neutralPos;
+	void leftHandState(float deltaTime, Map* map, glm::vec3 playerPos);
 
-	void rightHandState(int state, float deltaTime, Map* map, glm::vec3 playerPos);
+	void rightHandState(float deltaTime, Map* map, glm::vec3 playerPos);
 
 	void GrimHand::calcDir(glm::vec2 destination);
 	bool GrimHand::reachedDestination();
