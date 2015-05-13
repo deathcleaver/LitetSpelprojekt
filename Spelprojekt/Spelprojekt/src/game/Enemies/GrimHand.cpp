@@ -29,6 +29,7 @@ void GrimHand::init()
 	state = -1;
 	grimMode = 0;
 	clapTimer = 10.0f;
+	fireTimer = 2.0f;
 
 	collideRect->update();
 
@@ -54,15 +55,64 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			calcDir(neutralPos);
 		}
 	}
+	else if (state == 10)
+	{
+		stateTimer -= 1.0f*deltaTime;
+		if (!reachedDestination())
+		{
+			speed.x += 1.2f; speed.y += 1.2f;
+			translate(dirToFly.x*speed.x*deltaTime, dirToFly.y*speed.y*deltaTime);
+		}
+		if (stateTimer < FLT_EPSILON)
+		{
+			state = -1;
+			stateTimer = 0.0f;
+			speed.x = speed.y = 0;
+			clapTimer = 10.0f;
+		}
+	}
 	else
 	{
 		if (contentIndex == EnemyID::grimhand_left)
 		{
 			leftHandState(deltaTime, map, playerPos);
+			if (grimMode == 2)
+			{
+				fireTimer -= 1.0f*deltaTime;
+				if (fireTimer < FLT_EPSILON)
+				{
+					fireBall(map, playerPos);
+					fireTimer = 2.0f;
+				}
+			}
 		}
 		else
 		{
 			rightHandState(deltaTime, map, playerPos);
+			if (grimMode == 2)
+			{
+				fireTimer -= 1.0f*deltaTime;
+				if (fireTimer < FLT_EPSILON)
+				{
+					fireBall(map, playerPos);
+					fireTimer = 3.0f;
+				}
+			}
+		}
+
+		if (grimMode != 3)
+			clapTimer -= 1.0f*deltaTime;
+		else
+			clapTimer -= 5.0f*deltaTime;
+
+		if (clapTimer < FLT_EPSILON)
+		{
+			state = 10; //Time to get clappin'
+			if (contentIndex == EnemyID::grimhand_left)
+				calcDir(glm::vec2(playerPos.x + 0.5f, playerPos.y));
+			else
+				calcDir(glm::vec2(playerPos.x - 0.5f, playerPos.y));
+			stateTimer = 0.6f;
 		}
 	}
 	return 0;
@@ -98,12 +148,20 @@ void GrimHand::leftHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		if (!reachedDestination())
 		{
-			speed.x += 0.1f;
-			speed.y += 0.1f;
-			if (speed.x > 6.0f)
-				speed.x = 6.0f;
-			if (speed.y > 6.0f)
-				speed.y = 6.0f;
+			if (grimMode != 3)
+			{
+				speed.x += 0.1f;
+				speed.y += 0.1f;
+			}
+			else
+			{
+				speed.x += 0.9f;
+				speed.y += 0.9f;
+			}
+			if (speed.x > 8.0f)
+				speed.x = 8.0f;
+			if (speed.y > 8.0f)
+				speed.y = 8.0f;
 			translate(speed.x*dirToFly.x*deltaTime, speed.y*dirToFly.y*deltaTime);
 		}
 		else
@@ -286,13 +344,20 @@ void GrimHand::rightHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		if (!reachedDestination())
 		{
-			speed.x += 0.1f;
-			speed.y += 0.1f;
-			if (speed.x > 6.0f)
-				speed.x = 6.0f;
-			if (speed.y > 6.0f)
-				speed.y = 6.0f;
-			translate(speed.x*dirToFly.x*deltaTime, speed.y*dirToFly.y*deltaTime);
+			if (grimMode != 3)
+			{
+				speed.x += 0.1f;
+				speed.y += 0.1f;
+			}
+			else
+			{
+				speed.x += 0.9f;
+				speed.y += 0.9f;
+			}
+			if (speed.x > 8.0f)
+				speed.x = 8.0f;
+			if (speed.y > 8.0f)
+				speed.y = 8.0f;
 		}
 		else
 		{
@@ -358,8 +423,8 @@ void GrimHand::calcDir(glm::vec2 destination)
 bool GrimHand::reachedDestination()
 {
 	glm::vec3 pos = readPos();
-	if (pos.x < currentGoal.x + 1.0f && pos.x > currentGoal.x - 1.0f &&
-		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
+	if (pos.x < currentGoal.x + 1.5f && pos.x > currentGoal.x - 1.5f &&
+		pos.y < currentGoal.y + 1.5f && pos.y > currentGoal.y - 1.5f)
 		return true;
 	return false;
 }
@@ -367,7 +432,6 @@ bool GrimHand::reachedDestination()
 void GrimHand::fireBall(Map* map, glm::vec3 playerPos)
 {
 	glm::vec2 pos = glm::vec2(readPos());
-	pos.y = initPos.y + 4.0f;
 	ArcaneMissile* pewpew = new ArcaneMissile(pos);
 	pewpew->setVisitor();
 	pewpew->setEffect(glm::vec3(0.8f, 0.8f, 0.2f), false, true, false, 40);

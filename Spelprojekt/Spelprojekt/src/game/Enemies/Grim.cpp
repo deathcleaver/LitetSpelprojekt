@@ -37,7 +37,7 @@ void Grim::init()
 		invulnTimer = 0.0f;
 		facingRight = true;
 		alive = true;
-		health = 4;
+		health = 2;
 		collideRect->update();
 		Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
 
@@ -70,7 +70,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			fireBall(map, playerPos, false);
 			fireBall(map, playerPos, true);
-			stateTimer = 1.0f;
+			stateTimer = 2.0f;
 		}
 	}
 	hurtRect->update();
@@ -100,18 +100,21 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 			health = 2;
 			invulnTimer = 1.0f;
 			mode = 1;
+			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 1) //Switch to Range
 		{
 			health = 2;
 			invulnTimer = 1.0f;
 			mode = 2;
+			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 2) //Switch to Spark
 		{
 			health = 2;
 			invulnTimer = 1.0f;
 			mode = 3;
+			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 3) //Switch to Reaper
 		{

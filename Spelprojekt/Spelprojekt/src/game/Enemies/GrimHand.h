@@ -7,6 +7,7 @@ class GrimHand : public Enemy
 {
 private:
 	int grimMode;
+	float fireTimer;
 
 	int state;
 	float invulnTimer;

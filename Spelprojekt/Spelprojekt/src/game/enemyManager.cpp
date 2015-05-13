@@ -388,7 +388,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 					if (grimHands[c])
 					{
 						((GrimHand*)grimHands[c])->setGrimMode(msg);
-						msg = grimHands[c]->update(deltaTime, map, playerPos);
+						grimHands[c]->update(deltaTime, map, playerPos);
 					}
 				}
 			}
