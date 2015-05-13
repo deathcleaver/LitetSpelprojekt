@@ -995,11 +995,11 @@ void Game::cameraUpdateCredits()
 	if (last != current) 
 		lastposCredits = vec3( 35 * 7, -35 * 3 + 17.5f, 10);
 
-	if (lastposCredits.y > (35 * 6) + 17.0f)
+	if (lastposCredits.y < -((35 * 6) + 17.0f))
 	{
-		//leave credits
+		current = MENU;
 	}
 
-	lastposCredits.y -= speed;
+	lastposCredits.y -= speed * 5;
 	in->setpos(lastposCredits, vec3(0, 0, -1));
 }

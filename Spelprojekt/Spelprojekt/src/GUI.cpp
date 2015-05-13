@@ -267,7 +267,8 @@ void GUI::newupgradeInit()
 
 	destroyy();
 
-	bossprogressInit();
+	if(progressID < 4) //dont show progress on boss conversation
+		bossprogressInit();
 
 	if (progressID > 0)
 	{
@@ -279,6 +280,13 @@ void GUI::newupgradeInit()
 			items[size]->init(30, 30);
 		else if (progressID == 3) // mirror walk
 			items[size]->init(31, 31);
+
+		else if (progressID == 4) // boss intro 
+			items[size]->init(35, 35);
+		else if (progressID == 5) // boss final form
+			items[size]->init(36, 36);
+		else if (progressID == 6) // boss scream
+			items[size]->init(37, 37);
 
 		items[size]->MoveAutoSize(0, -0.3f, content);
 
