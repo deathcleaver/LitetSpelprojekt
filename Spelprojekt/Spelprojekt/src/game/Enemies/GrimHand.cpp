@@ -119,19 +119,22 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			stunned = false;
 	}
 
-	if (grimMode != 3)
-		clapTimer -= 1.0f*deltaTime;
-	else
-		clapTimer -= 5.0f*deltaTime;
-
-	if (clapTimer < FLT_EPSILON)
+	if (state != 10)
 	{
-		state = 10; //Time to get clappin'
-		if (contentIndex == EnemyID::grimhand_left)
-			calcDir(glm::vec2(playerPos.x + 0.5f, playerPos.y));
+		if (grimMode != 3)
+			clapTimer -= 1.0f*deltaTime;
 		else
-			calcDir(glm::vec2(playerPos.x - 0.5f, playerPos.y));
-		stateTimer = 0.6f;
+			clapTimer -= 5.0f*deltaTime;
+
+		if (clapTimer < FLT_EPSILON)
+		{
+			state = 10; //Time to get clappin'
+			if (contentIndex == EnemyID::grimhand_left)
+				calcDir(glm::vec2(playerPos.x + 0.5f, playerPos.y));
+			else
+				calcDir(glm::vec2(playerPos.x - 0.5f, playerPos.y));
+			stateTimer = 0.6f;
+		}
 	}
 	return 0;
 }
