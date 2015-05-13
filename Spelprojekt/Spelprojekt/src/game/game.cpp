@@ -147,6 +147,8 @@ void Game::init(GLFWwindow* windowRef)
 		gui->init(in, player, content, false);
 	else
 		gui->init(in, player, content);
+
+	freeze = false;
 }
 
 void Game::mainLoop()
@@ -166,8 +168,12 @@ void Game::mainLoop()
 		glfwPollEvents();
 
 		deltaTime = 0.0166666f;
-		readInput(deltaTime);
+		
+		if (freeze)
+			deltaTime = 0.0f;
 
+		readInput(deltaTime);
+		
 		update(deltaTime);
 
 		int swapTimer = startTimer("Swap");
@@ -344,13 +350,27 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
+
+						   if (msg == 5)
+						   {
+							   engine->setFadeOut();
+							   freeze = true;
+						   }
+						   else if (msg == 6)
+						   {
+							   glm::vec3 pos = player->getTelePos();
+							   pos.z = 10;
+							   in->setpos(pos, glm::vec3(0, 0, -1));
+							   engine->setFadeIn();
+							   freeze = false;
+						   }
 					   }
 					   content->setPlayerState(player->getAnimState());
 					   map->setUpDraw3x2(*in->GetPos());
 					   
 					   //Animations
 					   static int updateAnim = 1;
-					   if (updateAnim % 2 == 0)
+					   if (updateAnim % 2 == 0 && !freeze)
 						content->update(updateAnimCheck);
 					   updateAnim++;
 
@@ -399,6 +419,7 @@ void Game::update(float deltaTime)
 						   Audio::getAudio().playSound(SoundID::interface_pause, false); //pause
 						   current = PAUSE;
 					   }
+
 					   break;
 		}
 		case(INTRO) :

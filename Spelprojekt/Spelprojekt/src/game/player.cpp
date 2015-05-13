@@ -28,6 +28,9 @@ void Player::init()
 	effectVisible = false;
 
 	runeEffect = new Effect();
+
+	teleportTime = -1.0f;
+
 }
 
 Player::~Player()
@@ -659,12 +662,27 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			glm::vec3 val = map->mirrorWalk(collideRect, readPos());
 			if (val.z > -FLT_EPSILON)
 			{
-				moveTo(val.x, val.y);
-				speed.x = 0.0f;
-				speed.y = 0.0f;
+				teleportPos = val;
+				teleportTime = 10.0f;
+				return 5;
 			}
 		}
 	}
+
+	if (teleportTime < 0.0f && teleportTime > -1.0f)
+	{
+		moveTo(teleportPos.x, teleportPos.y);
+		speed.x = 0.0f;
+		speed.y = 0.0f;
+		teleportTime = -1.0f;
+		return 6;
+	}
+	else if(teleportTime > 0.0f)
+	{
+		teleportTime -= 0.1f;
+	}
+
+
 	if (flinchTimer > FLT_EPSILON)
 		flinchTimer -= 1.0f*deltaTime;
 	return 0;
@@ -673,6 +691,11 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 vec2 Player::getSpeed()
 {
 	return speed;
+}
+
+vec3 Player::getTelePos()
+{
+	return teleportPos;
 }
 
 bool Player::isBossFighting()

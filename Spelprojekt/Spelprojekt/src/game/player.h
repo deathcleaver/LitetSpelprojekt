@@ -71,6 +71,10 @@ private:
 	int pickUps = 0;
 
 	glm::vec2 start;
+
+	float teleportTime;
+	glm::vec3 teleportPos;
+
 public:
 	Player(){};
 	~Player();
@@ -79,6 +83,7 @@ public:
 	void setStartPos(int x, int y);
 	int update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float deltaTime);
 	vec2 getSpeed();
+	vec3 getTelePos();
 	std::string getAnimState();
 	bool isBlinking() const;
 	void playerGuiInfo(int* hp, int* pieces, int* rune, int* shield);
@@ -100,6 +105,8 @@ public:
 	Progress getProgress();
 
 	void getPickup(glm::vec2 chunkIndex);
+
+	
 };
 
 #endif

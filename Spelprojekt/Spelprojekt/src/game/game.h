@@ -84,6 +84,8 @@ private:
 
 	unsigned __int64 frame;
 
+	bool freeze;
+
 public:
 	Game() {};
 	~Game();
