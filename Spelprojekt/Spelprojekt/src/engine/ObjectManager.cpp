@@ -309,7 +309,7 @@ void ObjectManager::loadMapObjs()
 	objects[OBJ::WORLD].push_back(add);
 
 	//grim statue
-	add = new AnimationObject("src/meshes/Enemies/grimStatue.v", "src/textures/Interactive Objects/Shrine2.bmp");
+	add = new AnimationObject("src/meshes/Enemies/grim/grimStatue2.v", "src/textures/Grim_statue.bmp");
 	objects[OBJ::WORLD].push_back(add);
 }
 
