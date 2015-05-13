@@ -6,12 +6,15 @@
 class GrimHand : public Enemy
 {
 private:
+	Rect* hurtRect;
+
 	int grimMode;
 	float fireTimer;
 
 	int state;
 	float invulnTimer;
 	float stateTimer;
+	bool stunned;
 
 	float clapTimer;
 	int leftHandSwingCounter;
@@ -43,6 +46,18 @@ public:
 	void setGrimMode(int m)
 	{
 		grimMode = m;
+	}
+
+	Rect* getHurtRekt()
+	{
+		return hurtRect;
+	}
+
+	Rect* getRekt()
+	{
+		if (invulnTimer < FLT_EPSILON)
+			return collideRect;
+		return 0;
 	}
 };
 
