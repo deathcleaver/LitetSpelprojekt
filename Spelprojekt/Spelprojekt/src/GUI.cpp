@@ -70,6 +70,10 @@ int GUI::update(int state)
 			break;
 		case(11): // credits gui (empty)
 			CREDITS(init);
+			break;
+		case(12) : // difficulty gui
+			DIFFICULTY(init);
+			break;
 		}
 	}
 	if (state == 1) //if play
@@ -109,7 +113,7 @@ void GUI::MENU(bool init)
 		items[0]->MoveAutoSize(0, 0.6f, content);
 
 		//new game button
-		items[1]->init(1, 2, true, 5); //puts the game in intro state
+		items[1]->init(1, 2, true, 12); //puts the game in intro state
 		items[1]->MoveAutoSize(0, 0.1f, content);
 
 		if (grayContinue)
@@ -399,6 +403,28 @@ void GUI::PAUSE(bool init)
 	}
 }
 
+void GUI::DIFFICULTY(bool init)
+{
+	if (init)
+	{
+		size = 4;
+		for (int n = 0; n < size; n++)
+			items[n] = new ScreenItem();
+		
+			items[0]->init(81, 81); // title
+			items[0]->MoveAutoSize(0, 0.6f, content);
+
+			items[1]->init(75, 76, true, 13);
+			items[1]->MoveAutoSize(0, 0.2f, content);
+			
+			items[2]->init(77, 78, true, 14);
+			items[2]->MoveAutoSize(0, -0.2f, content);
+			
+			items[3]->init(79, 80, true, 15);
+			items[3]->MoveAutoSize(0, -0.6f, content);
+	}
+}
+
 void GUI::SETTINGS(bool init)
 {
 	if (init)
@@ -472,7 +498,7 @@ int GUI::keyUpdate()
 			ret = items[n]->update(x, y, lmb);
 			if (ret != 0)
 			{
-				if (items[0]->hoverContentIndex > 49) // in editor
+				if (items[0]->hoverContentIndex > 49 && items[0]->hoverContentIndex < 59) // in editor
 				{
 					//if its a editor mode switch
 					if (n > 0 && n < 9)

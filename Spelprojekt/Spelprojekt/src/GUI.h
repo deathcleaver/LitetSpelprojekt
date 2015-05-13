@@ -45,6 +45,7 @@ private:
 	void INTRO(bool init);
 	void EDIT(bool init);
 	void PAUSE(bool init);
+	void DIFFICULTY(bool init);
 	void SETTINGS(bool init);
 	void CREDITS(bool init);
 	void bossprogressInit();

@@ -40,7 +40,7 @@ void ContentManager::loadGUIobjs()
 	if (guiObjs)
 		throw;
 
-	guiCount = 75;
+	guiCount = 100;
 	guiObjs = new Object*[guiCount]();
 
 	//main menu reserved 0 - 19
@@ -115,7 +115,16 @@ void ContentManager::loadGUIobjs()
 	for (int n = 66; n < 75; n++)
 		guiObjs[n] = 0;
 
-
+	// difficulty reserved
+	guiObjs[75] = new Object("", "src/textures/gui/main/settings/casual.png", guiObjs[0], true);
+	guiObjs[76] = new Object("", "src/textures/gui/main/settings/casualH.png", guiObjs[0], true);
+	guiObjs[77] = new Object("", "src/textures/gui/main/settings/hardcore.png", guiObjs[0], true);
+	guiObjs[78] = new Object("", "src/textures/gui/main/settings/hardcoreH.png", guiObjs[0], true);
+	guiObjs[79] = new Object("", "src/textures/gui/main/settings/dmoninhell.png", guiObjs[0], true);
+	guiObjs[80] = new Object("", "src/textures/gui/main/settings/dmoninhellH.png", guiObjs[0], true);
+	guiObjs[81] = new Object("", "src/textures/gui/main/settings/difficulty.png", guiObjs[0], true);
+	for (int n = 82; n < 100; n++)
+		guiObjs[n] = 0;
 
 }
 

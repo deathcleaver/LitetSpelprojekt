@@ -10,10 +10,13 @@ private:
 	glm::vec2 speed;
 
 	float invulnTimer;
+	float eruptCooldown; // DmonInHell mode only
 	bool flying;
 	Effect* flameEffect;
-
 	bool fading;
+
+	void erupt(Map* map, glm::vec3 playerPos);
+
 public:
 	~Flame();
 	Flame(Flame* copy);

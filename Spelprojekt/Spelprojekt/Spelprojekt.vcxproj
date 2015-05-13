@@ -114,6 +114,7 @@
     <ClCompile Include="src\game\Enemies\Bossspider.cpp" />
     <ClCompile Include="src\game\Enemies\Cube.cpp" />
     <ClCompile Include="src\game\Enemies\Deathbox.cpp" />
+    <ClCompile Include="src\game\Enemies\Fireball.cpp" />
     <ClCompile Include="src\game\Enemies\Flame.cpp" />
     <ClCompile Include="src\game\Enemies\Ghost.cpp" />
     <ClCompile Include="src\game\Enemies\Grim.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\game\Enemies\Bossspider.h" />
     <ClInclude Include="src\game\Enemies\Cube.h" />
     <ClInclude Include="src\game\Enemies\Deathbox.h" />
+    <ClInclude Include="src\game\Enemies\Fireball.h" />
     <ClInclude Include="src\game\Enemies\Flame.h" />
     <ClInclude Include="src\game\Enemies\Ghost.h" />
     <ClInclude Include="src\game\Enemies\Grim.h" />
