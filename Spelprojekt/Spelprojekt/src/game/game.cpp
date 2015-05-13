@@ -267,7 +267,7 @@ void Game::update(float deltaTime)
 			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
 			if (gamePad->isButtonPressedSticky(gamePad->getButtons().Start))
-				buttonEvents(5); // new game with intro
+				buttonEvents(12); // difficulty
 			break;
 		}
 		case(CREDITS) :
@@ -474,7 +474,6 @@ void Game::update(float deltaTime)
 		case(SETTINGS_MAIN) :
 		{
 						cameraUpdate();
-
 						if (in->getESC())
 						{
 							//save player progression
@@ -485,22 +484,32 @@ void Game::update(float deltaTime)
 						break;
 		}
 		case(SETTINGS_AUDIO) :
-		{
-								if (in->getESC())
-								{
-									//save player progression
-									current = SETTINGS_MAIN;
-								}
-								break;
+	{
+							if (in->getESC())
+							{
+								//save player progression
+								current = SETTINGS_MAIN;
+							}
+							break;
 		}
 		case(SETTINGS_GRAPHICS) :
 		{
-								if (in->getESC())
-								{
-									//save player progression
-									current = SETTINGS_MAIN;
-								}
-								break;
+							if (in->getESC())
+							{
+								//save player progression
+								current = SETTINGS_MAIN;
+							}
+							break;
+		}
+		case(DIFFICULTY) :
+		{
+							cameraUpdate();
+							if (in->getESC())
+							{
+								//save player progression
+								current = MENU;
+							}
+							break;
 		}
 	}
 	last = current;
@@ -634,6 +643,25 @@ void Game::buttonEvents(int buttonEv)
 		break;
 	case(11) : // Credits
 		current = CREDITS;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+	case(12) : // difficulty
+		current = DIFFICULTY;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+	case(13) : // casual
+		current = INTRO;
+		GameConfig::get().configDifficulty = GameConfig::Casual;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+	case(14) : // hardcore
+		current = INTRO;
+		GameConfig::get().configDifficulty = GameConfig::Hardcore;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+	case(15) : // DmonInHell
+		current = INTRO;
+		GameConfig::get().configDifficulty = GameConfig::DmonInHell;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	}
@@ -956,7 +984,7 @@ void Game::cameraUpdate()
 	}
 
 	lastpos.x += speed;
-	in->setpos(lastpos, vec3(1,0,0));
+	in->setpos(lastpos, vec3(1, 0, 0));
 }
 
 void Game::cameraUpdateCredits()

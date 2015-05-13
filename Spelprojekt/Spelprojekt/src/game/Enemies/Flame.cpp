@@ -1,5 +1,6 @@
 #include "Flame.h"
 #include "../map.h"
+#include "Fireball.h"
 
 Flame::~Flame()
 {
@@ -15,7 +16,6 @@ Flame::Flame(glm::vec2 firstPos)
 	contentIndex = 2;
 	health = 3;
 	speed = glm::vec2(2.0f, 0.0f);
-	speed.x += GameConfig::get().configDifficulty * 2; // + (0->2);
 	invulnTimer = 0.0f;
 	audibleDistance = 2.5f;
 
@@ -64,6 +64,7 @@ void Flame::init()
 	fading = true;
 	health = 3;
 	invulnTimer = 0.0f;
+	eruptCooldown = 0.0f;
 	speed = glm::vec2(2.0f, 0.0f);
 	flameEffect->getEffect()->init(initPos.x, initPos.y, 0);
 	collideRect->update();
@@ -114,6 +115,16 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					rotateTo(0, 3.14159265f, 0);
 				}
 			}
+		}
+
+		if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+		{
+			if (eruptCooldown <= 0)
+			{
+				//erupt(map, playerPos);
+			}
+			else
+				eruptCooldown -= 1.0f*deltaTime;
 		}
 	}
 	else
@@ -173,6 +184,21 @@ int Flame::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	flameEffect->getEffect()->setSpawn(myPos.x, myPos.y, 0);
 
 	return 0;
+}
+
+void Flame::erupt(Map* map, glm::vec3 playerPos)
+{
+	Debug::DebugOutput("Erupting.\n");
+	glm::vec3 pos = readPos();
+	Fireball* fireBall = new Fireball(glm::vec2(pos));
+	glm::vec2 dir = normalize(glm::vec2(playerPos) - glm::vec2(readPos()));
+	dir.y = 1;
+	fireBall->setDirection(dir);
+	map->findNewHome(fireBall);
+	delete fireBall;
+	Audio::getAudio().playSoundAtPos(SoundID::enemy_flame_death, pos, audibleDistance, false);
+
+	eruptCooldown = rand() % 5 + 2;
 }
 
 bool Flame::isFading()
