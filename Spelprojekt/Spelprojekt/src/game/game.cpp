@@ -356,6 +356,23 @@ void Game::update(float deltaTime)
 								}
 						   }
 
+						   if (firstPerson)
+						   {
+							   vec3 ppos = player->readPos();
+							   ppos.y += 0.5f;
+							   if (player->getSpeed().x > 0.001)
+								   lastdirFPS = vec3(1, 0, 0);
+							   else if (player->getSpeed().x < -0.001)
+								   lastdirFPS = vec3(-1, 0, 0);
+							
+							   if (lastdirFPS.x > 0)
+								   ppos.x += 0.25f;
+							   else
+								   ppos.x -= 0.25f;
+							   in->setpos(ppos, lastdirFPS);
+							  
+						   }
+
 						   if (msg == 5)
 						   {
 							   engine->setFadeOut();
