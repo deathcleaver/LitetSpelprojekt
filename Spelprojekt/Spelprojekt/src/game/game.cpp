@@ -821,12 +821,6 @@ void Game::initSettings()
 		// apply audio settings
 		Audio::getAudio().applySettings(musicV, soundV, audioV, musicE, soundE, audioE);
 
-		// --- Difficulty ---
-		getline(in, line); // difficulty
-		ss = stringstream(line);
-		ss >> sub;
-		GameConfig::get().configDifficulty = atoi(sub.c_str());
-
 		// toggle fullscreen WIP
 		//toggleFullscreen();
 
@@ -889,8 +883,7 @@ void Game::saveSettings()
 		out << GameConfig::get().configFullscreen << " // fullscreen\n";
 		out << GameConfig::get().configResX << " " << GameConfig::get().configResY << " // resolution\n";
 		out << GameConfig::get().configRenderGlow << " // render glow\n";
-		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio\n";
-		out << GameConfig::get().configDifficulty << " // difficulty (0->2)\n";
+		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio";
 
 		out.close();
 	}
@@ -907,6 +900,10 @@ void Game::checkForSave()
 		string line;
 		string sub;
 		stringstream ss;
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
+		GameConfig::get().configDifficulty = atoi(sub.c_str());
 		getline(in, line);
 		ss = stringstream(line);
 		ss >> sub;
@@ -954,6 +951,7 @@ void Game::saveGame()
 	{
 		if (savePoint)
 		{
+			out << GameConfig::get().configDifficulty << "\n";
 			int idX, idY;
 			glm::vec3 savePos = savePoint->returnThis()->readPos();
 			map->getChunkIndex(savePos, &idX, &idY);
@@ -970,7 +968,7 @@ void Game::saveGame()
 		}
 		else
 		{
-			out << "-1 -1\nNo\nNo\nNo";
+			out << "0\n-1 -1\nNo\nNo\nNo";
 		}
 		out.close();
 	}
