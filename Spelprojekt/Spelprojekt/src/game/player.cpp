@@ -660,10 +660,11 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		if (progressMeter.ghostboss)
 		{
 			glm::vec3 val = map->mirrorWalk(collideRect, readPos());
-			if (val.z > -FLT_EPSILON)
+			if (val.z > -FLT_EPSILON && teleportTime == -1.0f)
 			{
 				teleportPos = val;
 				teleportTime = 10.0f;
+				Audio::getAudio().playSound(SoundID::player_mirror_walk, false);
 				return 5;
 			}
 		}

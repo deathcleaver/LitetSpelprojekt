@@ -159,6 +159,7 @@ enum SoundID
 	player_shield_force = 6,
 	player_landing = 7,
 	player_hurt = 26,
+	player_mirror_walk = 61,
 	// interface
 	interface_button = 8,
 	interface_pause = 9,
