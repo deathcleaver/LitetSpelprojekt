@@ -56,8 +56,8 @@ void ContentManager::loadGUIobjs()
 	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.png", guiObjs[0], true);
 	guiObjs[10] = new Object("", "src/textures/gui/main/settings.png", guiObjs[0], true);
 	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.png", guiObjs[0], true);
-	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audioE.bmp", guiObjs[0], true);
-	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioD.bmp", guiObjs[0], true);
+	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audioE.png", guiObjs[0], true);
+	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioD.png", guiObjs[0], true);
 	guiObjs[14] = new Object("", "src/textures/gui/main/settings/musicE.bmp", guiObjs[0], true);
 	guiObjs[15] = new Object("", "src/textures/gui/main/settings/musicD.bmp", guiObjs[0], true);
 	guiObjs[16] = new Object("", "src/textures/gui/main/settings/soundE.bmp", guiObjs[0], true);
