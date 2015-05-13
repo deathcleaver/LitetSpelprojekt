@@ -110,28 +110,28 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					}
 				}
 			}
-
-			if (grimMode != 3)
-				clapTimer -= 1.0f*deltaTime;
-			else
-				clapTimer -= 5.0f*deltaTime;
-
-			if (clapTimer < FLT_EPSILON)
-			{
-				state = 10; //Time to get clappin'
-				if (contentIndex == EnemyID::grimhand_left)
-					calcDir(glm::vec2(playerPos.x + 0.5f, playerPos.y));
-				else
-					calcDir(glm::vec2(playerPos.x - 0.5f, playerPos.y));
-				stateTimer = 0.6f;
-			}
 		}
 	}
 	else
 	{
-		invulnTimer -= 1.0*deltaTime;
-		if (invulnTimer < FLT_EPSILON)
+		stateTimer -= 1.0*deltaTime;
+		if (stateTimer < FLT_EPSILON)
 			stunned = false;
+	}
+
+	if (grimMode != 3)
+		clapTimer -= 1.0f*deltaTime;
+	else
+		clapTimer -= 5.0f*deltaTime;
+
+	if (clapTimer < FLT_EPSILON)
+	{
+		state = 10; //Time to get clappin'
+		if (contentIndex == EnemyID::grimhand_left)
+			calcDir(glm::vec2(playerPos.x + 0.5f, playerPos.y));
+		else
+			calcDir(glm::vec2(playerPos.x - 0.5f, playerPos.y));
+		stateTimer = 0.6f;
 	}
 	return 0;
 }
@@ -146,17 +146,13 @@ void GrimHand::hit(int damage, bool playerRightOfEnemy)
 		{
 			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false); //boss_GrimHand_death
 			stunned = true;
-			invulnTimer = 6.0f;
+			stateTimer = 8.0f;
 			health = 2;
 		}
-		else
-			invulnTimer = 1.0f;
+		invulnTimer = 1.0f;
 		state = 0;
 		glm::vec3 pos = readPos();
-		if (playerRightOfEnemy)
-			calcDir(glm::vec2(pos.x - 2.0f, pos.y + 4.0f));
-		else
-			calcDir(glm::vec2(pos.x + 2.0f, pos.y + 4.0f));
+		calcDir(neutralPos);
 		speed.x = speed.y = 0;
 	}
 }
