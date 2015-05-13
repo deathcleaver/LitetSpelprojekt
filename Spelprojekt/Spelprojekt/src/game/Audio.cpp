@@ -129,6 +129,7 @@ void Audio::loadFiles()
 	soundFiles[6] = "../Audio/Sounds/Player/player_shield_force.wav";
 	soundFiles[7] = "../Audio/Sounds/Player/player_landing.wav";
 	soundFiles[26] = "../Audio/Sounds/Player/player_hurt.wav";
+	soundFiles[61] = "../Audio/Sounds/Player/player_mirror_walk.wav";
 	//interface
 	soundFiles[8] = "../Audio/Sounds/Interface/button.wav";
 	soundFiles[9] = "../Audio/Sounds/Interface/pause.wav";
