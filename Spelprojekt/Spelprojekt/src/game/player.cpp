@@ -333,11 +333,10 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 							pitch = (maxSpeed.y) / speed.y;
 							Audio::getAudio().playSound(SoundID::player_landing, false, pitch);
 					}
-						
 
 					speed.x *= landBreak;
-					jumping = false;
 					doubleJump = false;
+					jumping = false;
 					speed.y = 0;
 				}
 			}

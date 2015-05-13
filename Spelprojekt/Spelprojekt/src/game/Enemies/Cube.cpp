@@ -12,9 +12,12 @@ Cube::Cube(glm::vec2 firstPos)
 		tempCollide *= 1.2f;
 		tempScale *= 1.6f;
 		tempHurt *= 1.6f;
-		health = 4;
+		health = 6;
+		split = true;
 	}
 
+	initHealth = health;
+	
 	scaleFactor(tempScale, tempScale, tempScale);
 	initPos = firstPos;
 	moveTo(firstPos.x, firstPos.y);
@@ -29,6 +32,41 @@ Cube::Cube(glm::vec2 firstPos)
 	audibleDistance = 3.0f;
 
 	speed = glm::vec2(0,0);
+	maxSpeed = glm::vec2(12, 30);
+	maxSpeed.x += GameConfig::get().configDifficulty * 2; // + (0->2);
+	acc = 0.3f;
+	invulnTimer = 0.0f;
+	jumpTimer = 0.0f;
+
+	glow = new Light();
+	setupGlow();
+}
+
+Cube::Cube(glm::vec2 firstPos, bool s, float speedX, int hp)
+{
+	float tempScale = 1.8f;
+	float tempCollide = 1.8f;
+	float tempHurt = 2.1f;
+
+	health = hp;
+	initHealth = hp;
+	split = s;
+
+	scaleFactor(tempScale, tempScale, tempScale);
+	initPos = firstPos;
+	moveTo(firstPos.x, firstPos.y);
+	alive = true;
+	facingRight = true;
+	contentIndex = EnemyID::cube;
+	collideRect = new Rect();
+	collideRect->initGameObjectRect(&worldMat, tempCollide, tempCollide);
+	hurtRect = new Rect();
+	hurtRect->initGameObjectRect(&worldMat, tempHurt, tempHurt);
+
+	audibleDistance = 3.0f;
+
+	speed = glm::vec2(0, 0);
+	speed.x = speedX;
 	maxSpeed = glm::vec2(12, 30);
 	maxSpeed.x += GameConfig::get().configDifficulty * 2; // + (0->2);
 	acc = 0.3f;
@@ -72,11 +110,13 @@ Cube::Cube(Cube* copy)
 	facingRight = copy->facingRight;
 	contentIndex = EnemyID::cube;
 	health = copy->health;
+	initHealth = copy->initHealth;
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1.8f, 1.8f);
 	hurtRect = new Rect();
 	hurtRect->initGameObjectRect(&worldMat, 2.1f, 2.1f);
 
+	split = copy->split;
 	speed = copy->speed;
 	maxSpeed = glm::vec2(12, 30);
 	maxSpeed.x = copy->maxSpeed.x;
@@ -102,6 +142,14 @@ void Cube::init()
 
 int Cube::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
+
+	if (willSplit)
+	{
+		getInHere(map, playerPos);
+		getInHere(map, playerPos);
+		willSplit = false;
+	}
+
 	glm::vec3 myPos = readPos();
 	if (playerPos.x < myPos.x)
 	{
@@ -204,16 +252,21 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 			speed.x = 16.0f - GameConfig::get().configDifficulty * 4;
 		if (health <= 0)
 		{
-			alive = false;
 			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
 				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_death, readPos(), audibleDistance, false, 0.6f); //enemy_slime_death
 			else
 				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_death, readPos(), audibleDistance, false); //enemy_slime_death
+				
+			alive = false;
 		}
 		else
 		{
 			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+			{
+				if (split == true)
+					willSplit = true;
 				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_hurt, readPos(), audibleDistance, false, 0.6f); //enemy_slime_death
+			}
 			else
 				Audio::getAudio().playSoundAtPos(SoundID::enemy_slime_hurt, readPos(), audibleDistance, false); //enemy_slime_death
 		}
@@ -221,4 +274,27 @@ void Cube::hit(int damage, bool playerRightOfEnemy)
 		invulnTimer = 0.6f;
 	}
 
+}
+
+void Cube::getInHere(Map* map, glm::vec3 playerPos)
+{
+	float speedX;
+	if (playerPos.x < readPos().x)
+	{
+		speedX = 16.0f;
+	}
+	else
+		speedX = -16.0f;
+
+	bool tempSplit = false;
+	if (initHealth > 2)
+		tempSplit = true;
+
+	Debug::DebugOutput("A fight? Count me in!.\n");
+	Audio::getAudio().playSoundAtPos(SoundID::ambient_everyone, pos, audibleDistance, false);
+	glm::vec3 pos = readPos();
+	Cube* miniCube = new Cube(glm::vec2(pos), tempSplit, speedX, (initHealth / 2));
+	miniCube->setVisitor();
+	map->findNewHome(miniCube);
+	delete miniCube;
 }

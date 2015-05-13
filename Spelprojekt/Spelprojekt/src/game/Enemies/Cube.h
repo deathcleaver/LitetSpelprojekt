@@ -17,9 +17,16 @@ private:
 
 	Light* glow;
 	void setupGlow();
+
+	//DmonInHell
+	int initHealth;
+	bool split = false; // not split yet
+	bool willSplit = false;
+	void getInHere(Map* map, glm::vec3 playerPos);
 public:
 	~Cube();
 	Cube(glm::vec2 firstPos);
+	Cube(glm::vec2 firstPos, bool s, float speedX, int hp);
 	Cube(Cube* copy);
 	void init();
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);
