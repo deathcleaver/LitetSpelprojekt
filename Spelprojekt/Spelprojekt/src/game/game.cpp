@@ -274,8 +274,13 @@ void Game::update(float deltaTime)
 		{
 			cameraUpdateCredits();
 			in->Act(deltaTime);
-			map->update(deltaTime, player);
 			map->setUpDrawCredits(*in->GetPos());
+			map->update(deltaTime, player);
+			//Animations
+			static int updateAnim = 1;
+			if (updateAnim % 2 == 0)
+				content->update(updateAnimCheck);
+			updateAnim++;
 			engine->setFade(1.0f);
 			Audio::getAudio().playMusic(MusicID::intro);
 			Audio::getAudio().updateListener(player->readPos());
