@@ -66,7 +66,7 @@ int Fireball::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	if (alive)
 	{
 		speed -= 0.2f;
-		translate(0, 0);
+		translate(speed, speed);
 		if (collidesWithWorld(map))
 		{
 			Audio::getAudio().playSoundAtPos(SoundID::enemy_missile_death, readPos(), audibleDistance, false);

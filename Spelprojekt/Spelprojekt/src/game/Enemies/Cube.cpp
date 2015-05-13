@@ -291,8 +291,8 @@ void Cube::getInHere(Map* map, glm::vec3 playerPos)
 		tempSplit = true;
 
 	Debug::DebugOutput("A fight? Count me in!.\n");
-	Audio::getAudio().playSoundAtPos(SoundID::ambient_everyone, pos, audibleDistance, false);
 	glm::vec3 pos = readPos();
+	Audio::getAudio().playSoundAtPos(SoundID::ambient_everyone, pos, audibleDistance, false);
 	Cube* miniCube = new Cube(glm::vec2(pos), tempSplit, speedX, (initHealth / 2));
 	miniCube->setVisitor();
 	map->findNewHome(miniCube);
