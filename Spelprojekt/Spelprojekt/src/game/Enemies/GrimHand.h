@@ -26,6 +26,8 @@ private:
 	bool GrimHand::reachedDestination();
 	glm::vec2 dirToFly;
 	glm::vec2 currentGoal;
+
+	void fireBall(Map* map, glm::vec3 playerPos);
 public:
 	GrimHand(glm::vec2 firstPos);
 	void init();
@@ -36,6 +38,11 @@ public:
 		return "GrimHand";
 	}
 	bool isBlinking();
+
+	void setGrimMode(int m)
+	{
+		grimMode = m;
+	}
 };
 
 #endif

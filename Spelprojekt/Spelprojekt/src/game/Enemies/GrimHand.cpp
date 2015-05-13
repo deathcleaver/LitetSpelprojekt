@@ -1,5 +1,6 @@
 #include "GrimHand.h"
 #include "../map.h"
+#include "ArcaneMissile.h"
 
 GrimHand::GrimHand(glm::vec2 firstPos)
 {
@@ -145,8 +146,8 @@ void GrimHand::leftHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else if (state == 2) //Swing at player
 	{
-		speed.x += 0.8f;
-		speed.y += 0.8f;
+		speed.x += 1.2f;
+		speed.y += 1.2f;
 		if (speed.x > 22.0f)
 			speed.x = 22.0f;
 		if (speed.y > 22.0f)
@@ -165,9 +166,9 @@ void GrimHand::leftHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 		{
 			state = 3;
 			speed.x = speed.y = 0;
-			calcDir(glm::vec2(neutralPos.x, playerPos.y));
+			calcDir(glm::vec2(playerPos.x, playerPos.y+8.0f));
 			stateTimer = 0.0f;
-			leftHandSwingCounter = 3;
+			leftHandSwingCounter = 2;
 		}
 		if (playerPos.x < initPos.x - 1.0f) //-1 is an asshole buffer
 		{
@@ -176,7 +177,57 @@ void GrimHand::leftHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 			speed.x = speed.y = 0;
 		}
 	}
-	else if (state == 3) //Swing horizontally three times
+	else if (state == 3) //Swing vertically two times
+	{
+		if (stateTimer < FLT_EPSILON && leftHandSwingCounter == 2)
+		{
+			if (!reachedDestination())
+			{
+				speed.x += 1.1f;
+				speed.y += 1.1f;
+				if (speed.x > 22.0f)
+					speed.x = 22.0f;
+				if (speed.y > 22.0f)
+					speed.y = 22.0f;
+				translate(dirToFly.x*speed.x*deltaTime, dirToFly.y*speed.y*deltaTime);
+			}
+			else
+			{
+				pos = glm::vec2(readPos());
+				speed.x = speed.y = 0;
+				stateTimer = 1.0;
+				calcDir(glm::vec2(pos.x, pos.y-1.0f));
+			}
+		}
+		else
+		{
+			stateTimer -= 1.0*deltaTime;
+			speed.x += 1.1f;
+			speed.y += 1.1f;
+			if (speed.x > 22.0f)
+				speed.x = 22.0f;
+			if (speed.y > 22.0f)
+				speed.y = 22.0f;
+			if (stateTimer > 0.5f)
+				translate(dirToFly.x*speed.x*deltaTime, dirToFly.y*speed.y*deltaTime);
+			else
+				translate(-dirToFly.x*speed.x*deltaTime, -dirToFly.y*speed.y*deltaTime);
+			if (stateTimer < FLT_EPSILON)
+			{
+				stateTimer = 1.0f;
+				leftHandSwingCounter--;
+			}
+			if (leftHandSwingCounter == 0)
+			{
+				state = 4;
+				speed.x = speed.y = 0;
+				calcDir(glm::vec2(playerPos.x+5.0f, playerPos.y+1.0f));
+				stateTimer = 0.0f;
+				leftHandSwingCounter = 3;
+			}
+		}
+	}
+	else if (state == 4) //Swing horizontally three times
 	{
 		if (stateTimer < FLT_EPSILON && leftHandSwingCounter == 3)
 		{
@@ -218,8 +269,11 @@ void GrimHand::leftHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 			if (leftHandSwingCounter == 0)
 			{
-				speed.x = speed.y = 0;
-				state = 4;
+				speed.x = 0;
+				speed.y = 0;
+				stateTimer = 1.5f;
+				state = 2; //GIT VIOLENT
+				calcDir(glm::vec2(playerPos));
 			}
 		}
 	}
@@ -271,8 +325,8 @@ void GrimHand::rightHandState(float deltaTime, Map* map, glm::vec3 playerPos)
 	else if (state == 2) //Follow player
 	{
 		stateTimer -= 1.0f*deltaTime;
-		speed.x += 0.9f;
-		speed.y += 0.9f;
+		speed.x += 0.8f;
+		speed.y += 0.8f;
 		if (speed.x > 16.0f)
 			speed.x = 16.0f;
 		if (speed.y > 16.0f)
@@ -308,4 +362,21 @@ bool GrimHand::reachedDestination()
 		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
 		return true;
 	return false;
+}
+
+void GrimHand::fireBall(Map* map, glm::vec3 playerPos)
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	pos.y = initPos.y + 4.0f;
+	ArcaneMissile* pewpew = new ArcaneMissile(pos);
+	pewpew->setVisitor();
+	pewpew->setEffect(glm::vec3(0.8f, 0.8f, 0.2f), false, true, false, 40);
+	glm::vec2 dir;
+	dir = glm::vec2(playerPos) - pos;
+	dir.x = dir.x + (rand() % 3 - 1);
+	dir.y = dir.y + (rand() % 3 - 1);
+	dir = normalize(dir);
+	pewpew->setDirection(dir);
+	map->findNewHome(pewpew);
+	delete pewpew;
 }

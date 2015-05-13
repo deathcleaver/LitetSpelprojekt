@@ -8,6 +8,7 @@ class ArcaneMissile : public Enemy
 {
 private:
 	glm::vec2 direction;
+	bool reflected;
 	float speed;
 	float deathTimer;
 
@@ -20,6 +21,8 @@ public:
 	void setDirection(glm::vec2 dir);
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);
+
+	void setEffect(glm::vec3 color, bool changeR, bool changeG, bool changeB, int intensity);
 	std::string getType()
 	{
 		return "Missile";
@@ -38,6 +41,11 @@ public:
 	bool isFading()
 	{
 		return flameEffect->getEffect()->isFading();
+	}
+
+	int getIntensity()
+	{
+		return ((Torch*)flameEffect)->getIntensity();
 	}
 };
 

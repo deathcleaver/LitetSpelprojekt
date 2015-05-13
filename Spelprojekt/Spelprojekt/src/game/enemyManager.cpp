@@ -387,10 +387,10 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 				{
 					if (grimHands[c])
 					{
+						((GrimHand*)grimHands[c])->setGrimMode(msg);
 						msg = grimHands[c]->update(deltaTime, map, playerPos);
 					}
 				}
-				//Kod för att ändra på grimHand-states
 			}
 			if (msg == 4)
 			{

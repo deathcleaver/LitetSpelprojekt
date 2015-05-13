@@ -26,6 +26,10 @@ class Torch : public BaseEffect
 		{
 			currentLights = soIntense;
 		}
+		int getIntensity()
+		{
+			return currentLights;
+		}
 
 	private:
 	

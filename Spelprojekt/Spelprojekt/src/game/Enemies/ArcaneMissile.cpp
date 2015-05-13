@@ -15,6 +15,8 @@ ArcaneMissile::ArcaneMissile(glm::vec2 firstPos)
 	((Torch*)flameEffect->getEffect())->setIntensity(15);
 	deathTimer = 3.0f;
 	audibleDistance = 10.0f;
+
+	reflected = false;
 }
 
 ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
@@ -35,7 +37,7 @@ ArcaneMissile::ArcaneMissile(ArcaneMissile* copy)
 	flameEffect = new Effect();
 	flameEffect->reCreate(EffectType::torch);
 	flameEffect->getEffect()->copy(copy->flameEffect->getEffect());
-	((Torch*)flameEffect->getEffect())->setIntensity(15);
+	((Torch*)flameEffect->getEffect())->setIntensity(((Torch*)copy->flameEffect->getEffect())->getIntensity());
 	
 	direction = copy->direction;
 }
@@ -83,5 +85,16 @@ int ArcaneMissile::update(float deltaTime, Map* map, glm::vec3 playerPos)
 
 void ArcaneMissile::hit(int damage, bool playerRightOfEnemy)
 {
-	direction.x = -direction.x;
+	if (!reflected)
+	{
+		reflected = true;
+		direction.x = -direction.x;
+	}
+}
+
+void ArcaneMissile::setEffect(glm::vec3 color, bool changeR, bool changeG, bool changeB, int intensity)
+{
+	flameEffect->getEffect()->setParticleColor(color.r, color.g, color.b);
+	flameEffect->getEffect()->timeChangeColor(changeR, changeG, changeB);
+	((Torch*)flameEffect->getEffect())->setIntensity(intensity);
 }
