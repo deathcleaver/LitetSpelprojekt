@@ -681,6 +681,12 @@ void Game::buttonEvents(int buttonEv)
 		GameConfig::get().configDifficulty = GameConfig::DmonInHell;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
+	case(16) : // toggle fps mode
+		if (GameConfig::get().configFirstperson)
+			GameConfig::get().configFirstperson = false;
+		else
+			GameConfig::get().configFirstperson = true;
+		break;
 	}
 	//Editor buttons
 	if (buttonEv > 99)

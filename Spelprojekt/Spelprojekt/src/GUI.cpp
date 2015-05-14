@@ -70,6 +70,8 @@ int GUI::update(int state)
 		case(12) : // difficulty gui
 			DIFFICULTY(init);
 			break;
+		case(16) : // toggle firstperson
+			break;
 		}
 	}
 	if (state == 1) //if play
@@ -433,7 +435,7 @@ void GUI::SETTINGS(bool init)
 {
 	if (init)
 	{
-		size = 4;
+		size = 5;
 		for (int n = 0; n < size; n++)
 			items[n] = new ScreenItem();
 
@@ -478,18 +480,30 @@ void GUI::SETTINGS(bool init)
 			items[2]->initSwitch();
 		}
 		// toggle fullscreen
-
 		if (GameConfig::get().configFullscreen == true)
 		{
 			items[3]->init(18, 18, true, 10);
-			items[3]->MoveAutoSize(0, -0.6, content);
+			items[3]->MoveAutoSize(0, -1.0, content);
 			items[3]->initSwitch();
 		}
 		else
 		{
 			items[3]->init(19, 19, true, 10);
-			items[3]->MoveAutoSize(0, -0.6, content);
+			items[3]->MoveAutoSize(0, -1.0, content);
 			items[3]->initSwitch();
+		}
+		// toggle fps
+		if (GameConfig::get().configFullscreen == true)
+		{
+			items[4]->init(82, 82, true, 16);
+			items[4]->MoveAutoSize(0, -0.6, content);
+			items[4]->initSwitch();
+		}
+		else
+		{
+			items[4]->init(83, 83, true, 16);
+			items[4]->MoveAutoSize(0, -0.6, content);
+			items[4]->initSwitch();
 		}
 
 	}
