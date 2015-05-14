@@ -81,6 +81,12 @@ void Mirror::initBoss()
 	wMat[1].w += 0.25f;
 	wMat[2].w -= 0.1f;
 	distance = 8.5;
+
+	rTexture[0].resize(800, 800);
+	rTexture[1].resize(800, 800);
+	rTexture[2].resize(800, 800);
+	rTexture[3].resize(800, 800);
+
 	projMat = glm::perspective(3.14f * 0.45f, 1.0f / 1.0f, distance * 1.2f, 1000.0f);
 }
 
