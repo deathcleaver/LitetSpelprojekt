@@ -142,7 +142,9 @@ enum MusicID
 	crypt_area = 5, // witcher_omnious
 	boss_battle_spider = 6, // witcher_battle_spider
 	ghost_area = 7, // witcher_dead_city
-	boss_battle_ghost = 8 // witcher_battle_ghost
+	boss_battle_ghost = 8, // witcher_battle_ghost
+	lastboss_stage1 = 9,
+	lastboss_stage2 = 10
 };
 
 enum SoundID
