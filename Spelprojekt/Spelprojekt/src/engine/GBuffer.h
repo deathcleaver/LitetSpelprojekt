@@ -25,7 +25,7 @@ public:
 
 	void renderTexture();
 
-	void render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRekts, bool lightonplayer);
+	void render(glm::vec3* campos, const GUI* gui, const Map* map, const ContentManager* content, bool renderGui, bool renderRektsEdit, bool lightonplayer, glm::vec3 playerPos);
 
 	void renderGlow(glm::vec3* campos);
 

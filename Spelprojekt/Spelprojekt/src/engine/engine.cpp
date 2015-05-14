@@ -220,9 +220,9 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	gBuffer.playerPos = &player->readPos()[0];
 
 	if(state == 3 || state == 11)  // if state is Edit or Credits Put lights on cam
-		gBuffer.render(campos, gui, map, content, true, edit->forceRekts, false);
+		gBuffer.render(campos, gui, map, content, true, edit->forceRekts, false, player->readPos());
 	else // put lights on player
-		gBuffer.render(campos, gui, map, content, true, edit->forceRekts, true);
+		gBuffer.render(campos, gui, map, content, true, edit->forceRekts, true, player->readPos());
     
 	glEnable(GL_DEPTH_TEST);
 
