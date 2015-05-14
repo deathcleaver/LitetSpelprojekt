@@ -4,7 +4,7 @@
 -1 NO SHRINE
 -1 NO HEALTH PICKUP
 0 :  Number of world objects
--1 : Music ID
+-2 : Music ID
 0 : Nr of Sounds (type, id, pos.x, pos.y, pos.z, distance, loopType, minInverval, maxInterval)
 0 : Nr of Lights 
 XXXOOOOOOOXOOOOOOOOOOOOOXOOOOOOOXXX

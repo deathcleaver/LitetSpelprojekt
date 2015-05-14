@@ -40,7 +40,6 @@ enum gameState
 class Game : public Align_16
 {
 private:
-	bool firstPerson = false;
 	vec3 lastdirFPS = vec3(1, 0, 0);
 	gameState current = gameState(-1);
 	gameState last = MENU;

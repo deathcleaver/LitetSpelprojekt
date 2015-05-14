@@ -27,7 +27,12 @@ private:
 	Enemy** deathboxes; int deathCount, deathMax;
 	
 	Enemy* boss;
+
+	//Exclusive for Grim
 	Enemy* grimHands[2];
+	Enemy* grimScythe;
+	Enemy* grimLaser;
+
 	void addBoss(string type, glm::vec2 pos);
 
 	void addEnemy(string type, glm::vec2 pos);

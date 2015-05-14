@@ -40,6 +40,7 @@ int main(int argv, char* argc[])
 		// default config settings
 		GameConfig::get().configDifficulty = 0;
 		GameConfig::get().configRenderGlow = true;
+		GameConfig::get().configFirstperson = false;
 		GameConfig::get().configFullscreen = false;
 		GameConfig::get().configResX = 1080, GameConfig::get().configResY = 720;
 
@@ -52,6 +53,11 @@ int main(int argv, char* argc[])
 		ss = stringstream(line);
 		ss >> sub;
 		GameConfig::get().configFullscreen = atoi(sub.c_str()) ? 1 : 0;
+
+		// read past first person mode
+		getline(in, line);
+		ss = stringstream(line);
+		ss >> sub;
 
 		//resolution
 		getline(in, line);

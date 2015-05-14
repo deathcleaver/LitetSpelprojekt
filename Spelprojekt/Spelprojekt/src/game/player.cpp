@@ -110,7 +110,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	bool isInWeb = false;
 	if (map->webbedUp(collideRect, readPos()))
 	{
-		maxSpeed.x = 6;
+		maxSpeed.x = 4;
 		maxSpeed.y = -5;
 		isInWeb = true;
 	}

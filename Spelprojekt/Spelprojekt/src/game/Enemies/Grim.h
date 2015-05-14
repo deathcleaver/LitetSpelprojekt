@@ -10,12 +10,24 @@ private:
 
 	int state;
 	float stateTimer;
+	float speed;
+
+	float fireBallTimer;
+	bool verticalAttack;
+	glm::vec2 prepspeed;
 
 	Rect* hurtRect;
 	float invulnTimer;
 	bool isInit;
 
 	void fireBall(Map* map, glm::vec3 playerPos, bool rightEye);
+
+	void calcDir(int position);
+	void calcDir(glm::vec2 goal);
+	bool reachedDestination();
+	glm::vec2 dirToFly;
+	glm::vec2  currentGoal;
+	int headingTo;
 public:
 	~Grim();
 	Grim(glm::vec2 firstPos);
@@ -33,7 +45,9 @@ public:
 
 	Rect* getHurtRekt()
 	{
-		return hurtRect;
+		if (state != -1)
+			return hurtRect;
+		return 0;
 	}
 
 	glm::vec2 getHandPos();

@@ -16,7 +16,7 @@ Grim::Grim(glm::vec2 firstPos)
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 0, 0);
+	collideRect->initGameObjectRect(&worldMat, 2, 2);
 	hurtRect = new Rect();
 	hurtRect->initGameObjectRect(&worldMat, 2.5f, 2.5f);
 }
@@ -45,6 +45,8 @@ void Grim::init()
 		mode = 0;
 		state = -1;
 		stateTimer = 6.0f;
+		
+		speed = 6.0f;
 	}
 	else
 	{
@@ -55,7 +57,7 @@ void Grim::init()
 
 int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {	
-	if (mode != 4)
+	if (mode < 4)
 	{
 		if (state == -1)
 		{
@@ -82,14 +84,125 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		Audio::getAudio().playMusicFade(MusicID::lastboss_stage2, deltaTime);
 		if (invulnTimer < FLT_EPSILON)
 		{
-			mode = 5;
+			mode = 5; //BEHOLD TRUE POWER
 			Audio::getAudio().playSound(SoundID::boss_grim_transform, false);
 			contentIndex = contentIndex + 1;
+			stateTimer = 0.5f;
+			state = -1;
 		}
 	}
-	else if (mode == 5)
+	else if (mode > 4)
 	{
-		//All reaperkod
+		collideRect->update();
+		if (state == -1)
+		{
+			stateTimer = -1.0f;
+			if (stateTimer < FLT_EPSILON)
+			{
+				state = 0;
+				calcDir(0);
+				stateTimer = 5.0f;
+				fireBallTimer = 0.0f;
+			}
+		}
+		else if (state == 0) //Flying around shooting shit
+		{
+			if (reachedDestination())
+			{
+				calcDir((headingTo + 1) % 4);
+			}
+			else
+				translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
+
+			stateTimer -= 1.0f*deltaTime;
+			if (stateTimer < FLT_EPSILON)
+			{
+				verticalAttack = rand() % 2; //Horizontal or vertical slash
+				state = 1;
+				stateTimer = 5.0f;
+				prepspeed.x = prepspeed.y = 0;
+			}
+
+			fireBallTimer -= 1.0f*deltaTime;
+			if (fireBallTimer < FLT_EPSILON)
+			{
+				fireBall(map, playerPos, true);
+				fireBallTimer = 1.5f;
+			}
+		}
+		else if (state == 1) //Attack preparation
+		{
+			glm::vec3 pos = readPos();
+			if (!verticalAttack)
+			{
+				if (dirToFly.y < 0.0f && playerPos.y > pos.y)
+					prepspeed.y = -prepspeed.y;
+				if (dirToFly.y > 0.0f && playerPos.y < pos.y)
+					prepspeed.y = -prepspeed.y;
+				prepspeed.y += 0.5f;
+				if (prepspeed.y > 9.0f)
+					prepspeed.y = 9.0f;
+
+				if (dirToFly.x < 0.0f && playerPos.x-6.0f > pos.x)
+					prepspeed.x = -prepspeed.y;
+				if (dirToFly.x > 0.0f && playerPos.x-6.0f < pos.x)
+					prepspeed.x = -prepspeed.y;
+				prepspeed.x += 0.1f;
+				if (prepspeed.x > 6.0f)
+					prepspeed.x = 6.0f;
+			}
+			else
+			{
+				if (dirToFly.x < 0.0f && playerPos.x > pos.x)
+					prepspeed.x = -prepspeed.y;
+				if (dirToFly.x > 0.0f && playerPos.x < pos.x)
+					prepspeed.x = -prepspeed.y;
+				prepspeed.x += 0.5f;
+				if (prepspeed.x > 9.0f)
+					prepspeed.x = 9.0f;
+
+				if (dirToFly.y < 0.0f && playerPos.y+6.0f > pos.y)
+					prepspeed.y = -prepspeed.y;
+				if (dirToFly.y > 0.0f && playerPos.y+6.0f < pos.y)
+					prepspeed.y = -prepspeed.y;
+				prepspeed.y += 0.1f;
+				if (prepspeed.y > 6.0f)
+					prepspeed.y = 6.0f;
+			}
+
+			if (!verticalAttack)
+				calcDir(glm::vec2(playerPos.x - 6.0f, playerPos.y));
+			else
+				calcDir(glm::vec2(playerPos.x, playerPos.y + 6.0f));
+
+			translate(prepspeed.x*dirToFly.x*deltaTime, prepspeed.y*dirToFly.y*deltaTime);
+
+			stateTimer -= 1.0f*deltaTime;
+			if (stateTimer < FLT_EPSILON)
+			{
+				state = 2;
+				stateTimer = 2.5f;
+			}
+		}
+		else if (state == 2)
+		{
+			stateTimer -= 1.0f*deltaTime;
+			if (stateTimer < 1.5f)
+			{
+				if (!verticalAttack)
+					mode = 6;
+				else
+					mode = 7;
+			}
+			if (stateTimer < FLT_EPSILON)
+			{
+				mode = 5;
+				state = 0;
+				calcDir((headingTo + 1) % 4);
+				stateTimer = 5.0f;
+				fireBallTimer = 1.0f;
+			}
+		}
 	}
 	hurtRect->update();
 	if (invulnTimer > FLT_EPSILON)
@@ -107,11 +220,12 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 	if (invulnTimer < FLT_EPSILON)
 	{
 		health -= damage;
+		Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
+
 		if (health > 0)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
-			Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
 		}
 		else if (mode == 0) //Switch to Force
 		{
@@ -136,6 +250,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		}
 		else if (mode == 3) //Switch to Dying
 		{
+			health = 6;
 			Audio::getAudio().playSound(SoundID::boss_grim_death1, false);
 			invulnTimer = 4.0f;
 			mode = 4;
@@ -169,12 +284,15 @@ glm::vec2 Grim::getHandPos()
 
 void Grim::fireBall(Map* map, glm::vec3 playerPos, bool rightEye)
 {
-	glm::vec2 pos;
-	if (!rightEye)
-		pos.x = initPos.x - 1.5f;
-	else
-		pos.x = initPos.x + 1.5f;
-	pos.y = initPos.y + 4.0f;
+	glm::vec2 pos = glm::vec2(readPos());
+	if (mode != 5)
+	{
+		if (!rightEye)
+			pos.x = initPos.x - 1.5f;
+		else
+			pos.x = initPos.x + 1.5f;
+		pos.y = initPos.y + 4.0f;
+	}
 	ArcaneMissile* pewpew = new ArcaneMissile(pos);
 	pewpew->setVisitor();
 	pewpew->setEffect(glm::vec3(0.8f, 0.8f, 0.2f), false, true, false, 40);
@@ -190,7 +308,54 @@ void Grim::fireBall(Map* map, glm::vec3 playerPos, bool rightEye)
 
 Rect* Grim::getRekt()
 {
-	if (state == 5)
+	if (mode > 4)
 		return collideRect;
 	return 0;
+}
+
+void Grim::calcDir(int position)
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	switch (position)
+	{
+	case -1:
+		currentGoal = initPos;
+		break;
+	case 0: //Top
+		currentGoal.x = initPos.x;
+		currentGoal.y = initPos.y + 4.0f;
+		break;
+	case 1: //Right
+		currentGoal.x = initPos.x + 7.0f;
+		currentGoal.y = initPos.y;
+		break;
+	case 2: //Bot
+		currentGoal.x = initPos.x;
+		currentGoal.y = initPos.y - 4.0f;
+		break;
+	case 3: //Left
+		currentGoal.x = initPos.x -7.0f;
+		currentGoal.y = initPos.y;
+		break;
+	}
+	headingTo = position;
+	dirToFly = currentGoal - pos;
+	dirToFly = normalize(dirToFly);
+}
+
+bool Grim::reachedDestination()
+{
+	glm::vec3 pos = readPos();
+	if (pos.x < currentGoal.x + 1.0f && pos.x > currentGoal.x - 1.0f &&
+		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
+		return true;
+	return false;
+}
+
+void Grim::calcDir(glm::vec2 goal)
+{
+	currentGoal = goal;
+	glm::vec2 pos = glm::vec2(readPos());
+	dirToFly = currentGoal - pos;
+	dirToFly = normalize(dirToFly);
 }
