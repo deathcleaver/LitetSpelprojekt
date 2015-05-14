@@ -1,6 +1,7 @@
 0
-0 4
-No
-No
-No
-0
+6 1
+Bossbat
+Bossspider
+Bossghost
+1
+0 0

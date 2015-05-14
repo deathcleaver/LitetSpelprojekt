@@ -22,7 +22,7 @@ private:
 	int state; //-1 = spawning. 0 = Jumping out of mirror. 2 = Flying outside of mirror. 3 = Missile Barrage. 4 = Flying into mirror. 5 = Flying inside mirror.
 	float stateTimer;
 	float ghostTimer;
-	int ghostSpawns;
+	bool isDying;
 	int lastPos;
 
 	void calcDir(int posOutOfMirror);

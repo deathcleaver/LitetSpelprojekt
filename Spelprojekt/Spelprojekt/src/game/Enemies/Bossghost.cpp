@@ -28,7 +28,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 2, 2);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.5, 3.5);
+	hurtRect->initGameObjectRect(&worldMat, 2.5, 4.0);
 }
 
 Bossghost::~Bossghost()
@@ -58,6 +58,7 @@ void Bossghost::getSpooky(Map* map)
 {
 	glm::vec2 pos = glm::vec2(readPos());
 	Ghost* spooky = new Ghost(pos);
+	spooky->hit(1, true);
 	spooky->setVisitor();
 	map->findNewHome(spooky);
 	delete spooky;
@@ -76,6 +77,7 @@ void Bossghost::init()
 {
 	if (!isInit)
 	{
+		isDying = false;
 		speed = 5.0f + GameConfig::get().configDifficulty * 2;
 		inMirror = true;
 		worldMat = glm::mat4(1);
@@ -105,6 +107,11 @@ void Bossghost::init()
 
 int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
+	if (isDying)
+	{
+		alive = false;
+		return 1;
+	}
 	glm::vec3 pos = readPos();
 	if (state == -1) //Spawn state
 	{
@@ -154,7 +161,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				calcDir(posOutOfMirror);
 				getSpooky(map);
 				Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
-				ghostTimer = 10.0f;
+				ghostTimer = 12.0f;
 				//ghostTimer = 0.0f;
 				//ghostSpawns = 4 + GameConfig::get().configDifficulty * 2;
 			}
@@ -296,7 +303,7 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 		}
 		else if (alive == true)
 		{
-			alive = false;
+			isDying = true;
 			Debug::DebugOutput("Boss is dead \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_death, readPos(), audibleDistance, false);//boss_bat_death
 		}

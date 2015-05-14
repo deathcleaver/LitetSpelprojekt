@@ -124,9 +124,9 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		if (state != 10)
 		{
 			if (grimMode != 3)
-				clapTimer -= 1.0f*deltaTime;
+				clapTimer -= 0.5f*deltaTime;
 			else
-				clapTimer -= 5.0f*deltaTime;
+				clapTimer -= 2.5f*deltaTime;
 
 			if (clapTimer < 1.0f)
 			{

@@ -388,6 +388,13 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 		if (boss->isAlive())
 		{
 			msg = boss->update(deltaTime, map, playerPos);
+			if (boss->getType() == "Bossghost" && msg == 1)
+			{
+				for (int c = 0; c < ghostCount; c++)
+				{
+					ghosts[c]->diePls();
+				}
+			}
 			if (boss->getType() == "Grim" && msg != 5)
 			{
 				for (int c = 0; c < 2; c++)

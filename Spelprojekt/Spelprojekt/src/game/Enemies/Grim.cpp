@@ -62,7 +62,6 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		mode = 5;
 		state = 0;
 		calcDir(0);
-		stateTimer = 5.0f;
 		fireBallTimer = 0.0f;
 		return 10;
 	}
@@ -229,13 +228,16 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 	if (invulnTimer < FLT_EPSILON)
 	{
 		health -= damage;
-		Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
+		if (mode < 5)
+			Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
+		else if (health > 0)
+			Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
 
 		if (health > 0)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
-			if (mode == 5)
+			if (mode == 5 && state != 1 && state != 2)
 			{
 				mode = 10;
 			}
@@ -271,6 +273,8 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		}
 		else if (mode == 5)
 		{
+			if (alive)
+				Audio::getAudio().playSound(SoundID::boss_grim_death2, false);
 			alive = false;
 		}
 	}
