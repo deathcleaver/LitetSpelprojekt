@@ -762,6 +762,16 @@ void Game::readInput(float deltaTime)
 		state == GLFW_PRESS ? in->KeyNumberDown(2) : in->KeyNumberUp(2);
 		state = glfwGetKey(windowRef, GLFW_KEY_3);
 		state == GLFW_PRESS ? in->KeyNumberDown(3) : in->KeyNumberUp(3);
+
+		state = glfwGetKey(windowRef, GLFW_KEY_7);
+		if (state == GLFW_PRESS)
+			firstPerson = true;
+		state = glfwGetKey(windowRef, GLFW_KEY_8);
+		if (state == GLFW_PRESS)
+		{
+			firstPerson = false;
+			in->resetZoomViewDir();
+		}
 	}
 
 
