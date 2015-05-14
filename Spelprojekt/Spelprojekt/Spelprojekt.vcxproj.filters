@@ -144,6 +144,12 @@
     <ClCompile Include="src\game\Enemies\Fireball.cpp">
       <Filter>Source\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Enemies\GrimLaser.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Enemies\GrimScythe.cpp">
+      <Filter>Source\Game\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Align16.h" />
@@ -309,6 +315,12 @@
       <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Enemies\Fireball.h">
+      <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\GrimLaser.h">
+      <Filter>Header\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Enemies\GrimScythe.h">
       <Filter>Header\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

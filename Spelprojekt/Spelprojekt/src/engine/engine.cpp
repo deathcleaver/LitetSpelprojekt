@@ -692,6 +692,27 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 								}
 							}
 						}
+						else if (id == EnemyID::grim)
+						{
+							if (chunks[upDraw[x]][upDraw[y]].enemyLives(0, "GrimScythe"))
+							{
+								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(0, &tempshader, &uniformModel, "GrimScythe");
+								if (id != lastid)
+									facecount = content->bind(OBJ::ENEMY, id);
+								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+								lastid = id;
+								animCheck->enemyUpdate[id] = 1;
+							}
+							if (chunks[upDraw[x]][upDraw[y]].enemyLives(0, "GrimLaser"))
+							{
+								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(0, &tempshader, &uniformModel, "GrimLaser");
+								if (id != lastid)
+									facecount = content->bind(OBJ::ENEMY, id);
+								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+								lastid = id;
+								animCheck->enemyUpdate[id] = 1;
+							}
+						}
 					}
 				}
 			}

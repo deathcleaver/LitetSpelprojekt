@@ -19,6 +19,8 @@
 
 #include "Enemies/Grim.h"
 #include "Enemies/GrimHand.h"
+#include "Enemies/GrimScythe.h"
+#include "Enemies/GrimLaser.h"
 #include <sstream>
 
 EnemyManager::EnemyManager()
@@ -72,6 +74,11 @@ EnemyManager::~EnemyManager()
 			grimHands[c] = 0;
 		}
 	}
+	if (grimScythe)
+		delete grimScythe;
+	if (grimLaser)
+		delete grimLaser;
+
 
 	if (visitorHolder)
 		delete[]visitorHolder;
@@ -103,7 +110,7 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	deathboxes = new Enemy*[deathMax];
 
 	boss = 0;
-	grimHands[0] = grimHands[1] = 0;
+	grimHands[0] = grimHands[1] = grimLaser = grimScythe = 0;
 	string line;
 	string type; //To store type
 	glm::vec2 pos; //To store pos
@@ -214,7 +221,7 @@ void EnemyManager::initEmpty()
 	deathboxes = 0;
 
 	boss = 0;
-	grimHands[0] = grimHands[1] = 0;
+	grimHands[0] = grimHands[1] = grimLaser = grimScythe = 0;
 }
 
 int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, Map* map)
@@ -396,9 +403,28 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			{
 				for (int c = 0; c < 2; c++)
 				{
-					delete grimHands[c];
-					grimHands[c] = 0;
+					if (grimHands[c])
+					{
+						delete grimHands[c];
+						grimHands[c] = 0;
+					}
 				}
+
+				if (grimLaser)
+				{
+					msg = grimLaser->update(deltaTime, map, playerPos);
+					if (msg)
+					{
+						delete grimLaser;
+						grimLaser = 0;
+					}
+				}
+				if (grimScythe)
+				{
+					grimScythe->update(deltaTime, map, playerPos);
+				}
+				else
+					addEnemy("GrimScythe", glm::vec2(boss->readPos()));
 			}
 		}
 	}
@@ -518,6 +544,24 @@ void EnemyManager::addEnemy(string type, glm::vec2 pos)
 			grimHands[0]->setContentIndex(EnemyID::grimhand_right);
 		}
 	}
+	else if (type == "GrimScythe")
+	{
+		if (grimScythe)
+			delete grimScythe;
+		grimScythe = new GrimScythe(pos);
+	}
+	else if (type == "GrimLaserV")
+	{
+		if (grimLaser)
+			delete grimLaser;
+		grimLaser = new GrimLaser(pos, true);
+	}
+	else if (type == "GrimLaserH")
+	{
+		if (grimLaser)
+			delete grimLaser;
+		grimLaser = new GrimLaser(pos, false);
+	}
 }
 
 int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string type)
@@ -552,6 +596,10 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 
 	else if (type == "GrimHand")
 		return grimHands[index]->bindWorldMat(shader, uniform);
+	else if (type == "GrimLaser")
+		return grimLaser->bindWorldMat(shader, uniform);
+	else if (type == "GrimScythe")
+		return grimScythe->bindWorldMat(shader, uniform);
 
 	return -1;
 }
@@ -583,6 +631,10 @@ Enemy** EnemyManager::getEnemies(string type)
 
 	if (type == "GrimHand")
 		return grimHands;
+	if (type == "GrimScythe")
+		return &grimScythe;
+	if (type == "GrimLaser")
+		return &grimLaser;
 	return 0;
 }
 
@@ -692,6 +744,16 @@ void EnemyManager::resetEnemies()
 						delete grimHands[c];
 						grimHands[c] = 0;
 					}
+				}
+				if (grimLaser)
+				{
+					delete grimLaser;
+					grimLaser = 0;
+				}
+				if (grimScythe)
+				{
+					delete grimScythe;
+					grimScythe = 0;
 				}
 			}
 		}

@@ -44,6 +44,8 @@ void Grim::init()
 		mode = 0;
 		state = -1;
 		stateTimer = 6.0f;
+		
+		speed = 6.0f;
 	}
 	else
 	{
@@ -54,7 +56,7 @@ void Grim::init()
 
 int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {	
-	if (mode != 4)
+	if (mode < 4)
 	{
 		if (state == -1)
 		{
@@ -80,13 +82,47 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		if (invulnTimer < FLT_EPSILON)
 		{
-			mode = 5;
+			mode = 5; //BEHOLD TRUE POWER
 			contentIndex = contentIndex + 1;
+			stateTimer = 0.5f;
+			state = -1;
 		}
 	}
 	else if (mode == 5)
 	{
-		//All reaperkod
+		if (state == -1)
+		{
+			stateTimer = -1.0f;
+			if (stateTimer < FLT_EPSILON)
+			{
+				state = 0;
+				calcDir(0);
+				stateTimer = 7.0f;
+				fireBallTimer = 0.0f;
+			}
+		}
+		if (state == 0)
+		{
+			if (reachedDestination())
+			{
+				calcDir((headingTo + 1) % 4);
+			}
+			else
+				translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
+
+			stateTimer -= 1.0f*deltaTime;
+			if (stateTimer < FLT_EPSILON)
+			{
+				//state = rand() % 2 + 1; //Vertical or horizontal slash
+			}
+
+			fireBallTimer -= 1.0f*deltaTime;
+			if (fireBallTimer < FLT_EPSILON)
+			{
+				fireBall(map, playerPos, true);
+				fireBallTimer = 1.5f;
+			}
+		}
 	}
 	hurtRect->update();
 	if (invulnTimer > FLT_EPSILON)
@@ -133,6 +169,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		}
 		else if (mode == 3) //Switch to Dying
 		{
+			health = 6;
 			invulnTimer = 4.0f;
 			mode = 4;
 			contentIndex = contentIndex + 1;
@@ -165,12 +202,15 @@ glm::vec2 Grim::getHandPos()
 
 void Grim::fireBall(Map* map, glm::vec3 playerPos, bool rightEye)
 {
-	glm::vec2 pos;
-	if (!rightEye)
-		pos.x = initPos.x - 1.5f;
-	else
-		pos.x = initPos.x + 1.5f;
-	pos.y = initPos.y + 4.0f;
+	glm::vec2 pos = glm::vec2(readPos());
+	if (mode != 5)
+	{
+		if (!rightEye)
+			pos.x = initPos.x - 1.5f;
+		else
+			pos.x = initPos.x + 1.5f;
+		pos.y = initPos.y + 4.0f;
+	}
 	ArcaneMissile* pewpew = new ArcaneMissile(pos);
 	pewpew->setVisitor();
 	pewpew->setEffect(glm::vec3(0.8f, 0.8f, 0.2f), false, true, false, 40);
@@ -189,4 +229,43 @@ Rect* Grim::getRekt()
 	if (state == 5)
 		return collideRect;
 	return 0;
+}
+
+void Grim::calcDir(int position)
+{
+	glm::vec2 pos = glm::vec2(readPos());
+	switch (position)
+	{
+	case -1:
+		currentGoal = initPos;
+		break;
+	case 0: //Top
+		currentGoal.x = initPos.x;
+		currentGoal.y = initPos.y + 4.0f;
+		break;
+	case 1: //Right
+		currentGoal.x = initPos.x + 7.0f;
+		currentGoal.y = initPos.y;
+		break;
+	case 2: //Bot
+		currentGoal.x = initPos.x;
+		currentGoal.y = initPos.y - 4.0f;
+		break;
+	case 3: //Left
+		currentGoal.x = initPos.x -7.0f;
+		currentGoal.y = initPos.y;
+		break;
+	}
+	headingTo = position;
+	dirToFly = currentGoal - pos;
+	dirToFly = normalize(dirToFly);
+}
+
+bool Grim::reachedDestination()
+{
+	glm::vec3 pos = readPos();
+	if (pos.x < currentGoal.x + 1.0f && pos.x > currentGoal.x - 1.0f &&
+		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
+		return true;
+	return false;
 }
