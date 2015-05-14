@@ -39,7 +39,8 @@ void Grim::init()
 		alive = true;
 		health = 2;
 		collideRect->update();
-		Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
+		Audio::getAudio().playSound(SoundID::boss_grim_intro, false);
+		Audio::getAudio().playMusic(MusicID::lastboss_stage1);
 
 		mode = 0;
 		state = -1;
@@ -80,9 +81,11 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else if (mode == 4)
 	{
+		Audio::getAudio().playMusicFade(MusicID::lastboss_stage2, deltaTime);
 		if (invulnTimer < FLT_EPSILON)
 		{
 			mode = 5; //BEHOLD TRUE POWER
+			Audio::getAudio().playSound(SoundID::boss_grim_transform, false);
 			contentIndex = contentIndex + 1;
 			stateTimer = 0.5f;
 			state = -1;
@@ -144,7 +147,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
+			Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
 		}
 		else if (mode == 0) //Switch to Force
 		{
@@ -170,6 +173,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		else if (mode == 3) //Switch to Dying
 		{
 			health = 6;
+			Audio::getAudio().playSound(SoundID::boss_grim_death1, false);
 			invulnTimer = 4.0f;
 			mode = 4;
 			contentIndex = contentIndex + 1;

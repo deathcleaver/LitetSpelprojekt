@@ -115,6 +115,8 @@ void Audio::loadFiles()
 	musicFiles[6] = "../Audio/Music/witcher_battle_spider.wav"; // boss battles spider
 	musicFiles[7] = "../Audio/Music/witcher_nocturnal.wav"; // ghost area
 	musicFiles[8] = "../Audio/Music/witcher_battle_ghost.wav"; // boss battle ghost
+	musicFiles[9] = "../Audio/Music/grim_stage1.wav";
+	musicFiles[10] = "../Audio/Music/grim_stage2.wav";
 
 	//load sound files
 	//Shrine
@@ -146,6 +148,11 @@ void Audio::loadFiles()
 	soundFiles[52] = "../Audio/Sounds/Bosses/Ghost/boss_ghost_laugh.wav";
 	soundFiles[53] = "../Audio/Sounds/Bosses/Ghost/boss_ghost_hurt.wav";
 	soundFiles[54] = "../Audio/Sounds/Bosses/Ghost/boss_ghost_death.wav";
+	soundFiles[62] = "../Audio/Sounds/Bosses/Grim/grim_intro.wav";
+	soundFiles[63] = "../Audio/Sounds/Bosses/Grim/grim_transform.wav";
+	soundFiles[64] = "../Audio/Sounds/Bosses/Grim/grim_hurt.wav";
+	soundFiles[65] = "../Audio/Sounds/Bosses/Grim/grim_stage1_death.wav";
+	soundFiles[66] = "../Audio/Sounds/Bosses/Grim/grim_stage2_death.wav";
 	//enemies
 	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
 	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
