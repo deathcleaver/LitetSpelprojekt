@@ -15,6 +15,7 @@ private:
 	float invulnTimer;
 	float stateTimer;
 	bool stunned;
+	bool clapSound = true;
 
 	float clapTimer;
 	int leftHandSwingCounter;
