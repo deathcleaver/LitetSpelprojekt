@@ -25,6 +25,8 @@ public:
 	{
 		return "GrimScythe";
 	}
+
+	void returnToMaster();
 };
 
 #endif

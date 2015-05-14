@@ -410,6 +410,15 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 					}
 				}
 
+				if (grimScythe)
+				{
+					if (msg == 10)
+						((GrimScythe*)grimScythe)->returnToMaster();
+					grimScythe->update(deltaTime, map, playerPos);
+				}
+				else
+					addEnemy("GrimScythe", glm::vec2(boss->readPos()));
+
 				if (msg == 6)
 				{
 					if (!grimLaser)
@@ -430,12 +439,6 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 						grimLaser = 0;
 					}
 				}
-				if (grimScythe)
-				{
-					grimScythe->update(deltaTime, map, playerPos);
-				}
-				else
-					addEnemy("GrimScythe", glm::vec2(boss->readPos()));
 			}
 		}
 	}

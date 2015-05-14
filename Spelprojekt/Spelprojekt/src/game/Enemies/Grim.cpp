@@ -57,6 +57,15 @@ void Grim::init()
 
 int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {	
+	if (mode == 10)
+	{
+		mode = 5;
+		state = 0;
+		calcDir(0);
+		stateTimer = 5.0f;
+		fireBallTimer = 0.0f;
+		return 10;
+	}
 	if (mode < 4)
 	{
 		if (state == -1)
@@ -119,7 +128,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			{
 				verticalAttack = rand() % 2; //Horizontal or vertical slash
 				state = 1;
-				stateTimer = 5.0f;
+				stateTimer = 2.5f;
 				prepspeed.x = prepspeed.y = 0;
 			}
 
@@ -147,9 +156,9 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					prepspeed.x = -prepspeed.y;
 				if (dirToFly.x > 0.0f && playerPos.x-6.0f < pos.x)
 					prepspeed.x = -prepspeed.y;
-				prepspeed.x += 0.1f;
-				if (prepspeed.x > 6.0f)
-					prepspeed.x = 6.0f;
+				prepspeed.x += 0.2f;
+				if (prepspeed.x > 7.0f)
+					prepspeed.x = 7.0f;
 			}
 			else
 			{
@@ -165,9 +174,9 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					prepspeed.y = -prepspeed.y;
 				if (dirToFly.y > 0.0f && playerPos.y+6.0f < pos.y)
 					prepspeed.y = -prepspeed.y;
-				prepspeed.y += 0.1f;
-				if (prepspeed.y > 6.0f)
-					prepspeed.y = 6.0f;
+				prepspeed.y += 0.2f;
+				if (prepspeed.y > 7.0f)
+					prepspeed.y = 7.0f;
 			}
 
 			if (!verticalAttack)
@@ -181,7 +190,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			if (stateTimer < FLT_EPSILON)
 			{
 				state = 2;
-				stateTimer = 2.5f;
+				stateTimer = 2.0f;
 			}
 		}
 		else if (state == 2)
@@ -226,6 +235,10 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
+			if (mode == 5)
+			{
+				mode = 10;
+			}
 		}
 		else if (mode == 0) //Switch to Force
 		{
@@ -255,6 +268,10 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 			invulnTimer = 4.0f;
 			mode = 4;
 			contentIndex = contentIndex + 1;
+		}
+		else if (mode == 5)
+		{
+			alive = false;
 		}
 	}
 }
