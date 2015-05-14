@@ -3,6 +3,8 @@
 
 #include "../Enemy.h"
 
+static float clapTimer;
+
 class GrimHand : public Enemy
 {
 private:
@@ -17,7 +19,6 @@ private:
 	bool stunned;
 	bool clapSound = true;
 
-	float clapTimer;
 	int leftHandSwingCounter;
 
 	glm::vec2 speed;

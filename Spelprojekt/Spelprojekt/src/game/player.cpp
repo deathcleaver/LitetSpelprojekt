@@ -122,9 +122,12 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 
 	if (isAttacking && !jumping)
 	{
-		maxSpeed.x = 4;
+		if (!isInWeb)
+			maxSpeed.x = 4;
+		else
+			maxSpeed.x = 1;
 	}
-	else
+	else if (!isInWeb)
 	{
 		maxSpeed.x = 10;
 	}
