@@ -282,7 +282,7 @@ void Game::update(float deltaTime)
 				content->update(updateAnimCheck);
 			updateAnim++;
 			engine->setFade(1.0f);
-			Audio::getAudio().playMusic(MusicID::intro);
+			Audio::getAudio().playMusic(MusicID::credits);
 			Audio::getAudio().updateListener(player->readPos());
 
 			if (in->getESC())
@@ -637,7 +637,6 @@ void Game::buttonEvents(int buttonEv)
 		break;
 
 	case(7) : // toggle audio
-		current = SETTINGS_MAIN;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		Audio::getAudio().toggleAudio();
 		if (Audio::getAudio().getAudioEnabled())
@@ -645,7 +644,6 @@ void Game::buttonEvents(int buttonEv)
 		break;
 
 	case(8) : // toggle music
-		current = SETTINGS_MAIN;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		Audio::getAudio().toggleMusic();
 		if (Audio::getAudio().getMusicEnabled())
@@ -653,12 +651,10 @@ void Game::buttonEvents(int buttonEv)
 		break;
 
 	case(9) : // toggle sound
-		current = SETTINGS_MAIN;
 		Audio::getAudio().toggleSound();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	case(10) : // toggle resolution
-		current = SETTINGS_MAIN;
 		toggleFullscreen();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
@@ -1023,9 +1019,11 @@ void Game::cameraUpdateCredits()
 
 	if (lastposCredits.y < -((35 * 6) + 17.0f))
 	{
-		current = MENU;
+		speed = 0;
 	}
-
-	lastposCredits.y -= speed * 5;
-	in->setpos(lastposCredits, vec3(0, 0, -1));
+	else
+	{
+		lastposCredits.y -= speed;
+		in->setpos(lastposCredits, vec3(0, 0, -1));
+	}
 }

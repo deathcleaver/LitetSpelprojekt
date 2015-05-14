@@ -143,11 +143,12 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 	if (invulnTimer < FLT_EPSILON)
 	{
 		health -= damage;
+		Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
+
 		if (health > 0)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
-			Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
 		}
 		else if (mode == 0) //Switch to Force
 		{
