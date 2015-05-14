@@ -23,6 +23,7 @@ public:
 
 	int configDifficulty;
 	bool configRenderGlow;
+	bool configFirstperson;
 	bool configFullscreen;
 	int configResX, configResY;
 };
