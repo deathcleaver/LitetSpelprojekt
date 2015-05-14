@@ -457,52 +457,52 @@ void GUI::SETTINGS(bool init)
 		if (Audio::getAudio().getMusicEnabled() == true)
 		{
 			items[1]->init(14, 14, true, 8);
-			items[1]->MoveAutoSize(0, 0.2f, content);
+			items[1]->MoveAutoSize(0, 0.3f, content);
 			items[1]->initSwitch();
 		}
 		else
 		{
 			items[1]->init(15, 15, true, 8);
-			items[1]->MoveAutoSize(0, 0.2f, content);
+			items[1]->MoveAutoSize(0, 0.3f, content);
 			items[1]->initSwitch();
 		}
 		// sound enabled
 		if (Audio::getAudio().getSoundEnabled() == true)
 		{
 			items[2]->init(16, 16, true, 9);
-			items[2]->MoveAutoSize(0, -0.2f, content);
+			items[2]->MoveAutoSize(0, 0.0f, content);
 			items[2]->initSwitch();
 		}
 		else
 		{
 			items[2]->init(17, 17, true, 9);
-			items[2]->MoveAutoSize(0, -0.2f, content);
+			items[2]->MoveAutoSize(0, 0.0f, content);
 			items[2]->initSwitch();
 		}
 		// toggle fullscreen
 		if (GameConfig::get().configFullscreen == true)
 		{
 			items[3]->init(18, 18, true, 10);
-			items[3]->MoveAutoSize(0, -1.0, content);
+			items[3]->MoveAutoSize(0, -0.6, content);
 			items[3]->initSwitch();
 		}
 		else
 		{
 			items[3]->init(19, 19, true, 10);
-			items[3]->MoveAutoSize(0, -1.0, content);
+			items[3]->MoveAutoSize(0, -0.6, content);
 			items[3]->initSwitch();
 		}
 		// toggle fps
 		if (GameConfig::get().configFullscreen == true)
 		{
 			items[4]->init(82, 82, true, 16);
-			items[4]->MoveAutoSize(0, -0.6, content);
+			items[4]->MoveAutoSize(0, -0.3, content);
 			items[4]->initSwitch();
 		}
 		else
 		{
 			items[4]->init(83, 83, true, 16);
-			items[4]->MoveAutoSize(0, -0.6, content);
+			items[4]->MoveAutoSize(0, -0.3, content);
 			items[4]->initSwitch();
 		}
 
