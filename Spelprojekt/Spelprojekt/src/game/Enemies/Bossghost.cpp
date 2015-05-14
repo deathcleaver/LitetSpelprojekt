@@ -28,7 +28,7 @@ Bossghost::Bossghost(glm::vec2 firstPos)
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 2, 2);
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.5, 3);
+	hurtRect->initGameObjectRect(&worldMat, 2.5, 3.5);
 }
 
 Bossghost::~Bossghost()
@@ -87,7 +87,7 @@ void Bossghost::init()
 		movementScale = 0.0f;
 		facingRight = true;
 		alive = true;
-		health = 6;
+		health = 5;
 		collideRect->update();
 		hurtRect->update();
 		Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
@@ -152,8 +152,11 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					posOutOfMirror = (posOutOfMirror + 1) % 6;
 				lastPos = posOutOfMirror;
 				calcDir(posOutOfMirror);
-				ghostTimer = 4.0f;
-				ghostSpawns = 3 + GameConfig::get().configDifficulty * 2;
+				getSpooky(map);
+				Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
+				ghostTimer = 10.0f;
+				//ghostTimer = 0.0f;
+				//ghostSpawns = 4 + GameConfig::get().configDifficulty * 2;
 			}
 		}
 		else
@@ -169,6 +172,13 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			missilesLeft = 4;
 		}
 		ghostTimer -= 1.0f*deltaTime;
+		if (ghostTimer < FLT_EPSILON)
+		{
+			state = 3;
+			calcDir(-1);
+		}
+
+		/*ghostTimer -= 1.0f*deltaTime;
 		if (ghostTimer < FLT_EPSILON && ghostSpawns > 0)
 		{
 			if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
@@ -185,11 +195,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 
 			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 		}
-		else if (ghostSpawns == 0)
-		{
-			state = 3;
-			calcDir(-1);
-		}
+		*/
 	}
 	else if (state == 2) //Missile barrage state
 	{
@@ -230,6 +236,8 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
+				getSpooky(map);
+				Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 				state = 4;
 				stateTimer = 1.0f;
 				missilesLeft = 10;

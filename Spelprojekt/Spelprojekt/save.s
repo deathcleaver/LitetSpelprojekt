@@ -1,5 +1,3 @@
-0
-0 4
 Bossbat
 Bossspider
 No

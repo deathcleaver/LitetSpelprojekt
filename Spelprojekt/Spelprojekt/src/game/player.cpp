@@ -81,14 +81,14 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 {
 	if (panningToMirror == 1)
 	{
-		flinchTimer -= 1.0*deltaTime;
+		flinchTimer -= 1.0f*deltaTime;
 		if (flinchTimer < FLT_EPSILON)
 			panningToMirror = -2;
 		return 1;
 	}
 	else if (panningToMirror == 0 && flinchTimer > FLT_EPSILON)
 	{
-		flinchTimer -= 1.0*deltaTime;
+		flinchTimer -= 1.0f*deltaTime;
 		if (flinchTimer < FLT_EPSILON)
 		{
 			flinchTimer = 4.0f;
@@ -705,6 +705,7 @@ bool Player::isBossFighting()
 
 void Player::respawn(Map* map)
 {
+	map->playerDiedSoRespawnEnemies();
 	HP = MAX_HP;
 	shield = 0;
 	speed = vec2(0);
@@ -719,7 +720,6 @@ void Player::respawn(Map* map)
 	{
 		moveTo(start.x, start.y);
 	}
-	map->playerDiedSoRespawnEnemies();
 
 	if (progressMeter.batboss && progressMeter.spiderboss && progressMeter.ghostboss)
 		panningToMirror = -2;
