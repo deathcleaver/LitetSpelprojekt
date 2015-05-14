@@ -399,7 +399,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 					}
 				}
 			}
-			if (msg == 5)
+			if (msg > 4)
 			{
 				for (int c = 0; c < 2; c++)
 				{
@@ -408,6 +408,17 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 						delete grimHands[c];
 						grimHands[c] = 0;
 					}
+				}
+
+				if (msg == 6)
+				{
+					if (!grimLaser)
+						addEnemy("GrimLaserH", glm::vec2(boss->readPos()));
+				}
+				else if (msg == 7)
+				{
+					if (!grimLaser)
+						addEnemy("GrimLaserV", glm::vec2(boss->readPos()));
 				}
 
 				if (grimLaser)

@@ -13,6 +13,8 @@ private:
 	float speed;
 
 	float fireBallTimer;
+	bool verticalAttack;
+	glm::vec2 prepspeed;
 
 	Rect* hurtRect;
 	float invulnTimer;
@@ -21,6 +23,7 @@ private:
 	void fireBall(Map* map, glm::vec3 playerPos, bool rightEye);
 
 	void calcDir(int position);
+	void calcDir(glm::vec2 goal);
 	bool reachedDestination();
 	glm::vec2 dirToFly;
 	glm::vec2  currentGoal;

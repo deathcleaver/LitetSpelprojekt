@@ -128,8 +128,17 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			else
 				clapTimer -= 5.0f*deltaTime;
 
+			if (clapTimer < 1.0f)
+			{
+				if (clapSound)
+				{
+					clapSound = false;
+					Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
+				}
+			}
 			if (clapTimer < FLT_EPSILON)
 			{
+				clapSound = true;
 				state = 10; //Time to get clappin'
 				calcDir(glm::vec2(playerPos.x, playerPos.y));
 				stateTimer = 0.6f;
@@ -153,7 +162,7 @@ void GrimHand::hit(int damage, bool playerRightOfEnemy)
 			health -= 1; //Ha ha fuck you spark rune
 		if (health <= 0)
 		{
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_death, readPos(), audibleDistance, false); //boss_GrimHand_death
+			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hand_hurt, readPos(), audibleDistance, false); //boss_GrimHand_death
 			stunned = true;
 			stateTimer = 8.0f;
 			health = 2;

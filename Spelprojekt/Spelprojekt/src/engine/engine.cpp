@@ -707,7 +707,7 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 							{
 								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(0, &tempshader, &uniformModel, "GrimLaser");
 								if (id != lastid)
-									facecount = content->bind(OBJ::ENEMY, id);
+									facecount = content->bind(OBJ::WORLD, id);
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 								lastid = id;
 								animCheck->enemyUpdate[id] = 1;

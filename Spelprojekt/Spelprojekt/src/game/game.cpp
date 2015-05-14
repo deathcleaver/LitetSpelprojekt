@@ -282,7 +282,7 @@ void Game::update(float deltaTime)
 				content->update(updateAnimCheck);
 			updateAnim++;
 			engine->setFade(1.0f);
-			Audio::getAudio().playMusic(MusicID::intro);
+			Audio::getAudio().playMusic(MusicID::credits);
 			Audio::getAudio().updateListener(player->readPos());
 
 			if (in->getESC())
@@ -355,7 +355,7 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
-						   if (firstPerson)
+						   if (GameConfig::get().configFirstperson)
 						   {
 							   vec3 ppos = player->readPos();
 							   ppos.y += 0.5f;
@@ -637,7 +637,6 @@ void Game::buttonEvents(int buttonEv)
 		break;
 
 	case(7) : // toggle audio
-		current = SETTINGS_MAIN;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		Audio::getAudio().toggleAudio();
 		if (Audio::getAudio().getAudioEnabled())
@@ -645,7 +644,6 @@ void Game::buttonEvents(int buttonEv)
 		break;
 
 	case(8) : // toggle music
-		current = SETTINGS_MAIN;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		Audio::getAudio().toggleMusic();
 		if (Audio::getAudio().getMusicEnabled())
@@ -653,12 +651,10 @@ void Game::buttonEvents(int buttonEv)
 		break;
 
 	case(9) : // toggle sound
-		current = SETTINGS_MAIN;
 		Audio::getAudio().toggleSound();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	case(10) : // toggle resolution
-		current = SETTINGS_MAIN;
 		toggleFullscreen();
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
@@ -683,6 +679,13 @@ void Game::buttonEvents(int buttonEv)
 	case(15) : // DmonInHell
 		current = INTRO;
 		GameConfig::get().configDifficulty = GameConfig::DmonInHell;
+		Audio::getAudio().playSound(SoundID::interface_button, false); //button
+		break;
+	case(16) : // toggle fps mode
+		if (GameConfig::get().configFirstperson)
+			GameConfig::get().configFirstperson = false;
+		else
+			GameConfig::get().configFirstperson = true;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
 	}
@@ -765,11 +768,11 @@ void Game::readInput(float deltaTime)
 
 		state = glfwGetKey(windowRef, GLFW_KEY_7);
 		if (state == GLFW_PRESS)
-			firstPerson = true;
+			GameConfig::get().configFirstperson = true;
 		state = glfwGetKey(windowRef, GLFW_KEY_8);
 		if (state == GLFW_PRESS)
 		{
-			firstPerson = false;
+			GameConfig::get().configFirstperson = false;
 			in->resetZoomViewDir();
 		}
 	}
@@ -814,6 +817,11 @@ void Game::initSettings()
 		ss = stringstream(line);
 		ss >> sub;
 		GameConfig::get().configFullscreen = atoi(sub.c_str()) ? 1 : 0;
+
+		getline(in, line); // fps
+		ss = stringstream(line);
+		ss >> sub;
+		GameConfig::get().configFirstperson = atoi(sub.c_str()) ? 1 : 0;
 
 		getline(in, line); // resolution
 		ss = stringstream(line);
@@ -912,6 +920,7 @@ void Game::saveSettings()
 		aE = Audio::getAudio().getAudioEnabled();
 
 		out << GameConfig::get().configFullscreen << " // fullscreen\n";
+		out << GameConfig::get().configFirstperson << " // firstperson\n";
 		out << GameConfig::get().configResX << " " << GameConfig::get().configResY << " // resolution\n";
 		out << GameConfig::get().configRenderGlow << " // render glow\n";
 		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio";
@@ -1023,9 +1032,11 @@ void Game::cameraUpdateCredits()
 
 	if (lastposCredits.y < -((35 * 6) + 17.0f))
 	{
-		current = MENU;
+		speed = 0;
 	}
-
-	lastposCredits.y -= speed * 5;
-	in->setpos(lastposCredits, vec3(0, 0, -1));
+	else
+	{
+		lastposCredits.y -= speed;
+		in->setpos(lastposCredits, vec3(0, 0, -1));
+	}
 }

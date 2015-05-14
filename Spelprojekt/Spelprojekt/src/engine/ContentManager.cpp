@@ -56,14 +56,16 @@ void ContentManager::loadGUIobjs()
 	guiObjs[9] = new Object("", "src/textures/gui/main/creditsH.png", guiObjs[0], true);
 	guiObjs[10] = new Object("", "src/textures/gui/main/settings.png", guiObjs[0], true);
 	guiObjs[11] = new Object("", "src/textures/gui/main/settingsH.png", guiObjs[0], true);
-	guiObjs[12] = new Object("", "src/textures/gui/main/settings/audioE.png", guiObjs[0], true);
-	guiObjs[13] = new Object("", "src/textures/gui/main/settings/audioD.png", guiObjs[0], true);
-	guiObjs[14] = new Object("", "src/textures/gui/main/settings/musicE.bmp", guiObjs[0], true);
-	guiObjs[15] = new Object("", "src/textures/gui/main/settings/musicD.bmp", guiObjs[0], true);
-	guiObjs[16] = new Object("", "src/textures/gui/main/settings/soundE.bmp", guiObjs[0], true);
-	guiObjs[17] = new Object("", "src/textures/gui/main/settings/soundD.bmp", guiObjs[0], true);
-	for (int n = 18; n < 20; n++)
-		guiObjs[n] = 0;
+	guiObjs[12] = new Object("", "src/textures/gui/main/settings/masterE.png", guiObjs[0], true);
+	guiObjs[13] = new Object("", "src/textures/gui/main/settings/masterD.png", guiObjs[0], true);
+	guiObjs[14] = new Object("", "src/textures/gui/main/settings/musicE.png", guiObjs[0], true);
+	guiObjs[15] = new Object("", "src/textures/gui/main/settings/musicD.png", guiObjs[0], true);
+	guiObjs[16] = new Object("", "src/textures/gui/main/settings/soundE.png", guiObjs[0], true);
+	guiObjs[17] = new Object("", "src/textures/gui/main/settings/soundD.png", guiObjs[0], true);
+	guiObjs[18] = new Object("", "src/textures/gui/main/settings/fullscreenE.png", guiObjs[0], true);
+	guiObjs[19] = new Object("", "src/textures/gui/main/settings/fullscreenD.png", guiObjs[0], true);
+	//for (int n = 20; n < 20; n++)
+	//	guiObjs[n] = 0;
 
 	//paused, exit to menu
 	guiObjs[20] = new Object("", "src/textures/gui/pause/paused.png", guiObjs[0], true);
@@ -121,7 +123,7 @@ void ContentManager::loadGUIobjs()
 	for (int n = 66; n < 75; n++)
 		guiObjs[n] = 0;
 
-	// difficulty reserved
+	// difficulty and more settings reserved
 	guiObjs[75] = new Object("", "src/textures/gui/main/settings/casual.png", guiObjs[0], true);
 	guiObjs[76] = new Object("", "src/textures/gui/main/settings/casualH.png", guiObjs[0], true);
 	guiObjs[77] = new Object("", "src/textures/gui/main/settings/hardcore.png", guiObjs[0], true);
@@ -129,7 +131,9 @@ void ContentManager::loadGUIobjs()
 	guiObjs[79] = new Object("", "src/textures/gui/main/settings/dmoninhell.png", guiObjs[0], true);
 	guiObjs[80] = new Object("", "src/textures/gui/main/settings/dmoninhellH.png", guiObjs[0], true);
 	guiObjs[81] = new Object("", "src/textures/gui/main/settings/difficulty.png", guiObjs[0], true);
-	for (int n = 82; n < 100; n++)
+	guiObjs[82] = new Object("", "src/textures/gui/main/settings/firstpersonE.png", guiObjs[0], true);
+	guiObjs[83] = new Object("", "src/textures/gui/main/settings/firstpersonD.png", guiObjs[0], true);
+	for (int n = 84; n < 100; n++)
 		guiObjs[n] = 0;
 
 }
