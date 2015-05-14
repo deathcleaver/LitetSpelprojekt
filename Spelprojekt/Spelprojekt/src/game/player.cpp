@@ -517,7 +517,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 							HP -= 2;
 							break;
 						case GameConfig::DmonInHell:
-							HP -= 2;
+							HP -= 1;
 							break;
 						}
 
@@ -590,10 +590,12 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				{
 					gui->showNewUpgrade(0);
 					Debug::DebugOutput("I'm fucking dead!\n");
-					map->getBoss(playerPos, true);
+					string boss = map->getBoss(playerPos, true);	
 					respawn(map);
 					Audio::getAudio().playSound(SoundID::player_hurt, false);
 					Audio::getAudio().playSound(SoundID::player_resurrected, false); //player_resurrected
+					if (boss == "Grim")
+						Audio::getAudio().playSound(SoundID::boss_grim_player_death, false);
 				}
 				if (result.z > 5.0f)
 				{

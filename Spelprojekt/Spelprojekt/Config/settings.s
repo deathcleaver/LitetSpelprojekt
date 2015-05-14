@@ -1,4 +1,4 @@
-1 // fullscreen
+0 // fullscreen
 0 // firstperson
 1080 720 // resolution
 1 // render glow

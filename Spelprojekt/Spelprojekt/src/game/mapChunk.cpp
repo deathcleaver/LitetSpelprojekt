@@ -134,12 +134,16 @@ void MapChunk::init(int xIndex, int yIndex, std::string path, bool healthTaken)
 		{
 			if (!healthTaken)
 			{
-				health = new HealthPickup();
 				ss >> sub;
 				float xpos = (float)atof(sub.c_str());
 				ss >> sub;
 				float ypos = (float)atof(sub.c_str());
-				health->init(glm::vec2(xpos + xOffset*35, ypos - yOffset*35));
+
+				if (GameConfig::get().configDifficulty != GameConfig::DmonInHell)
+				{
+					health = new HealthPickup();
+					health->init(glm::vec2(xpos + xOffset * 35, ypos - yOffset * 35));
+				}
 			}
 		}
 

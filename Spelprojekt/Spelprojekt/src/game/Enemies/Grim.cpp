@@ -12,7 +12,7 @@ Grim::Grim(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = EnemyID::grim_white;
 	health = 2;
-	audibleDistance = 2.5f;
+	audibleDistance = 20.0f;
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
