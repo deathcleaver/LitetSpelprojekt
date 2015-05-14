@@ -15,7 +15,8 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 	stateTimer = 1.0f;
 
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 1, 1);
+	collideRect->initGameObjectRect(&worldMat, 3, 3);
+	scaleFactor(3, 3, 3);
 }
 
 void GrimScythe::init()
@@ -86,4 +87,9 @@ bool GrimScythe::reachedDestination()
 		pos.y < currentGoal.y + 1.0f && pos.y > currentGoal.y - 1.0f)
 		return true;
 	return false;
+}
+
+void GrimScythe::returnToMaster()
+{
+	calcDir(-1);
 }
