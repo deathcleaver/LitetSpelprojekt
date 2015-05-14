@@ -355,7 +355,7 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
-						   if (firstPerson)
+						   if (GameConfig::get().configFirstperson)
 						   {
 							   vec3 ppos = player->readPos();
 							   ppos.y += 0.5f;
@@ -681,6 +681,12 @@ void Game::buttonEvents(int buttonEv)
 		GameConfig::get().configDifficulty = GameConfig::DmonInHell;
 		Audio::getAudio().playSound(SoundID::interface_button, false); //button
 		break;
+	case(16) : // toggle fps mode
+		if (GameConfig::get().configFirstperson)
+			GameConfig::get().configFirstperson = false;
+		else
+			GameConfig::get().configFirstperson = true;
+		break;
 	}
 	//Editor buttons
 	if (buttonEv > 99)
@@ -761,11 +767,11 @@ void Game::readInput(float deltaTime)
 
 		state = glfwGetKey(windowRef, GLFW_KEY_7);
 		if (state == GLFW_PRESS)
-			firstPerson = true;
+			GameConfig::get().configFirstperson = true;
 		state = glfwGetKey(windowRef, GLFW_KEY_8);
 		if (state == GLFW_PRESS)
 		{
-			firstPerson = false;
+			GameConfig::get().configFirstperson = false;
 			in->resetZoomViewDir();
 		}
 	}
@@ -810,6 +816,11 @@ void Game::initSettings()
 		ss = stringstream(line);
 		ss >> sub;
 		GameConfig::get().configFullscreen = atoi(sub.c_str()) ? 1 : 0;
+
+		getline(in, line); // fps
+		ss = stringstream(line);
+		ss >> sub;
+		GameConfig::get().configFirstperson = atoi(sub.c_str()) ? 1 : 0;
 
 		getline(in, line); // resolution
 		ss = stringstream(line);
@@ -908,6 +919,7 @@ void Game::saveSettings()
 		aE = Audio::getAudio().getAudioEnabled();
 
 		out << GameConfig::get().configFullscreen << " // fullscreen\n";
+		out << GameConfig::get().configFirstperson << " // firstperson\n";
 		out << GameConfig::get().configResX << " " << GameConfig::get().configResY << " // resolution\n";
 		out << GameConfig::get().configRenderGlow << " // render glow\n";
 		out << mV << " " << sV << " " << aV << " " << mE << " " << sE << " " << aE << " // audio";
