@@ -725,6 +725,27 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 						}
 					}
 				}
+
+				enemies = enemyMan->getEnemies("GrimLaser");
+				if (enemies[0])
+				{
+					enemyRect = enemies[0]->getRekt();
+					if (enemyRect)
+					{
+						if (enemyRect->intersects(playerRect))
+							return hit = boss->readPos();
+					}
+				}
+				enemies = enemyMan->getEnemies("GrimScythe");
+				if (enemies[0])
+				{
+					enemyRect = enemies[0]->getRekt();
+					if (enemyRect)
+					{
+						if (enemyRect->intersects(playerRect))
+							return hit = boss->readPos();
+					}
+				}
 			}
 		}
 	}

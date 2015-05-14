@@ -13,6 +13,9 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 
 	state = -1;
 	stateTimer = 1.0f;
+
+	collideRect = new Rect();
+	collideRect->initGameObjectRect(&worldMat, 1, 1);
 }
 
 void GrimScythe::init()
@@ -21,6 +24,7 @@ void GrimScythe::init()
 
 int GrimScythe::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
+	collideRect->update();
 	rotateTo(0, 0, 3.141592654f*deltaTime);
 	if (state == -1)
 	{
