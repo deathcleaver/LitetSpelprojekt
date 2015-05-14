@@ -1,4 +1,4 @@
-1 // fullscreen
+0 // fullscreen
 1080 720 // resolution
 1 // render glow
 0.5 0.5 1 1 1 1 // audio
