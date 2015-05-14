@@ -181,6 +181,8 @@ enum SoundID
 	boss_grim_intro = 62,
 	boss_grim_transform = 63,
 	boss_grim_hurt = 64,
+	boss_grim_death1 = 65,
+	boss_grim_death2 = 66,
 	// enemies
 	enemy_slime_jump = 14,
 	enemy_slime_hurt = 15,

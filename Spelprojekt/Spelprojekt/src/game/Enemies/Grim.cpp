@@ -111,7 +111,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		{
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
-			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
+			Audio::getAudio().playSound(SoundID::boss_grim_hurt, false);
 		}
 		else if (mode == 0) //Switch to Force
 		{
@@ -136,6 +136,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		}
 		else if (mode == 3) //Switch to Dying
 		{
+			Audio::getAudio().playSound(SoundID::boss_grim_death1, false);
 			invulnTimer = 4.0f;
 			mode = 4;
 			contentIndex = contentIndex + 1;
