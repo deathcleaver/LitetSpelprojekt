@@ -381,7 +381,7 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 		if (boss->isAlive())
 		{
 			msg = boss->update(deltaTime, map, playerPos);
-			if (boss->getType() == "Grim" && msg != 4)
+			if (boss->getType() == "Grim" && msg != 5)
 			{
 				for (int c = 0; c < 2; c++)
 				{
@@ -392,9 +392,13 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 					}
 				}
 			}
-			if (msg == 4)
+			if (msg == 5)
 			{
-				//Kod för att avrätta grimHands
+				for (int c = 0; c < 2; c++)
+				{
+					delete grimHands[c];
+					grimHands[c] = 0;
+				}
 			}
 		}
 	}

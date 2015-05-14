@@ -83,7 +83,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	{
 		flinchTimer -= 1.0*deltaTime;
 		if (flinchTimer < FLT_EPSILON)
-			panningToMirror = -1;
+			panningToMirror = -2;
 		return 1;
 	}
 	else if (panningToMirror == 0 && flinchTimer > FLT_EPSILON)
@@ -720,6 +720,9 @@ void Player::respawn(Map* map)
 		moveTo(start.x, start.y);
 	}
 	map->playerDiedSoRespawnEnemies();
+
+	if (progressMeter.batboss && progressMeter.spiderboss && progressMeter.ghostboss)
+		panningToMirror = -2;
 }
 
 bool Player::isBlinking() const
@@ -754,7 +757,7 @@ void Player::dingDongTheBossIsDead(std::string boss)
 {
 	bossFighting = false;
 	progressMeter.checkBossType(boss);
-	if (progressMeter.batboss && progressMeter.spiderboss && progressMeter.ghostboss)
+	if (progressMeter.batboss && progressMeter.spiderboss && progressMeter.ghostboss && panningToMirror != -2)
 	{
 		flinchTimer = 4.0f;
 		panningToMirror = 0;

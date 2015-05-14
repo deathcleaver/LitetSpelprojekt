@@ -6,7 +6,7 @@
 class Grim : public Enemy
 {
 private:
-	int mode; //0 = start, 1 = force, 2 = range, 3 = spark
+	int mode; //0 = start, 1 = force, 2 = range, 3 = spark, 4 = dying, 5 = reaper
 
 	int state;
 	float stateTimer;
@@ -37,6 +37,8 @@ public:
 	}
 
 	glm::vec2 getHandPos();
+
+	Rect* getRekt();
 };
 
 #endif

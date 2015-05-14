@@ -54,24 +54,39 @@ void Grim::init()
 
 int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {	
-	if (state == -1)
+	if (mode != 4)
 	{
-		stateTimer -= 1.0f*deltaTime;
-		if (stateTimer < FLT_EPSILON)
+		if (state == -1)
 		{
-			stateTimer = 0.5f;
-			state = 0;
+			stateTimer -= 1.0f*deltaTime;
+			if (stateTimer < FLT_EPSILON)
+			{
+				stateTimer = 0.5f;
+				state = 0;
+			}
+		}
+		else if (state == 0)
+		{
+			stateTimer -= 1.0f*deltaTime;
+			if (stateTimer < FLT_EPSILON)
+			{
+				fireBall(map, playerPos, false);
+				fireBall(map, playerPos, true);
+				stateTimer = 2.0f;
+			}
 		}
 	}
-	if (state == 0)
+	else if (mode == 4)
 	{
-		stateTimer -= 1.0f*deltaTime;
-		if (stateTimer < FLT_EPSILON)
+		if (invulnTimer < FLT_EPSILON)
 		{
-			fireBall(map, playerPos, false);
-			fireBall(map, playerPos, true);
-			stateTimer = 2.0f;
+			mode = 5;
+			contentIndex = contentIndex + 1;
 		}
+	}
+	else if (mode == 5)
+	{
+		//All reaperkod
 	}
 	hurtRect->update();
 	if (invulnTimer > FLT_EPSILON)
@@ -116,11 +131,11 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 			mode = 3;
 			contentIndex = contentIndex + 1;
 		}
-		else if (mode == 3) //Switch to Reaper
+		else if (mode == 3) //Switch to Dying
 		{
-			health = 5;
-			invulnTimer = 2.0f;
+			invulnTimer = 4.0f;
 			mode = 4;
+			contentIndex = contentIndex + 1;
 		}
 	}
 }
@@ -167,4 +182,11 @@ void Grim::fireBall(Map* map, glm::vec3 playerPos, bool rightEye)
 	pewpew->setDirection(dir);
 	map->findNewHome(pewpew);
 	delete pewpew;
+}
+
+Rect* Grim::getRekt()
+{
+	if (state == 5)
+		return collideRect;
+	return 0;
 }

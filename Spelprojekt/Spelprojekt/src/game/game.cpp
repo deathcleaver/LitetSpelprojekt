@@ -355,7 +355,6 @@ void Game::update(float deltaTime)
 									player->fightThatBossBro();
 								}
 						   }
-
 						   if (firstPerson)
 						   {
 							   vec3 ppos = player->readPos();
