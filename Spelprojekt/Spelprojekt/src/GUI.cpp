@@ -57,16 +57,12 @@ int GUI::update(int state)
 			break;
 			// settings
 		case(7) : // toggle audio
-			SETTINGS(init);
 			break;
 		case(8) : // toggle music
-			SETTINGS(init);
 			break;
 		case(9) : // toggle sound	
-			SETTINGS(init);
 			break;
 		case(10) : // toggle resolution
-			SETTINGS(init);
 			break;
 		case(11): // credits gui (empty)
 			CREDITS(init);
@@ -442,44 +438,60 @@ void GUI::SETTINGS(bool init)
 			items[n] = new ScreenItem();
 
 		// audio enabled
-		if (Audio::getAudio().getAudioEnabled())
+		if (Audio::getAudio().getAudioEnabled() == true)
 		{
 			items[0]->init(12, 12, true, 7);
 			items[0]->MoveAutoSize(0, 0.6f, content);
+			items[0]->initSwitch();
 		}
 		else
 		{
 			items[0]->init(13, 13, true, 7);
 			items[0]->MoveAutoSize(0, 0.6f, content);
+			items[0]->initSwitch();
 		}
 		
 		// music enabled
-		if (Audio::getAudio().getMusicEnabled())
+		if (Audio::getAudio().getMusicEnabled() == true)
 		{
 			items[1]->init(14, 14, true, 8);
 			items[1]->MoveAutoSize(0, 0.2f, content);
+			items[1]->initSwitch();
 		}
 		else
 		{
 			items[1]->init(15, 15, true, 8);
 			items[1]->MoveAutoSize(0, 0.2f, content);
+			items[1]->initSwitch();
 		}
-
 		// sound enabled
-		if (Audio::getAudio().getSoundEnabled())
+		if (Audio::getAudio().getSoundEnabled() == true)
 		{
 			items[2]->init(16, 16, true, 9);
 			items[2]->MoveAutoSize(0, -0.2f, content);
+			items[2]->initSwitch();
 		}
 		else
 		{
 			items[2]->init(17, 17, true, 9);
 			items[2]->MoveAutoSize(0, -0.2f, content);
+			items[2]->initSwitch();
 		}
-		
 		// toggle fullscreen
-		items[3]->init(13, 13, true, 10);
-		items[3]->MoveAutoSize(0, -0.6, content);
+
+		if (GameConfig::get().configFullscreen == true)
+		{
+			items[3]->init(18, 18, true, 10);
+			items[3]->MoveAutoSize(0, -0.6, content);
+			items[3]->initSwitch();
+		}
+		else
+		{
+			items[3]->init(19, 19, true, 10);
+			items[3]->MoveAutoSize(0, -0.6, content);
+			items[3]->initSwitch();
+		}
+
 	}
 }
 
