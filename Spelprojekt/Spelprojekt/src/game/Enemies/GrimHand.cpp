@@ -10,7 +10,7 @@ GrimHand::GrimHand(glm::vec2 firstPos)
 	facingRight = true;
 	contentIndex = 1;
 	health = 2;
-	audibleDistance = 2.5f;
+	audibleDistance = 20.0f;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 2, 2);
@@ -133,6 +133,7 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				if (clapSound)
 				{
 					clapSound = false;
+					
 					Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
 				}
 			}
@@ -162,11 +163,14 @@ void GrimHand::hit(int damage, bool playerRightOfEnemy)
 			health -= 1; //Ha ha fuck you spark rune
 		if (health <= 0)
 		{
-			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hand_hurt, readPos(), audibleDistance, false); //boss_GrimHand_death
+			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hand_stun, readPos(), audibleDistance, false);
 			stunned = true;
 			stateTimer = 8.0f;
 			health = 2;
 		}
+		else
+			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hand_hurt, readPos(), audibleDistance, false);
+
 		invulnTimer = 2.0f;
 		state = 0;
 		glm::vec3 pos = readPos();
