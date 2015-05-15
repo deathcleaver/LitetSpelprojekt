@@ -3,10 +3,13 @@
 Bossbat
 Bossspider
 Bossghost
-6
+9
 6 0
 5 4
 4 4
 5 3
 5 1
 0 3
+5 1
+3 2
+0 0

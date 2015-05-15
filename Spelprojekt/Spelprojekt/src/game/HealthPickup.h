@@ -24,8 +24,8 @@ public:
 	}
 	Light* getLight()
 	{
-		if (!taken)
-			return myLight;
+		//if (!taken)
+		//	return myLight;
 		return 0;
 	}
 	void init(glm::vec2 pos);

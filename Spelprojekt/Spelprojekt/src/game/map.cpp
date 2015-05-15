@@ -636,7 +636,7 @@ void Map::LoadMap(int id, glm::vec2* savedPickups)
 			if (savedPickups)
 			{
 				healthTaken = false;
-				for (int c = 0; c < 4 && !healthTaken; c++)
+				for (int c = 0; c < 12 && !healthTaken; c++)
 				{
 					if (savedPickups[c].x == x && savedPickups[c].y == y)
 						healthTaken = true;

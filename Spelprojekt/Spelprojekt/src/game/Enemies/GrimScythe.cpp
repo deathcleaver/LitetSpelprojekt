@@ -21,6 +21,8 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 
 void GrimScythe::init()
 {
+	moveTo(initPos.x, initPos.y);
+	collideRect->update();
 }
 
 int GrimScythe::update(float deltaTime, Map* map, glm::vec3 playerPos)

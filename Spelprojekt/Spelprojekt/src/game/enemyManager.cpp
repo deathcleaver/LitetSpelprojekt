@@ -424,7 +424,10 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 					grimScythe->update(deltaTime, map, playerPos);
 				}
 				else
+				{
 					addEnemy("GrimScythe", glm::vec2(boss->readPos()));
+					grimScythe->init();
+				}
 
 				if (msg == 6)
 				{
@@ -756,27 +759,6 @@ void EnemyManager::resetEnemies()
 		if (boss->isAlive())
 		{
 			boss->init();
-			if (boss->getType() == "Grim")
-			{
-				for (int c = 0; c < 2; c++)
-				{
-					if (grimHands[c])
-					{
-						delete grimHands[c];
-						grimHands[c] = 0;
-					}
-				}
-				if (grimLaser)
-				{
-					delete grimLaser;
-					grimLaser = 0;
-				}
-				if (grimScythe)
-				{
-					delete grimScythe;
-					grimScythe = 0;
-				}
-			}
 		}
 	}
 }
@@ -817,6 +799,16 @@ void EnemyManager::startBoss()
 				delete grimHands[c];
 				grimHands[c] = 0;
 			}
+		}
+		if (grimLaser)
+		{
+			delete grimLaser;
+			grimLaser = 0;
+		}
+		if (grimScythe)
+		{
+			delete grimScythe;
+			grimScythe = 0;
 		}
 		glm::vec2 handPos = ((Grim*)boss)->getHandPos();
 		addEnemy("GrimHand", glm::vec2(handPos.x + 35, handPos.y));
