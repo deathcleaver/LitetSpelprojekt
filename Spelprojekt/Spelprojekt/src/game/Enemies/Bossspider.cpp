@@ -47,6 +47,7 @@ void Bossspider::init()
 		health = 6;
 		collideRect->update();
 		hurtRect->update();
+		Audio::getAudio().playMusic(MusicID::boss_battle_spider);
 
 		speed = glm::vec2(8.0f, 0.0f);
 		currentMode = -1;
@@ -107,6 +108,7 @@ int Bossspider::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		translate(0, speed.y*deltaTime);
 		if (collidesWithWorld(map))
 		{
+			Audio::getAudio().playSoundAtPos(SoundID::boss_spider_attack, readPos(), audibleDistance, false);
 			translate(0, -speed.y*deltaTime);
 			speed.y = 0;
 			currentMode = 1;
