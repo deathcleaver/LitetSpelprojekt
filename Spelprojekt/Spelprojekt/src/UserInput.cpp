@@ -49,6 +49,9 @@ void UserInput::KeyDown(char c)
 	case('Q') :
 		Q = true;
 		break;
+	case('X') :
+		X = true;
+		break;
 	case('E') :
 		E = true;
 		Ereleased = false;
@@ -123,6 +126,9 @@ void UserInput::KeyUp(char c)
 		break;
 	case('Q') :
 		Q = false;
+		break;
+	case('X') :
+		X = false;
 		break;
 	case('E') :
 		if (E == true)
@@ -418,6 +424,9 @@ bool UserInput::getKeyState(char c)
 		break;
 	case('E') :
 		return E;
+		break;
+	case('X') :
+		return X;
 		break;
 	}
 	return false;

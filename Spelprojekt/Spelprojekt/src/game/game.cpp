@@ -735,6 +735,8 @@ void Game::readInput(float deltaTime)
 	state == GLFW_PRESS ? in->KeyDown('Q') : in->KeyUp('Q');
 	state = glfwGetKey(windowRef, GLFW_KEY_E);
 	state == GLFW_PRESS ? in->KeyDown('E') : in->KeyUp('E');
+	state = glfwGetKey(windowRef, GLFW_KEY_X);
+	state == GLFW_PRESS ? in->KeyDown('X') : in->KeyUp('X');
 
 	//Editor Keys
 	if (current == EDIT)

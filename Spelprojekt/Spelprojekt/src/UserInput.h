@@ -47,6 +47,7 @@ private:
 	bool N = false;
 	bool Q = false;
 	bool E = false;
+	bool X = false;
 	bool Ereleased = false;
 	
 	bool _1 = false;
