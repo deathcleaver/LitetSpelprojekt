@@ -126,6 +126,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			if (stateTimer < FLT_EPSILON)
 			{
 				verticalAttack = rand() % 2; //Horizontal or vertical slash
+				doubleSwipe = false; //When at low HP, slashes twice
 				state = 1;
 				stateTimer = 2.5f;
 				prepspeed.x = prepspeed.y = 0;
@@ -192,7 +193,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				stateTimer = 2.0f;
 			}
 		}
-		else if (state == 2)
+		else if (state == 2) //Slash'em
 		{
 			stateTimer -= 1.0f*deltaTime;
 			if (stateTimer < 1.5f)
@@ -204,11 +205,23 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 			if (stateTimer < FLT_EPSILON)
 			{
-				mode = 5;
-				state = 0;
-				calcDir((headingTo + 1) % 4);
-				stateTimer = 5.0f;
-				fireBallTimer = 1.0f;
+				if (!doubleSwipe && health < 3)
+				{
+					doubleSwipe = true;
+					verticalAttack = !verticalAttack;
+					state = 1;
+					stateTimer = 1.0f;
+					prepspeed.x = prepspeed.y = 0;
+					mode = 5;
+				}
+				else
+				{
+					mode = 5;
+					state = 0;
+					calcDir((headingTo + 1) % 4);
+					stateTimer = 5.0f;
+					fireBallTimer = 1.0f;
+				}
 			}
 		}
 	}

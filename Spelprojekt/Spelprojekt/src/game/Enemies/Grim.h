@@ -15,6 +15,7 @@ private:
 	float fireBallTimer;
 	bool verticalAttack;
 	glm::vec2 prepspeed;
+	bool doubleSwipe;
 
 	Rect* hurtRect;
 	float invulnTimer;
