@@ -147,11 +147,11 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck)
 {
 
-	mirrorDraw = 0;
-	renderCall = 0;
-	enemyDraw = 0;
-	worldDraw = 0;
-	miscDraw = 0;
+	//mirrorDraw = 0;
+	//renderCall = 0;
+	//enemyDraw = 0;
+	//worldDraw = 0;
+	//miscDraw = 0;
 
 	int timerID = startTimer("Render");
 
@@ -181,7 +181,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 		glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &projMatrix[0][0]);
 	}
 
-	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, 0);
+	renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, -1, -1);
 	//
 
 	bindLights(player, edit);
@@ -318,8 +318,8 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 				glProgramUniformMatrix4fv(tempshaderRekt, uniformRektView, 1, false, &obj->viewMat[0][0]);
 				glProgramUniformMatrix4fv(tempshaderRekt, uniformRektProj, 1, false, &obj->projMat[0][0]);
 			}
-			mirrorDraw++;
-			renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, obj);
+			//mirrorDraw++;
+			renderPass(player, map, contentin, gui, campos, state, edit, updateAnimCheck, x, y);
 
 		}
 	}
@@ -351,7 +351,7 @@ void Engine::renderMirror()
 
 
 void Engine::renderPass(const Player* player, const Map* map, const ContentManager* contentin,
-	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck, GameObject* exclude)
+	const GUI* gui, glm::vec3* campos, int state, Edit* edit, UpdateAnimCheck* updateAnimCheck, int x, int y)
 {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -379,7 +379,7 @@ void Engine::renderPass(const Player* player, const Map* map, const ContentManag
 
 	renderBack();
 
-	renderWorld(exclude);
+	renderWorld(x, y);
 
 	renderMisc();
 
@@ -397,7 +397,7 @@ void Engine::renderPlayer(const Player* player)
 	{
 		player->bindWorldMat(&tempshader, &uniformModel);
 		facecount = content->bindPlayer();
-		renderCall++;
+		//renderCall++;
 		glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 	}
 }
@@ -405,71 +405,120 @@ void Engine::renderPlayer(const Player* player)
 void Engine::renderBack()
 {
 	//Render chunk background
-		for (int n = 0; n < upDraw[0]; n++)
-		{
-			int x = n * 2 + 1;
-			int y = x + 1;
-			if (upDraw[x] > -1 && upDraw[x] < width)
-				if (upDraw[y] > -1 && upDraw[y] < height)
-					if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
-					{
-						id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
-						if (id != lastid)
-							facecount = content->bind(OBJ::BACK, id);
-						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						worldDraw++;
-						lastid = id;
-					}
-		}
-		lastid = -1;
+	for (int n = 0; n < upDraw[0]; n++)
+	{
+		int x = n * 2 + 1;
+		int y = x + 1;
+		if (upDraw[x] > -1 && upDraw[x] < width)
+			if (upDraw[y] > -1 && upDraw[y] < height)
+				if (chunks[upDraw[x]][upDraw[y]].chunkBackground)
+				{
+					id = chunks[upDraw[x]][upDraw[y]].chunkBackground->bindWorldMat(&tempshader, &uniformModel);
+					if (id != lastid)
+						facecount = content->bind(OBJ::BACK, id);
+					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+					//renderCall++;
+					//worldDraw++;
+					lastid = id;
+				}
+	}
+	lastid = -1;
 }
 
-void Engine::renderWorld(GameObject* exclude)
+void Engine::renderWorld(int x, int y)
 {
 	//render chunk world objects
-	for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
+	if (x == -1 && y == -1)
 	{
-		if (WoID == WorldID::ghost_platform)
+		for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
 		{
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);
-			glColorMask(0, 0, 1, 1);
-			glEnable(GL_CULL_FACE);
-		}
-
-		for (int n = 0; n < upDraw[0]; n++) // all chunks
-		{
-			int x = n * 2 + 1;
-			int y = x + 1;
-			if (upDraw[x] > -1 && upDraw[x] < width)
-			if (upDraw[y] > -1 && upDraw[y] < height)
+			if (WoID == WorldID::ghost_platform)
 			{
-				int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);
+				glColorMask(0, 0, 1, 1);
+				glEnable(GL_CULL_FACE);
+			}
 
-				for (int k = 0; k < size; k++)
+			for (int n = 0; n < upDraw[0]; n++) // all chunks
+			{
+				int x = n * 2 + 1;
+				int y = x + 1;
+				if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
 				{
-					if (chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k] != exclude)
+					int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
+
+					for (int k = 0; k < size; k++)
 					{
-						id = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k]->bindWorldMat(&tempshader, &uniformModel);
-						if (id != lastid)
-							facecount = content->bind(WORLD, WoID);
-						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						worldDraw++;
-						lastid = id;
+						if (chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k])
+						{
+							id = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k]->bindWorldMat(&tempshader, &uniformModel);
+							if (id != lastid)
+								facecount = content->bind(WORLD, WoID);
+							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+							//renderCall++;
+							//worldDraw++;
+							lastid = id;
+						}
 					}
 				}
 			}
-		}
 
-		if (WoID == WorldID::ghost_platform)
-		{
-			glColorMask(1, 1, 1, 1);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glDisable(GL_CULL_FACE);
+			if (WoID == WorldID::ghost_platform)
+			{
+				glColorMask(1, 1, 1, 1);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDisable(GL_CULL_FACE);
+			}
 		}
+		lastid = -1;
 	}
-	lastid = -1;
+	else
+	{
+		for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
+		{
+			if (WoID == WorldID::ghost_platform)
+			{
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);
+				glColorMask(0, 0, 1, 1);
+				glEnable(GL_CULL_FACE);
+			}
+
+			for (int n = 0; n < upDraw[0]; n++) // all chunks
+			{
+				int x = n * 2 + 1;
+				int y = x + 1;
+				if (upDraw[x] > -1 && upDraw[x] < width)
+				if (upDraw[y] > -1 && upDraw[y] < height)
+				if (upDraw[x] == x && upDraw[y] == y)
+				{
+					int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
+
+					for (int k = 0; k < size; k++)
+					{
+						if (chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k])
+						{
+							id = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID][k]->bindWorldMat(&tempshader, &uniformModel);
+							if (id != lastid)
+								facecount = content->bind(WORLD, WoID);
+							glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
+							//renderCall++;
+							//worldDraw++;
+							lastid = id;
+						}
+					}
+				}
+			}
+
+			if (WoID == WorldID::ghost_platform)
+			{
+				glColorMask(1, 1, 1, 1);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDisable(GL_CULL_FACE);
+			}
+		}
+		lastid = -1;
+	}
 }
 
 void Engine::renderMisc()
@@ -488,8 +537,8 @@ void Engine::renderMisc()
 					if (id != lastid)
 						facecount = content->bind(OBJ::MISC, MiscID::shrine);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-					renderCall++;
-					miscDraw++;
+					//renderCall++;
+					//miscDraw++;
 					lastid = id;
 					GameObject* rune = chunks[upDraw[x]][upDraw[y]].shrine->returnRune();
 					if (rune)
@@ -498,8 +547,8 @@ void Engine::renderMisc()
 						if (id != lastid)
 							facecount = content->bind(OBJ::MISC, id);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						miscDraw++;
-						renderCall++;
+						//miscDraw++;
+						//renderCall++;
 						lastid = id;
 					}
 				}
@@ -513,8 +562,8 @@ void Engine::renderMisc()
 						if (id != lastid)
 							facecount = content->bind(OBJ::MISC, MiscID::heart);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						miscDraw++;
-						renderCall++;
+						//miscDraw++;
+						//renderCall++;
 						lastid = id;
 					}
 				}
@@ -543,8 +592,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -557,8 +606,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					if (id != lastid)
 						facecount = content->bind(OBJ::ENEMY, EnemyID::spikes);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-					renderCall++;
-					enemyDraw++;
+					//renderCall++;
+					//enemyDraw++;
 					lastid = id;
 				}
 
@@ -573,8 +622,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::flame);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -593,8 +642,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::cube);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -610,8 +659,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::ghost);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -631,8 +680,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::spellbook);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -645,8 +694,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::bat);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -674,8 +723,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::spider);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -689,8 +738,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					if (id != lastid)
 						facecount = content->bind(OBJ::ENEMY, EnemyID::web);
 					glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-					renderCall++;
-					enemyDraw++;
+					//renderCall++;
+					//enemyDraw++;
 					lastid = id;
 				}
 
@@ -705,8 +754,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, EnemyID::web);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 					}
 				}
@@ -719,8 +768,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, id);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 						animCheck->enemyUpdate[id] = 1;
 					}
@@ -730,8 +779,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						if (id != lastid)
 							facecount = content->bind(OBJ::ENEMY, id);
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-						renderCall++;
-						enemyDraw++;
+						//renderCall++;
+						//enemyDraw++;
 						lastid = id;
 						animCheck->enemyUpdate[id] = 1;
 						if (id >= EnemyID::grim_white && id <= EnemyID::grim_black)
@@ -748,8 +797,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 								if (id != lastid)
 									facecount = content->bind(OBJ::ENEMY, id);
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-								renderCall++;
-								enemyDraw++;
+								//renderCall++;
+								//enemyDraw++;
 								lastid = id;
 								animCheck->enemyUpdate[id] = 1;
 								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(c, "GrimHand"))
@@ -768,8 +817,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 								if (id != lastid)
 									facecount = content->bind(OBJ::ENEMY, id);
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-								renderCall++;
-								enemyDraw++;
+								//renderCall++;
+								//enemyDraw++;
 								lastid = id;
 								animCheck->enemyUpdate[id] = 1;
 							}
@@ -779,8 +828,8 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 								if (id != lastid)
 									facecount = content->bind(OBJ::WORLD, id);
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
-								renderCall++;
-								enemyDraw++;
+								//renderCall++;
+								//enemyDraw++;
 								lastid = id;
 								animCheck->enemyUpdate[id] = 1;
 							}

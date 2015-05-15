@@ -12,9 +12,9 @@ int main(int argv, char* argc[])
 {
 
 	// flags are append existing file, print to console, print to file
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	Debug::OpenDebugStream(false, true, true);
-#endif
+//#endif
 
 	srand((unsigned int)time(0));
 
