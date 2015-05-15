@@ -74,7 +74,7 @@ private:
 	void renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
-	void renderMirror();
+	void renderMirror(Map* map, Player* player);
 
 	void renderPlayer(const Player*);
 	void renderBack();
@@ -114,6 +114,15 @@ public:
 	void setFadeIn();
 	void setFadeOut();
 	void setFade(float fadeEffect);
+
+
+	int mirrorDraw;
+	int renderCall;
+
+	int enemyDraw;
+	int worldDraw;
+	int miscDraw;
+
 };
 
 #endif

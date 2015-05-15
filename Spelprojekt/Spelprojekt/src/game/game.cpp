@@ -226,6 +226,13 @@ void Game::mainLoop()
 			//cout << getQueryResult();
 			Debug::DebugOutput("----\n%sFor frame %d\n----\n", getQueryResult().c_str(), frame);
 
+			Debug::DebugOutput("----\nMirror calls: %d\n"
+				"Render calls: %d\n"
+				"Enemy draw: %d\n"
+				"World draw: %d\n"
+				"Misc draw: %d\n"
+				"----\n", engine->mirrorDraw, engine->renderCall, engine->enemyDraw, engine->worldDraw, engine->miscDraw);
+
 			fpsCount = 0;
 			glfwSetWindowTitle(windowRef, ss.str().c_str());
 		}
