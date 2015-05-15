@@ -116,8 +116,9 @@ void Audio::loadFiles()
 	musicFiles[7] = "../Audio/Music/witcher_nocturnal.wav"; // ghost area
 	musicFiles[8] = "../Audio/Music/witcher_battle_ghost.wav"; // boss battle ghost
 	musicFiles[9] = "../Audio/Music/grim_stage1.wav";
-	musicFiles[10] = "../Audio/Music/grim_stage2.wav";
-	musicFiles[11] = "../Audio/Music/witcher_credits.wav";
+	musicFiles[10] = "../Audio/Music/Grim/grim_stage2_intro.wav";
+	musicFiles[11] = "../Audio/Music/Grim/grim_stage2_loop.wav";
+	musicFiles[12] = "../Audio/Music/witcher_credits.wav";
 
 	//load sound files
 	//Shrine
