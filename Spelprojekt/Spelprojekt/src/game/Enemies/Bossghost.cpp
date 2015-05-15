@@ -92,6 +92,7 @@ void Bossghost::init()
 		health = 5;
 		collideRect->update();
 		hurtRect->update();
+		Audio::getAudio().playMusic(MusicID::boss_battle_ghost);
 		Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 
 		state = -1;
