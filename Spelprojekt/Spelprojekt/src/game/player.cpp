@@ -433,40 +433,56 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			Audio::getAudio().playSound(SoundID::player_healed, false);// player_healed
 		}
 
-		if (currentRune == 0)
+		if (currentRune == 0 || swapRune(userInput, pad))
 		{
 			if (currentSpawn)
 			{
 				vec3 playerPos = readPos();
-				currentRune = currentSpawn->getRune();
-				if (runeEffect)
+				MiscID tempRune = currentSpawn->getRune();
+				
+				if (tempRune != (MiscID)0)
 				{
-					//delete runeEffect;
-					//runeEffect = 0;
-				}
-				if (currentRune == MiscID::rune_range)
-				{
-					attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 1.5f);
-					runeEffect->reCreate(EffectType::torch);
-					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
-					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
-					//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
-				}
-				else if (currentRune == MiscID::rune_damage)
-				{
-					DMG += 1;
-					runeEffect->reCreate(EffectType::spark);
-					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
-					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
-					//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
-				}
-				else if (currentRune == MiscID::rune_shield)
-				{
-					shield = 2;
-					runeEffect->reCreate(EffectType::shield);
-					runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
-					Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
-					//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
+					if (currentRune == MiscID::rune_shield)
+						shield = 0;
+					
+					if (currentRune == MiscID::rune_range)
+						attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 0.9f);
+					
+					if (currentRune == MiscID::rune_damage)
+						DMG -= 1;
+
+					currentRune = tempRune;
+
+
+					if (runeEffect)
+					{
+						//delete runeEffect;
+						//runeEffect = 0;
+					}
+					if (currentRune == MiscID::rune_range)
+					{
+						attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 1.5f);
+						runeEffect->reCreate(EffectType::torch);
+						runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+						Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
+						//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
+					}
+					else if (currentRune == MiscID::rune_damage)
+					{
+						DMG += 1;
+						runeEffect->reCreate(EffectType::spark);
+						runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+						Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
+						//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
+					}
+					else if (currentRune == MiscID::rune_shield)
+					{
+						shield = 2;
+						runeEffect->reCreate(EffectType::shield);
+						runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+						Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
+						//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
+					}
 				}
 			}
 		}
@@ -692,6 +708,14 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	if (flinchTimer > FLT_EPSILON)
 		flinchTimer -= 1.0f*deltaTime;
 	return 0;
+}
+
+bool Player::swapRune(UserInput* userInput, Gamepad* pad)
+{
+	if (userInput->getKeyState('X') || pad->isButtonPressed(pad->getButtons().B))
+		return true;
+	else
+		return false;
 }
 
 vec2 Player::getSpeed()

@@ -63,6 +63,7 @@ private:
 	bool noclip;
 
 	void respawn(Map* map);
+	bool swapRune(UserInput* userInput, Gamepad* pad);
 
 	std::string animState = "";
 
