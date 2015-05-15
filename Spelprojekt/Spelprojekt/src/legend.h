@@ -144,8 +144,9 @@ enum MusicID
 	ghost_area = 7, // witcher_dead_city
 	boss_battle_ghost = 8, // witcher_battle_ghost
 	lastboss_stage1 = 9,
-	lastboss_stage2 = 10,
-	credits = 11
+	lastboss_stage2_intro = 10,
+	lastboss_stage2_loop = 11,
+	credits = 12
 };
 
 enum SoundID
