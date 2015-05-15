@@ -637,8 +637,6 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 					}
 				}
 				size = chunks[upDraw[x]][upDraw[y]].countEnemies("Missile");
-				if (size >= 1)
-					animCheck->enemyUpdate[EnemyID::bat] = 1;
 				for (int c = 0; c < size; c++)
 				{
 					if (chunks[upDraw[x]][upDraw[y]].enemyLives(c, "Missile"))
@@ -649,6 +647,18 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						renderCall++;
 						enemyDraw++;
+						lastid = id;
+					}
+				}
+				size = chunks[upDraw[x]][upDraw[y]].countEnemies("EchoLocation");
+				for (int c = 0; c < size; c++)
+				{
+					if (chunks[upDraw[x]][upDraw[y]].enemyLives(c, "EchoLocation"))
+					{
+						id = chunks[upDraw[x]][upDraw[y]].bindEnemy(c, &tempshader, &uniformModel, "EchoLocation");
+						if (id != lastid)
+							facecount = content->bind(OBJ::ENEMY, id);
+						glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 						lastid = id;
 					}
 				}

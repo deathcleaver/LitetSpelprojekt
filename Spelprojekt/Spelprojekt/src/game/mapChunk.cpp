@@ -703,6 +703,21 @@ glm::vec3 MapChunk::playerVsEnemies(Rect* playerRect)
 			}
 		}
 	}
+	enemies = enemyMan->getEnemies("EchoLocation");
+	nrOfEnemies = enemyMan->size("EchoLocation");
+	for (int c = 0; c < nrOfEnemies && hit.z == -1; c++)
+	{
+		if (enemies[c]->isAlive())
+		{
+			enemyRect = enemies[c]->getRekt();
+			if (enemyRect)
+			{
+				if (enemyRect->intersects(playerRect))
+					return hit = enemies[c]->readPos();
+			}
+		}
+	}
+
 	Enemy* boss = enemyMan->getBoss();
 	if (boss)
 	{

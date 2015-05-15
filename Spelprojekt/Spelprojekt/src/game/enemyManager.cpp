@@ -16,6 +16,7 @@
 #include "Enemies/Spellbook.h"
 #include "Enemies/ArcaneMissile.h"
 #include "Enemies/Deathbox.h"
+#include "Enemies/EchoLocation.h"
 
 #include "Enemies/Grim.h"
 #include "Enemies/GrimHand.h"
@@ -63,6 +64,9 @@ EnemyManager::~EnemyManager()
 	for (int c = 0; c < deathCount; c++)
 		delete deathboxes[c];
 	delete[]deathboxes;
+	for (int c = 0; c < echoCount; c++)
+		delete echos[c];
+	delete[]echos;
 
 	if (boss)
 		delete boss;
@@ -108,6 +112,8 @@ void EnemyManager::init(ifstream &file, int xOffset, int yOffset)
 	missiles = new Enemy*[missileMax];
 	deathCount = 0; deathMax = 5;
 	deathboxes = new Enemy*[deathMax];
+	echoCount = 0; echoMax = 5;
+	echos = new Enemy*[echoMax];
 
 	boss = 0;
 	grimHands[0] = grimHands[1] = grimLaser = grimScythe = 0;
@@ -219,6 +225,8 @@ void EnemyManager::initEmpty()
 	missiles = 0;
 	deathCount = -1;
 	deathboxes = 0;
+	echoCount = -1;
+	echos = 0;
 
 	boss = 0;
 	grimHands[0] = grimHands[1] = grimLaser = grimScythe = 0;
@@ -382,6 +390,16 @@ int EnemyManager::update(float deltaTime, MapChunk* chunk, glm::vec3 playerPos, 
 			}
 		}
 	}
+	for (int c = 0; c < echoCount; c++)
+	{
+		msg = echos[c]->update(deltaTime, map, playerPos);
+		if (msg)
+		{
+			delete echos[c];
+			echos[c] = echos[--echoCount];
+			c--;
+		}
+	}
 
 	if (boss)
 	{
@@ -479,6 +497,8 @@ int EnemyManager::size(string type)
 		return missileCount;
 	if (type == "Deathbox")
 		return deathCount;
+	if (type == "EchoLocation")
+		return echoCount;
 
 	if (type == "GrimHand")
 	{
@@ -617,6 +637,8 @@ int EnemyManager::bindEnemy(int index, GLuint* shader, GLuint* uniform, string t
 		return missiles[index]->bindWorldMat(shader, uniform);
 	else if (type == "Deathbox")
 		return deathboxes[index]->bindWorldMat(shader, uniform);
+	else if (type == "EchoLocation")
+		return echos[index]->bindWorldMat(shader, uniform);
 
 	else if (type == "GrimHand")
 		return grimHands[index]->bindWorldMat(shader, uniform);
@@ -652,6 +674,8 @@ Enemy** EnemyManager::getEnemies(string type)
 		return missiles;
 	if (type == "Deathbox")
 		return deathboxes;
+	if (type == "EchoLocation")
+		return echos;
 
 	if (type == "GrimHand")
 		return grimHands;
@@ -753,6 +777,12 @@ void EnemyManager::resetEnemies()
 		missiles[c] = 0;
 		missileCount--;
 	}
+	for (int c = echoCount - 1; c >= 0; c--)
+	{
+		delete echos[c];
+		echos[c] = 0;
+		echoCount--;
+	}
 	
 	if (boss)
 	{
@@ -776,9 +806,7 @@ void EnemyManager::addBoss(string type, glm::vec2 pos)
 		boss->scaleFactor(0.01f, 0.01f, 0.01f);
 	}
 	else if (type == "Bossbat")
-	{
 		boss = new Bossbat(pos);
-	}
 	else if (type == "Bossspider")
 		boss = new Bossspider(pos);
 	else if (type == "Bossghost")
@@ -893,6 +921,13 @@ void EnemyManager::addOutsider(Enemy* visitor, string type)
 		missiles[missileCount] = new ArcaneMissile((ArcaneMissile*)visitor);
 		missileCount++;
 		if (missileCount == missileMax)
+			expandEnemyArray(missiles, missileMax);
+	}
+	if (type == "EchoLocation")
+	{
+		echos[echoCount] = new EchoLocation(glm::vec2(visitor->readPos()), ((EchoLocation*)visitor)->getDirection());
+		echoCount++;
+		if (echoCount == echoMax)
 			expandEnemyArray(missiles, missileMax);
 	}
 }

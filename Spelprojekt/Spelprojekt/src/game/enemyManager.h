@@ -25,6 +25,7 @@ private:
 	Enemy** spellbooks; int spellbookCount, spellbookMax;
 	Enemy** missiles; int missileCount, missileMax;
 	Enemy** deathboxes; int deathCount, deathMax;
+	Enemy** echos; int echoCount, echoMax;
 	
 	Enemy* boss;
 

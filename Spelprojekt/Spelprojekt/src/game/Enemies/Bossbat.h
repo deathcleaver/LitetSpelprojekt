@@ -15,8 +15,11 @@ private:
 	bool isInit;
 
 	float batTimer;
-	int batsToSpawn;
+	int spawnsLeft;
 	void spawnBat(Map* map, float deltaTime);
+	void echoLocation(Map* map, glm::vec3 playerPos);
+	float echoTimer;
+	bool isShootingEchos;
 
 	float chargeTimer;
 	bool charging;

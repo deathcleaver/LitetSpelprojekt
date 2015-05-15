@@ -2,6 +2,7 @@
 #include "../mapChunk.h"
 #include "../map.h"
 #include "Bat.h"
+#include "EchoLocation.h"
 
 Bossbat::Bossbat(glm::vec2 firstPos)
 {
@@ -23,10 +24,12 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	hurtRect = new Rect();
 	hurtRect->initGameObjectRect(&worldMat, 2.5f, 2.8f);
 
-	batsToSpawn = 0;
+	spawnsLeft = 0;
 	batTimer = 0.0f;
 	charging = false;
 	chargeTimer = 4.0f - GameConfig::get().configDifficulty;
+
+	isShootingEchos = false;
 }
 
 Bossbat::~Bossbat()
@@ -48,9 +51,10 @@ void Bossbat::init()
 		health = 4;
 		slow = false;
 		collideRect->update();
-		batsToSpawn = 0;
+		spawnsLeft = 3;
 		batTimer = 0.0f;
 		chargeTimer = 4.0f - GameConfig::get().configDifficulty;
+		echoTimer = 8.0f;
 		charging = false;
 		returnPos = chargePos = readPos();
 		hasTurned = false;
@@ -67,7 +71,7 @@ void Bossbat::init()
 
 void Bossbat::spawnBat(Map* map, float deltaTime)
 {
-	if (batsToSpawn > 0)
+	if (spawnsLeft > 0)
 	{
 		batTimer -= 1.0f*deltaTime;
 		if (batTimer < FLT_EPSILON)
@@ -78,11 +82,22 @@ void Bossbat::spawnBat(Map* map, float deltaTime)
 			newBat->setVisitor();
 			map->findNewHome(newBat);
 			delete newBat;
-			batsToSpawn--;
-			if (batsToSpawn > 0)
+			spawnsLeft--;
+			if (spawnsLeft > 0)
 				batTimer = 0.3f;
 		}
 	}
+}
+
+void Bossbat::echoLocation(Map* map, glm::vec3 playerPos)
+{
+	glm::vec3 pos = readPos();
+	glm::vec2 dir = glm::vec2(playerPos) - glm::vec2(readPos());
+	dir = normalize(dir);
+	EchoLocation* pewpew = new EchoLocation(glm::vec2(readPos()), dir);
+	pewpew->setVisitor();
+	map->findNewHome(pewpew);
+	delete pewpew;
 }
 
 int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
@@ -106,157 +121,183 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		}
 		spawnBat(map, deltaTime);
 		if (invulnTimer < FLT_EPSILON)
+		{
 			chargePos = readPos();
-	}
-	else if (!charging)
-	{
-		if (pos.y < initPos.y - 0.5f)
-		{
-			moveTo(pos.x, pos.y + speed*deltaTime);
-			if (collidesWithWorld(map))
-			{
-				moveTo(pos.x, pos.y - speed*deltaTime);
-			}
-		}
-		else if (pos.y > initPos.y + 0.5f)
-		{
-			moveTo(pos.x, pos.y - speed*deltaTime);
-			if (collidesWithWorld(map))
-			{
-				moveTo(pos.x, pos.y + speed*deltaTime);
-			}
+			spawnsLeft = 3;
 		}
 	}
-	pos = readPos();
-	if (!charging)
+	else if (isShootingEchos)
 	{
-		if (facingRight)
+		if (spawnsLeft == 0)
 		{
-			if (movementScale < -1.0f)
-				slow = true;
-			else if (movementScale > 1.0f)
-				slow = true;
-			else
-				slow = false;
-
-			if (slow)
-				moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
-			if (!slow)
-				moveTo(pos.x + speed*deltaTime, pos.y);
-			movementScale += 1.0f*deltaTime;
-
-			if (collidesWithWorld(map))
-			{
-				movementScale -= 1.0f*deltaTime;
-				if (slow)
-				{
-					moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
-					facingRight = false;
-				}
-				else
-				{
-					moveTo(pos.x - speed*deltaTime, pos.y);
-					facingRight = false;
-				}
-			}
-
-			if (movementScale > 1.5f)
-				facingRight = false;
-			if (!facingRight)
-				rotateTo(0, 3.1415927f, 0);
+			echoTimer = 8.0f;
+			spawnsLeft = 3;
+			isShootingEchos = false;
+		}
+		else if (echoTimer < FLT_EPSILON)
+		{
+			echoLocation(map, playerPos);
+			spawnsLeft--;
+			echoTimer = 0.5f;
 		}
 		else
-		{
-			if (movementScale < -1.0f)
-				slow = true;
-			else if (movementScale > 1.0f)
-				slow = true;
-			else
-				slow = false;
-
-			if (slow)
-				moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
-			if (!slow)
-				moveTo(pos.x - speed*deltaTime, pos.y);
-			movementScale -= 1.0f*deltaTime;
-
-			if (collidesWithWorld(map))
-			{
-				movementScale += 1.0f*deltaTime;
-				if (slow)
-				{
-					moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
-					facingRight = true;
-				}
-				else
-				{
-					moveTo(pos.x + speed*deltaTime, pos.y);
-					facingRight = true;
-				}
-			}
-
-			if (movementScale < -1.5f)
-				facingRight = true;
-			if (facingRight)
-				rotateTo(0, 3.1415927f, 0);
-		}
+			echoTimer -= 1.0f*deltaTime;
 	}
 	else
 	{
-		chargeTimer -= 1.0f*deltaTime;
-		float distX = returnPos.x - chargePos.x;
-		float distY = returnPos.y - chargePos.y;
-		moveTo(pos.x - speed*deltaTime*distX/3, pos.y - speed*deltaTime*distY/3);
-		if (collidesWithWorld(map) || chargeTimer < FLT_EPSILON)
+		echoTimer -= 1.0f*deltaTime;
+		if (echoTimer < FLT_EPSILON)
+			isShootingEchos = true;
+		if (!charging)
 		{
-			moveTo(pos.x + speed*deltaTime*distX/3, pos.y + speed*deltaTime*distY/3);
-			charging = false;
-			chargeTimer = 4.0f;
+			if (pos.y < initPos.y - 0.5f)
+			{
+				moveTo(pos.x, pos.y + speed*deltaTime);
+				if (collidesWithWorld(map))
+				{
+					moveTo(pos.x, pos.y - speed*deltaTime);
+				}
+			}
+			else if (pos.y > initPos.y + 0.5f)
+			{
+				moveTo(pos.x, pos.y - speed*deltaTime);
+				if (collidesWithWorld(map))
+				{
+					moveTo(pos.x, pos.y + speed*deltaTime);
+				}
+			}
 		}
-	}
+		pos = readPos();
+		if (!charging)
+		{
+			if (facingRight)
+			{
+				if (movementScale < -1.0f)
+					slow = true;
+				else if (movementScale > 1.0f)
+					slow = true;
+				else
+					slow = false;
 
-	if (!charging)
-	{
-		chargeTimer -= 1.0f*deltaTime;
-		if (chargeTimer < FLT_EPSILON)
-		{
-			charging = true;
-			chargePos = playerPos;
-			returnPos = readPos();
-			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
-			chargeTimer = 0.8f;
-			if (chargePos.x < returnPos.x)
-			{
-				if (facingRight)
+				if (slow)
+					moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
+				if (!slow)
+					moveTo(pos.x + speed*deltaTime, pos.y);
+				movementScale += 1.0f*deltaTime;
+
+				if (collidesWithWorld(map))
 				{
-					hasTurned = true;
-					rotateTo(0, 3.1415927f, 0);
+					movementScale -= 1.0f*deltaTime;
+					if (slow)
+					{
+						moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
+						facingRight = false;
+					}
+					else
+					{
+						moveTo(pos.x - speed*deltaTime, pos.y);
+						facingRight = false;
+					}
 				}
-			}
-			else if (chargePos.x > returnPos.x)
-			{
+
+				if (movementScale > 1.5f)
+					facingRight = false;
 				if (!facingRight)
-				{
-					hasTurned = true;
 					rotateTo(0, 3.1415927f, 0);
+			}
+			else
+			{
+				if (movementScale < -1.0f)
+					slow = true;
+				else if (movementScale > 1.0f)
+					slow = true;
+				else
+					slow = false;
+
+				if (slow)
+					moveTo(pos.x - speed*deltaTime * 0.5f, pos.y);
+				if (!slow)
+					moveTo(pos.x - speed*deltaTime, pos.y);
+				movementScale -= 1.0f*deltaTime;
+
+				if (collidesWithWorld(map))
+				{
+					movementScale += 1.0f*deltaTime;
+					if (slow)
+					{
+						moveTo(pos.x + speed*deltaTime * 0.5f, pos.y);
+						facingRight = true;
+					}
+					else
+					{
+						moveTo(pos.x + speed*deltaTime, pos.y);
+						facingRight = true;
+					}
 				}
+
+				if (movementScale < -1.5f)
+					facingRight = true;
+				if (facingRight)
+					rotateTo(0, 3.1415927f, 0);
 			}
 		}
-		else if (chargeTimer > 3.5f)
+		else
 		{
-			float distX = chargePos.x - returnPos.x;
-			float distY = chargePos.y - returnPos.y;
-			moveTo(pos.x - speed*deltaTime*distX / 5, pos.y - speed*deltaTime*distY / 5);
-			if (hasTurned)
+			chargeTimer -= 1.0f*deltaTime;
+			float distX = returnPos.x - chargePos.x;
+			float distY = returnPos.y - chargePos.y;
+			moveTo(pos.x - speed*deltaTime*distX / 3, pos.y - speed*deltaTime*distY / 3);
+			if (collidesWithWorld(map) || chargeTimer < FLT_EPSILON)
 			{
-				hasTurned = false;
-				rotateTo(0, 3.1415927f, 0);
-			}
-			if (collidesWithWorld(map))
-			{
-				moveTo(pos.x + speed*deltaTime*distX / 5, pos.y + speed*deltaTime*distY / 5);
+				moveTo(pos.x + speed*deltaTime*distX / 3, pos.y + speed*deltaTime*distY / 3);
 				charging = false;
-				chargeTimer = 3.5f;
+				chargeTimer = 4.0f;
+			}
+		}
+
+		if (!charging)
+		{
+			chargeTimer -= 1.0f*deltaTime;
+			if (chargeTimer < FLT_EPSILON)
+			{
+				charging = true;
+				chargePos = playerPos;
+				returnPos = readPos();
+				Audio::getAudio().playSoundAtPos(SoundID::boss_bat_attack, readPos(), audibleDistance + 2, false);//boss_bat_attack
+				chargeTimer = 0.8f;
+				if (chargePos.x < returnPos.x)
+				{
+					if (facingRight)
+					{
+						hasTurned = true;
+						rotateTo(0, 3.1415927f, 0);
+					}
+				}
+				else if (chargePos.x > returnPos.x)
+				{
+					if (!facingRight)
+					{
+						hasTurned = true;
+						rotateTo(0, 3.1415927f, 0);
+					}
+				}
+			}
+			else if (chargeTimer > 3.5f)
+			{
+				float distX = chargePos.x - returnPos.x;
+				float distY = chargePos.y - returnPos.y;
+				moveTo(pos.x - speed*deltaTime*distX / 5, pos.y - speed*deltaTime*distY / 5);
+				if (hasTurned)
+				{
+					hasTurned = false;
+					rotateTo(0, 3.1415927f, 0);
+				}
+				if (collidesWithWorld(map))
+				{
+					moveTo(pos.x + speed*deltaTime*distX / 5, pos.y + speed*deltaTime*distY / 5);
+					charging = false;
+					chargeTimer = 3.5f;
+				}
 			}
 		}
 	}
@@ -273,7 +314,7 @@ void Bossbat::hit(int damage, bool playerRightOfEnemy)
 {
 	if (invulnTimer < FLT_EPSILON)
 	{
-		batsToSpawn = 3 + GameConfig::get().configDifficulty;
+		spawnsLeft = 3 + GameConfig::get().configDifficulty;
 		batTimer = 0.6f;
 		health -= damage;
 		if (health > 0)
