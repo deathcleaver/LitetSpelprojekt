@@ -209,7 +209,7 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 	glProgramUniformMatrix4fv(mirrorShader, mirrorV, 1, false, &(*viewMatrix)[0][0]);
 	glProgramUniformMatrix4fv(mirrorShader, mirrorP, 1, false, &projMatrix[0][0]);
 
-	renderMirror((Map*)map, (Player*)player);
+	renderMirror();
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -265,7 +265,7 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 	int x = 0;
 	int y = 0; 
 
-	((Map*)map)->getChunkIndex(player->readPos(), &x, &y);
+	((Map*)map)->getChunkIndex(*campos, &x, &y);
 
 	int start, end;
 
@@ -325,7 +325,7 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 	}
 }
 
-void Engine::renderMirror(Map* map, Player* player)
+void Engine::renderMirror()
 {
 	for (int n = 0; n < upDraw[0]; n++)
 	{

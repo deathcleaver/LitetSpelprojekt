@@ -74,7 +74,7 @@ private:
 	void renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
-	void renderMirror(Map* map, Player* player);
+	void renderMirror();
 
 	void renderPlayer(const Player*);
 	void renderBack();
