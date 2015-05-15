@@ -1023,7 +1023,7 @@ void Game::saveGame()
 
 void Game::cameraUpdate()
 {
-	if (last != current || lastpos.x > (35 * 3) + 17.0f) // reset
+	if ((last != current  && (current != DIFFICULTY && current != SETTINGS_MAIN)) || lastpos.x > (35 * 3) + 17.0f) // reset
 	{
 		lastpos = vec3(-25.0f, -35.0f * 6 + 1.75f, 0);
 	}
