@@ -89,9 +89,9 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else if (mode == 4)
 	{
-		Audio::getAudio().playMusicFade(MusicID::lastboss_stage2, deltaTime);
 		if (invulnTimer < FLT_EPSILON)
 		{
+			Audio::getAudio().playMusic(MusicID::lastboss_stage2_loop);
 			mode = 5; //BEHOLD TRUE POWER
 			Audio::getAudio().playSound(SoundID::boss_grim_transform, false);
 			contentIndex = contentIndex + 1;
@@ -280,8 +280,9 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		{
 			health = 6;
 			Audio::getAudio().playSound(SoundID::boss_grim_death1, false);
-			invulnTimer = 4.0f;
+			invulnTimer = 5.0f;
 			mode = 4;
+			Audio::getAudio().playMusic(MusicID::lastboss_stage2_intro);
 			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 5)
