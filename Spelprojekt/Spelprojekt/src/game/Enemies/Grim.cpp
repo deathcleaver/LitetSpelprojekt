@@ -99,7 +99,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			state = -1;
 		}
 	}
-	else if (mode > 4 && mode != 6)
+	else if (mode > 4 && mode != 8)
 	{
 		collideRect->update();
 		if (state == -1)
@@ -225,7 +225,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 		}
 	}
-	else if (mode == 6)
+	else if (mode == 8)
 	{
 		state = 0;
 		if (invulnTimer <= 0)
@@ -300,11 +300,11 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 			if (soDefeated == false)
 			{
 				Audio::getAudio().playSound(SoundID::boss_grim_so_defeated, false);
-				invulnTimer = 5.0f;
+				invulnTimer = 6.0f;
 				soDefeated = true;
 			}
 				
-			mode == 6;
+			mode = 8;
 		}
 	}
 }
