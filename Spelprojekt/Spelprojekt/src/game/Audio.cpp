@@ -115,7 +115,7 @@ void Audio::loadFiles()
 	musicFiles[6] = "../Audio/Music/witcher_battle_spider.wav"; // boss battles spider
 	musicFiles[7] = "../Audio/Music/witcher_nocturnal.wav"; // ghost area
 	musicFiles[8] = "../Audio/Music/witcher_battle_ghost.wav"; // boss battle ghost
-	musicFiles[9] = "../Audio/Music/grim_stage1.wav";
+	musicFiles[9] = "../Audio/Music/Grim/grim_stage1.wav";
 	musicFiles[10] = "../Audio/Music/Grim/grim_stage2_intro.wav";
 	musicFiles[11] = "../Audio/Music/Grim/grim_stage2_loop.wav";
 	musicFiles[12] = "../Audio/Music/witcher_credits.wav";
@@ -165,6 +165,7 @@ void Audio::loadFiles()
 	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
 	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";
 	soundFiles[16] = "../Audio/Sounds/Enemies/enemy_slime_death.wav";
+	soundFiles[33] = "../Audio/Sounds/Enemies/enemy_slime_everyone.wav";
 	soundFiles[17] = "../Audio/Sounds/Enemies/enemy_flame_hurt.wav";
 	soundFiles[18] = "../Audio/Sounds/Enemies/enemy_flame_death.wav";
 	soundFiles[20] = "../Audio/Sounds/Enemies/enemy_ghost_hurt.wav";
@@ -185,7 +186,6 @@ void Audio::loadFiles()
 	soundFiles[30] = "../Audio/Sounds/Ambient/ambient_lightning.wav";
 	soundFiles[31] = "../Audio/Sounds/Ambient/ambient_thunder.wav";
 	soundFiles[32] = "../Audio/Sounds/Ambient/ambient_crow.wav";
-	soundFiles[33] = "../Audio/Sounds/everyone.wav";
 	soundFiles[34] = "../Audio/Sounds/Ambient/ambient_frostmourne_chant.wav";
 	soundFiles[35] = "../Audio/Sounds/Ambient/ambient_mining.wav";
 	soundFiles[36] = "../Audio/Sounds/Ambient/ambient_ironbeak_owl.wav";
