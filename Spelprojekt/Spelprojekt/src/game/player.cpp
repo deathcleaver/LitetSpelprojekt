@@ -298,7 +298,6 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			}
 		}
 
-
 		//gravity
 		if (userInput->getKeyState('W') || pad->climb(axesY))
 		{
@@ -333,9 +332,9 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 				{
 					if (speed.y < -5.0f)
 					{
-							float pitch;
-							pitch = (maxSpeed.y) / speed.y;
-							Audio::getAudio().playSound(SoundID::player_landing, false, pitch);
+						float pitch;
+						pitch = (maxSpeed.y) / speed.y;
+						Audio::getAudio().playSound(SoundID::player_landing, false, pitch);
 					}
 					speed.x *= landBreak;
 					doubleJump = false;
@@ -350,11 +349,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			moveTo(tempPos.x, lastPos.y);
 			collideRect->update();
 		}
-		else
-		{
-			if (jumping != false)
-				jumping = true;
-		}
+
 		if (bossFighting) //YOU CAN'T RUN FROM A TRAINER BATTLE
 		{
 			pos = readPos();
