@@ -153,7 +153,7 @@ void AnimationObject::update()
 		
 		float weightDif = 1 - myWeight;
 		
-		//weightDif = 1 - (glm::cos(myWeight * (3.14159265359/2)));
+		//weightDif = 1 - (glm::cos(myWeight * (3.14159265359)))/2;
 		/*if (weightDif > 1.0f)
 			weightDif = 1.0f;*/
 

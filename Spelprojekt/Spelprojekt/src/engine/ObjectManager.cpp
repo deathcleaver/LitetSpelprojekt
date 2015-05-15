@@ -57,8 +57,8 @@ void ObjectManager::loadPlayer()
 	playerAn[0] = new Object("src/meshes/Player/PlayerIdle.v", "src/textures/Player.bmp");
 	playerAn[1] = new Object("src/meshes/Player/PlayerWalk4.v", "", playerAn[0], false, true);
 	playerAn[2] = new Object("src/meshes/Player/PlayerWalk5.v", "", playerAn[0], false, true);
-	playerAn[3] = new Object("src/meshes/Player/PlayerAttackSweep1.v", "", playerAn[0], false, true);
-	playerAn[4] = new Object("src/meshes/Player/PlayerAttackSweep4.v", "", playerAn[0], false, true);
+	playerAn[3] = new Object("src/meshes/Player/PlayerAttackSweep6.v", "", playerAn[0], false, true);
+	playerAn[4] = new Object("src/meshes/Player/PlayerAttackSweep5.v", "", playerAn[0], false, true);
 	playerAn[5] = new Object("src/meshes/Player/PlayerJump3.v", "", playerAn[0], false, true);
 	playerAn[6] = new Object("src/meshes/Player/PlayerJump4.v", "", playerAn[0], false, true);
 	playerAn[7] = new Object("src/meshes/Player/PlayerFlinch.v", "", playerAn[0], false, true);
