@@ -6,7 +6,8 @@
 class Grim : public Enemy
 {
 private:
-	int mode; //0 = start, 1 = force, 2 = range, 3 = spark, 4 = dying, 5 = reaper
+	int mode; //0 = start, 1 = force, 2 = range, 3 = spark, 4 = dying, 5 = reaper, 6 = so defeated
+	bool soDefeated = false;
 
 	int state;
 	float stateTimer;
