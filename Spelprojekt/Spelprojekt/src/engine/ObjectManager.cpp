@@ -57,8 +57,8 @@ void ObjectManager::loadPlayer()
 	playerAn[0] = new Object("src/meshes/Player/PlayerIdle.v", "src/textures/Player.bmp");
 	playerAn[1] = new Object("src/meshes/Player/PlayerWalk4.v", "", playerAn[0], false, true);
 	playerAn[2] = new Object("src/meshes/Player/PlayerWalk5.v", "", playerAn[0], false, true);
-	playerAn[3] = new Object("src/meshes/Player/PlayerAttackDown.v", "", playerAn[0], false, true);
-	playerAn[4] = new Object("src/meshes/Player/PlayerAttackUp.v", "", playerAn[0], false, true);
+	playerAn[3] = new Object("src/meshes/Player/PlayerAttackSweep1.v", "", playerAn[0], false, true);
+	playerAn[4] = new Object("src/meshes/Player/PlayerAttackSweep4.v", "", playerAn[0], false, true);
 	playerAn[5] = new Object("src/meshes/Player/PlayerJump3.v", "", playerAn[0], false, true);
 	playerAn[6] = new Object("src/meshes/Player/PlayerJump4.v", "", playerAn[0], false, true);
 	playerAn[7] = new Object("src/meshes/Player/PlayerFlinch.v", "", playerAn[0], false, true);
@@ -368,7 +368,7 @@ void ObjectManager::loadMonsterObjs()
 	//Maexxna
 	Object* Maexxna1 = new Object("src/meshes/Enemies/MaexxnaWalking.v", "src/textures/Maexxna.bmp");
 	Object* Maexxna2 = new Object("src/meshes/Enemies/MaexxnaWalking2.v", "src/textures/Maexxna.bmp");
-	add = new AnimationObject(Maexxna1, Maexxna2, 0.5f, 0.18f);
+	add = new AnimationObject(Maexxna1, Maexxna2, 0.5f, 0.20f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Demon Dmon
@@ -525,8 +525,10 @@ void ObjectManager::bindRekt() const
 
 void ObjectManager::setPlayerState(std::string state)
 {
+	static bool changed = false;
 	if (state == "idle")
 	{
+		changed = false;
 		myPlayer->setAnimPoints(0, 0);
 		myPlayer->setSpeed(0.02f);
 		myPlayer->setWeight(0.5f);
@@ -534,27 +536,33 @@ void ObjectManager::setPlayerState(std::string state)
 	}
 	else if (state == "walk")
 	{
+		changed = true;
 		myPlayer->setAnimPoints(1, 2);
 		myPlayer->setSpeed(0.2f);
 		//myPlayer->setWeight(0.5f);
 	}
 	else if (state == "air")
 	{
+		changed = true;
 		myPlayer->setAnimPoints(5, 6);
 		myPlayer->setSpeed(0.2f);
 		//myPlayer->setDirection(1);
 	}
 	else if (state == "flinch")
 	{
+		changed = true;
 		myPlayer->setAnimPoints(7, 7);
 		myPlayer->setSpeed(0.02f);
 	}
 	else if (state == "attack")
 	{
+		changed = true;
 		myPlayer->setAnimPoints(3, 4);
 		myPlayer->setSpeed(0.12f);
 		//myPlayer->setDirection(1);
 	}
+	if (!changed)
+		myPlayer->setWeight(0);
 }
 
 int ObjectManager::nrOfWorldItems() const

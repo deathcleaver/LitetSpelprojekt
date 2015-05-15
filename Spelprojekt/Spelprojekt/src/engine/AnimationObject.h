@@ -2,6 +2,7 @@
 #define ANIMATIONOBJECT_H
 
 #include"object.h"
+#include <..\glm\glm.hpp>
 
 class AnimationObject
 {

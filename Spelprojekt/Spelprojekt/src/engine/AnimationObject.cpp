@@ -1,5 +1,6 @@
 #include"AnimationObject.h"
 
+
 AnimationObject::AnimationObject()
 {
 	myBaseObjects = nullptr;
@@ -143,17 +144,20 @@ void AnimationObject::update()
 	if (myAnimPoint1 != myAnimPoint2 && myNrOfBaseObjects > 1)
 	{
 		//If our target and our base is the same, it is unecessary to update the animTarget, since it would be the same
-
+		/*if (myWeight > 1.0f)
+			myWeight = 1.0f;
+		else if (myWeight < 0.0f)
+			myWeight = 0.0f;*/
 		updateWeight();
 
+		
 		float weightDif = 1 - myWeight;
-		if (weightDif > 1.0f) weightDif = 1.0f;
-		if (weightDif < 0.0f) weightDif = 0.0f;
+		
+		//weightDif = 1 - (glm::cos(myWeight * (3.14159265359/2)));
+		/*if (weightDif > 1.0f)
+			weightDif = 1.0f;*/
 
-		float sum_weight = myWeight + weightDif;
-
-		float anim_factor = myWeight / sum_weight;
-		float normal_factor = weightDif / sum_weight;
+		float myW2 = 1 - weightDif;
 
 		std::vector<Object::TriangleVertex> combVert;
 
@@ -163,18 +167,18 @@ void AnimationObject::update()
 		{
 			combVert.push_back(Object::TriangleVertex());
 
-			temp.x = myBaseObjects[myAnimPoint1]->vert[i].x * normal_factor;
-			temp.y = myBaseObjects[myAnimPoint1]->vert[i].y * normal_factor;
-			temp.z = myBaseObjects[myAnimPoint1]->vert[i].z * normal_factor;
-			temp.u = myBaseObjects[myAnimPoint1]->vert[i].u * normal_factor;
-			temp.v = myBaseObjects[myAnimPoint1]->vert[i].v * normal_factor;
+			temp.x = myBaseObjects[myAnimPoint1]->vert[i].x * myW2;
+			temp.y = myBaseObjects[myAnimPoint1]->vert[i].y * myW2;
+			temp.z = myBaseObjects[myAnimPoint1]->vert[i].z * myW2;
+			temp.u = myBaseObjects[myAnimPoint1]->vert[i].u * myW2;
+			temp.v = myBaseObjects[myAnimPoint1]->vert[i].v * myW2;
 
 
-			temp2.x = myBaseObjects[myAnimPoint2]->vert[i].x * anim_factor;
-			temp2.y = myBaseObjects[myAnimPoint2]->vert[i].y * anim_factor;
-			temp2.z = myBaseObjects[myAnimPoint2]->vert[i].z * anim_factor;
-			temp2.u = myBaseObjects[myAnimPoint2]->vert[i].u * anim_factor;
-			temp2.v = myBaseObjects[myAnimPoint2]->vert[i].v * anim_factor;
+			temp2.x = myBaseObjects[myAnimPoint2]->vert[i].x * weightDif;
+			temp2.y = myBaseObjects[myAnimPoint2]->vert[i].y * weightDif;
+			temp2.z = myBaseObjects[myAnimPoint2]->vert[i].z * weightDif;
+			temp2.u = myBaseObjects[myAnimPoint2]->vert[i].u * weightDif;
+			temp2.v = myBaseObjects[myAnimPoint2]->vert[i].v * weightDif;
 
 			combVert[i].x = temp.x + temp2.x;
 			combVert[i].y = temp.y + temp2.y;
