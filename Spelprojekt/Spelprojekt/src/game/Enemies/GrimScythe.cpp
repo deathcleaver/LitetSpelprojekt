@@ -29,7 +29,7 @@ void GrimScythe::init()
 int GrimScythe::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	collideRect->update();
-	rotateTo(0, 0, 3.141592654f*2.0f*deltaTime);
+	rotateTo(0, 0, 3.141592654f*3.0f*deltaTime);
 	if (state == -1)
 	{
 		stateTimer -= 1.0f*deltaTime;
