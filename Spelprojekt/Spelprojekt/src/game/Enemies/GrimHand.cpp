@@ -148,7 +148,7 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	}
 	else
 	{
-		invulnTimer = 1.0f;
+		invulnTimer = 1.0f; //About to die
 	}
 	return 0;
 }

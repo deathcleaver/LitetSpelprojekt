@@ -7,6 +7,7 @@ class GrimLaser : public Enemy
 {
 private:
 	float deathTimer;
+	float width;
 	bool vertical;
 public:
 	GrimLaser(glm::vec2 firstPos, bool vert);
@@ -20,6 +21,20 @@ public:
 			return "GrimLaserV";
 		else
 			return "GrimLaserH";
+	}
+
+	bool isBlinking()
+	{
+		if (deathTimer < 1.0f)
+			return true;
+		return false;
+	}
+
+	Rect* getRekt()
+	{
+		if (deathTimer < 1.0f)
+			return collideRect;
+		return false;
 	}
 };
 

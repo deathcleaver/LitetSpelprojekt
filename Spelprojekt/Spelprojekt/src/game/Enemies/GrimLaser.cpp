@@ -9,17 +9,18 @@ GrimLaser::GrimLaser(glm::vec2 firstPos, bool vert)
 	audibleDistance = 10.0f;
 	alive = true;
 
-	contentIndex = WorldID::pillar;
+	contentIndex = EnemyID::grim_lazer;
 
 	collideRect = new Rect();
 	vertical = vert;
 	if (vertical)
-		collideRect->initGameObjectRect(&worldMat, 2, 70);
+		collideRect->initGameObjectRect(&worldMat, 0.0, 70);
 	else
 	{
-		collideRect->initGameObjectRect(&worldMat, 70, 2);
+		collideRect->initGameObjectRect(&worldMat, 70, 0.0);
 		rotateTo(0, 0, 3.141592654f / 2.0f);
 	}
+	width = 0.0f;
 }
 
 void GrimLaser::init()
@@ -29,8 +30,15 @@ void GrimLaser::init()
 
 int GrimLaser::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	collideRect->update();
 	deathTimer -= 1.0*deltaTime;
+	if (deathTimer < 1.0f)
+	{
+		width += 2.0f*deltaTime;
+		if (vertical)
+			collideRect->initGameObjectRect(&worldMat, width, 70);
+		else
+			collideRect->initGameObjectRect(&worldMat, 70, width);
+	}
 	if (deathTimer < FLT_EPSILON)
 	{
 		alive = false;

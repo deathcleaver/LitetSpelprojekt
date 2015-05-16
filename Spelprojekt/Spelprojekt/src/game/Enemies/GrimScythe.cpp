@@ -8,15 +8,16 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 	audibleDistance = 10.0f;
 	speed = 5.0f;
 
-	contentIndex = EnemyID::spellbook;
+	contentIndex = EnemyID::grim_scythe;
 	alive = true;
 
 	state = -1;
 	stateTimer = 1.0f;
 
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 3, 3);
-	scaleFactor(3, 3, 3);
+	collideRect->initGameObjectRect(&worldMat, 4, 4);
+	scaleFactor(1.25f, 1.25f, 1.25f);
+	rotateTo(0, 3.141592654f, 0);
 }
 
 void GrimScythe::init()
@@ -28,7 +29,7 @@ void GrimScythe::init()
 int GrimScythe::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	collideRect->update();
-	rotateTo(0, 0, 3.141592654f*deltaTime);
+	rotateTo(0, 0, 3.141592654f*2.0f*deltaTime);
 	if (state == -1)
 	{
 		stateTimer -= 1.0f*deltaTime;
