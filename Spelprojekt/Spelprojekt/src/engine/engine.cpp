@@ -425,10 +425,10 @@ void Engine::renderBack()
 	lastid = -1;
 }
 
-void Engine::renderWorld(int x, int y)
+void Engine::renderWorld(int i_x, int i_y)
 {
 	//render chunk world objects
-	if (x == -1 && y == -1)
+	if (i_x == -1 && i_y == -1)
 	{
 		for (int WoID = 0; WoID < WorldID::world_count; WoID++) // all IDS
 		{
@@ -490,7 +490,7 @@ void Engine::renderWorld(int x, int y)
 				int y = x + 1;
 				if (upDraw[x] > -1 && upDraw[x] < width)
 				if (upDraw[y] > -1 && upDraw[y] < height)
-				if (upDraw[x] == x && upDraw[y] == y)
+				if (upDraw[x] == i_x && upDraw[y] == i_y)
 				{
 					int size = chunks[upDraw[x]][upDraw[y]].gameObjects[WoID].size(); //number of that ID this chunk has
 
