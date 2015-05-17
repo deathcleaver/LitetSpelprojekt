@@ -192,7 +192,7 @@ void AnimationObject::update()
 	if (myAnimPoint2 == myAnimPoint1)// && myNrOfBaseObjects > 1)
 	{
 		//If we try to interpolate between the same two verts, we simply set the Rendered vertexbuffer to the same, this is also to make sure that we can stop an animationcycle
-		myAnimObject->updateVAO(myBaseObjects[myAnimPoint2]->vert, myBaseObjects[myAnimPoint2]->Indices);
+		myAnimObject->updateVAO(myBaseObjects[0]->vert, myBaseObjects[0]->Indices);
 	}
 	bindAnimObject();
 }
