@@ -172,6 +172,7 @@ enum SoundID
 	// bosses
 	boss_clear = 10,
 	boss_bat_attack = 11,
+	boss_bat_echo = 73,
 	boss_bat_hurt = 12,
 	boss_bat_death = 13,
 	boss_spider_spawn = 46,

@@ -15,7 +15,7 @@ Bossbat::Bossbat(glm::vec2 firstPos)
 	health = 4;
 	speed = 4.0f + GameConfig::get().configDifficulty * 2; // + (0->2)
 	slow = false;
-	audibleDistance = 2.5f;
+	audibleDistance = 5.0f;
 
 	invulnTimer = 0.0f;
 	movementScale = 0.0f;
@@ -137,6 +137,7 @@ int Bossbat::update(float deltaTime, Map* map, glm::vec3 playerPos)
 		else if (echoTimer < FLT_EPSILON)
 		{
 			echoLocation(map, playerPos);
+			Audio::getAudio().playSoundAtPos(SoundID::boss_bat_echo, readPos(), audibleDistance + 2, false);//boss_bat_attack
 			spawnsLeft--;
 			echoTimer = 0.5f;
 		}
