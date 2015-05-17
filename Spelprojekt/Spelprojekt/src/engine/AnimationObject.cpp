@@ -14,7 +14,7 @@ AnimationObject::AnimationObject()
 	myAnimPoint1 = myAnimPoint2 = 0;
 }
 
-AnimationObject::AnimationObject(Object* aBase1, Object* aBase2, float aWeight, float aSpeed)
+AnimationObject::AnimationObject(Object* aBase1, Object* aBase2, float aWeight, float aSpeed, bool cycle)
 {
 	myBaseObjects = new Object*[2];
 	myNrOfBaseObjects = 2;
@@ -28,6 +28,7 @@ AnimationObject::AnimationObject(Object* aBase1, Object* aBase2, float aWeight, 
 	myAnimObject = new Object(*myBaseObjects[0]);
 	myAnimPoint1 = 0;
 	myAnimPoint2 = 1;
+	isCycling = cycle;
 }
 
 AnimationObject::AnimationObject(Object** someBases, std::string pathVert, int aNrOfBases, float aWeight, float aSpeed)
@@ -39,7 +40,7 @@ AnimationObject::AnimationObject(Object** someBases, std::string pathVert, int a
 	myWeight = aWeight;
 	mySpeed = aSpeed;
 	myDirection = 1;
-	
+
 	if (myNrOfBaseObjects == 1)
 	{
 		myAnimObject = myBaseObjects[0];
@@ -57,7 +58,7 @@ AnimationObject::AnimationObject(Object* aBase)
 	myNrOfBaseObjects = 1;
 
 	myBaseObjects = new Object*[myNrOfBaseObjects];
-	
+
 	myBaseObjects[0] = aBase;
 	myAnimObject = aBase;
 
@@ -146,13 +147,13 @@ void AnimationObject::update()
 		//If our target and our base is the same, it is unecessary to update the animTarget, since it would be the same
 		/*if (myWeight > 1.0f)
 			myWeight = 1.0f;
-		else if (myWeight < 0.0f)
+			else if (myWeight < 0.0f)
 			myWeight = 0.0f;*/
 		updateWeight();
 
-		
+
 		float weightDif = 1 - myWeight;
-		
+
 		//weightDif = 1 - (glm::cos(myWeight * (3.14159265359)))/2;
 		/*if (weightDif > 1.0f)
 			weightDif = 1.0f;*/
@@ -163,7 +164,7 @@ void AnimationObject::update()
 
 		Object::TriangleVertex temp;
 		Object::TriangleVertex temp2;
-		for (unsigned int i = 0; i < myBaseObjects[myAnimPoint1]->vert.size() ; i++)
+		for (unsigned int i = 0; i < myBaseObjects[myAnimPoint1]->vert.size(); i++)
 		{
 			combVert.push_back(Object::TriangleVertex());
 
@@ -188,7 +189,7 @@ void AnimationObject::update()
 		}
 		myAnimObject->updateVAO(combVert, myAnimObject->Indices);
 	}
-	if (myAnimPoint2 == myAnimPoint1 && myNrOfBaseObjects > 1)
+	if (myAnimPoint2 == myAnimPoint1)// && myNrOfBaseObjects > 1)
 	{
 		//If we try to interpolate between the same two verts, we simply set the Rendered vertexbuffer to the same, this is also to make sure that we can stop an animationcycle
 		myAnimObject->updateVAO(myBaseObjects[myAnimPoint2]->vert, myBaseObjects[myAnimPoint2]->Indices);
@@ -205,11 +206,19 @@ void AnimationObject::updateWeight()
 {
 	if (myNrOfBaseObjects > 1)
 	{
-		if (myWeight >= 1.0f)
-			myDirection = -1;
-		else if (myWeight <= 0.0f)
-			myDirection = 1;
+		if (isCycling)
+		{
 
+			if (myWeight >= 1.0f)
+				myDirection = -1;
+			else if (myWeight <= 0.0f)
+				myDirection = 1;
+		}
+		else
+		{
+			if (myWeight >= 1.0f)
+				myWeight = 0.0f;
+		}
 		myWeight += mySpeed * myDirection;
 	}
 }

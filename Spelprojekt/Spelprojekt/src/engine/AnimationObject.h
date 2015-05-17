@@ -15,13 +15,15 @@ private:
 	int myAnimPoint1;
 	int myAnimPoint2;
 
+	bool isCycling = true;
+
 	float myWeight; //between 0 and 1, decides where in the animation we are
 	float mySpeed; //decides how fast weight is altered
 	int myDirection;
 
 public:
 	AnimationObject();
-	AnimationObject(Object* aBase1, Object* aBase2, float aWeight = 0.0f, float aSpeed = 0.05f);
+	AnimationObject(Object* aBase1, Object* aBase2, float aWeight = 0.0f, float aSpeed = 0.05f, bool cycle = true);
 	AnimationObject(Object** someBases, std::string pathVert, int aNrOfBases, float aWeight = 0.0f, float aSpeed = 0.05f);
 	AnimationObject(Object* aBase);
 	AnimationObject(std::string pathVert, std::string pathTex);

@@ -414,7 +414,7 @@ void ObjectManager::loadMonsterObjs()
 	//Grim LAZER
 	Object* lazer1 = new Object("src/meshes/Enemies/Grim/DeathLazerSmall.v", "src/textures/blue.bmp");
 	Object* lazer2 = new Object("src/meshes/Enemies/Grim/DeathLazerBig.v", "src/textures/blue.bmp");
-	add = new AnimationObject(lazer1, lazer2, 0.001f, 0.02f);
+	add = new AnimationObject(lazer1, lazer2, 0.001f, 0.036f, false);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Death Scythe
@@ -487,8 +487,19 @@ void ObjectManager::update(UpdateAnimCheck* animCheck)
 	{
 		if (animCheck->enemyUpdate[i])
 			objects[ENEMY][i]->update();
-		else if (i == EnemyID::grim_lazer)
-			objects[ENEMY][i]->setWeight(0.001f);
+		if (i == EnemyID::grim_lazer)
+		{
+			if (!animCheck->enemyUpdate[i])
+			{
+				objects[ENEMY][i]->setWeight(0.01f);
+				objects[ENEMY][i]->setAnimPoints(0,0);
+				objects[ENEMY][i]->setDirection(1);
+			}
+			else
+			{
+				objects[ENEMY][i]->setAnimPoints(1,0);
+			}
+		}
 	}
 	for (int i = 0; i < MiscID::misc_count; i++)
 	{
