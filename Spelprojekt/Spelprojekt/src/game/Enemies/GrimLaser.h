@@ -23,12 +23,7 @@ public:
 			return "GrimLaserH";
 	}
 
-	bool isBlinking()
-	{
-		if (deathTimer < 1.0f)
-			return true;
-		return false;
-	}
+	bool isBlinking();
 
 	Rect* getRekt()
 	{

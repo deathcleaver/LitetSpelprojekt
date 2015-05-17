@@ -51,3 +51,10 @@ int GrimLaser::update(float deltaTime, Map* map, glm::vec3 playerPos)
 void GrimLaser::hit(int damage, bool playerRightOfEnemy)
 {
 }
+
+bool GrimLaser::isBlinking()
+{
+	if (deathTimer < 1.0f)
+		return true;
+	return false;
+}

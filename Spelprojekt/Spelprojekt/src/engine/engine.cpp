@@ -828,10 +828,9 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 								if (id != lastid)
 									facecount = content->bind(OBJ::ENEMY, id);
 
-								//if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(0, "GrimLaser"))
-								//{
-								//	animCheck->enemyUpdate[id] = 1;
-								//}
+								animCheck->enemyUpdate[id] = 0;
+								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(0, "GrimLaser")) //Fulhack för att frysa animationen
+									animCheck->enemyUpdate[id] = 1;
 
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 								//renderCall++;
