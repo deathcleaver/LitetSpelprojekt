@@ -422,6 +422,10 @@ void ObjectManager::loadMonsterObjs()
 	//Death Scythe
 	add = new AnimationObject("src/meshes/Enemies/Grim/DeathScythe.v", "src/textures/scythe.bmp");
 	objects[OBJ::ENEMY].push_back(add);
+
+	//Medivh
+	add = new AnimationObject("src/meshes/Enemies/Echo.v", "src/textures/blue.bmp");
+	objects[OBJ::ENEMY].push_back(add);
 }
 
 void ObjectManager::loadMiscObjs()
