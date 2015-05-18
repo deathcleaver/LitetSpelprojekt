@@ -163,6 +163,7 @@ void Audio::loadFiles()
 	soundFiles[71] = "../Audio/Sounds/Bosses/Grim/grim_unlocked.wav";
 	soundFiles[72] = "../Audio/Sounds/Bosses/Grim/grim_so_defeated.wav";
 	soundFiles[74] = "../Audio/Sounds/Bosses/Grim/grim_laser.wav";
+	soundFiles[75] = "../Audio/Sounds/Bosses/Grim/grim_scythe.wav";
 	//enemies
 	soundFiles[14] = "../Audio/Sounds/Enemies/enemy_slime_jump.wav";
 	soundFiles[15] = "../Audio/Sounds/Enemies/enemy_slime_hurt.wav";

@@ -11,7 +11,7 @@ Grim::Grim(glm::vec2 firstPos)
 	isInit = false;
 	facingRight = true;
 	contentIndex = EnemyID::grim_white;
-	health = 2;
+	health = 2 + GameConfig::get().configDifficulty;
 	audibleDistance = 20.0f;
 
 	invulnTimer = 0.0f;
@@ -37,7 +37,7 @@ void Grim::init()
 		invulnTimer = 0.0f;
 		facingRight = true;
 		alive = true;
-		health = 2;
+		health = 2 + GameConfig::get().configDifficulty;
 		collideRect->update();
 		Audio::getAudio().playSound(SoundID::boss_grim_intro, false);
 		Audio::getAudio().playMusic(MusicID::lastboss_stage1);
@@ -46,7 +46,7 @@ void Grim::init()
 		state = -1;
 		stateTimer = 6.0f;
 		
-		speed = 6.0f;
+		speed = 6.0f + GameConfig::get().configDifficulty * 2;
 	}
 	else
 	{
@@ -205,7 +205,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			}
 			if (stateTimer < FLT_EPSILON)
 			{
-				if (!doubleSwipe && health < 3)
+				if (!doubleSwipe && health < (3 + GameConfig::get().configDifficulty * 2))
 				{
 					doubleSwipe = true;
 					verticalAttack = !verticalAttack;
@@ -267,28 +267,28 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		}
 		else if (mode == 0) //Switch to Force
 		{
-			health = 2;
+			health = 2 + GameConfig::get().configDifficulty;
 			invulnTimer = 1.0f;
 			mode = 1;
 			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 1) //Switch to Range
 		{
-			health = 2;
+			health = 2 + GameConfig::get().configDifficulty;
 			invulnTimer = 1.0f;
 			mode = 2;
 			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 2) //Switch to Spark
 		{
-			health = 2;
+			health = 2 + GameConfig::get().configDifficulty;
 			invulnTimer = 1.0f;
 			mode = 3;
 			contentIndex = contentIndex + 1;
 		}
 		else if (mode == 3) //Switch to Dying
 		{
-			health = 6;
+			health = 6 + GameConfig::get().configDifficulty * 3;
 			Audio::getAudio().playSound(SoundID::boss_grim_death1, false);
 			invulnTimer = 5.0f;
 			mode = 4;
