@@ -83,7 +83,7 @@ enum WorldID
 	mansionflooredge,
 	ghost_platform,
 	grim_statue,
-
+	
 	world_count, //leave this last
 };
 
@@ -122,6 +122,7 @@ enum EnemyID
 	grim_lazer_v,
 	grim_lazer_h,
 	grim_scythe,
+	echo_of_medivh,
 
 	enemy_count, //leave this last
 };

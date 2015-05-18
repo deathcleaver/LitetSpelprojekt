@@ -11,7 +11,7 @@ EchoLocation::EchoLocation(glm::vec2 firstPos, glm::vec2 dir)
 	alive = true;
 	speed = 4.0f + GameConfig::get().configDifficulty * 2;
 
-	contentIndex = EnemyID::spellbook;
+	contentIndex = EnemyID::echo_of_medivh;
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
