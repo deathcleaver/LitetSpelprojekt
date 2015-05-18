@@ -1,10 +1,9 @@
 0 : ChuckTesta
-13 : Enemy Count
+12 : Enemy Count
 Bat -2 3
 Bat -1 8
 Bat 0 -6
 Bat 6 -9
-Flame -7 6
 Flame -3 2
 Spikes -5 -7
 Spikes -6 -7
