@@ -93,13 +93,13 @@ void ContentManager::loadGUIobjs()
 	guiObjs[33] = new Object("", "src/textures/gui/play/sparkRune.png", guiObjs[0], true);
 	guiObjs[34] = new Object("", "src/textures/gui/play/forceHeart.png", guiObjs[0], true);
 
-	//boss quotes
-	guiObjs[35] = new Object("", "src/textures/gui/progress/bossentrance.png", guiObjs[0], true);
-	guiObjs[36] = new Object("", "src/textures/gui/progress/finalform.png", guiObjs[0], true);
-	guiObjs[37] = new Object("", "src/textures/gui/progress/bossdeath.png", guiObjs[0], true);
+	//End text
+	guiObjs[35] = new Object("", "src/textures/gui/progress/endText.png", guiObjs[0], true);
+	//guiObjs[36] = new Object("", "src/textures/gui/progress/finalform.png", guiObjs[0], true);
+	//guiObjs[37] = new Object("", "src/textures/gui/progress/bossdeath.png", guiObjs[0], true);
 
 
-	for (int n = 38; n < 50; n++)
+	for (int n = 36; n < 50; n++)
 		guiObjs[n] = 0;
 
 	// edit reserved 50 - 59
