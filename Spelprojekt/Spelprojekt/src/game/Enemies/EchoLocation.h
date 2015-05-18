@@ -8,6 +8,7 @@ class EchoLocation : public Enemy
 private:
 	float deathTimer;
 	glm::vec2 direction;
+	float speed;
 public:
 	EchoLocation(glm::vec2 firstPos, glm::vec2 dir);
 	void init();

@@ -9,6 +9,7 @@ EchoLocation::EchoLocation(glm::vec2 firstPos, glm::vec2 dir)
 	deathTimer = 3.5f;
 	audibleDistance = 10.0f;
 	alive = true;
+	speed = 4.0f + GameConfig::get().configDifficulty * 2;
 
 	contentIndex = EnemyID::spellbook;
 
@@ -23,7 +24,7 @@ void EchoLocation::init()
 
 int EchoLocation::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
-	translate(direction.x*4.0f*deltaTime, direction.y*4.0f*deltaTime);
+	translate(direction.x*speed*deltaTime, direction.y*speed*deltaTime);
 	collideRect->update();
 	deathTimer -= 1.0*deltaTime;
 	if (deathTimer < FLT_EPSILON)
