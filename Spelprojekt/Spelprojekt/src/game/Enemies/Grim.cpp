@@ -299,6 +299,8 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 		{
 			if (soDefeated == false)
 			{
+				Audio::getAudio().playMusic(-1);
+				Audio::getAudio().playSound(SoundID::boss_clear, false);//boss_defeted
 				Audio::getAudio().playSound(SoundID::boss_grim_so_defeated, false);
 				invulnTimer = 6.0f;
 				soDefeated = true;

@@ -452,7 +452,8 @@ void Game::update(float deltaTime)
 								   finalbossToCredits = true;
 							   }
 
-							   Audio::getAudio().playSound(SoundID::boss_clear, false);//boss_defeted
+							   if (boss != "Grim")
+								Audio::getAudio().playSound(SoundID::boss_clear, false);//boss_defeted
 						   }
 						   Audio::getAudio().playMusicFade(-1, deltaTime);//stop music if the boss is dead
 					   }
