@@ -9,7 +9,9 @@ private:
 	float speed;
 	int state;
 	float stateTimer;
+
 	bool backwards;
+	float soundTimer = 0;
 
 	int headingTo;
 	glm::vec2 currentGoal;

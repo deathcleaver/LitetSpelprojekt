@@ -197,6 +197,7 @@ enum SoundID
 	boss_grim_unlocked = 71,
 	boss_grim_so_defeated = 72,
 	boss_grim_laser = 74,
+	boss_grim_scythe = 75,
 	// enemies
 	enemy_slime_jump = 14,
 	enemy_slime_hurt = 15,

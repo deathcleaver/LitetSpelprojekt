@@ -398,9 +398,9 @@ void ObjectManager::loadMonsterObjs()
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Grim REAPER
-	Object* reaper1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/grim_reaper.bmp");
-	Object* reaper2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/grim_reaper.bmp");
-	add = new AnimationObject(reaper1, reaper2, 0.5f, 0.05f);
+	//Object* reaper1 = new Object("src/meshes/Enemies/GhostBoss1.v", "src/textures/grim_reaper.bmp");
+	//Object* reaper2 = new Object("src/meshes/Enemies/GhostBoss4.v", "src/textures/grim_reaper.bmp");
+	add = new AnimationObject("src/meshes/Enemies/Grim/Reaper.v", "src/textures/reaper.bmp");//reaper1, reaper2, 0.5f, 0.05f);
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Grim Hand Left
