@@ -411,10 +411,12 @@ void ObjectManager::loadMonsterObjs()
 	add = new AnimationObject("src/meshes/Enemies/Grim/GrimRightHand.v", "src/textures/white.bmp");
 	objects[OBJ::ENEMY].push_back(add);
 
-	//Grim LAZER
-	Object* lazer1 = new Object("src/meshes/Enemies/Grim/DeathLazerSmall.v", "src/textures/blue.bmp");
-	Object* lazer2 = new Object("src/meshes/Enemies/Grim/DeathLazerBig.v", "src/textures/blue.bmp");
-	add = new AnimationObject(lazer1, lazer2, 0.001f, 0.03f, false);
+	//Grim LAZER Hore
+	add = new AnimationObject("src/meshes/Enemies/Grim/GrimLazerHorizontal.v", "src/textures/blue.bmp");
+	objects[OBJ::ENEMY].push_back(add);
+
+	//Grim LAZER Vertis
+	add = new AnimationObject("src/meshes/Enemies/Grim/GrimLazerVertical.v", "src/textures/blue.bmp");
 	objects[OBJ::ENEMY].push_back(add);
 
 	//Death Scythe
