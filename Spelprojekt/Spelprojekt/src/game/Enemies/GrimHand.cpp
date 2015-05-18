@@ -16,7 +16,7 @@ GrimHand::GrimHand(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 2, 2);
 
 	hurtRect = new Rect();
-	hurtRect->initGameObjectRect(&worldMat, 2.5, 2.5);
+	hurtRect->initGameObjectRect(&worldMat, 2.8, 2.8);
 }
 
 void GrimHand::init()
@@ -133,16 +133,19 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				if (clapSound)
 				{
 					clapSound = false;
-					
-					Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
+					if (!stunned)
+						Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
 				}
 			}
 			if (clapTimer < FLT_EPSILON)
 			{
 				clapSound = true;
-				state = 10; //Time to get clappin'
-				calcDir(glm::vec2(playerPos.x, playerPos.y));
-				stateTimer = 0.6f;
+				if (!stunned)
+				{
+					state = 10; //Time to get clappin'
+					calcDir(glm::vec2(playerPos.x, playerPos.y));
+					stateTimer = 0.6f;
+				}
 			}
 		}
 	}
@@ -163,7 +166,7 @@ void GrimHand::hit(int damage, bool playerRightOfEnemy)
 		{
 			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hand_stun, readPos(), audibleDistance, false);
 			stunned = true;
-			stateTimer = 8.0f;
+			stateTimer = 6.0f;
 			health = 2;
 		}
 		else

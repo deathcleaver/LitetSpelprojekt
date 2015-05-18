@@ -25,7 +25,7 @@ private:
 	bool gamePadButtonPressed(char keyBoardButton);
 
 	Progress progressMeter;
-	float timepass = 0.0f;
+	float donkeyKongJump;
 	int MAX_HP;
 	int HP;
 	int currentRune;

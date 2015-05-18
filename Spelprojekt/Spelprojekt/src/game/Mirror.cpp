@@ -88,6 +88,11 @@ void Mirror::initBoss()
 	rTexture[3].resize(800, 800);
 
 	projMat = glm::perspective(3.14f * 0.45f, 1.0f / 1.0f, distance * 1.2f, 1000.0f);
+
+	if (enterRect)
+		delete enterRect;
+	enterRect = new Rect();
+	enterRect->initGameObjectRect(&worldMat, 5, 5);
 }
 
 void Mirror::calcView()

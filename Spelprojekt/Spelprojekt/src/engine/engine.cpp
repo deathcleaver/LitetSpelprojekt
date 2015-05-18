@@ -824,18 +824,19 @@ void Engine::renderEnemies(UpdateAnimCheck* animCheck)
 							}
 							if (chunks[upDraw[x]][upDraw[y]].enemyLives(0, "GrimLaser"))
 							{
+								glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+								glColorMask(0, 0, 1, 1);
+								glEnable(GL_CULL_FACE);
 								id = chunks[upDraw[x]][upDraw[y]].bindEnemy(0, &tempshader, &uniformModel, "GrimLaser");
 								if (id != lastid)
 									facecount = content->bind(OBJ::ENEMY, id);
-
-								animCheck->enemyUpdate[id] = 0;
-								if (chunks[upDraw[x]][upDraw[y]].enemyBlinking(0, "GrimLaser")) //Fulhack för att frysa animationen
-									animCheck->enemyUpdate[id] = 1;
-
 								glDrawElementsInstanced(GL_TRIANGLES, facecount * 3, GL_UNSIGNED_SHORT, 0, 1);
 								//renderCall++;
 								//enemyDraw++;
 								lastid = id;
+								glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+								glColorMask(1, 1, 1, 1);
+								glDisable(GL_CULL_FACE);
 							}
 						}
 					}

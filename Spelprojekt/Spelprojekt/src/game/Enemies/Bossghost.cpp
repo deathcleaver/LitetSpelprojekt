@@ -160,7 +160,10 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 					posOutOfMirror = (posOutOfMirror + 1) % 6;
 				lastPos = posOutOfMirror;
 				calcDir(posOutOfMirror);
-				getSpooky(map);
+				if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+					getNerdy(map);
+				else
+					getSpooky(map);
 				Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 				ghostTimer = 12.0f;
 				//ghostTimer = 0.0f;
@@ -244,7 +247,10 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
-				getSpooky(map);
+				if (GameConfig::get().configDifficulty == GameConfig::DmonInHell)
+					getNerdy(map);
+				else
+					getSpooky(map);
 				Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 				state = 4;
 				stateTimer = 1.0f;

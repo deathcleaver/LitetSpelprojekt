@@ -11,6 +11,7 @@ void Player::init()
 	maxSpeed = vec2(10, -30);
 	acceleration = vec2(0.4f, 1.35f); // y = gravity
 	
+	donkeyKongJump = 0.05f;
 	jumping = false;
 	doubleJump = false;
 	jumpHeight = 6.0f;
@@ -137,7 +138,6 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		animState = "idle";
 	else
 		animState = "air";
-	timepass += deltaTime;
 
 	// update pos & camera using user input
 	vec3 lastPos = readPos();
@@ -322,6 +322,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 
 		if (result) //collide, move back Y
 		{
+			donkeyKongJump = 0.1f; // 1/10th second buffer
 			if (jumping)
 			{
 				if (lastPos.y < pos.y)
@@ -352,7 +353,13 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 		}
 		else
 		{
-			jumping = true;
+			if (donkeyKongJump > FLT_EPSILON)
+			{
+				donkeyKongJump -= 1.0f*deltaTime;
+				jumping = false;
+			}
+			else
+				jumping = true; //No donkey kong jumping
 		}
 
 		if (bossFighting) //YOU CAN'T RUN FROM A TRAINER BATTLE

@@ -36,6 +36,10 @@ private:
 	void fireBall(Map* map, glm::vec3 playerPos);
 public:
 	GrimHand(glm::vec2 firstPos);
+	~GrimHand()
+	{
+		delete hurtRect;
+	}
 	void init();
 	int update(float deltaTime, Map* map, glm::vec3 playerPos);
 	void hit(int damage, bool playerRightOfEnemy);

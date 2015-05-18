@@ -8,17 +8,21 @@ GrimLaser::GrimLaser(glm::vec2 firstPos, bool vert)
 	deathTimer = 1.5f;
 	audibleDistance = 10.0f;
 	alive = true;
-
-	contentIndex = EnemyID::grim_lazer;
+	Audio::getAudio().playSoundAtPos(SoundID::boss_grim_laser, glm::vec3(initPos.x, initPos.y,0), audibleDistance, false);
 
 	collideRect = new Rect();
 	vertical = vert;
 	if (vertical)
+	{
 		collideRect->initGameObjectRect(&worldMat, 0.0, 70);
+		contentIndex = EnemyID::grim_lazer_v;
+		scaleFactor(0.05f, 1.0f, 0.05f);
+	}
 	else
 	{
 		collideRect->initGameObjectRect(&worldMat, 70, 0.0);
-		rotateTo(0, 0, 3.141592654f / 2.0f);
+		contentIndex = EnemyID::grim_lazer_h;
+		scaleFactor(1.0f, 0.05f, 0.05f);
 	}
 	width = 0.0f;
 }
@@ -33,11 +37,17 @@ int GrimLaser::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	deathTimer -= 1.0*deltaTime;
 	if (deathTimer < 1.0f)
 	{
-		width += 2.0f*deltaTime;
+		width += 1.5f*deltaTime;
 		if (vertical)
+		{
 			collideRect->initGameObjectRect(&worldMat, width, 70);
+			scaleAD(1.5f*deltaTime, 0.0f, 1.5f*deltaTime);
+		}
 		else
+		{
 			collideRect->initGameObjectRect(&worldMat, 70, width);
+			scaleAD(0.0f, 1.5f*deltaTime, 1.5f*deltaTime);
+		}
 	}
 	if (deathTimer < FLT_EPSILON)
 	{
