@@ -134,7 +134,10 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				{
 					clapSound = false;
 					if (!stunned)
-						Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
+					{
+						if (contentIndex == EnemyID::grimhand_left)
+							Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
+					}
 				}
 			}
 			if (clapTimer < FLT_EPSILON)
@@ -166,7 +169,7 @@ void GrimHand::hit(int damage, bool playerRightOfEnemy)
 		{
 			Audio::getAudio().playSoundAtPos(SoundID::boss_grim_hand_stun, readPos(), audibleDistance, false);
 			stunned = true;
-			stateTimer = 6.0f;
+			stateTimer = 6.0f - GameConfig::get().configDifficulty * 2.5f;
 			health = 2;
 		}
 		else

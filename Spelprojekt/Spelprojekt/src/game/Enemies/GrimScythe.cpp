@@ -6,7 +6,7 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 	initPos = firstPos;
 	moveTo(initPos.x, initPos.y);
 	audibleDistance = 10.0f;
-	speed = 5.0f;
+	speed = 5.0f + GameConfig::get().configDifficulty * 2;
 
 	contentIndex = EnemyID::grim_scythe;
 	alive = true;
@@ -30,6 +30,13 @@ int GrimScythe::update(float deltaTime, Map* map, glm::vec3 playerPos)
 {
 	collideRect->update();
 	rotateTo(0, 0, 3.141592654f*3.0f*deltaTime);
+	soundTimer -= 1.0f*deltaTime;
+	if (soundTimer <= 0)
+	{
+		Audio::getAudio().playSoundAtPos(SoundID::boss_grim_scythe, readPos(), audibleDistance, false);
+		soundTimer = 2.0f;
+	}
+		
 	if (state == -1)
 	{
 		stateTimer -= 1.0f*deltaTime;
