@@ -58,6 +58,9 @@ private:
 	double ypos = 0.0f;
 	bool cameraFollow = false;
 	mat4* viewMat = 0;
+	int finalbossFreeze = 0;
+	int finalbossFreezeTimer = 350;
+	bool finalbossToCredits = false;
 
 	GLFWwindow* windowRef;
 

@@ -262,6 +262,17 @@ void Game::update(float deltaTime)
 	if (GameConfig::get().configFullscreen && (current != PLAY && current != INTRO))
 		glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
+	if (finalbossToCredits)
+	{
+		finalbossFreeze--;
+		if (finalbossFreeze <= 0)
+		{
+			freeze = false;
+			finalbossToCredits = false;
+			buttonEvents(CREDITS);
+		}
+	}
+
 	switch (current)
 	{
 		case(MENU) :
@@ -322,7 +333,6 @@ void Game::update(float deltaTime)
 				in->KeyDown('D');
 				in->KeyUp('A');
 			}
-
 					   // music
 					   int tempX, tempY, tempId;
 					   MapChunk** tempChunk = map->getChunks();
@@ -431,6 +441,15 @@ void Game::update(float deltaTime)
 								   gui->showNewUpgrade(2);
 							   else if (boss == "Bossghost")
 								   gui->showNewUpgrade(3);
+							   else if (boss == "Grim")
+							   {
+								   freeze = true;
+								   gui->showNewUpgrade(4);
+								   engine->setFadeOut();
+								   finalbossFreeze = finalbossFreezeTimer;
+								   finalbossToCredits = true;
+							   }
+
 							   Audio::getAudio().playSound(SoundID::boss_clear, false);//boss_defeted
 						   }
 						   Audio::getAudio().playMusicFade(-1, deltaTime);//stop music if the boss is dead

@@ -279,8 +279,11 @@ void GUI::newupgradeInit()
 		else if (progressID == 3) // mirror walk
 			items[size]->init(31, 31);
 
-		else if (progressID == 4) // boss end text 
+		else if (progressID == 4) // boss end text
+		{
 			items[size]->init(35, 35);
+			progressCounter = 350;
+		}
 
 		items[size]->MoveAutoSize(0, -0.3f, content);
 
