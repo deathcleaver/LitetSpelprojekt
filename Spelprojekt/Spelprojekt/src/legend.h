@@ -119,7 +119,8 @@ enum EnemyID
 	grim,
 	grimhand_left,
 	grimhand_right,
-	grim_lazer,
+	grim_lazer_v,
+	grim_lazer_h,
 	grim_scythe,
 
 	enemy_count, //leave this last
