@@ -8,6 +8,7 @@ GrimLaser::GrimLaser(glm::vec2 firstPos, bool vert)
 	deathTimer = 1.5f;
 	audibleDistance = 10.0f;
 	alive = true;
+	Audio::getAudio().playSoundAtPos(SoundID::boss_grim_laser, glm::vec3(initPos.x, initPos.y,0), audibleDistance, false);
 
 	collideRect = new Rect();
 	vertical = vert;
