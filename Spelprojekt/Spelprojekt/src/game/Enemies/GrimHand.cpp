@@ -133,8 +133,8 @@ int GrimHand::update(float deltaTime, Map* map, glm::vec3 playerPos)
 				if (clapSound)
 				{
 					clapSound = false;
-					
-					Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
+					if (!stunned)
+						Audio::getAudio().playSound(SoundID::boss_grim_clap, false);
 				}
 			}
 			if (clapTimer < FLT_EPSILON)

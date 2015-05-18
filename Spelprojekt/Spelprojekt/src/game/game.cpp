@@ -140,6 +140,8 @@ void Game::init(GLFWwindow* windowRef)
 	initSettings();
 
 	savedStartPos = glm::vec2(-20, -20);
+	for (int c = 0; c < 12; c++)
+		savedPickups[c].x = savedPickups[c].y = -1;
 	checkForSave();
 
 	gui = new GUI();
