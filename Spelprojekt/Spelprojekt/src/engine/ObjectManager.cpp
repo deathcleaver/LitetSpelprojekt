@@ -487,32 +487,8 @@ void ObjectManager::update(UpdateAnimCheck* animCheck)
 	}
 	for (int i = 0; i < EnemyID::enemy_count; i++)
 	{
-		if (i == EnemyID::grim_lazer)
-		{
-			static bool laserReset = false;
-			if (!animCheck->enemyUpdate[i])
-			{
-				objects[ENEMY][i]->setWeight(0.01f);
-				objects[ENEMY][i]->setAnimPoints(0, 0);
-				objects[ENEMY][i]->setDirection(1);
-				laserReset = false;
-			}
-			else
-			{
-				if (!laserReset)
-				{
-					objects[ENEMY][i]->setWeight(0.01f);
-					objects[ENEMY][i]->setAnimPoints(0, 0);
-					objects[ENEMY][i]->setDirection(1);
-					objects[ENEMY][i]->update();
-					laserReset = true;
-				}
-				objects[ENEMY][i]->setAnimPoints(1, 0);
-			}
-		}
 		if (animCheck->enemyUpdate[i])
 			objects[ENEMY][i]->update();
-		
 	}
 	for (int i = 0; i < MiscID::misc_count; i++)
 	{

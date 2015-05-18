@@ -140,6 +140,7 @@ void Audio::loadFiles()
 	//bosses
 	soundFiles[10] = "../Audio/Sounds/Bosses/boss_clear.wav";
 	soundFiles[11] = "../Audio/Sounds/Bosses/Bat/boss_bat_attack.wav";
+	soundFiles[73] = "../Audio/Sounds/Bosses/Bat/boss_bat_echo.wav";
 	soundFiles[12] = "../Audio/Sounds/Bosses/Bat/boss_bat_hurt.wav";
 	soundFiles[13] = "../Audio/Sounds/Bosses/Bat/boss_bat_death.wav";
 	soundFiles[46] = "../Audio/Sounds/Bosses/Spider/boss_spider_spawn.wav";
