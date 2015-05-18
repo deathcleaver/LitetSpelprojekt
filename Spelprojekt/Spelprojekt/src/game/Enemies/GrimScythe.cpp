@@ -6,7 +6,7 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 	initPos = firstPos;
 	moveTo(initPos.x, initPos.y);
 	audibleDistance = 10.0f;
-	speed = 5.0f;
+	speed = 7.0f;
 
 	contentIndex = EnemyID::grim_scythe;
 	alive = true;
@@ -18,6 +18,7 @@ GrimScythe::GrimScythe(glm::vec2 firstPos)
 	collideRect->initGameObjectRect(&worldMat, 4, 4);
 	scaleFactor(1.25f, 1.25f, 1.25f);
 	rotateTo(0, 3.141592654f, 0);
+	backwards = false;
 }
 
 void GrimScythe::init()
@@ -43,7 +44,15 @@ int GrimScythe::update(float deltaTime, Map* map, glm::vec3 playerPos)
 	{
 		if (reachedDestination())
 		{
-			calcDir((headingTo + 1) % 4);
+			if (!backwards)
+				calcDir((headingTo + 1) % 4);
+			else
+			{
+				headingTo--;
+				if (headingTo < 0)
+					headingTo = 3;
+				calcDir(headingTo);
+			}
 		}
 		else
 			translate(dirToFly.x*speed*deltaTime, dirToFly.y*speed*deltaTime);
@@ -95,4 +104,5 @@ bool GrimScythe::reachedDestination()
 void GrimScythe::returnToMaster()
 {
 	calcDir(-1);
+	backwards = !backwards;
 }

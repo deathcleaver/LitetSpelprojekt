@@ -15,6 +15,11 @@ EchoLocation::EchoLocation(glm::vec2 firstPos, glm::vec2 dir)
 
 	collideRect = new Rect();
 	collideRect->initGameObjectRect(&worldMat, 1, 1);
+
+	if (dir.y > 0.0f)
+		rotateTo(0, 0, acos(dir.x));
+	else
+		rotateTo(0, 0, -acos(dir.x));
 }
 
 void EchoLocation::init()

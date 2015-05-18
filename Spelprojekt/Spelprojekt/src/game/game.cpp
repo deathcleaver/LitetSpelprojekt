@@ -367,7 +367,7 @@ void Game::update(float deltaTime)
 								if (map->getBoss(playerPos, false) == "Grim")
 									currentPos = playerPos;
 								in->cameraPan(currentPos, 5, deltaTime, gamePad, true);
-								if (bossRoomMiddle.x + 10.0f > playerPos.x && bossRoomMiddle.x - 10.0f < playerPos.x &&
+								if (bossRoomMiddle.x + 9.0f > playerPos.x && bossRoomMiddle.x - 9.0f < playerPos.x &&
 									bossRoomMiddle.y + 10.0f > playerPos.y && bossRoomMiddle.y - 10.0f < playerPos.y && !player->isBossFighting())
 								{
 									if (map->getBoss(playerPos, true) != "ChuckTesta")
