@@ -315,7 +315,6 @@ void Game::update(float deltaTime)
 				glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 			
 			//debug boss kill keys
-			/*
 			if (in->getKeyNumberState(1)){
 				player->dingDongTheBossIsDead("Bossbat");
 				gui->showNewUpgrade(1);
@@ -328,7 +327,6 @@ void Game::update(float deltaTime)
 				player->dingDongTheBossIsDead("Bossghost");
 				gui->showNewUpgrade(3);
 			}
-			*/
 
 			if (playerintrorun)
 			{
