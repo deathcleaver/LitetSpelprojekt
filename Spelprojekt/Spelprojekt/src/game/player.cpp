@@ -145,7 +145,8 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	bool result = false;
 
 	//Toggle God
-	/*if (userInput->getKeyState('G'))
+	/*
+	if (userInput->getKeyState('G'))
 	{
 		if (!god)
 		{
@@ -179,7 +180,8 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			noclip = true;
 			Debug::DebugOutput("Ascend this world, child\n");
 		}
-	}*/
+	}
+	*/
 
 	if (!noclip)
 	{
@@ -757,6 +759,32 @@ void Player::respawn(Map* map)
 	doubleJump = false;
 	if (currentSpawn != 0 && GameConfig::get().configDifficulty != GameConfig::DmonInHell)
 	{
+		glm::vec3 playerPos = readPos();
+		currentRune = currentSpawn->getRune();
+		if (currentRune == MiscID::rune_range)
+		{
+			attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 1.5f);
+			runeEffect->reCreate(EffectType::torch);
+			runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+			Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
+			//runeEffect = new Light(currentSpawn->lightForPlayer->flameRune);
+		}
+		else if (currentRune == MiscID::rune_damage)
+		{
+			DMG += 1;
+			runeEffect->reCreate(EffectType::spark);
+			runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+			Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
+			//runeEffect = new Light(currentSpawn->lightForPlayer->sparkRune);
+		}
+		else if (currentRune == MiscID::rune_shield)
+		{
+			shield = 2;
+			runeEffect->reCreate(EffectType::shield);
+			runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
+			Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved
+			//runeEffect = new Light(currentSpawn->lightForPlayer->forceRune);
+		}
 		moveTo(currentSpawn->getPos().x, currentSpawn->getPos().y);
 		Debug::DebugOutput("Jag hade en respawnpunkt\n");
 	}
