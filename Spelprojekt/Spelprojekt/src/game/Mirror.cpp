@@ -1,6 +1,8 @@
 #include "Mirror.h"
 #include "../engine/Shader.h"
 
+GLuint Mirror::mirrorQuad = 0;
+GLuint Mirror::mirrorVao = 0;
 
 Mirror::Mirror()
 {
@@ -11,6 +13,48 @@ Mirror::Mirror()
 	teleportLocation = glm::vec2(0, 0);
 	chunkLocation = glm::vec2(0, 0);
 	enterRect = 0;
+
+	if (mirrorQuad == 0)
+	{
+		struct TriangleVertex
+		{
+			GLfloat x, y, z;
+			GLfloat u, v;
+		};
+
+		TriangleVertex tri[4] =
+		{
+			0.8f, 1.05f, -0.05f,
+			1.0f, 1.0f,
+
+			0.8f, -1.05f, -0.05f,
+			1.0f, 0.0f,
+
+			-0.75f, 1.05f, -0.05f,
+			0.0f, 1.0f,
+
+			-0.75f, -1.05f, -0.05f,
+			0.0f, 0.0f
+		};
+
+		glGenBuffers(1, &mirrorQuad);
+
+		glBindBuffer(GL_ARRAY_BUFFER, mirrorQuad);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(tri), tri, GL_STATIC_DRAW);
+
+		glGenVertexArrays(1, &mirrorVao);
+		glBindVertexArray(mirrorVao);
+
+		// vertex in location 0
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), (void*)0);
+
+		// uv in location 1
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(TriangleVertex), (void*)(sizeof(GLfloat) * 3));
+
+	}
+
 }
 
 Mirror::~Mirror()
@@ -45,18 +89,18 @@ void Mirror::calculateNormal()
 	worldMat[1].w = 0;
 	worldMat[2].w = 0;
 
-	wMat = worldMat * glm::mat4(0.75f, 0.0f, 0.0f, 0.0f,
-								0.0f, 1.05f, 0.0f, 0.0f,
-								0.0f, 0.0f, 1.0f, 0.0f,
-								0.0f ,0.0f, 0.0f, 1.0f);
+	wMat = worldMat;// *glm::mat4(0.75f, 0.0f, 0.0f, 0.0f,
+						//		0.0f, 1.05f, 0.0f, 0.0f,
+						//		0.0f, 0.0f, 1.0f, 0.0f,
+						//		0.0f ,0.0f, 0.0f, 1.0f);
 	
 	worldMat[0].w = pos.x;
 	worldMat[1].w = pos.y;
 	worldMat[2].w = pos.z;
 
-	wMat[0].w = pos.x + 0.05f;
-	wMat[1].w = pos.y + 0.03f;
-	wMat[2].w = pos.z - 0.05f;
+	wMat[0].w = pos.x;// + 0.05f;
+	wMat[1].w = pos.y;// + 0.03f;
+	wMat[2].w = pos.z;// - 0.05f;
 
 	p1 = wMat * p1;
 	p2 = wMat * p2;
@@ -77,9 +121,9 @@ void Mirror::calculateNormal()
 
 void Mirror::initBoss()
 {
-	wMat[0].w += 0.5f;
-	wMat[1].w += 0.25f;
-	wMat[2].w -= 0.1f;
+	//wMat[0].w += 0.5f;
+	//wMat[1].w += 0.25f;
+	//wMat[2].w -= 0.1f;
 	distance = 8.5;
 
 	rTexture[0].resize(800, 800);
@@ -138,11 +182,10 @@ void Mirror::render()
 	glProgramUniform1i(mirrorShader, unifromNormal, 1);
 	glProgramUniform1i(mirrorShader, unifromWorld, 2);
 
-	glBindBuffer(GL_ARRAY_BUFFER, RenderTarget::renderQuad);
-	glBindVertexArray(RenderTarget::renderVao);
+	glBindBuffer(GL_ARRAY_BUFFER, mirrorQuad);
+	glBindVertexArray(mirrorVao);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
 
 }
 
@@ -178,13 +221,13 @@ void Mirror::initGBuffer(Gbuffer &screenBuffer)
 	{
 		if (i == 0 && depth)
 		{
-			rTexture[i].init(400, 400, 0, true);
+			rTexture[i].init(1024, 1024, 0, true);
 			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rTexture[i].getTargetId(), 0);
 			DrawBuffers[i] = GL_NONE;
 		}
 		else
 		{
-			rTexture[i].init(400, 400, 0, false);
+			rTexture[i].init(1024, 1024, 0, false);
 			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, rTexture[i].getTargetId(), 0);
 			DrawBuffers[i] = (GL_COLOR_ATTACHMENT0 + i);
 		}

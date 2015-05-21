@@ -84,6 +84,10 @@ private:
 
 	GLuint unifromNormal;
 	GLuint unifromWorld;
+
+	static GLuint mirrorQuad;
+	static GLuint mirrorVao;
+
 };
 
 #endif

@@ -313,8 +313,8 @@ void Gbuffer::renderTexture()
 	glProgramUniform1i(*shaderMirrorPtr, unifromNormal, 1);
 	glProgramUniform1i(*shaderMirrorPtr, unifromWorld, 2);
 
-	glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
-	glBindVertexArray(renderVao);
+	//glBindBuffer(GL_ARRAY_BUFFER, renderQuad);
+	//glBindVertexArray(renderVao);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 

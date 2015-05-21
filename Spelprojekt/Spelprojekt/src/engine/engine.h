@@ -74,7 +74,7 @@ private:
 	void renderMirrorPerspective(const Player* player, const Map* map, const ContentManager* content,
 		const GUI* gui, vec3* campos, int state, Edit* edit, UpdateAnimCheck* animCheck);
 
-	void renderMirror();
+	void renderMirror(GameObject* exclude);
 
 	void renderPlayer(const Player*);
 	void renderBack();
@@ -100,6 +100,8 @@ private:
 	bool bossMirrorPass = false;
 
 	Effect* eff;
+
+	Effect* showEffect;
 
 public:
 	void setDoF(bool set);
