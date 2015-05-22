@@ -137,6 +137,8 @@ void Mirror::initBoss()
 		delete enterRect;
 	enterRect = new Rect();
 	enterRect->initGameObjectRect(&worldMat, 10, 10);
+	sizeX = 800;
+	sizeY = 800;
 }
 
 void Mirror::calcView()
@@ -149,6 +151,9 @@ void Mirror::calcView()
 	pos.z = wMat[2].w;
 
 	viewMat = glm::lookAt(pos - (distance * finalNormal), pos + (distance * finalNormal), glm::vec3(0, 1, 0));
+
+	glViewport(0, 0, sizeX, sizeY);
+
 }
 
 void Mirror::reflect(glm::vec3 camForward)
@@ -221,13 +226,13 @@ void Mirror::initGBuffer(Gbuffer &screenBuffer)
 	{
 		if (i == 0 && depth)
 		{
-			rTexture[i].init(1024, 1024, 0, true);
+			rTexture[i].init(400, 400, 0, true);
 			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rTexture[i].getTargetId(), 0);
 			DrawBuffers[i] = GL_NONE;
 		}
 		else
 		{
-			rTexture[i].init(1024, 1024, 0, false);
+			rTexture[i].init(400, 400, 0, false);
 			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, rTexture[i].getTargetId(), 0);
 			DrawBuffers[i] = (GL_COLOR_ATTACHMENT0 + i);
 		}

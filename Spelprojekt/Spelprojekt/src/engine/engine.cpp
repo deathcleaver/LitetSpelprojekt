@@ -294,11 +294,13 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 			if (!obj->isInitialized())
 			{
 				obj->calculateNormal();
-				if (x == 1 && y == 5)
-					obj->initBoss();
+				
 				obj->calcView();
 
 				obj->initGBuffer(gBuffer);
+				if (x == 1 && y == 5)
+					obj->initBoss();
+
 			}
 
 			obj->reflect(*campos);
@@ -308,7 +310,6 @@ void Engine::renderMirrorPerspective(const Player* player, const Map* map, const
 			//obj->mirrorBuffer.bind(GL_FRAMEBUFFER);
 			glBindFramebuffer(GL_FRAMEBUFFER, obj->targetId);
 			glUseProgram(tempshader);
-			glViewport(0, 0, 1024, 1024);
 
 			glProgramUniformMatrix4fv(tempshader, uniformView, 1, false, &obj->viewMat[0][0]);
 			glProgramUniformMatrix4fv(tempshader, uniformProj, 1, false, &obj->projMat[0][0]);
