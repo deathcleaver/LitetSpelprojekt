@@ -20,7 +20,7 @@ void Player::init()
 	facingRight = true;
 	isAttacking = false;
 	attackTimer = 0.0f;
-	attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 0.9f);
+	attackRect.initGameObjectRect(&weaponMatrix, 0.9f, 1.4f);
 	weaponMatrix = mat4(1);
 	animState = "idle";
 	bossFighting = false;
@@ -145,7 +145,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 	bool result = false;
 
 	//Toggle God
-	/*
+	
 	if (userInput->getKeyState('G'))
 	{
 		if (!god)
@@ -181,7 +181,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 			Debug::DebugOutput("Ascend this world, child\n");
 		}
 	}
-	*/
+	
 
 	if (!noclip)
 	{
@@ -462,7 +462,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 						shield = 0;
 					
 					if (currentRune == MiscID::rune_range)
-						attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 0.9f);
+						attackRect.initGameObjectRect(&weaponMatrix, 0.9f, 1.4f);;
 					
 					if (currentRune == MiscID::rune_damage)
 						DMG -= 1;
@@ -477,7 +477,7 @@ int Player::update(UserInput* userInput, Gamepad* pad, Map* map, GUI* gui, float
 					}
 					if (currentRune == MiscID::rune_range)
 					{
-						attackRect.initGameObjectRect(&weaponMatrix, 0.8f, 1.5f);
+						attackRect.initGameObjectRect(&weaponMatrix, 0.9f, 1.6f);
 						runeEffect->reCreate(EffectType::torch);
 						runeEffect->getEffect()->init(playerPos.x, playerPos.y, playerPos.z);
 						Audio::getAudio().playSound(SoundID::rune_recieved, false);// rune_recieved

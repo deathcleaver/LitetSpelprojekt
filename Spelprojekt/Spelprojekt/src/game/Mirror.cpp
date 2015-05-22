@@ -136,7 +136,7 @@ void Mirror::initBoss()
 	if (enterRect)
 		delete enterRect;
 	enterRect = new Rect();
-	enterRect->initGameObjectRect(&worldMat, 5, 5);
+	enterRect->initGameObjectRect(&worldMat, 10, 10);
 }
 
 void Mirror::calcView()

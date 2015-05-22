@@ -16,7 +16,7 @@ Grim::Grim(glm::vec2 firstPos)
 
 	invulnTimer = 0.0f;
 	collideRect = new Rect();
-	collideRect->initGameObjectRect(&worldMat, 3.8f, 3.4f);
+	collideRect->initGameObjectRect(&worldMat, 3.6f, 3.2f);
 	hurtRect = new Rect();
 	hurtRect->initGameObjectRect(&worldMat, 2.5f, 2.5f);
 }
@@ -44,7 +44,7 @@ void Grim::init()
 
 		mode = 0;
 		state = -1;
-		stateTimer = 6.0f;
+		stateTimer = 4.0f;
 		
 		speed = 7.0f + GameConfig::get().configDifficulty * 2;
 		hurtRect->initGameObjectRect(&worldMat, 2.5f, 2.5f);
@@ -73,7 +73,7 @@ int Grim::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			stateTimer -= 1.0f*deltaTime;
 			if (stateTimer < FLT_EPSILON)
 			{
-				stateTimer = 0.5f;
+				stateTimer = 1.5f;
 				state = 0;
 			}
 		}
@@ -295,7 +295,7 @@ void Grim::hit(int damage, bool playerRightOfEnemy)
 			mode = 4;
 			Audio::getAudio().playMusic(MusicID::lastboss_stage2_intro);
 			contentIndex = contentIndex + 1;
-			hurtRect->initGameObjectRect(&worldMat, 4.0f, 3.5f);
+			hurtRect->initGameObjectRect(&worldMat, 3.8f, 3.5f);
 		}
 		else if (mode == 5)
 		{

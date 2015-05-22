@@ -95,6 +95,7 @@ void Bossghost::init()
 		Audio::getAudio().playMusic(MusicID::boss_battle_ghost);
 		Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_laugh, readPos(), audibleDistance + 2, false);
 
+		hasBeenHit = false;
 		state = -1;
 		stateTimer = 5.0f;
 		lastPos = -1;
@@ -153,7 +154,7 @@ int Bossghost::update(float deltaTime, Map* map, glm::vec3 playerPos)
 			pos = readPos();
 			if (pos.z > -FLT_EPSILON)
 			{
-				invulnTimer = 1.0f;
+				hasBeenHit = false;
 				state = 1;
 				int posOutOfMirror = rand() % 6;
 				if (posOutOfMirror == lastPos)
@@ -302,8 +303,13 @@ void Bossghost::hit(int damage, bool playerRightOfEnemy)
 			invulnTimer = 1.0f;
 			Debug::DebugOutput("Boss took damage \n");
 			Audio::getAudio().playSoundAtPos(SoundID::boss_ghost_hurt, readPos(), audibleDistance, false);//boss_bat_hurt
-			state = 3;
-			calcDir(-1);
+			if (hasBeenHit)
+			{
+				state = 3;
+				calcDir(-1);
+			}
+			else
+				hasBeenHit = true;
 		}
 		else if (alive == true)
 		{
