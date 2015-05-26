@@ -101,8 +101,6 @@ private:
 
 	Effect* eff;
 
-	Effect* showEffect;
-
 public:
 	void setDoF(bool set);
 	

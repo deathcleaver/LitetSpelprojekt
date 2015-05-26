@@ -8,7 +8,6 @@
 Engine::~Engine()
 {
 	delete eff;
-	delete showEffect;
 	delete[]light;
 	if (creditsBase)
 		delete creditsBase;
@@ -114,10 +113,6 @@ void Engine::init(glm::mat4* viewMat)
 	eff->create(EffectType::lightning);
 	eff->getEffect()->init(0, 0, 0);
 
-	showEffect = new Effect();
-	showEffect->create(EffectType::torch);
-	showEffect->getEffect()->init(105, -5, 0);
-
 	//credits object
 	creditsObject = new Object("src/meshes/BaseBlit.v", "src/textures/credits.bmp");
 	creditsBase = new GameObject();
@@ -208,11 +203,6 @@ void Engine::render(const Player* player, const Map* map, const ContentManager* 
 
 	int nr;
 	Light* l = eff->getEffect()->getLights(nr);
-	gBuffer.pushLights(l, nr);
-
-	showEffect->update();
-
-	l = showEffect->getEffect()->getLights(nr);
 	gBuffer.pushLights(l, nr);
 
 	glDisable(GL_DEPTH_TEST);
